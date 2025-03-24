@@ -2,14 +2,14 @@
 //
 //    FILE: CountDown.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 
 
 #include "Arduino.h"
 
-#define COUNTDOWN_LIB_VERSION               (F("0.3.3"))
+#define COUNTDOWN_LIB_VERSION               (F("0.3.4"))
 
 
 class CountDown
@@ -31,13 +31,15 @@ public:
   bool     start(uint8_t days, uint16_t hours, uint32_t minutes);
 
   void     stop();
-  void     cont();
+  void     resume();
   void     restart();
 
   uint32_t remaining();
   bool     isRunning();
   bool     isStopped();
 
+  //  obsolete in future
+  void     cont() { resume(); };  //  replaced by resume()
 
 private:
   enum State { RUNNING, STOPPED };

@@ -16,10 +16,12 @@ uint8_t lines = 0;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);
+  Serial.println();
 
   for (int i = 0; i < 5; i++)
   {

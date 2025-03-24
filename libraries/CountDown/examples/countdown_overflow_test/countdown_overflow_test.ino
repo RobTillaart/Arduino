@@ -13,10 +13,12 @@ CountDown CD(CountDown::MICROS);
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);
+  Serial.println();
 
   //  wait for almost overflow ~70 minutes !!
   while (micros() < 4290000000UL)
@@ -25,7 +27,7 @@ void setup()
     delay(1000);
   }
   Serial.println("----------------------");
-  
+
   CD.setResolution(CountDown::MICROS);
   CD.start(1 * 60 * 1000000UL);  //  1 minute = 60 seconds
 }

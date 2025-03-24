@@ -12,6 +12,7 @@ getUnits	KEYWORD2
 start	KEYWORD2
 stop	KEYWORD2
 cont	KEYWORD2
+resume	KEYWORD2
 restart	KEYWORD2
 
 remaining	KEYWORD2

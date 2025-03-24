@@ -87,7 +87,7 @@ unittest(test_constructor)
   a.stop();
   assertFalse(a.isRunning());
 
-  a.cont();
+  a.resume();
   assertTrue(a.isRunning());
 
   a.stop();

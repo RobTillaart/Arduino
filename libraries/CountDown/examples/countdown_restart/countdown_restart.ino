@@ -14,10 +14,12 @@ uint8_t lines = 0;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);
+  Serial.println();
 
   cdt.start(10000UL);
 }
@@ -26,11 +28,11 @@ void setup()
 void loop()
 {
   //  time for a new sample
-  if (cdt.remaining() == 0)   
+  if (cdt.remaining() == 0)
   {
     //  restart countDownTimer same values
-    cdt.restart();   
-    //  make a sample and print it.        
+    cdt.restart();
+    //  make a sample and print it.
     Serial.print(millis());
     Serial.print("\t");
     Serial.println(analogRead(A0));

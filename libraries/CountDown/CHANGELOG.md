@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2025-03-20
+- add **void resume()** to replace cont()
+- update examples
+- update readme.md
+- minor edits
+
+
 ## [0.3.3] - 2024-04-11
 - update GitHub actions
 - minor edits

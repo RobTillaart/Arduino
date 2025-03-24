@@ -14,21 +14,23 @@ CountDown CD;
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.println(__FILE__);
-    Serial.print("COUNTDOWN_LIB_VERSION: ");
-    Serial.println(COUNTDOWN_LIB_VERSION);
+  //  while(!Serial);  //  uncomment if needed
+  Serial.begin(115200);
+  Serial.println(__FILE__);
+  Serial.print("COUNTDOWN_LIB_VERSION: ");
+  Serial.println(COUNTDOWN_LIB_VERSION);
+  Serial.println();
 
-    CD.setResolution(CountDown::MINUTES);
-    //  countdown 1 minutes
-    CD.start(1);
+  CD.setResolution(CountDown::MINUTES);
+  //  countdown 1 minutes
+  CD.start(1);
 }
 
 
 void loop()
 {
   static uint32_t last_remaining = 0;
-  if (last_remaining != CD.remaining() || CD.remaining() == 0 )
+  if ((last_remaining != CD.remaining()) || (CD.remaining() == 0) )
   {
     Serial.println();
     last_remaining = CD.remaining();
@@ -40,4 +42,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

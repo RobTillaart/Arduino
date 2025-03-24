@@ -16,22 +16,31 @@ Arduino Library to implement a CountDown clock (in software polling, no hardware
 
 ## Description
 
-The countdown library is a clock that counts down from a given time to zero.
-It does not call a function or so as the user is responsible to check the time remaining.
+The CountDown library is a clock that counts down from a given time to zero, like an hour glass.
+It does not call any function or so when reaching zero as the user is responsible to check the time remaining.
 Typically one checks the remaining time at least once in every **loop()**.
 
-Under the hood the function uses **micros()** or **millis()** which results in a maximum time
-of 4294 seconds in micros (1h 10m) or about 49+ days when using milliseconds.
+A CountDown object can be used for 
+- to detect a timeout
+- to show to a user how long to wait e.g. for a traffic light to become green.
+- to learn count backwards (educational)
+- etc.
 
-For longer periods one could cascade countDown objects, so when one is finished the next one starts.
+Under the hood the CountDown object uses **micros()** or **millis()** which results in a maximum time
+of 4294 seconds in micros (about 1h 10m) or about 49+ days when using milliseconds.
 
-Note the countdown object is as accurate as the underlying **millis()** or **micros()**.
+For longer periods one could cascade CountDown objects, so when one is finished the next one starts.
+
+Note the CountDown object is as accurate as the underlying **millis()** or **micros()**.
 Interrupts etc. might cause deviations.
 
 
-#### Related
+### Related
 
-- https://github.com/RobTillaart/StopWatch_RT
+- https://github.com/RobTillaart/printHelpers
+- https://github.com/RobTillaart/stopWatch_RT
+- https://github.com/RobTillaart/CountDown
+- https://github.com/RobTillaart/timing  wrappers around millis() and microc()
 
 
 ## Interface
@@ -40,14 +49,18 @@ Interrupts etc. might cause deviations.
 #include "CountDown.h"
 ```
 
+The main functions of the CountDown clock are straightforward:
 
-The main functions of the CountDown clock are:
+### Constructor
 
 - **CountDown(const enum Resolution res = MILLIS)** constructor, with default resolution of milliseconds.
 - **void setResolution(const enum Resolution res = MILLIS)** set the resolution,
-default to MILLIS.
+default to MILLIS. See table below.
 - **enum Resolution resolution()** return the current resolution (integer).
 - **char getUnits()** return the current resolution as printable char (u,m,s,M)
+
+### Start / Stop functions
+
 - **bool start(uint32_t ticks)** (re)start in current resolution.
 Typical used for MILLIS and MICROS which must be set manually.
 - **bool start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds)** Implicit set resolution to SECONDS.
@@ -57,21 +70,24 @@ Note that **remaining()** will report in SECONDS.
 Returns false if total exceeds 2^32 milliseconds ~49 days.
 Note that **remaining()** will report in MINUTES.
 - **void stop()** stop the count down.
-- **void cont()** resumes / continue the count down.
-*(note continue is a C-Keyword)*
+- **void resume()** resumes / continues the count down.
 - **void restart()** restart the CountDown with the same resolution and ticks as before.
 resets the \_ticks and starts again.
+
+Obsolete in future (0.4.0).
+- **void cont()** resumes / continue the count down.
+*(note continue is a C-Keyword)*
+
+### Status 
+
 - **uint32_t remaining()** returns the remaining ticks in current resolution.
 - **bool isRunning()** idem.
 - **bool isStopped()** idem.
 
-These functions work straightforward.
-
-
 ## Operation
 
 The function **start(days, hours, minutes, seconds)** allows all combinations
-as long as the total time may not exceed 2^32 milliseconds. 
+as long as the total time not exceeds 2^32 milliseconds. 
 The function will return false if it exceeds this (rounded) maximum.
 Example calls are:
 - four hundred minutes **start(0, 0, 400, 0)** 
@@ -130,7 +146,7 @@ the accuracy. E.g checking once a minute while doing milliseconds makes only sen
 if the number of milliseconds is still very large. Think of an adaptive strategy.
 
 
-#### Watchdog 
+### Watchdog 
 
 One can call **start(...)** at any time to reset the running clock to a new value. 
 This allows to implement a sort of watchdog clock in which e.g. 
@@ -160,7 +176,7 @@ a repeating (timed) function or a watchdog. See examples.
 - add resolution::HOURS + **start(days, hours)**
   - extend adaptive display example
   - or default 00 minutes?
-
+- add **void resume()** instead of **cont()**? 
 
 #### Wont (unless)
 

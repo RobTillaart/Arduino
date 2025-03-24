@@ -1,5 +1,5 @@
 //
-//    FILE: countdown_adaptive_display.ino
+//    FILE: countdown_resume.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: http://forum.arduino.cc/index.php?topic=356253
@@ -8,9 +8,7 @@
 
 #include "CountDown.h"
 
-CountDown CD;
-
-int wait = 2000;
+CountDown CD[2];
 
 
 void setup()
@@ -22,25 +20,33 @@ void setup()
   Serial.println(COUNTDOWN_LIB_VERSION);
   Serial.println();
 
-  CD.start(0, 0, 2);  //  2 minutes => unit is MINUTES
+  CD[0].start(10000UL);
+  CD[1].start(10000UL);
+  delay(1234);
+  CD[1].stop();
 }
 
 
 void loop()
 {
-  Serial.print("Remaining: ");
-  Serial.print(CD.remaining());
-  Serial.print(" ");
-  Serial.println(CD.getUnits());
-
-  //  switch units and poll frequency for last minute.
-  if ((CD.remaining() == 1) && (CD.getUnits() == 'M'))
+  for (int i = 0; i < 2; i++)
   {
-    wait = 1000;
-    CD.stop();
-    CD.start(0, 0, 0, 59);
+    Serial.print("\t");
+    Serial.print(CD[i].remaining());
   }
-  delay(wait);
+  for (int i = 0; i < 2; i++)
+  {
+    Serial.print("\t");
+    Serial.print(CD[i].isRunning());
+  }
+  Serial.println();
+
+  if (CD[0].isRunning() == false && CD[1].isRunning() == false)
+  {
+    CD[1].resume();
+  }
+
+  delay(250);
 }
 
 

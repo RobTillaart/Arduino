@@ -6,15 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2025-03-23
+- fix #28, prevent promotion of constants to double. Kudos to Harrison3000
+- replace M_PI by a const float _PI_ to prevent promotion.
+- update examples
+- update readme.md (minor)
+- minor edits
+
+
 ## [0.3.3] - 2023-11-02
 - update readme.md
 - update keywords.txt
 - update changelog.md
 
-
 ## [0.3.2] - 2022-12-20
 - fix changelog
-- fix #25 change reference parameters to pointer 
+- fix #25 change reference parameters to pointer
   - isincos(float f, float \*si, float \*co)
   - isincos256(uint32_t v, int \*si, int \*co);
   - fix examples
@@ -35,9 +42,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
 ## [0.2.1] - 2022-12-05
-- add atanFast(x) => faster and less accurate than atan(). 
+- add atanFast(x) => faster and less accurate than atan().
   Input range (-1..1) is fastest.
-- add atan2Fast(y, x) => faster and less accurate. 
+- add atan2Fast(y, x) => faster and less accurate.
   calls atanFast() + offset.
 - add example to measure performance atanFast
 - update readme.md
@@ -60,11 +67,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - no functional changes
 
 ## [0.1.10] - 2022-04-15
-- fix #12 
+- fix #12
 - split .h in .h and .cpp Needed in case of more complex projects.
 
-## [0.1.9] - 2021-12-18  
-- update Arduino-CI, badges, 
+## [0.1.9] - 2021-12-18
+- update Arduino-CI, badges,
 - update library.json
 - minor edits
 
@@ -83,14 +90,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - new table
 - added iasin() and iacos()
 
-In (0.1.4) an error was found in the optimize algorithm, so for 0.1.5 
-it was ran again and accuracy improved for **isin()** and **icos()**. 
-However **itan()** lost a (smaller) bit. 
+In (0.1.4) an error was found in the optimize algorithm, so for 0.1.5
+it was ran again and accuracy improved for **isin()** and **icos()**.
+However **itan()** lost a (smaller) bit.
 The gain outweighs the loss and so new table is kept.
 
 Performance has not changed.
 
-An initial version of a reverse lookup for **iasin(val)** and **iacos(val)** 
+An initial version of a reverse lookup for **iasin(val)** and **iacos(val)**
 is added, as it uses the same **isintable16\[\]** interpolation table.
 
 There is no **atan()** or **atan2()** replacement.
@@ -101,8 +108,8 @@ There is no **atan()** or **atan2()** replacement.
 - cleanup
 - examples
 
-The library (0.1.4) provides an **itan()** which improved accuracy 
-upon the (0.1.3) version and performance for the ESP32.  
+The library (0.1.4) provides an **itan()** which improved accuracy
+upon the (0.1.3) version and performance for the ESP32.
 Performance on AVR (UNO) is still an issue, accuracy is OK.
 
 
@@ -126,7 +133,7 @@ _eons passed_
 - added interpolation
 
 ## [0.1.01] - 2011-08-18
-- improved tables a bit 
+- improved tables a bit
 - changed param to float
 
 ## [0.1.00] - 2011-08-18

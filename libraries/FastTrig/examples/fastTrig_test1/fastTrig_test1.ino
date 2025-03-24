@@ -4,7 +4,7 @@
 // PURPOSE: testing the fastTrigonio functions
 //    DATE: 2020-08-30
 //    (c) : MIT
-//
+//     URL: https://github.com/RobTillaart/FastTrig
 
 
 #include "FastTrig.h"
@@ -18,7 +18,12 @@ int i;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("start");
+  while (!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
 
   test_hw_support();
 
@@ -27,7 +32,7 @@ void setup()
   test_sin_cos_tan(720);
   test_isin_icos_itan(720);
 
-  test_isin_error_1(false);  // parameter true gives a more info
+  test_isin_error_1(false);  //  parameter true gives a more info
   test_icos_error_1(false);
   test_itan_error_1(false);
 
@@ -35,7 +40,7 @@ void setup()
 }
 
 
-bool test_hw_support()        // to be elaborated
+bool test_hw_support()        //  to be elaborated
 {
   Serial.println(__FUNCTION__);
   int n = random(350);
@@ -141,7 +146,7 @@ void test_isin_error_1(bool show)
     float b = isin(i * 0.1);
     float y = abs(a - b);
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y)
     {
       mx = y;
@@ -199,7 +204,7 @@ void test_icos_error_1(bool show)
     float b = icos(i * 0.1);
     float y = abs(a - b);
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y)
     {
       mx = y;
@@ -256,9 +261,9 @@ void test_itan_error_1(bool show)
     if ((i + 900 ) % 1800 == 0) continue;
     float a = tan(i * 0.1 * PI / 180);
     float b = itan(i * 0.1);
-    float y = abs(a - b);  // abs error - rel error ~ 1%
+    float y = abs(a - b);    //  absolute error - relative error ~ 1%
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y)
     {
       mx = y;
@@ -307,4 +312,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
+

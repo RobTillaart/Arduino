@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -9,6 +9,10 @@
 
 
 #include "FastTrig.h"
+
+
+const float _PI_  = 3.14159265;
+const float _PI_DIV_2_ = _PI_ / 2;
 
 
 //  91 x 2 bytes ==> 182 bytes
@@ -45,7 +49,7 @@ uint16_t sinTable16[] = {
 */
 
 
-// use 255.0 as divider
+//  use 255.0 as divider
 uint8_t sinTable8[] = {
   0, 4, 9, 13, 18, 22, 27, 31, 35, 40, 44,
   49, 53, 57, 62, 66, 70, 75, 79, 83, 87,
@@ -62,8 +66,8 @@ uint8_t sinTable8[] = {
 
 ///////////////////////////////////////////////////////
 //
-// GONIO INT EXPERIMENTAL
-// works with only whole degrees.
+//  GONIO INT EXPERIMENTAL
+//  works with only whole degrees.
 //
 int isin256(uint32_t v)
 {
@@ -174,7 +178,7 @@ float isin(float f)
     }
   }
 
-  //  float value  improves ~4% on avg error  for ~60 bytes.
+  //  float value improves ~4% on average error for ~60 bytes.
   uint16_t value = sinTable16[y];
 
   //  interpolate if needed
@@ -182,7 +186,7 @@ float isin(float f)
   {
     value = value + ((sinTable16[y + 1] - value) / 8 * remain) / 32;   //  == * remain / 256
   }
-  float g = value * 0.0000152590219;  //  = / 65535.0
+  float g = value * 0.0000152590219f;  //  = / 65535.0
   if (negative) return -g;
   return g;
 }
@@ -235,7 +239,7 @@ void isincos(float f, float *si, float *co)
     cneg = !cneg;
   }
 
-  //  float value  improves ~4% on avg error  for ~60 bytes.
+  //  float value improves ~4% on average error for ~60 bytes.
   //  SIN
   uint16_t value = sinTable16[y];
   //  interpolate if needed
@@ -243,7 +247,7 @@ void isincos(float f, float *si, float *co)
   {
     value = value + ((sinTable16[y + 1] - value) / 8 * remain) / 32;  //  == * remain / 256
   }
-  *si = value * 0.0000152590219;  //  = / 65535.0
+  *si = value * 0.0000152590219f;  //  = / 65535.0
   if (sneg) *si = - *si;
 
   //  COS
@@ -254,7 +258,7 @@ void isincos(float f, float *si, float *co)
     remain = 256 - remain;
     value = value + ((sinTable16[90-y] - value) / 8 * remain) / 32;  //  == * remain / 256
   }
-  *co = value * 0.0000152590219;  //  = / 65535.0
+  *co = value * 0.0000152590219f;  //  = / 65535.0
   if (cneg) *co = - *co;
 }
 
@@ -382,8 +386,8 @@ float iatan(float f)
 float atanFast(float x)
 {
   //  remove two test will limit the input range but makes it even faster.
-  if ( x > 1)  return ( M_PI / 2) - atanHelper(1.0 / x);
-  if ( x < -1) return (-M_PI / 2) - atanHelper(1.0 / x);
+  if ( x > 1)  return (_PI_DIV_2_) - atanHelper(1.0 / x);
+  if ( x < -1) return (-_PI_DIV_2_) - atanHelper(1.0 / x);
   return atanHelper(x);
 }
 
@@ -391,10 +395,10 @@ float atanFast(float x)
 inline float atanHelper(float x)
 {
   float x2 = x * x;
-  return (((0.079331 * x2) - 0.288679) * x2 + 0.995354) * x;
+  return (((0.079331f * x2) - 0.288679f) * x2 + 0.995354f) * x;
 
   //  an even more accurate alternative, less fast
-  //  return ((((-0.0389929 * x2) + 0.1462766) * x2 - 0.3211819) * x2 + 0.9992150) * x;
+  //  return ((((-0.0389929f * x2) + 0.1462766f) * x2 - 0.3211819f) * x2 + 0.9992150f) * x;
 }
 
 
@@ -407,21 +411,21 @@ float atan2Fast(float y, float x)
   {
     if (y >= 0)
     {
-      if (fabs(y) >= fabs(x)) return M_PI / 2 - atanFast(x / y);
+      if (fabs(y) >= fabs(x)) return _PI_DIV_2_ - atanFast(x / y);
       return atanFast(y / x);
     }
-    if (fabs(y) >= fabs(x)) return -M_PI / 2 - atanFast(x / y);
+    if (fabs(y) >= fabs(x)) return -_PI_DIV_2_ - atanFast(x / y);
     return atanFast(y / x);
   }
   else
   {
     if (y >= 0)
     {
-      if (fabs(y) >= fabs(x)) return M_PI / 2 - atanFast(x / y);
-      return M_PI + atanFast(y / x);
+      if (fabs(y) >= fabs(x)) return _PI_DIV_2_ - atanFast(x / y);
+      return _PI_ + atanFast(y / x);
     }
-    if (fabs(y) >= fabs(x)) return -M_PI / 2 - atanFast(x / y);
-    return -M_PI + atanFast(y / x);
+    if (fabs(y) >= fabs(x)) return -_PI_DIV_2_ - atanFast(x / y);
+    return -_PI_ + atanFast(y / x);
   }
 }
 
@@ -429,7 +433,7 @@ float atan2Fast(float y, float x)
 ///////////////////////////////////////////////////////
 //
 //  HYPOT
-//  related but not strict gonio.
+//  related but not strict goniometry.
 //
 //  hypotFast()  formula for faster hypot() at the price of accuracy
 //  experimental!
@@ -442,7 +446,7 @@ float hypotFast(float x, float y)
     a = fabs(y);
     b = fabs(x);
   }
-  float z = 0.917981 * (b + a / 2);
+  float z = 0.917981f * (b + a / 2);
   if (z > b) return z;
   return b;
 }

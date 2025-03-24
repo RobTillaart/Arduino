@@ -3,10 +3,10 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: sketch to optimize the table for interpolation
 //    DATE: 2020-09-06
+//     URL: https://github.com/RobTillaart/FastTrig
 
-// WARNING TAKES A LOT OF TIME ON 16 MHz
-
-// TODO    make a python script for this ?
+//  WARNING TAKES A LOT OF TIME ON 16 MHz
+//  TODO    make a python script for this ?
 
 
 #include "FastTrig.h"
@@ -15,9 +15,9 @@
 float getError(int i)
 {
   float error = 0;
-  for (float f = i - 1; f < i + 1; f += 0.0001)   // get error due to interpolation around point i .
+  for (float f = i - 1; f < i + 1; f += 0.0001)   //  get error due to interpolation around point i .
   {
-    error += abs(sin(f / 180 * PI) - isin(f));    // sum up the error (all errors are traded equal
+    error += abs(sin(f / 180 * PI) - isin(f));    //  sum up the error (all errors are traded equal
   }
   return error;
 }
@@ -26,10 +26,14 @@ float getError(int i)
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
   Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
 
-  // print the table
+  //  print the table
   for (int i = 0; i <= 90; i++)
   {
     Serial.print(sinTable16[i]);
@@ -41,7 +45,7 @@ void setup()
   test_isin_error_1(false);
   Serial.println();
 
-  while(optimize());  // prints a new table as long as it is better.
+  while(optimize());  //  prints a new table as long as it is better.
 
   Serial.println("\n\ndone...");
 }
@@ -50,18 +54,18 @@ void setup()
 int optimize()
 {
   int rv = 0;
-  for (int i = 1; i < 90; i++)   // for every angle
+  for (int i = 1; i < 90; i++)   //  for every angle
   {
     int t = sinTable16[i];
     int idx = 0;
-    float minError = getError(i);  // what is the current error
+    float minError = getError(i);   //  what is the current error
     bool flag = false;
-    for (int j = -2; j <= 2; j++)   // try if adjacent numbers in table give less error.
+    for (int j = -2; j <= 2; j++)   //  try if adjacent numbers in table give less error.
     {
       if (j == 0) continue;
       sinTable16[i] = t + j;
       float e = getError(i);
-      if (e < minError)            // if less than we can update the table.
+      if (e < minError)             //  if less than we can update the table.
       {
         idx = j;
         minError = e;
@@ -69,7 +73,7 @@ int optimize()
         flag = true;
       }
     }
-    if (flag) Serial.print('*');    // comment if you do not want see changes.
+    if (flag) Serial.print('*');    //  comment if you do not want see changes.
     sinTable16[i] = t + idx;
     Serial.print(sinTable16[i]);
     Serial.print(", ");
@@ -126,5 +130,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

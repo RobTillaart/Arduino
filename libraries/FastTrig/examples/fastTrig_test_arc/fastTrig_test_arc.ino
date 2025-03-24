@@ -4,7 +4,7 @@
 // VERSION: 0.1.1
 // PURPOSE: testing the fastTrigonio functions
 //    DATE: 2020-09-09
-
+//     URL: https://github.com/RobTillaart/FastTrig
 
 
 #include "FastTrig.h"
@@ -19,16 +19,21 @@ float f;
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
 
   test_arcsin_arccos_arctan();
   test_i_arcsin_i_arccos_i_arctan();
 
-  test_i_arcsin_error_1(true);  // parameter true gives a more info
+  test_i_arcsin_error_1(true);  //  parameter true gives a more info
   test_i_arccos_error_1(true);
 
-  // NOT IMPLEMENTED
-  //test_i_arctan_error_1(true);
+  //  NOT IMPLEMENTED
+  //  test_i_arctan_error_1(true);
 
   Serial.println("done...\n");
 }
@@ -124,7 +129,7 @@ void test_i_arcsin_error_1(bool show)
     float b = iasin(f);
     float y = abs(a - b);
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y)
     {
       mx = y;
@@ -182,7 +187,7 @@ void test_i_arccos_error_1(bool show)
     float b = iacos(f);
     float y = abs(a - b);
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y)
     {
       mx = y;
@@ -239,9 +244,9 @@ void test_i_arctan_error_1(bool show)
     if (f == 0) continue;
     float a = atan(f) * 180 / PI;
     float b = iatan(f);
-    float y = abs(a - b);  // abs error - rel error ~ 1%
+    float y = abs(a - b);    //  absolute error - relative error ~ 1%
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y)
     {
       mx = y;
@@ -290,5 +295,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

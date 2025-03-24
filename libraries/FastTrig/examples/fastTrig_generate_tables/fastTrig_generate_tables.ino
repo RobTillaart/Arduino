@@ -1,39 +1,45 @@
 //
 //    FILE: fastTrig_generate_tables.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: generate look up tables for gonio functions (and others)
+// PURPOSE: generate look up tables for goniometry functions (and others)
 //          these are not optimized for interpolation.
 //    DATE: 2020-09-08
+//     URL: https://github.com/RobTillaart/FastTrig
 
-
-// TODO
-// tables might have some trouble at "max values" CHECK
+//  TODO
+//  tables might have some trouble at "max values" CHECK
 
 
 #include "Arduino.h"
+#include "FastTrig.h"
 
 
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
 
-  // generate any # bits you want.
-  generate_bit_sin(32);  // works is possible
-  generate_bit_sin(24);  // TODO is this better than 16 bit?
-  generate_bit_sin(20);  // for serious math 1 digit better than 16 bit.
-  generate_bit_sin(16);  // for serious math
-  generate_bit_sin(12);  // for 12 bit DAC
-  generate_bit_sin(10);  // for 10 bit DAC
-  generate_bit_sin(8);   // for LED
+  //  generate any # bits you want.
+  generate_bit_sin(32);  //  works is possible
+  generate_bit_sin(24);  //  TODO is this better than 16 bit?
+  generate_bit_sin(20);  //  for serious math 1 digit better than 16 bit.
+  generate_bit_sin(16);  //  for serious math
+  generate_bit_sin(12);  //  for 12 bit DAC
+  generate_bit_sin(10);  //  for 10 bit DAC
+  generate_bit_sin(8);   //  for LED
 
-  // for LED
-  // need to patch datatype in output,
-  // TODO: pack 2 values in one byte ==> would ~half the array size.
-  generate_bit_sin(4);  // interpolating makes no sense
+  //  for LED
+  //  need to patch data type in output,
+  //  TODO: pack 2 values in one byte ==> would ~half the array size.
+  generate_bit_sin(4);  //  interpolating makes no sense
 
 
-  generate_bit_cos(16);  // note the fasttrig reuses the isin table.
+  generate_bit_cos(16);  //  note the fastTrig reuses the isin table.
   generate_bit_cos(8);
 
   generate_bit_tan(16);
@@ -150,5 +156,5 @@ void generate_bit_tan(int t)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,0 +1,29 @@
+IDE:    1.8.19
+BOARD:  Arduino UNO
+
+
+fastTrig_atan_performance.ino
+FAST_TRIG_LIB_VERSION: 
+0.3.3
+
+
+atan
+0.1250
+0.1244
+184
+
+atanFast
+0.1239
+96
+
+atan2
+1.4464
+196
+
+atan2Fast
+1.4469
+124
+
+atan2Fast comparison
+done
+

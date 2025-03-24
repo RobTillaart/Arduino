@@ -1,7 +1,7 @@
 //    FILE: fastTrig_atan_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-12-05
-// PURPOSE: performance and accuracy measurement  
+// PURPOSE: performance and accuracy measurement
 //     URL: https://github.com/RobTillaart/FastTrig
 
 
@@ -18,12 +18,16 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
   delay(10);
 
   x = random(100);
   y = x + random(100);
-  
+
   start = micros();
   angle = atan(x / y);
   stop = micros();
@@ -40,7 +44,7 @@ void setup()
   Serial.println(angle, 4);
   Serial.println(stop - start);
   delay(10);
-  
+
   start = micros();
   angle = atan2(y, x);
   stop = micros();
@@ -56,7 +60,7 @@ void setup()
   Serial.println(angle, 4);
   Serial.println(stop - start);
   delay(10);
-  
+
   Serial.println("\natan2Fast comparison");
   for (float x = -100; x <= 100; x++)
   {
@@ -86,16 +90,16 @@ void setup()
 float zin(float x)
 {
   float x2 = x * x;
-  // return ((((-0.004392476*x2 + 0.079487663) * x2) -0.645920978) * x2 + 1.570794852) * x;
-  return (((0.0727102 * x2) - 0.6432292) * x2 + 1.5706268) * x;
+  //  return ((((-0.004392476f*x2 + 0.079487663f) * x2) -0.645920978f) * x2 + 1.570794852f) * x;
+  return (((0.0727102f * x2) - 0.6432292f) * x2 + 1.5706268f) * x;
 }
 
 
 float atanA(float x)
 {
   float x2 = x * x;
-  return (((0.079331 * x2) - 0.288679) * x2 + 0.995354) * x;
-  // return ((((-0.0389929 * x2) + 0.1462766) * x2 - 0.3211819) * x2 + 0.9992150) * x;
+  return (((0.079331f * x2) - 0.288679f) * x2 + 0.995354f) * x;
+  //  return ((((-0.0389929f * x2) + 0.1462766f) * x2 - 0.3211819f) * x2 + 0.9992150f) * x;
 }
 
 
@@ -150,4 +154,6 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

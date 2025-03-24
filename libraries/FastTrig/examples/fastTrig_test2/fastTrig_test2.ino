@@ -4,7 +4,7 @@
 // PURPOSE: testing the itan functions
 //    DATE: 2021-08-10
 //    (c) : MIT
-
+//     URL: https://github.com/RobTillaart/FastTrig
 
 
 #include "FastTrig.h"
@@ -18,7 +18,12 @@ int i;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("start");
+  while (!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
 
   test_tan(0);
   test_itan_error_1(false);
@@ -73,9 +78,9 @@ void test_itan_error_1(bool show)
     if (((i + 900 ) % 1800) == 0) continue;
     float a = tan(i * 0.1 * PI / 180);
     float b = itan(i * 0.1);
-    float y = abs(a - b);  // abs error - rel error ~ 1%
+    float y = abs(a - b);    //  absolute error - relative error ~ 1%
     z += y;
-    if (a > 0) zz += y / a; // not 100% correct but almost.
+    if (a > 0) zz += y / a;  //  not 100% correct but almost.
     if (mx < y) mx = y;
     if (show)
     {
@@ -121,5 +126,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

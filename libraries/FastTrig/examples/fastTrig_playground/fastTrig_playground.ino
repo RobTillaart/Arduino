@@ -3,26 +3,27 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: playground to play with tables.
 //    DATE: 2020-09-08
+//     URL: https://github.com/RobTillaart/FastTrig
 
-// NOTES
+//  NOTES
 //
-// 16 bits is less accurate than 24 bits but still has 5-6 digits OK
-//         storage needs 2 bytes per value ==> 182 bytes
+//  16 bits is less accurate than 24 bits but still has 5-6 digits OK
+//          storage needs 2 bytes per value ==> 182 bytes
 //
-// 24 bits is as accurate as sin() itself.
-//         accuracy wise on par with sin() function (as expected)
-//         storage needs 4 bytes per value ==> 364 bytes
-//         performance on par with 16 bit
+//  24 bits is as accurate as sin() itself.
+//          accuracy wise on par with sin() function (as expected)
+//          storage needs 4 bytes per value ==> 364 bytes
+//          performance on par with 16 bit
 //
-// 20 bits is one digit better than 16 bit
-//         storage needs 4 bytes per value ==> 364 bytes
-//         performance on par with 16 bit
+//  20 bits is one digit better than 16 bit
+//          storage needs 4 bytes per value ==> 364 bytes
+//          performance on par with 16 bit
 //
-// 32 bits makes less sense as float have only 23 bit mantisse
-//         maybe to approx. doubles.
+//  32 bits makes less sense as float have only 23 bit mantissa
+//          maybe to approx. doubles.
 //
-// TODO questions
-// Q: 24 bit per degree or 16 bit per half degree?  Same storage
+//  TODO questions
+//  Q: 24 bit per degree or 16 bit per half degree?  Same storage
 //
 //
 
@@ -76,7 +77,10 @@ uint16_t sinTable16[] = {
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   test_accuracy();
   test_performance();
@@ -95,7 +99,7 @@ void test_accuracy()
     float a = sin(i * (PI / 180));
     float b = (1.0 * sinTable16[i]) / 65535;
     float c = (1.0 * sinTable20[i]) / 1048575;
-    // float c = (1.0 * sinTable24[i]) / 16777215;
+    //  float c = (1.0 * sinTable24[i]) / 16777215;
     Serial.print(a, 8);
     Serial.print('\t');
     Serial.print(abs(a - b), 8);
@@ -168,5 +172,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

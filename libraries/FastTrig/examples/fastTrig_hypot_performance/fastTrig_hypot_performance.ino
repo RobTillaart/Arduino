@@ -1,7 +1,7 @@
 //    FILE: fastTrig_hypot_performance.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-12-05
-// PURPOSE: performance and accuracy measurement  
+// PURPOSE: performance and accuracy measurement
 //     URL: https://github.com/RobTillaart/FastTrig
 
 
@@ -18,7 +18,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
   delay(10);
 
   x = random(100);
@@ -27,12 +31,12 @@ void setup()
   Serial.println(x);
   Serial.println(y);
   delay(10);
-  
+
   //////////////////////////////////////////
   Serial.println("\nPERFORMANCE");
   Serial.println("ALGORITHM\tVALUE\t\tTIME");
   delay(10);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
     length = sqrt(x * x + y * y);
@@ -73,4 +77,6 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

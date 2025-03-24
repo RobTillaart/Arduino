@@ -3,9 +3,10 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: testing the fastTrigonio functions
 //    DATE: 2020-09-07
+//     URL: https://github.com/RobTillaart/FastTrig
 
-// sketch to visualy compare tan(x) and itan(x)
-// use IDE.plotter to view.
+//  sketch to visually compare tan(x) and itan(x)
+//  use IDE.plotter to view.
 
 
 #include "FastTrig.h"
@@ -18,8 +19,14 @@ int i;
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.println(FAST_TRIG_LIB_VERSION);
+  Serial.println();
 
-  // clean plotter buffer
+  //  clean plotter buffer
   for (int i = 0; i < 500; i++)
   {
     Serial.print(0);
@@ -68,5 +75,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

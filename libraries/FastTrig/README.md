@@ -47,6 +47,12 @@ Of course this introduces an error but the error is small and performance is sti
 quite fast (which was the goal).
 
 
+### Related
+
+- https://github.com/RobTillaart/fast_math
+- https://github.com/RobTillaart?tab=repositories&q=math
+
+
 ## Interface
 
 ```cpp
@@ -54,7 +60,7 @@ quite fast (which was the goal).
 ```
 
 
-#### Lookup tables
+### Lookup tables
 
 The lookup tables are optimized (sketch provided) to minimize the error when using the interpolation, 
 this implies that the points in the table might not be optimal when you use only whole degrees. 
@@ -71,10 +77,10 @@ however it is great to use in a LEDstrip or motor movements when less accuracy i
 
 Although the tables can be written to, it is advised not to do so.
 
-*OK, the optimize example does a write to improve the table to minimize errors*
+_OK, the optimize example does a write to improve the table to minimize errors_
 
 
-#### atan, atan2
+### atan, atan2
 
 Since version 0.2.1 two functions are added:
 - **float atanFast(float f)** input range -1 .. 1 is faster.
@@ -89,7 +95,7 @@ Use **fastTrig_atan_performance.ino** to check the gain on your board.
 Price is that the values are less accurate, but the difference is < 0.001.
 
 
-#### isin256, icos256, isincos256
+### isin256, icos256, isincos256
 
 Version 0.3.0 added these experimental functions:
 
@@ -102,7 +108,7 @@ returns both the sin(v)\*256 and the cos(v)\*256 of the same angle.
 Faster than both individual calls together.
 
 
-#### isincos
+### isincos
 
 Version 0.3.0 added this experimental function:
 
@@ -113,7 +119,7 @@ There is a minor difference between the value of the **float co** compared to **
 This need some investigation ( truncating ?)
 
 
-#### hypotFast
+### hypotFast
 
 Strictly **hypot()** is no gonio function but it is often used 
 for calculating length in polar coordinates.
@@ -367,6 +373,7 @@ See examples
 
 #### Should
 
+- clean example headers (consistency)
 - write more tests to verify values.
 - test performance on more platforms.
 - investigate the difference between **isincos()** and **icos()**.

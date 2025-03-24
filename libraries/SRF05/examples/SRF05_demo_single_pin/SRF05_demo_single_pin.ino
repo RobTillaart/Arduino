@@ -30,18 +30,24 @@ void setup()
 
 void loop()
 {
-  Serial.println(SRF.getTime());
+  Serial.print("\t");
+  Serial.print(SRF.getTime());
   delay(100);
-  Serial.println(SRF.getMillimeter());
+  Serial.print("\t");
+  Serial.print(SRF.getMillimeter());
   delay(100);
-  Serial.println(SRF.getCentimeter(), 1);
+  Serial.print("\t");
+  Serial.print(SRF.getCentimeter(), 2);
   delay(100);
-  Serial.println(SRF.getMeter(), 2);
+  Serial.print("\t");
+  Serial.print(SRF.getMeter(), 2);
   delay(100);
-  Serial.println(SRF.getInch(), 1);
+  Serial.print("\t");
+  Serial.print(SRF.getInch(), 1);
   delay(100);
-  Serial.println(SRF.getFeet(), 2);
-  delay(1000);
+  Serial.print("\t");
+  Serial.print(SRF.getFeet(), 2);
+  delay(100);
   Serial.println();
 }
 

@@ -16,10 +16,10 @@ Arduino library for the SRF05 distance sensor and compatibles.
 
 ## Description
 
-This library implements a API for a PING type of sensor. 
-It is expected to work for quite a range of them. 
-Till version 0.2.0 of the library, it only supported the SRF04 compatibility mode which uses a 
-separate **TRIGGER** and **ECHO** pin. 
+This library implements a API for a PING type of sensor.
+It is expected to work for quite a range of them.
+Till version 0.2.0 of the library, it only supported the SRF04 compatibility mode which uses a
+separate **TRIGGER** and **ECHO** pin.
 
 Version 0.3.0 implements support for the SRF05 mode in which **TRIGGER** and **ECHO** are the same.
 One need to connect the MODE pin to GND to select this mode in the device.
@@ -39,18 +39,29 @@ The library has several ways to adjust / improve the quality of the measurements
 E.g. by taking the average or the median of multiple readings, there will be less noise.
 This can be set with the different mode commands.
 
-The library allows to set a correction factor to compensate for the timing of 
-the **pulseIn()** function. This has in the end the same effect as changing the 
+The library allows to set a correction factor to compensate for the timing of
+the **pulseIn()** function. This has in the end the same effect as changing the
 speed of sound however it is technically more correct to keep the two separated.
 
 
-#### Connection 
+### Compatibles
 
-How to connect:
-- https://www.robot-electronics.co.uk/htm/srf05tech.htm
+|  device     |  works  |  notes  |
+|:------------|:-------:|:--------|
+|  HC-SR04    |    Y    |  separate echo and trigger only.
+|  JSN-SR04T  |    Y    |  separate echo and trigger only.
+|  SRF04      |    Y    |  separate echo and trigger only.
+|             |         |
+|  SRF05      |    Y    |
+|  RCWL-1604  |    Y    |
+|  RCWL-1605  |    Y    |  has transducer / receiver combined.
+|  RCWL-1633  |    Y    |  single pin mode echo / trigger combined.
+|  RCWL-1670  |    Y    |  needs grove cable, warning check colours!
+|             |         |
+|  US-100     |    -    |  not tested yet
 
 
-#### Effect temperature and humidity
+### Effect temperature and humidity
 
 Several correction formulas for the speed of sound are available on the internet
 to adjust the speed for temperature (°C) and humidity (%RH).
@@ -66,11 +77,11 @@ In fact humidity has an effect which increases with temperature so the formula i
 See discussion - https://forum.arduino.cc/t/ultrasonic-sensor-to-determine-water-level/64890/12
 
 Note that the speed of sound is also altered by air pressure (sea level .. high in sky)
-and wind speed. The latter is a bit compensated for, as the acoustic pulse will go one time 
+and wind speed. The latter is a bit compensated for, as the acoustic pulse will go one time
 "against" the wind and one time "with" the wind.
 
 
-#### Table speed of sound for temperature and humidity in air at sea level.
+### Table speed of sound for temperature and humidity in air at sea level.
 
 (table redone completely in 0.2.0)
 
@@ -113,13 +124,15 @@ between 90% and 0% decreases when temperature drops.
 
 The function **float calculateSpeedOfSound()** uses two interpolations derived from the table above.
 The function has no look-up table and uses no lookup table / RAM.
-This function returns a speed of sound with an overall error margin less than 1%, and mostly even 
+This function returns a speed of sound with an overall error margin less than 1%, and mostly even
 lower than 0.5% compared to the numbers above.
 
 
-#### Related
+### Related
 
-- https://www.robot-electronics.co.uk/htm/srf05tech.htm (good description of the sensor)
+- https://www.robot-electronics.co.uk/htm/srf05tech.htm Good documentation including how to connect.
+- https://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/ good guide.
+- https://github.com/stoduk/PingSerial  Serial IO with distance sensors e.g. US-100
 
 
 ## Interface
@@ -128,7 +141,7 @@ lower than 0.5% compared to the numbers above.
 #include "SRF05.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **SRF05(const uint8_t trigger, const uint8_t echo = 0)** constructor to set the trigger and echo pin.
 The echo pin can be left out, or set to the same as the trigger pin.
@@ -147,12 +160,12 @@ To select single pin mode in the hardware the MODE pin of the device must be con
 For the two pin (compatibility) mode the MODE pin must be left floating.
 
 
-#### Configuration
+### Configuration
 
 - **void setSpeedOfSound(float sos = 340)** adjust the speed of sound in meters per second (m/s).
 See table above.
 The function has **no range check** and accepts even negative values.
-This will cause a negative sign in the distances which can be useful sometimes when you have 
+This will cause a negative sign in the distances which can be useful sometimes when you have
 two sensors in opposite directions.
 - **float getSpeedOfSound()** return set value (m/s)
 - **bool setCorrectionFactor(float factor = 1)** adjust the timing by a few percentage e.g. to adjust clocks.
@@ -162,18 +175,18 @@ Returns false if factor is negative, <= 0.
 - **float getCorrectionFactor()** returns the current correction factor.
 
 
-#### Operational mode
+### Operational mode
 
 Normally a single read should be sufficient, but the library has more modi.
 
-- **void setModeSingle()** read a single time. 
+- **void setModeSingle()** read a single time.
 This is the default and typical the fastest.
 - **void setModeAverage(uint8_t count)** read count times and take the average.
 Note: between the reads there is a default delay of 1000 microseconds.
-- **void setModeMedian(uint8_t count)** read count times and take the median. 
+- **void setModeMedian(uint8_t count)** read count times and take the median.
 count must between 3 and 15 otherwise it is clipped.
 Note: between the reads there is a default delay of 1000 microseconds.
-- **void setModeRunningAverage(float alpha)** use a running average algorithm 
+- **void setModeRunningAverage(float alpha)** use a running average algorithm
 with a weight alpha. Value for alpha depends on your application.
 Alpha must be larger than zero and smaller or equal to one. Alpha == <0..1]
 Lower alpha averages great for static distances, a higher alpha is better
@@ -186,22 +199,22 @@ Default is 1000 us == 1 milliSecond. Maximum is 65535 microseconds.
 - **uint16_t getSampleInterval()** return set interval.
 
 |  Operational mode        |  Value  |  Notes  |
-|:-------------------------|:-------:|:-------:|
-|  SRF05_MODE_SINGLE       |    0    |
+|:-------------------------|:-------:|:--------|
+|  SRF05_MODE_SINGLE       |    0    |  default mode
 |  SRF05_MODE_AVERAGE      |    1    |  default sample interval 1000 us
 |  SRF05_MODE_MEDIAN       |    2    |  default sample interval 1000 us
 |  SRF05_MODE_RUN_AVERAGE  |    3    |
 |                          |  other  |  error
 
-If other modi are needed, please open an issue and I see if it fits. 
-Of course one can create more elaborated processing of measurements 
+If other modi are needed, please open an issue and I see if it fits.
+Of course one can create more elaborated processing of measurements
 outside the library.
 
 
-#### Get distance
+### Get distance
 
 - **uint32_t getTime()** returns distance in microseconds.
-This is the core measurement function, the next five are wrappers 
+This is the core measurement function, the next five are wrappers
 around this one.
 - **uint32_t getMillimeter()** returns distance in millimetre.
 - **float getCentimeter()** returns distance in centimetre.
@@ -211,10 +224,10 @@ around this one.
 - **float getYards()** returns distance in yards. (1 yard = 3 feet = 36 inch).
 
 
-#### Experimental - setTriggerLength
+### Experimental - setTriggerLength
 
 Since 0.1.4 two experimental functions are added to tune the length
-of the trigger signal. 
+of the trigger signal.
 The idea is that shorter triggers can be used with harder surfaces
 or short distances. Longer trigger thus for longer distances.
 
@@ -225,13 +238,13 @@ Experiences are welcome.
 - **uint8_t getTriggerLength()** returns set length.
 
 
-#### Experimental - calibration
+### Experimental - calibration
 
-Put the sensor at exactly 1.00 meter from a wall, and based 
-upon the timing it will give an estimate for the speed of sound. 
+Put the sensor at exactly 1.00 meter from a wall, and based
+upon the timing it will give an estimate for the speed of sound.
 0.1.2 version seems to be accurate within 5 %.
 
-- **float determineSpeedOfSound(float distance, uint8_t count = 64)** distance is between 
+- **float determineSpeedOfSound(float distance, uint8_t count = 64)** distance is between
 sensor and the wall, single trip, not forth and back.
 The distance is in meters, returns meters/second.
 The distance is averaged over count measurements.
@@ -240,41 +253,42 @@ This function can be used to compensate for temperature, humidity
 or even other types of gas (e.g. N2 only)
 
 
-#### Experimental - calculateSpeedOfSound
+### Experimental - calculateSpeedOfSound
 
 - **float calculateSpeedOfSound(float temperature, float humidity)**
-Calculates the speed of sound given a temperature in Celsius (-40..60) 
+Calculates the speed of sound given a temperature in Celsius (-40..60)
 and relative humidity (0..100).
 
 The function uses an interpolation formula derived from the table above.
 This returns a speed with an error margin less than 1%, and for the most
 part it is even better than 0.5%.
 
-Be aware that especially humidity sensors have an accuracy, often in the 
+Be aware that especially humidity sensors have an accuracy, often in the
 range from two to five percent. So it won't get much better.
 
 
-#### Performance
+### Performance
 
-Assumes default speed of sound of 340 m/sec.
+Assumes speed of sound of 340 m/sec.
 
-Expected pulse timing.
+Indicative pulse timing, note round trip is double distance!
 
-| distance (cm) | time (us) |
-|:-------------:|----------:|
+| distance (cm) | time (us) |  Notes  |
+|:-------------:|----------:|:--------|
 |        1      |     29.4  |
 |        2      |     58.8  |
 |        5      |    147.1  |
 |       10      |    294.1  |
 |       20      |    588.2  |
-|       50      |   1470.6  |
-|      100      |   2941.2  |
-|      200      |   5882.4  |
-|      300      |   8823.5  |
-|      400      |  11764.7  |
-|      500      |  14705.9  |
+|               |           |
+|       50      |     1471  |
+|      100      |     2941  |
+|      200      |     5882  |  blocks for approx. 6ms !
+|      300      |     8824  |
+|      400      |    11765  |
+|      500      |    14706  |
 
-To be elaborated.
+To be elaborated, precission is only 3 or 4 digits max.
 
 
 ## Operational
@@ -293,13 +307,14 @@ See examples.
 - add examples
   - DHT22 and the formula for SOS
 - investigate effect of wind (speed of air) on the speed of sound.
-- investigate 
+- investigate
   - value of **setTriggerLength()**
 - investigate "guard time" between reads of 50 ms (20x /sec max).
 
 
 #### Could
 
+- look into ARDEN-BUCK equation.
 - set default SOS to an SOS from the table instead of 340.
   - function **begin(T, H)** ?
 - add example to determine the correction factor?
@@ -314,7 +329,7 @@ See examples.
 - print feet as 3'2" or  3-7/8 feet (is that needed in this lib)
   - see printHelpers lib **printFeet(float feet)**
 - fix magic conversion numbers.
-- add ```float lastValue()``` ?  
+- add ```float lastValue()``` ?
   - not all paths update this variable.
 - add ```float delta()``` difference with last value.
   - how to handle different units? or only time?

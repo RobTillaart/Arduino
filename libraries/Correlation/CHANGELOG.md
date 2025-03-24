@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2025-03-19
+- clean up obsolete parts from code
+- add check if array allocation is successful in constructor.
+- update readme.md
+- minor edits
+
 ## [0.3.2] - 2024-01-02
 - fix examples
 - removed some obsolete comments.

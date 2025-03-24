@@ -11,7 +11,7 @@
 
 # Correlation
 
-Arduino Library to determine linear correlation between X and Y datasets.
+Arduino library to determine the linear correlation between X and Y datasets.
 
 
 ## Description
@@ -20,19 +20,19 @@ This library calculates the coefficients of the linear correlation
 between two (relative small) datasets. The size of these datasets is
 20 by default. The size can be set in the constructor.
 
-Please note that the correlation uses about ~50 bytes per instance,
+Please note that the correlation object uses about ~50 bytes per instance,
 and 2 floats == 8 bytes per pair of elements.
 So ~120 elements will use up 50% of the RAM of an UNO.
 
 The formula of the correlation is expressed as **Y = A + B \* X**.
 
-If all points are on a vertical line, the parameter B will be NAN,
-This will happen if the **sumXi2** is zero or very small.
+If all points are on a vertical line, e.g. **Y = 3**, the parameter B will be NAN,
+This will happen if the **sumX2** is zero or very small.
 
 Use with care.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
@@ -42,6 +42,7 @@ Use with care.
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
+- https://github.com/RobTillaart/PrintHelpers - print values in scientific / engineering format.
 
 
 ## Interface
@@ -50,14 +51,15 @@ Use with care.
 #include "Correlation.h"
 ```
 
-#### Constructor
+### Constructor
 
-- **Correlation(uint8_t size = 20)** allocates the array needed and resets internal admin.
+- **Correlation(uint8_t size = 20)** allocates the arrays needed and resets internal admin.
 Size should be between 1 and 255. Size = 0 will set the size to 20.
+If the arrays cannot be allocated size will be set to zero.
 - **~Correlation()** frees the allocated arrays.
 
 
-#### Base functions
+### Base functions
 
 - **bool add(float x, float y)** adds a pair of **floats** to the internal storage array's.
 Returns true if the value is added, returns false when internal array is full.
@@ -71,11 +73,16 @@ This number is always between 0 ..**size()**
 This function will be called automatically when needed.
 You can call it on a more convenient time.
 Returns false if nothing to calculate **count == 0**
+
+### Configure calculation
+
 - **void setR2Calculation(bool)** enables / disables the calculation of Rsquared.
 - **bool getR2Calculation()** returns the flag set.
 - **void setE2Calculation(bool)** enables / disables the calculation of Esquared.
 - **bool getE2Calculation()** returns the flag set.
 
+
+### Get correlation parameters
 
 After the calculation the following functions can be called to return the core values.
 - **float getA()** returns the A parameter of formula **Y = A + B \* X**
@@ -93,7 +100,7 @@ quality of the correlation.
 - **float getEstimateY(float x)** use to calculate the estimated Y for a given X.
 
 
-#### Correlation Coefficient R
+### Correlation Coefficient R
 
 Indicative description of the correlation value.
 
@@ -105,15 +112,19 @@ Indicative description of the correlation value.
 |  +0.4 to +0.6  |  Moderate     |
 |  +0.2 to +0.4  |  Weak         |
 |   0.0 to +0.2  |  Very weak    |
-|   0.0 to -0.2  |  Very weak    |
+|  -0.0 to +0.0  |  None         | -0.05..+0.05?
+|  -0.0 to -0.2  |  Very weak    |
 |  -0.2 to -0.4  |  Weak         |
 |  -0.4 to -0.6  |  Moderate     |
 |  -0.6 to -0.8  |  Strong       |
 |  -0.8 to -1.0  |  Very strong  |
 |  -1.0          |  Perfect      |
 
+The library does not provide these as a string array as the boundaries are subjective.
+Note the table is symmetrical.
 
-#### Running correlation
+
+### Running correlation
 
 - **void setRunningCorrelation(bool rc)** sets the internal variable runningMode
 which allows **add()** to overwrite old elements in the internal arrays.
@@ -125,12 +136,14 @@ This running correlation allows for more adaptive formula finding e.g. find the
 relation between temperature and humidity per hour, and how it changes over time.
 
 
-#### Statistical
+### Bounding box of data points
 
 These functions give an indication of the "trusted interval" for estimations.
 The idea is that for **getEstimateX()** the further outside the range defined
 by **getMinX()** and **getMaxX()**, the less the result can be trusted.
-It also depends on **R** of course. Idem for **getEstimateY()**
+This also depends on **R** of course. Idem for **getEstimateY()**
+
+The functions to find the "bounding box" of the "trusted interval".
 
 - **float getMinX()** idem
 - **float getMaxX()** idem
@@ -138,9 +151,11 @@ It also depends on **R** of course. Idem for **getEstimateY()**
 - **float getMaxY()** idem
 
 
-#### Debugging / educational
+### Debugging / educational
 
 Normally not used. For all these functions index should be < count!
+otherwise the setters return false to indicate failure, while the 
+getters will return NAN.
 
 - **bool setXY(uint8_t index, float x, float y)** overwrites a pair of values.
 Returns true if succeeded.
@@ -148,12 +163,15 @@ Returns true if succeeded.
 - **bool setY(uint8_t index, float y)** overwrites single Y.
 - **float getX(uint8_t index)** returns single value.
 - **float getY(uint8_t index)** returns single value.
+
+Calculated internals:
+
 - **float getSumXY()** returns sum(Xi \* Yi).
 - **float getSumX2()** returns sum(Xi \* Xi).
 - **float getSumY2()** returns sum(Yi \* Yi).
 
 
-#### Obsolete since 0.3.0
+### Obsolete since 0.3.0
 
 To improve readability the following functions are replaced.
 
@@ -180,10 +198,12 @@ To improve readability the following functions are replaced.
 - Template version?
 The constructor should get a TYPE parameter, as this
 allows smaller data types to be analysed taking less memory.
-- move code from .h to .cpp
+Or allow more elements in same amount of RAM.
+- put configuration booleans into one byte to save 3 bytes RAM
 
 #### Wont
 
+- move code from .h to .cpp
 
 ## Support
 

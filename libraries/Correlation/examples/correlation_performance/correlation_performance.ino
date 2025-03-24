@@ -20,10 +20,13 @@ volatile float f;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CORRELATION_LIB_VERSION: ");
   Serial.println(CORRELATION_LIB_VERSION);
+  Serial.println();
 
 
   Serial.println("ADD");
@@ -89,7 +92,7 @@ void setup()
 
   Serial.println("\n===================================\n\n");
 
-  Serial.println("ADD - fill arrays again");  
+  Serial.println("ADD - fill arrays again");
   delay(100);
   C.clear();
   sum = 0;

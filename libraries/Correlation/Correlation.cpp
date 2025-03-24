@@ -1,7 +1,7 @@
 //
 //    FILE: Correlation.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino Library to determine correlation between X and Y dataset
 //     URL: https://github.com/RobTillaart/Correlation
 
@@ -12,9 +12,16 @@
 Correlation::Correlation(uint8_t size)
 {
   _size = 20;
-  if (size >  0) _size = size;
+  if (size > 0) _size = size;
+
   _x = (float *) malloc(_size * sizeof(float));
   _y = (float *) malloc(_size * sizeof(float));
+  if ((_x == NULL) || (_y == NULL))
+  {
+    _size = 0;
+    if (_x) free(_x);
+    if (_y) free(_y);
+  }
   clear();
 }
 
@@ -32,8 +39,8 @@ void Correlation::clear()
   _index           = 0;
   _needRecalculate = true;
   _runningMode     = false;
-  _avgX            = 0;
-  _avgY            = 0;
+  _averageX        = 0;
+  _averageY        = 0;
   _a               = 0;
   _b               = 0;
   _div_b           = -1;  //  as 1/_b is undefined
@@ -80,8 +87,8 @@ bool Correlation::calculate(bool forced)
   avgx *= div_count;
   avgy *= div_count;
 
-  _avgX = avgx;
-  _avgY = avgy;
+  _averageX = avgx;
+  _averageY = avgy;
 
   //  CALC A and B  ==>  formula  Y = A + B * X
   float sumXiYi = 0;

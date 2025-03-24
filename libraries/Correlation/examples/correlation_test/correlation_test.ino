@@ -5,7 +5,7 @@
 // PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 
-//  performance test: 
+//  performance test:
 //  only ADD and CALCULATE as these are the most used
 //  and could be optimized in the future
 
@@ -21,10 +21,13 @@ volatile float f;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CORRELATION_LIB_VERSION: ");
   Serial.println(CORRELATION_LIB_VERSION);
+  Serial.println();
 
 
   Serial.println("ADD");

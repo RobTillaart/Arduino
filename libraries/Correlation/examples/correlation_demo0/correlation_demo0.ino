@@ -25,11 +25,16 @@ Correlation C;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("CORRELATION_LIB_VERSION: ");
+  Serial.println(CORRELATION_LIB_VERSION);
+  Serial.println();
 
   C.clear();
-  C.add(4, 11);  
+  C.add(4, 11);
   C.add(2, 7);
   C.add(3, 9);
   C.add(4, 10);

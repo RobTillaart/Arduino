@@ -3,12 +3,13 @@ BOARD:  UNO
 
 correlation_performance.ino
 
-CORRELATION_LIB_VERSION: 0.3.0
-ADD
-12.20
+CORRELATION_LIB_VERSION: 0.3.3
 
-CALCULATE - needed 
-2768
+ADD
+11.80
+
+CALCULATE - needed
+2756
 
 CALCULATE - no new values added
 12
@@ -20,7 +21,7 @@ getEstimateY
 20
 
 getMaxX
-84
+88
 
 getMinX
 84
@@ -29,12 +30,12 @@ getMinX
 
 
 ADD - fill arrays again
-11.80
+12.00
 
 disable R2 and E2 math from calculate
 
-CALCULATE - needed 
-1776
+CALCULATE - needed
+1772
 
 CALCULATE - no new values added
 8

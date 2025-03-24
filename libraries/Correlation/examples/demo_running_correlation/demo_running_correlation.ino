@@ -13,11 +13,16 @@ Correlation C;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("CORRELATION_LIB_VERSION: ");
+  Serial.println(CORRELATION_LIB_VERSION);
+  Serial.println();
 
   //  when internal table is full, no new values are added
-  //  resulting in stabilization of the regression params A and B
+  //  resulting in stabilization of the regression parameters A and B
   C.clear();
   C.setRunningCorrelation(false);
   for (int i = 0; i <= 1000; i++)
@@ -28,8 +33,8 @@ void setup()
   Serial.println();
   Serial.println();
 
-  //  when internal table is full, values are overwritten and 
-  //  there is no stabilization of the regression params A and B
+  //  when internal table is full, values are overwritten and
+  //  there is no stabilization of the regression parameters A and B
   C.clear();
   C.setRunningCorrelation(true);
   for (int i = 0; i <= 1000; i++)

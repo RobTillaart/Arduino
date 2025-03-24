@@ -2,7 +2,7 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Calculate Correlation from a small dataset.
 //     URL: https://github.com/RobTillaart/Correlation
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.3.2"))
+#define CORRELATION_LIB_VERSION          (F("0.3.3"))
 
 
 class Correlation
@@ -21,6 +21,7 @@ public:
 
   //  returns true if the pair of values is added to internal array.
   //  returns false when internal array is full.
+  //  if runningMode is set, the oldest elements are overwritten.
   bool    add(float x, float y);
 
   //  administrative functions
@@ -36,7 +37,7 @@ public:
 
 
   //  worker, to calculate the correlation parameters.
-  //  MUST be called before retrieving the parameters 
+  //  MUST be called before retrieving the parameters.
   //      A, B, R, Rsquared, Esquared, avgX and avgY
   //
   //  parameter forced overrules the _needRecalculate flag.
@@ -71,10 +72,8 @@ public:
 
 
   //  get the average values of the datasets (if count > 0)
-  float   getAverageX() { return _avgX; };  //  will replace getAvgX() in time
-  float   getAverageY() { return _avgY; };  //  will replace getAvgY() in time
-  // float   getAvgX()  { return _avgX; };  //  obsolete in 0.3.0
-  // float   getAvgY()  { return _avgY; };  //  obsolete in 0.3.0
+  float   getAverageX() { return _averageX; };
+  float   getAverageY() { return _averageY; };
 
 
   //  based on the dataset get the estimated values for X and Y
@@ -99,9 +98,9 @@ public:
   float   getX(uint8_t index);    //  idem
   float   getY(uint8_t index);    //  idem
 
-  float   getSumXY();  //  replaces getSumXiYi()
-  float   getSumX2();  //  replaces getSumXi2()
-  float   getSumY2();  //  replaces getSumYi2()
+  float   getSumXY();  //  returns sum(xi*yi)
+  float   getSumX2();  //  returns sum(xi*xi)
+  float   getSumY2();  //  returns sum(yi*yi)
 
 
 private:
@@ -113,11 +112,13 @@ private:
   bool    _doE2 = true;
   bool    _doR2 = true;
 
+  //  pointers to allocated memory.
   float *  _x;
   float *  _y;
 
-  float   _avgX;
-  float   _avgY;
+  //  calculated values.
+  float   _averageX;
+  float   _averageY;
   float   _a;
   float   _b;
   float   _div_b;

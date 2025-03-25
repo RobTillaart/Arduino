@@ -3,7 +3,7 @@
 //    FILE: PCA9671.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-03-16
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the PCA9671, I2C 16-bit I/O expander
 //     URL: https://github.com/RobTillaart/PCA9671
 //          https://github.com/RobTillaart/PCF8575
@@ -18,7 +18,7 @@
 #include "Wire.h"
 
 
-#define PCA9671_LIB_VERSION         (F("0.1.0"))
+#define PCA9671_LIB_VERSION         (F("0.1.1"))
 
 
 #ifndef PCA9671_INITIAL_VALUE
@@ -55,13 +55,13 @@ public:
   uint16_t value();
 
 
-  //  WRITE
+  //       WRITE
   void     write16(const uint16_t value);
   void     write(const uint8_t pin, const uint8_t value);
   uint16_t valueOut();
 
 
-  //  READ BUTTON
+  //       READ BUTTON
   uint16_t readButton16();
   uint16_t readButton16(const uint16_t mask);
   uint8_t  readButton(const uint8_t pin);
@@ -79,13 +79,17 @@ public:
   void     reverse();
 
 
+  //       SELECT
   void     select(const uint8_t pin);
   void     selectN(const uint8_t pin);
   void     selectNone();
   void     selectAll();
 
-  //       DEBUG
+  //       MISCELLANEOUS
   int      lastError();
+
+  //  TODO get deviceID() working
+  uint32_t deviceID();
 
 
 private:
@@ -96,6 +100,17 @@ private:
   int      _error;
 
   TwoWire*  _wire;
+};
+
+
+////////////////////////////////////////////////////////
+//
+//  DERIVED PCA9673
+//
+class PCA9673 : public PCA9671
+{
+public:
+  PCA9673(uint8_t address, TwoWire *wire = &Wire);
 };
 
 

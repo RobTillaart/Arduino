@@ -14,7 +14,7 @@ uint32_t start, stop;
 
 void setup()
 {
-  while(!Serial);
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");

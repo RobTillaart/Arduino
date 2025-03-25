@@ -1,7 +1,7 @@
 {
   "name": "PCA9671",
   "keywords": "",
-  "description": "Arduino library for the PCA9671, I2C 16-bit I/O expander.",
+  "description": "Arduino library for the PCA9671 and PCA9673, I2C 16-bit I/O expander.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCA9671.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

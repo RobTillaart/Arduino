@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 PCA9671	KEYWORD1
+PCA9673	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -38,6 +39,8 @@ selectNone	KEYWORD2
 selectAll	KEYWORD2
 
 lastError	KEYWORD2
+
+deviceID	KEYWORD2
 
 
 # Constants (LITERAL1)

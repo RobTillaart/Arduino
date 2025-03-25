@@ -2,7 +2,7 @@
 //    FILE: PCA9671.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-03-16
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the PCA9671, I2C 16-bit I/O expander
 //     URL: https://github.com/RobTillaart/PCA9671
 
@@ -40,7 +40,7 @@ bool PCA9671::isConnected()
 
 bool PCA9671::setAddress(const uint8_t deviceAddress)
 {
-  if ((deviceAddress < 0x20) || (deviceAddress > 0x27)) return false;
+  //  no address testing due to very wide range.
   _address = deviceAddress;
   return isConnected();
 }
@@ -80,7 +80,7 @@ uint8_t PCA9671::read(const uint8_t pin)
 uint16_t PCA9671::value()
 {
   return _dataIn;
-};
+}
 
 
 void PCA9671::write16(const uint16_t value)
@@ -218,13 +218,13 @@ uint8_t PCA9671::readButton(const uint8_t pin)
 void PCA9671::setButtonMask(uint16_t mask)
 {
   _buttonMask = mask;
-};
+}
 
 
 uint16_t PCA9671::getButtonMask()
 {
   return _buttonMask;
-};
+}
 
 
 //////////////////////////////////////////////////
@@ -236,7 +236,7 @@ void PCA9671::select(const uint8_t pin)
   uint16_t n = 0x0000;
   if (pin < 16) n = 1L << pin;
   PCA9671::write16(n);
-};
+}
 
 
 void PCA9671::selectN(const uint8_t pin)
@@ -244,27 +244,77 @@ void PCA9671::selectN(const uint8_t pin)
   uint16_t n = 0xFFFF;
   if (pin < 16) n = (2L << pin) - 1;
   PCA9671::write16(n);
-};
+}
 
 
 void PCA9671::selectNone()
 {
   PCA9671::write16(0x0000);
-};
+}
 
 
 void PCA9671::selectAll()
 {
   PCA9671::write16(0xFFFF);
-};
+}
 
 
+//////////////////////////////////////////////////
+//
+//  MISCELLANEOUS
+//
 int PCA9671::lastError()
 {
   int e = _error;
   _error = PCA9671_OK;  //  reset error after read, is this wise?
   return e;
 }
+
+
+//  TODO get this working
+uint32_t PCA9671::deviceID()
+{
+  return -1;
+}
+//  not working code
+// uint32_t PCA9671::deviceID()
+// {
+  // uint8_t DEVICEID_ADDRESS = 0x7C;
+  // _wire->beginTransmission(DEVICEID_ADDRESS);
+  // _wire->write(_address);                  //  address of the PCA9671
+  // _error = _wire->endTransmission(false);  //  explicit send a restart.
+  // if (_error != 0)
+  // {
+    // _error = PCA9671_I2C_ERROR;
+    // return 0xFFFFFFFF;
+  // }
+  // if (_wire->requestFrom(DEVICEID_ADDRESS, (uint8_t)3) != 3)
+  // {
+    // _error = PCA9671_I2C_ERROR;
+    // return 0xFFFFFFFF;
+  // }
+  // _error = PCA9671_OK;
+  // uint32_t deviceId = _wire->read();
+  // deviceId <<= 8;
+  // deviceId |= _wire->read();
+  // deviceId <<= 8;
+  // deviceId |= _wire->read();
+  // return deviceId;
+// }
+
+
+
+////////////////////////////////////////////////////////
+//
+//  DERIVED PCA9673
+//
+PCA9673::PCA9673(uint8_t address, TwoWire *wire)
+        :PCA9671(address, wire)
+{
+  //  identical for now
+  //  PCA9673 has intererupt pin.
+}
+
 
 
 //  -- END OF FILE --

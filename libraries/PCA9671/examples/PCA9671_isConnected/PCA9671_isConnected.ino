@@ -8,12 +8,12 @@
 #include "PCA9671.h"
 
 //  adjust addresses if needed
-PCA9671 PCA(0x21);
+PCA9671 PCA(0x20);
 
 
 void setup()
 {
-  while(!Serial);
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");

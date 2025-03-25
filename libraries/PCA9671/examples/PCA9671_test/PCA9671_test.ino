@@ -49,7 +49,7 @@ void printHex(uint16_t x)
 
 void setup()
 {
-  while(!Serial);
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");

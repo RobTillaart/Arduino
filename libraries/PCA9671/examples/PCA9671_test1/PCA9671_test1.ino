@@ -1,5 +1,5 @@
 //
-//    FILE: PCA9671_test.ino
+//    FILE: test1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PCA9671
@@ -14,7 +14,7 @@ PCA9671 PCA_21(0x21);  //  add LEDs to lines      (used as output)
 
 void setup()
 {
-  while(!Serial);
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");

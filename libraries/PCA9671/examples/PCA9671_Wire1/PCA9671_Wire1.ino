@@ -8,7 +8,7 @@
 #include "PCA9671.h"
 
 //  adjust addresses if needed
-PCA9671 PCA(0x21, &Wire1);  //  or Wire2 if supported
+PCA9671 PCA(0x20, &Wire1);  //  or Wire2 if supported
 
 
 void doHigh()
@@ -40,7 +40,7 @@ void doToggle()
 
 void setup()
 {
-  while(!Serial);
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");

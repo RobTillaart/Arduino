@@ -26,6 +26,7 @@ The PCA9671 can have 64 I2C addresses, see datasheet.
 
 The PCA9671 does not have an interrupt pin, but a reset pin.
 This external reset pin is not (yet) supported by the library.
+Note: hardware pin 1 == interrupt (OUT) or reset (IN).
 
 Having 64 devices on one I2C bus would allow you to connect up to
 64 x 16 = 1024 IO lines.
@@ -33,43 +34,57 @@ Having 64 devices on one I2C bus would allow you to connect up to
 The library allows to read and write both single pins or 16 pins at once.
 Furthermore some additional functions are implemented that are playful and useful.
 
-Not tested with hardware yet.
+The library should work with the PCA9673 device, which is nearly identical.
+The difference is it has an INTerrupt pin instead of address pin 2,
+and thus less addresses.
+
+Warning: Not all functionality is tested with hardware, so use with care.
 
 Feedback as always is welcome.
 
 
-### Comparison PCF8575
+### Comparison PCF8575, PCA9671 and PCA9673
 
 Based upon data sheets.
 
-|  device   |  address  |  max I2C  |  interrupt  |  reset  |
-|:---------:|:---------:|:---------:|:-----------:|:-------:|
-|  PCF8575  |    8      |  400 KHz  |     Y       |    N    |
-|  PCA9671  |    64     |    1 MHz  |     N       |    Y    |
+|             |  PCF8575  |  PCA9671  |  PCA9673  |  Notes  |
+|:------------|:---------:|:---------:|:---------:|:-------:|
+|  address    |     8     |    64     |    16     |
+|  max I2C    |  400 KHz  |   1 MHz   |   1 MHz   |
+|  interrupt  |     Y     |     N     |     Y     |
+|  reset-pin  |     N     |     Y     |     Y     |
+|  SW-reset   |     N     |     Y     |     Y     |
+|  deviceID   |     N     |     Y     |     Y     |  not working yet
+|             |           |           |           |
+
+The library does not implement the SW-reset call, see sections below.
+
+The deviceID call is under investigation how to get it to work.
 
 
 ### Related
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO LINES
-- https://github.com/RobTillaart/MCP23S17  SPI 16 IO LINES
-- https://github.com/RobTillaart/PCF8575  I2C 16 IO LINES
-- https://github.com/RobTillaart/PCA9671  I2C 16 IO LINES - successor PCF8575
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
 
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines
-- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines
-- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
 
 
 ## I2C
 
 The device has 64 possible addresses.
 
-See datasheet.
+See datasheet page 6, 7.1.1 Address maps.
+
 
 ### Performance
 
@@ -93,6 +108,33 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
+## Reset
+
+The PCA9671 has a RESET pin (pin 1) to reset the device to power on state.
+
+To reset the device one needs to set the RESET pin LOW for at least 4 us.
+The reset process itself takes about 100us, see datasheet page 20 and fig 22.
+
+The RESET can de-align the internal state so be aware you might need to 
+call e.g. **read16()** or **select()** after reset.
+
+
+### Software Reset Call
+
+All PCA9671's on an I2C bus will respond to the **Software Reset Call** 
+(SWRST = 0x0006). So they will react if a SWRST is sent to other devices too.
+Details see data sheet, page 9.
+
+TODO: test SWRST with https://github.com/RobTillaart/I2C_SCANNER
+
+
+## Device ID
+
+**Experimental**
+
+TODO: test with hardware.
+
+
 ## Interface
 
 ```cpp
@@ -108,6 +150,7 @@ the include of "PCA9671.h" to overrule the default value used with the
 
 - **PCA9671(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with the optional 
 I2C device address, default 0x20, and the optional Wire interface as parameter.
+- **PCA9673(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
 - **bool begin(uint8_t value = PCA9671_INITIAL_VALUE)** set the initial value for the pins and masks.
 Returns true if device address is visible on the I2C bus.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
@@ -125,7 +168,7 @@ Returns true if address can be found on I2C bus.
 - **uint8_t read(uint8_t pin)** reads a single pin; pin = 0..15.
 - **uint16_t value()** returns the last read inputs again, as this information is buffered 
 in the class this is faster than reread the pins.
-- **void write16(uint16_t value)** writes all 16 pins at once. This one does the actual reading.
+- **void write16(uint16_t value)** writes all 16 pins at once. This one does the actual writing.
 - **void write(uint8_t pin, uint8_t value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0).
 - **uint16_t valueOut()** returns the last written data.
 
@@ -176,6 +219,25 @@ This can typical be used to implement a VU meter.
 ### Miscellaneous
 
 - **int lastError()** returns the last error from the lib. (see .h file).
+
+
+### DeviceID
+
+- **uint32_t deviceID()** experimental (not working yet). Datasheet page 10.
+Returns 24 bits, see table.
+
+|   bits   |  meaning       |  notes  |
+|:--------:|:---------------|:--------|
+|  00..02  |  Revision      |
+|  03..08  |  Feature       |  datasheet uses P and F
+|  09..15  |  Category      |
+|  16..23  |  Manufacturer  |  no details known
+
+This function is under investigation to get it working.
+For now the function is hardcoded to return 0xFFFFFFFF.
+Failing test code is commented in cpp file.
+
+Feedback / solutions welcome.
 
 
 ## Error codes

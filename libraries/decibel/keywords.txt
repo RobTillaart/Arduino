@@ -1,0 +1,18 @@
+# Syntax Colouring Map For decibel
+
+# Data types (KEYWORD1)
+decibel	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+decibel	KEYWORD2
+inverseDecibel	KEYWORD2
+
+decibelFast	KEYWORD2
+
+
+
+# Constants (LITERAL1)
+DECIBEL_LIB_VERSION	LITERAL1
+

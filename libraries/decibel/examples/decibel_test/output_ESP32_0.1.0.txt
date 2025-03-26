@@ -1,0 +1,13 @@
+BOARD:    ESP32
+IDE:      1.8.19
+
+decibel_test.ino
+
+decibel(-a):	13375	6.989700
+decibel(0):	1989	inf
+decibel(a):	13298	6.989700
+dBFast(a)	458	6.988791
+inverse(x):	11773	5.000000
+6.989700
+-5.000000
+

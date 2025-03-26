@@ -1,0 +1,14 @@
+BOARD:    UNO
+IDE:      1.8.19
+
+decibel_test.ino
+
+decibel(-a):	174160	6.989700
+decibel(0):	780	inf
+decibel(a):	174284	6.989700
+dBFast(a)	76512	6.988791
+inverse(x):	200880	5.000000
+6.989700
+-5.000000
+
+

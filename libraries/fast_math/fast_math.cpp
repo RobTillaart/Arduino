@@ -1,7 +1,7 @@
 //
 //    FILE: fast_math.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -368,6 +368,65 @@ float ping2inch_tempF(uint16_t duration, int Fahrenheit )
   //  return duration * (0.013049 + (Fahrenheit - 32) * (5.0/9.0) * (0.013049 / 546.0));
   return duration * (0.013049 + (Fahrenheit - 32) * ((5.0/9.0) * (0.013049 / 546.0)));
 }
+
+
+///////////////////////////////////////////////////////////
+//
+//  FAST LOG2 + LOG10 + LOG
+//
+//  from: https://openaudio.blogspot.com/2017/02/faster-log10-and-pow.html
+//        and several other places.
+//  fast approximation for log2()
+//  y = C[0]*f*f*f + C[1]*f*f + C[2]*f + C[3] + exponent;
+float fastLog2(float x)
+{
+  int exponent;
+  float value = frexpf(fabsf(x), &exponent);
+  float y = 1.23149591368684f;
+  y *= value;
+  y += -4.11852516267426f;
+  y *= value;
+  y += 6.02197014179219f;
+  y *= value;
+  y += -3.13396450166353f;
+  y += exponent;
+  return y;
+}
+
+
+//  log10(x) = log2(x) * 0.3010299956639812f  //  log10(2).
+float fastLog10(float x)
+{
+  int exponent;
+  float value = frexpf(fabsf(x), &exponent);
+  float y = 1.23149591368684f;
+  y *= value;
+  y += -4.11852516267426f;
+  y *= value;
+  y += 6.02197014179219f;
+  y *= value;
+  y += -3.13396450166353f;
+  y += exponent;
+  return y * 0.3010299956639812f;
+}
+
+
+//  log(x) = log2(x) * 0,6931471805599453f  //  log(2)
+float fastLog(float x)
+{
+  int exponent;
+  float value = frexpf(fabsf(x), &exponent);
+  float y = 1.23149591368684f;
+  y *= value;
+  y += -4.11852516267426f;
+  y *= value;
+  y += 6.02197014179219f;
+  y *= value;
+  y += -3.13396450166353f;
+  y += exponent;
+  return y * 0.6931471805599453f;
+}
+
 
 
 ///////////////////////////////////////////////////////////

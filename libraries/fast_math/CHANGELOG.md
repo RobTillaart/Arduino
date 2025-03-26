@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2025-03-25
+- add fastLog2(), fastLog10(), fastLog()
+- add example
+- update readme.md
+- minor edits
+
+
 ## [0.2.3] - 2024-01-03
 - fix typos examples
 - minor edits 

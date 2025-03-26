@@ -33,7 +33,7 @@ Also improvements or other fast code is welcome. Please open an issue.
 #### Related
 
 - https://github.com/RobTillaart/fastTrig Gonio functions (less exact but faster)
-
+- https://github.com/RobTillaart?tab=repositories&q=math
 
 ## Interface
 
@@ -137,18 +137,18 @@ Imperial
 - **uint16_t ping2sixteenths(uint16_t in)**
 
 
-Indicative performance Arduino UNO.
+Indicative performance Arduino UNO (0.2.1) and ESP32 (0.2.4).
 
-|  function         |   us   |  factor  |  notes  |
-|:------------------|:------:|:--------:|:--------|
-|  us / 29  (ref)   |  38.3  |    1.0   | sos == 345 m/s  (integer only)
-|  us \* 0.0345     |  18.5  |    2.0   | sos == 345 m/s
-|  ping2cm          |  3.08  |   12.4   | sos == 340 m/s
-|  ping2mm          |  5.66  |    6.7   | sos == 340 m/s
-|                   |        |          |
-|  ping2inch        |  4.34  |    8.8   | not precise as inches are rather large units
-|  ping2quarter     |  7.55  |    5.0   | in between
-|  ping2sixteenths  |  8.55  |    4.4   | way more accurate than inches
+|  function         |   us   |  factor  |   us   |  factor  |  notes  |
+|:------------------|:------:|:--------:|:------:|:--------:|:--------|
+|  us / 29  (ref)   |  38.3  |    1.0   |  2.91  |    1.0   | sos == 345 m/s  (integer only)
+|  us \* 0.0345     |  18.5  |    2.0   |  0.73  |    3.9   | sos == 345 m/s
+|  ping2cm          |  3.08  |   12.4   |  0.13  |   22.3   | sos == 340 m/s
+|  ping2mm          |  5.66  |    6.7   |  0.13  |   22.3   | sos == 340 m/s
+|                   |        |          |        |          |
+|  ping2inch        |  4.34  |    8.8   |  0.13  |   22.3   | not precise as inches are rather large units
+|  ping2quarter     |  7.55  |    5.0   |  0.14  |   20.7   | in between
+|  ping2sixteenths  |  8.55  |    4.4   |  0.15  |   19.4   | way more accurate than inches
 
 
 #### Temperature corrected
@@ -189,6 +189,27 @@ a curve for a polynome of degree N. See example.
 
 Another application can be to implement a calibration / offset function that
 can be tuned (runtime).
+
+
+### Log2, log10, log
+
+Less accurate and expect to be at least 2 times faster, check if the accuracy 
+and range matches the requirements of your project.
+
+- **fastLog2(float value)** idem, "base" function for fastLog10() and fastLog()
+- **fastLog10(float value)** idem.
+- **fastLog(float value)** Natural Logarithm, inverse of exp()
+
+Indicative performance measured on Arduino UNO and ESP32 (0.2.4)
+
+|  function   |   us   |  factor  |   us   |  factor  |  notes  |
+|:------------|:------:|:--------:|:------:|:--------:|:--------|
+|  log2       |   200  |    1.0   |    74  |    1.0   |  log2(x) = log10(x) x (1 / log10(2));
+|  fastLog2   |    68  |    2.9   |    14  |    5.2   |  as log2() is emulated this factor is too high
+|  log10      |   168  |    1.0   |    16  |    1.0   |
+|  fastLog10  |    76  |    2.2   |     6  |    2.6   |
+|  log        |   160  |    1.0   |    16  |    1.0   |
+|  fastLog    |    76  |    2.1   |     5  |    3.2   |
 
 
 ## Future

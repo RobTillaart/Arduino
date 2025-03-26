@@ -35,6 +35,17 @@ void setup()
   Serial.println((stop - start) / 10000.0, 4);
   delay(10);
 
+  Serial.print("pingRef\t");
+  delay(10);
+  start = micros();
+  for (uint16_t i = 0; i < 10000; i++)
+  {
+    q = i * (1 / 29.41176);
+  }
+  stop = micros();
+  Serial.println((stop - start) / 10000.0, 4);
+  delay(10);
+
   Serial.print("ping2cm\t");
   delay(10);
   start = micros();

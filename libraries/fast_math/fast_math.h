@@ -2,7 +2,7 @@
 //
 //    FILE: fast_math.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -16,7 +16,7 @@
 #include "Arduino.h"
 #endif
 
-#define FASTMATH_LIB_VERSION          (F("0.2.3"))
+#define FASTMATH_LIB_VERSION          (F("0.2.4"))
 
 
 #ifdef __cplusplus
@@ -99,6 +99,23 @@ uint32_t ping2mm32(uint32_t in);
 float ping2cm_tempC(uint16_t duration, int Celsius);
 float ping2inch_tempC(uint16_t duration, int Celsius);
 float ping2inch_tempF(uint16_t duration, int Fahrenheit);
+
+
+//////////////////////////////////////////////////////////
+//
+//  FAST LOG2 + LOG10 + LOG
+//
+//  from: https://openaudio.blogspot.com/2017/02/faster-log10-and-pow.html
+//        and several other places.
+//  fast approximation for log2() with 3rd degree polynome
+//  y = C[0]*f*f*f + C[1]*f*f + C[2]*f + C[3] + exponent;
+float fastLog2(float x);
+
+//  log10(x) = log2(x) * 0.3010299956639812f  //  log10(2)
+float fastLog10(float x);
+
+//  log(x) = log2(x) * 0.6931471805599453f    //  log(2)
+float fastLog(float x);
 
 
 #ifdef __cplusplus

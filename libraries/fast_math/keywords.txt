@@ -34,6 +34,10 @@ ping2cm_tempC	KEYWORD2
 ping2inch_tempC	KEYWORD2
 ping2inch_tempF	KEYWORD2
 
+fastLog2	KEYWORD2
+fastLog10	KEYWORD2
+fastLog	KEYWORD2
+
 
 # Constants (LITERAL1)
 FASTMATH_LIB_VERSION	LITERAL1

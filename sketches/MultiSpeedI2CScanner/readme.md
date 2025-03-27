@@ -17,7 +17,7 @@ not used.
 # Arduino MultiSpeed I2C Scanner
 
 
-## Version: 0.1.17
+## Version: 0.2.0
 
 
 ## Description
@@ -29,7 +29,21 @@ The scanner provides an overview of which addresses can be found
 at which speed. This allows one to optimize the I2C performance of
 many devices above the standard 100KHz speed.
 
-#### Related
+### I2C TIMEOUT
+
+Since version 0.2.0 the MultiSpeed I2C Scanner has a time out
+of default 25 milliseconds on the I2C transactions. 
+This feature prevents locking of the I2C scanner and is large 
+enough even for low I2C speeds.
+
+Not all platforms support the I2C timeout, so it is implemented
+conditional.
+
+Set the value of **I2C_TIMEOUT** to zero to disable it.
+Note this is not a menu option and must be done compile time (for now).
+
+
+### Related
 
 build your own I2C scanner with:
 - https://github.com/RobTillaart/I2C_SCANNER
@@ -54,6 +68,7 @@ Output:
 	p = toggle printAll - printFound.
 	h = toggle header - noHeader.
 	a = toggle address range, 0..127 - 8..119 (default)
+	e = toggle . or errorCode e.g. E02
 Speeds:
 	0 = 100..800 KHz - step 100  (warning - can block!!)
 	1 = 100 KHz
@@ -106,6 +121,26 @@ PrintFound will only generate a line if an I2C device is found on that address.
 **a** toggles the range of addresses scanned, default the range 8 .. 119 is scanned,
 but one can extend this range to 0 .. 127. **Note:** some addresses are reserved.
 
+Experimental in 0.2.0
+
+**e** toggles the output between . and the code returned by **endTransmission()**.
+When an device is found it will print OK. Might help for diagnosis, but one need
+to dive in the source code of the board. See table below for AVR.
+
+#### ErrorCodes AVR 
+
+Based on twi_writeTo(), other boards might have different codes.
+
+```
+Value  Meaning
+  0 .. success
+E01 .. length to long for buffer
+E02 .. address send, NACK received
+E03 .. data send, NACK received
+E04 .. other twi error (lost bus arbitration, bus error, ..)
+E05 .. timeout
+```
+
 
 ### Speeds
 
@@ -125,18 +160,22 @@ Check your datasheet to see which speeds are applicable for the processor in use
 #### Must
 
 - update documentation
-- test on RP2040
+- test on RP2040 and other platforms.
 
 #### Should
 
+
 #### Could
 
-- add watchdog reset (at least AVR - 8 seconds 0.2.0 )
+- add "T" command to toggle I2C_TIMEOUT 0 - 25000 ?
 - non-AVR command behind a ```#ifdef``` ?
-- rename releaseNotes.md to changelog.md (in line with libraries)
 - I2C GENERIC RESET address 0x00 CMD 0x06
+- I2C GENERIC DEVICEID -> under investigation in PCA9671
+
 
 #### Wont
+
+- add watchdog reset (at least AVR - 8 seconds 0.2.0 )  => solved with I2C_TIMEOUT.
 
 
 ## Support

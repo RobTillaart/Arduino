@@ -11,7 +11,7 @@
 
 # I2C_SCANNER
 
-Arduino class to implement an I2C scanner.
+Arduino library to implement an I2C scanner.
 
 
 ## Description
@@ -33,7 +33,7 @@ The user may use other values for address at his own risk.
 If there is missing functionality in this library, please file an issue.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -42,7 +42,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Testing
+### Testing
 
 The library is tested with the following boards:
 
@@ -57,8 +57,10 @@ The library is tested with the following boards:
 Please file an issue if your board does work (or not).
 
 
-#### Related
+### Related
 
+- https://github.com/RobTillaart/I2C_SCANNER
+- https://github.com/RobTillaart/I2C_SOFTRESET
 - https://github.com/RobTillaart/MultiSpeedI2CScanner
 
 
@@ -68,13 +70,13 @@ Please file an issue if your board does work (or not).
 #include "I2C_SCANNER.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **I2C_SCANNER(TwoWire \*wire = &Wire)** Constructor with the default Wire I2C bus.
 - **bool begin()** To start the Wire library.
 
 
-#### Configuration
+### Configuration
 
 - **bool setClock(uint32_t clockFrequency = 100000UL)** sets the speed of the I2C bus.
 Returns true.
@@ -90,7 +92,7 @@ The number n should not exceed the value returned by **getWireCount()**
 - **TwoWire \* getWire()** returns the Wire object set.
 
 
-#### Scanning
+### Scanning
 
 - **uint16_t ping(uint8_t address, uint16_t count = 1)** Tries to make contact with I2C address.
 Returns the number of successful "contacts / connections" with the address.
@@ -107,7 +109,7 @@ Returns time used in micros. Returns a negative time (< 0) if failed to contact.
 Includes start and end address too. Returns the number of addresses found.
 
 
-#### Reset
+### Reset
 
 (needs testing)
 
@@ -122,7 +124,7 @@ The value -999 indicates invalid method selected.
 Other are I2C specific error codes.
 
 
-#### Timeout
+### Timeout
 
 Experimental
 
@@ -130,6 +132,26 @@ Not all platforms support this functionality, you need to patch I2C_SCANNER.cpp 
 this working for your platform.
 - **bool setWireTimeout(uint32_t timeOut)**
 - **uint32_t getWireTimeout()**
+
+
+### getDeviceID
+
+Experimental (to be confirmed)
+
+- **uint32_t getDeviceID(uint8_t address)** Returns 24 bits, see table below.
+Returns 0xFFxxxxxx in case of an error, board dependent.
+
+|   bits   |  meaning       |  notes  |
+|:--------:|:---------------|:--------|
+|  00..02  |  Revision      |
+|  03..08  |  Feature       |
+|  09..15  |  Category      |
+|  16..23  |  Manufacturer  |  no details known
+|  24..31  |  error flag    |  0xFFxxxxxx
+
+TODO: need to be split, or helper functions e.g. **uint8_t revision()**
+
+No known fields yet.
 
 
 ## Future ideas
@@ -140,14 +162,10 @@ this working for your platform.
 
 #### Should
 
-- add examples.
-- add **setWireTimeOut(uint32_t timeout, bool reset_with_timeout = true)**
-  - portable? clear? reset? default?
-  - needs to be set for every Wire interface
-  - ESP8266 does have a **setClockStretchLimit(timeout)**
 
 #### Could
 
+- investigate ESP8266 does have a **setClockStretchLimit(timeout)**
 - add **bool hardwareReset()** 
   - keep data HIGH for X clock pulses - google this.
   - (needs investigation)

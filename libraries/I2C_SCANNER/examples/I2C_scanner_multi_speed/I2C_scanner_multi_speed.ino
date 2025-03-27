@@ -20,32 +20,33 @@ void setup()
   Serial.println();
 
   Wire.begin();
-  Wire.setClock(100000);
 
   scanner.begin();
+  scanner.setClock(100000);
+  scanner.setWireTimeout(25000, false);
 
   for (int addr = 0; addr < 128; addr++)
   {
-    Wire.setClock(100000);
+    scanner.setClock(100000);
     int x = scanner.ping(addr);
     Serial.print(addr, HEX);
     Serial.print("\t");
     Serial.print(addr);
     Serial.print("\t");
     Serial.println(x);
-    if (x == 0)
+    if (x >= 1)
     {
-      for (uint32_t cl = 100000; cl <= 600000; cl += 50000)
+      for (uint32_t clock = 100000; clock <= 600000; clock += 50000)
       {
-        Wire.setClock(cl);
+        scanner.setClock(clock);
         Serial.print("\t");
-        Serial.print(cl);
+        Serial.print(clock);
         Serial.print("\t");
-        Serial.println(scanner.ping(addr));
+        Serial.println(scanner.ping(addr, 4));  //  how much success of 4 pings?
       }
     }
   }
-  Wire.setClock(100000);
+  scanner.setClock(100000);
 }
 
 

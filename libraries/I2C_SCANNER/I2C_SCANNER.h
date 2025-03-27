@@ -2,15 +2,16 @@
 //
 //    FILE: I2C_SCANNER.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2022-08-29
 // PURPOSE: Arduino class to implement an I2C scanner.
+//     URL: https://github.com/RobTillaart/I2C_SCANNER
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
-#define I2C_SCANNER_LIB_VERSION        (F("0.3.0"))
+#define I2C_SCANNER_LIB_VERSION        (F("0.3.1"))
 
 
 class I2C_SCANNER
@@ -49,8 +50,23 @@ public:
   //  EXPERIMENTAL.
   //  not all platforms support this function.
   //  patch .cpp file to get this working for your platform.
-  bool     setWireTimeout(uint32_t timeOut);
+  //  timeout in microseconds, 
+  //  set timeOut = 0 to disable
+  //  reset == reset on timeout.
+  bool     setWireTimeout(uint32_t timeOut, bool reset = false);
   uint32_t getWireTimeout();
+
+
+  //  EXPERIMENTAL.
+  //  will this works for non default I2C -> Wire1 etc
+  //  https://forum.arduino.cc/t/i2c-ina219-on-pico-w-esp32s3/1362956
+  //  int      getSDA() { return SDA; };
+  //  int      getSCL() { return SCL; };
+
+  //  EXPERIMENTAL
+  //  24 bit values == OK
+  //  0xFFxxxxxx == errorCode (to be elaborated)
+  uint32_t getDeviceID(uint8_t address);
 
 
 private:

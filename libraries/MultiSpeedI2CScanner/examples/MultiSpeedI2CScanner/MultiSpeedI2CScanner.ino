@@ -1,7 +1,7 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.17
+// VERSION: 0.2.0
 // PURPOSE: I2C scanner at different speeds
 //    DATE: 2013-11-05
 //     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
@@ -12,13 +12,16 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+
 //  FOR INTERNAL I2C BUS NANO 33 BLE
 //  #define WIRE_IMPLEMENT_WIRE1 1
 //  extern TwoWire Wire1;
 
+
 TwoWire *wire;
 
-const char version[] = "0.1.16";
+
+const char version[] = "0.2.0";
 
 
 //  INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)
@@ -47,6 +50,7 @@ bool delayFlag = false;
 //  MINIMIZE OUTPUT
 bool printAll = true;
 bool header = true;
+bool errorCode = false;
 bool disableIRQ = false;
 
 
@@ -60,6 +64,12 @@ states state = STOP;
 //  TIMING
 uint32_t startScan;
 uint32_t stopScan;
+
+
+//  I2C TIMEOUT in microseconds.
+//  set to zero to disable.
+uint32_t I2C_TIMEOUT = 25000;
+
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -101,6 +111,9 @@ void setup()
 #endif
 
   wire = &Wire;
+#if defined(WIRE_HAS_TIMEOUT)
+      wire->setWireTimeout(I2C_TIMEOUT, false /* NO RESET */);
+#endif
 
   Serial.println();
   reset();
@@ -149,6 +162,9 @@ void loop()
           break;
 #endif
       }
+#if defined(WIRE_HAS_TIMEOUT)
+      wire->setWireTimeout(I2C_TIMEOUT, false /* NO RESET */);
+#endif
       break;
 
     case 's':
@@ -164,7 +180,9 @@ void loop()
       break;
 
     case 'e':
-      // eeprom test TODO
+      errorCode = !errorCode;
+      Serial.print(F("<errorCode="));
+      Serial.println(errorCode ? F("yes>") : F("no>"));
       break;
 
     case 'h':
@@ -241,10 +259,11 @@ void reset()
   selectedWirePort = 0;
   addressStart     = 8;
   addressEnd       = 119;
-  
+
   delayFlag  = false;
   printAll   = true;
   header     = true;
+  errorCode  = false;
   disableIRQ = false;
 
   state = STOP;
@@ -368,6 +387,7 @@ void displayHelp()
   Serial.println(F("\tp = toggle printAll - printFound."));
   Serial.println(F("\th = toggle header - noHeader."));
   Serial.println(F("\ta = toggle address range, 0..127 - 8..119 (default)"));
+  Serial.println(F("\te = toggle . or errorCode e.g. E02"));
 
   Serial.println(F("Speeds:"));
   Serial.println(F("\t0 = 100..800 KHz - step 100  (warning - can block!!)"));
@@ -418,7 +438,7 @@ void I2Cscan()
   for (uint8_t address = addressStart; address <= addressEnd; address++)
   {
     bool printLine = printAll;
-    bool found[speeds];
+    char found[speeds][8];
     bool fnd = false;
 
     for (uint8_t s = 0; s < speeds ; s++)
@@ -438,8 +458,14 @@ void I2Cscan()
       wire->setClock(speed[s] * 1000UL);
 #endif
       wire->beginTransmission (address);
-      found[s] = (wire->endTransmission () == 0);
-      fnd |= found[s];
+      int code = wire->endTransmission();
+      fnd |= (code == 0);
+      if (code == 0) strcpy(found[s], "OK");
+      else
+      {
+        if (errorCode) sprintf(found[s], "E%02d", code);
+        else strcpy(found[s], ".");
+      }
       // give device 5 millis
       if (fnd && delayFlag) delay(RESTORE_LATENCY);
     }
@@ -460,31 +486,31 @@ void I2Cscan()
       for (uint8_t s = 0; s < speeds ; s++)
       {
         Serial.print(F("\t"));
-        Serial.print(found[s] ? F("V") : F("."));
+        Serial.print(found[s]);
       }
       Serial.println();
     }
   }
 
-/*
-  //  FOOTER
-  if (header)
-  {
-    for (uint8_t s = 0; s < speeds + 5; s++)
+  /*
+    //  FOOTER
+    if (header)
     {
-      Serial.print(F("--------"));
-    }
-    Serial.println();
+      for (uint8_t s = 0; s < speeds + 5; s++)
+      {
+        Serial.print(F("--------"));
+      }
+      Serial.println();
 
-    Serial.print(F("TIME\tDEC\tHEX\t"));
-    for (uint8_t s = 0; s < speeds; s++)
-    {
-      Serial.print(F("\t"));
-      Serial.print(speed[s]);
+      Serial.print(F("TIME\tDEC\tHEX\t"));
+      for (uint8_t s = 0; s < speeds; s++)
+      {
+        Serial.print(F("\t"));
+        Serial.print(speed[s]);
+      }
+      Serial.println(F("\t[KHz]"));
     }
-    Serial.println(F("\t[KHz]"));
-  }
-*/
+  */
 
   stopScan = millis();
   if (header)
@@ -501,4 +527,3 @@ void I2Cscan()
 
 
 // -- END OF FILE --
-

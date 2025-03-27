@@ -23,6 +23,12 @@ count	KEYWORD2
 setWireTimeout	KEYWORD2
 getWireTimeout	KEYWORD2
 
+#if supported they get highlighted
+getSDA	KEYWORD2
+getSCL	KEYWORD2
+
+getDeviceID	KEYWORD2
+
 
 # Constants (LITERAL1)
 I2C_SCANNER_LIB_VERSION	LITERAL1

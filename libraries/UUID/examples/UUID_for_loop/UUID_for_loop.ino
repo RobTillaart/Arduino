@@ -1,14 +1,12 @@
 //
-//    FILE: UUID_minimum.ino
+//    FILE: UUID_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo - will generate same UUID's  (no external entropy)
+// PURPOSE: demo different initialization in a loop
 //     URL: https://github.com/RobTillaart/UUID
 
 
 #include "Arduino.h"
 #include "UUID.h"
-
-UUID uuid;
 
 
 void setup()
@@ -26,10 +24,15 @@ void setup()
 
 void loop()
 {
-  uuid.generate();
-  Serial.print("UUID: ");
-  Serial.println(uuid);
-  delay(100);
+  //  UUID initializes differently every loop.
+  for (int i = 0; i < 5; i++)
+  {
+    UUID uuid;
+    Serial.print("UUID: ");
+    Serial.println(uuid);
+    // delay(100);
+  }
+  Serial.println();
 }
 
 

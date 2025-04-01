@@ -1,5 +1,5 @@
 //
-//    FILE: UUID_random_ESP32.ino
+//    FILE: GUID_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/UUID
@@ -8,9 +8,10 @@
 #include "Arduino.h"
 #include "UUID.h"
 
-UUID uuid;
 
-uint32_t start, stop;
+GUID guid;
+
+uint32_t start, stop, randomtime;
 
 
 void setup()
@@ -23,22 +24,18 @@ void setup()
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
   Serial.println();
-
-  uint32_t seed1 = random(999999999);
-  uint32_t seed2 = random(999999999);
-  Serial.println(seed1, HEX);
-  Serial.println(seed2, HEX);
-
+  delay(100);
+  
   start = micros();
-  uuid.seed(seed1, seed2);
+  guid.seed(2);
   stop = micros();
 
-  Serial.print("  seed time: ");
+  Serial.print("       seed: ");
   Serial.println(stop - start);
   delay(100);
 
   start = micros();
-  uuid.generate();
+  guid.generate();
   stop = micros();
 
   Serial.print("   generate: ");
@@ -46,23 +43,23 @@ void setup()
   delay(100);
 
   start = micros();
-  uuid.toCharArray();
+  guid.toCharArray();
   stop = micros();
 
   Serial.print("toCharArray: ");
   Serial.println(stop - start);
   delay(100);
 
-  Serial.print("UUID: ");
-  Serial.println(uuid);
+  Serial.print("GUID: ");
+  Serial.println(guid);
 }
 
 
 void loop()
 {
-  uuid.generate();
-  Serial.print("UUID: ");
-  Serial.println(uuid);
+  guid.generate();
+  Serial.print("GUID: ");
+  Serial.println(guid);
   delay(1000);
 }
 

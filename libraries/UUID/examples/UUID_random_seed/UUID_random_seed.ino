@@ -1,16 +1,16 @@
 //
 //    FILE: UUID_random_seed.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo randomize seed
+//     URL: https://github.com/RobTillaart/UUID
 
 
 #include "Arduino.h"
 #include "UUID.h"
 
-
 UUID uuid;
 
-uint32_t start, stop, randomtime;
+uint32_t start, stop;
 
 
 void setup()
@@ -19,9 +19,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("UUID_test.ino");
+  Serial.println(__FILE__);
   Serial.print("UUID_LIB_VERSION: ");
   Serial.println(UUID_LIB_VERSION);
+  Serial.println();
 
   uint32_t seedling = extractEntropy();
   Serial.println(seedling, HEX);

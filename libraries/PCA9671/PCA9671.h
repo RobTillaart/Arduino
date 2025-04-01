@@ -3,12 +3,12 @@
 //    FILE: PCA9671.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-03-16
-// VERSION: 0.1.1
-// PURPOSE: Arduino library for the PCA9671, I2C 16-bit I/O expander
+// VERSION: 0.1.2
+// PURPOSE: Arduino library for the PCA9671 and PCA9673, I2C 16-bit I/O expander.
 //     URL: https://github.com/RobTillaart/PCA9671
 //          https://github.com/RobTillaart/PCF8575
 //
-//  The PCA9671 is an pin compatible replacement for the PCF8575
+//  The PCA9671 is a pin compatible replacement for the PCF8575
 //  so the API is 100% based upon the PCF8575 library.
 //  the only difference is that the interrupt pin is
 //  replaced by an external reset pin.
@@ -18,7 +18,7 @@
 #include "Wire.h"
 
 
-#define PCA9671_LIB_VERSION         (F("0.1.1"))
+#define PCA9671_LIB_VERSION         (F("0.1.2"))
 
 
 #ifndef PCA9671_INITIAL_VALUE
@@ -87,8 +87,6 @@ public:
 
   //       MISCELLANEOUS
   int      lastError();
-
-  //  TODO get deviceID() working
   uint32_t deviceID();
 
 

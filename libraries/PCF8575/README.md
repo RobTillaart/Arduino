@@ -30,15 +30,17 @@ So you can connect up to 8 PCF8575 on one I2C bus, giving access
 to 8 x 16 = 128 IO lines. 
 To maximize IO lines combine 8 x PCF8575 + 8 x PCF8574A giving
 128 + 64 = 192 IO lines. 
-Be sure to have a well dimensioned power supply.
+Be aware that you might need an appropriate power supply to have all of them
+working properly.
 
-The library allows to read and write both single pins or 16 pins at once.
+The library allows to read and write both single pins or 16 pins in one call.
+Be aware that the 16 bits interface actually writes 2 times 8 pins.
 Furthermore some additional functions are implemented that are playful and useful.
 
 Related to the PCF8574 8 channel IO expander library  https://github.com/RobTillaart/PCF8574.
 
 
-#### Interrupts intro
+### Interrupts intro
 
 The PCF8575 has an interrupt output line (INT) to notify an MCU that one of the input lines has changed.
 This can be used to prevent active polling of the PCF8574, which can be more efficient.
@@ -63,7 +65,7 @@ In practice if you have faster polling than your signals changes this would not
 be a problem. E.g. tactile switches and a polling frequency > 100 Hz will work.
 
 
-#### Interrupts library
+### Interrupts library
 
 The library cannot handle the PCF8575 interrupts as it has no code for it. 
 The user should catch the interrupt in his own code to set a flag and can use 
@@ -84,7 +86,7 @@ A minimal example that shows catching missed interrupts:
 - **PCF8575_interrupt_advanced.ino**
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -93,23 +95,45 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Comparison PCF8575, PCA9671 and PCA9673
+
+Based upon data sheets. PCA967x is a follow up replacement.
+
+|             |  PCF8575  |  PCA9671  |  PCA9673  |  Notes  |
+|:------------|:---------:|:---------:|:---------:|:-------:|
+|  address    |     8     |    64     |    16     |
+|  max I2C    |  400 KHz  |   1 MHz   |   1 MHz   |
+|  interrupt  |   Y (1)   |     N     |   Y (1)   |  (1) = pin nr
+|  reset-pin  |     N     |   Y (1)   |   Y (3)   |  (3) = pin nr
+|  SW-reset   |     N     |     Y     |     Y     |  see section below.
+|  deviceID   |     N     |     Y     |     Y     |  see section below.
+|             |           |           |           |
+
+
+### Related
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17
-- https://github.com/RobTillaart/PCF8575
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
 
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08
-- https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
 
 
-## I2C Clock
+## I2C
+
+The device has 8 possible addresses.
+
+See datasheet.
+
+### Performance
 
 Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
 These values are outside the specs of the datasheet so they are not recommended.
@@ -129,6 +153,24 @@ TODO test to fill the table
 |  800000     | crash  |  crash  |  not recommended    |
 
 
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
+to eight channels (think of it as I2C subnets) which can use the complete 
+address range of the device. 
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices 
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 ## Interface
 
 ```cpp
@@ -136,36 +178,37 @@ TODO test to fill the table
 ```
 
 **PCF8575_INITIAL_VALUE** is a define that can be set compile time or before
-the include of "pcf8575.h" to overrule the default value used with the 
+the include of "PCF8575.h" to overrule the default value used with the 
 **begin()** call.
 
 
-#### Constructor
+### Constructor
 
 - **PCF8575(uint8_t deviceAddress = 0x20, TwoWire \*wire = &Wire)** Constructor with the optional 
 I2C device address, default 0x20, and the optional Wire interface as parameter.
 - **bool begin(uint8_t value = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
+Returns true if device address is visible on the I2C bus.
 - **bool isConnected()** checks if the address is visible on the I2C bus.
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
 Can be used to switch between PCF8575 modules runtime. Note this corrupts internal buffered values, 
 so one might need to call **read16()** and/or **write16()**. 
 Returns false if address is out of range 0x20..0x27 or if the address could not be found on I2C bus.
 Returns true if address can be found on I2C bus.
-- **uint8_t getAddress()** returns the device address.
+- **uint8_t getAddress()** Returns the address set in the constructor or by **setAddress()**.
 
 
-#### Read and Write
+### Read and Write
 
 - **uint16_t read16()** reads all 16 pins at once. This one does the actual reading.
 - **uint8_t read(uint8_t pin)** reads a single pin; pin = 0..15.
 - **uint16_t value()** returns the last read inputs again, as this information is buffered 
 in the class this is faster than reread the pins.
-- **void write16(uint16_t value)** writes all 16 pins at once. This one does the actual reading.
+- **void write16(uint16_t value)** writes all 16 pins at once. This one does the actual writing.
 - **void write(uint8_t pin, uint8_t value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0).
 - **uint16_t valueOut()** returns the last written data.
 
 
-#### Button
+### Button
 
 The **"button"** functions are to be used when you mix input and output on one IC.
 It does not change / affect the pins used for output by masking these.
@@ -182,7 +225,7 @@ Note this can be a subset of the pins set with **setButtonMask()** if one wants 
 Background - https://github.com/RobTillaart/Arduino/issues/38
 
 
-#### Special
+### Special
 
 - **void toggle(uint8_t pin)** toggles a single pin.
 - **void toggleMask(uint16_t mask)** toggles a selection of pins, 
@@ -196,7 +239,7 @@ Fills the lower lines with zero's.
 - **void reverse()** reverse the "bit pattern" of the lines, swapping pin 15 with 0, 14 with 1, 13 with 2 etc..
 
 
-#### Select
+### Select
 
 Some convenience wrappers.
 
@@ -210,9 +253,9 @@ This can typical be used to implement a VU meter.
 - **void selectAll()** sets all pins to HIGH.
 
 
-#### Miscellaneous
+### Miscellaneous
 
-- **int lastError()** returns the last error from the lib. (see .h file).
+- **int lastError()** returns the last error from the library. (see .h file).
 
 
 ## Error codes
@@ -241,7 +284,7 @@ It is advised to use pull-up or pull-down resistors so the lines have a defined 
 
 #### Must
 
-- update documentation.
+- improve documentation
 - keep in sync with pcf8574 (as far as meaningful)
 
 #### Should
@@ -251,6 +294,15 @@ It is advised to use pull-up or pull-down resistors so the lines have a defined 
 #### Could
 
 - move code to .cpp
+- **selectN()** could be extended to support 0..30
+  - 00..15 => pin 0 .. N
+  - 16..30 => pin N-15 .. 30
+  - 16 ==> 0111 1111 1111 1111
+  - 17 ==> 0011 1111 1111 1111
+  - 18 ==> 0001 1111 1111 1111
+  - 19 ==> 0000 1111 1111 1111
+  - 20 ==> 0000 0111 1111 1111  etc.
+
 
 #### Wont
 

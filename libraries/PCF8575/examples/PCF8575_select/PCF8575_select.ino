@@ -14,10 +14,12 @@ uint32_t start, stop;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

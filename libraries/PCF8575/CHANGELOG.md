@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2025-04-02
+- fix #44, sync from PCA9671 
+- update comments
+- update readme.md
+- minor edits
+
 ## [0.2.3] - 2024-04-16
 - Fix #41, update examples
 - update keywords.txt

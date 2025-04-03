@@ -14,10 +14,12 @@ PCF8575 PCF_21(0x21);  //  add LEDs to lines      (used as output)
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

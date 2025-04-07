@@ -18,6 +18,7 @@ int incr = 1;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("LTC2991_LIB_VERSION: ");
@@ -26,6 +27,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
+
   LTC.begin();
   while (!LTC.isConnected())
   {

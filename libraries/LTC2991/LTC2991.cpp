@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2991.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -16,7 +16,7 @@
 //
 #define STATUS_LOW            0x00
 #define STATUS_HIGH           0x01
-// 0x02..0x05 reserved
+//  0x02..0x05 reserved
 #define CONTROL_V1_V4         0x06
 #define CONTROL_V5_V8         0x07
 #define PWM_THRESHOLD_LSB     0x08
@@ -50,7 +50,7 @@
 //
 //  MAGIC NUMBERS
 //
-//  PAGE 21
+//  PAGE 21 - TABLE 16
 const float SINGLE_ENDED_FACTOR  = 2.5 / 8192;     //  2^13
 const float DIFFERENTIAL_FACTOR  = 2.5 / 131072;   //  2^17
 const float VCC_FACTOR           = 2.5 / 8192;     //  2^13
@@ -317,6 +317,11 @@ float LTC2991::get_value(uint8_t channel)
   uint8_t pair = (channel + 1)/2;
   int16_t v = _readRegister16(V_BASE + chan * 2);
 
+  //  Strip DATA_VALID bit (page14, 1st column)
+  //  leaving 14 bits + sign bit.
+  //  (page 20/21 - table 9 + 11)
+  v = v & 0x7FFF;
+
   if (get_operational_mode(pair) > 0)  //  temperature
   {
     if (get_temp_scale(pair) == 'K')   //  KELVIN
@@ -330,7 +335,7 @@ float LTC2991::get_value(uint8_t channel)
     }
     //  CELSIUS neg two complements  (page 13, 2nd column.)
     v = (v^0x1FFF) + 1;
-    return TEMPERATURE_FACTOR * (float)v * -1.0;
+    return (-1.0 * TEMPERATURE_FACTOR) * (float)v;
   }
 
   if (get_differential_mode(pair) == 0)  //  SINGLE ENDED
@@ -339,16 +344,16 @@ float LTC2991::get_value(uint8_t channel)
     {
       return SINGLE_ENDED_FACTOR * (float)v;
     }
-    v = (v^0x7FFFF) + 1;
-    return SINGLE_ENDED_FACTOR * (float)v * -1.0;
+    v = (v^0x7FFF) + 1;
+    return (-1.0 * SINGLE_ENDED_FACTOR) * (float)v;
   }
   //  DIFFERENTIAL
   if ((v & 0x4000) == 0)
   {
     return DIFFERENTIAL_FACTOR * (float)v;
   }
-  v = (v^0x7FFFF) + 1;
-  return DIFFERENTIAL_FACTOR * (float)v * -1.0;
+  v = (v^0x7FFF) + 1;
+  return (-1.0 * DIFFERENTIAL_FACTOR) * (float)v;
 }
 
 
@@ -379,7 +384,7 @@ uint16_t LTC2991::get_PWM()
 {
   uint16_t pwm = _readRegister(PWM_THRESHOLD_MSB);
   pwm <<= 1;
-  if (_readRegister(PWM_THRESHOLD_LSB) > 0 ) pwm |= 0x01;
+  if (_getRegisterMask(PWM_THRESHOLD_LSB, 0x80) > 0) pwm |= 0x01;
   return pwm;
 }
 
@@ -512,22 +517,20 @@ float LTC2991::get_Tintern()
   {
     return TEMPERATURE_FACTOR * (float)v;
   }
-  //  CELSIUS neg two complements  (page 13, 2nd colom.)
+  //  CELSIUS neg two complements  (page 13, 2nd column)
   v = (v^0x1FFF) + 1;
-  return TEMPERATURE_FACTOR * (float)v * -1.0;
+  return (-1.0 * TEMPERATURE_FACTOR) * (float)v;
 }
 
 
 float LTC2991::get_VCC()
 {
   int16_t v = _readRegister16(VCC_MSB);
-  if ((v & 0x4000) == 0)
-  {
-    return VCC_FACTOR * (float)v + 2.5;
-  }
-  //  can Vcc be negative?
-  v = (v^0x7FFFF) + 1;
-  return VCC_FACTOR * (float)v * -1.0 + 2.5;
+  //  Strip DATA_VALID bit (page14, 1st column)
+  //  Strip SIGN bit as VCC cannot be below 2.5 V. (page 11, power up)
+  //  leaving 14 bits
+  v = v & 0x3FFF;
+  return VCC_FACTOR * (float)v + 2.5;
 }
 
 

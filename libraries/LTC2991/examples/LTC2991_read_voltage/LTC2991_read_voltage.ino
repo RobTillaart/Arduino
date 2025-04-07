@@ -22,6 +22,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
+
   LTC.begin();
   while (!LTC.isConnected())
   {

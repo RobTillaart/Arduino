@@ -6,10 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2025-03-27
+- fix #14. fix negative values
+- added test sketch LTC2991_test_conversion.ino
+- fix **get_VCC()** as it cannot be negative
+- fix **get_PWM()** math
+- update readme.md
+- minor edits
+
+----
+
 ## [0.2.1] - 2024-01-03
 - fix examples
 - minor edits
-
 
 ## [0.2.0] - 2023-12-04
 - refactor API, remove ESP32 specific code

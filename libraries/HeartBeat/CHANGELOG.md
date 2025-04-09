@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2025-04-08
+- fix #15, Conflicting name with ESP Core V3.1.0
+- updated library.properties and library.json
+- update readme.md
+- add one Heart_Beat example
+
 ## [0.3.5] - 2025-01-31
 - extended HeartBeatSL code length to 15.
 - add example **HeartBeat_ACS712_demo.ino**

@@ -1,5 +1,5 @@
 //
-//    FILE: ADG2128_demo.ino
+//    FILE: ADG2128_isOnRow.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/ADG2128
@@ -25,30 +25,39 @@ void setup()
   if (sw.begin() == false)
   {
     Serial.println("Error connecting to device");
-    while(1);
+    while (1);
   }
+
 }
 
 
 void loop()
 {
-  //  row == X, column == Y
+  //  switch one random switch on
+  //  and switch one random switch off
+  //  should give a dynamic matrix
+  sw.on(random(96));
+  sw.off(random(96));
+
   for (int row = 0; row < 12; row++)
   {
-    for (int col = 0; col < 8; col++)
-    {
-      sw.on(row, col);
-    }
+    printMask(sw.isOnRow(row));
   }
-  delay(100);
-  for (int row = 0; row < 12; row++)
+  Serial.println();
+  Serial.println();
+
+  delay(2000);
+}
+
+
+void printMask(uint8_t value)
+{
+  for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
-    for (int col = 0; col < 8; col++)
-    {
-      sw.off(row, col);
-    }
+    if (value & mask) Serial.print(1);
+    else Serial.print(0);
   }
-  delay(1000);
+  Serial.println();
 }
 
 

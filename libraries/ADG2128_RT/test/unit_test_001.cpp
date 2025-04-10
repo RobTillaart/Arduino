@@ -44,9 +44,10 @@ unittest(test_constants)
   assertEqual(ADG2128_DEFAULT_ADDRESS, 0x70);
   
   assertEqual(ADG2128_OK           , 0x00);
-  assertEqual(ADG2128_CRC_ERROR    , 0x01);
-  assertEqual(ADG2128_NOT_READY    , 0x10);
-  assertEqual(ADG2128_REQUEST_ERROR, 0x11);
+  assertEqual(ADG2128_CRC_ERROR    , 0x80);
+  assertEqual(ADG2128_NOT_READY    , 0x81);
+  assertEqual(ADG2128_REQUEST_ERROR, 0x82);
+  assertEqual(ADG2128_ADDRESS_ERROR, 0x83);
 }
 
 

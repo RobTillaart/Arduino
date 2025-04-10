@@ -21,21 +21,30 @@ Arduino library for ADG2188 8x8 (cross-point) matrix switch with I2C.
 The library is **NOT** tested with hardware yet. Feedback is welcome.
 
 This library is to use an ADG2188 8x8 cross-point matrix switch from a microcontroller.
-That means the ADG2188 device implements a matrix of switches of 8 rows and 8 columns.
+That means the ADG2188 device implements a matrix of switches of 8 rows (X) and 8 columns (Y).
 Every row has a switch to every column, which can be on or off.
+In total this makes 64 switches.
 
 The device can operate in two modi, direct (transparent) or latched (delayed) mode.
-In the first setting a switch will be visible immediately, while the latch mode 
+In the direct mode a switch on or off will be visible immediately, while the latch mode 
 waits until they can all be switched simultaneously.
 
 The device has a reset line that can be "pulsed LOW" which will reset 
 all registers and switches to OFF state.
 
-The library is based on datasheet Rev. B, www.analog.com
+The library is based on datasheet Rev. B,
 
 - https://www.analog.com/media/en/technical-documentation/data-sheets/adg2188.pdf
 
 Feedback as always is welcome.
+
+
+### Breaking change 0.2.0
+
+Swapped columns and rows to match figure 1 of the datasheet. (See #2).
+Furthermore the interface of the library has been changed a bit.
+
+This makes version 0.1.0 obsolete.
 
 
 ### Related
@@ -97,30 +106,43 @@ TODO: run performance sketch on hardware. feedback is welcome.
 
 ### Constructor
 
-- **ADG2188(uint8_t address, TwoWire \*wire = &Wire)** optional select I2C bus.
-- **bool begin()** checks if device is visible on the I2C bus.
-- **bool isConnected()** Checks if device address can be found on I2C bus.
-- **uint8_t getAddress()** Returns the address, 0x70-0x77 (112-119).
+- **ADG2188(uint8_t address, TwoWire \*wire = &Wire)** optional set address and select I2C bus.
+- **bool begin()** checks address range and if address can be found on I2C bus.
+- **bool isConnected()** checks if address can be found on I2C bus.
+- **uint8_t getAddress()** returns the address, 0x70-0x77 (112-119).
+
 
 ### On Off
 
-- **void on(uint8_t row, uint8_t col)** idem.
-- **void off(uint8_t row, uint8_t col)** idem.
-- **bool isOn(uint8_t row, uint8_t col)** returns true if switch os on.
-- **uint8_t isOnMask(uint8_t col)** get a whole column at once as bit mask.
+Columns and rows match figure 1 of the datasheet.
 
-Convenience wrappers, sw = 0..63, row = sw / 8, col = sw % 8;
-- **void on(uint8_t sw)**
-- **void off(uint8_t sw)**
-- **bool isOn(uint8_t sw)**
+- **bool on(uint8_t row, uint8_t column)** idem, row (X) = 0..7, column (Y) = (0..7)
+Returns false if row or column is out of range.
+- **bool off(uint8_t row, uint8_t column)** idem.
+Returns false if row or column is out of range.
+- **bool isOn(uint8_t row, uint8_t column)** returns true if switch is on.
+Returns false if switch off of OR row or column is out of range.
+User should check this difference as the library does not report this in a neat way.
+- **uint16_t isOnRow(uint8_t row)** get a whole row at once as bit mask.
+
+
+Convenience wrappers, switch sw = 0..64, row (X) = sw / 8, column (Y) = sw % 8;
+- **bool on(uint8_t sw)** returns false if sw is out of range.
+- **bool off(uint8_t sw)** returns false if sw is out of range.
+- **bool isOn(uint8_t sw)** returns true if sw is on.
+Returns false if sw off of OR out of range.
+User should check this difference as the library does not report this in a neat way.
+
 
 ### Mode
 
 The default is direct (transparent) mode.
 
-- **void setMode(bool latched = false)** set mode, default direct.
+- **void setDirectMode()** set mode, default direct.
+- **void setLatchMode()** set mode to latch.
 - **bool isLatchedMode()**idem.
 - **bool isDirectMode()** idem.
+
 
 ### Reset
 
@@ -130,11 +152,13 @@ Otherwise you cannot write to the device.
 - **void setResetPin(uint8_t resetPin)** set the reset pin.
 - **void pulseResetPin()** resets all switches off, all registers ==> 0.
 
+
 ### Debug
 
 Error handling is to be elaborated.
 
 - **uint8_t getLastError()** returns last error of low level communication.
+
 
 ## Future
 
@@ -148,28 +172,33 @@ Error handling is to be elaborated.
 
 - create examples
   - performance sketch
-  - read back sketch
-  - unique per row/column.
 - improve error handling
 
 #### Could
 
 - cache status of switches to speed up On/Off
-  - import export cache
-- some ideas.
-```
-  //  switches on all X, for a given y
-  //  void  onUniqueX(x, y)
-  //
-  //  groups
-  //  void     onRow(uint8_t col);
-  //  void     onColumn(uint8_t row);
-  //  void     offRow(uint8_t col);
-  //  void     offColumn(uint8_t row);
-```
+  - import export cache for reboot / reset purposes.
+  - extern buffer of 12 bytes.
+- add **uint16_t isOnColumn(uint8_t column)** get a whole column at once as bit mask.
+  - needs cache to be performant
+- add **latch()**, remember the last value sent,
+  - one time overrule the latch mode.
+- add **allOff(direct / latch)** sort of SW reset.
+  pretty expensive function. might use the onOnRow() to only reset the ones needed.
+- add **select(row, col)** select only one column per row.
+- add **unique(row, col)** select only one switch to be on.
+- group commands.
+  - **void onRow(uint8_t col)**
+  - **void onColumn(uint8_t row)**
+  - **void offRow(uint8_t col)**
+  - **void offColumn(uint8_t row)**
 
 #### Wont
 
+- technically one can connect modules to generate a "super module"
+  - 8x24 or 16x24 or ...
+  - not supported in this library as many configurations are possible.
+  - might be an idea for an example?
 
 ## Support
 

@@ -12,9 +12,12 @@ getAddress	KEYWORD2
 on	KEYWORD2
 off	KEYWORD2
 isOn	KEYWORD2
-isOnMask	KEYWORD2
 
-setMode	KEYWORD2
+isOnRow	KEYWORD2
+isOnColumn	KEYWORD2
+
+setDirectMode	KEYWORD2
+setLatchMode	KEYWORD2
 isLatchedMode	KEYWORD2
 isDirectMode	KEYWORD2
 

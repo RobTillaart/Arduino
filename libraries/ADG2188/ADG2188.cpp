@@ -2,7 +2,7 @@
 //    FILE: ADG2188.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-28
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for ADG2188 8x8 (cross-point) matrix switch with I2C.
 //     URL: https://github.com/RobTillaart/ADG2188
 
@@ -18,7 +18,7 @@ ADG2188::ADG2188(uint8_t address, TwoWire *wire)
 {
   _address = address;
   _wire = wire;
-  _error = 0;
+  _error = ADG2188_OK;
   _mode  = ADG2188_DIRECT_MODE;
   _reset = 255;
 }
@@ -26,11 +26,11 @@ ADG2188::ADG2188(uint8_t address, TwoWire *wire)
 bool ADG2188::begin()
 {
   //  reset variables
-  _error = 0;
+  _error = ADG2188_OK;
 
   if ((_address < 0x70) || (_address > 0x77))
   {
-    _error = -1;
+    _error = ADG2188_ADDRESS_ERROR;
     return false;
   }
   if (! isConnected())
@@ -56,43 +56,55 @@ uint8_t ADG2188::getAddress()
 //
 //  SWITCHES
 //
-void ADG2188::on(uint8_t row, uint8_t col)
+bool ADG2188::on(uint8_t row, uint8_t column)
 {
-  if ((row > 7 ) || (col > 7)) return;
-  uint8_t pins = 0x80;  //  0x80 == ON
-  if (col < 6) pins |= (col << 3) + row;
-  else pins |= ((col + 2) << 3) + row;
-  _send(pins, _mode);
+  if ((row > 7 ) || (column > 7)) return false;
+  //  Table 7 datasheet
+  uint8_t mask = 0x80;  //  0x80 == ON
+  if (row < 6) mask |= (row << 3) + column;
+  else mask |= ((row + 2) << 3) + column;
+  _send(mask, _mode);
+  return true;
 }
 
-void ADG2188::off(uint8_t row, uint8_t col)
+bool ADG2188::off(uint8_t row, uint8_t column)
 {
-  if ((row > 7 ) || (col > 7)) return;
-  uint8_t pins = 0x00;  //  0x00 == OFF
-  if (col < 6) pins |= (col << 3) + row;
-  else pins |= ((col + 2) << 3) + row;
-
-  _send(pins, _mode);
+  if ((row > 7 ) || (column > 7)) return false;
+  //  Table 7 datasheet
+  uint8_t mask = 0x00;  //  0x80 == OFF
+  if (row < 6) mask |= (row << 3) + column;
+  else mask |= ((row + 2) << 3) + column;
+  _send(mask, _mode);
+  return true;
 }
 
-bool ADG2188::isOn(uint8_t row, uint8_t col)
+bool ADG2188::isOn(uint8_t row, uint8_t column)
 {
-  if ((row > 7 ) || (col > 7)) return false;
-  uint8_t value = isOn(col);
-  return (value & (1 << row)) > 0;
+  if ((row > 7 ) || (column > 7)) return false;
+  uint8_t value = isOnRow(row);
+  return (value & (1 << column)) > 0;
 }
 
-uint8_t ADG2188::isOnMask(uint8_t col)
+uint8_t ADG2188::isOnRow(uint8_t row)
 {
-  if (col > 7) return false;
+  if (row > 7) return false;
   //  Table 8 datasheet
-  uint8_t mask = 0x34;  //  == 0b00110100;
-  if (col & 0x04) mask |= 0x01;
-  if (col & 0x02) mask |= 0x40;
-  if (col & 0x01) mask |= 0x08;
+  //  0x34 == 0b00110100 - These bits are always set.
+  uint8_t mask = 0x34;
+  if (row & 0x04) mask |= 0x01;
+  if (row & 0x02) mask |= 0x40;
+  if (row & 0x01) mask |= 0x08;
 
   return _readback(mask);
 }
+
+
+//  need some thoughts
+// bool ADG2128::Latch()
+// {
+//   //  send last data with one time overrule DIRECT flag
+//   _send(_pins, ADG2128_DIRECT_MODE);
+// }
 
 
 /////////////////////////////////////////////
@@ -100,9 +112,14 @@ uint8_t ADG2188::isOnMask(uint8_t col)
 //  MODE
 //
 //  default direct (transparent) mode
-void ADG2188::setMode(bool latched)
+void ADG2188::setDirectMode()
 {
-  _mode = latched ? ADG2188_LATCHED_MODE : ADG2188_DIRECT_MODE;
+  _mode = ADG2188_DIRECT_MODE;
+}
+
+void ADG2188::setLatchMode()
+{
+  _mode = ADG2188_LATCHED_MODE;
 }
 
 bool ADG2188::isLatchedMode()
@@ -143,7 +160,7 @@ void ADG2188::pulseResetPin()
 int ADG2188::getLastError()
 {
   int e = _error;
-  _error = 0;
+  _error = ADG2188_OK;
   return e;
 }
 
@@ -153,25 +170,31 @@ int ADG2188::getLastError()
 //  PRIVATE
 //
 
-int ADG2188::_send(uint8_t pins, uint8_t value)
+int ADG2188::_send(uint8_t mask, uint8_t latchFlag)
 {
+  //  _latchMask = mask;  //  remember last mask for latch().
   _wire->beginTransmission(_address);
-  _wire->write(pins);
-  _wire->write(value);
+  _wire->write(mask);
+  _wire->write(latchFlag);
   _error = _wire->endTransmission();
   return _error;
 }
 
 
-int ADG2188::_readback(uint8_t value)
+int ADG2188::_readback(uint8_t row)
 {
   _wire->beginTransmission(_address);
-  _wire->write(value);
+  _wire->write(row);
   _error = _wire->endTransmission();
+  if (_error != 0)
+  {
+    _error = ADG2188_REQUEST_ERROR;
+    return 0;
+  }
   uint8_t bytes = _wire->requestFrom(_address, (uint8_t)2);
   if (bytes != 2)
   {
-    _error = -1;
+    _error = ADG2188_REQUEST_ERROR;
     return 0;
   }
   _wire->read();  //  skip dummy data

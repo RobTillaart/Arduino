@@ -1,7 +1,7 @@
 //
 //    FILE: MS5837.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -50,10 +50,10 @@ bool MS5837::reset(uint8_t mathMode)
 
   initConstants(mathMode);
 
-  //  SKIP CRC check
+  //  SKIP CRC check (for now)
 
   //  derive the type from mathMode instead of the other way around.
-  //  user must
+  //  user must provide correct mathMode.
   _type = MS5837_TYPE_30;
   if (mathMode == 1) _type = MS5837_TYPE_02;
   if (mathMode == 2) _type = MS5803_TYPE_01;
@@ -75,19 +75,28 @@ uint8_t MS5837::getAddress()
 //
 //  READ
 //
+//  datasheet page 7
+//  bits determines OSR => nr of samples => accuracy etc
 bool MS5837::read(uint8_t bits)
 {
   if (isConnected() == false) return false;
 
-  int index = constrain(bits, 8, 13);
-  index -= 8;
+  int OSR = constrain(bits, 8, 13);
+  OSR -= 8;
+  //  datasheet page 2 OSR, ADC maximum conversion time.
   uint8_t waitMillis[6] = { 1, 2, 3, 5, 9, 18 };
-  uint8_t wait = waitMillis[index];
-  
+  uint8_t wait = waitMillis[OSR];
+
    //  D1 conversion
   _wire->beginTransmission(_address);
-  _wire->write(MS5837_CMD_CONVERT_D1 + index * 2);
-  _wire->endTransmission();  //  TODO check all of these
+  //  datasheet page 7 adjust command byte based on OSR
+  _wire->write(MS5837_CMD_CONVERT_D1 + OSR * 2);
+  _error = _wire->endTransmission();
+  if (_error != 0)
+  {
+    //  _error = MS5837_I2C_ERROR ?
+    return false;
+  }
 
   uint32_t start = millis();
 
@@ -97,13 +106,19 @@ bool MS5837::read(uint8_t bits)
     yield();
     delay(1);
   }
-  //  NOTE: D1 and D2 are reserved in MBED (NANO BLE)
+  //  NOTE: names D1 and D2 are reserved in MBED (NANO BLE)
   uint32_t _D1 = readADC();
 
    //  D2 conversion
   _wire->beginTransmission(_address);
-  _wire->write(MS5837_CMD_CONVERT_D2 + index * 2);
-  _wire->endTransmission();
+  //  datasheet page 7 adjust command byte based on OSR
+  _wire->write(MS5837_CMD_CONVERT_D2 + OSR * 2);
+  _error = _wire->endTransmission();
+  if (_error != 0)
+  {
+    //  _error = MS5837_I2C_ERROR ?
+    return false;
+  }
 
   start = millis();
   //  while loop prevents blocking RTOS
@@ -113,7 +128,7 @@ bool MS5837::read(uint8_t bits)
     delay(1);
   }
 
-  //  NOTE: D1 and D2 are reserved in MBED (NANO BLE)
+  //  NOTE: names D1 and D2 are reserved in MBED (NANO BLE)
   uint32_t _D2 = readADC();
 
   float dT = _D2 - C[5];
@@ -140,7 +155,13 @@ bool MS5837::read(uint8_t bits)
   _pressure = (_D1 * sens * 4.76837158203E-7 - offset) * C[7] * 0.01;
   _temperature *= 0.01;
 
+  _lastRead = millis();
   return true;
+}
+
+uint32_t MS5837::lastRead()
+{
+  return _lastRead;
 }
 
 
@@ -149,6 +170,7 @@ float MS5837::getPressure()
   return _pressure;
 }
 
+
 float MS5837::getTemperature()
 {
   return _temperature;
@@ -156,14 +178,13 @@ float MS5837::getTemperature()
 
 
 //  https://www.mide.com/air-pressure-at-altitude-calculator
-//  https://community.bosch-sensortec.com/t5/Question-and-answers/How-to-calculate-the-altitude-from-the-pressure-sensor-data/qaq-p/5702
-//
+//  https://community.bosch-sensortec.com/t5/Question-and-answers/How-to-calculate-the-altitude-from-the-pressure-sensor-data/qaq-p/5702 (stale link).
+//  https://en.wikipedia.org/wiki/Pressure_altitude
 float MS5837::getAltitude(float airPressure)
 {
   float ratio = _pressure / airPressure;
-	return 44330 * (1 - pow(ratio, 0.190294957));
+  return 44330 * (1 - pow(ratio, 0.190294957));
 }
-
 
 
 //////////////////////////////////////////////////////////////////////
@@ -186,10 +207,22 @@ float MS5837::getDepth(float airPressure)
   //  1 / (_density * 9.80665 * 10)  can be pre-calculated and cached in setDensity.
   //
   //  delta P = rho * g * h  => h = delta P / rho * g
-  //  pressure = mbar, density grams/cm3 => correction factor 0.1 (=1/10)
+  //  pressure = mbar,
+  //  density grams/cm3 => correction factor 0.1 (= 1/10)
   return (_pressure - airPressure)/(_density * 9.80665 * 10);
 }
 
+
+//////////////////////////////////////////////////////////////////////
+//
+//  ERROR
+//
+int MS5837::getLastError()
+{
+  int e = _error;
+  _error = 0;
+  return e;
+}
 
 
 //////////////////////////////////////////////////////////////////////
@@ -213,17 +246,17 @@ void MS5837::initConstants(uint8_t mathMode)
   //
   //  datasheet MS5837_30  page 7
   //
-  //                          mathMode = 0;           |   = 1
-  C[0] = 1;
-  C[1] = 32768L;          //  SENSt1   = C[1] * 2^15  |  * 2^16
-  C[2] = 65536L;          //  OFFt1    = C[2] * 2^16  |  * 2^17
-  C[3] = 3.90625E-3;      //  TCS      = C[3] / 2^8   |  / 2^7
-  C[4] = 7.8125E-3;       //  TCO      = C[4] / 2^7   |  / 2^6
-  C[5] = 256;             //  Tref     = C[5] * 2^8   |  * 2^8
-  C[6] = 1.1920928955E-7; //  TEMPSENS = C[6] / 2^23  |  / 2^23
-  C[7] = 1.220703125E-4;  //  compensate uses / 2^13  |  / 2^15
+  //                          mathMode         = 0    |   = 1    |   = 2    |
+  C[0] = 1;               //  manufacturer
+  C[1] = 32768L;          //  SENSt1   = C[1] * 2^15  |  * 2^16  |  * 2^15  |
+  C[2] = 65536L;          //  OFFt1    = C[2] * 2^16  |  * 2^17  |  * 2^16  |
+  C[3] = 3.90625E-3;      //  TCS      = C[3] / 2^8   |  / 2^7   |  / 2^8   |
+  C[4] = 7.8125E-3;       //  TCO      = C[4] / 2^7   |  / 2^6   |  / 2^7   |
+  C[5] = 256;             //  Tref     = C[5] * 2^8   |  * 2^8   |  * 2^8   |
+  C[6] = 1.1920928955E-7; //  TEMPSENS = C[6] / 2^23  |  / 2^23  |  / 2^23  |
+  C[7] = 1.220703125E-4;  //  compensate uses / 2^13  |  / 2^15  |  / 2^15  |
 
-  //  Appnote version for pressure.
+  //  App note version for pressure.
   //  adjustments for MS5837_02
   if (mathMode == 1)
   {
@@ -272,6 +305,26 @@ uint32_t MS5837::readADC()
     return 0UL;
   }
   return 0UL;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+
+//////////////////////////////////////////////////////////////////////
+//
+//  MS5803
+//
+MS5803::MS5803(TwoWire *wire):MS5837(wire)
+{
+}
+
+MS5803::MS5803(uint32_t address, TwoWire *wire)
+{
+  _address = address;
+  _wire = wire;
 }
 
 

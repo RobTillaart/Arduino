@@ -1,6 +1,6 @@
 {
   "name": "MS5837",
-  "keywords": "MS5837, temperature, pressure",
+  "keywords": "MS5837, MS5803, temperature, pressure",
   "description": "Arduino library for MS5837 temperature and pressure sensor.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MS5837.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

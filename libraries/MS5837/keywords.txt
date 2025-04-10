@@ -11,6 +11,8 @@ getType	KEYWORD2
 getAddress	KEYWORD2
 
 read	KEYWORD2
+lastRead	KEYWORD2
+
 getPressure	KEYWORD2
 getTemperature	KEYWORD2
 getAltitude	KEYWORD2
@@ -18,6 +20,9 @@ getAltitude	KEYWORD2
 setDensity	KEYWORD2
 getDensity	KEYWORD2
 getDepth	KEYWORD2
+
+getLastError	KEYWORD2
+
 
 
 # Constants (LITERAL1)

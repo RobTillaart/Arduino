@@ -40,7 +40,9 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(1,1);
+  assertEqual(MS5803_TYPE_01,  1);
+  assertEqual(MS5837_TYPE_02,  2);
+  assertEqual(MS5837_TYPE_30, 30);
 }
 
 

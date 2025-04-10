@@ -1,0 +1,30 @@
+# Syntax Colouring Map For PPD71
+
+# Data types (KEYWORD1)
+PPD71	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+dataAvailable	KEYWORD2
+dataFlush	KEYWORD2
+getData	KEYWORD2
+
+getAverage10	KEYWORD2
+getAverage30	KEYWORD2
+getAverage60	KEYWORD2
+getAverage180	KEYWORD2
+
+getPulseRatio05	KEYWORD2
+getPulseRatio07	KEYWORD2
+getPulseRatio10	KEYWORD2
+getPulseRatio25	KEYWORD2
+
+getStatus	KEYWORD2
+
+getSWVersion	KEYWORD2
+getProductNumber	KEYWORD2
+
+
+# Constants (LITERAL1)
+PPD71_LIB_VERSION	LITERAL1
+

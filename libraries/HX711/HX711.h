@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.6.0
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.5.2"))
+#define HX711_LIB_VERSION               (F("0.6.0"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -106,13 +106,6 @@ public:
   float    get_units(uint8_t times = 1);
 
 
-  //  TARE
-  //  call tare to calibrate zero
-  void     tare(uint8_t times = 10);
-  float    get_tare();
-  bool     tare_set();
-
-
   ///////////////////////////////////////////////////////////////
   //
   //  GAIN
@@ -135,6 +128,15 @@ public:
 
   ///////////////////////////////////////////////////////////////
   //
+  //  TARE
+  //  call tare to calibrate zero
+  void     tare(uint8_t times = 10);
+  float    get_tare();
+  bool     tare_set();
+
+
+  ///////////////////////////////////////////////////////////////
+  //
   //  CALIBRATION
   //
   //  SCALE > 0
@@ -151,7 +153,7 @@ public:
   //  put a known weight on the scale
   //  call calibrate_scale(weight)
   //  scale is calculated.
-  void     calibrate_scale(uint16_t weight, uint8_t times = 10);
+  void     calibrate_scale(float weight, uint8_t times = 10);
 
 
   ///////////////////////////////////////////////////////////////

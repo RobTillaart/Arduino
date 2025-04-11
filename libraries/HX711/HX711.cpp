@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.6.0
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -305,28 +305,6 @@ float HX711::get_units(uint8_t times)
 };
 
 
-///////////////////////////////////////////////////////
-//
-//  TARE
-//
-void HX711::tare(uint8_t times)
-{
-  _offset = read_average(times);
-}
-
-
-float HX711::get_tare()
-{
-  return -_offset * _scale;
-}
-
-
-bool HX711::tare_set()
-{
-  return _offset != 0;
-}
-
-
 ///////////////////////////////////////////////////////////////
 //
 //  GAIN
@@ -357,9 +335,31 @@ uint8_t HX711::get_gain()
 }
 
 
+///////////////////////////////////////////////////////
+//
+//  TARE
+//
+void HX711::tare(uint8_t times)
+{
+  _offset = read_average(times);
+}
+
+
+float HX711::get_tare()
+{
+  return -_offset * _scale;
+}
+
+
+bool HX711::tare_set()
+{
+  return _offset != 0;
+}
+
+
 ///////////////////////////////////////////////////////////////
 //
-//  CALIBRATION
+//  CALIBRATION  (tare see above)
 //
 bool HX711::set_scale(float scale)
 {
@@ -388,9 +388,9 @@ int32_t HX711::get_offset()
 
 
 //  assumes tare() has been set.
-void HX711::calibrate_scale(uint16_t weight, uint8_t times)
+void HX711::calibrate_scale(float weight, uint8_t times)
 {
-  _scale = (1.0 * weight) / (read_average(times) - _offset);
+  _scale = weight / (read_average(times) - _offset);
 }
 
 

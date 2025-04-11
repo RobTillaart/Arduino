@@ -83,6 +83,11 @@ This library does not provide means to control the **RATE** yet.
 If there is a need (issue) I will implement this in the library.
 For now one can add an IOpin for this and use **digitalWrite()**.
 
+If you need more SPS you could consider using the HX71708 device.
+This is a close "relative" of the HX711 that allows to set the SPS to 
+10, 20, 80, or 320 Hz. 
+- https://github.com/beniseman/HX71708 
+
 
 ### Related
 
@@ -94,6 +99,13 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 
 Discussion about resolution of the ADC
 - https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
+
+Support for the HX71708 device (close related)
+- https://github.com/beniseman/HX71708 allows to set the SPS to 10, 20, 80, or 320 Hz
+
+Load cells go to very high weights, this side sells them up to 200 ton.
+Never seen one and cannot tell if it will work with this library.
+- https://stekon.nl/load-cells
 
 
 ### Faulty boards
@@ -108,15 +120,18 @@ First action is to call **begin(dataPin, clockPin)** to make connection to the *
 Second step is calibration for which a number of functions exist.
 - **tare()** measures zero point.
 - **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
-- **calibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
+- **calibrate_scale(weight, times)** determines the scale factor based upon a known weight e.g. 1 Kg.
+The weight is typical in grams, however any unit can be used.
 
 Steps to take for calibration
-1. clear the scale
-1. call tare() to set the zero offset
-1. put a known weight on the scale 
-1. call calibrate_scale(weight) 
-1. scale is calculated.
+1. clear the scale.
+1. call **tare()** to determine and set the zero weight offset.
+1. put a known weight on the scale.
+1. call **calibrate_scale(float weight)**, weight typical in grams, however any unit can be used.
+1. scale factor is calculated.
 1. save the offset and scale for later use e.g. EEPROM.
+
+Note that the units used in **calibrate_scale()** will be returned by **get_units()**.
 
 
 ## Interface
@@ -135,12 +150,18 @@ The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the
 Since 0.3.4 reset also does a power down / up cycle.
 
 
-### Read
+### isReady
+
+Different ways to wait for a new measurement.
 
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
 - **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds.
+
+
+### Read
+
 - **float read()** raw read.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
@@ -222,8 +243,10 @@ Note that in **HX711_RAW_MODE** the times parameter will be ignored => just call
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
-- **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive number larger than 50. Depends on load-cell used.
+- **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive 
+number larger than 50. Depends on load-cell used.
 Returns false if scale == 0.
+Note that for some specific applications, scale might be negative. 
 - **float get_scale()** returns set scale factor.
 - **void set_offset(int32_t offset = 0)** idem.
 - **int32_t get_offset()** idem.
@@ -233,11 +256,13 @@ Returns false if scale == 0.
 
 Steps to take for calibration
 1. clear the scale.
-1. call **tare()** to determine and set the zero offset.
+1. call **tare()** to determine and set the zero weight offset.
 1. put a known weight on the scale.
-1. call **calibrate_scale(weight)**.
-1. scale is calculated.
+1. call **calibrate_scale(float weight)**, weight typical in grams, however any unit can be used.
+1. scale factor is calculated.
 1. save the offset and scale for later use e.g. EEPROM.
+
+Note that the units used in **calibrate_scale()** will be returned by **get_units()**.
 
 - **void tare(uint8_t times = 10)** call tare to determine the offset
 to calibrate the zero (reference) level. See below.
@@ -246,7 +271,26 @@ Note this differs after calls to **calibrate_scale()**.
 Use **get_offset()** to get only the offset.
 - **bool tare_set()** checks if a tare has been set.
 Assumes offset is not zero, which is true for all load cells tested.
-- **void calibrate_scale(uint16_t weight, uint8_t times = 10)** idem.
+- **void calibrate_scale(float weight, uint8_t times = 10)** 
+The calibration weight averages times measurements to improve accuracy.
+Weight is typical in grams, however any unit can be used.
+Be aware this unit will also be returned by **get_units()**.
+
+Since 0.6.0 the weight is defined as float which allows easier calibration in
+other units e.g. define the weight as 2.5 kg instead of 2500 gram.
+The function **GetUnits()** will then return its value in kg too.
+
+Also by using a float the range of calibration weights is substantially increased.
+One can now define 250 gram as 250000 milligram, where before the value was max 
+65535 units (theoretical increase of precision from 4.8 to 6.9 digits).
+This allows the calibration of superheavy load cells, e.g 500 kg and use a 
+defined weight of 100000 gram. 
+Finally the use of floats allow the use of decimals e.g. a calibration weight 
+of 125.014 kg or 306.4 gram.
+
+Note: calibrate_scale() uses averaging and does not use the mode set.
+
+Note: calibrate_scale() can have a negative value as weight e.g. force of a balloon.
 
 
 ### Tare & calibration II
@@ -256,15 +300,21 @@ The function **get_tare()** is used to measure this raw value and allows the use
 to define this value as a zero weight (force) point.
 This zero point is normally without any load, however it is possible to define 
 a zero point with a "fixed" load e.g. a cup, a dish, even a spring or whatever.
-This allows the system to automatically subtract the weight of the cup etc.
+This allows the system to automatically subtract the weight / force of the cup etc.
 
-Warning: The user must be aware that the "fixed" load together with the 
+**Warning**: The user must be aware that the "fixed" load together with the 
 "variable" load does not exceed the specifications of the load cell.
 
 E.g. a load cell which can handle 1000 grams with a cup of 300 grams should not 
 be calibrated with a weight of more than 700 grams.
 In fact it is better to calibrate with a weight in the order of 80 to 90% of 
 the maximum load so in this example a weight of 500 to 600 grams.
+That would make the total 800-900 grams == 80/90% of the max load.
+
+Another point to consider when calibrating is to use a weight that is 
+in the range you want to make your measurements.
+E.g. if you want to measure coffee beans in portions of 250 grams, use 
+a weight in the range 200-300 grams. Could just save an extra bit.
 
 Furthermore it is also important to do the calibration at the temperature you 
 expect to do the weight measurements. See temperature section below.

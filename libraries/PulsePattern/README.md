@@ -40,6 +40,8 @@ Note: there is no active development.
 #include "PulsePattern.h"
 ```
 
+### Constructor
+
 - **PulsePattern()** constructor
 - **void init(uint8_t pin, uint16_t\*ar, uint8_t size, luint8_t evel, uint8_t prescaler)** initializer of the Timer1
    - pin that outputs the pattern
@@ -49,6 +51,9 @@ Note: there is no active development.
    - pre-scaler, one of the 5 defines from .h file (table below)
 - **void setFactor(float perc)** percentage = factor to correct timing (relative).
 - **float getFactor()** get the internal used factor. Due to rounding it can be slightly different.
+
+### Control
+
 - **void stop()** stop the pattern generator
 - **void start(uint32_t times = PP_CONTINUOUS)** start the pattern generator.
 Default in the continuous mode to be backwards compatible.
@@ -64,12 +69,12 @@ There is some bad understood __vector_11() error when worker() is private.
 ## Pre-scaler constants
 
 |  Value  |  Prescaler       |  Timer1      |  Notes       |
-|:-------:|:----- -----------|:-------------|:------------:|
-|    0    |  NO_CLOCK        |  timer off   | 
-|    1    |  PRESCALE_1      |  clk / 1     | 
-|    2    |  PRESCALE_8      |  clk / 8     | 
-|    3    |  PRESCALE_64     |  clk / 64    | 
-|    4    |  PRESCALE_256    |  clk / 250   | 
+|:-------:|:-----------------|:-------------|:------------:|
+|    0    |  NO_CLOCK        |  timer off   |              |
+|    1    |  PRESCALE_1      |  clk / 1     |
+|    2    |  PRESCALE_8      |  clk / 8     |
+|    3    |  PRESCALE_64     |  clk / 64    |
+|    4    |  PRESCALE_256    |  clk / 250   |
 |    5    |  PRESCALE_1024   |  clk / 1024  |  about 1 ms / pulse
 |    6    |  EXT_T1_FALLING  |  T1 = pin 5  |  not tested
 |    7    |  EXT_T2_RISING   |              |  not tested

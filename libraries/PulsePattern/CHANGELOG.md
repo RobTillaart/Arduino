@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.8] - 2025-04-11
+- fix #14, broken table in readme.md
+
+
 ## [0.1.7] - 2023-11-16
 - update readme.md
-
 
 ## [0.1.6] - 2022-11-22
 - add changelog.md

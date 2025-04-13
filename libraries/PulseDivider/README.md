@@ -108,9 +108,10 @@ generated when there is an input pulse and an output pulse is "lagging".
 In the first tests the library seems to work well, however more testing is needed. 
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/PulsePattern
+- https://github.com/RobTillaart/OutPin
 
 
 ## Interface
@@ -120,7 +121,7 @@ In the first tests the library seems to work well, however more testing is neede
 ```
 
 
-#### Constructor
+### Constructor
 
 - **PulseDivider(uint8_t inPin, uint8_t outPin, uint16_t inCount, uint16_t outCount, uint32_t duration = 1, uint8_t edge = RISING, bool invert = false)**
   - Define input pin and output pin.
@@ -137,7 +138,7 @@ In the first tests the library seems to work well, however more testing is neede
 The PulseDivider can do an 65534 to 1 reduction. 
 
 
-#### Getters / Setters
+### Getters / Setters
 
 See description Constructor.
 
@@ -145,6 +146,9 @@ See description Constructor.
 - **uint8_t getInPin()** returns the set input pin.
 - **void setOutPin(uint8_t outPin)** set or change the output pin (runtime).
 - **uint8_t getOutPin()** returns the set output pin.
+
+### Ratio and duration
+
 - **void setRatio(uint16_t inCount, uint16_t outCount = 1)** set the ratio between
 input pulses and the output pulses. inCount >= outCount > 0.
 The range for inCount can be 1..65534 max, the sum of inCount and outCount should not exceed 65535, 
@@ -153,14 +157,22 @@ Typically both are less than 1000.
 - **void setDuration(uint32_t duration)** set the duration of the pulse.
 Note the unit is microseconds.
 - **uint32_t getDuration()** returns the set duration.
+
+### Edge and invert
+
 - **void setEdge(uint8_t edge)** sets the "trigger" edge, RISING or FALLING.
 - **uint8_t getEdge()** returns the set trigger.
 - **void setInvert(bool invert)** inverts the output pulse with respect to the input pulse.
 - **bool getInvert()** returns the set flag.
+
+### Debugging
+
 - **uint16_t getCounter()** returns the internal counter (for debugging).
+- **uint16_t getInCount()** idem (for debugging).
+- **uint16_t getOutCount()** idem (for debugging).
 
 
-#### Control
+### Control
 
 The pulseDivider can be started or stopped in software,
 and the state can be requested.
@@ -174,7 +186,7 @@ output to "default" state LOW (unless inverted).
 - **bool isRunning()** returns true if running .
 
 
-#### Worker
+### Worker
 
 - **void check()** Call as often as possible as this worker does the
 polling, math and calls **doPulse()** when an output pulse is needed. 
@@ -193,9 +205,11 @@ polling, math and calls **doPulse()** when an output pulse is needed.
 - performance measurements
 - test different platforms, configurations, ratios etc.
 - optimize math possible? (16 bit instead of 32 bit for UNO).
-- for many pulses - **PulseDivider(32 bit counters)**
+  - add now = micros() in check()
+- for many pulses - **PulseDivider32(32 bit counters)**
   - allow e.g. 100000 to 1 or even 1000000 to 1 or more.
-  - separate PulseDivider32 class?
+  - separate PulseDivider32 class?  ==> pulseDivider32.h? 
+  - derived class?
 
 #### Could
 
@@ -210,8 +224,13 @@ polling, math and calls **doPulse()** when an output pulse is needed.
 - make inCount and outCount 32 bit? even finer fractions.
   - would slow it down
   - would 8 bit make it faster?
+- improve read() for AVR
+
 
 #### Won't (unless requested)
+
+- investigate **frequencyMultiplier.ino** as new core code.
+  - drawback output does not stop immediately when input stops.
 
 
 ## Support

@@ -1,0 +1,27 @@
+# Syntax Colouring Map For MCP330X
+
+# Data types (KEYWORD1)
+MCP330X	KEYWORD1
+MCP3302	KEYWORD1
+MCP3304	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+channels	KEYWORD2
+maxValue	KEYWORD2
+
+read	KEYWORD2
+differentialRead	KEYWORD2
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
+
+count	KEYWORD2
+
+
+# Constants (LITERAL1)
+MCP330X_LIB_VERSION	LITERAL1
+
+

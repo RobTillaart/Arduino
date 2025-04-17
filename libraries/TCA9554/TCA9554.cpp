@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9554.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C TCA9554 8 channel port expander.
 //    DATE: 2025-01-09
 //     URL: https://github.com/RobTillaart/TCA9554
@@ -257,7 +257,7 @@ uint8_t TCA9554::readRegister(uint8_t reg)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASSES TCA9534 PCA9554 PCA9534
+//  DERIVED CLASSES TCA9534 PCA9554 PCA9534 CAT9554 CAT9534
 //
 TCA9534::TCA9534(uint8_t address, TwoWire *wire)
         :TCA9554(address, wire)
@@ -272,6 +272,18 @@ PCA9554::PCA9554(uint8_t address, TwoWire *wire)
 }
 
 PCA9534::PCA9534(uint8_t address, TwoWire *wire)
+        :TCA9554(address, wire)
+{
+  _type = 34;
+}
+
+CAT9554::CAT9554(uint8_t address, TwoWire *wire)
+        :TCA9554(address, wire)
+{
+  _type = 54;
+}
+
+CAT9534::CAT9534(uint8_t address, TwoWire *wire)
         :TCA9554(address, wire)
 {
   _type = 34;

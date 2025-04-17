@@ -43,9 +43,19 @@ This allows one to create TCA9534 objects.
 
 ### Compatibles
 
-The library is expected to work for the PCA9554 / PCA9534 too for which derived classes are made. 
+The library is expected to work for the PCA9554 / PCA9534 too for which derived 
+classes are made. 
 
-To be verified (feedback welcome).
+|    type   | Notes  |
+|:---------:|:------:|
+|  TCA9554  |  confirmed
+|  TCA9534  |
+|  PCA9554  |
+|  PCA9534  |
+|  CAT9554  |
+|  CAT9534  |
+
+Feedback of working types is welcome.
 
 
 ### Related
@@ -54,15 +64,16 @@ To be verified (feedback welcome).
 
 - https://github.com/RobTillaart/MCP23017_RT
 - https://github.com/RobTillaart/MCP23S17  (SPI)
+- https://github.com/RobTillaart/PCA9671
 - https://github.com/RobTillaart/PCF8575
-- https://github.com/RobTillaart/PCA9555
+- https://github.com/RobTillaart/TCA9555
 
 8 bit port expanders
 
 - https://github.com/RobTillaart/MCP23008
 - https://github.com/RobTillaart/MCP23S08  (SPI)
 - https://github.com/RobTillaart/PCF8574
-- https://github.com/RobTillaart/PCA9554
+- https://github.com/RobTillaart/TCA9554
 
 
 ## Hardware
@@ -112,6 +123,10 @@ Check the datasheet for details
 - **TCA9554(uint8_t address, TwoWire \*wire = &Wire)** constructor, with default Wire interface. 
 Can be overruled with Wire0..WireN.
 - **TCA9534(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **PCA9554(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **PCA9534(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **CAT9554(uint8_t address, TwoWire \*wire = &Wire)** idem.
+- **CAT9534(uint8_t address, TwoWire \*wire = &Wire)** idem.
 - **uint8_t getType()** returns 34 or 54 depending on type.
 - **bool begin(uint8_t mode = INPUT, uint8_t mask = 0x00)** initializes library.
 Sets all the pins to INPUT (default) or to OUTPUT. 

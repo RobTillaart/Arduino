@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2025-04-02
+- add ACD10_CALIBRATION constants
+- add example **ACD10_manual_calibration.ino**
+- improved setCalibrationMode() to fail when I2C error.
+- improved setManualCalibration() to fail when I2C error.
+- update examples
+- minor edits
+
 ## [0.2.1] - 2025-02-04
 - update readme.md (some notes about #12 temperature)
 - update **readFactorySet()** return test.

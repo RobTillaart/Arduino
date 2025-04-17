@@ -41,7 +41,18 @@ unittest_teardown()
 
 unittest(test_constants)
 {
+  fprintf(stderr, "addres\n");
   assertEqual(ACD10_DEFAULT_ADDRESS, 0x2A);
+
+  fprintf(stderr, "\nerror codes\n");
+  assertEqual(ACD10_OK           , 0x00);
+  assertEqual(ACD10_NOT_READY    , 0x10);
+  assertEqual(ACD10_REQUEST_ERROR, 0x11);
+  assertEqual(ACD10_CRC_ERROR    , 0x12);
+
+  fprintf(stderr, "\ncalibration modes\n");
+  assertEqual(ACD10_CALIBRATE_MANUAL, 0x00);
+  assertEqual(ACD10_CALIBRATE_AUTO,   0x01);
 }
 
 

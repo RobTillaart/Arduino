@@ -12,13 +12,16 @@ ACD10 mySensor;
 char FWversion[12];
 char sensorCode[12];
 
+
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACD10_LIB_VERSION: ");
   Serial.println(ACD10_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   mySensor.begin();
@@ -26,7 +29,7 @@ void setup()
   mySensor.readFirmwareVersion(&FWversion[0]);
   Serial.print("FIRMWARE: \t");
   Serial.println(FWversion);
-  
+
   mySensor.readSensorCode(&sensorCode[0]);
   Serial.print("SENSORCODE: \t");
   Serial.println(sensorCode);

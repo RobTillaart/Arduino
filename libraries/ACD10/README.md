@@ -233,13 +233,20 @@ Read the datasheet about calibration process (twice).
 Incorrect calibration leads to incorrect output.
 
 - **bool setCalibrationMode(uint8_t mode)** 0 = manual mode, 1 = automatic mode.
-Returns false if mode out of range ( > 1).
+Returns false if mode out of range ( > 1) or if mode cannot be set.
 - **uint8_t readCallibrationMode()** return set mode. 
 - **void setManualCalibration(uint16_t value)** as the range of the device is 
 from 400 to 5000, the parameter value should be in this range.
+Returns false if value is out of range or if value cannot be set.
 - **uint16_t readManualCalibration()** read back the set manual calibration value.
 
 Note: One should wait 5 milliseconds between the calibration calls (see datasheet).
+
+
+|  mode  |  define                  |
+|:------:|:-------------------------|
+|    0   |  ACD10_CALIBRATE_MANUAL  |
+|    1   |  ACD10_CALIBRATE_AUTO    |
 
 
 ### Miscellaneous
@@ -263,12 +270,12 @@ Minimum length is 11.
 
 - improve documentation
 - get hardware to test
+- improve (I2C) error handling
 
 #### Should
 
 - investigate the acquisition time of 80 milliseconds
   - can it be made shorter by default?
-- improve error handling
 
 #### Could
 

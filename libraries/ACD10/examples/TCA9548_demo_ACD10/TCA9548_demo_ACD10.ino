@@ -19,8 +19,10 @@ ACD10 outside;   //  channel 2
 
 uint32_t lastTime = 0;
 
+
 void setup()
 {
+    //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("TCA9548_LIB_VERSION: ");

@@ -13,11 +13,13 @@ ACD10 mySensor(&Wire1);
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACD10_LIB_VERSION: ");
   Serial.println(ACD10_LIB_VERSION);
+  Serial.println();
 
   Wire1.begin();
   mySensor.begin();
@@ -27,7 +29,7 @@ void setup()
 void loop()
 {
   //  prepare a request every 5 seconds.
-  if (millis() - mySensor.lastRead() > 5000)  //  millis
+  if (millis() - mySensor.lastRead() > 5000)  //  milliseconds
   {
     mySensor.requestSensor();
   }

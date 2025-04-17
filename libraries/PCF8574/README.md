@@ -99,6 +99,7 @@ before calling **begin()**.
 
 - https://github.com/RobTillaart/MCP23017_RT
 - https://github.com/RobTillaart/MCP23S17
+- https://github.com/RobTillaart/PCA9671
 - https://github.com/RobTillaart/PCF8575
 
 

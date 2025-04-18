@@ -1,7 +1,7 @@
 //
 //    FILE: AD5620.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 / AD5640 Digital Analog Convertor (12/14 bit).
 
@@ -43,7 +43,7 @@ void AD5620::begin()
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 
   if (_hwSPI)
   {
@@ -76,6 +76,7 @@ bool AD5620::setValue(uint16_t value)
   if (value > _maxValue) return false;
   _value = value;
   //  prepare 12 bit transfer.
+  //  datasheet page 18, LSB 2 bits don't care
   uint32_t data = value << 2;
   //  set powerMode bits if not 0.
   if (_powerMode) data |= (_powerMode << 14);
@@ -111,7 +112,7 @@ float AD5620::getPercentage()
   float value = getValue();
   if (value > 0)
   {
-    return value * ( 1.0 / 40.95);
+    return value * (100.0 / 4095);
   }
   return 0;
 }
@@ -141,7 +142,7 @@ uint8_t AD5620::getPowerDownMode()
 void AD5620::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 };
 
 
@@ -162,13 +163,12 @@ bool AD5620::usesHWSPI()
 //  PROTECTED
 //
 
-void AD5620::updateDevice(uint32_t data)
+void AD5620::updateDevice(uint16_t data)
 {
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    _mySPI->transfer((data >> 16) & 0xFF);
     _mySPI->transfer((data >> 8) & 0xFF);
     _mySPI->transfer(data & 0xFF);
     _mySPI->endTransaction();
@@ -182,12 +182,12 @@ void AD5620::updateDevice(uint32_t data)
 
 
 //  simple one mode version
-void AD5620::swSPI_transfer(uint32_t value)
+void AD5620::swSPI_transfer(uint16_t value)
 {
-  uint8_t clk = _clock;
-  uint8_t dao = _dataOut;
-  //  Shifting 24 bits starting from MSB to LSB
-  for (uint32_t mask = 0x800000; mask; mask >>= 1)
+  int clk = _clock;
+  int dao = _dataOut;
+  //  Shifting 16 bits starting from MSB to LSB
+  for (uint16_t mask = 0x8000; mask; mask >>= 1)
   {
     digitalWrite(dao,(value & mask)? HIGH : LOW);
     digitalWrite(clk, HIGH);
@@ -223,7 +223,8 @@ bool AD5640::setValue(uint16_t value)
   if (value > _maxValue) return false;
   _value = value;
   //  prepare 14 bit transfer.
-  uint32_t data = value;
+  //  datasheet page 18.
+  uint16_t data = value;
   //  set powerMode bits if not 0.
   if (_powerMode) data |= (_powerMode << 14);
   updateDevice(data);
@@ -246,7 +247,7 @@ float AD5640::getPercentage()
   float value = getValue();
   if (value > 0)
   {
-    return value * ( 1.0 / 163.83);
+    return value * ( 100.0 / 16383);
   }
   return 0;
 }

@@ -16,14 +16,14 @@ Arduino library for the AD5620 / AD5640 Digital Analog Convertor (12/14 bit).
 
 ## Description
 
-**Experimental** 
+**Experimental**
 
 The AD5620 is a 12 bit DAC, which is to be controlled by SPI.
 This library supports both hardware as software SPI.
 
 The value of the DAC can be changed by **setValue()** or by **setPercentage()**.
 If the values are out of range these function will return false.
-The value set is kept by the library and can be fetched by **getValue()** 
+The value set is kept by the library and can be fetched by **getValue()**
 and **getPercentage()**.
 
 The library also implements support for the AD5640, a 14 bit DAC.
@@ -31,8 +31,15 @@ The library also implements support for the AD5640, a 14 bit DAC.
 **Warning** The library is not tested extensively with hardware.
 So it should be used with care.
 
-Feedback, issues, improvements are welcome. 
+Feedback, issues, improvements are welcome.
 Please file an issue on GitHub.
+
+
+### Breaking change 0.3.0
+
+Reverted the 0.2.0 change as the 3 bytes was only for the AD5660 which is not
+a supported class in this library. See #12.
+Therefore the pre 0.3.0 versions are obsolete.
 
 
 ### Breaking change 0.2.0
@@ -43,23 +50,24 @@ Therefore the pre 0.2.0 versions are obsolete.
 
 ### Differences.
 
-The parts incorporate a power-on reset circuit to ensure that the DAC output 
-powers up to 
-- 0 V (AD5620/AD5640/AD5660-1-2) or 
-- midscale (AD5620-3 and AD5660-3) 
+The parts incorporate a power-on reset circuit to ensure that the DAC output
+powers up to
+- 0 V (AD5620/AD5640/AD5660-1-2) or
+- midscale (AD5620-3 and AD5660-3)
 
 and remains there until a valid write takes place.
 
-### Compatibles 
 
-Overview devices, number of bits, setValue range and indicative LSB
+### Compatibles
 
-|  device  |  bits  |  range      |  % step size  |  LSB @ 5V   |  notes  |
+Overview of related devices, number of bits, setValue range and indicative LSB
+
+|  device  |  bits  |  range      |  % step size  |   LSB @ 5V  |  notes  |
 |:--------:|:------:|:-----------:|:-------------:|:-----------:|:-------:|
-|  AD5620  |   12   |  0..4095    |     0.025     |  1.221 mV   |  
-|  AD5640  |   14   |  0..16383   |     0.0065    |  0.3053 mV  |
-|  AD5660  |   16   |  0..65535   |     0.0017    |  0.0763 mV  |  see AD5660 library
-|  AD5680  |   18   |  0..262143  |     0.0005    |  19.07 uV   |  see AD5680 library
+|  AD5620  |   12   |  0..4095    |     0.025     |  1.221 mV   |  AD5620 library
+|  AD5640  |   14   |  0..16383   |     0.0065    |  0.3053 mV  |  AD5620 library
+|  AD5660  |   16   |  0..65535   |     0.0017    |  0.0763 mV  |  AD5660 library
+|  AD5680  |   18   |  0..262143  |     0.0005    |  19.07 uV   |  AD5680 library
 
 
 ### Related
@@ -82,9 +90,9 @@ Overview devices, number of bits, setValue range and indicative LSB
 
 The AD5640 has identical constructors.
 
-- **AD5620(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor hardware SPI (RP2040 specific). 
+- **AD5620(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor hardware SPI (RP2040 specific).
 Sets internal value to zero.
-- **AD5620(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor hardware SPI. 
+- **AD5620(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor hardware SPI.
 Sets internal value to zero.
 - **AD5620(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)** constructor software SPI.
 Sets the software SPI pins.
@@ -95,7 +103,7 @@ Sets internal value to zero.
 
 ### Set DAC
 
-- **bool setValue(uint16_t value)** set value to the output immediately, 
+- **bool setValue(uint16_t value)** set value to the output immediately,
 effectively a prepare + update in one call.
 Returns false if value out of range.
 - **uint16_t getValue()** returns the set value from cache.
@@ -105,7 +113,7 @@ At power up the device will be reset to 0 (== 0 volt). (not always).
 If percentage is out of range, it is **not** set and the function returns false.
 The step size is 0.025% for the AD5620.
 - **float getPercentage()** returns percentage, wrapper around **getValue()**.
-Might return a slightly different value than **setPercentage()** due to 
+Might return a slightly different value than **setPercentage()** due to
 rounding math.
 At power up the function will return 0 as default value.
 
@@ -148,28 +156,30 @@ Datasheet P7, maximum frequency. Overclocking is not tested.
 
 ## Performance
 
-Measurements with AD5620_demo.ino - performance of **setValue()** is the 
-most important. The numbers are rounded and indicative, other boards might 
+Measurements with AD5620_demo.ino - performance of **setValue()** is the
+most important. The numbers are rounded and indicative, other boards might
 produce different numbers.
 
 |  version  |  board  |  clock    |  SPI  |  calls / sec  |  Notes  |
 |:---------:|:-------:|:---------:|:-----:|:-------------:|:--------|
 |   0.2.0   |  UNO    |   16 MHz  |  HW   |    55000      |  max SPI speed
-|   0.2.0   |  UNO    |   16 MHz  |  SW   |     3369      |  
-|   0.2.0   |  ESP32  |  240 MHz  |  HW   |               |  1
+|   0.2.0   |  UNO    |   16 MHz  |  SW   |     3369      |
+|   0.2.0   |  ESP32  |  240 MHz  |  HW   |               |
 |   0.2.0   |  ESP32  |  240 MHz  |  SW   |               |
+|   0.3.0   |  UNO    |   16 MHz  |  HW   |    64000      |  max SPI speed
+|   0.3.0   |  UNO    |   16 MHz  |  SW   |     5100      |
+|   0.3.0   |  ESP32  |  240 MHz  |  HW   |   152500      |
+|   0.3.0   |  ESP32  |  240 MHz  |  SW   |   152500      |
 
 
-1. ESP32 HW is equal performant for HSPI and VSPI. 
-   Unknown why HW SPI is 20% slower than SW SPI (transaction overhead?)
+(pre-0.3.0 versions obsolete)
 
-(pre-0.2.0 versions obsolete)
+Note UNO:
+64000 calls per second means that a 1 KHz wave can be
+constructed with 64 values per period (max).
 
-55000 calls per second means that a 1 KHz wave can be 
-constructed with 55 values per period (max).
-
-3369 calls per second means that a 1 KHz wave can be 
-constructed with ~3 values per period (max).
+5100 calls per second means that a 1 KHz wave can be
+constructed with ~5 values per period (max).
 
 Please share your performance data, open an issue to report.
 

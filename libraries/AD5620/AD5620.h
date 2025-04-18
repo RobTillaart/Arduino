@@ -2,7 +2,7 @@
 //
 //    FILE: AD5620.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 / AD5640 Digital Analog Convertor (12/14 bit).
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD5620_LIB_VERSION        (F("0.2.1"))
+#define AD5620_LIB_VERSION        (F("0.3.0"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -68,8 +68,8 @@ protected:
   bool     _hwSPI       = false;
   uint32_t _SPIspeed    = 16000000;
 
-  void     updateDevice(uint32_t value);
-  void     swSPI_transfer(uint32_t value);
+  void     updateDevice(uint16_t value);
+  void     swSPI_transfer(uint16_t value);
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;

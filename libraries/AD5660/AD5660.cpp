@@ -1,7 +1,7 @@
 //
 //    FILE: AD5660.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for AD5660 Digital Analog Convertor (16 bit).
 
@@ -43,7 +43,7 @@ void AD5660::begin()
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 
   if (_hwSPI)
   {
@@ -141,7 +141,7 @@ uint8_t AD5660::getPowerDownMode()
 void AD5660::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 };
 
 
@@ -184,12 +184,12 @@ void AD5660::updateDevice(uint32_t data)
 //  simple one mode version
 void AD5660::swSPI_transfer(uint32_t value)
 {
-  uint8_t clk = _clock;
-  uint8_t dao = _dataOut;
+  int clk = _clock;
+  int dao = _dataOut;
   //  Shifting 24 bits starting from MSB to LSB
-  for (uint8_t bit = 24; bit; bit--)
+  for (uint32_t mask = 0x800000; mask; mask >>= 1)
   {
-    digitalWrite(dao, (value >> (bit - 1)) & 0x01);
+    digitalWrite(dao, (value & mask)? HIGH : LOW);
     digitalWrite(clk, HIGH);
     digitalWrite(clk, LOW);
   }

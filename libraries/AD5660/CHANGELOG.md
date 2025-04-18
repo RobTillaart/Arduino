@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2025-04-11
+- fix SPI mode 1 (See #12 AD5620)
+- minor edits
+
+----
+
 ## [0.1.2] - 2025-01-20
 - PR #4, fix for software SPI, thanks to DMichev.
 

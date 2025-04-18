@@ -39,16 +39,16 @@ powers up to 0 V (AD5620/AD5640/AD5660-1-2) or midscale (AD5620-3 and AD5660-3)
 and remains there until a valid write takes place.
 
 
-### Compatibles 
+### Compatibles
 
-Overview of related devices, nr of bits, setValue range and indicative LSB
+Overview of related devices, number of bits, setValue range and indicative LSB
 
-|  device  |  bits  |  range      |  % stepsize  |   LSB @ 5V  |  notes  |
-|:--------:|:------:|:-----------:|:------------:|:-----------:|:-------:|
-|  AD5620  |   12   |  0..4095    |    0.025     |  1.221 mV   |  see AD5620 library
-|  AD5640  |   14   |  0..16383   |    0.0065    |  0.3053 mV  |  see AD5620 library
-|  AD5660  |   16   |  0..65535   |    0.0017    |  0.0763 mV  |
-|  AD5680  |   18   |  0..262143  |    0.0005    |  19.07 uV   |  see AD5680 library
+|  device  |  bits  |  range      |  % step size  |   LSB @ 5V  |  notes  |
+|:--------:|:------:|:-----------:|:-------------:|:-----------:|:-------:|
+|  AD5620  |   12   |  0..4095    |     0.025     |  1.221 mV   |  AD5620 library
+|  AD5640  |   14   |  0..16383   |     0.0065    |  0.3053 mV  |  AD5620 library
+|  AD5660  |   16   |  0..65535   |     0.0017    |  0.0763 mV  |  AD5660 library
+|  AD5680  |   18   |  0..262143  |     0.0005    |  19.07 uV   |  AD5680 library
 
 
 The AD5662 is compatible, however it does not support the Vref functions.
@@ -146,17 +146,20 @@ produce different numbers.
 |:---------:|:-------:|:---------:|:-----:|:-------------:|:--------|
 |   0.1.0   |  UNO    |   16 MHz  |  HW   |   58800       |  max SPI speed
 |   0.1.0   |  UNO    |   16 MHz  |  SW   |    3300       |
-|   0.1.0   |  ESP32  |  240 MHz  |  HW   |               |  1
+|   0.1.0   |  ESP32  |  240 MHz  |  HW   |               |
 |   0.1.0   |  ESP32  |  240 MHz  |  SW   |               |
+|   0.2.0   |  UNO    |   16 MHz  |  HW   |   58600       |  max SPI speed
+|   0.2.0   |  UNO    |   16 MHz  |  SW   |    3220       |
+|   0.2.0   |  ESP32  |  240 MHz  |  HW   |  114100       |
+|   0.2.0   |  ESP32  |  240 MHz  |  SW   |   91500       |
 
 
-1. ESP32 HW is equal performant for HSPI and VSPI. 
-   Unknown why HW SPI is 20% slower than SW SPI (transaction overhead?)
 
 58800 calls per second means that a 1 KHz wave can be 
 constructed with 58 values per period (max).
 
 Please share your performance data, open an issue to report.
+
 
 ## Future
 

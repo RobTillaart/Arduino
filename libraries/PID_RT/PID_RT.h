@@ -2,7 +2,7 @@
 //
 //    FILE: PID_RT.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: PID library for Arduino
 //     URL: https://github.com/RobTillaart/PID_RT
 
@@ -10,7 +10,19 @@
 #include "Arduino.h"
 
 
-#define PID_LIB_VERSION               (F("0.1.7"))
+#define PID_LIB_VERSION               (F("0.1.8"))
+
+
+//  fix #8, control the interval check in compute()
+//  Enables the compute() function to check if the interval has passed. (default)
+//  If the interval has passed, new values will be computed and compute() returns true.
+//  If the interval has not passed, the compute() function will not
+//  compute a new value and compute() will return false.
+//  If the interval check by compute() is disabled, the user has to ensure
+//  the interval periodicity, e.g. by using a hardware timer, external interrupt etc.
+#ifndef PID_ENABLE_INTERVAL_CHECK
+#define PID_ENABLE_INTERVAL_CHECK         true
+#endif
 
 
 class PID_RT

@@ -1,7 +1,7 @@
 //
 //    FILE: PID_RT.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: PID library for Arduino
 //     URL: https://github.com/RobTillaart/PID
 
@@ -93,10 +93,14 @@ bool PID_RT::compute(float input)
   {
     return false;
   }
+
+#if PID_ENABLE_INTERVAL_CHECK == true
   if (millis() - _lastTime < _interval)
   {
     return false;
   }
+#endif
+
   _lastTime += _interval;
 
   _input = input;

@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.8] - 2024-04-17
+- fix #8, add compile time flag to disable compute interval checking.
+- minor edits.
+
 ## [0.1.7] - 2023-11-14
 - update readme.md
-
 
 ## [0.1.6] - 2023-02-12
 - add example **PID_simulated_heater.ino** Kudos to drf5n

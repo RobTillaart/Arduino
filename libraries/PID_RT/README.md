@@ -25,7 +25,7 @@ This library allows one to
 (to be elaborated)
 
 
-#### Some PID background
+### Some PID background
 
 - https://en.wikipedia.org/wiki/PID_controller
 - https://www.ni.com/nl-nl/innovations/white-papers/06/pid-theory-explained.html
@@ -55,12 +55,28 @@ WOKWI
 - **void reset()** resets internals to startup (Kp == Ki == Kd == 0).
 - **void setPoint(float sp)** sets the setPoint, that needs to be reached.
 - **float getSetPoint()** read back the setPoint.
-- **bool compute(float input)** does one iteration of the PID controller. 
-Returns **true** after a calculation is done. 
+- **bool compute(float input)** does one iteration of the PID controller. See below.
+Returns **true** after a calculation is done.
 Returns **false** if not computed, either due to stop flag or not yet time to do the calculation.
-- **float getOutput()** get the last calculated output value. 
+See PID_ENABLE_INTERVAL_CHECK below.
+- **float getOutput()** get the last calculated output value.
 - **bool setK(float Kp, float Ki, float Kd)** Set the initial **P I D** parameters as a group.
 Overwrites the values set in the constructor.
+
+
+### PID_ENABLE_INTERVAL_CHECK
+
+Since 0.1.8 a compile time flag **PID_ENABLE_INTERVAL_CHECK** has been added. (See #8). 
+This flag allows the user to enable or disable the interval check in **compute()**.
+Default the flag is enabled, and the function will check if the interval set has passed,
+if not, it will return false, true otherwise.
+
+If the **PID_ENABLE_INTERVAL_CHECK** is set to false, the user has to ensure the interval 
+periodicity, e.g. by using a hardware timer, external interrupt, RTC or otherwise.
+
+Note that using a hardware timer can improve the accuracy of the PID control.
+
+See the PID_RT.h file.
 
 
 ### Start Stop
@@ -100,14 +116,18 @@ Returns **true** if changed, otherwise **false**.
 - **bool isPropOnError()** read back setting.
 
 
-### debugging calls
+### Debugging
 
 - **float getInput()** read last input.
 - **float getLastError()** read the last error.
 - **uint32_t getLastTime()** get the last time **compute()** was called.
-Note this value is incremented with **Interval** every iteration so it 
-may have some offset of the actual time. This is chosen as this way it is 
-almost sure that no iterations are missed. 
+
+Note the lastTime value is incremented with **interval** every iteration so it 
+may have an offset with respect to the actual time. 
+This method is chosen as it is almost guarantees that no iterations will be missed.
+To improve the timing of compute() calls, the user could use e.g. a hardware timer 
+to call compute() at very regular intervals.
+See also PID_ENABLE_INTERVAL_CHECK above.
 
 
 ## Operations
@@ -129,10 +149,12 @@ See examples and
   - PI as derived or base class?
 - add examples to test more
 - improve unit test
+- investigate if compute() can determine the interval
+  - ```interval = millis() - lastTime;```
+  - need to know start/stop moment to get the math right.
 
 #### Could
 
-- add reference to PID book / website?
 - move all code to .cpp
 
 #### Wont

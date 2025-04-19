@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-04-12
+- fix SPI mode 1 (See #12 AD5620)
+- sync AD5660/20
+- add **getMaxValue()**
+- fix readme table layout
+- minor edits
+
+----
+
 ## [0.3.2] - 2025-01-20
 - redo SW SPI, see PR #4 AD5660 library
-
 
 ## [0.3.1] - 2024-05-23
 - add support for ARDUINO_ARCH_MBED

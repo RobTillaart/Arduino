@@ -10,9 +10,10 @@ getType	KEYWORD2
 
 setValue	KEYWORD2
 getValue	KEYWORD2
+getMaxValue	KEYWORD2
+
 setPercentage	KEYWORD2
 getPercentage	KEYWORD2
-
 
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
@@ -23,7 +24,4 @@ usesHWSPI	KEYWORD2
 # Constants (LITERAL1)
 
 AD5680_LIB_VERSION	LITERAL1
-
-
-
 

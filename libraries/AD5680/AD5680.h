@@ -2,7 +2,7 @@
 //
 //    FILE: AD5680.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.4.0
 //    DATE: 2023-09-19
 // PURPOSE: Arduino library for AD5680 Digital Analog Convertor (18 bit).
 
@@ -10,7 +10,8 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD5680_LIB_VERSION        (F("0.3.2"))
+
+#define AD5680_LIB_VERSION        (F("0.4.0"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -40,6 +41,7 @@ public:
   //  sets output immediately = prepare + update.
   bool     setValue(uint32_t value = 0);
   uint32_t getValue();
+  uint32_t getMaxValue();
   bool     setPercentage(float percentage);
   float    getPercentage();
 
@@ -51,7 +53,8 @@ public:
 
 
 protected:
-  uint8_t  _type        = 18;      //  # bits
+  uint8_t  _type        = 18;      //  #bits
+  uint32_t _maxValue    = 262143;  //  0x0003FFFF
   uint8_t  _dataOut     = 255;
   uint8_t  _clock       = 255;
   uint8_t  _select      = 255;
@@ -61,8 +64,8 @@ protected:
   bool     _hwSPI       = false;
   uint32_t _SPIspeed    = 16000000;
 
-  void     updateDevice(uint32_t value);
-  void     swSPI_transfer(uint8_t value);
+  void     updateDevice(uint32_t data);
+  void     swSPI_transfer(uint8_t data);
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;

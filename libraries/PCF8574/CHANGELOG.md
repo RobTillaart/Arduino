@@ -6,13 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2025-04-18
+- sync last commits
+- update readme.md
+
+
 ## [0.4.1] - 2023-09-23
 - Update readme with advanced interrupts insights
   - kudos to ddowling for testing.
   - add example
 - fix URL examples
 - add Wire1 example (ESP32 + RP2040)
-
 
 ## [0.4.0] - 2023-09-23
 - refactor API, begin()
@@ -39,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.6] - 2022-10-19
 - fix example PCF8574_rotaryEncoder.ino
 - add RP2040 to build-CI
-- simplified changelog.md 
+- simplified changelog.md
 
 ## [0.3.5] - 2022-06-17
 - add select(), selectN(), selectNone() and selectAll()
@@ -49,7 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add CHANGELOG.md
 - fix **begin(int sda, int scl)** int parameters for ESP alike.
 
-## [0.3.3] - 2021-12-23  
+## [0.3.3] - 2021-12-23
 - update library.json, license, readme, minor edits
 
 ## [0.3.2] - 2021-07-04
@@ -91,7 +95,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fix/refactor ButtonRead8() - see https://github.com/RobTillaart/Arduino/issues/38
 - missing begin() => mask parameter
 
-## [0.1.07] - 2016-05-02  
+## [0.1.07] - 2016-05-02
 - (manually merged) Septillion
 - added dataOut so a write() doesn't read first,
    possibly corrupting a input pin;

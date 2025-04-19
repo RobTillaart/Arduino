@@ -2,7 +2,7 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
@@ -12,14 +12,8 @@
 
 
 PCF8574::PCF8574(const uint8_t deviceAddress, TwoWire *wire)
-{
-  _address    = deviceAddress;
-  _wire       = wire;
-  _dataIn     = 0;
-  _dataOut    = 0xFF;
-  _buttonMask = 0xFF;
-  _error      = PCF8574_OK;
-}
+: _address {deviceAddress}, _wire {wire}
+{}
 
 
 bool PCF8574::begin(uint8_t value)
@@ -36,19 +30,11 @@ bool PCF8574::isConnected()
   return ( _wire->endTransmission() == 0);
 }
 
-
 bool PCF8574::setAddress(const uint8_t deviceAddress)
 {
   _address = deviceAddress;
   return isConnected();
 }
-
-
-uint8_t PCF8574::getAddress()
-{
-  return _address;
-}
-
 
 //  removed _wire->beginTransmission(_address);
 //  with    @100 KHz -> 265 micros()

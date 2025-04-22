@@ -113,6 +113,8 @@ Note X == row and Y == column. See #13.
 - **void cursorDown(uint8_t x)** idem.
 - **void cursorForward(uint8_t x)** idem.
 - **void cursorBack(uint8_t x)** idem.
+- **void cursorShow()** idem.
+- **void cursorHide()** idem.
 
 
 ## Experimental

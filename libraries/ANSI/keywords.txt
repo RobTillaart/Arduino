@@ -24,6 +24,8 @@ cursorUp	KEYWORD2
 cursorDown	KEYWORD2
 cursorForward	KEYWORD2
 cursorBack 	KEYWORD2
+cursorShow 	KEYWORD2
+cursorHide 	KEYWORD2
 
 foreground	KEYWORD2
 background	KEYWORD2

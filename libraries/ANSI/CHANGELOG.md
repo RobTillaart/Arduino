@@ -5,8 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.4] - 2025-04-22
+- add cursorShow() + cursorHide() - kudos to inbox715
+- add ansi_cursorHide.ino example
 
-## [0.3.3] - 2025-xxxx
+## [0.3.3] - 2025-02-17
 - move RGB functions to .cpp
 - update readme.md
 - minor edit in build-CI

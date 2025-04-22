@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.3.3"))
+#define ANSI_LIB_VERSION        (F("0.3.4"))
 
 
 class ANSI : public Stream
@@ -52,6 +52,9 @@ public:
   void cursorDown(uint8_t x);
   void cursorForward(uint8_t x);
   void cursorBack(uint8_t x);
+
+  void cursorShow();
+  void cursorHide();
 
 
   //  COLOR

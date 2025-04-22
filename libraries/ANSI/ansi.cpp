@@ -1,7 +1,7 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -141,6 +141,22 @@ void ANSI::cursorBack(uint8_t x)
   _stream->write("\033[", 2);
   print(x);
   _stream->write('D');
+}
+
+
+//
+//  CURSOR VISIBILITY COMMANDS
+//
+//  Useful for PlatformIO Serial Monitor To make simple GUI
+//  PR #26
+void ANSI::cursorShow()
+{
+  _stream->write("\033[?25h", 6);
+}
+
+void ANSI::cursorHide()
+{
+  _stream->write("\033[?25l", 6);
 }
 
 

@@ -5,8 +5,8 @@
 - name might change
 
 
-| function            | TeraTerm | puTTY |  miniCom  |
-|:--------------------|:--------:|:-----:|:---------:|
+| function            | TeraTerm | puTTY |  miniCom  |  Notes  |
+|:--------------------|:--------:|:-----:|:---------:|:--------|
 | normal              |     Y    |   Y   |           |
 | bold                |     Y    |   Y   |           |
 | low                 |     Y    |   Y   |           |
@@ -23,6 +23,8 @@
 | cursorDown          |     Y    |   Y   |           |
 | cursorForward       |     Y    |   Y   |           |
 | cursorBack          |     Y    |   Y   |           |
+| cursorShow          |     Y    |   Y   |           |  since 0.3.4
+| cursorHide          |     Y    |   Y   |           |
 |                     |          |       |           |
 | foreground          |     Y    |   Y   |           |
 | background          |     Y    |   Y   |           |

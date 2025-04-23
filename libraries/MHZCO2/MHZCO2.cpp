@@ -1,8 +1,8 @@
 //
 //    FILE: MHZCO2.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
-// PURPOSE: Arduino Library for MHZ series CO2 sensors
+// VERSION: 0.2.2
+// PURPOSE: Arduino Library for MHZ series CO2 sensors.
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
 
@@ -194,7 +194,7 @@ int MHZCO2::receive(uint8_t * answer)
 uint8_t MHZCO2::checksum(uint8_t *arr)
 {
   uint8_t sum = 0;
-  for (uint8_t i = 1; i < 8; i++)
+  for (int i = 1; i < 8; i++)
   {
     sum += arr[i];
   }

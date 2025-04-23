@@ -2,15 +2,15 @@
 //
 //    FILE: MHZCO2.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
-// PURPOSE: Arduino Library for MHZ series CO2 sensors
+// VERSION: 0.2.2
+// PURPOSE: Arduino Library for MHZ series CO2 sensors.
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
 //
 
 #include "Arduino.h"
 
-#define MHZCO2_LIB_VERSION        (F("0.2.1"))
+#define MHZCO2_LIB_VERSION        (F("0.2.2"))
 
 #define MHZCO2_OK                 0
 #define MHZCO2_TIMEOUT            -10
@@ -21,11 +21,13 @@ class MHZCO2
 {
 public:
   MHZCO2();
-  //  Stream is either a HW or SW serial.
+  //  Stream is either a hardware or software serial.
+  //  Hardware serial is most reliable.
   void     begin(Stream * str);
   uint32_t uptime();
 
 
+  //  set the max PPM the sensor can return, upper range.
   //  PPM = 2000, 5000, 10000 (other values unknown)
   //  check datasheet
   void     setPPM(uint16_t PPM);
@@ -48,8 +50,8 @@ public:
   void     calibrateAuto(bool mode = true);
 
   //  default = 1000 millisecond
-  //  depending on baud rate (9600) low values may fail
-  //  0 means no time ut check.
+  //  depending on baud rate (9600) low values may fail to read all data.
+  //  0 means no time out check ==> could be blocking for long time.
   void     setTimeOut(uint16_t timeout = 1000);
   uint16_t getTimeOut();
 

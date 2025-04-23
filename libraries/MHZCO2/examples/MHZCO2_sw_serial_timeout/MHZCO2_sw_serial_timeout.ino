@@ -20,10 +20,13 @@ MHZ19B MHZ19B;
 
 void setup()
 {
+  // while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MHZCO2_LIB_VERSION: ");
   Serial.println(MHZCO2_LIB_VERSION);
+  Serial.println();
 
   MHZ19B.begin(&ss);
   ss.begin(9600);

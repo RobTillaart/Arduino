@@ -1,7 +1,7 @@
 //
 //    FILE: MHZCO2_serial1_plotter.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo for MEGA / 2560 with Serial1
+// PURPOSE: demo for MEGA / 2560 etc with Serial1
 
 
 #include "Arduino.h"
@@ -13,10 +13,13 @@ MHZ19B MHZ19B;
 
 void setup()
 {
+  // while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
-//  Serial.println(__FILE__);
-//  Serial.print("MHZCO2_LIB_VERSION: ");
-//  Serial.println(MHZCO2_LIB_VERSION);
+  //  Serial.println();
+  //  Serial.println(__FILE__);
+  //  Serial.print("MHZCO2_LIB_VERSION: ");
+  //  Serial.println(MHZCO2_LIB_VERSION);
+  //  Serial.println();
 
   MHZ19B.begin(&Serial1);
   Serial1.begin(9600);

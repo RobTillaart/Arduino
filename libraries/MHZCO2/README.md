@@ -16,14 +16,67 @@ Arduino Library for MHZ series CO2 sensors.
 
 ## Description
 
-The MHZCO2 is an experimental library for the MHZ19B CO2 sensor
-with a Serial (RS232-TTL) interface and compatibles.
+**Experimental**
 
-The library offers a base class and derived classes to prepare for specific functionality.
+The MHZCO2 is a library for the MHZ19B CO2 sensor and compatibles 
+with a **Serial** (RS232-TTL) interface.
+The library has examples for reading the **PWM** and **analog** signal,
+however these are not supported from the classes.
+
+The library offers a base class **MHZCO2** and derived classes for specific devices
+to prepare for specific functionality.
 The base class is based upon the MHZ19B specification. 
 This might change in the future as compatibles might differ on detail.
 
 Reference: user manual MHZ129B 2019-04-25 version 1.4
+
+
+### Pins
+
+Check the datasheet to connect the right pins. These might differ between types
+and versions within a type.
+
+
+### PWM
+
+The MHZ19B and some compatibles support a **PWM** output pin to indicate the concentration.
+Do not forget to connect GND lines between MCU and sensor.
+
+The library does not support this PWM within the MHZxxx classes.
+However examples are available how to measure the CO2 concentration by means 
+of the PWM output **MHZCO2_PWM.ino** and **MHZCO2_PWM_highres.ino**.
+
+The PWM has a fixed period and changes its duty cycle.
+The ratio of the period HIGH (-2 ms) to total period T (-4 ms) is the indication 
+of the percentage of the maximum PPM.
+\
+The small minus constants are needed for correct result, especially at the lower 
+end of the spectrum near the 400 PPM.
+
+Example:
+If the max PPM is 5000 and the period HIGH = 432 ms and T = 1002 ms, the concentration
+CO2 = 5000 x 432 x 0.001 = 2160 PPM. 
+
+
+### Analog
+
+The MHZ19B and some compatibles support an **analog** output to indicate the concentration.
+The library does not support this analog signal within the MHZxxx classes.
+However an example is available how to measure the CO2 concentration by means 
+of the analog output **MHZCO2_analog.ino**.
+
+The advantage of the analog output is that it is the fastest interface of all
+(depending on ADC used of course).
+
+The example is straightforward and can be improved e.g. by using an external
+reference for the ADC and some calibrated values. 
+This is not implemented in the example.
+
+
+### Precision
+
+The MHZ sensors can measure with an 1 ppm precision although the accuracy is 
+about ±50 PPM.
 
 
 ### Version 0.2.1
@@ -93,16 +146,16 @@ In previous versions the MTP40F was incorrectly mentioned as compatible.
 ### Constructor
 
 - **MHZCO2()** base class constructor.
-- **MHZ19()** constructor. Also 19B, C, D, E
-- **void begin(Stream \* str)** set the Serial port to use, e.g Serial1,
-or a softwareSerial port.
-**begin()** also resets all internal variables.
+- **MHZ19()** constructor. Also MHZ19B, MHZ19C, MHZ19D, MHZ19E and MHZ1311A.
+- **void begin(Stream \* str)** resets all internal variables and 
+sets the Serial port to use, e.g Serial1, or a softwareSerial port.
+This stream has to be configured before the call to **begin()**.
 - **uint32_t uptime()** returns milliseconds since 'instantiation'.
 
 
 ### Range
 
-To set the max range of the actual sensor.
+To set the maximum range of the actual sensor used.
 
 - **void setPPM(uint16_t PPM)** PPM = 2000, 5000, 10000. 
 The value set is persistent over reboots (see issue #9).
@@ -113,16 +166,22 @@ filled by **setPPM()** yet.
 
 ### Measure
 
-- **int measure()** workhorse, send command to read the sensor and 
+- **int measure()** the workhorse, sends a command to read the sensor and 
 waits until an answer is received. Return values see below.
 Will only update lastMeasurement if the measurement is successful (0.2.1)
-- **uint32_t lastMeasurement()** timestamp in milliseconds of last measurement.
-- **int getCO2()** returns CO2 PPM last measurement.
-- **int getTemperature()** returns temperature last measurement.
+- **uint32_t lastMeasurement()** timestamp in milliseconds of last 
+successful measurement.
+- **int getCO2()** returns the CO2 PPM concentration of the last measurement.
+Multiple calls will return the same value until a new measurement is made.
+- **int getTemperature()** returns the temperature of the last measurement.
+Multiple calls will return the same value until a new measurement is made.
 Note that the temperature can be negative.
-- **int getAccuracy()** returns accuracy last measurement.
+- **int getAccuracy()** returns the accuracy of the last measurement.
+Multiple calls will return the same value until a new measurement is made.
 Note: check datasheet.
-- **int getMinCO2()** returns minCO2 last measurement.
+- **int getMinCO2()** returns the minimum CO2 of the last measurement.
+Multiple calls will return the same value until a new measurement is made.
+Note: check datasheet.
 
 The latter two might not be supported by all MH sensors.
 
@@ -138,15 +197,19 @@ The latter two might not be supported by all MH sensors.
 #### CRC error
 
 In case of an checksum error the values received may be corrupted.
-Best strategy is to ignore the measurement. However this is not always
-possible so a strategy might be to compare the values of the measurement 
-with the previous ones. 
-Often one can determine the failing ones but definitely not always.
+Best strategy is to ignore the measurement. 
+
+However ignoring is not always possible so a strategy might be to
+compare the values of the measurement with the previous ones to see 
+if they are plausible (e.g. close to previous measurement).
+This depends of course how large delta is considered acceptable.
+Often one can determine the really faulty measurements but definitely not always.
 
 
 ### Calibration
 
-**WARNING:** use with care, read the datasheet as these commands may disrupt your sensor.
+**WARNING:** use with care, read the datasheet as these commands may disrupt 
+your sensor.
 
 - **void calibrateZero()** Only use when sensor is at least 30 minutes 
 in a calibrated **400** PPM environment.
@@ -163,13 +226,15 @@ See - https://keelingcurve.ucsd.edu/
 
 ### Timeout
 
-These functions are used to set the default timeout in the receive function.
+The timeout functions are used to set the default timeout of a measurement.
 The faster the baud rate used, the smaller this value can be. As the **receive()** 
 call has to read 9 bytes at (default) 9600 baud. This is max 1 character per 
 millisecond. To receive 9 bytes one needs therefore at least 10 to 15 milliseconds
-under ideal circumstances. So setting the timeout lower makes little sense.
+under ideal circumstances. So setting the timeout lower makes little sense as 
+one would miss bytes.
 
-If the timeout is set to zero / 0 there will be no time out checking. 
+If the timeout is set to zero / 0 there will be no time out checking.
+Note however this can cause blocking code. 
 
 Use with care!
 
@@ -191,23 +256,29 @@ defaults to 1000 milliseconds.
 
 - check 5000 and 10000 PPM and possible others?
   - is there an effect on the PWM output.
-- should the PPM be a parameter of the constructor?
-  - default to 2000? or model based?
 
 #### Could
 
 - add type info for derived classes?
   - A .. E ?
+  - only when there are real differences.
 - save RAM? possible?
   - all arrays start with 0xFF, 0x01
   - reduce data types?
 - **uint16_t send()** could return bytes send?
   - would allow higher level functions to check.
 - add **int maxCO2()** by keeping track myself?
+  - also need **void resetMaxCO2()**
 - extend unit tests if needed.
 - fix SoftwareSerial - https://github.com/Arduino-CI/arduino_ci/issues/346
+- flush Serial occasionally?
+
 
 #### Won't
+
+- should the PPM be a parameter of the constructor?
+  - default to 2000? or model based?
+  - no, as now it can (in theory) be changed/calibrated runtime.
 
 
 ## Support

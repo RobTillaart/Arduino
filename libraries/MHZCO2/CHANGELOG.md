@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2025-04-22
+- improve readme.md (PWM + analog)
+- add **MHZCO2_PWM_highres.ino** example
+- minor edits
+
 ## [0.2.1] - 2024-09-02
 - merge #11, update lastMeasurement only if read is successful (kudos JonNelson)
 - add **void setTimeOut(uint16_t timeout = 1000)** to configure timeout

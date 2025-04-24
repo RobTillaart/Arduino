@@ -28,7 +28,9 @@ byte keys_of_keypad[ROWS_OF_KEYPAD][COLS_OF_KEYPAD] = {
 
 void setup()
 {
+  //  while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP23008_LIB_VERSION: ");
   Serial.println(MCP23008_LIB_VERSION);
@@ -92,5 +94,5 @@ void loop()
 }
 
 
-//  -- END OF FILE -- 
+//  -- END OF FILE --
 

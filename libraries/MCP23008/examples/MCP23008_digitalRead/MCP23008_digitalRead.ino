@@ -13,7 +13,9 @@ MCP23008 MCP(0x27);
 
 void setup()
 {
+  //  while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP23008_LIB_VERSION: ");
   Serial.println(MCP23008_LIB_VERSION);

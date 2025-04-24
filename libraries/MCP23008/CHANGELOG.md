@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] 2025-04-23
+- update readme.md
+- update examples (minor)
+- minor edits
+
 ## [0.3.4] 2024-07-04
 - Fix #21, documentation bug
 
@@ -64,7 +69,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edit readme.md
 - update datasheet page numbers of registers MCP23008.cpp
 
-## [0.1.1] - 2022-09-28 
+## [0.1.1] - 2022-09-28
 - optimize digitalWrite() - as that is the most used one
 
 ## [0.1.0] - 2022-01-10

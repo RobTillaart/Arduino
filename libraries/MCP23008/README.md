@@ -25,7 +25,7 @@ Since 0.1.1 the **digitalWrite(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -47,7 +47,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -56,31 +56,51 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17
-- https://github.com/RobTillaart/PCF8575
-- https://github.com/RobTillaart/TCA9555
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
+- https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
 
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08
-- https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
+- https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
 
 
 ## I2C
 
-Supports 100kHz, 400kHz and 1.7MHz 
+The device has 8 possible addresses: 0x20 - 0x27.
 
-TODO - add performance data
+See datasheet page 8.
+
+### Performance
+
+Datasheet states it supports 100kHz, 400kHz and 1.7MHz 
+
+TODO test to fill the table
+
+| clock speed |  Read  |  Write  |  Notes  |
+|:-----------:|:------:|:-------:|:--------|
+|  100000     |        |         |
+|  200000     |        |         |
+|  300000     |        |         |
+|  400000     |        |         |
+|  500000     |        |         |
+|  600000     |        |         |
+|  700000     |        |         |
+|  800000     |        |         |
 
 
-#### I2C multiplexing
+
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -148,19 +168,19 @@ pin = 0..7
 mode = { RISING, FALLING, CHANGE }  
 - **bool enableInterrupt(uint8_t pin, uint8_t mode)** 
 Returns true if successful.
-Returns MCP23017_PIN_ERROR if pin > 7.
+Returns MCP23008_PIN_ERROR if pin > 7.
 - **bool disableInterrupt(uint8_t pin)**
 Returns true if successful.
-Returns MCP23017_PIN_ERROR if pin > 7.
+Returns MCP23008_PIN_ERROR if pin > 7.
 
 
-Determine which pins caused the Interrupt. (datasheet).
+Determine which pins caused the Interrupt. (Read datasheet).
 - **uint8_t getInterruptFlagRegister()** Reads all 8 pins.
 - **uint8_t getInterruptCaptureRegister()** Reads all 8 pins.
 Is used to detect if multiple pins triggered an interrupt.
 
 
-- **bool setInterruptPolarity(uint8_t ipol)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
+- **bool setInterruptPolarity(uint8_t polarity)** polarity: 0 = LOW, 1 = HIGH, 2 = NONE/ODR
 - **uint8_t getInterruptPolarity()** return set value.
 
 
@@ -172,23 +192,16 @@ Read the datasheet carefully!
 - **bool enableControlRegister(uint8_t mask)** set IOCR bit fields
 - **bool disableControlRegister(uint8_t mask)** clear IOCR bit fields
 
+Datasheet page 15
 
 |  constant              |  mask  |  description  |
 |:-----------------------|:------:|:--------------|
-|  MCP23x17_IOCR_BANK    |  0x80  |  Controls how the registers are addressed.
-|  MCP23x17_IOCR_MIRROR  |  0x40  |  INT Pins Mirror bit.
-|  MCP23x17_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
-|  MCP23x17_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
-|  MCP23x17_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S17 only).
-|  MCP23x17_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
-|  MCP23x17_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
-|  MCP23x17_IOCR_NI      |  0x01  |  Not implemented. 
-
-
-Two dedicated functions are added: (MCP23S17 only)
-
-- **bool enableHardwareAddress()** set IOCR_HAEN  bit.
-- **bool disableHardwareAddress()** clear IOCR_HAEN bit.
+|  MCP23x08_IOCR_SEQOP   |  0x20  |  Sequential Operation mode bit.
+|  MCP23x08_IOCR_DISSLW  |  0x10  |  Slew Rate control bit for SDA output.
+|  MCP23x08_IOCR_HAEN    |  0x08  |  Hardware Address Enable bit (MCP23S08 only).
+|  MCP23x08_IOCR_ODR     |  0x04  |  Configures the INT pin as an open-drain output.
+|  MCP23x08_IOCR_INTPOL  |  0x02  |  This bit sets the polarity of the INT output pin.
+|  MCP23x08_IOCR_NI      |  0x01  |  Not implemented. 
 
 
 ### Error codes
@@ -201,10 +214,10 @@ Reading it will reset the flag to **MCP23008_OK**.
 |  name                     |  value  |  description  |
 |:--------------------------|:-------:|:--------------|
 |  MCP23008_OK              |  0x00   |  No error     |
-|  MCP23008_PIN_ERROR       |  0x81   |
-|  MCP23008_I2C_ERROR       |  0x82   |  (compatibility)
-|  MCP23008_VALUE_ERROR     |  0x83   |
-|  MCP23008_PORT_ERROR      |  0x84   |
+|  MCP23008_PIN_ERROR       |  0x81   |  pin out of range
+|  MCP23008_I2C_ERROR       |  0x82   |  low level
+|  MCP23008_VALUE_ERROR     |  0x83   |  pin mode error only for now.
+|  MCP23008_PORT_ERROR      |  0x84   |  (compatibility)
 |  MCP23008_REGISTER_ERROR  |  0xFF   |  low level.
 |  MCP23008_INVALID_READ    |  0xFF   |  low level.
 

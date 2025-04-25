@@ -1,7 +1,7 @@
 //
 //    FILE: AD5144A.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 // PURPOSE: I2C digital potentiometer AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -16,8 +16,6 @@
 //
 //  not implemented (yet)
 //  0      NOP
-//  4 5    linear RDAC in/decrement
-//  6 7    6dB RDAC in/decrement
 //  12 13  top scale bottom scale ???
 
 
@@ -51,13 +49,18 @@ bool AD51XX::isConnected()
 
 uint8_t AD51XX::reset()
 {
-  //  COMMAND 14 - page 29
-  return send(0xB0, 0x00);   //  to be tested
-  //  read the cache from EEPROM.
-  for (uint8_t rdac = 0; rdac < _potCount; rdac++)
+  //  COMMAND 14 - page 29 datasheet
+  uint8_t cmd = 0xB0;
+  uint8_t retVal = send(cmd, 0x00);
+  if (retVal == AD51XXA_OK)
   {
-    _lastValue[rdac] = readBackEEPROM(rdac);;
+    //  update cache from EEPROM.
+    for (uint8_t rdac = 0; rdac < _potCount; rdac++)
+    {
+      _lastValue[rdac] = readBack(rdac, 0x01);  //  readBack EEPROM value.
+    }
   }
+  return retVal;
 }
 
 
@@ -67,8 +70,10 @@ uint8_t AD51XX::reset()
 //
 uint8_t AD51XX::read(const uint8_t rdac)
 {
+  //  issue #28
+  if (_maxValue == 127) return _lastValue[rdac] >> 1;
   return _lastValue[rdac];
-};
+}
 
 
 uint8_t AD51XX::write(const uint8_t rdac, const uint8_t value)
@@ -76,59 +81,69 @@ uint8_t AD51XX::write(const uint8_t rdac, const uint8_t value)
   //  COMMAND 1 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
   if (value > _maxValue) return AD51XXA_INVALID_VALUE;
-  _lastValue[rdac] = value;
+
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  uint8_t sendValue = value;
+  if (_maxValue == 127) sendValue <<= 1;
+  _lastValue[rdac] = sendValue;
+
   uint8_t cmd = 0x10 | rdac;
-  return send(cmd, _lastValue[rdac]);
+  return send(cmd, sendValue);
 }
 
 
 uint8_t AD51XX::writeAll(const uint8_t value)
 {
   if (value > _maxValue) return AD51XXA_INVALID_VALUE;
+
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  uint8_t sendValue = value;
+  if (_maxValue == 127) sendValue <<= 1;
+
   //  COMMAND 1 - page 29
   for (uint8_t pm = 0; pm < _potCount; pm++)
   {
-    _lastValue[pm] = value;
+    _lastValue[pm] = sendValue;
   }
   uint8_t cmd = 0x18;
-  return send(cmd, value);
+  return send(cmd, sendValue);
 }
 
 
 uint8_t AD51XX::zeroAll()
 {
   return writeAll(0);
-};
+}
 
 
 uint8_t AD51XX::midScaleAll()
 {
-  return writeAll((_maxValue + 1)/2);
-};
+  return writeAll((_maxValue + 1) / 2);
+}
 
 
 uint8_t AD51XX::maxAll()
 {
   return writeAll(_maxValue);
-};
+}
 
 
 uint8_t AD51XX::zero(const uint8_t rdac)
 {
   return write(rdac, 0);
-};
+}
 
 
 uint8_t AD51XX::midScale(const uint8_t rdac)
 {
-  return write(rdac, (_maxValue + 1)/2);
-};
+  return write(rdac, (_maxValue + 1) / 2);
+}
 
 
 uint8_t AD51XX::maxValue(const uint8_t rdac)
 {
   return write(rdac, _maxValue);
-};
+}
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -148,7 +163,7 @@ uint8_t AD51XX::recallEEPROM(const uint8_t rdac)
 {
   //  COMMAND 10 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
-  _lastValue[rdac] = readBackEEPROM(rdac);
+  _lastValue[rdac] = readBack(rdac, 0x01);  //  read back EEPROM value.
   uint8_t cmd = 0x70 | rdac;
   return send(cmd, 0x00);
 }
@@ -159,8 +174,12 @@ uint8_t AD51XX::storeEEPROM(const uint8_t rdac, const uint8_t value)
   //  COMMAND 11 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
   if (value > _maxValue) return AD51XXA_INVALID_VALUE;
+
+  uint8_t sendValue = value;
+  if (_maxValue == 127) sendValue <<= 1;
+
   uint8_t cmd = 0x80 | rdac;
-  return send(cmd, value);
+  return send(cmd, sendValue);
 }
 
 
@@ -348,35 +367,54 @@ uint8_t AD51XX::preload(const uint8_t rdac, const uint8_t value)
   //  COMMAND 2 - page 29
   if (rdac >= _potCount) return AD51XXA_INVALID_POT;
   if (value > _maxValue) return AD51XXA_INVALID_VALUE;
+
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  uint8_t sendValue = value;
+  if (_maxValue == 127) sendValue <<= 1;
+
   uint8_t cmd = 0x20 | rdac;
-  return send(cmd, _lastValue[rdac]);
+  return send(cmd, sendValue);
 }
 
 
 uint8_t AD51XX::preloadAll(const uint8_t value)
 {
-  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
   //  COMMAND 2 - page 29
+  if (value > _maxValue) return AD51XXA_INVALID_VALUE;
+
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  uint8_t sendValue = value;
+  if (_maxValue == 127) sendValue <<= 1;
+
   uint8_t cmd = 0x28;
-  return send(cmd, value);
+  return send(cmd, sendValue);
 }
 
 
 uint8_t AD51XX::sync(const uint8_t mask)
 {
-  //  COMMAND 8 - page 29
+  //  mask range check, only lower 4 bits might be set
+  //  note it differs per device type and this is minimum check.
+  if (mask > 0x0F) return AD51XXA_ERROR;
+
+  //  COMMAND 8 - page 29 datasheet
   uint8_t cmd = 0x60 | mask;
-  return send(cmd, 0x00);
-  //  keep cache correct.
-  uint8_t m = 0x01;
-  for (uint8_t rdac = 0; rdac < _potCount; rdac++)
+  uint8_t retVal = send(cmd, 0x00);
+  if (retVal == AD51XXA_OK)
   {
-    if (mask & m)
+    //  keep cache correct.
+    //  to be tested for different device types.
+    uint8_t m = 0x01;
+    for (uint8_t rdac = 0; rdac < _potCount; rdac++)
     {
-      _lastValue[rdac] = readBackRDAC(rdac);
-      m <<= 1;
+      if (mask & m)
+      {
+        _lastValue[rdac] = readBack(rdac, 0x03);  //  read back RDAC
+        m <<= 1;
+      }
     }
   }
+  return retVal;
 }
 
 
@@ -400,31 +438,41 @@ uint8_t AD51XX::shutDown()
 {
   //  COMMAND 15 - table 29
   //  shutdown all channels
-  return send(0xC8, 0x01);   // to be tested
+  uint8_t cmd = 0xC8;
+  return send(cmd, 0x01);   // to be tested
 }
 
 
-uint8_t AD51XX::readBackINPUT(const uint8_t rdac)   
+uint8_t AD51XX::readBackINPUT(const uint8_t rdac)
 {
-  return readBack(rdac, 0x00); 
+  uint8_t value = readBack(rdac, 0x00);
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  if (_maxValue == 127) value >>= 1;
+  return value;
 }
 
 
-uint8_t AD51XX::readBackEEPROM(const uint8_t rdac)  
+uint8_t AD51XX::readBackEEPROM(const uint8_t rdac)
 {
-  return readBack(rdac, 0x01); 
+  uint8_t value = readBack(rdac, 0x01);
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  if (_maxValue == 127) value >>= 1;
+  return value;
 }
 
 
-uint8_t AD51XX::readBackCONTROL(const uint8_t rdac) 
+uint8_t AD51XX::readBackCONTROL(const uint8_t rdac)
 {
-  return readBack(rdac, 0x02); 
+  return readBack(rdac, 0x02);
 }
 
 
-uint8_t AD51XX::readBackRDAC(const uint8_t rdac)    
+uint8_t AD51XX::readBackRDAC(const uint8_t rdac)
 {
-  return readBack(rdac, 0x03); 
+  uint8_t value = readBack(rdac, 0x03);
+  //  issue #28, page 20 datasheet INPUT SHIFT REGISTER
+  if (_maxValue == 127) value >>= 1;
+  return value;
 }
 
 

@@ -17,8 +17,14 @@
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AD51XXA_VERSION: ");
+  //  Serial.println(AD51XXA_VERSION);  //  not included!
+  Serial.println();
+  Serial.println();
 
   Wire.begin();
 

@@ -14,10 +14,16 @@ AD5144A AD(0x77);
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AD51XXA_VERSION: ");
+  Serial.println(AD51XXA_VERSION);
+  Serial.println();
 
   Wire.begin();
+
   if (AD.begin() == false)
   {
     Serial.println("device not found");
@@ -69,7 +75,7 @@ void test_zeroAll()
 
   uint8_t rv = AD.zeroAll();
   Serial.println(rv);
-  
+
   for (int i = 0; i < AD.pmCount(); i++)
   {
     Serial.print(i);

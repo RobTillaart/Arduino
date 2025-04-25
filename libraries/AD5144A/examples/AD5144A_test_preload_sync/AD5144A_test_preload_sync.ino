@@ -6,7 +6,7 @@
 
 
 //  connect the AD5144A to a multichannel scope
-//  to verify the potentiometers change at the same time 
+//  to verify the potentiometers change at the same time
 
 
 #include "AD5144A.h"
@@ -18,8 +18,13 @@ AD5144A AD(0x77);
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AD51XXA_VERSION: ");
+  Serial.println(AD51XXA_VERSION);
+  Serial.println();
 
   Wire.begin();
   if (AD.begin() == false)
@@ -49,7 +54,7 @@ void test_preload()
   for (int value = 0; value < 256; value += 17)
   {
     //  loop over all channels / potmeters
-    for (uint8_t potMeter = 0; potMeter < AD.pmCount(); potMeter++)  
+    for (uint8_t potMeter = 0; potMeter < AD.pmCount(); potMeter++)
     {
       AD.preload(potMeter, value);
     }

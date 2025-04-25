@@ -2,7 +2,7 @@
 //
 //    FILE: AD5144A.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 // PURPOSE: I2C digital PotentioMeter AD5144A
 //    DATE: 2021-04-30
 //     URL: https://github.com/RobTillaart/AD5144A
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define AD51XXA_VERSION           (F("0.3.1"))
+#define AD51XXA_VERSION           (F("0.4.0"))
 
 
 #define AD51XXA_OK                0
@@ -57,7 +57,7 @@ public:
   uint8_t recallEEPROM(const uint8_t rdac);
 
 
-  //  page 27
+  //  page 27 - not tested yet.
   uint8_t setTopScale(const uint8_t rdac);
   uint8_t clrTopScale(const uint8_t rdac);
   uint8_t setTopScaleAll();
@@ -68,12 +68,13 @@ public:
   uint8_t clrBottomScaleAll();
 
 
-  //  page 27-28
+  //  page 27-28 - not tested yet.
   uint8_t setLinearMode(const uint8_t rdac);
   uint8_t setPotentiometerMode(const uint8_t rdac);
   //  0 = potentiometer, 1 = linear
   uint8_t getOperationalMode(const uint8_t rdac);
 
+  //  page 27-28 - not tested yet.
   uint8_t incrementLinear(const uint8_t rdac);
   uint8_t incrementLinearAll();
   uint8_t decrementLineair(const uint8_t rdac);
@@ -85,11 +86,12 @@ public:
 
 
   //  SYNC functions
+  //  page 29 - not tested yet.
   //  preload registers to change all channels synchronous
   uint8_t preload(const uint8_t rdac, const uint8_t value);
   uint8_t preloadAll(const uint8_t value);
   //  copy the preloads to the channels. The bit mask indicates which channels
-  //  b00001101 would indicate channel 0, 2 and 3;
+  //  b00001101 would indicate channel 0, 2 and 3 for the AD5144A (other devices?)
   //  sync can not have a default mask as one doesn't know which preloads
   //  are set and which not.
   uint8_t sync(const uint8_t mask);

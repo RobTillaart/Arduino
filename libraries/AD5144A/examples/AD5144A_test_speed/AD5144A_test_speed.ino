@@ -14,8 +14,13 @@ AD5144A AD(0x77);
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AD51XXA_VERSION: ");
+  Serial.println(AD51XXA_VERSION);
+  Serial.println();
 
   Wire.begin();
   if (AD.begin() == false)
@@ -45,7 +50,7 @@ void test_i2C_clock(uint32_t clock)
   Serial.print(__FUNCTION__);
   Serial.print(":\t");
   Serial.println(clock);
-  
+
   if (AD.isConnected() == false)
   {
     Serial.println("failed\n");

@@ -24,6 +24,11 @@ Programming Interface is kept the same as much as possible.
 The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+### 0.8.0 Breaking change
+
+Fix #55, hardware SPI constructor.
+Makes previous versions obsolete.
+
 ### 0.7.0 Breaking change
 
 Fix #50, **reverse16ByteOrder(bool)** is added to reverse the byte order of the 16 bit API.
@@ -74,17 +79,19 @@ Also it makes the library a bit simpler to maintain.
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17
-- https://github.com/RobTillaart/PCF8575
-- https://github.com/RobTillaart/TCA9555
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
+- https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
 
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08
-- https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
+- https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
 
 Keypad
 

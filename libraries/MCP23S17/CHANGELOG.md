@@ -6,10 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.0] - 2025-04-25
+- fix #55, hardware constructor, kudos to crocodileInside
+- update readme.md
+
+----
+
 ## [0.7.0] - 2025-02-18
 - fix #50, add function to reverse the byte order of the 16 bit API.
 - update readme.md
-
 
 ----
 

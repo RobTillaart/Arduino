@@ -25,14 +25,20 @@ The **write1(pin, value)** is optimized.
 If a pin is not changed it will not be written again to save time.
 
 
-#### 0.5.0 Breaking change
+### 0.6.0 Breaking change
+
+Fix #22, hardware SPI constructor.
+Makes previous versions obsolete.
+
+
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **MCP.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -54,7 +60,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -62,21 +68,23 @@ This makes it possible to support the ESP32-S3 and other processors in the futur
 Also it makes the library a bit simpler to maintain.
 
 
-#### Related
+### Related
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17
-- https://github.com/RobTillaart/PCF8575
-- https://github.com/RobTillaart/TCA9555
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
+- https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
 
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08
-- https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
+- https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
 
 
 ## Interface

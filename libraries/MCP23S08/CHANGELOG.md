@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2025-04-25
+- fix #22, hardware constructor
+- update readme.md
+
+----
+
 ## [0.5.3] - 2024-07-04
 - Fix #20, documentation bug
 

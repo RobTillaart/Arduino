@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S08.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -26,7 +26,11 @@ MCP23S08::MCP23S08(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t cloc
 //  HARDWARE SPI
 MCP23S08::MCP23S08(int select, __SPI_CLASS__ * spi)
 {
-  MCP23S08(select, 0x00, spi);
+  _address = 0x00;
+  _select  = select;
+  _error   = MCP23S08_OK;
+  _mySPI   = spi;
+  _hwSPI   = true;
 }
 
 

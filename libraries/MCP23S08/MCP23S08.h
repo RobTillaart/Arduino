@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S08.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.6.0
 // PURPOSE: Arduino library for SPI MCP23S08 8 channel port expander
 //    DATE: 2022-01-10
 //     URL: https://github.com/RobTillaart/MCP23S08
@@ -13,7 +13,7 @@
 #include "MCP23x08_registers.h"
 
 
-#define MCP23S08_LIB_VERSION              (F("0.5.3"))
+#define MCP23S08_LIB_VERSION              (F("0.6.0"))
 
 //  ERROR CODES
 #define MCP23S08_OK                       0x00
@@ -69,7 +69,7 @@ public:
 
 
   //       8 pins interface
-  //       mask  = 0x00..0xFF  bit pattern, 
+  //       mask  = 0x00..0xFF  bit pattern,
   //               bit 0 = output mode, bit 1 = input mode
   //       value = bit pattern.
   bool     pinMode8(uint8_t mask);

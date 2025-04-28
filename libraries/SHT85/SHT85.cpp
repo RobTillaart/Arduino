@@ -60,13 +60,13 @@ bool SHT::begin()
 uint8_t SHT::getAddress()
 {
   return _address;
-};
+}
 
 
 uint8_t SHT::getType()
 {
   return _type;
-};
+}
 
 
 ///////////////////////////////////////////////////
@@ -141,7 +141,7 @@ bool SHT::readData(bool fast)
 uint32_t SHT::lastRequest()
 {
   return _lastRequest;
-};
+}
 
 
 ///////////////////////////////////////////////////
@@ -216,10 +216,24 @@ uint16_t SHT::readStatus()
 }
 
 
+//  resets the following bits
+//  15  Alert pending status
+//  11  Humidity tracking alert
+//  10  Temp tracking alert
+//  4   System reset detected
+bool SHT::clearStatus()
+{
+  if (writeCmd(SHT_CLEAR_STATUS) == false)
+  {
+    return false;
+  }
+  return true;
+}
+
 uint32_t SHT::lastRead()
 {
   return _lastRead;
-};
+}
 
 
 bool SHT::reset(bool hard)
@@ -256,7 +270,7 @@ void SHT::setHeatTimeout(uint8_t seconds)
 uint8_t SHT::getHeatTimeout()
 {
   return _heatTimeout;
-};
+}
 
 
 bool SHT::heatOn()

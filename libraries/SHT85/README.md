@@ -37,40 +37,22 @@ Always check datasheet before connecting!
 ```
 
 
-The SHT85 sensors should work (I2C) up to 1000 KHz. 
-During tests with an Arduino UNO it stopped between 500 - 550 KHz.
-So to be safe I recommend not to use the sensor above 400 KHz.
-Also the differences in read time becomes quite small. (max 15% gain).
+### 0.6.0 Breaking change
 
-See indicative output example sketch. 
-SPS (= samples per second) are added later.
-
-
-| I2C speed | read ms |  SPS  |  notes  |
-|:---------:|:-------:|:-----:|:--------|
-|   50 KHz  |  6.60   |  123  |
-|  100 KHz  |  5.11   |  140  |  default
-|  150 KHz  |  4.79   |       |
-|  200 KHz  |  4.64   |  140  |
-|  250 KHz  |  4.56   |       |
-|  300 KHz  |  4.50   |  164  |
-|  350 KHz  |  4.47   |       |
-|  400 KHz  |  4.45   |  164  |
-|  450 KHz  |  4.43   |       |
-|  500 KHz  |  4.42   |  163  |
-|  550 KHz  |  ----   |       |  fail 
+Version 0.6.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling **begin()**.
 
 
-At 10% load the SHT85 can be used to make about 10 - 15 SPS.
-
-
-#### Compatibility
+### Compatibility
 
 The SHT85 is protocol compatible with the SHT3x series.
-Main difference is the accuracy and the SHT85 only has address 0x44.
+Main difference is the accuracy and the SHT85 only has one address 0x44.
 Compare the data sheets to see all differences.
 
-Accuracy table:
+Accuracy table
 
 |  Sensor  |  Temperature  |  Humidity  |  Verified  }
 |:--------:|:-------------:|:----------:|:----------:|
@@ -84,7 +66,36 @@ Note: The SHT40, SHT41 and SHT45 are not protocol compatible with SHT3x and SHT8
 The SHT4x series is slightly faster than the SHT3x series.
 
 
-#### Multiple SHT85
+### I2C performance
+
+The SHT85 sensors should work (I2C) up to 1000 KHz. 
+During tests with an Arduino UNO it stopped between 500 - 550 KHz.
+So to be safe I recommend not to use the sensor above 400 KHz.
+Also the differences in read time becomes quite small. (max 15% gain).
+
+See indicative output example sketch. 
+SPS (= samples per second) are added later.
+
+
+|  I2C speed  |  read ms  |  SPS  |  notes  |
+|:-----------:|:---------:|:-----:|:--------|
+|    50 KHz   |    6.60   |  123  |
+|   100 KHz   |    5.11   |  140  |  default
+|   150 KHz   |    4.79   |       |
+|   200 KHz   |    4.64   |  140  |
+|   250 KHz   |    4.56   |       |
+|   300 KHz   |    4.50   |  164  |
+|   350 KHz   |    4.47   |       |
+|   400 KHz   |    4.45   |  164  |
+|   450 KHz   |    4.43   |       |
+|   500 KHz   |    4.42   |  163  |
+|   550 KHz   |    ----   |       |  fail 
+
+
+At 10% load the SHT85 can be used to make about 10 - 15 SPS.
+
+
+### Multiple SHT85
 
 The SHT3x comes with two I2C address options, 0x44 and 0x45.
 The SHT85 only has 0x44 as I2C address, so it is not possible to have more than
@@ -93,31 +104,50 @@ This means you need to use multiple I2C buses (if your board support this),
 a software I2C (below) or an I2C multiplexer e.g. https://github.com/RobTillaart/TCA9548
 
 
-#### 0.6.0 Breaking change
+### I2C multiplexing
 
-Version 0.6.0 introduced a breaking change.
-The parameters from begin() moved to the constructor.
-You cannot set the pins in **begin()** any more.
-This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
-before calling **begin()**.
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
-#### Related
+### Related
+
+SHT series temperature sensors
 
 - https://github.com/RobTillaart/SHT2x
-- https://github.com/RobTillaart/SHT31
+- https://github.com/RobTillaart/SHT31 Sensirion humidity / temperature sensor
 - https://github.com/RobTillaart/SHT31_SW  = softWire based I2C.
+- https://github.com/RobTillaart/SHT31_SWW = softWire based I2C.
+- https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
 - https://github.com/RobTillaart/tinySHT2x
+
+Other temperature sensors
+
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DHTStable DHT11/22 etc
+- https://github.com/RobTillaart/DHT_Simulator
+- https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
 
 An elaborated library for the SHT31 sensor can be found here
 - https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 
-Dewpoint, heatindex, related functions and conversions.
-- https://github.com/RobTillaart/Temperature
+Other, including Dewpoint, heatindex, related functions and conversions.
 
-I2C multiplexer
-- https://github.com/RobTillaart/TCA9548
+- https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
 
 
 ## Interface
@@ -126,8 +156,7 @@ I2C multiplexer
 #include "SHT85.h"
 ```
 
-
-#### Constructor
+### Constructor
 
 - **SHT(uint8_t address, TwoWire \*wire = &Wire)** constructor of the base class. 
 Note that **getType()** will return 0.
@@ -142,18 +171,19 @@ Optional select the address and the I2C bus (Wire, Wire1 etc).
 - **uint8_t getType()** returns numeric part of sensor type.
 Returns 0 for the base class.
 - **bool begin()** Returns false if device address is incorrect or device cannot be reset.
-- **uint8_t getAddress()** returns address set in constructor.
+- **uint8_t getAddress()** returns address set in the constructor.
 
 
-#### Status
+### Status
 
 - **bool isConnected()** checks if address of the sensor is reachable over I2C. Returns false if not connected.
-- **uint16_t readStatus()** details see datasheet and **Status fields** below.
+- **uint16_t readStatus()** returns bit mask, details see **Status fields** below (and datasheet).
+- **bool clearStatus()** clear status register, see **Status fields** below.
 - **uint32_t lastRead()** in milliSeconds since start of program.
-- **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if fails.
+- **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if call fails.
 
 
-#### Synchronous read
+### Synchronous read
 
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Reads both the temperature and humidity from the device.
@@ -161,7 +191,7 @@ Reads both the temperature and humidity from the device.
 Note: the medium level is not supported (yet).
 
 
-#### Asynchronous read
+### Asynchronous read
 
 See async example for usage.
 
@@ -177,7 +207,7 @@ Returns false if reading the data fails or if CRC check failed.
 This function is used to check if the request is too long ago.
 
 
-#### Temperature and humidity
+### Temperature and humidity
 
 Note that the temperature and humidity values are recalculated on every call to **getHumidity()** and **getTemperature()**. 
 If you're worried about the extra cycles, you should make sure to cache these values or only request them after 
@@ -205,23 +235,27 @@ rawHumidity     = humidity * 655.35;
 ```
 
 
-#### Temperature and humidity offset
+### Temperature and humidity offset
 
 Default the offset is zero for both temperature and humidity.
-These functions allows one to adjust them a little. Note there is no limit to the offset so one can use huge values. This allows to use an offset of 273.15 effectively creating **°Kelvin** instead of Celsius.
+These functions allows one to adjust them a little.  
+Note: there is no limit to the offset so one can use huge values. 
+This allows to use an offset of 273.15 effectively creating degrees **Kelvin** instead of **Celsius**.
 
 Note: the offset is defined in degrees Celsius.
 To set an offset in degrees Fahrenheit, multiply the Fahrenheit offset with 0.55555556 to get Celsius steps (divide by 1.8 is slower).
 So an offset of 4 °F becomes 2.2222 °C.
 
+Note: the offset for humidity may cause boundary issues (below 0 and above 100)
 
-- **void setTemperatureOffset(float offset = 0)** set the offset in °C, default is zero removing the offset. The library converts this internally
+- **void setTemperatureOffset(float offset = 0)** set the offset in °C, default is zero removing the offset. 
+The library converts this internally
 - **float getTemperatureOffset()** returns the set offset in °C.
 - **void setHumidityOffset(float offset = 0)** set the offset, default is zero removing the offset.
 - **float getHumidityOffset()** returns the set offset.
 
 
-#### Error interface
+### Error interface
 
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling 
@@ -229,20 +263,20 @@ any command as the error flag could be from a previous command.
 
 |  Error  |  Symbolic                 |  Description                   |
 |:-------:|:--------------------------|:-------------------------------|
-|   0x00  |  SHT_OK                   |  no error                      |
-|   0x81  |  SHT_ERR_WRITECMD         |  I2C write failed              |
-|   0x82  |  SHT_ERR_READBYTES        |  I2C read failed               |
-|   0x83  |  SHT_ERR_HEATER_OFF       |  Could not switch off heater   |
-|   0x84  |  SHT_ERR_NOT_CONNECT      |  Could not connect             |
-|   0x85  |  SHT_ERR_CRC_TEMP         |  CRC error in temperature      |
-|   0x86  |  SHT_ERR_CRC_HUM          |  CRC error in humidity         |
-|   0x87  |  SHT_ERR_CRC_STATUS       |  CRC error in status field     |
-|   0x88  |  SHT_ERR_HEATER_COOLDOWN  |  Heater need to cool down      |
-|   0x89  |  SHT_ERR_HEATER_ON        |  Could not switch on heater    |
-|   0x8A  |  SHT_ERR_SERIAL           |  Could not read serial number  |
+|  0x00   |  SHT_OK                   |  no error                      |
+|  0x81   |  SHT_ERR_WRITECMD         |  I2C write failed              |
+|  0x82   |  SHT_ERR_READBYTES        |  I2C read failed               |
+|  0x83   |  SHT_ERR_HEATER_OFF       |  Could not switch off heater   |
+|  0x84   |  SHT_ERR_NOT_CONNECT      |  Could not connect             |
+|  0x85   |  SHT_ERR_CRC_TEMP         |  CRC error in temperature      |
+|  0x86   |  SHT_ERR_CRC_HUM          |  CRC error in humidity         |
+|  0x87   |  SHT_ERR_CRC_STATUS       |  CRC error in status field     |
+|  0x88   |  SHT_ERR_HEATER_COOLDOWN  |  Heater need to cool down      |
+|  0x89   |  SHT_ERR_HEATER_ON        |  Could not switch on heater    |
+|  0x8A   |  SHT_ERR_SERIAL           |  Could not read serial number  |
 
 
-#### Heater interface
+### Heater interface
 
 **WARNING:** Do not use heater for long periods. 
 
@@ -259,7 +293,7 @@ Switch off the heater by explicitly calling **heatOff()** or indirectly by calli
 This value is truncated to max 180 seconds. 
 - **uint8_t getHeatTimeout()** returns the value set.
 - **bool heatOn()** switches the heat cycle on if not already on.
-Returns false if this fails, setting error to **SHT_ERR_HEATER_COOLDOWN** 
+Returns false if the call fails, setting error to **SHT_ERR_HEATER_COOLDOWN** 
 or to **SHT_ERR_HEATER_ON**. 
 - **bool heatOff()** switches the heat cycle off. 
 Returns false if fails, setting error to **SHT_ERR_HEATER_OFF**.
@@ -269,29 +303,31 @@ Will switch the heater off if maximum heating time has passed.
 
 ## Status fields
 
-|  BIT  | Description                |  value  |  notes  |
-|:------|:---------------------------|:--------|:--------|
-|  15   | Alert pending status       |  0      | no pending alerts
-|       |                            |  1      | at least one pending alert - default
-|  14   | Reserved                   |  0      |
-|  13   | Heater status              |  0      | Heater OFF - default
-|       |                            |  1      | Heater ON 
-|  12   | Reserved                   |  0      |
-|  11   | Humidity tracking alert    |  0      | no alert - default
-|       |                            |  1      | alert
-|  10   | Temperature tracking alert |  0      | no alert - default
-|       |                            |  1      | alert
-|  9-5  | Reserved                   |  00000  | reserved
-|   4   | System reset detected      |  0      | no reset since last ‘clear status register’ command
-|       |                            |  1      | reset detected (hard or soft reset command or supply fail) - default
-|  3-2  | Reserved                   |  00     |
-|   1   | Command status             |  0      | last command executed successfully
-|       |                            |  1      | last command not processed. Invalid or failed checksum
-|   0   | Write data checksum status |  0      | checksum of last write correct
-|       |                            |  1      | checksum of last write transfer failed
+|  BIT  |  Description                 |  value  |  notes  |
+|:------|:-----------------------------|:--------|:--------|
+|  15   |  Alert pending status        |  0      | no pending alerts
+|       |                              |  1      | at least one pending alert - default
+|  14   |  Reserved                    |  0      |
+|  13   |  Heater status               |  0      | Heater OFF - default
+|       |                              |  1      | Heater ON 
+|  12   |  Reserved                    |  0      |
+|  11   |  Humidity tracking alert     |  0      | no alert - default
+|       |                              |  1      | alert
+|  10   |  Temperature tracking alert  |  0      | no alert - default
+|       |                              |  1      | alert
+|  9-5  |  Reserved                    |  00000  | reserved
+|   4   |  System reset detected       |  0      | no reset since last ‘clear status register’ command
+|       |                              |  1      | reset detected (hard or soft reset command or supply fail) - default
+|  3-2  |  Reserved                    |  00     |
+|   1   |  Command status              |  0      | last command executed successfully
+|       |                              |  1      | last command not processed. Invalid or failed checksum
+|   0   |  Write data checksum status  |  0      | checksum of last write correct
+|       |                              |  1      | checksum of last write transfer failed
+
+**bool clearStatus()** clears 15, 11, 10 and 4.
 
 
-#### SHT85 specific
+### SHT85 specific
 
 - **uint32_t GetSerialNumber()** Returns a 32 bit unique serial number. 
   This command seems to be timing sensitive, it uses a delay of 500us
@@ -299,7 +335,6 @@ Will switch the heater off if maximum heating time has passed.
 
 
 ## Future
-
 
 #### Must
 
@@ -346,4 +381,5 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
+
 

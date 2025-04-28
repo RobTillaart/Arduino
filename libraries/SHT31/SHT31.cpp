@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -77,10 +77,14 @@ bool SHT31::read(bool fast)
 }
 
 
+/////////////////////////////////////////////////////////////////
+//
+//  STATUS
+//
 #ifdef doc
 //  bit - description
 //  ==================
-//  15   Alert pending status
+//  15  Alert pending status
 //        '0': no pending alerts
 //        '1': at least one pending alert - default
 //  14  Reserved ‘0’
@@ -132,6 +136,20 @@ uint16_t SHT31::readStatus()
 }
 
 
+//  resets the following bits
+//  15  Alert pending status
+//  11  Humidity tracking alert
+//  10  Temp tracking alert
+//  4   System reset detected
+bool SHT31::clearStatus()
+{
+  if (writeCmd(SHT31_CLEAR_STATUS) == false)
+  {
+    return false;
+  }
+  return true;
+}
+
 bool SHT31::reset(bool hard)
 {
   bool b = writeCmd(hard ? SHT31_HARD_RESET : SHT31_SOFT_RESET);
@@ -151,6 +169,10 @@ void SHT31::setHeatTimeout(uint8_t seconds)
 }
 
 
+/////////////////////////////////////////////////////////////////
+//
+//  HEATER
+//
 bool SHT31::heatOn()
 {
   if (isHeaterOn()) return true;
@@ -200,6 +222,10 @@ bool SHT31::isHeaterOn()
 }
 
 
+/////////////////////////////////////////////////////////////////
+//
+//  ASYNC
+//
 bool SHT31::requestData()
 {
   if (writeCmd(SHT31_MEASUREMENT_SLOW) == false)
@@ -256,8 +282,10 @@ int SHT31::getError()
 }
 
 
-//////////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////////////////
+//
+//  PROTECTED
+//
 uint8_t SHT31::crc8(const uint8_t *data, uint8_t len)
 {
   //  CRC-8 formula from page 14 of SHT spec pdf

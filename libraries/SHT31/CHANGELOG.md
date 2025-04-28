@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2025-04-28
+- add **clearStatus()**, kudos to Elbandi
+- update readme.md
+- removed **heatUp** from documentation, labelled as depreciated.
+- add example SHT31_demo_plotter.ino
+- update keywords.txt
+- minor edits
+
 ## [0.5.0] - 2023-12-09
 - refactor API, constructor and begin()
 - add **getAddress()**

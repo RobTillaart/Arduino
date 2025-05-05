@@ -1,0 +1,23 @@
+# Syntax Colouring Map For 74HC590
+
+# Data types (KEYWORD1)
+DEV_74HC590	KEYWORD1
+DEV_54HC590	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+enableOutput	KEYWORD2
+disableOutput	KEYWORD2
+
+clearCounter	KEYWORD2
+enableCounter	KEYWORD2
+disableCounter	KEYWORD2
+
+pulseCounter	KEYWORD2
+pulseRegister	KEYWORD2
+readRCO	KEYWORD2
+
+
+# Constants (LITERAL1)
+LIB_74HC590_VERSION	LITERAL1
+

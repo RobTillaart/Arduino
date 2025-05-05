@@ -1,0 +1,23 @@
+{
+  "name": "74HC590",
+  "keywords": "54HC590",
+  "description": "Arduino library for the 74HC590 8 bit binary counter.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/74HC590.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "74HC590.h"
+}

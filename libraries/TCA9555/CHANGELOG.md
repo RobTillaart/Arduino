@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.3] - 2025-05-05
+- updated examples after HW test
+- add TCA9555_blink.ino
+- add TCA9555_performance.ino
+- minor edits 
+
 ## [0.4.2] - 2025-04-17
 - update readme.md
 - add derived class CAT9555

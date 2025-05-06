@@ -1,14 +1,14 @@
 //
-//    FILE: TCA9535_digitalRead.ino
+//    FILE: TCA9555_blink.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test TCA9555 library
+// PURPOSE: quick test TCA9555
 //     URL: https://github.com/RobTillaart/TCA9555
 
 
 #include "TCA9555.h"
 
 //  adjust address if needed
-TCA9535 TCA(0x27);
+TCA9555 TCA(0x20);
 
 
 void setup()
@@ -22,27 +22,24 @@ void setup()
   Wire.begin();
   TCA.begin();
 
+  Wire.setClock(50000);
 
-  Serial.println("Set pinMode16 INPUT");
-  TCA.pinMode16(0xFFFF);
-
-  Serial.println("TEST read1(pin)");
+  Serial.println("pinMode16(0x0000)");
+  TCA.pinMode16(0x0000);
 }
 
 
 void loop()
 {
-  Serial.println("TEST read1(pin)");
-  for (int pin = 0; pin < 16; pin++)
-  {
-    int val = TCA.read1(pin);
-    Serial.print(val);
-    Serial.print(' ');
-  }
-  Serial.println();
+  TCA.write16(0xFFFF);
+  Serial.println("HIGH");
+  delay(2000);
+
+  TCA.write16(0x0000);
+  Serial.println("LOW");
   delay(1000);
+  Serial.println();
 }
 
 
 //  -- END OF FILE --
-

@@ -7,8 +7,8 @@
 
 #include "TCA9555.h"
 
-
-TCA9555 TCA(0x27);
+//  adjust address if needed
+TCA9555 TCA(0x20);
 
 
 void setup()
@@ -21,14 +21,17 @@ void setup()
 
   Wire.begin();
   TCA.begin();
+  delay(1000);
 
-  Wire.setClock(50000);
+  Wire.setClock(100000);
 
 
   Serial.println("Set pinMode1 OUTPUT");
   for (int i = 0; i < 16; i++)
   {
     TCA.pinMode1(i, OUTPUT);
+    TCA.write1(i, HIGH);
+    delay(100);
     TCA.write1(i, LOW);
   }
 
@@ -41,6 +44,7 @@ void setup()
     Serial.print('\t');
     delay(250);
   }
+  delay(2000);
   Serial.println();
   Serial.println();
 
@@ -48,10 +52,25 @@ void setup()
   Serial.println("TEST write1(pin)");
   for (int pin = 0; pin < 16; pin++)
   {
-    TCA.write1(pin, 1 - pin % 2);  //  alternating HIGH/LOW
-    Serial.print(1 - pin % 2);
+    TCA.write1(pin, (pin + 1) % 2); //  alternating HIGH/LOW
+    Serial.print((pin + 1) % 2);
     Serial.print('\t');
+    delay(250);
   }
+  delay(2000);
+  Serial.println();
+  Serial.println();
+
+
+  Serial.println("TEST write1(pin)");
+  for (int pin = 0; pin < 16; pin++)
+  {
+    TCA.write1(pin, pin % 2);  //  alternating HIGH/LOW
+    Serial.print(pin % 2);
+    Serial.print('\t');
+    delay(250);
+  }
+  delay(2000);
   Serial.println();
   Serial.println();
 
@@ -62,9 +81,14 @@ void setup()
     int val = TCA.read1(pin);
     Serial.print(val);
     Serial.print('\t');
+    delay(250);
   }
   Serial.println();
   Serial.println("\ndone...");
+
+  TCA.write8(0, 0x00);
+  TCA.write8(1, 0xFF);
+  TCA.write1(8, LOW);
 }
 
 
@@ -74,4 +98,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

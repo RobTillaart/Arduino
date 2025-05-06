@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9555.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PURPOSE: Arduino library for I2C TCA9555 16 channel port expander
 //    DATE: 2021-06-09
 //     URL: https://github.com/RobTillaart/TCA9555
@@ -63,6 +63,8 @@ uint8_t TCA9555::getAddress()
 //
 //  1 PIN INTERFACE
 //
+//  pin = 0..15
+//  mode = INPUT, OUTPUT
 bool TCA9555::pinMode1(uint8_t pin, uint8_t mode)
 {
   if (pin > 15)
@@ -95,6 +97,8 @@ bool TCA9555::pinMode1(uint8_t pin, uint8_t mode)
 }
 
 
+//  pin = 0..15
+//  value = LOW(0), HIGH(not 0)
 bool TCA9555::write1(uint8_t pin, uint8_t value)
 {
   if (pin > 15)
@@ -111,7 +115,7 @@ bool TCA9555::write1(uint8_t pin, uint8_t value)
   uint8_t val = readRegister(OPR);
   uint8_t prevVal = val;
   uint8_t mask = 1 << pin;
-  if (value) val |= mask;  //  all values are HIGH.
+  if (value) val |= mask;  //  all values <> 0 are HIGH.
   else       val &= ~mask;
   if (val != prevVal)
   {
@@ -122,7 +126,8 @@ bool TCA9555::write1(uint8_t pin, uint8_t value)
 }
 
 
-uint8_t TCA9555::read1(uint8_t pin)   //  pin = 0..15
+//  pin = 0..15
+uint8_t TCA9555::read1(uint8_t pin)
 {
   if (pin > 15)
   {
@@ -143,6 +148,8 @@ uint8_t TCA9555::read1(uint8_t pin)   //  pin = 0..15
 }
 
 
+//  pin = 0..15
+//  value = LOW(0), HIGH ?
 bool TCA9555::setPolarity(uint8_t pin, uint8_t value)
 {
   if (pin > 15)
@@ -175,6 +182,7 @@ bool TCA9555::setPolarity(uint8_t pin, uint8_t value)
 }
 
 
+//  pin = 0..15
 uint8_t TCA9555::getPolarity(uint8_t pin)
 {
   if (pin > 15)
@@ -194,6 +202,7 @@ uint8_t TCA9555::getPolarity(uint8_t pin)
 //
 //  8 PIN INTERFACE
 //
+//  port = 0..1
 bool TCA9555::pinMode8(uint8_t port, uint8_t mask)
 {
   if (port > 1)
@@ -207,7 +216,9 @@ bool TCA9555::pinMode8(uint8_t port, uint8_t mask)
 }
 
 
-bool TCA9555::write8(uint8_t port, uint8_t mask)   //  port = 0..1
+//  port = 0..1
+//  mask = 0x00..0xFF
+bool TCA9555::write8(uint8_t port, uint8_t mask)
 {
   if (port > 1)
   {
@@ -220,6 +231,7 @@ bool TCA9555::write8(uint8_t port, uint8_t mask)   //  port = 0..1
 }
 
 
+//  port = 0..1
 int TCA9555::read8(uint8_t port)
 {
   if (port > 1)
@@ -233,6 +245,8 @@ int TCA9555::read8(uint8_t port)
 }
 
 
+//  port = 0..1
+//  mask = 0x00..0xFF
 bool TCA9555::setPolarity8(uint8_t port, uint8_t mask)
 {
   if (port > 1)
@@ -246,6 +260,7 @@ bool TCA9555::setPolarity8(uint8_t port, uint8_t mask)
 }
 
 
+//  port = 0..1
 uint8_t TCA9555::getPolarity8(uint8_t port)
 {
   if (port > 1)
@@ -263,6 +278,7 @@ uint8_t TCA9555::getPolarity8(uint8_t port)
 //
 // 16 PIN INTERFACE
 //
+//  mask = 0x0000..0xFFFF
 bool TCA9555::pinMode16(uint16_t mask)
 {
   bool b = true;
@@ -272,6 +288,7 @@ bool TCA9555::pinMode16(uint16_t mask)
 }
 
 
+//  mask = 0x0000..0xFFFF
 bool TCA9555::write16(uint16_t mask)
 {
   bool b = true;
@@ -290,6 +307,7 @@ uint16_t TCA9555::read16()
 }
 
 
+//  mask = 0x0000..0xFFFF
 bool TCA9555::setPolarity16(uint16_t mask)
 {
   bool b = true;

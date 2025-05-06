@@ -16,14 +16,16 @@ Arduino library for TCA9555 16 channel I2C port expander.
 
 ## Description
 
-This library gives easy control over the 16 pins of a TCA9555 chip.
+This library gives easy control over the 16 pins of a TCA9555 device.
 
 The pins can be used for INPUT (default) and OUTPUT, and allow to set polarity.
 
 The pins can be set per single pin, or with a mask to set either 8 or 16 pins
 in one call.
 Note that for the 16 bit interface settings are not perfectly simultaneous 
-as the 16 bit interface does in fact 2 calls to the 8 bit interface.  
+as the 16 bit interface does in fact 2 calls to the 8 bit interface.
+
+The TCA9555 has an interrupt pin, however the library does not support this.
 
 
 ### TCA9535
@@ -58,18 +60,19 @@ Feedback of working types is welcome.
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17  (SPI)
-- https://github.com/RobTillaart/PCA9671
-- https://github.com/RobTillaart/PCF8575
-- https://github.com/RobTillaart/TCA9555
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
+- https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
+
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08  (SPI)
-- https://github.com/RobTillaart/PCF8574
-- https://github.com/RobTillaart/TCA9554
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
+- https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
 
 
 ### 0.3.0 Breaking change
@@ -131,10 +134,34 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
+### I2C Performance
+
+Tested with TCA9555_performance.ino + UNO 0.4.3
+
+Note above 800 I2C fails, up to 800 KHz seems OK.
+
+
+|  CLOCK  |  read1   |  read8   |  read16   |  write1  |  write8  |  write16  |
+|:-------:|:--------:|:--------:|:---------:|:--------:|:--------:|:---------:|
+|    50   |  860.16  |  860.16  |  1720.32  |  860.16  |  619.64  |  1239.24  |
+|   100   |  463.65  |  463.52  |   926.19  |  464.67  |  334.57  |   669.16  |
+|   200   |  267.16  |  267.16  |   534.27  |  267.17  |  191.75  |   382.86  |
+|   300   |  196.83  |  196.80  |   393.46  |  195.89  |  141.23  |   281.26  |
+|   400   |  169.58  |  169.55  |   335.65  |  168.63  |  119.48  |   238.75  |
+|   500   |  147.34  |  147.34  |   294.45  |  147.91  |  104.74  |   208.94  |
+|   600   |  137.38  |  137.36  |   274.30  |  137.76  |   96.87  |   194.70  |
+|   700   |  129.12  |  129.12  |   257.11  |  130.34  |   91.43  |   182.86  |
+|   800   |  124.89  |  124.88  |   249.77  |  125.39  |   87.87  |   175.54  |
+|   900   |   48.78  |   48.76  |    97.55  |  100.94  |   52.38  |   104.50  |
+
+
 ### INT pin interrupts
 
 The interrupt pin is not supported by the library.
-Needs investigation (+ examples).
+There is an example showing how interrupts can be used.
+
+Note that the device generates interrupts on **CHANGING** pins,
+so no option to select falling or rising.
 
 
 ## Interface
@@ -230,28 +257,27 @@ Reading it will reset the flag to **TCA9555_OK**.
 #### Must
 
 - update documentation
-- buy TCA9555 / TCA9535 / PCA9555 / PCA9535
-- test all functionality
 - keep TCA9554/TCA9555 in sync
 
 #### Should
 
-- investigate INT = interrupt pin
+- investigate optimizing the "16 pins" interface.
+  - read /write multiple bytes in one call, is it supported? (YES!)
+  - expected gain ~33%
+- **setPolarity()** ==> **setPolarity1()** ? get idem.
+  - uniformity
 - investigate map INPUT_PULLUP on INPUT (pinMode ?)
 - investigate internal pull up etc.
 - investigate TCA9535 differences
   - pull up resistors
   - elaborate derived class
-- **setPolarity()** ==> **setPolarity1()** ? get idem.
-  - uniformity
 
 #### Could
 
 - rethink class hierarchy
   - TCA9535 has less functions so should be base class
 - add performance example for I2C.
-- investigate optimizing the "16 pins" interface.
-  - read /write multiple bytes in one call, is it supported?
+- buy TCA9535 / PCA9555 / PCA9535 to test
 
 #### Wont (unless)
 

@@ -67,7 +67,7 @@ unittest(test_constants)
   assertEqual(PCA9632_MODE2_ACK      , 0x08);
   assertEqual(PCA9632_MODE2_TOTEMPOLE, 0x04);
   assertEqual(PCA9632_MODE2_NONE     , 0x00);
-  assertEqual(PCA9632_MODE2_DEFAULT  , 0x01);
+  assertEqual(PCA9632_MODE2_DEFAULT  , 0x02);
 
   fprintf(stderr, "\nledout");
   assertEqual(PCA9632_LEDOFF         , 0x00);

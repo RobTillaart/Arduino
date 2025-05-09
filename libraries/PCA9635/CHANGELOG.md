@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2025-05-08
+- fix #34, Sync PCA9634 / 32
+- rename setLedDriverMode() => setLedDriverModeAll()
+- add **writeAll(arr)**
+- add **allOff()**
+- remove old defines, all are now PCA963X_xxxx
+- update readme.md
+- update examples
+- minor edits
+
 ## [0.6.0] - 2024-01-18
 - fix #32, setLedDriverMode(uint8_t mode)
 - minor edits (examples)

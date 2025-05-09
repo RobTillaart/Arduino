@@ -94,7 +94,7 @@ unittest(test_LedDriverMode)
 
   assertTrue(ledArray.begin());
 
-  //  TODO
+  // TODO
 }
 
 

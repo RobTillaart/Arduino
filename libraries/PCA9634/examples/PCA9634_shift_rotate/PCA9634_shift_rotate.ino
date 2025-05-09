@@ -34,7 +34,7 @@ void setup()
     ledArray.setLedDriverMode(channel, PCA963X_LEDOFF);
   }
   //  set all to PWM
-  ledArray.setLedDriverMode(PCA963X_LEDPWM);
+  ledArray.setLedDriverModeAll(PCA963X_LEDPWM);
 
 
   initArray();

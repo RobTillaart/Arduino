@@ -2,8 +2,8 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.4.0
-// PURPOSE: Arduino library for PCA9634 I2C LED driver
+// VERSION: 0.4.1
+// PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9634
 
 
@@ -12,7 +12,7 @@
 
 //////////////////////////////////////////////////////////////
 //
-//  Constructor
+//  CONSTRUCTOR
 //
 PCA9634::PCA9634(const uint8_t deviceAddress, TwoWire *wire)
 {
@@ -75,6 +75,33 @@ uint8_t PCA9634::channelCount()
 //
 //  LED DRIVER MODE
 //
+uint8_t PCA9634::setLedDriverModeAll(uint8_t mode)
+{
+  if (mode > 3) return PCA963X_ERR_MODE;
+  uint8_t mask = 0b00000000;
+  switch(mode)
+  {
+    case PCA963X_LEDGRPPWM:
+      mask = 0b11111111;
+      break;
+    case PCA963X_LEDPWM:
+      mask = 0b10101010;
+      break;
+    case PCA963X_LEDON:
+      mask = 0b01010101;
+      break;
+    default:
+      mask = 0b00000000;
+      break;
+  }
+  for (int reg = 0; reg < 2; reg++)
+  {
+    writeLedOut(reg, mask);
+  }
+  return PCA963X_OK;
+}
+
+
 uint8_t PCA9634::setLedDriverMode(uint8_t channel, uint8_t mode)
 {
   if (channel >= _channelCount)
@@ -93,8 +120,8 @@ uint8_t PCA9634::setLedDriverMode(uint8_t channel, uint8_t mode)
   uint8_t shift = (channel & 0x03) * 2;  // 0,2,4,6 places
   uint8_t setmask = mode << shift;
   uint8_t clrmask = ~(0x03 << shift);
-  uint8_t value = (readReg(reg) & clrmask) | setmask;
-  writeReg(reg, value);
+  uint8_t value = (readRegister(reg) & clrmask) | setmask;
+  writeRegister(reg, value);
   _error = PCA963X_OK;
   return _error;
 }
@@ -111,7 +138,7 @@ uint8_t PCA9634::getLedDriverMode(uint8_t channel)
 
   uint8_t reg = PCA963X_LEDOUT_BASE + (channel >> 2);
   uint8_t shift = (channel & 0x03) * 2;  //  0, 2, 4, 6 places
-  uint8_t value = (readReg(reg) >> shift ) & 0x03;
+  uint8_t value = (readRegister(reg) >> shift ) & 0x03;
   _error = PCA963X_OK;
   return value;
 }
@@ -125,7 +152,7 @@ uint8_t PCA9634::writeMode(uint8_t reg, uint8_t value)
 {
   if ((reg == PCA963X_MODE1) || (reg == PCA963X_MODE2))
   {
-    writeReg(reg, value);
+    writeRegister(reg, value);
     return PCA963X_OK;
   }
   _error = PCA963X_ERR_REG;
@@ -139,7 +166,7 @@ uint8_t PCA9634::readMode(uint8_t reg)
   if ((reg == PCA963X_MODE1) || (reg == PCA963X_MODE2))
   {
     _error = PCA963X_OK;
-    uint8_t value = readReg(reg);
+    uint8_t value = readRegister(reg);
     return value;
   }
   _error = PCA963X_ERR_REG;
@@ -149,53 +176,55 @@ uint8_t PCA9634::readMode(uint8_t reg)
 
 uint8_t PCA9634::setMode1(uint8_t value)
 {
-  return writeMode(PCA963X_MODE1, value);
+  writeRegister(PCA963X_MODE1, value);
+  return PCA963X_OK;
 }
 
 
 uint8_t PCA9634::setMode2(uint8_t value)
 {
-  return writeMode(PCA963X_MODE2, value);
+  writeRegister(PCA963X_MODE2, value);
+  return PCA963X_OK;
 }
 
 
 uint8_t PCA9634::getMode1()
 {
-  return readMode(PCA963X_MODE1);
+  return readRegister(PCA963X_MODE1);
 }
 
 
 uint8_t PCA9634::getMode2()
 {
-  return readMode(PCA963X_MODE2);
+  return readRegister(PCA963X_MODE2);
 }
 
 
 /////////////////////////////////////////////////////
 //
-//  GROUP PWM
+//  GROUP REGISTERS
 //
-void PCA9634::setGroupPWM(uint8_t value)
+uint8_t PCA9634::setGroupPWM(uint8_t value)
 {
-  writeReg(PCA963X_GRPPWM, value);
+  return writeRegister(PCA963X_GRPPWM, value);
 }
 
 
 uint8_t PCA9634::getGroupPWM()
 {
-  return readReg(PCA963X_GRPPWM);
+  return readRegister(PCA963X_GRPPWM);
 }
 
 
-void PCA9634::setGroupFREQ(uint8_t value)
+uint8_t PCA9634::setGroupFREQ(uint8_t value)
 {
-  writeReg(PCA963X_GRPFREQ, value);
+  return writeRegister(PCA963X_GRPFREQ, value);
 }
 
 
 uint8_t PCA9634::getGroupFREQ()
 {
-  return readReg(PCA963X_GRPFREQ);
+  return readRegister(PCA963X_GRPFREQ);
 }
 
 
@@ -246,6 +275,19 @@ uint8_t PCA9634::writeN(uint8_t channel, uint8_t* arr, uint8_t count)
 }
 
 
+uint8_t PCA9634::writeAll(uint8_t * arr)
+{
+  return writeN(0, arr, 8);
+}
+
+
+uint8_t PCA9634::allOff()
+{
+  uint8_t arr[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  return writeN(0, arr, 8);
+}
+
+
 uint8_t PCA9634::writeN_noStop(uint8_t channel, uint8_t* arr, uint8_t count)
 {
   if (channel + count > _channelCount)
@@ -291,7 +333,7 @@ int PCA9634::lastError()
 
 /////////////////////////////////////////////////////
 //
-//  SUB CALL  -   ALL CALL
+//  SUB CALL
 //
 bool PCA9634::enableSubCall(uint8_t nr)
 {
@@ -346,7 +388,7 @@ bool PCA9634::setSubCallAddress(uint8_t nr, uint8_t address)
     //  _error = ??  TODO
     return false;
   }
-  writeReg(PCA963X_SUBADR(nr), address);
+  writeRegister(PCA963X_SUBADR(nr), address);
   return true;
 }
 
@@ -358,11 +400,15 @@ uint8_t PCA9634::getSubCallAddress(uint8_t nr)
     //  _error = ??  TODO
     return 0;
   }
-  uint8_t address = readReg(PCA963X_SUBADR(nr));
+  uint8_t address = readRegister(PCA963X_SUBADR(nr));
   return address;
 }
 
 
+/////////////////////////////////////////////////////
+//
+//  ALL CALL
+//
 bool PCA9634::enableAllCall()
 {
   uint8_t prev = getMode1();
@@ -394,20 +440,20 @@ bool PCA9634::disableAllCall()
 bool PCA9634::isEnabledAllCall()
 {
   uint8_t mask = getMode1();
-  return mask & PCA963X_MODE1_ALLCALL;
+  return (mask & PCA963X_MODE1_ALLCALL) > 0;
 }
 
 
 bool PCA9634::setAllCallAddress(uint8_t address)
 {
-  writeReg(PCA963X_ALLCALLADR, address);
+  writeRegister(PCA963X_ALLCALLADR, address);
   return true;
 }
 
 
 uint8_t PCA9634::getAllCallAddress()
 {
-  uint8_t address = readReg(PCA963X_ALLCALLADR);
+  uint8_t address = readRegister(PCA963X_ALLCALLADR);
   return address;
 }
 
@@ -485,7 +531,7 @@ int PCA9634::I2C_SoftwareReset(uint8_t method)
 uint8_t PCA9634::writeLedOut(uint8_t reg, uint8_t mask)
 {
   if (reg > 1) return PCA963X_ERROR;
-  writeReg(PCA963X_LEDOUT_BASE + reg, mask);
+  writeRegister(PCA963X_LEDOUT_BASE + reg, mask);
   return PCA963X_OK;
 }
 
@@ -493,35 +539,17 @@ uint8_t PCA9634::writeLedOut(uint8_t reg, uint8_t mask)
 uint8_t PCA9634::readLedOut(uint8_t reg)
 {
   if (reg > 1) return 0x00;
-  return readReg(PCA963X_LEDOUT_BASE + reg);
+  return readRegister(PCA963X_LEDOUT_BASE + reg);
 }
 
 
-//  TODO move to right section after testing.
+/////////////////////////////////////////////////////
+//
+//  OBSOLETE
+//
 uint8_t PCA9634::setLedDriverMode(uint8_t mode)
 {
-  if (mode > 3) return PCA963X_ERR_MODE;
-  uint8_t mask = 0b00000000;
-  switch(mode)
-  {
-    case PCA963X_LEDGRPPWM:
-      mask = 0b11111111;
-      break;
-    case PCA963X_LEDPWM:
-      mask = 0b10101010;
-      break;
-    case PCA963X_LEDON:
-      mask = 0b01010101;
-      break;
-    default:
-      mask = 0b00000000;
-      break;
-  }
-  for (int reg = 0; reg < 2; reg++)
-  {
-    writeLedOut(reg, mask);
-  }
-  return PCA963X_OK;
+  return setLedDriverModeAll(mode);
 }
 
 
@@ -529,7 +557,7 @@ uint8_t PCA9634::setLedDriverMode(uint8_t mode)
 //
 //  PRIVATE
 //
-uint8_t PCA9634::writeReg(uint8_t reg, uint8_t value)
+uint8_t PCA9634::writeRegister(uint8_t reg, uint8_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
@@ -542,7 +570,7 @@ uint8_t PCA9634::writeReg(uint8_t reg, uint8_t value)
 }
 
 
-uint8_t PCA9634::readReg(uint8_t reg)
+uint8_t PCA9634::readRegister(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);

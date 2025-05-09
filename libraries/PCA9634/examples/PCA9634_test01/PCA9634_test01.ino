@@ -181,14 +181,15 @@ void testSetAndReadMode()
   Serial.print(millis());
   Serial.print("\t");
   Serial.println("Test - readMode");
-  uint8_t regval = ledArray.readMode(PCA963X_MODE1);
-  ledArray.writeMode(PCA963X_MODE1, regval);     //  non destructive;
+  uint8_t regval = ledArray.getMode1();
+  ledArray.setMode1(regval);     //  non destructive;
   Serial.print(millis());
   Serial.print("\t");
   Serial.print("PCA963X_MODE1: ");
   Serial.println(regval);
-  regval = ledArray.readMode(PCA963X_MODE2);
-  ledArray.writeMode(PCA963X_MODE2, regval);
+
+  regval = ledArray.getMode2();
+  ledArray.setMode2(regval);
   Serial.print(millis());
   Serial.print("\t");
   Serial.print("PCA963X_MODE2: ");

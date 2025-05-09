@@ -1,7 +1,7 @@
 {
   "name": "PCA9634",
   "keywords": "I2C,PCA9634,PWM",
-  "description": "Arduino library for PCA9634 I2C LED driver, 8 channel",
+  "description": "Arduino library for PCA9634 I2C LED driver, 8 channel PWM, 8 bit.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCA9634.git"
   },
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

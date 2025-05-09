@@ -7,18 +7,16 @@ PCA9634	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
-configure	KEYWORD2
-
 isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+configure	KEYWORD2
+channelCount	KEYWORD2
+
+setLedDriverModeAll	KEYWORD2
 setLedDriverMode	KEYWORD2
 getLedDriverMode	KEYWORD2
 
-write1	KEYWORD2
-write3	KEYWORD2
-writeN	KEYWORD2
-
-writeMode	KEYWORD2
-readMode	KEYWORD2
 setMode1	KEYWORD2
 setMode2	KEYWORD2
 getMode1	KEYWORD2
@@ -29,7 +27,14 @@ getGroupPWM	KEYWORD2
 setGroupFREQ	KEYWORD2
 getGroupFREQ	KEYWORD2
 
-lastError	KEYWORD2
+write1	KEYWORD2
+write3	KEYWORD2
+writeN	KEYWORD2
+writeAll	KEYWORD2
+allOff	KEYWORD2
+
+writeN_noStop	KEYWORD2
+writeStop	KEYWORD2
 
 enableSubCall	KEYWORD2
 disableSubCall	KEYWORD2
@@ -46,6 +51,9 @@ getOutputEnable	KEYWORD2
 I2C_SoftwareReset	KEYWORD2
 writeLedOut	KEYWORD2
 readLedOut	KEYWORD2
+
+
+lastError	KEYWORD2
 
 
 #

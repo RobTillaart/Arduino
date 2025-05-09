@@ -9,7 +9,7 @@
 
 
 AD9851 freqGen(10, 9, 8, 7, 6);  //  SW SPI
-//  AD9851 freqGen(10, 9, 8, &SPI, 6);  //  HW SPI
+//  AD9851 freqGen(10, 9, 8, &SPI);  //  HW SPI
 
 uint32_t freq    = 0;
 uint32_t maxFreq = 2000000UL;
@@ -19,10 +19,12 @@ bool up = true;
 
 void setup()
 {
+  //  while(!Serial):  //  uncomment if needed.
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
+  Serial.println();
 
   // SPI.begin();  //  HW SPI
 

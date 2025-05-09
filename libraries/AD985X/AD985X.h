@@ -2,7 +2,7 @@
 //
 //    FILE: AD985X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.1
+// VERSION: 0.7.2
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD985X_LIB_VERSION        (F("0.7.1"))
+#define AD985X_LIB_VERSION        (F("0.7.2"))
 
 
 #ifndef __SPI_CLASS__
@@ -41,10 +41,17 @@ class AD9850
 {
 public:
   //  HARDWARE SPI
-  //  spiClock needed for RESET(). TODO: nicer solution?
-  AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock);
+  [[deprecated("Use constructor without spiClock instead")]]
+  AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock);
+  //  new preferred constructor, see #37
+  AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI);
+  //  constructor without SELECT pin (always selected device), see #37
+  AD9850(uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI);
+
   //  SOFTWARE SPI
-  AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
+  AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
+    //  constructor without SELECT pin (always selected device).
+  AD9850(uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
 
   void     begin();
   void     reset();
@@ -97,12 +104,12 @@ protected:
   __SPI_CLASS__ * _mySPI;
   SPISettings     _spi_settings;
 
-  //  PINS
-  uint8_t  _dataOut = 0;
-  uint8_t  _clock   = 0;
-  uint8_t  _select  = 0;
-  uint8_t  _reset   = 0;
-  uint8_t  _fqud    = 0;  //  frequency update
+  //  PINS, set in constructor
+  uint8_t  _dataOut;
+  uint8_t  _clock;
+  uint8_t  _select;
+  uint8_t  _reset;
+  uint8_t  _fqud;  //  frequency update
 
   //  SIGNAL
   float    _freq    = 1;
@@ -124,10 +131,17 @@ class AD9851 : public AD9850
 {
 public:
   //  HARDWARE SPI
-  //  spiClock needed for RESET(). TODO: nicer solution?
-  AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock);
+  [[deprecated("Use constructor without spiClock instead")]]
+  AD9851(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock);
+  //  new preferred constructor, see #37
+  AD9851(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI);
+  //  constructor without SELECT pin (always selected device), see #37
+  AD9851(uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI);
+
   //  SOFTWARE SPI
-  AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
+  AD9851(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
+    //  constructor without SELECT pin (always selected device).
+  AD9851(uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock);
 
 
   //  returns false if limited to AD9851_MAX_FREQ

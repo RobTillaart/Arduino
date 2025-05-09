@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.1
+// VERSION: 0.7.2
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -24,24 +24,68 @@
 //  AD9850
 //
 
-//  HARDWARE SPI
-//  spiClock needed for RESET(). TODO: nicer solution?
-AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock)
+//
+//  CONSTRUCTORS HARDWARE SPI
+//
+//  Deprecated, spiClock was needed for RESET().
+AD9850::AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock)
 {
-  _select  = slaveSelect;
+  _select  = select;
   _reset   = resetPin;
   _fqud    = FQUDPin;
   _hwSPI   = true;
   _mySPI   = mySPI;
-  _dataOut = 0;
+  _dataOut = 255;  //  out of range.
   _clock   = spiClock;
   _factoryMask = 0xFC;
 }
 
-//  SOFTWARE SPI
-AD9850::AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)
+//  new since 0.7.2
+AD9850::AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI)
 {
-  _select  = slaveSelect;
+  _select  = select;
+  _reset   = resetPin;
+  _fqud    = FQUDPin;
+  _hwSPI   = true;
+  _mySPI   = mySPI;
+  _dataOut = 255;  //  out of range.
+  _clock   = 255;  //  out of range.
+  _factoryMask = 0xFC;
+}
+
+//  new since 0.7.2
+AD9850::AD9850(uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI)
+{
+  _select  = 255;  //  out of range.
+  _reset   = resetPin;
+  _fqud    = FQUDPin;
+  _hwSPI   = true;
+  _mySPI   = mySPI;
+  _dataOut = 255;  //  out of range.
+  _clock   = 255;  //  out of range.
+  _factoryMask = 0xFC;
+}
+
+
+//
+//  CONSTRUCTORS SOFTWARE SPI
+//
+AD9850::AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)
+{
+  _select  = select;
+  _reset   = resetPin;
+  _fqud    = FQUDPin;
+  _hwSPI   = false;
+  _mySPI   = NULL;
+  _dataOut = spiData;
+  _clock   = spiClock;
+  _factoryMask = 0xFC;
+}
+
+//  new since 0.7.2
+AD9850::AD9850(uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)
+{
+  _select  = 255;  //  out of range.
   _reset   = resetPin;
   _fqud    = FQUDPin;
   _hwSPI   = false;
@@ -56,16 +100,16 @@ void AD9850::begin()
 {
 
   //  following 3 are always set.
-  pinMode(_select, OUTPUT);
+  if (_select < 255) pinMode(_select, OUTPUT);
   pinMode(_reset,  OUTPUT);
   pinMode(_fqud,   OUTPUT);
-  pinMode(_clock,   OUTPUT);
+  if (_clock < 255) pinMode(_clock,   OUTPUT);
 
   //  device select = HIGH  See - https://github.com/RobTillaart/AD985X/issues/13
-  digitalWrite(_select, LOW);
+  if (_select < 255) digitalWrite(_select, LOW);
   digitalWrite(_reset,  LOW);
   digitalWrite(_fqud,   LOW);
-  digitalWrite(_clock,   LOW);
+  if (_clock < 255) digitalWrite(_clock,   LOW);
 
   _spi_settings = SPISettings(2000000, LSBFIRST, SPI_MODE0);
 
@@ -87,10 +131,22 @@ void AD9850::begin()
 void AD9850::reset()
 {
   //  be sure to select the correct device
-  digitalWrite(_select, HIGH);
-  pulsePin(_reset);
-  pulsePin(_clock);
-  digitalWrite(_select, LOW);
+  if (_select < 255) digitalWrite(_select, HIGH);
+  if (_hwSPI)
+  {
+    _mySPI->beginTransaction(_spi_settings);
+    digitalWrite(_reset, HIGH);
+    _mySPI->transfer(0x00);
+    digitalWrite(_reset, LOW);
+    _mySPI->endTransaction();
+  }
+  else
+  {
+    //  be sure to select the correct device
+    pulsePin(_reset);
+    pulsePin(_clock);
+  }
+  if (_select < 255) digitalWrite(_select, LOW);
 
   _config = 0;    //  0 phase   no power down
   _freq   = 0;
@@ -153,7 +209,7 @@ void AD9850::writeData()
 
   //  used for multi device configuration only
   //  see https://github.com/RobTillaart/AD985X/issues/13
-  digitalWrite(_select, HIGH);
+  if (_select < 255) digitalWrite(_select, HIGH);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
@@ -176,7 +232,7 @@ void AD9850::writeData()
     swSPI_transfer(data >> 8);
     swSPI_transfer(_config & _factoryMask);  //  mask factory test bits
   }
-  digitalWrite(_select, LOW);
+  if (_select < 255) digitalWrite(_select, LOW);
 
   //  update frequency + phase + control bits.
   //  should at least be 4 ns delay - P14 datasheet
@@ -251,9 +307,9 @@ uint32_t AD9850::getMaxFrequency()
 
 void AD9850::update()
 {
-  digitalWrite(_select, HIGH);
+  if (_select < 255) digitalWrite(_select, HIGH);
   pulsePin(_fqud);
-  digitalWrite(_select, LOW);
+  if (_select < 255) digitalWrite(_select, LOW);
 }
 
 
@@ -265,18 +321,51 @@ void AD9850::update()
 //  bit is a 6x multiplier bit P.14 datasheet
 #define AD9851_REFCLK        0x01
 
-AD9851::AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock) : AD9850(slaveSelect, resetPin, FQUDPin, mySPI, spiClock)
+//
+//  CONSTRUCTORS HARDWARE SPI
+//
+//  Deprecated, spiClock was needed for RESET().
+AD9851::AD9851(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI, uint8_t spiClock)
+       :AD9850(select, resetPin, FQUDPin, mySPI, spiClock)
+{
+  _factoryMask = 0xFD;
+}
+
+//  new since 0.7.2
+AD9851::AD9851(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI)
+       :AD9850(select, resetPin, FQUDPin, mySPI)
+{
+  _factoryMask = 0xFD;
+}
+
+//  new since 0.7.2
+AD9851::AD9851(uint8_t resetPin, uint8_t FQUDPin, __SPI_CLASS__ * mySPI)
+       :AD9850(resetPin, FQUDPin, mySPI)
 {
   _factoryMask = 0xFD;
 }
 
 
-AD9851::AD9851(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock) : AD9850(slaveSelect, resetPin, FQUDPin, spiData, spiClock)
+//
+//  CONSTRUCTORS SOFTWARE SPI
+//
+AD9851::AD9851(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)
+       :AD9850(select, resetPin, FQUDPin, spiData, spiClock)
+{
+  _factoryMask = 0xFD;
+}
+
+//  new since 0.7.2
+AD9851::AD9851(uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)
+       :AD9850(resetPin, FQUDPin, spiData, spiClock)
 {
   _factoryMask = 0xFD;
 }
 
 
+//
+//  ADDITIONAL
+//
 bool AD9851::setFrequency(uint32_t freq)
 {
   bool rv = true;

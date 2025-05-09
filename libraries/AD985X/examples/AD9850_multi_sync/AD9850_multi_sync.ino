@@ -32,10 +32,12 @@ float  freq = 10000;
 
 void setup()
 {
+  //  while(!Serial):  //  uncomment if needed.
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
+  Serial.println();
 
   // SPI.begin();  //  HW SPI
 

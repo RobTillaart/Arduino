@@ -41,14 +41,21 @@ way more functionality.
 Note: mainly tested on Arduino UNO.
 
 
-#### 0.5.0 Breaking change
+### 0.7.2 new constructors
+
+Not a breaking change (yet), the library has added new constructors as the **spiClock**
+line is not needed any more. See #37.
+Also a new constructor is added to work without a select pin (always selected).
+
+
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -87,7 +94,7 @@ Schema break-out
 ```
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AD9833
 - https://github.com/RobTillaart/AD985X
@@ -95,7 +102,7 @@ Schema break-out
 - https://pages.mtu.edu/~suits/notefreqs.html  frequency table for notes.
 
 
-### Multi device 
+## Multi device 
 
 See **Multi_AD985X_devices.pdf**
 
@@ -106,13 +113,13 @@ However there is **no Chip Select pin (CS)** so one must take
 other measures to control multiple AD985X devices.
 
 
-#### Trivial solution
+### Trivial solution
 
 The trivial implementation is to give each device a set of unique pins. 
 If you have pins to spare this is the perfect solution.
 
 
-#### Shared line solution
+### Shared line solution
 
 A more common SPI solution is to share the data and clock lines.
 However that would typical set all AD985X devices simultaneously.
@@ -174,7 +181,7 @@ It allows to have multiple AD985X devices, and even to share the SPI bus **DATA*
 lines with other SPI devices.
 
 
-### FQ_UD note
+## FQ_UD note
 
 It might be possible to connect a single FQ_UD line to multiple AD985X devices directly.
 The FQ_UD pulse would update the frequency and as this register is not changed, the FQ_UD 
@@ -192,23 +199,36 @@ devices at the same time.
 #include "AD985X.h"
 ```
 
-#### Constructors
+### Constructors
 
-- **AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI, uint8_t spiClock)** hardware SPI constructor RP2040
-- **AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI, uint8_t spiClock)** hardware SPI constructor 
-- **AD9850(uint8_t slaveSelect, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)**
-  - slaveSelect = chip select. The library uses HIGH as active and LOW as not selected.  
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI, uint8_t spiClock)** hardware SPI constructor RP2040.
+Deprecated as spiClock no longer needed.
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI)** hardware SPI constructor RP2040
+- **AD9850(uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI)** hardware SPI constructor RP2040
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI, uint8_t spiClock)** hardware SPI constructor.
+Deprecated as spiClock no longer needed.
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI)** hardware SPI constructor.
+- **AD9850(uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI)** hardware SPI constructor.
+
+
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)**
+- **AD9850(uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)**
+  - select = chip select. The library uses HIGH as active and LOW as not selected.  
   - resetPin = reset
   - FQUDPin = Frequency UpDate Pin
 - **AD9851(...)** constructors with same interface as AD9850
 
 
-#### Common interface
+### Common interface
 
 - **void begin()** initializes library internals.
 - **void reset()** resets the function generator.
 - **void powerDown()** idem.
 - **void powerUp()** idem.
+
+
+### Frequency and phase
+
 - **bool setFrequency(uint32_t freq)** SetFrequency sets the frequency and is limited by the 
 MaxFrequency of the class used.
 Returns false if limited. 
@@ -233,7 +253,7 @@ Returns false if phase > 31, no change to phase in that case.
   - multiply by (PI \* 0.0625) to get actual phase angle in radians.
 
 
-#### Calibration
+### Calibration
 
 **Warning:** use with care.
 
@@ -245,7 +265,7 @@ Note: **reset()** resets the offset to 0..
 Note: setting the offset reduces the range of frequencies (at the ends of scale).
 
 
-#### Auto update / manual update
+### Auto update / manual update
 
 (new since 0.2.2)
 
@@ -262,7 +282,7 @@ Note: The default of the autoUpdate flag is true.
 Note: **reset()** resets the autoUpdateFlag to true.
 
 
-#### Hardware SPI
+### Hardware SPI
 
 To be used only if one needs a specific speed.
 
@@ -296,7 +316,7 @@ Maximum value is 30 MHz, typical is 10 MHz.
 See examples.
 
 
-#### Operational notes
+### Operational notes
 
 - The quality of the signal becomes less at higher frequencies.
 Switch the reference clock to find your optimal quality.

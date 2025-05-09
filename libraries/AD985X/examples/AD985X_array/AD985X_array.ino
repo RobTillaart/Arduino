@@ -8,19 +8,19 @@
 /*
    Arduino              AND             AD985X
   --------------------------------------------------
-  
+
                      +--------+
       (2) select ----| A      |
                      |      Q |------- FQ_UD   AD985X[0]
       (9) FQ_UD  ----| B      |
                      +--------+
-  
+
                      +--------+
       (3) select ----| A      |
                      |      Q |------- FQ_UD   AD985X[1]
       (9) FQ_UD  ----| B      |
                      +--------+
-  
+
                      +--------+
       (4) select ----| A      |
                      |      Q |------- FQ_UD   AD985X[2]
@@ -52,10 +52,12 @@ uint32_t now;
 void setup()
 {
   // OPEN SERIAL for messages and debugging etc
+  //  while(!Serial):  //  uncomment if needed.
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
+  Serial.println();
 
   // SPI.begin();  //  HW SPI
 

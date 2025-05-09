@@ -8,19 +8,19 @@
 /*
    Arduino              AND             AD985X
   --------------------------------------------------
-  
+
                      +--------+
       (2) select ----| A      |
                      |      Q |------- FQ_UD   AD985X[0]
       (9) FQ_UD  ----| B      |
                      +--------+
-  
+
                      +--------+
       (3) select ----| A      |
                      |      Q |------- FQ_UD   AD985X[1]
       (9) FQ_UD  ----| B      |
                      +--------+
-  
+
                      +--------+
       (4) select ----| A      |
                      |      Q |------- FQ_UD   AD985X[2]
@@ -35,9 +35,9 @@
 //  we want to control three hardware devices
 //  so we declare three software objects
 //  in this case all using HW SPI.
-AD9850 freqGen0(4, 9, 10, &SPI, 13);  //  13 is UNO SPI clock pin.
-AD9850 freqGen1(2, 9, 10, &SPI, 13);
-AD9850 freqGen2(3, 9, 10, &SPI, 13);
+AD9850 freqGen0(4, 9, 10, &SPI);
+AD9850 freqGen1(2, 9, 10, &SPI);
+AD9850 freqGen2(3, 9, 10, &SPI);
 
 float    freq0 = 25000;
 float    freq1 = 30000;
@@ -59,10 +59,12 @@ uint32_t now;
 void setup()
 {
   //  OPEN SERIAL for messages and debugging etc
+  //  while(!Serial):  //  uncomment if needed.
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

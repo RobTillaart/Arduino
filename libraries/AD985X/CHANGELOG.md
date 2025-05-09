@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.2] - 2025-05-07
+- fix #37, redo implementation with new constructors, kudos alexander-thiesen
+  - remove spiClock from HW constructor (was needed for RESET)
+  - new constructors without SELECT ==> device always selected.
+- update readme.md
+- update unit_tests
+- update examples
+- minor edits
+
 ## [0.7.1] - 2024-05-24
 - add support for ARDUINO_ARCH_MBED
 

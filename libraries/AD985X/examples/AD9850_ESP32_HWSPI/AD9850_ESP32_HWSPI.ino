@@ -16,7 +16,7 @@
 //  HSPI uses default   SCLK=14, MISO=12, MOSI=13, SELECT=15
 //  VSPI uses default   SCLK=18, MISO=19, MOSI=23, SELECT=5
 SPIClass * myspi = new SPIClass(VSPI);
-AD9850 freqGen(10, 9, 8, myspi, 18);  //  HW SPI  note the CLOCK pin param 18.
+AD9850 freqGen(10, 9, 8, myspi);  //  HW SPI
 //  AD9850 freqGen(10, 9, 8, 7, 6);  //  SW SPI
 
 
@@ -27,10 +27,12 @@ uint32_t maxFreq;
 
 void setup()
 {
+  //  while(!Serial):  //  uncomment if needed.
   Serial.begin(115200);
   Serial.println(__FILE__);
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);
+  Serial.println();
 
   myspi->begin();
 

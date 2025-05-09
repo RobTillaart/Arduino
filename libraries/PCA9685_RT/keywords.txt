@@ -8,9 +8,11 @@ PCA9685	KEYWORD1
 begin	KEYWORD2
 configure	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
-writeMode	KEYWORD2
-readMode	KEYWORD2
+configure	KEYWORD2
+channelCount	KEYWORD2
+
 setMode1	KEYWORD2
 setMode2	KEYWORD2
 getMode1	KEYWORD2
@@ -22,25 +24,30 @@ getPWM	KEYWORD2
 setFrequency	KEYWORD2
 getFrequency	KEYWORD2
 write1	KEYWORD2
+allOFF	KEYWORD2
 
 setON	KEYWORD2
 setOFF	KEYWORD2
-allOFF	KEYWORD2
-
-lastError	KEYWORD2
 
 enableSubCall	KEYWORD2
 disableSubCall	KEYWORD2
 isEnabledSubCall	KEYWORD2
+setSubCallAddress	KEYWORD2
+getSubCallAddress	KEYWORD2
+
 enableAllCall	KEYWORD2
 disableAllCall	KEYWORD2
 isEnabledAllCall	KEYWORD2
+setAllCallAddress	KEYWORD2
+getAllCallAddress	KEYWORD2
 
 setOutputEnablePin	KEYWORD2
 setOutputEnable	KEYWORD2
 getOutputEnable	KEYWORD2
 
 I2C_SoftwareReset	KEYWORD2
+
+lastError	KEYWORD2
 
 
 # Constants (LITERAL1)

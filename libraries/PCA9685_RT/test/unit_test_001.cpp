@@ -31,8 +31,6 @@
 
 #include <ArduinoUnitTests.h>
 
-#include "Arduino.h"
-#include "Wire.h"
 #include "PCA9685.h"
 
 
@@ -111,7 +109,7 @@ unittest(test_OutputEnable)
   //  assertEqual(HIGH, ledArray.getOutputEnable());  //  need mock
 
   assertTrue(ledArray.setOutputEnable(true));
-  // assertEqual(LOW, ledArray.getOutputEnable());
+  //  assertEqual(LOW, ledArray.getOutputEnable());
 
   assertTrue(ledArray.setOutputEnable(false));
   //  assertEqual(HIGH, ledArray.getOutputEnable());

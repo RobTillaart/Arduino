@@ -3,7 +3,7 @@
 //    FILE: PCA9685.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.7.1
+// VERSION: 0.7.2
 // PURPOSE: Arduino library for PCA9685 I2C LED driver, 16 channel PWM, 12 bit.
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION         (F("0.7.1"))
+#define PCA9685_LIB_VERSION         (F("0.7.2"))
 
 // ERROR CODES
 #define PCA9685_OK                  0x00
@@ -90,11 +90,13 @@ public:
   uint8_t  configure(uint8_t mode1_mask, uint8_t mode2_mask);
   uint8_t  channelCount();
 
-  //  reg = 1, 2  check datasheet for values
-  uint8_t  writeMode(uint8_t reg, uint8_t value);
-  uint8_t  readMode(uint8_t reg);
 
-  //  convenience wrappers
+  /////////////////////////////////////////////////////
+  //
+  //  WRITE MODE REGISTERS
+  //
+  //  values == masks see defines above
+  //  check datasheet for detailed meaning
   uint8_t  setMode1(uint8_t value);
   uint8_t  setMode2(uint8_t value);
   uint8_t  getMode1();
@@ -103,40 +105,44 @@ public:
 
   /////////////////////////////////////////////////////
   //
-  //  WRITE / SETPWM
+  //  PWM FREQUENCY
   //
   //  single PWM setting, channel = 0..15,
   //  onTime = 0..4095, offTime = 0..4095
   //  allows shifted PWM's e.g. 2 servo's that do not start at same time.
   //         this will distribute the (peak) load
-  void     setPWM(uint8_t channel, uint16_t onTime, uint16_t offTime);
-  void     getPWM(uint8_t channel, uint16_t* onTime, uint16_t* offTime);
+  uint8_t  setPWM(uint8_t channel, uint16_t onTime, uint16_t offTime);
+  uint8_t  getPWM(uint8_t channel, uint16_t* onTime, uint16_t* offTime);
 
   // single PWM setting, channel = 0..15, offTime = 0..4095  (onTime = 0)
-  void     setPWM(uint8_t channel, uint16_t offTime);
+  uint8_t  setPWM(uint8_t channel, uint16_t offTime);
 
 
   //  set update frequency for all channels
   //  freq = 24 - 1526 Hz
   //  note: as the frequency is converted to an 8 bit pre-scaler
   //       the frequency set will seldom be exact, but best effort.
-  void     setFrequency(uint16_t freq, int offset = 0);
-  int      getFrequency(bool cache = true);
-
-  //  set channel  HIGH or LOW (effectively no PWM)
-  void     write1(uint8_t channel, uint8_t mode);
-
-  //  for backwards compatibility; will be removed in future
-  void     setON(uint8_t channel)   { write1(channel, HIGH); };
-  void     setOFF(uint8_t channel)  { write1(channel, LOW); };
-
-  //  experimental for 0.3.0
-  void     allOFF();
+  uint8_t  setFrequency(uint16_t freq, int offset = 0);
+  uint16_t getFrequency(bool cache = true);
 
 
   /////////////////////////////////////////////////////
   //
-  //  SUB CALL  -  ALL CALL  (since 0.4.0)
+  //  WRITE
+  //
+  //  set channel  HIGH or LOW (effectively no PWM)
+  uint8_t  write1(uint8_t channel, uint8_t mode);
+
+  //  for backwards compatibility; will be removed in future
+  uint8_t  setON(uint8_t channel)   { return write1(channel, HIGH); };
+  uint8_t  setOFF(uint8_t channel)  { return write1(channel, LOW); };
+
+  uint8_t  allOFF();
+
+
+  /////////////////////////////////////////////////////
+  //
+  //  SUB CALL
   //
   //  nr = { 1, 2, 3 }
   bool     enableSubCall(uint8_t nr);
@@ -144,7 +150,9 @@ public:
   bool     isEnabledSubCall(uint8_t nr);
   bool     setSubCallAddress(uint8_t nr, uint8_t address);
   uint8_t  getSubCallAddress(uint8_t nr);
-
+  //
+  //  ALL CALL
+  //
   bool     enableAllCall();
   bool     disableAllCall();
   bool     isEnabledAllCall();
@@ -163,29 +171,42 @@ public:
 
   /////////////////////////////////////////////////////
   //
+  //  EXPERIMENTAL
+  //
+  //  0.4.4
+  //  method = 0 or 1  See implementation
+  int I2C_SoftwareReset(uint8_t method);
+
+
+  /////////////////////////////////////////////////////
+  //
   //  ERROR
   //
   //  note error flag is reset after read!
   int      lastError();
 
 
-  //  EXPERIMENTAL 0.4.2
-  int I2C_SoftwareReset(uint8_t method);  //  0 or 1
+  /////////////////////////////////////////////////////
+  //
+  //  OBSOLETE future
+  //
+  [[deprecated("use setMode1(value) or setMode2(value) instead")]]
+  uint8_t  writeMode(uint8_t reg, uint8_t value);
+  uint8_t  readMode(uint8_t reg);
 
 
 private:
   //  DIRECT CONTROL
-  void    writeReg(uint8_t reg, uint8_t value);
-  void    writeReg2(uint8_t reg, uint16_t a, uint16_t b);
-  uint8_t readReg(uint8_t reg);
+  uint8_t  writeRegister(uint8_t reg, uint8_t value);
+  uint8_t  writeRegister2(uint8_t reg, uint16_t a, uint16_t b);
+  uint8_t  readRegister(uint8_t reg);
 
-  uint8_t _address;
-  int     _error;
-  int     _freq = 200;  //  default PWM frequency - P25 datasheet
-  uint8_t _channelCount = 16;
-  uint8_t _OutputEnablePin;
-
-  TwoWire*  _wire;
+  uint8_t  _address;
+  TwoWire * _wire;
+  int      _error = PCA9685_OK;
+  uint16_t _freq = 200;  //  default PWM frequency - P25 datasheet
+  uint8_t  _channelCount = 16;
+  uint8_t  _OutputEnablePin;
 };
 
 

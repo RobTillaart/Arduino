@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31_two_I2C.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo two I2C busses
 //     URL: https://github.com/RobTillaart/SHT31
 //
 //   NOTE: see issue #22 for details
@@ -34,10 +34,13 @@ bool b1, b2, b3, b4;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT31_LIB_VERSION: \t");
   Serial.println(SHT31_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -91,7 +94,7 @@ void loop()
   Serial.print("\t");
   Serial.print(sht_4.getHumidity(), 1);
   Serial.println();
-  
+
   delay(1000);
 }
 

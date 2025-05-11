@@ -20,10 +20,13 @@ uint32_t connectionFails = 0;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT31_LIB_VERSION: \t");
   Serial.println(SHT31_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

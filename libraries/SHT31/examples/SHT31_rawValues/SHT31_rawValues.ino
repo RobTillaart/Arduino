@@ -1,7 +1,7 @@
 //
-//    FILE: SHT31_async.ino
+//    FILE: SHT31_rawValues.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo async interface
+// PURPOSE: demo reading raw data
 //     URL: https://github.com/RobTillaart/SHT31
 
 
@@ -19,10 +19,13 @@ SHT31 sht(SHT31_ADDRESS);  //  uses explicit address
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT31_LIB_VERSION: \t");
   Serial.println(SHT31_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -31,7 +34,7 @@ void setup()
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
   Serial.println();
-  
+
   sht.requestData();
   cnt = 0;
 }
@@ -64,13 +67,13 @@ void loop()
       Serial.print(" = ");
 
       //  This formula comes from page 14 of the SHT31 datasheet
-      Serial.print(rawTemperature * (175.0 / 65535) - 45, 1); 
+      Serial.print(rawTemperature * (175.0 / 65535) - 45, 1);
       Serial.print("°C\t");
       Serial.print(sht.getRawHumidity(), HEX);
       Serial.print(" = ");
-      
+
       //  This formula comes from page 14 of the SHT31 datasheet
-      Serial.print(rawHumidity * (100.0 / 65535), 1); 
+      Serial.print(rawHumidity * (100.0 / 65535), 1);
       Serial.print("%\t");
       Serial.println(cnt);
       cnt = 0;

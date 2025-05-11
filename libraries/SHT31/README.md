@@ -148,18 +148,19 @@ you've performed a new reading.
 Be sure to clear the error flag by calling **getError()** before calling 
 any command as the error flag could be from a previous command.
 
-|  Error  |  Symbolic                   |  Description                   |
-|:-------:|:----------------------------|:-------------------------------|
-|  0x00   |  SHT31_OK                   |  no error                      |
-|  0x81   |  SHT31_ERR_WRITECMD         |  I2C write failed              |
-|  0x82   |  SHT31_ERR_READBYTES        |  I2C read failed               |
-|  0x83   |  SHT31_ERR_HEATER_OFF       |  Could not switch off heater   |
-|  0x84   |  SHT31_ERR_NOT_CONNECT      |  Could not connect             |
-|  0x85   |  SHT31_ERR_CRC_TEMP         |  CRC error in temperature      |
-|  0x86   |  SHT31_ERR_CRC_HUM          |  CRC error in humidity         |
-|  0x87   |  SHT31_ERR_CRC_STATUS       |  CRC error in status field     |
-|  0x88   |  SHT31_ERR_HEATER_COOLDOWN  |  Heater need to cool down      |
-|  0x89   |  SHT31_ERR_HEATER_ON        |  Could not switch on heater    |
+|  Error  |  Symbolic                     |  Description                   |
+|:-------:|:------------------------------|:-------------------------------|
+|  0x00   |  SHT31_OK                     |  no error                      |
+|  0x81   |  SHT31_ERR_WRITECMD           |  I2C write failed              |
+|  0x82   |  SHT31_ERR_READBYTES          |  I2C read failed               |
+|  0x83   |  SHT31_ERR_HEATER_OFF         |  Could not switch off heater   |
+|  0x84   |  SHT31_ERR_NOT_CONNECT        |  Could not connect             |
+|  0x85   |  SHT31_ERR_CRC_TEMP           |  CRC error in temperature      |
+|  0x86   |  SHT31_ERR_CRC_HUM            |  CRC error in humidity         |
+|  0x87   |  SHT31_ERR_CRC_STATUS         |  CRC error in status field     |
+|  0x88   |  SHT31_ERR_HEATER_COOLDOWN    |  Heater need to cool down      |
+|  0x89   |  SHT31_ERR_HEATER_ON          |  Could not switch on heater    |
+|  0x8A   |  SHT31_ERR_SERIAL_NUMBER_CRC  |  Could not switch on heater    |
 
 
 ### Heater interface
@@ -223,6 +224,12 @@ Returns false if reading fails or in case of a CRC failure.
 **bool clearStatus()** clears 15, 11, 10 and 4.
 
 
+### GetSerial
+
+- **bool getSerialNumber(uint32_t &serial, bool fast = true)** fast == true, => no CRC check
+fast == false, => do CRC check. 
+
+
 ## Future
 
 #### Must
@@ -240,6 +247,8 @@ Returns false if reading fails or in case of a CRC failure.
 #### Could
 
 - move code from .h to .cpp
+- param fast in getSerialNumber => skipCRC?
+
 
 #### Wont
 

@@ -12,24 +12,26 @@
 
 
 //  SUPPORTED COMMANDS - single shot mode only
-#define SHT31_READ_STATUS       0xF32D
-#define SHT31_CLEAR_STATUS      0x3041
+static constexpr uint16_t SHT31_READ_STATUS       = 0xF32D;
+static constexpr uint16_t SHT31_CLEAR_STATUS      = 0x3041;
 
-#define SHT31_SOFT_RESET        0x30A2
-#define SHT31_HARD_RESET        0x0006
+static constexpr uint16_t SHT31_SOFT_RESET        = 0x30A2;
+static constexpr uint16_t SHT31_HARD_RESET        = 0x0006;
 
-#define SHT31_MEASUREMENT_FAST  0x2416     //  page 10 datasheet
-#define SHT31_MEASUREMENT_SLOW  0x2400     //  no clock stretching
+static constexpr uint16_t SHT31_MEASUREMENT_FAST  = 0x2416;     //  page 10 datasheet
+static constexpr uint16_t SHT31_MEASUREMENT_SLOW  = 0x2400;     //  no clock stretching
 
-#define SHT31_HEAT_ON           0x306D
-#define SHT31_HEAT_OFF          0x3066
-#define SHT31_HEATER_TIMEOUT    180000UL   //  milliseconds
+static constexpr uint16_t SHT31_HEAT_ON           = 0x306D;
+static constexpr uint16_t SHT31_HEAT_OFF          = 0x3066;
+static constexpr uint32_t SHT31_HEATER_TIMEOUT    = 180000UL;   //  milliseconds
+
+static constexpr uint16_t SHT31_GET_SERIAL_NUMBER = 0x3682;     //  no clock stretching
 
 
 SHT31::SHT31(uint8_t address, TwoWire *wire)
 {
-  _wire           = wire;
   _address        = address;
+  _wire           = wire;
   _lastRead       = 0;
   _rawTemperature = 0;
   _rawHumidity    = 0;
@@ -131,7 +133,6 @@ uint16_t SHT31::readStatus()
     _error = SHT31_ERR_CRC_STATUS;
     return 0xFFFF;
   }
-
   return (uint16_t) (status[0] << 8) + status[1];
 }
 
@@ -149,6 +150,7 @@ bool SHT31::clearStatus()
   }
   return true;
 }
+
 
 bool SHT31::reset(bool hard)
 {
@@ -224,7 +226,7 @@ bool SHT31::isHeaterOn()
 
 /////////////////////////////////////////////////////////////////
 //
-//  ASYNC
+//  ASYNCHRONUOUS INTERFACE
 //
 bool SHT31::requestData()
 {
@@ -269,16 +271,53 @@ bool SHT31::readData(bool fast)
   _rawHumidity    = (buffer[3] << 8) + buffer[4];
 
   _lastRead = millis();
-
   return true;
 }
 
 
+/////////////////////////////////////////////////////////////////
+//
+//  MISC
+//
 int SHT31::getError()
 {
   int rv = _error;
   _error = SHT31_OK;
   return rv;
+}
+
+
+/**
+ * See https://sensirion.com/media/documents/E5762713/63D103C2/Sensirion_electronic_identification_code_SHT3x.pdf
+ */
+bool SHT31::getSerialNumber(uint32_t &serial, bool fast) {
+  if (writeCmd(SHT31_GET_SERIAL_NUMBER) == false) {
+      return false;
+  }
+  delay(1);
+  uint8_t buffer[6];
+  if (readBytes(6, &buffer[0]) == false) {
+    return false;
+  }
+
+  if (!fast) {
+      if (buffer[2] != crc8(buffer, 2)) {
+      _error = SHT31_ERR_SERIAL_NUMBER_CRC;
+      return false;
+      }
+      if (buffer[5] != crc8(buffer + 3, 2)) {
+      _error = SHT31_ERR_SERIAL_NUMBER_CRC;
+      return false;
+      }
+  }
+  serial = buffer[0];
+  serial <<= 8;
+  serial += buffer[1];
+  serial <<= 8;
+  serial += buffer[3];
+  serial <<= 8;
+  serial += buffer[4];
+  return true;
 }
 
 
@@ -315,6 +354,7 @@ bool SHT31::writeCmd(uint16_t cmd)
     _error = SHT31_ERR_WRITECMD;
     return false;
   }
+  _error = SHT31_OK;
   return true;
 }
 
@@ -328,6 +368,7 @@ bool SHT31::readBytes(uint8_t n, uint8_t *val)
     {
       val[i] = _wire->read();
     }
+    _error = SHT31_OK;
     return true;
   }
   _error = SHT31_ERR_READBYTES;

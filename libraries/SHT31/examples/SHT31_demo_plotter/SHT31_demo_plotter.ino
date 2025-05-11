@@ -1,7 +1,7 @@
 //
 //    FILE: SHT31_demo_plotter.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo for plotter
 //     URL: https://github.com/RobTillaart/SHT31
 
 
@@ -18,11 +18,13 @@ SHT31 sht;
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  //  Serial.println();
   //  Serial.println(__FILE__);
   //  Serial.print("SHT31_LIB_VERSION: \t");
   //  Serial.println(SHT31_LIB_VERSION);
-
+  //  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

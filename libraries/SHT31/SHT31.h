@@ -2,7 +2,7 @@
 //
 //    FILE: SHT31.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 //    DATE: 2019-02-08
 // PURPOSE: Arduino library for the SHT31 temperature and humidity sensor
 //          https://www.adafruit.com/product/2857
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT31_LIB_VERSION             (F("0.5.1"))
+#define SHT31_LIB_VERSION             (F("0.5.2"))
 
 #ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS           0x44
@@ -39,6 +39,7 @@
 #define SHT31_ERR_CRC_STATUS          0x87
 #define SHT31_ERR_HEATER_COOLDOWN     0x88
 #define SHT31_ERR_HEATER_ON           0x89
+#define SHT31_ERR_SERIAL_NUMBER_CRC   0x8A
 
 
 class SHT31
@@ -90,7 +91,11 @@ public:
   bool dataReady();
   bool readData(bool fast = true);
 
+  //  MISC
   int getError();  //  clears error flag
+  //  fast == true, => skips CRC check
+  bool getSerialNumber(uint32_t &serial, bool fast = true);
+
 
 protected:
   uint8_t  _address;

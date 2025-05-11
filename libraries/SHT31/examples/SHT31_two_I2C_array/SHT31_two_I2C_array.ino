@@ -1,7 +1,7 @@
 //
-//    FILE: SHT31_two_I2C.ino
+//    FILE: SHT31_two_I2C_array.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo multiple devices in array
 //     URL: https://github.com/RobTillaart/SHT31
 //
 //   NOTE: see issue #22 for details
@@ -18,10 +18,10 @@ TwoWire myWire(&sercom5, 0, 1);
 
 
 SHT31 sht[4] = {
-  SHT31(0x44, &Wire), 
-  SHT31(0x45, &Wire), 
-  SHT31(0x44, &myWire), 
-  SHT31(0x45, &myWire) 
+  SHT31(0x44, &Wire),
+  SHT31(0x45, &Wire),
+  SHT31(0x44, &myWire),
+  SHT31(0x45, &myWire)
 };
 
 bool b[4];
@@ -29,10 +29,13 @@ bool b[4];
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT31_LIB_VERSION: \t");
   Serial.println(SHT31_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

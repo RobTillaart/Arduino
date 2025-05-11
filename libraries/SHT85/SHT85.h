@@ -2,7 +2,7 @@
 //
 //    FILE: SHT85.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -25,7 +25,7 @@
 #include "Wire.h"
 
 
-#define SHT_LIB_VERSION                 (F("0.6.1"))
+#define SHT_LIB_VERSION                 (F("0.6.2"))
 #define SHT85_LIB_VERSION               SHT_LIB_VERSION
 
 #ifndef SHT_DEFAULT_ADDRESS
@@ -52,7 +52,7 @@
 #define SHT_ERR_CRC_STATUS              0x87
 #define SHT_ERR_HEATER_COOLDOWN         0x88
 #define SHT_ERR_HEATER_ON               0x89
-#define SHT_ERR_SERIAL                  0x8A
+#define SHT_ERR_SERIAL_NUMBER_CRC       0x8A
 
 
 class SHT
@@ -119,6 +119,9 @@ public:
   void     setHumidityOffset(float offset = 0);
   float    getHumidityOffset();
 
+  //  fast == true, => skips CRC check
+  bool getSerialNumber(uint32_t &serial, bool fast = true);
+
 
 protected:
   uint8_t  crc8(const uint8_t *data, uint8_t len);
@@ -141,7 +144,6 @@ protected:
   //  offset in degrees Celsius
   float    _temperatureOffset = 0;
   float    _humidityOffset    = 0;
-
 
   uint8_t _error;
 };
@@ -180,9 +182,6 @@ public:
 
   //  catch incorrect calls with an address, only 0x44 allowed, see #19
   bool begin();
-
-  //  EXPERIMENTAL for 0.4.1
-  uint32_t GetSerialNumber();
 };
 
 

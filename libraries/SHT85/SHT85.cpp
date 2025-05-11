@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.2
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -13,20 +13,20 @@
 
 
 //  SUPPORTED COMMANDS - single shot mode only
-#define SHT_READ_STATUS       0xF32D
-#define SHT_CLEAR_STATUS      0x3041
+static constexpr uint16_t SHT_READ_STATUS       = 0xF32D;
+static constexpr uint16_t SHT_CLEAR_STATUS      = 0x3041;
 
-#define SHT_SOFT_RESET        0x30A2
-#define SHT_HARD_RESET        0x0006
+static constexpr uint16_t SHT_SOFT_RESET        = 0x30A2;
+static constexpr uint16_t SHT_HARD_RESET        = 0x0006;
 
-#define SHT_MEASUREMENT_FAST  0x2416    //  page 10 datasheet
-#define SHT_MEASUREMENT_SLOW  0x2400    //  no clock stretching
+static constexpr uint16_t SHT_MEASUREMENT_FAST  = 0x2416;     //  page 10 datasheet
+static constexpr uint16_t SHT_MEASUREMENT_SLOW  = 0x2400;     //  no clock stretching
 
-#define SHT_HEAT_ON           0x306D
-#define SHT_HEAT_OFF          0x3066
-#define SHT_HEATER_TIMEOUT    180000UL  //  milliseconds
+static constexpr uint16_t SHT_HEAT_ON           = 0x306D;
+static constexpr uint16_t SHT_HEAT_OFF          = 0x3066;
+static constexpr uint32_t SHT_HEATER_TIMEOUT    = 180000UL;   //  milliseconds
 
-#define SHT_GET_SERIAL        0x3682
+static constexpr uint16_t SHT_GET_SERIAL_NUMBER = 0x3682;     //  no clock stretching
 
 
 SHT::SHT(uint8_t address, TwoWire *wire)
@@ -230,6 +230,7 @@ bool SHT::clearStatus()
   return true;
 }
 
+
 uint32_t SHT::lastRead()
 {
   return _lastRead;
@@ -392,7 +393,7 @@ float SHT::getHumidityOffset()
 //
 uint8_t SHT::crc8(const uint8_t *data, uint8_t len)
 {
-  // CRC-8 formula from page 14 of SHT spec pdf
+  //  CRC-8 formula from page 14 of SHT spec pdf
   const uint8_t POLY(0x31);
   uint8_t crc(0xFF);
 
@@ -441,6 +442,37 @@ bool SHT::readBytes(uint8_t n, uint8_t *val)
 }
 
 
+bool SHT::getSerialNumber(uint32_t &serial, bool fast) {
+  if (writeCmd(SHT_GET_SERIAL_NUMBER) == false) {
+      return false;
+  }
+  delayMicroseconds(500);  //  timing sensitive.
+  uint8_t buffer[6];
+  if (readBytes(6, &buffer[0]) == false) {
+    return false;
+  }
+
+  if (!fast) {
+      if (buffer[2] != crc8(buffer, 2)) {
+      _error = SHT_ERR_SERIAL_NUMBER_CRC;
+      return false;
+      }
+      if (buffer[5] != crc8(buffer + 3, 2)) {
+      _error = SHT_ERR_SERIAL_NUMBER_CRC;
+      return false;
+      }
+  }
+  serial = buffer[0];
+  serial <<= 8;
+  serial += buffer[1];
+  serial <<= 8;
+  serial += buffer[3];
+  serial <<= 8;
+  serial += buffer[4];
+  return true;
+}
+
+
 ////////////////////////////////////////////////////////
 //
 //  DERIVED CLASSES
@@ -473,34 +505,6 @@ bool SHT85::begin()
 {
   if (_address != 0x44) return false;
   return SHT::begin();
-}
-
-
-uint32_t SHT85::GetSerialNumber()
-{
-  uint8_t bytes[6];
-
-  if (writeCmd(SHT_GET_SERIAL) == false)
-  {
-    return 0xFFFFFFF0;
-  }
-  delayMicroseconds(500);  //  timing sensitive.
-  if (readBytes(6, (uint8_t*) &bytes[0]) == false)
-  {
-    _error = SHT_ERR_SERIAL;
-    return 0xFFFFFFFF;
-  }
-  //  check CRC
-  //  todo
-  //  combine bytes to serial.
-  uint32_t serial = bytes[0];
-  serial <<= 8;
-  serial += bytes[1];
-  serial <<= 8;
-  serial += bytes[3];
-  serial <<= 8;
-  serial += bytes[4];
-  return serial;
 }
 
 

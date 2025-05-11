@@ -261,19 +261,19 @@ The library converts this internally
 Be sure to clear the error flag by calling **getError()** before calling 
 any command as the error flag could be from a previous command.
 
-|  Error  |  Symbolic                 |  Description                   |
-|:-------:|:--------------------------|:-------------------------------|
-|  0x00   |  SHT_OK                   |  no error                      |
-|  0x81   |  SHT_ERR_WRITECMD         |  I2C write failed              |
-|  0x82   |  SHT_ERR_READBYTES        |  I2C read failed               |
-|  0x83   |  SHT_ERR_HEATER_OFF       |  Could not switch off heater   |
-|  0x84   |  SHT_ERR_NOT_CONNECT      |  Could not connect             |
-|  0x85   |  SHT_ERR_CRC_TEMP         |  CRC error in temperature      |
-|  0x86   |  SHT_ERR_CRC_HUM          |  CRC error in humidity         |
-|  0x87   |  SHT_ERR_CRC_STATUS       |  CRC error in status field     |
-|  0x88   |  SHT_ERR_HEATER_COOLDOWN  |  Heater need to cool down      |
-|  0x89   |  SHT_ERR_HEATER_ON        |  Could not switch on heater    |
-|  0x8A   |  SHT_ERR_SERIAL           |  Could not read serial number  |
+|  Error  |  Symbolic                   |  Description                   |
+|:-------:|:----------------------------|:-------------------------------|
+|  0x00   |  SHT_OK                     |  no error                      |
+|  0x81   |  SHT_ERR_WRITECMD           |  I2C write failed              |
+|  0x82   |  SHT_ERR_READBYTES          |  I2C read failed               |
+|  0x83   |  SHT_ERR_HEATER_OFF         |  Could not switch off heater   |
+|  0x84   |  SHT_ERR_NOT_CONNECT        |  Could not connect             |
+|  0x85   |  SHT_ERR_CRC_TEMP           |  CRC error in temperature      |
+|  0x86   |  SHT_ERR_CRC_HUM            |  CRC error in humidity         |
+|  0x87   |  SHT_ERR_CRC_STATUS         |  CRC error in status field     |
+|  0x88   |  SHT_ERR_HEATER_COOLDOWN    |  Heater need to cool down      |
+|  0x89   |  SHT_ERR_HEATER_ON          |  Could not switch on heater    |
+|  0x8A   |  SHT_ERR_SERIAL_NUMBER_CRC  |  Could not read serial number  |
 
 
 ### Heater interface
@@ -327,11 +327,12 @@ Will switch the heater off if maximum heating time has passed.
 **bool clearStatus()** clears 15, 11, 10 and 4.
 
 
-### SHT85 specific
+### GetSerial
 
-- **uint32_t GetSerialNumber()** Returns a 32 bit unique serial number. 
-  This command seems to be timing sensitive, it uses a delay of 500us
-  which may need "tuning". So function is bit experimental.
+- **bool getSerialNumber(uint32_t &serial, bool fast = true)** fast == true, => no CRC check
+fast == false, => do CRC check. 
+This command seems to be timing sensitive, it uses a delay of 500us
+which may need "tuning". So function is bit experimental.
 
 
 ## Future
@@ -341,14 +342,12 @@ Will switch the heater off if maximum heating time has passed.
 - improve documentation.
   - reorder interface
 
-
 #### Should
 
 - more testing (including heater)
 - verify working with ESP32
 - support for medium level read.
   - 3 levels instead of 2.
-
 
 #### Could
 
@@ -357,7 +356,6 @@ Will switch the heater off if maximum heating time has passed.
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
 - test SHT30/35
-
 
 #### Won't
 

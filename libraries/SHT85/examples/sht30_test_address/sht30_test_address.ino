@@ -3,7 +3,7 @@
 // PURPOSE: Check both addresses
 //     URL: https://github.com/RobTillaart/SHT85
 
-#include "Arduino.h"
+
 #include "SHT85.h"
 
 uint32_t start;
@@ -12,13 +12,16 @@ uint32_t stop;
 SHT30 sht1(0x44);
 SHT30 sht2(0x45);
 
+
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT_LIB_VERSION: \t");
   Serial.println(SHT_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -65,3 +68,6 @@ void loop()
   Serial.println(sht2.getHumidity(), 1);
   delay(100);
 }
+
+
+//  -- END OF FILE --

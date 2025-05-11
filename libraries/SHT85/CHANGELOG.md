@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] - 2025-05-10
+- fix #30, sync SHT31 getSerialNumber
+- changed defines for commands in static constexpr (.cpp)
+- update examples
+- update readme.md
+- update keywords.txt
+- minor edits
+
 ## [0.6.1] - 2025-04-28
 - add **clearStatus()**, kudos to Elbandi (see SHT31)
 - update readme.md

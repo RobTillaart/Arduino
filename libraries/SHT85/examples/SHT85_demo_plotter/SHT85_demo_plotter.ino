@@ -29,10 +29,13 @@ SHT85 sht(SHT85_ADDRESS);
 
 void setup()
 {
+  //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  //  Serial.println();
   //  Serial.println(__FILE__);
   //  Serial.print("SHT_LIB_VERSION: \t");
   //  Serial.println(SHT_LIB_VERSION);
+  //  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

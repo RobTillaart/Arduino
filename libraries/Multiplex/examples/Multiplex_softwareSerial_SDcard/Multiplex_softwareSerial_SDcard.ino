@@ -48,8 +48,13 @@ Cras dapibus. Vivamus elementum semper nisi.";
 
 void setup()
 {
+  //  while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MULTIPLEX_LIB_VERSION: ");
+  Serial.println(MULTIPLEX_LIB_VERSION);
+  Serial.println();
 
 
   //  initialize the SD card
@@ -89,7 +94,7 @@ void setup()
   uint32_t stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  
+
   mp.flush();
 }
 

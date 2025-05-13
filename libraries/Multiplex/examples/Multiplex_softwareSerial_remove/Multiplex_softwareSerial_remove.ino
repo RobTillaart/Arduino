@@ -22,8 +22,13 @@ SoftwareSerial Serial_D(-1, 11);
 
 void setup()
 {
+  //  while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MULTIPLEX_LIB_VERSION: ");
+  Serial.println(MULTIPLEX_LIB_VERSION);
+  Serial.println();
 
   Serial_A.begin(19200);
   Serial_B.begin(19200);

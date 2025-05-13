@@ -41,8 +41,13 @@ class FakeStream : public Print
 
 void setup()
 {
+  //  while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MULTIPLEX_LIB_VERSION: ");
+  Serial.println(MULTIPLEX_LIB_VERSION);
+  Serial.println();
 
   FakeStream stream1(1);
   FakeStream stream2(2);
@@ -107,5 +112,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

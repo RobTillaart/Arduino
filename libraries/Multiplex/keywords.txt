@@ -6,15 +6,19 @@ Multiplex	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
-write	KEYWORD2
-flush	KEYWORD2
+reset	KEYWORD2
 add	KEYWORD2
 remove	KEYWORD2
-reset	KEYWORD2
+
+index	KEYWORD2
+stream	KEYWORD2
 
 count	KEYWORD2
 size	KEYWORD2
 free	KEYWORD2
+
+write	KEYWORD2
+flush	KEYWORD2
 
 enable	KEYWORD2
 disable	KEYWORD2
@@ -24,8 +28,6 @@ isEnabledAny	KEYWORD2
 enableStream	KEYWORD2
 disableStream	KEYWORD2
 isEnabledStream	KEYWORD2
-index	KEYWORD2
-stream	KEYWORD2
 
 resetOutputCount	KEYWORD2
 getOutputCount	KEYWORD2

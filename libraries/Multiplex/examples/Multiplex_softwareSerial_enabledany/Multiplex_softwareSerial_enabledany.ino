@@ -21,8 +21,13 @@ SoftwareSerial Serial_C(-1, 10);
 
 void setup()
 {
+  //  while (!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MULTIPLEX_LIB_VERSION: ");
+  Serial.println(MULTIPLEX_LIB_VERSION);
+  Serial.println();
 
   Serial_A.begin(19200);
   Serial_B.begin(19200);
@@ -63,7 +68,7 @@ void setup()
   }
   Serial.println(mp.isEnabledAny());
   Serial.println();
-  
+
   mp.disableStream(&Serial_C);
   for (int i = 0; i < mp.count(); i++)
   {

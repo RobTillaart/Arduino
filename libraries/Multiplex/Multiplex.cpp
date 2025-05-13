@@ -1,8 +1,8 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
-// PURPOSE: Arduino library to multiplex streams
+// VERSION: 0.2.8
+// PURPOSE: Arduino Library implementing a Print stream multiplexer.
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
 
@@ -10,9 +10,12 @@
 #include "Multiplex.h"
 
 
+///////////////////////////////////////////
+//
+//  CONSTRUCTOR
+//
 Multiplex::Multiplex()
 {
-  //  malloc ?
   _size = MAX_MULTIPLEX;
   reset();
 }
@@ -20,10 +23,13 @@ Multiplex::Multiplex()
 
 Multiplex::~Multiplex()
 {
-  //  free ?
 }
 
 
+///////////////////////////////////////////
+//
+//  META
+//
 void Multiplex::reset()
 {
   for (uint8_t i = 0; i < _size; i++)
@@ -68,9 +74,29 @@ bool Multiplex::remove(uint8_t idx)
 };
 
 
+uint8_t Multiplex::index(Print *stream)
+{
+  for (uint8_t i = 0; i < _count; i++)
+  {
+    if (stream == _stream[i])
+    {
+      return i;
+    }
+  }
+  return 0xFF;
+}
+
+
+Print * Multiplex::stream(uint8_t n)
+{
+  if (n >= _count) return NULL;
+  return _stream[n];
+}
+
+
 ///////////////////////////////////////////
 //
-//  WRITE - the core
+//  CORE
 //
 size_t Multiplex::write(uint8_t c)
 {
@@ -114,26 +140,10 @@ void Multiplex::flush()  //  see issue #13
 }
 
 
-uint8_t Multiplex::index(Print *stream)
-{
-  for (uint8_t i = 0; i < _count; i++)
-  {
-    if (stream == _stream[i])
-    {
-      return i;
-    }
-  }
-  return 0xFF;
-}
-
-
-Print * Multiplex::stream(uint8_t n)
-{
-  if (n >= _count) return NULL;
-  return _stream[n];
-}
-
-
+///////////////////////////////////////////
+//
+//  ENABLE
+//
 bool Multiplex::enable(uint8_t n)
 {
   if (n >= _count) return false;
@@ -142,23 +152,11 @@ bool Multiplex::enable(uint8_t n)
 }
 
 
-bool Multiplex::enableStream(Print *stream)
-{
-  return enable(index(stream));
-}
-
-
 bool Multiplex::disable(uint8_t n)
 {
   if (n >= _count) return false;
   _enabled[n] = false;
   return true;
-}
-
-
-bool Multiplex::disableStream(Print *stream)
-{
-  return disable(index(stream));
 }
 
 
@@ -176,6 +174,18 @@ bool Multiplex::isEnabledAny()
     if (_enabled[i]) return true;
   }
   return false;
+}
+
+
+bool Multiplex::enableStream(Print *stream)
+{
+  return enable(index(stream));
+}
+
+
+bool Multiplex::disableStream(Print *stream)
+{
+  return disable(index(stream));
 }
 
 

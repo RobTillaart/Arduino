@@ -1,0 +1,24 @@
+# Syntax Colouring Map For Metronome
+
+# Data types (KEYWORD1)
+Metronome	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+setBeatsPerMinute	KEYWORD2
+getBeatsPerMinute	KEYWORD2
+
+setMeasure	KEYWORD2
+getMeasure	KEYWORD2
+
+start	KEYWORD2
+stop	KEYWORD2
+
+check	KEYWORD2
+
+
+# Constants (LITERAL1)
+METRONOME_LIB_VERSION	LITERAL1
+

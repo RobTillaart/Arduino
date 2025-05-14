@@ -1,5 +1,5 @@
 //
-//    FILE: XMLWriterSting.ino
+//    FILE: XMLWriterString.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PrintString
@@ -7,7 +7,7 @@
 
 
 #include "PrintString.h"
-#include "XMLWriter.h"      // https://github.com/RobTillaart/XMLWriter
+#include "XMLWriter.h"
 
 PrintString ps;
 XMLWriter XML(&ps);
@@ -16,11 +16,13 @@ XMLWriter XML(&ps);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTSTRING_VERSION:\t");
   Serial.println(PRINTSTRING_VERSION);
   Serial.print("XMLWRITER_VERSION:\t");
   Serial.println(XMLWRITER_VERSION);
+  Serial.println();
 
   ps.println("Hello World");
   ps.println(3.14159265, 4);

@@ -2,15 +2,16 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.4.0
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
+//     URL: https://github.com/RobTillaart/XMLWriter
 
 
 #include "Arduino.h"
 
 
-#define XMLWRITER_VERSION         (F("0.3.5"))
+#define XMLWRITER_VERSION         (F("0.4.0"))
 
 
 //  for comment()
@@ -28,22 +29,29 @@
 
 //  deepness of XML tree 5..10
 //  needed for stack of tagStack
+//  adjust for deeper nested structures
 #ifndef XMLWRITER_MAXLEVEL
-#define XMLWRITER_MAXLEVEL        5      //  adjust for deeper nested structures
+#define XMLWRITER_MAXLEVEL        5
 #endif
 
+//  set maximum length of the tags
+//  adjust for longer or shorter fields - !! eats memory !!
 #ifndef XMLWRITER_MAXTAGSIZE
-#define XMLWRITER_MAXTAGSIZE      15     //  adjust for longer fields - !! eats memory !!
+#define XMLWRITER_MAXTAGSIZE      15
 #endif
 
-//  reduce footprint by commenting next line
+//  reduce footprint by commenting next lines
+#ifndef XMLWRITER_ESCAPE_SUPPORT
 #define XMLWRITER_ESCAPE_SUPPORT
+#endif
 
 //  configuration - setConfig
 #define XMLWRITER_NONE            0x00
 #define XMLWRITER_COMMENT         0x01
 #define XMLWRITER_INDENT          0x02
 #define XMLWRITER_NEWLINE         0x04
+#define XMLWRITER_CONFIG_DEFAULT  0x07
+
 
 //  uncomment next line to reduce ~30bytes RAM in escape()  (AVR only)
 //  #define __PROGMEM__
@@ -71,7 +79,6 @@ public:
   //  prints debug information into the XML as comment
   void debug();
 
-
   //  if multiline == true it does not indent to allow bigger text blocks
   //  <!-- text -->
   void comment(const char* text, const bool multiLine = false);
@@ -79,26 +86,10 @@ public:
   //  add a number of newlines to the output, default = 1.
   void newLine(uint8_t n = 1);
 
-  //  TAG
+  //  inject raw string into XML.
+  void raw(const char * str) { print(str); };
+
   //
-  //  <tag>
-  void tagOpen(const char* tag, const bool newline = true);
-  //  <tag name="name">
-  void tagOpen(const char* tag, const char* name, const bool newline = true);
-  //  </tag>
-  void tagClose(const bool ind = true);
-
-  //  <tag
-  void tagStart(const char* tag);
-  //  field="value"
-  void tagField(const char* field, const char* value);
-  //   />
-  void tagEnd(const bool newline = true, const bool addSlash = true);
-
-  //  <tag>value</tag>
-  void writeNode(const char* tag, const char* value);
-
-
   //  INDENT
   //
   //  typically 0,2,4; default == 2;
@@ -109,9 +100,28 @@ public:
   void incrIndent()       { _indent += _indentStep; };
   void decrIndent()       { _indent -= _indentStep; };
   void indent();
-  void raw(const char * str) { print(str); };
 
 
+  //
+  //  TAG
+  //
+  //  <tag>
+  void tagOpen(const char* tag, const bool newline = true);
+  //  <tag name="name">
+  void tagOpen(const char* tag, const char* name, const bool newline = true);
+  //  </tag>
+  void tagClose(const bool ind = true);
+  //  <tag
+  void tagStart(const char* tag);
+  //   />
+  void tagEnd(const bool newline = true, const bool addSlash = true);
+
+
+  //
+  //  TAGFIELD
+  //
+  //  field="value"
+  void tagField(const char* field, const char* value);
   void tagField(const char* field, const uint8_t  value, const uint8_t base = DEC);
   void tagField(const char* field, const uint16_t value, const uint8_t base = DEC);
   void tagField(const char* field, const uint32_t value, const uint8_t base = DEC);
@@ -124,7 +134,11 @@ public:
   void tagField(const char* field, const double   value, const uint8_t decimals = 2);
 
 
-
+  //
+  //  WRITENODE
+  //
+  //  <tag>value</tag>
+  void writeNode(const char* tag, const char* value);
   void writeNode(const char* tag, const uint8_t   value, const uint8_t base = DEC);
   void writeNode(const char* tag, const uint16_t  value, const uint8_t base = DEC);
   void writeNode(const char* tag, const uint32_t  value, const uint8_t base = DEC);
@@ -137,7 +151,6 @@ public:
   void writeNode(const char* tag, const double    value, const uint8_t decimals = 2);
 
 
-
 #ifdef XMLWRITER_ESCAPE_SUPPORT
   //  expands the special XML chars
   void escape(const char* str);
@@ -146,6 +159,7 @@ public:
 
   //  One need to call flush() at the end of writing to empty the internal buffer.
   //  Note: this is overridden of the Print interface
+  bool  needFlush() { return _bufferIndex > 0; };
   void  flush();
 
 

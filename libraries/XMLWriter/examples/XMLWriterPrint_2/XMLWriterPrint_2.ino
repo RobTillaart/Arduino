@@ -1,7 +1,6 @@
 //
 //    FILE: XMLWriterPrint_2.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: demo Print interface - use it to print "unsupported" and Printable data types 
 //    DATE: 2020-07-07
 //     URL: https://github.com/RobTillaart/XMLWriter
@@ -46,5 +45,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -146,10 +146,10 @@ unittest(test_header_comment_version_debug)
   XML.version();
   assertEqual(126, XML.bytesWritten());
   XML.debug();
-  assertEqual(225, XML.bytesWritten());
+  assertEqual(243, XML.bytesWritten());
 
   XML.flush();
-  assertEqual(229, XML.bytesWritten());
+  assertEqual(244, XML.bytesWritten());
   assertEqual(0, XML.bufferIndex());      //  nothing to flush
 }
 

@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.5] - 2023-11-23
+## [0.4.0] - 2025-05-10
+- fix #15, missing tagField(...float...), kudos for PaulA-V
+- fix #16, missing writeNode(...float...), kudos for PaulA-V
+- add **bool needFlush()**
+- make **XMLWRITER_ESCAPE_SUPPORT** a command line option
+- extend **debug()** output with bytes written.
+- add example **XMLWriterTestDebug.ino**
 - update readme.md
+- update keywords.txt
+- reorder .h and .cpp
+- minor edits
 
+----
 
 ## [0.3.4] - 2023-01-16
 - update GitHub actions

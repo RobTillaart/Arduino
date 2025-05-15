@@ -1,22 +1,20 @@
 //
-//    FILE: AD5593R_test_dac_ext_vref.ino
+//    FILE: AD5593R_setMode.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: test setMode
 //     URL: https://github.com/RobTillaart/AD5593R
-//
-//  outputs should have different output voltage
-//  from zero to full scale in 8 steps.
-//  connect a constant voltage (e.g. 3V) to EXT_REF pin
+
 
 #include "AD5593R.h"
 #include "Wire.h"
 
 AD5593R AD(0x10);
 
+uint16_t n = 0;
 
 void setup()
 {
-  while(!Serial);
+  while (!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
@@ -26,10 +24,14 @@ void setup()
 
   Wire.begin();
 
-  //  set all eight pins to DAC mode.
-  AD.setDACmode(0xFF);
-  //  use external reference
-  AD.setExternalReference(true, 3.3);
+  Serial.println(AD.begin());
+
+  //  set pin 0,1,2 as ADC, pin 3 as DAC,
+  //      pin 4,5,6 as OUTPUT, pin 7 as ThreeState (output)
+  AD.setMode("AAADOOOT");
+
+  //  use internal Vref 2.5V
+  AD.setExternalReference(false, 5.0);
   //  do not double the output.
   AD.setDACRange2x(false);
   //  COPY input register direct to DAC
@@ -40,12 +42,24 @@ void setup()
 
 void loop()
 {
-  for (int pin = 0; pin < 8; pin++)
+  //  just do something.
+  for (int pin = 0; pin < 3; pin++)
   {
-    Serial.print(AD.writeDAC(pin, (pin * 4095)/7 ));
+    Serial.print(AD.readADC(pin));
     Serial.print("\t");
   }
+
+  n = (n + 101) % 4095;
+  AD.writeDAC(3, n);
+  Serial.print(n);
+  Serial.print("\t");
+  for (int pin = 4; pin < 8; pin++)
+  {
+    AD.write1(pin, n & 0x01 ? HIGH : LOW);
+  }
+  Serial.print(n & 0x01);
   Serial.println();
+
   delay(1000);
 }
 

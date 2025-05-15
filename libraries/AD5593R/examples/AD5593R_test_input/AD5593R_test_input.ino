@@ -8,12 +8,13 @@
 #include "AD5593R.h"
 #include "Wire.h"
 
-AD5593R AD(0x08);
+AD5593R AD(0x10);
 
 
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);

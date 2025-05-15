@@ -1,0 +1,17 @@
+
+Output should look like:
+
+AD5593R_LIB_VERSION: 0.1.1
+
+Connect: 1
+Address: 10
+0	0	0	0	0	0	0	0	
+0	249	492	6DB	924	B6D	DB6	FFF	
+
+0	0	0	0	0	0	0	0	
+0	249	492	6DB	924	B6D	DB6	FFF	
+
+0	0	0	0	0	0	0	0	
+0	249	492	6DB	924	B6D	DB6	FFF	
+
+etc.

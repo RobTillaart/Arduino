@@ -1,7 +1,7 @@
 //
-//    FILE: AD5593R_test_output.ino
+//    FILE: AD5593R_temperature.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test output mode
+// PURPOSE: test reading temperature
 //     URL: https://github.com/RobTillaart/AD5593R
 
 
@@ -28,19 +28,19 @@ void setup()
   Serial.print("Address: ");
   Serial.println(AD.getAddress(), HEX);
 
-  //  set all eight pins to OUTPUT mode.
-  AD.setOUTPUTmode(0xFF);
+  //  use internal Vref 2.5V
+  AD.setExternalReference(false, 5.0);
+
+  Serial.println("TEMPERATURE");
 }
 
 
 void loop()
 {
-  for (int pin = 0; pin < 8; pin++)
-  {
-    Serial.print(AD.write1(pin, random(2) ));
-    Serial.print("\t");
-  }
-  Serial.println();
+  //  RAW temperature
+  //  Serial.print(AD.readADC(8));
+  //  Serial.print("\t");
+  Serial.println(AD.readTemperature());
   delay(1000);
 }
 

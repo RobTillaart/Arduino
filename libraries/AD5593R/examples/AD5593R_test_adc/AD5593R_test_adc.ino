@@ -1,5 +1,5 @@
 //
-//    FILE: AD5593R_AD5593R_test_adc.ino
+//    FILE: AD5593R_test_adc.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test adc mode
 //     URL: https://github.com/RobTillaart/AD5593R
@@ -8,11 +8,12 @@
 #include "AD5593R.h"
 #include "Wire.h"
 
-AD5593R AD(0x08);
+AD5593R AD(0x10);
 
 
 void setup()
 {
+  while (!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
@@ -21,6 +22,12 @@ void setup()
   Serial.println();
 
   Wire.begin();
+
+  Serial.print("Connect: ");
+  Serial.println(AD.isConnected());
+  Serial.print("Address: ");
+  Serial.println(AD.getAddress(), HEX);
+
   //  set all eight pins to ADC mode.
   AD.setADCmode(0xFF);
 }

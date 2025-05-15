@@ -1,7 +1,7 @@
 //
-//    FILE: AD5593R_test_output.ino
+//    FILE: AD5593R_test_connect.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test output mode
+// PURPOSE: test connection (debug sketch)
 //     URL: https://github.com/RobTillaart/AD5593R
 
 
@@ -22,25 +22,13 @@ void setup()
   Serial.println();
 
   Wire.begin();
-
-  Serial.print("Connect: ");
-  Serial.println(AD.isConnected());
-  Serial.print("Address: ");
-  Serial.println(AD.getAddress(), HEX);
-
-  //  set all eight pins to OUTPUT mode.
-  AD.setOUTPUTmode(0xFF);
 }
 
 
 void loop()
 {
-  for (int pin = 0; pin < 8; pin++)
-  {
-    Serial.print(AD.write1(pin, random(2) ));
-    Serial.print("\t");
-  }
-  Serial.println();
+  Serial.print("Connect: ");
+  Serial.println(AD.isConnected());
   delay(1000);
 }
 

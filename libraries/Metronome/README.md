@@ -20,20 +20,37 @@ Arduino library for creating a Metronome.
 
 This library is to create a simple Metronome.
 
-The class is very straightforward, one can set the beats per minute
+The class is very straightforward, one can set the beats per minute (BPM)
 and uses start / stop to have the ticks in the requested rhythm.
 
+The Metronome has one or two output pins, typical connected to LEDs or a buzzer.
+These are the nicknamed the tick and tock pin.
+The Metronome will generate pulses with 50% duty cycle at the configured BPM.
 
+If one output pin is defined all pulses will be send to this pin. 
+If two output pins are defined the second pin will pulse once depending on the 
+value set with **setMeasure()**. E.g. if the measure is set to 6, the first pin
+will get 5 pulses and the second will get one.
+
+The default BPM == 100 and default measure == 4.
+
+Default the Metronoe is idle and needs an explicit start with **start()**.
+
+The metronome can be used as a very simple square wave generator.
+Be aware that to set a frequency, the BPM must be multiplied by 60.
+
+Feedback as always is welcome.
 
 
 ### Related
 
 - https://github.com/RobTillaart/Metronome
+- https://github.com/RobTillaart/PulsePattern  (AVR only)
 
 
 ### Tested
 
-Tested on Arduino UNO
+Tested on Arduino UNO, with a red and green LED.
 
 
 ## Interface
@@ -45,23 +62,28 @@ Tested on Arduino UNO
 ### Constructor
 
 - **Metronome(uint8_t tickPin, uint8_t tockPin = 255)** sets the output 
-pin for ticks and optionally a separate for tock.
+pin for ticks and optionally a separate pin for tock.
 if the tock pin is not defined, the tick pin will be used instead.  
-- **void begin()** initializes all pins
+- **void begin()** initializes all pins and internal counters.
 
 A separate pin for tick and tock allows e.g. a two colour LED to be used,
 or two different sounds.
 
+If tick and tock pins are the same it will behave as only the tick pin is defined.
+
 
 ### BPM
 
-setMeasure(4) = tick tick tick TOK
-setMeasure(3) = tick tick TOK
+setMeasure(4) => tick tick tick TOCK
+setMeasure(3) => tick tick TOCK
 
-- **void setBeatsPerMinute(float bpm)** defines the tick interval
-- **float getBeatsPerMinute()** returns set BPM.
-- **void setMeasure(uint8_t n)** defines the TOK, typical 2,3,4,5,6,8,12
-- **uint8_t getMeasure()** returns set Measure.
+- **void setBeatsPerMinute(float bpm)** defines the tick interval. 
+The BPM can be set as a floating point to correct minimal deviations.
+The internal interval is measured in micros and if the BPM is very high it will be less accurate.
+- **float getBeatsPerMinute()** returns the set BPM.
+- **void setMeasure(uint8_t tock)** defines the TOCK rhythm, typical values are 2,3,4,5,6,8,12.
+Will only work if tockpin is defined in the constructor.
+- **uint8_t getMeasure()** returns the set measure.
 
 
 Typical BPM's
@@ -76,11 +98,14 @@ uint8_t BPM[47] =
 };
 ```
 
+
 ### Control
 
+Default the Metronome is idle and needs an explicit **start()**.
+
 - **void start()** idem
-- **void stop()** idem
-- **void check()** workhorse
+- **void stop()** idem, and resets the internal tock count to zero.
+- **void check()** workhorse, must be called as often as possible.
 
 
 ## Future
@@ -89,17 +114,25 @@ uint8_t BPM[47] =
 
 - improve documentation
 
-
 #### Should
 
-- implement measure in check.
+- investigate range
 
 #### Could
 
 - void addMIDI(Stream \* ser)
-  - baud rate 32150?
+  - baud rate 31250?
   - midi channel / note / duration etc.
--
+- extend wave generator functions?
+- inverted channel?
+- duty cycle?
+- Metronome macro language to change rhythm in a loop?
+  - "R10 M4 B60 R2 M6 B120 R5 M4 B60" (R = repeat all till next R
+  - interactive over serial?
+- unit tests,
+- ledstrip output?
+- determine BPM tool with a button?
+- debug() => probably complexer than the library :)
 
 #### Wont
 

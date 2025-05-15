@@ -2,7 +2,7 @@
 //
 //    FILE: Metronome.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for creating a Metronome.
 //    DATE: 2013-09-16  (initial sketch)
 //     URL: https://github.com/RobTillaart/Metronome
@@ -19,21 +19,24 @@ class Metronome
   public:
   Metronome(uint8_t tickPin, uint8_t tockPin = 255)
   {
-    _tickpin = tickPin;
-    if (tockPin == 255) _tockpin = _tickpin;
-    _tockpin = tockPin;
+    _tickPin = tickPin;
+    _tockPin = tockPin;
+    if (_tockPin == 255) _tockPin = _tickPin;
+    //  defaults
     _bpm = 100;
     _measure = 4;
     _run = false;
     _tick = LOW;
+    _count = 0;
   };
 
   void begin()
   {
-    pinMode(_tickpin, OUTPUT);
+    pinMode(_tickPin, OUTPUT);
+    pinMode(_tockPin, OUTPUT);
     _tick = LOW;
-    digitalWrite(_tickpin, _tick);
-    digitalWrite(_tockpin, _tick);
+    digitalWrite(_tickPin, _tick);
+    digitalWrite(_tockPin, _tick);
   };
 
   //  bpm >= 30 ?
@@ -43,7 +46,10 @@ class Metronome
     _interval = round(30000000 / _bpm);
   };
 
-  float getBeatsPerMinute() { return _bpm; };
+  float getBeatsPerMinute()
+  {
+    return _bpm;
+  };
 
   //  e.g. 3 = Waltz  3/8 or 3/4
   void setMeasure(uint8_t m)
@@ -65,6 +71,8 @@ class Metronome
   void stop()
   {
     _run = false;
+    _tick = LOW;
+    _count = 0;
   };
 
   //  check must be called every millisecond for timing.
@@ -80,11 +88,11 @@ class Metronome
          _tick = (_tick == LOW) ? HIGH : LOW;
          if (_count < (2 * _measure - 1))
          {
-           digitalWrite(_tickpin, _tick);
+           digitalWrite(_tickPin, _tick);
          }
          else
          {
-           digitalWrite(_tockpin, _tick);
+           digitalWrite(_tockPin, _tick);
          }
          if (_count == (2 * _measure))
          {
@@ -95,15 +103,15 @@ class Metronome
     else
     {
       _tick = LOW;
-      digitalWrite(_tickpin, _tick);
-      digitalWrite(_tockpin, _tick);
+      digitalWrite(_tickPin, _tick);
+      digitalWrite(_tockPin, _tick);
     }
   };
 
 
 private:
-  uint8_t  _tickpin;
-  uint8_t  _tockpin;
+  uint8_t  _tickPin;
+  uint8_t  _tockPin;
   float    _bpm;
   uint8_t  _measure;
   uint8_t  _count;  //  for measure

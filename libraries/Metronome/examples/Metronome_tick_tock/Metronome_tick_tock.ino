@@ -1,12 +1,18 @@
-//    FILE: Metronome_simple.ino
+//    FILE: Metronome_tick_tock.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo Metronome library
 //     URL: https://github.com/RobTillaart/Metronome
-
+//
+// uses two LEDs to indicate the tick (GREEN) and tock (RED).
+// could also drive other devices.
 
 #include "Metronome.h"
 
-Metronome M(13);
+//  two colors to differentiate between "tick and tock"
+#define GREEN_LED_PIN     12
+#define RED_LED_PIN       13
+
+Metronome M(GREEN_LED_PIN, RED_LED_PIN);
 
 
 void setup()
@@ -20,7 +26,7 @@ void setup()
 
   M.begin();
   M.setBeatsPerMinute(120);
-  M.setMeasure(6);
+  M.setMeasure(4);
   M.start();
 }
 

@@ -3,7 +3,7 @@
 //    FILE: MTP40F.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MTP40F_LIB_VERSION                    (F("0.2.0"))
+#define MTP40F_LIB_VERSION                    (F("0.2.1"))
 
 
 #define MTP40F_DEFAULT_ADDRESS                0x64
@@ -20,6 +20,7 @@
 #define MTP40F_INVALID_AIR_PRESSURE           0x01
 #define MTP40F_INVALID_GAS_LEVEL              0x02
 #define MTP40F_INVALID_CRC                    0x10
+#define MTP40F_NO_STREAM                      0x20
 #define MTP40F_INVALID_ADDRESS                0xFF
 #define MTP40F_REQUEST_FAILED                 0xFFFF
 
@@ -27,7 +28,10 @@
 class MTP40F
 {
 public:
+  MTP40F();
   MTP40F(Stream * stream);
+
+  void     setStream(Stream * stream);
 
   bool     begin();
 
@@ -69,7 +73,7 @@ public:
 //  PROTECTED
 //
 protected:
-  Stream * _ser;
+  Stream * _ser           = NULL;
   uint8_t  _buffer[16];
 
   uint32_t _timeout       = 100;
@@ -82,6 +86,7 @@ protected:
   bool     _suppressError = false;
   int      _lastError     = MTP40F_OK;
 
+  void     init();
   bool     request(uint8_t *data, uint8_t commandLength, uint8_t responseLength);
   uint16_t CRC(uint8_t *data, uint16_t length);
 };

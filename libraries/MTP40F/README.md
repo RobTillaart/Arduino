@@ -120,6 +120,7 @@ Furthermore using a multiplexer will slow down the access.
 
 - **MTP40F(Stream \* str)** constructor. Should get a Serial port as parameter 
 e.g. \&Serial, \&Serial1 or a software Serial port. 
+- Alternatively, use the default constructor **MTP40F()** and **setStream(Stream \* str)**.
 That Serial port must connect to the sensor, check datasheet for pins.
 - **bool begin()** initialize the internal settings for the device.
 - **uint8_t getType()** returns type, see below.
@@ -230,6 +231,7 @@ Note: read datasheet!
 |  0x01    |  MTP40F_INVALID_AIR_PRESSURE  |
 |  0x02    |  MTP40F_INVALID_GAS_LEVEL     |
 |  0x10    |  MTP40F_INVALID_CRC           |
+|  0x20    |  MTP40F_NO_STREAM             |
 |  0xFF    |  MTP40F_INVALID_ADDRESS       |
 |  0xFFFF  |  MTP40F_REQUEST_FAILED        |
 

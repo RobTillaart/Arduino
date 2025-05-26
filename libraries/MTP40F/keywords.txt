@@ -5,6 +5,7 @@ MTP40F	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
+setStream	KEYWORD2
 begin	KEYWORD2
 isConnected	KEYWORD2
 

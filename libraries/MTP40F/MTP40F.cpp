@@ -2,7 +2,7 @@
 //    FILE: MTP40F.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -13,13 +13,31 @@
 //  #define MTP40F_DEBUG    1
 
 
+MTP40F::MTP40F()
+{
+  init();
+}
+
+
 MTP40F::MTP40F(Stream * stream)
 {
+  init();
   _ser = stream;
+}
+
+
+void MTP40F::init()
+{
   _buffer[0] = '\0';
   _type = 5;
 }
 
+
+void MTP40F::setStream(Stream * stream)
+{
+  init();
+  _ser = stream;
+}
 
 bool MTP40F::begin()
 {
@@ -215,6 +233,11 @@ int MTP40F::lastError()
 //
 bool MTP40F::request(uint8_t *data, uint8_t commandLength, uint8_t responseLength)
 {
+  if (_ser == NULL) {
+    _lastError = MTP40F_NO_STREAM;
+    return false;
+  }
+
   //  calculate CRC of command
   uint16_t crc = CRC(data, commandLength - 2);
   data[commandLength - 2] = crc / 256;

@@ -1,9 +1,8 @@
 //
-//    FILE: IA_test.ino
+//    FILE: IA_verify_ESP.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-01-21
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/infiniteAverage
 
 
 #include "infiniteAverage.h"
@@ -18,8 +17,13 @@ uint64_t cnt = 0;
 
 void setup()
 {
+  //  while (!Serial);  // uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("IAVG_LIB_VERSION: ");
+  Serial.println(IAVG_LIB_VERSION);
+  Serial.println();
 
   IA.reset();
 
@@ -57,5 +61,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,14 +2,14 @@
 //
 //    FILE: infiniteAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Calculate the average of a very large number of values.
 //     URL: https://github.com/RobTillaart/infiniteAverage
 
 
 #include "Arduino.h"
 
-#define IAVG_LIB_VERSION            (F("0.1.7"))
+#define IAVG_LIB_VERSION            (F("0.1.8"))
 
 
 class IAVG
@@ -23,8 +23,8 @@ public:
 
   void reset()
   {
-    _sum = 0;
-    _overflow = 0;
+    _decimal = 0;
+    _whole = 0;
     _count = 0;
     //  cannot reset _minimum or maximum;
   };
@@ -33,7 +33,7 @@ public:
   void add(float value)
   {
     if (_count == 0)
-    { 
+    {
       _minimum = value;
       _maximum = value;
     }
@@ -44,22 +44,22 @@ public:
     }
     _count++;
     long ov = value;
-    _overflow += ov;
+    _whole += ov;
     value -= ov;
-    _sum += value;
-    if (_sum > 1)
+    _decimal += value;
+    if (_decimal > 1)
     {
-      _overflow++;
-      _sum -= 1;
+      _whole++;
+      _decimal -= 1;
     }
     //  scale back factor 2 when overflow comes near
-    //  TODO abs(_overflow)
-    if ( (_overflow >= _threshold) || (_count >= 4294967000 ) )
+    //  TODO abs(_whole)
+    if ( (_whole >= _threshold) || (_count >= 4294967000 ) )
     {
-      if (_overflow & 1) _sum += 1.0;    //  fix rounding error.
       _count /= 2;
-      _overflow /= 2;
-      _sum /= 2;
+      _decimal /= 2;
+      if (_whole & 1) _decimal += 0.5;  //  fix rounding error.
+      _whole /= 2;
     }
   };
 
@@ -67,7 +67,7 @@ public:
   float average()
   {
     if (_count == 0) return NAN;
-    return _sum / _count + (1.0 * _overflow) / _count;
+    return _decimal / _count + (1.0 * _whole) / _count;
   };
 
 
@@ -93,13 +93,13 @@ public:
 
   uint32_t whole()
   {
-    return _overflow;
+    return _whole;
   };
 
 
   float decimals()
   {
-    return _sum;
+    return _decimal;
   };
 
 
@@ -116,11 +116,13 @@ public:
 
 
 private:
-  float    _sum      = 0;
+  uint32_t _whole = 0;
+  float    _decimal  = 0;
+
   float    _minimum  = 0;
   float    _maximum  = 0;
-  uint32_t _overflow = 0;
   uint32_t _count    = 0;
+  //  threshold for scaling back.
   uint32_t _threshold = (1UL << 30);
 };
 

@@ -2,17 +2,23 @@
 //    FILE: IA_test_threshold.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-12-20
+//     URL: https://github.com/RobTillaart/infiniteAverage
 
 
 #include "infiniteAverage.h"
 
 IAVG iavg;
 
+
 void setup()
 {
+  //  while (!Serial);  // uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("IAVG_LIB_VERSION: ");
+  Serial.println(IAVG_LIB_VERSION);
+  Serial.println();
 
   iavg.reset();
   for (int i = 0; i < 1000; i++)
@@ -26,7 +32,7 @@ void setup()
   Serial.print(iavg.average());
   Serial.print("\n");
 
-  // shows the effects of small thresholds with non-uniform data
+  //  shows the effects of small thresholds with non-uniform data
   for (uint32_t th = 2048; th <= 1000000UL; th *= 2)
   {
     iavg.reset();
@@ -52,4 +58,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

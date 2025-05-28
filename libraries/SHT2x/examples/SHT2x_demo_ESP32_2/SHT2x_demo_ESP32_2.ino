@@ -25,9 +25,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
+  Serial.println();
 
   Wire.begin(SDA_1, SCL_1);
   Wire1.begin(SDA_2, SCL_2);

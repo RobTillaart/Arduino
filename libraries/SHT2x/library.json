@@ -14,6 +14,9 @@
     },
     {
       "name": "JensB"
+    },
+    {
+      "name": "morfeus02"
     }
   ],
   "repository":
@@ -21,7 +24,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT2x.git"
   },
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

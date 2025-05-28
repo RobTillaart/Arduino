@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2025-05-27
+- PR #32 - update readme.md, comments (Kudos to morfeus02)
+- add 2 examples
+- minor edits.
+
 ## [0.5.0] - 2023-12-07
 - update API, begin()
 - update readme.md

@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -164,19 +164,23 @@ bool SHT2x::readTemperature()
   if (crc8(buffer, 2) != buffer[2])
   {
     _error = SHT2x_ERR_CRC_TEMP;
-  //  return false;  //  do not fail yet
+    //  Allow reading the value even if CRC fails, as _error is flagged.
+    //  The user should call getError() to check the status.
+    //  return false; 
   }
   _rawTemperature  = buffer[0] << 8;
   _rawTemperature += buffer[1];
-  _rawTemperature &= 0xFFFC;
+  _rawTemperature &= 0xFFFC; // Clear status bits (last two bits)
 
-  //  clear requestType
+  //  clear requestType, marking this async operation as complete
   _requestType = SHT2x_REQ_NONE;
 
-  _status = buffer[1] & 0x03;
-  if (_status == 0xFF)       //  TODO  != 0x01  (need HW to test)
+  _status = buffer[1] & 0x03; // Extract status bits
+  //  After a temperature read, the status bits should indicate "temperature reading" (0x01).
+  //  If not, it implies a read error or unexpected sensor state.
+  if (_status != SHT2x_STATUS_TEMPERATURE)
   {
-    _error = SHT2x_ERR_READBYTES;
+    _error = SHT2x_ERR_READBYTES; // Or a more specific error e.g. SHT2x_ERR_UNEXPECTED_STATUS
     return false;
   }
   return true;
@@ -194,24 +198,28 @@ bool SHT2x::readHumidity()
   if (crc8(buffer, 2) != buffer[2])
   {
     _error = SHT2x_ERR_CRC_HUM;
-  //    return false;  //  do not fail yet
+    //  Allow reading the value even if CRC fails, as _error is flagged.
+    //  The user should call getError() to check the status.
+    //  return false;
   }
   _rawHumidity  = buffer[0] << 8;
   _rawHumidity += buffer[1];
-  _rawHumidity &= 0xFFFC;
+  _rawHumidity &= 0xFFFC; // Clear status bits (last two bits)
 
-  //  clear requestType
+  //  clear requestType, marking this async operation as complete
   _requestType = SHT2x_REQ_NONE;
 
-  _status = buffer[1] & 0x03;
-  if (_status == 0xFF)        //  TODO  != 0x02  (need HW to test)
+  _status = buffer[1] & 0x03; // Extract status bits
+  //  After a humidity read, the status bits should indicate "humidity reading" (0x02).
+  //  If not, it implies a read error or unexpected sensor state.
+  if (_status != SHT2x_STATUS_HUMIDITY)
   {
-    _error = SHT2x_ERR_READBYTES;
+    _error = SHT2x_ERR_READBYTES; // Or a more specific error e.g. SHT2x_ERR_UNEXPECTED_STATUS
     return false;
   }
 
-  _error = SHT2x_OK;
-  _lastRead = millis();
+  _error = SHT2x_OK; // Mark as OK if all checks passed for this specific read
+  _lastRead = millis(); // Record time of successful synchronous style read completion
   return true;
 }
 
@@ -412,7 +420,7 @@ bool SHT2x::setHeaterLevel(uint8_t level)
   heaterReg |= level;
   if (writeCmd(0x51, heaterReg) == false)
   {
-    _error = -1;
+    _error = SHT2x_ERR_WRITECMD; // Use defined error code for write command failure
     return false;
   }
   return true;
@@ -563,18 +571,25 @@ bool SHT2x::batteryOK()
 //
 uint8_t SHT2x::crc8(const uint8_t *data, uint8_t len)
 {
-  //  CRC-8 formula from page 14 of SHT spec pdf
-  //  Sensirion_Humidity_Sensors_SHT2x_CRC_Calculation.pdf
-  const uint8_t POLY = 0x31;
+  //  CRC-8 formula from page 14 of SHT2x datasheet.
+  //  Document: "Sensirion_Humidity_Sensors_SHT2x_CRC_Calculation.pdf"
+  //  Polynomial: x^8 + x^5 + x^4 + 1 (0x131 -> 0x31, MSB is implicit)
+  const uint8_t CRC_POLYNOMIAL = 0x31;
   uint8_t crc = 0x00;
 
-  for (uint8_t j = len; j; --j)
+  for (uint8_t byteIndex = 0; byteIndex < len; ++byteIndex)
   {
-    crc ^= *data++;
-
-    for (uint8_t i = 8; i; --i)
+    crc ^= data[byteIndex]; // XOR byte into CRC
+    for (uint8_t bit = 8; bit > 0; --bit)
     {
-      crc = (crc & 0x80) ? (crc << 1) ^ POLY : (crc << 1);
+      if (crc & 0x80) // If MSB is set
+      {
+        crc = (crc << 1) ^ CRC_POLYNOMIAL;
+      }
+      else
+      {
+        crc = (crc << 1);
+      }
     }
   }
   return crc;

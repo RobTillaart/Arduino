@@ -17,9 +17,11 @@ uint32_t connectionFails = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   sht.begin();

@@ -23,9 +23,11 @@ uint32_t intervalHum = 5000;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT2x_LIB_VERSION: \t");
   Serial.println(SHT2x_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   sht.begin();

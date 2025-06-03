@@ -31,11 +31,13 @@ To print very large numbers - https://github.com/RobTillaart/PrintHelpers
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/infiniteAverage
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
+- https://github.com/RobTillaart/Student
 
 
 ## Interface
@@ -56,7 +58,8 @@ The limits mentioned is the n for which all k still work.
 
 If you need a larger n but k is near 0 the functions will still work.
 To which value of k the formulas work differs per value for n. 
-No formula found, and build in an overflow detection takes overhead, so that is not done.
+No formula found, and to build in an overflow detection takes extra overhead, 
+so that is not implemented.
 
 
 - **nextPermutation<Type>(array, size)** given an array of type T it finds the next permutation
@@ -69,7 +72,7 @@ other same code examples exist.
 
 - **uint32_t factorial(n)** exact up to n = 12.
 - **uint64_t factorial64(n)** exact up to n = 20.  (Print 64 bit integers with my printHelpers)
-- **double dfactorial(n)** not exact up to n = 34 (4 byte) or n = 170 (8 byte).
+- **double dfactorial(n)** not exact up to n = 34. (double == 4 byte) or n = 170 (double == 8 byte).
 - **double stirling(n)** approximation function for factorial (right magnitude).
 Constant run-time.
 
@@ -108,12 +111,14 @@ This formula allows to calculate the value of n! indirectly.
 - **double dSkipFactorial(uint32_t n, uint32_t skip)** 
 
 SkipFactorials are like factorials and semiFactorials but they skip **skip** numbers.
+Thus skipFactorial(n, 2) is the same as semiFactorial(n).
+
 - **skipFactorial(12, 4)** = 12 x 8 x 4 = 384
 - **skipFactorial(17, 5)** = 17 x 12 x 7 x 2 = 2856
 - **skipFactorial(n, 1)** == **factorial(n)**
 - **skipFactorial(n, 2)** == **semiFactorial(n)**
 
-As the maximum depends on both n and step sizze there is no single maximum for n.
+As the maximum depends on both n and step size there is no single maximum for n.
 This is similar to combinations and permutations.
 
 An indicative table of maxima per function call, the larger the skip, the larger the maximum n.
@@ -127,6 +132,7 @@ Note that for skip <= 10 n still is an 8 bit number.
 |  dSkipFactorial   |  300    |         |         |         |         |  double (8 bytes) 
 
 Note that for the function the **max / skip** is decreasing when **skip grows**.
+Expectation is that **max** roughly doubles when **skip** doubles (to be investigated).
 
 
 ### Combinations
@@ -148,20 +154,20 @@ No formula found, and build in an overflow detection takes overhead, so that is 
 
 
 - **combPascal(n, k)** n = 0 .. 30 but due to double recursion per iteration it takes
-time and a lot of it for larger values. Added for recreational purposes, limited tested.
-Uses Pascal's triangle.
+time and a lot of it for larger values. Added for recreational / educational purposes.
+The function is only tested for small values. Uses Pascal's triangle.
 
 
 ## Notes
 
-- **perm1** is a sketch in the examples that shows a recursive permutation algorithm. 
+- **perm1.ino** is a sketch in the examples that shows a recursive permutation algorithm. 
 It generates all permutations of a given char string and allows you to process every instance.
 This sketch is added to this library as it fits in the context.
 
 
 ## Experimental 
 
-#### 32 bit numbers
+### 32 bit numbers
 
 - **void bigFactorial(uint32_t n, double &mantissa, uint32_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent. 
@@ -184,7 +190,7 @@ Not investigated what its maximum value is, but it should be higher than **51867
 of combinations is always smaller than number of permutations.
 
 
-#### 64 bit numbers- not investigated
+### 64 bit numbers- not investigated
 
 To have support for huge numbers one could upgrade the code to use uint64_t as parameter and 
 internally but calculating these values could take a lot of time, although **bigPermutations64(n, k)** 

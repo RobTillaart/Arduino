@@ -1,7 +1,7 @@
 //
 //    FILE: statHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers

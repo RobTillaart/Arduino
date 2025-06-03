@@ -3,7 +3,7 @@
 //    FILE: DS3232.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.5.1
+// VERSION: 0.6.0
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define DS3232_LIB_VERSION         "0.5.1"
+#define DS3232_LIB_VERSION         "0.6.0"
 
 
 //  ERROR CODES

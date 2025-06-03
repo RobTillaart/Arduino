@@ -1,7 +1,7 @@
 //
 //    FILE: DS3232_demo_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic read function
+// PURPOSE: test I2C performance
 //     URL: https://github.com/RobTillaart/DS3232
 
 
@@ -56,7 +56,7 @@ void loop()
   Serial.print('-');
   if (rtc.day() < 10) Serial.print(0);
   Serial.print(rtc.day());
-  
+
   Serial.print(' ');
   //  TIME
   if (rtc.hours() < 10) Serial.print(0);

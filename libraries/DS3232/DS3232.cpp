@@ -2,7 +2,7 @@
 //    FILE: DS3232.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.5.1
+// VERSION: 0.6.0
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -73,10 +73,8 @@ int DS3231::read()
   {
     _reg[i] = bcd2dec(_wire->read());
   }
-  _reg[0] &= 0x7F;
-  _reg[2] &= 0x3F;
+  _reg[2] &= 0x3F;  //  mask 12/24 bit
   _lastRead = millis();
-
   return DS3232_OK;
 }
 
@@ -85,20 +83,12 @@ int DS3231::write()
 {
   _wire->beginTransmission(_address);
   _wire->write(DS3232_SECONDS);
-  _wire->write(_reg[0] | 0x80);  //  stop clock
-  for (int i = 1; i < 7; i++)
+  for (int i = 0; i < 7; i++)
   {
     _wire->write(dec2bcd(_reg[i]));
   }
   _rv = _wire->endTransmission();
   if (_rv != 0) return DS3232_ERROR_I2C;
-
-  _wire->beginTransmission(_address);
-  _wire->write(DS3232_SECONDS);
-  _wire->write(_reg[0] & 0x7f);  //  start clock
-  _rv = _wire->endTransmission();
-  if (_rv != 0) return DS3232_ERROR_I2C;
-
   return DS3232_OK;
 }
 
@@ -266,6 +256,80 @@ uint32_t DS3232::SRAMread32(uint8_t index)
   }
   return val;
 }
+
+
+/////////////////////////////////////////////////////////
+//
+//  experimental to be tested
+//            - footprint + performance
+//            - layout compatible?
+//
+
+/*
+
+int DS3232::SRAMwrite16(uint8_t index, uint16_t value)
+{
+  uint8_t position = DS3232_SRAM_BASE + index;
+  return writeRegister(position, (uint8_t *)&value, 2);
+}
+
+
+uint16_t DS3232::SRAMread16(uint8_t index)
+{
+  uint16_t value = 0;
+  uint8_t position = DS3232_SRAM_BASE + index;
+  readRegister(position, (uint8_t *)&value, 2);
+  return value;
+}
+
+
+int DS3232::SRAMwrite32(uint8_t index, uint32_t value)
+{
+  return writeRegister(DS3232_SRAM_BASE + index, (uint8_t *)&value, 4);
+}
+
+
+uint32_t DS3232::SRAMread32(uint8_t index)
+{
+  uint32_t value = 0;
+  uint8_t position = DS3232_SRAM_BASE + index;
+  readRegister(position, (uint8_t *)&value, 4);
+  return value;
+}
+
+
+int DS3232::writeRegister(uint8_t reg, uint8_t * buf, uint8_t size)
+{
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  for (int i = 0; i < size; i++)
+  {
+    _wire->write(buf[i]);
+  }
+  _rv = _wire->endTransmission();
+  if (_rv != 0) return DS3232_ERROR_I2C;
+  return DS3232_OK;
+}
+
+
+int DS3232::readRegister(uint8_t reg, uint8_t * buf, uint8_t size)
+{
+  _wire->beginTransmission(_address);
+  _wire->write(reg);
+  _rv = _wire->endTransmission();
+  if (_rv != 0) return DS3232_ERROR_I2C;
+
+  if (_wire->requestFrom(_address, size) != size)
+  {
+    return DS3232_ERROR_I2C;
+  }
+  for (int i = 0; i < size; i++)
+  {
+    buf[i] = _wire->read();
+  }
+  return DS3232_ERROR_OK;
+}
+*/
 
 
 //  -- END OF FILE --

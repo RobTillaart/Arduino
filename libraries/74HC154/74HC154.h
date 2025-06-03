@@ -3,14 +3,14 @@
 //    FILE: 74HC154.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-02-22
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for the 74HC154 4-to-16 line decoder/demultiplexer.
 //     URL: https://github.com/RobTillaart/74HC154
 
 
 #include "Arduino.h"
 
-#define LIB_74HC154_VERSION         (F("0.1.0"))
+#define LIB_74HC154_VERSION         (F("0.2.0"))
 
 
 
@@ -86,16 +86,19 @@ public:
 
   void enable()
   {
+    //  if (_enable == 255) return;
     digitalWrite(_enable, LOW);
   }
 
   void disable()
   {
+    //  if (_enable == 255) return;
     digitalWrite(_enable, HIGH);
   }
 
   bool isEnabled()
   {
+    //  if (_enable == 255) return false???;
     return digitalRead(_enable);
   }
 
@@ -107,13 +110,14 @@ private:
 
   void _setLine()
   {
-    digitalWrite(_pin[0], _line & 0x01);
-    digitalWrite(_pin[1], _line & 0x02);
-    digitalWrite(_pin[2], _line & 0x04);
-    digitalWrite(_pin[3], _line & 0x08);
+    digitalWrite(_pin[0], (_line >> 0) & 0x01);
+    digitalWrite(_pin[1], (_line >> 1) & 0x01);
+    digitalWrite(_pin[2], (_line >> 2) & 0x01);
+    digitalWrite(_pin[3], (_line >> 3) & 0x01);
   }
 
 /*
+  //  read from the pins instead of from cache
   uint8_t getLine()
   {
     uint8_t value = digitalRead(_pin[0]);

@@ -44,7 +44,7 @@ From this table the formula is derived (spreadsheet) which is pretty linear betw
 Between 0 and 1 there seems to be a curve / other linear relation.
 
 
-#### Notes
+### Notes
 
 Note: risk of harm based upon Wikipedia.
 
@@ -66,7 +66,7 @@ Note: for a continuous colour scale check
 - https://github.com/RobTillaart/map2colour
 
 
-#### Wavelength sensitivity
+### Wavelength sensitivity
 
 The sensor is sensitive for wavelengths from 200 - 370 nm, so mostly in UVB and UVA region and less in the UVC.
 There is no information about the detailed wavelength sensitivity, so it is not possible to compensate.
@@ -76,10 +76,41 @@ a compensation table based upon the assumed distribution.
 More about UV see - https://en.wikipedia.org/wiki/Ultraviolet
 
 
-#### Related
+### Angle sensitivity
 
-- https://github.com/RobTillaart/ML8511
+The library does not correct for the incoming angle of the UV light (yet).
+See future actions below.
+
+Search for **Lambert’s Cosine Law** on Wikipedia for details.
+
+
+### Related
+
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/LTR390_DFR
+- https://github.com/RobTillaart/LTR390_RT
 - https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/ML8511
+
+
+
+## Hardware
+
+Many analog UV sensors are based upon the GUVA-S12SD.
+An incomplete list of several suppliers:
+
+- https://www.adafruit.com/product/1918
+- https://funduinoshop.com/en/electronic-modules/sensors/light-color/uv-sensor-budget-for-arduino
+- https://joy-it.net/en/products/SEN-UV01
+- https://www.keyestudio.com/products/keyestudio-guva-s12sd-3528-sunshine-ultraviolet-radiation-sensor-for-arduino
+- https://www.velleman.eu/products/view/uv-light-sensor-guva-s12sd-module-vma328/?id=439192&lang=en
+- https://wiki.dfrobot.com/UV_sensor_SKU__SEN0162
+- https://wiki.iteadstudio.com/UV_Sensor_Brick
+- https://wiki.seeedstudio.com/Grove-UV_Sensor/
+- https://www.waveshare.com/uv-sensor.htm
+- https://www.otronic.nl/nl/guva-s12sd-uv-sensor-module.html
+
+If your analog device is missing, send the URL so I can add it to the list.
 
 
 ## Interface
@@ -108,7 +139,7 @@ Can be used as indication on a user interface.
 This function can also be called with an index from an other UV index sensor.
 
 
-#### Power interface
+### Power interface
 
 Works only if setPowerPin is called properly.
 

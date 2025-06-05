@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2025-05-30
+- update documentation (hardware links)
+
 ## [0.1.6] - 2024-04-06
 - update GitHub actions
 - minor edits

@@ -2,7 +2,7 @@
 //    FILE: MTP40C.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for MTP40C MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 
@@ -14,12 +14,30 @@
 //  #define MTP40_DEBUG    1
 
 
-
 MTP40::MTP40(Stream * stream)
 {
+  init();
   _ser = stream;
+}
+
+
+MTP40::MTP40()
+{
+  init();
+}
+
+
+void MTP40::init()
+{
   _buffer[0] = '\0';
   _type = 0xFF;
+}
+
+
+void MTP40::setStream(Stream * stream)
+{
+  init();
+  _ser = stream;
 }
 
 
@@ -273,8 +291,12 @@ int MTP40::lastError()
 //
 //  PROTECTED
 //
-bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
+bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t responseLength)
 {
+  if (_ser == NULL) {
+    _lastError = MTP40_NO_STREAM;
+    return false;
+  }
   //  generic or specific address
   if (_useAddress)
   {
@@ -302,17 +324,18 @@ bool MTP40::request(uint8_t *data, uint8_t commandLength, uint8_t answerLength)
 
   uint32_t start = millis();
   uint8_t i = 0;
-  while (answerLength)
+  while (responseLength)
   {
     if (millis() - start > _timeout) return false;
     if (_ser->available())
     {
       _buffer[i] = _ser->read();
       i++;
-      answerLength--;
+      responseLength--;
     }
     yield();  //  because baud rate is low!
   }
+  //  Add MTP40_INVALID_CRC response check here?
   return true;
 }
 
@@ -452,13 +475,27 @@ const uint8_t auchCRCLo[] = {
 
 /////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASSES
+//  MTP40C DERIVED CLASS
 //
+MTP40C::MTP40C() : MTP40()
+{
+  _type = 2;
+};
+
 MTP40C::MTP40C(Stream * str) : MTP40(str)
 {
   _type = 2;
 };
 
+
+/////////////////////////////////////////////////////////////
+//
+//  MTP40D DERIVED CLASS
+//
+MTP40D::MTP40D() : MTP40()
+{
+  _type = 3;
+};
 
 MTP40D::MTP40D(Stream * str) : MTP40(str)
 {

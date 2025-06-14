@@ -34,10 +34,20 @@ However minimal examples are added to have a starter but these
 need to be tested if and how well these work.
 
 
-### Hardware interface
+### Warnings
+
+During tests with an UNO the communication over Software Serial did fail sometimes.
+Therefore it is important to **always check return values** to make your project more robust.
+
+During tests it became clear that the sensor needs time to process 
+commands e.g. **setSelfCalibration()**. By having a delay(100) between the calls
+everything ran far more stable (within my test). 
+TODO seek optimum delay(), added in Future section below.
+
+The CRC of the sensor responses are not verified by the library.
 
 
-#### MTP40-C
+### Hardware interface MTP40-C
 
 Has no I2C, only TTL level RS232.
 
@@ -63,7 +73,7 @@ Has no I2C, only TTL level RS232.
 |  5   | NC    | Not Connected       |
 
 
-#### MTP40-D
+### Hardware interface MTP40-D
 
 Has TTL level RS232, I2C and PWM IO.
 
@@ -93,13 +103,28 @@ Has TTL level RS232, I2C and PWM IO.
 |  9   | GND     | idem                        |
 
 
-#### Related
+### Related
 
 - https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
 - https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
 - https://github.com/RobTillaart/MTP40F
 - https://github.com/RobTillaart/MHZCO2  MHZ19 series
 - https://github.com/RobTillaart/Cozir
+- https://github.com/RobTillaart/Pressure - converters
+
+
+## Multi device
+
+Sometimes you need to control more devices than possible.
+This is possible with a multiplexer e.g. HC4052 which can select 
+between four devices.
+
+Drawback of using a multiplexer is that it takes more administration in 
+your code e.g. which device is on which channel. 
+Furthermore using a multiplexer will slow down the access.
+
+- https://github.com/RobTillaart/HC4052  (4 x 2)
+- https://github.com/RobTillaart/ADG725  (16 x 2)
 
 
 ## Interface
@@ -108,25 +133,20 @@ Has TTL level RS232, I2C and PWM IO.
 #include "MTP40C.h"
 ```
 
-#### Warnings
 
-During tests with an UNO the communication over Software Serial did fail sometimes.
-Therefore it is important to **always check return values** to make your project more robust.
+### Constructors
 
-During tests it became clear that the sensor needs time to process 
-commands e.g. **setSelfCalibration()**. By having a delay(100) between the calls
-everything ran far more stable (within my test). Todo seek optimum delay(), added in Future section below.
+- **MTP40(Stream \* str)** constructor. Should get a Serial port as parameter e.g. \&Serial, \&Serial1. This is the base class.
+- **MTP40()** constructor, followed by **setStream(Stream \* str)**.
+- **MTP40C(Stream \* str)** constructor. Should get a Serial port as parameter e.g. \&Serial, \&Serial1 
+or a software Serial port. That Serial port must connect to the sensor.
+- **MTP40C()** constructor, followed by **setStream(Stream \* str)**.
+- **MTP40D(Stream \* str)** constructor. Should get a Serial port as parameter e.g. \&Serial, \&Serial1 
+or a software Serial port. That Serial port must connect to the sensor.
+- **MTP40D()** constructor, followed by **setStream(Stream \* str)**.
 
-The CRC of the sensor responses are not verified by the library.
+### Initialization
 
-
-#### Constructors
-
-- **MTP40(Stream \* str)** constructor. should get a Serial port as parameter e.g. \&Serial, \&Serial1. This is the base class.
-- **MTP40C(Stream \* str)** constructor. should get a Serial port as parameter e.g. \&Serial, \&Serial1 
-or a software Serial port. That Serial port must connect to the sensor. 
-- **MTP40D(Stream \* str)** constructor. should get a Serial port as parameter e.g. \&Serial, \&Serial1 
-or a software Serial port. That Serial port must connect to the sensor. 
 - **bool begin(uint8_t address = 0x64)** initialize the device.
 Sets the address to communicate to the sensor. Address values allowed 0 .. 247.
 Uses the factory default value of 0x64 when no parameter is given.
@@ -140,15 +160,15 @@ Return 255 for the MTP40 base class.
 |:------:|:--------:|:--------:|
 |   2    |  MTP40C  |
 |   3    |  MTP40D  |
+|   5    |  MTP40F  |  MTP40F library, for reference only
 |  255   |  MTP40   |  base class
 
 
-#### CO2 Measurement
+### CO2 Measurement
 
 - **uint16_t getGasConcentration()** returns the CO2 concentration in PPM (parts per million).
 The function returns **MTP40_INVALID_GAS_LEVEL** if the request fails.
-
-- **void suppressError(bool se)** sets or clears a flag that replaces the error value with 
+- **void suppressError(bool suppress)** sets or clears a flag that replaces the error value with 
 the last read value if the request fails.
 This is useful when plotting the values and one do not want a sudden spike.
 One can still check **lastError()** to see if the value was OK.
@@ -158,7 +178,7 @@ or by **getAirPressureReference()**
 Reading resets internal error to MTP40_OK;
 
 
-#### Configuration
+### Configuration
 
 - **uint8_t getAddress()** request the address from the device.
 Expect a value from 0 .. 247.
@@ -175,10 +195,14 @@ This is the default behaviour of the library.
 - **bool useSpecificAddress()** returns true if the specific address is used.
 Returns false if the generic / broadcast address is used.
 
+
+### Timeout communication
+
 The library can set a maximum timeout in the communication with the sensor.
 Normally this is not needed to set as the default of 100 milliseconds is long enough
 for even the longest command. This timeout is needed if the sensor did not read the 
 command correctly, preventing the host to wait indefinitely.
+
 - **void setTimeout(uint32_t to = 100)** sets the timeout. 
 If no parameter is given a default timeout of 100 milliseconds is set.
 - **uint32_t getTimeout()** get the value set above or the default. 
@@ -196,34 +220,39 @@ The University of San Diego keeps track of CO2 for a long time now.
 See - https://keelingcurve.ucsd.edu/ 
 
 
-#### Air pressure calibration
+### Air pressure calibration
 
 - **float getAirPressureReference()** returns the air pressure reference from the device.
 Returns **MTP40_INVALID_AIR_PRESSURE** in case request fails.
 Default is 1013.0.
-- **bool setAirPressureReference(float apr)** to calibrate the air pressure.
+- **bool setAirPressureReference(float apr = 1013)** to calibrate the air pressure.
+Default value = 1013 hPa (1 Atm).
 One can calibrate the sensor with an external device.
 Value for air pressure should between 700.0 and 1100.0. 
 The function returns **false** if the parameter is out of range or if the request fails.
 
+For pressure conversion - https://github.com/RobTillaart/pressure
 
-#### SPC calibration
+
+### SinglePointCorrection calibration
 
 This takes a relative short time (few minutes) to calibrate the sensor in a known 
 gas concentration. 
 
-- **bool setSinglePointCorrection(float spc)** takes several minutes. see datasheet.
-spc should be between 400 and 5000.
+- **bool setSinglePointCorrection(float spc)** takes several minutes. See datasheet.
+The parameter **spc** should be between 400 and 5000.
 The function returns **false** if the parameter is out of range or if the request fails.
-- **bool getSinglePointCorrectionReady()** To see if SPC is finished or not. The call also fails if the request fails.
+- **bool getSinglePointCorrectionReady()** To see if setting the **SPC** has 
+finished or not. 
+The call also fails if the request fails.
 
 As far as known the SPC point can not be retrieved from the sensor.
 
 
-#### Self calibration
+### Self calibration
 
-Self calibration is a process in which the sensor takes the minimum values over a longer period
-between 24 - 720 hours as the reference for minimum outdoor values.
+Self calibration is a process in which the sensor takes the minimum values over 
+a longer period between 24 - 720 hours as the reference for minimum outdoor values.
 Note that 720 hours is 30 days / 1 month.
 
 - **bool openSelfCalibration()** start the self calibration cycle.
@@ -231,22 +260,41 @@ Note that 720 hours is 30 days / 1 month.
 - **uint8_t getSelfCalibrationStatus()** Returns if the selfCalibration is open or closed.
 **WARNING**: in our test the values in the datasheet seems to be not in sync with the sensor used. 
 The function returned **0x00 for CLOSED and 0xFF for OPEN**.
-- **bool setSelfCalibrationHours(uint16_t hrs)** Sets the number of hours between self calibration
-moments. Valid values are 24 - 720 .
+- **bool setSelfCalibrationHours(uint16_t hours = 168)** Sets the number of hours between self calibration
+moments. Valid values are 24 - 720 (1 day up to 1 month).
+Default value = 168 hours = 1 week.
 - **uint16_t getSelfCalibrationHours()** returns the value set above.
+
+Note: read datasheet!
+
+
+## Error codes
+
+|  Value   |  Definition                   |
+|:--------:|:------------------------------|
+|  0x00    |  MTP40_OK                     |
+|  0x01    |  MTP40_INVALID_AIR_PRESSURE   |
+|  0x02    |  MTP40_INVALID_GAS_LEVEL      |
+|  0x10    |  MTP40_INVALID_CRC            |
+|  0x20    |  MTP40_NO_STREAM              |
+|  0xFF    |  MTP40_INVALID_ADDRESS        |
+|  0xFFFF  |  MTP40_REQUEST_FAILED         |
 
 
 ## Future
 
 #### Must
 
-- documentation
+- update documentation
+- keep in sync with MTP40F library
 
 #### Should
 
 - CRC verify responses from sensor
-- improve readability code (e.g. parameter names)
-- move code from .h to .cpp file
+- improve **ERROR** handling.
+  - functions returning bool should return int
+    to handle errors e.g. **MTP40_OK** or ERROR flag.
+  - would break the interface.
 
 #### Could
 
@@ -254,15 +302,17 @@ moments. Valid values are 24 - 720 .
 - optimize performance
   - caching? what?
   - seek optimum delay() between calls.
-- reuse cmd buffer as response buffer?
 - investigate wire length
 - investigate serial bus with multiple devices? 
   - diodes
   - multiplexer
 - investigate commands in PROGMEM?
+- move code from .h to .cpp file
 
 #### Wont (unless on request)
 
+- store SPC point in the class.
+- reuse command buffer as response buffer?
 
 ## Sponsor 
 

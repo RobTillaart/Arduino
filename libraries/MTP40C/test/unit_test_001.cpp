@@ -115,7 +115,7 @@ unittest(test_air_pressure)
   MTP40C sensor = MTP40C(&Serial);
   // assertTrue(sensor.begin());    // default address
 
-  // assertEqual(-999, sensor.getAirPressureReference());
+  // assertEqual(1013, sensor.getAirPressureReference());
 
   assertFalse(sensor.setAirPressureReference(600.0));
   assertFalse(sensor.setAirPressureReference(1200.0));
@@ -170,4 +170,4 @@ unittest(test_self_calibration_hours)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

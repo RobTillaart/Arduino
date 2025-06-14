@@ -6,9 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2025-06-13
+- fix #11, sync MTP40F (PR 6)
+- add constructor
+- add setStream(Stream stream)
+- set default airPressureReference = 1013 hPa.
+- set default setSelfCalibrationHours = 168 hours.
+- update/sync readme.md
+- minor edits
+
 ## [0.3.1] - 2023-11-14
 - update readme.md
-
 
 ## [0.3.0] - 2023-07-30
 - replace CRC with other algorithm for AVR

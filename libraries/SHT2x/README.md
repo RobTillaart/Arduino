@@ -17,7 +17,7 @@ Arduino library for the SHT2x, HTU2x and Si70xx temperature and humidity sensors
 ## Description
 
 This library is not tested extensively yet.
-It works for the Si7021 incl. the asynchronous interface.
+It works for the Si7021 including the asynchronous interface.
 It should work for SHT20, SHT21 and SHT25 but these are not tested yet.
 The SHT2x family of sensors should work up to 400 KHz I2C.
 
@@ -102,8 +102,8 @@ These functions are used for synchronous (blocking) reads of temperature and hum
 - **bool read()**: Reads both temperature and humidity from the sensor. This is a blocking call; program execution will pause until the readings are complete.
 - **float getTemperature()**: Returns the temperature in degrees Celsius (°C) based on the latest raw data acquired by `read()`.
 - **float getHumidity()**: Returns the relative humidity in percent (%) based on the latest raw data acquired by `read()`.
-- **uint16_t getRawTemperature()**: Returns the raw, uncalibrated 16-bit integer value for temperature directly from the sensor, as acquired by `read()`.
-- **uint16_t getRawHumidity()**: Returns the raw, uncalibrated 16-bit integer value for humidity directly from the sensor, as acquired by `read()`.
+- **uint16_t getRawTemperature()**: Returns the raw, not calibrated 16-bit integer value for temperature directly from the sensor, as acquired by `read()`.
+- **uint16_t getRawHumidity()**: Returns the raw, not calibrated 16-bit integer value for humidity directly from the sensor, as acquired by `read()`.
 
 **Note on `read()` and data retrieval:**
 The `getTemperature()` and `getHumidity()` functions recalculate values from raw data on every call. If performance is critical, cache these values in your code after a `read()` instead of calling them repeatedly. Raw values are useful for minimizing storage or communication overhead.
@@ -138,11 +138,12 @@ The asynchronous interface allows you to initiate a temperature or humidity read
 - **`uint32_t lastRequest()`**: Returns the timestamp (in milliseconds, based on `millis()`) of when the last asynchronous request (`requestTemperature()` or `requestHumidity()`) was made. This can be useful for implementing timeouts for asynchronous operations.
 - **`uint8_t getRequestType()`**: Returns the type of the currently pending or last completed asynchronous request. This helps in determining what kind of data was requested or is ready. The possible return values are:
 
-| Value  | Symbolic              | Description                   |
-|:------:|:----------------------|:------------------------------|
+| Value  | Symbolic                |  Description  |
+|:------:|:------------------------|:--------------|
 | 0x00   | `SHT2x_REQ_NONE`        | No request pending or last request completed/cleared. |
 | 0x01   | `SHT2x_REQ_TEMPERATURE` | A temperature request is currently pending or was the last one made. |
 | 0x02   | `SHT2x_REQ_HUMIDITY`    | A humidity request is currently pending or was the last one made.    |
+| 0xFF   | `SHT2x_REQ_FAIL`        | A humidity request is currently pending or was the last one made.    |
 
 **Example Snippet (Asynchronous Reading):**
 

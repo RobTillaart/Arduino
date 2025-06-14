@@ -62,7 +62,7 @@ unittest(test_constants_1)
 {
   fprintf(stderr, "fields getStatus\n");
   assertEqual(SHT2x_STATUS_OPEN_CIRCUIT  , 0x00);
-  assertEqual(SHT2x_STATUS_TEMPERATURE   , 0x01);
+  assertEqual(SHT2x_STATUS_TEMPERATURE   , 0x00);
   assertEqual(SHT2x_STATUS_HUMIDITY      , 0x02);
   assertEqual(SHT2x_STATUS_CLOSED_CIRCUIT, 0x03);
 }

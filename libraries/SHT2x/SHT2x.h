@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: SHT2x.h
-//  AUTHOR: Rob Tillaart, Viktor Balint, JensB
+//  AUTHOR: Rob Tillaart, Viktor Balint, JensB, morfeus02
 // VERSION: 0.5.1
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
@@ -18,31 +18,32 @@
 
 //  fields getStatus
 #define SHT2x_STATUS_OPEN_CIRCUIT     0x00
-#define SHT2x_STATUS_TEMPERATURE      0x01
-#define SHT2x_STATUS_HUMIDITY         0x02
+#define SHT2x_STATUS_TEMPERATURE      0x00  //  only bit 1
+#define SHT2x_STATUS_HUMIDITY         0x02  //  only bit 1
 #define SHT2x_STATUS_CLOSED_CIRCUIT   0x03
 
 
 //  Error codes
 //  Error codes are kept somewhat in sync with SHT31 library for consistency where applicable.
-#define SHT2x_OK                      0x00  // Default success value, no error.
-#define SHT2x_ERR_WRITECMD            0x81  // Error during I2C write command.
-#define SHT2x_ERR_READBYTES           0x82  // Error during I2C read bytes.
-#define SHT2x_ERR_HEATER_OFF          0x83  // Failed to switch off the internal heater.
-#define SHT2x_ERR_NOT_CONNECT         0x84  // Sensor not connected or does not acknowledge on the I2C bus.
-#define SHT2x_ERR_CRC_TEMP            0x85  // CRC check failed for the temperature reading.
-#define SHT2x_ERR_CRC_HUM             0x86  // CRC check failed for the humidity reading.
-#define SHT2x_ERR_CRC_STATUS          0x87  // CRC check failed for the status register (currently not actively used for status validation within library).
-#define SHT2x_ERR_HEATER_COOLDOWN     0x88  // Heater is in its mandatory cool-down period and cannot be re-enabled yet.
-#define SHT2x_ERR_HEATER_ON           0x89  // Failed to switch on the internal heater.
-#define SHT2x_ERR_RESOLUTION          0x8A  // Invalid resolution parameter provided (since 0.2.0).
+#define SHT2x_OK                      0x00  //  Default success value, no error.
+#define SHT2x_ERR_WRITECMD            0x81  //  Error during I2C write command.
+#define SHT2x_ERR_READBYTES           0x82  //  Error during I2C read bytes.
+#define SHT2x_ERR_HEATER_OFF          0x83  //  Failed to switch off the internal heater.
+#define SHT2x_ERR_NOT_CONNECT         0x84  //  Sensor not connected or does not acknowledge on the I2C bus.
+#define SHT2x_ERR_CRC_TEMP            0x85  //  CRC check failed for the temperature reading.
+#define SHT2x_ERR_CRC_HUM             0x86  //  CRC check failed for the humidity reading.
+#define SHT2x_ERR_CRC_STATUS          0x87  //  CRC check failed for the status register (currently not actively used for status validation within library).
+#define SHT2x_ERR_HEATER_COOLDOWN     0x88  //  Heater is in its mandatory cool-down period and cannot be re-enabled yet.
+#define SHT2x_ERR_HEATER_ON           0x89  //  Failed to switch on the internal heater.
+#define SHT2x_ERR_RESOLUTION          0x8A  //  Invalid resolution parameter provided (since 0.2.0).
 // Consider adding SHT2x_ERR_UNEXPECTED_STATUS for status check failures in readTemperature/readHumidity.
 // Currently, these failures reuse SHT2x_ERR_READBYTES.
 
 //  Asynchronous request types
-#define SHT2x_REQ_NONE                0x00  // No active asynchronous request.
-#define SHT2x_REQ_TEMPERATURE         0x01  // Asynchronous temperature request is currently active.
-#define SHT2x_REQ_HUMIDITY            0x02  // Asynchronous humidity request is currently active.
+#define SHT2x_REQ_NONE                0x00  //  No active asynchronous request.
+#define SHT2x_REQ_TEMPERATURE         0x01  //  Asynchronous temperature request is currently active.
+#define SHT2x_REQ_HUMIDITY            0x02  //  Asynchronous humidity request is currently active.
+#define SHT2x_REQ_FAIL                0xFF  //  Asynchronous humidity request is currently active.
 
 
 class SHT2x
@@ -62,7 +63,7 @@ public:
 
   //  Getters for sensor values
   //  These functions return values based on the last successful read() or asynchronous read operation.
-  float    getTemperature();    // Returns the temperature in degrees Celsius (Â°C).
+  float    getTemperature();    // Returns the temperature in degrees Celsius (°C).
   float    getHumidity();       // Returns the relative humidity in percent (%).
   uint16_t getRawTemperature(); // Returns the raw 16-bit sensor data for temperature.
   uint16_t getRawHumidity();    // Returns the raw 16-bit sensor data for humidity.

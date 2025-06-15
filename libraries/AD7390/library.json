@@ -1,0 +1,23 @@
+{
+  "name": "AD7390",
+  "keywords": "AD7390, SPI, DAC",
+  "description": "Arduino library for SPI AD7390 and AD7391 DAC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD7390.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD7390.h"
+}

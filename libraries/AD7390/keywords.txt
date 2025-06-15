@@ -1,0 +1,26 @@
+# Syntax Colouring Map For AD7390
+
+# Data types (KEYWORD1)
+AD7390	KEYWORD1
+AD7391	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+setValue	KEYWORD2
+getValue	KEYWORD2
+
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+
+usesHWSPI	KEYWORD2
+
+# Constants (LITERAL1)
+AD7390_LIB_VERSION	LITERAL1
+
+AD7390_MIDDLE_VALUE	LITERAL1
+

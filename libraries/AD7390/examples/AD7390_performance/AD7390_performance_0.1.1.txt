@@ -1,0 +1,24 @@
+
+BOARD: Arduino UNO R3
+IDE:    1.8.19
+
+AD7390_performance.ino
+AD7390_LIB_VERSION: 0.1.1
+
+SW SPI
+
+test_timing
+1000 x setValue():	204332
+1000 x getValue():	884
+1000 x setPercentage():	282692
+
+
+HW SPI
+
+test_timing
+1000 x setValue():	15404
+1000 x getValue():	884
+1000 x setPercentage():	93764
+
+
+

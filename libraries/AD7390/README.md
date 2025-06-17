@@ -28,14 +28,23 @@ The library is experimental as not all functionality is tested with hardware.
 
 Check datasheet for all details.
 
-The AD7390 has a Vref input which can be set to any voltage between 0 and Vdd (2.7 .. 5.5 Volt.
-This allows the output to vary between 0 volt and approx. Vref -1 LSB. 
+The AD7390 has a Vref input which can be set to any voltage between 0 and Vdd = 2.7 .. 5.5 Volt.
+This allows the output to vary between 0 volt and approx. Vref -1 LSB.
+The AD7390 can do this in 4096 levels, the AD7391 has 1024 levels.
+
 See datasheet page 8.
 
-The device does not support reading the set value, so the library caches the 
-last value set to provide this.
-Furthermore the library provides a "percentage" functions to set and get the output
-in a range from 0 to 100.0 %.
+The device does not support reading back the set value, so the library caches the 
+last value set to mimic this functionality.
+
+Furthermore the library provides "percentage" wrapper functions to set and get the 
+output in a range from 0 to 100.0 %. Note that setPercentage() will round to the 
+nearest valid integer value.
+
+Finally the library provides "voltage" wrapper functions to set and get the 
+output in a range from 0 to Vref. Note that setVoltage() will round to the nearest
+valid integer value. Be aware that the actual Vref must be set by setRefVoltage()
+and kept in sync with the actual voltage to have the voltage functions work correctly.
 
 As always feedback is welcome.
 
@@ -72,7 +81,26 @@ Mainly other DAC libraries.
 
 ## Performance
 
-TODO
+Times in microseconds per 1000 calls.
+
+|  mode  |  function       |  UNO R3  |  ESP32  |  notes  |
+|:------:|:----------------|:--------:|:-------:|:--------|
+| HW-SPI |  setValue       |  15404   |         |
+| HW-SPI |  getValue       |    884   |         |  cached value
+| HW-SPI |  setPercentage  |  93764   |         |
+|        |                 |          |         |
+| SW-SPI |  setValue       | 204332   |         |
+| SW-SPI |  getValue       |    884   |         |  cached value
+| SW-SPI |  setPercentage  | 282692   |         |
+
+
+Note: 15404 micros for 1000 calls, means the max update speed 
+is in the order of 60k calls per second in theory. 
+In practice one needs to calculate values or read them from some source,
+or do other tasks. So actual speeds depends on your project.
+
+The setPercentage and setVoltage functions have additional overhead 
+due to the use of float math.
 
 
 ## Interface
@@ -108,11 +136,30 @@ Returns false if value > maxValue.
 
 ### Percentage
 
+Wrapper functions.
+
 - **bool setPercentage(float percentage)** sets the value of the DAC as percentage 0..100.
 Note the actual value set gets rounded.
 Returns false if percentage < 0 or > 100. 
 - **float getPercentage()** returns the percentage set, calculated from the value.
 The percentage can differ a small bit from the percentage set. 
+
+### Voltage
+
+Wrapper functions.
+
+Before calling **setVoltage()** one must set the reference voltage correctly,
+otherwise the functions do not work. 
+The user is responsible to keep **setRefVoltage()** in sync with the actual Vref.
+
+- **bool setRefVoltage(float volts)** set Reference Voltage of Vref pin.
+Returns false if volts is out of range 0..5.5 Volt.
+- **float getRefVoltage()** return last set Reference Voltage, default 0.
+- **bool setVoltage(float volts)** sets the value of the DAC as a voltage 0..Vref.
+Note the actual value set gets rounded.
+Returns false if volts is out of range 0..Vref.
+- **float getVoltage()** returns the voltage set, calculated from the value.
+The voltage can differ a small bit from the voltage set. 
 
 ### Hardware SPI
 
@@ -137,16 +184,24 @@ Has no effect on software SPI.
 
 #### Should
 
-- add reference voltage functions. (See .h)
 - extend unit tests
-- add examples
 
 #### Could
 
+- **getLastUpdate()** track millis
+- if new value == cached value skip
+- optimize AVR SW SPI
+- optimize float math setPercentage() and setVoltage()
+  - calculate and cache the conversion Pfactor and Vfactor. (8 bytes)
+  - remove range test as setValue() does this?
+- test SW-SPI with 0x0800 mask (clock only 12 bits does that work).
+- add examples
 
 #### Wont
 
-
+- build in low pass filter (too complex)
+- should percentage and voltage API clip or fail if out of range?
+  - fail seems safest.
 
 ## Support
 

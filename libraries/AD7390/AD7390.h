@@ -2,7 +2,7 @@
 //
 //    FILE: AD7390.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-06-14
 // PURPOSE: Arduino library for AD7390/AD7391 12/10 bit SPI DAC.
 //     URL: https://github.com/RobTillaart/AD7390
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define AD7390_LIB_VERSION              (F("0.1.0"))
+#define AD7390_LIB_VERSION              (F("0.1.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -41,15 +41,17 @@ public:
   bool     setValue(uint16_t value);
   uint16_t getValue();
   uint16_t getMaxValue();
+
   bool     setPercentage(float percentage);
   float    getPercentage();
 
   void     clear();  //  set DAC to zero.
 
-  //  REFVOLTAGE possible interface addition
-  //  bool setRefVoltage(float volts);
-  //  bool setVoltage(float volts);
-  //  float getVoltage();
+  //       ref voltage API
+  bool     setRefVoltage(float volts);
+  float    getRefVoltage();
+  bool     setVoltage(float volts);
+  float    getVoltage();
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
@@ -70,6 +72,7 @@ protected:
 
   uint16_t _value;
   uint16_t _maxValue;
+  float    _refVoltage;
 
   void     updateDevice(uint16_t value);
   void     swSPI_transfer(uint16_t value);

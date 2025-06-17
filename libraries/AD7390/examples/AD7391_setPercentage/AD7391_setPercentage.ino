@@ -1,20 +1,20 @@
 //
 //    FILE: AD7391_setPercentage.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo percentage wrapper
 //     URL: https://github.com/RobTillaart/AD7390
 
 
 #include "AD7390.h"
 
-uint32_t start, stop;
+uint32_t start;
 
 
 //  select, reset, data, clock == SOFTWARE SPI
 //  AD7391 myDAC(6, 7, 11, 13);
 
 //  select, reset, &SPI === HW SPI UNO clock = 13, data = 11
-AD7390 myDAC(6, 7, &SPI);
+AD7391 myDAC(6, 7, &SPI);
 
 
 void setup()

@@ -1,7 +1,7 @@
 //
 //    FILE: AD7390.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-06-14
 // PURPOSE: Arduino library for AD7390/AD7391 12/10 bit SPI DAC.
 //     URL: https://github.com/RobTillaart/AD7390
@@ -12,25 +12,27 @@
 //  SOFTWARE SPI
 AD7390::AD7390(uint8_t select, uint8_t clear, uint8_t dataOut, uint8_t clock)
 {
-  _select   = select;
-  _clear    = clear;
-  _dataOut  = dataOut;
-  _clock    = clock;
-  _hwSPI    = false;
-  _mySPI    = NULL;
-  _maxValue = 4095;
+  _select     = select;
+  _clear      = clear;
+  _dataOut    = dataOut;
+  _clock      = clock;
+  _hwSPI      = false;
+  _mySPI      = NULL;
+  _maxValue   = 4095;
+  _refVoltage = 0;
 }
 
 //  HARDWARE SPI
 AD7390::AD7390(uint8_t select, uint8_t clear, __SPI_CLASS__ * mySPI)
 {
-  _select   = select;
-  _clear    = clear;
-  _dataOut  = 255;
-  _clock    = 255;
-  _hwSPI    = true;
-  _mySPI    = mySPI;
-  _maxValue = 4095;
+  _select     = select;
+  _clear      = clear;
+  _dataOut    = 255;
+  _clock      = 255;
+  _hwSPI      = true;
+  _mySPI      = mySPI;
+  _maxValue   = 4095;
+  _refVoltage = 0;
 }
 
 //  initializes the pins and starts SPI in case of hardware SPI
@@ -67,7 +69,7 @@ void AD7390::begin(uint16_t value)
 //
 bool AD7390::setValue(uint16_t value)
 {
-  if (_value > _maxValue) return false;
+  if (value > _maxValue) return false;
   _value = value;
   updateDevice(value);
   return true;
@@ -104,6 +106,31 @@ void AD7390::clear()
   _value = 0;
 }
 
+bool AD7390::setRefVoltage(float volts)
+{
+  if ((volts < 0) || (volts > 5.5)) return false;
+  _refVoltage = volts;
+  return true;
+}
+
+float AD7390::getRefVoltage()
+{
+  return _refVoltage;
+}
+
+bool AD7390::setVoltage(float volts)
+{
+  if ((volts < 0) || (volts > _refVoltage)) return false;
+  return setValue(round(volts * (_maxValue / _refVoltage)));
+}
+
+float AD7390::getVoltage()
+{
+  uint16_t v = _value;
+  if (v == 0) return 0.0;
+  return (_refVoltage / _maxValue) * v;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -133,13 +160,13 @@ bool AD7390::usesHWSPI()
 void AD7390::updateDevice(uint16_t value)
 {
   digitalWrite(_select, HIGH);
-  if (_hwSPI)
+  if (_hwSPI)  //  hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
     _mySPI->transfer16(value);
     _mySPI->endTransaction();
   }
-  else      //  Software SPI
+  else         //  software SPI
   {
     swSPI_transfer(value);
   }
@@ -150,7 +177,7 @@ void AD7390::swSPI_transfer(uint16_t value)
 {
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
-  for (uint16_t mask = 0x8000; mask; mask >>= 1)  //  0x0800 performance?
+  for (uint16_t mask = 0x8000; mask; mask >>= 1)
   {
     digitalWrite(dao,(value & mask));
     digitalWrite(clk, HIGH);

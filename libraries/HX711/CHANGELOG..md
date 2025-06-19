@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2025-06-19
+- fix #65, is_ready() => set dataPin to INPUT_PULLUP
+- minor edits
+
 ## [0.6.0] - 2025-04-10
 - fix #60, change parameter **void calibrate_scale(float weight, uint8_t times = 10)**
 - update readme.md

@@ -45,6 +45,7 @@ statistic::Statistic<float, uint32_t, true> myStats;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HX711_LIB_VERSION:\t");
   Serial.println(HX711_LIB_VERSION);

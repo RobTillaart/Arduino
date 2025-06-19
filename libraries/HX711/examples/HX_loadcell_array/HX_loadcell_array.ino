@@ -4,7 +4,9 @@
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
 //
-//  TODO: test with hardware
+//  see #40
+//  see https://forum.arduino.cc/t/mega2560-with-multiple-hx711/1378510  16 cells
+
 
 #include "HX711.h"
 
@@ -27,6 +29,7 @@ uint32_t count = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HX711_LIB_VERSION: ");
   Serial.println(HX711_LIB_VERSION);

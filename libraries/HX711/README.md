@@ -93,7 +93,7 @@ This is a close "relative" of the HX711 that allows to set the SPS to
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
-- https://github.com/RobTillaart/HX710
+- https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
 
@@ -473,7 +473,7 @@ See https://github.com/RobTillaart/HX711/issues/40
 #### Could
 
 - optimize fastProcessor code (possible better performance)
-  - injecting 2 microdelays is not always needed.
+  - injecting 2 micro delays is not always needed.
   - int flag instead of bool.
 - test different load cells
 - make enum of the MODE's
@@ -481,7 +481,11 @@ See https://github.com/RobTillaart/HX711/issues/40
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
 - decide pricing keep/not => move to .cpp
-- add **setRate()** and **getRate()** - sample rate 10/80 SPS
+- support **rate**
+  - **void setRatePin(uint8_t pin)** sets the IO pin for rate selection.
+  See section above.
+  - **bool setRate(uint8_t sps)** rate = 10 or 80 SPS, returns false on incorrect input
+  - **uint8_t getRate()** - returns 10 or 80
   - optional?
 
 #### Wont

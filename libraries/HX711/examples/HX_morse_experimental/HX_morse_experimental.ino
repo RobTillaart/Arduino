@@ -22,6 +22,7 @@ uint32_t start = 0, duration = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HX711_LIB_VERSION: ");
   Serial.println(HX711_LIB_VERSION);

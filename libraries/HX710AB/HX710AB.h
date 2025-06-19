@@ -2,7 +2,7 @@
 //
 //    FILE: HX710AB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for the HX710A and HX710B 24-Bit ADC.
 //    DATE: 2024-11-08
 //     URL: https://github.com/RobTillaart/HX710AB
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define HX710AB_LIB_VERSION              (F("0.2.0"))
+#define HX710AB_LIB_VERSION              (F("0.2.1"))
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@ public:
 
   void begin(bool fastProcessor = false)
   {
-    pinMode(_dataPin, INPUT);
+    pinMode(_dataPin, INPUT_PULLUP);
     pinMode(_clockPin, OUTPUT);
     digitalWrite(_clockPin, LOW);
     _fastProcessor = fastProcessor;
@@ -70,17 +70,17 @@ public:
     request();
     while (! is_ready()) yield();
     return fetch(differential);
-  };
+  }
 
   uint32_t last_time_read()
   {
     return _lastTimeRead;
-  };
+  }
 
   uint32_t last_value_read()
   {
     return _value;
-  };
+  }
 
   ////////////////////////////////////////////////////
   //
@@ -95,7 +95,7 @@ public:
     }
     x /= n;
     return (x - _offset) * _scale;
-  };
+  }
 
 
   ////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ public:
   //  TWO POINT CALIBRATION
   //
   //  keep offset scale "compatible" with HX711 library.
-  //  
+  //
   bool calibrate(int32_t x1, float y1, int32_t x2, float y2)
   {
     if ((x1 == x2) || (y2 == y1)) return false;
@@ -115,24 +115,24 @@ public:
   void set_offset(float offset)
   {
     _offset = offset;
-  };
+  }
 
   float get_offset()
   {
     return _offset;
-  };
+  }
 
   bool set_scale(float scale)
   {
     if (scale == 0) return false;
     _scale = 1.0 / scale;
     return true;
-  };
+  }
 
   float get_scale()
   {
     return 1.0 / _scale;
-  };
+  }
 
 
   ///////////////////////////////////////////////
@@ -142,12 +142,12 @@ public:
   void power_down()
   {
     digitalWrite(_clockPin, HIGH);
-  };
+  }
 
   void power_up()
   {
     digitalWrite(_clockPin, LOW);
-  };
+  }
 
 
 protected:
@@ -157,7 +157,7 @@ protected:
     if (_fastProcessor) delayMicroseconds(1);
     digitalWrite(_clockPin, LOW);
     if (_fastProcessor) delayMicroseconds(1);
-  };
+  }
 
   uint8_t  _dataPin;
   uint8_t  _clockPin;
@@ -178,7 +178,7 @@ class HX710A : public HX710AB
 public:
   HX710A(uint8_t dataPin, uint8_t clockPin) : HX710AB(dataPin, clockPin)
   {
-  };
+  }
 
 
   int32_t fetch(bool differential = true)
@@ -221,7 +221,7 @@ class HX710B : public HX710AB
 public:
   HX710B(uint8_t dataPin, uint8_t clockPin) : HX710AB(dataPin, clockPin)
   {
-  };
+  }
 
 
   int32_t fetch(bool differential = true)
@@ -249,9 +249,9 @@ public:
     //  extend sign if needed
     if (_value & 0x800000) _value |= 0xFF000000;
     return _value;
-  };
+  }
 
-  //  TODO getVOltage()
+  //  TODO getVoltage()
 };
 
 

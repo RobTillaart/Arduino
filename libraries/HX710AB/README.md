@@ -194,18 +194,19 @@ So powerUp() is seldom needed.
 #### Should
 
 - test extensively
+- fix TODO's in code
 
 #### Could
 
 - extend unit tests(?)
-- more examples.
+- add more examples.
 - extend performance test sketch
-- AVR optimized code - see FastShiftIn.
-  (low gain as sensor blocks at 10/40 Hz)
 
 #### Wont
 
 - bool isPowerUp();
+- AVR optimized code - see FastShiftIn.
+  (low gain as sensor blocks at 10/40 Hz)
 
 ## Support
 

@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2025-06-19
+- fix **is_ready()** (see HX711 #65)
+
 ## [0.2.0] - 2024-11-17
-- breaking change, aligned function names with HX711 where possible 
+- breaking change, aligned function names with HX711 where possible
 - implement base class HX710AB (reduce source duplication)
 - implement async interface, three functions
   - **void request()**, **bool is_ready()**, **fetch()**

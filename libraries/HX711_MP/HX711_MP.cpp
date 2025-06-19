@@ -1,7 +1,7 @@
 //
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -22,7 +22,7 @@ HX711_MP::HX711_MP(uint8_t size)
     _size = 2;   //  hard coded minimum!!
   }
   _gain     = HX711_CHANNEL_A_GAIN_128;
-  _lastRead = 0;
+  _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
 }
 
@@ -38,7 +38,7 @@ void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
   _clockPin = clockPin;
   _fastProcessor = fastProcessor;
 
-  pinMode(_dataPin, INPUT);
+  pinMode(_dataPin, INPUT_PULLUP);
   pinMode(_clockPin, OUTPUT);
   digitalWrite(_clockPin, LOW);
 
@@ -51,7 +51,7 @@ void HX711_MP::reset()
   power_down();
   power_up();
   _gain     = HX711_CHANNEL_A_GAIN_128;
-  _lastRead = 0;
+  _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
 }
 
@@ -143,13 +143,13 @@ float HX711_MP::read()
 
   while (m > 0)
   {
-    //  delayMicroSeconds(1) needed for fast processors?
+    //  delayMicroSeconds(1) is needed for fast processors
+    //  T2  >= 0.2 us
     digitalWrite(_clockPin, HIGH);
-    if (_fastProcessor)
-        delayMicroseconds(1);
+    if (_fastProcessor) delayMicroseconds(1);
     digitalWrite(_clockPin, LOW);
-    if (_fastProcessor)
-        delayMicroseconds(1);
+    //  keep duty cycle ~50%
+    if (_fastProcessor) delayMicroseconds(1);
     m--;
   }
 
@@ -159,7 +159,7 @@ float HX711_MP::read()
   //  SIGN extend
   if (v.data[2] & 0x80) v.data[3] = 0xFF;
 
-  _lastRead = millis();
+  _lastTimeRead = millis();
   return 1.0 * v.value;
 }
 
@@ -302,7 +302,8 @@ float HX711_MP::get_value(uint8_t times)
 
 float HX711_MP::get_units(uint8_t times)
 {
-  return _multiMap(get_value(times));
+  float units = _multiMap(get_value(times));
+  return units;
 }
 
 
@@ -383,7 +384,7 @@ float HX711_MP::getCalibrateWeight(uint8_t index)
 //
 void HX711_MP::power_down()
 {
-  // at least 60 us HIGH
+  //  at least 60 us HIGH
   digitalWrite(_clockPin, HIGH);
   delayMicroseconds(64);
 }
@@ -399,9 +400,15 @@ void HX711_MP::power_up()
 //
 //  MISC
 //
+uint32_t HX711_MP::last_time_read()
+{
+  return _lastTimeRead;
+}
+
+//  obsolete future
 uint32_t HX711_MP::last_read()
 {
-  return _lastRead;
+  return _lastTimeRead;
 }
 
 
@@ -440,15 +447,15 @@ uint8_t HX711_MP::_shiftIn()
   while (mask > 0)
   {
     digitalWrite(clk, HIGH);
-    if(_fastProcessor)       //  T2  >= 0.2 us
-      delayMicroseconds(1);
+    //  T2  >= 0.2 us
+    if(_fastProcessor) delayMicroseconds(1);
     if (digitalRead(data) == HIGH)
     {
       value |= mask;
     }
     digitalWrite(clk, LOW);
-    if(_fastProcessor)
-      delayMicroseconds(1);   //  keep duty cycle ~50%
+    //  keep duty cycle ~50%
+    if(_fastProcessor) delayMicroseconds(1);
     mask >>= 1;
   }
   return value;

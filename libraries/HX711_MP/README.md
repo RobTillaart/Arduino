@@ -48,13 +48,29 @@ This library does not provide means to control the **RATE** yet.
 If there is a need (issue) I will implement this in the library.
 For now one can add an IOpin for this and use **digitalWrite()**.
 
+If you need more SPS you could consider using the HX71708 device.
+This is a close "relative" of the HX711 that allows to set the SPS to 
+10, 20, 80, or 320 Hz. 
+- https://github.com/beniseman/HX71708 
+
 
 ### Related
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
+
+Discussion about resolution of the ADC
+- https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
+
+Support for the HX71708 device (close related)
+- https://github.com/beniseman/HX71708 allows to set the SPS to 10, 20, 80, or 320 Hz
+
+Load cells go to very high weights, this side sells them up to 200 ton.
+Never seen one and cannot tell if it will work with this library.
+- https://stekon.nl/load-cells
 
 
 ### Faulty boards
@@ -62,7 +78,7 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 - https://forum.arduino.cc/t/load-cell-amplifier-hx711-wrong-ground/1046075
 
 
-#### Differences HX711
+### Differences HX711
 
 Although the library is derived from the HX711 library they are not compatible.
 Almost is the right word here.
@@ -97,19 +113,25 @@ is more math involved for converting raw data to weights.
 Parameter sets the size of for the calibration arrays. 
 Allowed range for size is 2..10.
 - **~HX711_MP()**
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor)** sets a fixed gain 128 for now.
+- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false)** sets a fixed gain 128 for now.
 The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
 - **void reset()** set internal state to start condition.
 Reset also does a power down / up cycle.
 It does not reset the calibration data.
 
 
-### Read
+### isReady
+
+Different ways to wait for a new measurement.
 
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
 - **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds.
+
+
+### Read
+
 - **float read()** raw read.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 

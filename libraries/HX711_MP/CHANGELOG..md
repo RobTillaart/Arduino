@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2025-06-19
+- fix **is_ready()** (see HX711 #65)
+- add **last_time_read()** to replace **last_read()**
+- minor edits
+
 ## [0.3.1] - 2024-11-08
 - fix #7, sync with HX711 0.5.1
 - clean up examples a bit

@@ -43,13 +43,13 @@ The library defines AD524X_MIDPOINT == 127.
 To be used to set to defined mid-point.
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 The ESP32 specific **begin(sda, scl)** is removed.
 The user has to call **Wire.begin()** or equivalent himself before calling **begin()**.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AD520x
 - https://github.com/RobTillaart/AD524X
@@ -60,7 +60,7 @@ The user has to call **Wire.begin()** or equivalent himself before calling **beg
 - https://github.com/RobTillaart/X9C10X
 
 
-#### Compatibles ?
+### Compatibles ?
 
 If you find compatible devices please let me know.
 
@@ -77,6 +77,24 @@ The AD524X has two address lines to configure the I2C address. 0x2C - 0x2F
 |  47      |  0x2F     |  +5V  |  +5V  |
 
 
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 ## Interface
 
 ```cpp
@@ -87,7 +105,7 @@ The library has a number of functions which are all quite straightforward.
 One can get / set the value of (both) the potentiometer(s), and the O1 and O2 output lines.
 
 
-#### Constructors
+### Constructors
 
 - **AD524X(uint8_t address, TwoWire \*wire = &Wire)** constructor base class,
 creates an instance with 2 potentiometer.
@@ -99,7 +117,7 @@ The developer is responsible for handling this correctly.
 - **AD5282(uint8_t address, TwoWire \*wire = &Wire)** create an instance with 2 potentiometer.
 
 
-#### Wire initialization
+### Initialization
 
 - **bool begin()** initialization of the object. 
 Note the user must call **wire.begin()** or equivalent before calling **begin()**.
@@ -107,7 +125,7 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 - **uint8_t getAddress()** returns address set in constructor, convenience.
 
 
-#### Basic IO
+### Basic IO
 
 - **uint8_t write(uint8_t rdac, uint8_t value)** set channel rdac 0/1 to value 0..255.
 - **uint8_t write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)** idem + set output lines O1 and O2 too.
@@ -118,7 +136,7 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 - **uint8_t getO2()** read back O2 line.
 
 
-#### Misc
+### Misc
 
 - **uint8_t zeroAll()** sets potentiometer's to 0 and I/O to LOW.
 - **uint8_t reset()** sets potentiometer's to midpoint == 127 and I/O to LOW. (startup default)
@@ -126,7 +144,7 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 - **uint8_t readBackRegister()** read register back, for debugging.
 
 
-#### Experimental
+### Experimental
 
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
 

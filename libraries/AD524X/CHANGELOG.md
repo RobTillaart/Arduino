@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2025-06-20
+- fix #30, typo in keywords.txt
+- add example cascading_potmeters.ino
+- add CascadingPotmeters.md
+- minor edits
+
 ## [0.5.1] - 2024-03-16
 - add **getAddress()** (e.g. debugging)
 - improved **AD5241::write(rdac, ...)**
@@ -13,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update GitHub actions
 - update keywords.txt
 - minor edits examples
-
 
 ## [0.5.0] - 2023-11-29
 - remove ESP32 specific **begin()**

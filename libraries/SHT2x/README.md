@@ -217,6 +217,12 @@ void loop() {
 }
 ```
 
+**Waiting until the device is ready:**
+
+These sensors typically need a bit of time to start up before they can accept commands. The SHT21, for instance, requires up to 15ms after it's been powered up. In many programs, the delay that the Arduino framework introduces between your `setup()` and `loop()` functions is sufficient, but if you intend to request your first reading in `setup()` immediately after calling `begin()`, the request may fail. If `requestTemperature()` or `requestHumidity()` returns false and the error code returned from `getError()` is `0x81` (`SHT2x_ERR_WRITECMD`), this may be a sign that the sensor isn't ready.
+
+To work around this, introduce a short delay after calling `begin()` and before requesting a reading. 15ms is probably more than sufficient, although this hasn't been tested extensively.
+
 #### Heater Functions
 
 The built-in heater can be used to test the sensor or to drive off condensation.

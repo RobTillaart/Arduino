@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB, morfeus02
-// VERSION: 0.5.1
+// VERSION: 0.5.3
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.5.1"))
+#define SHT2x_LIB_VERSION             (F("0.5.3"))
 
 
 //  fields getStatus

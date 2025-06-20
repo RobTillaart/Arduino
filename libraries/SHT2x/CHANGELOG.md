@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2025-06-19
+- Fix #37, update README to wait before first command (kudos to pdaoust)
+- add delay in async demos to wait for sensor to be ready
+- fix version number
+- minor edits
+
 ## [0.5.2] - 2025-06-14
 - PR #34 - revert status checking
 - improve some error handling

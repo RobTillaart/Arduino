@@ -36,6 +36,8 @@ void setup()
   Serial.print(stat, HEX);
   Serial.println();
 
+  // Wait for the sensor to be ready to start accepting commands.
+  delay(15);
   sht.requestTemperature();
 }
 

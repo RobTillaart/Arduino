@@ -2,7 +2,7 @@
 //
 //    FILE: FRAM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.2
+// VERSION: 0.8.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -20,13 +20,16 @@
 #endif
 
 
-#define FRAM_LIB_VERSION              (F("0.8.2"))
+#define FRAM_LIB_VERSION              (F("0.8.3"))
 
 
 #define FRAM_OK                         0
-#define FRAM_ERROR_ADDR               -10
+#define FRAM_ERROR_ADDR               -10   //  obsolete in future
+#define FRAM_ERROR_ADDRESS            -10
 #define FRAM_ERROR_I2C                -11
 #define FRAM_ERROR_CONNECT            -12
+#define FRAM_ERROR_REQUEST            -13
+
 
 //  Size known types (Fujitsu)
 #define FRAM_MB85RC04                 512
@@ -123,9 +126,14 @@ public:
 
 
   //  SLEEP - 0.3.6
-  void sleep();
+  //  returns true upon success
+  bool sleep();
   //  timeRecover <= 400us  see trec P12
   bool wakeup(uint32_t timeRecover = 400);
+
+
+  //  ERROR
+  int lastError();
 
 
 protected:
@@ -134,6 +142,7 @@ protected:
   //  default no pin = -1 ==> no write protect.
   int8_t   _writeProtectPin = -1;
   TwoWire* _wire;
+  int _error;
 
   uint32_t      _getMetaData();
   //  virtual so derived classes FRAM9/11 use their implementation.

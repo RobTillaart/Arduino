@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.3] - 2025-06-17
+- improve error handling a bit.
+- add lastError()
+- add define FRAM_ERROR_ADDRESS
+- add define FRAM_ERROR_REQUEST (I2C requestFrom)
+- change return type of **bool sleep()**
+- minor edits examples
+
 ## [0.8.2] - 2025-02-03
 - support AVR_ATtiny85 / 84, kudos to GiorgosXou
 - add **FRAM_ATTINY85_COMPILE_TEST.ino** for testing
@@ -29,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edits examples
 
 ## [0.7.0] - 2023-10-30
-- refactor / simplify begin() =>  
+- refactor / simplify begin() =>
   - User has to call Wire.begin() explicitly.
   - improves support for RP2040 (setSDA/SetSCL).
 - add example for ESP32 => use Wire1 and set pins (SDA/SCL).
@@ -107,7 +115,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - updated documentation
 
 ## [0.4.0] - 2022-05-02
-- add **FRAM32** derived class to support the MB85RC1MT as it need 32 bits addressing. 
+- add **FRAM32** derived class to support the MB85RC1MT as it need 32 bits addressing.
   This class uses 4 byte memory addresses internally.
   Note **FRAM32** can also address 16 bit FRAM devices.
 - updated documentation

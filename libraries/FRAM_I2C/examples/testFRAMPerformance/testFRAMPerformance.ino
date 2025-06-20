@@ -20,10 +20,10 @@ int ar[600];  //  == 1200 bytes
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("FRAM_LIB_VERSION: ");
   Serial.println(FRAM_LIB_VERSION);
-  Serial.println();
   Serial.println();
 
   Wire.begin();

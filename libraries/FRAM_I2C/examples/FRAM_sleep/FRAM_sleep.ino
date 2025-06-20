@@ -20,9 +20,11 @@ const int LED = 13;   //  adjust if needed
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("FRAM_LIB_VERSION: ");
   Serial.println(FRAM_LIB_VERSION);
+  Serial.println();
 
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);

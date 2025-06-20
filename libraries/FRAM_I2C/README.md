@@ -300,7 +300,24 @@ So use with care.
 _current with \* are from datasheet_
 
 
-### Current
+### Error
+
+Experimental 0.8.3. Allows to detect low level errors after reads and writes.
+Definitily not perfect but a step in the right direction.
+
+- **int lastError()** returns the last set error, clears the internal value to FRAM_OK.
+
+|  Value  |  Description         |  Notes  |
+|:-------:|:---------------------|:--------|
+|     0   |  FRAM_OK             |
+|  1-5(?) |  I2C errors          |  TwoWire interface specific.
+|   -10   |  FRAM_ERROR_ADDRESS  |  invalid address
+|   -11   |  FRAM_ERROR_I2C      |  I2C endTransmission error
+|   -12   |  FRAM_ERROR_CONNECT  |  Could not see device address on the bus.
+|   -13   |  FRAM_ERROR_REQUEST  |  I2C requestFrom error
+
+
+## Current
 
 Indicative power usage in uA in three modi (if supported).
 
@@ -366,10 +383,13 @@ Use **getSizeBytes()** to get 512.
 
 #### Should
 
+- redo interface, see proposal #53
+  - new library I2C_FRAM?
 - **FRAM32** invalid memory address handling.
   - user should be notified of success / failure? how?
   - **bool validAddress(uint32_t memAddress)** as preventive strategy.
   - or setting an error flag? return value? (impact in class hierarchy).
+  - read data by reference.
 - Improve **getSize()** to have **clear()** working properly. 
   - **MB85RC128A** only (hard code fall back?).
   - **getSize()** scanning FRAM like EEPROM library?

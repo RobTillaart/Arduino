@@ -43,8 +43,10 @@ unittest(test_constants)
 {
   assertEqual(  0, FRAM_OK           );
   assertEqual(-10, FRAM_ERROR_ADDR   );
+  assertEqual(-10, FRAM_ERROR_ADDRESS);
   assertEqual(-11, FRAM_ERROR_I2C    );
   assertEqual(-12, FRAM_ERROR_CONNECT);
+  assertEqual(-13, FRAM_ERROR_REQUEST);
 
   assertEqual(512,    FRAM_MB85RC04  );
   assertEqual(2048,   FRAM_MB85RC16  );
@@ -67,7 +69,7 @@ unittest(test_constructor)
   Wire.begin();
 
   fprintf(stderr, "\n Different constructors\n");
-  assertEqual(FRAM_ERROR_ADDR, fram49.begin(0x49));
+  assertEqual(FRAM_ERROR_ADDRESS, fram49.begin(0x49));
   assertEqual(FRAM_OK, fram50.begin());
   assertEqual(FRAM_OK, fram52.begin(0x52));
   assertEqual(FRAM_OK, fram57.begin(0x57, 4));
@@ -122,7 +124,7 @@ unittest(test_clear)
 
   Wire.begin();
 
-  // note size is not set.
+  //  note size is not set.
   assertEqual(0, fram.clear());
   assertEqual(0, fram.clear(0xFF));
 }

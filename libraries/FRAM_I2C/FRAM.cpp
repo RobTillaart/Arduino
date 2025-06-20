@@ -1,7 +1,7 @@
 //
 //    FILE: FRAM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.2
+// VERSION: 0.8.3
 //    DATE: 2018-01-24
 // PURPOSE: Arduino library for I2C FRAM
 //     URL: https://github.com/RobTillaart/FRAM_I2C
@@ -39,7 +39,11 @@ FRAM::FRAM(TwoWire *wire)
 int FRAM::begin(const uint8_t address,
                 const int8_t writeProtectPin)
 {
-  if ((address < 0x50) || (address > 0x57)) return FRAM_ERROR_ADDR;
+  if ((address < 0x50) || (address > 0x57))
+  {
+    _error = FRAM_ERROR_ADDRESS;
+    return _error;
+  }
 
   _address = address;
   if (writeProtectPin > -1)
@@ -47,9 +51,14 @@ int FRAM::begin(const uint8_t address,
     _writeProtectPin = writeProtectPin;
     pinMode(_writeProtectPin, OUTPUT);
   }
-  if (! isConnected()) return FRAM_ERROR_CONNECT;
+  if (! isConnected())
+  {
+    _error = FRAM_ERROR_CONNECT;
+    return _error;
+  }
   getSize();
-  return FRAM_OK;
+  _error = FRAM_OK;
+  return _error;
 }
 
 
@@ -329,13 +338,22 @@ uint32_t FRAM::clear(uint8_t value)
 //  EXPERIMENTAL - to be confirmed
 //  page 12 datasheet
 //  command = S 0xF8 A address A S 86 A P  (A = Ack from slave )
-void FRAM::sleep()
+bool FRAM::sleep()
 {
   _wire->beginTransmission(FRAM_SLAVE_ID_);       //  S 0xF8
   _wire->write(_address << 1);                    //  address << 1
-  _wire->endTransmission(false);                  //  no stoP
+  if (_wire->endTransmission(false) != 0)         //  no stoP
+  {
+    _error = FRAM_ERROR_I2C;
+    return false;
+  }
   _wire->beginTransmission(FRAM_SLEEP_CMD >> 1);  //  S 0x86
-  _wire->endTransmission(true);                   //  stoP
+  if (_wire->endTransmission(true) != 0)          //  stoP
+  {
+    _error = FRAM_ERROR_I2C;
+    return false;
+  }
+  return true;
 }
 
 
@@ -345,10 +363,22 @@ bool FRAM::wakeup(uint32_t timeRecover)
   //  wakeup
   bool b = isConnected();
   if (timeRecover == 0) return b;
-  //  wait recovery time
+  //  blocking wait recovery time
   delayMicroseconds(timeRecover);
   //  check recovery OK
   return isConnected();
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ERROR
+//
+int FRAM::lastError()
+{
+  int e = _error;
+  _error = FRAM_OK;
+  return e;
 }
 
 
@@ -366,9 +396,16 @@ uint32_t FRAM::_getMetaData()
 {
   _wire->beginTransmission(FRAM_SLAVE_ID_);
   _wire->write(_address << 1);
-  _wire->endTransmission(false);
-  int x = _wire->requestFrom(FRAM_SLAVE_ID_, (uint8_t)3);
-  if (x != 3) return 0xFFFFFFFF;
+  if (_wire->endTransmission(false) != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return 0xFFFFFFFF;
+  }
+  if (_wire->requestFrom(FRAM_SLAVE_ID_, (uint8_t)3) != 3)
+  {
+    _error = FRAM_ERROR_REQUEST;
+    return 0xFFFFFFFF;
+  }
 
   uint32_t value = 0;
   value = _wire->read();
@@ -377,6 +414,7 @@ uint32_t FRAM::_getMetaData()
   value = value << 8;
   value |= _wire->read();
 
+  _error = FRAM_OK;
   return value;
 }
 
@@ -391,7 +429,10 @@ void FRAM::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
   {
     _wire->write(*p++);
   }
-  _wire->endTransmission();
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+  }
 }
 
 
@@ -400,8 +441,16 @@ void FRAM::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
   _wire->beginTransmission(_address);
   _wire->write((uint8_t) (memAddr >> 8));
   _wire->write((uint8_t) (memAddr & 0xFF));
-  _wire->endTransmission();
-  _wire->requestFrom(_address, size);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  if (_wire->requestFrom(_address, size) != size)
+  {
+    _error = FRAM_ERROR_REQUEST;
+    return;
+  }
   uint8_t * p = obj;
   for (uint8_t i = size; i > 0; i--)
   {
@@ -615,7 +664,12 @@ void FRAM32::_writeBlock(uint32_t memAddr, uint8_t * obj, uint8_t size)
   {
     _wire->write(*p++);
   }
-  _wire->endTransmission();
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  _error = FRAM_OK;
 }
 
 
@@ -628,13 +682,22 @@ void FRAM32::_readBlock(uint32_t memAddr, uint8_t * obj, uint8_t size)
   _wire->beginTransmission(_addr);
   _wire->write((uint8_t) (memAddr >> 8));
   _wire->write((uint8_t) (memAddr & 0xFF));
-  _wire->endTransmission();
-  _wire->requestFrom(_addr, size);
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  if (_wire->requestFrom(_addr, size) != size)
+  {
+    _error = FRAM_ERROR_REQUEST;
+    return;
+  }
   uint8_t * p = obj;
   for (uint8_t i = size; i > 0; i--)
   {
     *p++ = _wire->read();
   }
+  _error = FRAM_OK;
 }
 
 
@@ -678,7 +741,12 @@ void FRAM11::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
   {
     _wire->write(*p++);
   }
-  _wire->endTransmission();
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  _error = FRAM_OK;
 }
 
 
@@ -688,14 +756,22 @@ void FRAM11::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
   uint8_t DeviceAddrWithPageBits = _address | ((memAddr & 0x0700) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memAddr & 0xFF));
-  _wire->endTransmission();
-  _wire->requestFrom(DeviceAddrWithPageBits, size);
-
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  if (_wire->requestFrom(DeviceAddrWithPageBits, size) != size)
+  {
+    _error = FRAM_ERROR_REQUEST;
+    return;
+  }
   uint8_t * p = obj;
   for (uint8_t i = size; i > 0; i--)
   {
     *p++ = _wire->read();
   }
+  _error = FRAM_OK;
 }
 
 
@@ -739,7 +815,12 @@ void FRAM9::_writeBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
   {
     _wire->write(*p++);
   }
-  _wire->endTransmission();
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  _error = FRAM_OK;
 }
 
 
@@ -749,14 +830,22 @@ void FRAM9::_readBlock(uint16_t memAddr, uint8_t * obj, uint8_t size)
   uint8_t DeviceAddrWithPageBits = _address | ((memAddr & 0x0100) >> 8);
   _wire->beginTransmission(DeviceAddrWithPageBits);
   _wire->write((uint8_t) (memAddr & 0xFF));
-  _wire->endTransmission();
-  _wire->requestFrom(DeviceAddrWithPageBits, size);
-
+  if (_wire->endTransmission() != 0)
+  {
+    _error = FRAM_ERROR_I2C;
+    return;
+  }
+  if (_wire->requestFrom(DeviceAddrWithPageBits, size) != size)
+  {
+    _error = FRAM_ERROR_REQUEST;
+    return;
+  }
   uint8_t * p = obj;
   for (uint8_t i = size; i > 0; i--)
   {
     *p++ = _wire->read();
   }
+  _error = FRAM_OK;
 }
 
 

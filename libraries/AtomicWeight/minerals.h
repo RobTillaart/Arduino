@@ -7,20 +7,30 @@
 //     URL: https://github.com/RobTillaart/AtomicWeight
 //
 
+
 /////////////////////////////////////////////////////////////////////////
 //
 //  The formulae are based upon Cornelis Klein, Anthony Philpotts book
-//  Earth Materials, introduction to Mineralogy and Petrology, chapter 7
+//  Earth Materials, introduction to Mineralogy and Petrology, chapter 7,
+//  chapter 11 and chapter 14.
 //  ISBN: 978-1-316-60885-2
 //
 //  NOT SUPPORTED: ==> formulae commented
 //  NOT SUPPORTED: Fe2+ or Fe3+    (potential,   could be ignored!)
 //  NOT SUPPORTED: comma operator  (selection,   should be made explicit)
 //  NOT SUPPORTED: Fe1-x           (less than 1, should be made explicit)
+//  NOT SUPPORTED: 4(FORMULA)      (multiple)  ==> (FORMULA)4 workaround
+//  NOT SUPPORTED  .4(H2O)         (hydration) ==> (H2O)4 workaround.
 //
-//  to be extended, 
+//  to be extended,
+//
+//  DISCLAIMER
+//  Formulas might differ to be parseable by the atomicWeight class.
 //
 
+//
+//  IGNEOUS ROCK
+//
 //  7.5
 #define ALBITE              "NaAlSi3O8"
 #define ANORTHITE           "CaAl2Si2O8"
@@ -51,13 +61,13 @@
 //  7.17
 #define PHOLOGOPITE         "KMg3(AlSi3O10)(OH)2"
 //  7.18
-//  #define BIOTITE         "K(Mg,Fe)3(AlSi3O10)(OH)2"    
+//  #define BIOTITE         "K(Mg,Fe)3(AlSi3O10)(OH)2"
 //  7.19
 //  #define OLIVINE         "(Mg,Fe)2SiO4"
-#define FORSTERITE          "Mg2SiO4" 
+#define FORSTERITE          "Mg2SiO4"
 #define FAYALITE            "Fe2SiO4"
 //  7.20
-#define ZIRCON              "ZrSiO4" 
+#define ZIRCON              "ZrSiO4"
 //  7.21
 //  #define TOUMALINE       "(Na,Ca,K)(Fe,Mg,Al,Mn,Li)3(Al,Fe)6(BO3)3(Si6O18)(OH)3(O,OH,F)"
 //  #define SCHORL          "(NaFe3Al6(BO3)3(Si6O18)(OH)3(O,OH,F)4"
@@ -91,7 +101,10 @@
 #define HYDROXYAPATITE      "Ca5(PO4)3(OH)"
 
 
-//  P237
+//
+//  SEDIMENTARY ROCK
+//
+//  Page 237
 #define JADEITE             "NaAlSi2O6"
 //  11.3
 #define GOETHITE            "FeO(OH)"
@@ -119,6 +132,83 @@
 #define ANHYDRITE           "CaSO4"
 //  11.16
 #define FLUORAPATITE        "Ca5(PO4)3(F)"
+
+
+//
+//  METAMORPHIC ROCK
+//
+//  14.2 GARNET
+//  soyralspite group
+#define PYROPE              "Mg3Al2Si3O12"
+#define ALMANDINE           "Fe3Al2Si3O12"
+#define SPESSARTINE         "Mn3Al2Si3O12"
+//  ugandite group
+#define GROSSULAR           "Ca3Al2Si3O12"
+#define ANDRADITE           "Ca3Fe2Si3O12"
+#define UVAROVITE           "Ca3Cr2Si3O12"
+//  14.3
+#define ANDALUSITE          "Al2SiO5"
+#define MULLITE             "Al2O3(SiO2)2"
+//  14.4
+#define SILLIMANITE         "Al2SiO5"
+//  14.5
+#define KYANITE             "Al2SiO5"
+//  14.6
+//  formula not supported   "Fe3-4Al18Si8O48H2-4"
+#define STAUROLITE          "Fe3Al18Si8O48H2"
+//  14.7
+//  #define DIOPSIDE            "CaMgSi2O6"  7.13
+//  14.8
+#define ANTHOPHYLLITE       "Mg7Si8O22(OH)2"
+//  14.9
+#define CUMMINGTONITE       "Fe2Mg5Si8O22(OH)2"
+#define GRUNERITE           "Fe7Si8O22(OH)2"
+//  14.10
+#define TREMOLITE           "Ca2Mg5Si8O22(OH)2"
+#define FERROACTINOLITE     "Ca2Fe5Si8O22(OH)2"
+//  14.11
+#define GLAUCAPHANE         "Na2Mg3Si8O22(OH)2"
+//  14.12
+//  #define WOLLASTONITE        "CaSiO3"  See 7.13
+//  14.13
+#define RHODONITE           "MnSiO3"
+//  14.14
+#define TALC                "Mg3Si4O10(OH)2"
+//  14.15
+//  not supported formula   "(Mg,Al,Fe)6(Si,Al)4O10(OH)8"
+#define CHLORITE            "Mg6(Si3Al)O10(OH)8"
+//  14.16
+#define ANTIGORITE          "Mg3Si2O5(OH)4"
+//  14.17
+#define CHRYSOLITE          "Mg3Si2O5(OH)4"
+//  14.18
+#define GRAPHITE            "C"
+//  14.19
+#define EPIDOTE             "Ca2FeAl2O(SiO4)(Si2O7)(OH)"
+#define CLINOZOISITE        "Ca2Al3O(SiO4)(Si2O7)(OH)"
+//  14.20
+//  not supported formula   "(Mg,Fe)2Al4Si5O18(H2O)n"
+#define CORDEIRITE          "Mg2Al4Si5O18"
+//  14.21
+//  not supported formula   "Ca19(Al,Mg,Fe)13(Si2O7)4(SiO4)10(O,OH,F)10"
+#define VESUVIANITE         "Ca19Mg13(Si2O7)4(SiO4)10(OH)10"
+//  14.22
+#define TITANITE            "CaTiSiO5"
+//  14.23
+//  not supported formula   "3CaAl2Si2O8(CaSO4)"
+#define SCAPOLITE           "NaAlSi3O8(NaCl)"
+//  14.24
+#define LAWSONITE           "CaAl2(Si2O7)(OH)2"
+//  14.25
+#define PUMPELLYITE         "Ca2MgAl2(SiO4)(Si2O7)(OH)2"
+//  14.26
+//  #define TOPAZ               "Al2SiO4(F)2"
+#define TOPAZ               "Al2SiO4(OH)2"
+//  14.27
+//  #define CORUNDUM            "Al2O3"  See 7.26
+//  14.28
+#define CHABAZITE           "Ca2Al2Si4O12"
+
 
 
 //  -- END OF FILE --

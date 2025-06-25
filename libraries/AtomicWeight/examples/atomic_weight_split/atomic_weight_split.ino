@@ -23,11 +23,13 @@ char formula5[24] = "YBa2Cu3O7";
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
+  Serial.println();
 
   test("C");
   test("C6");
@@ -58,7 +60,10 @@ void test(const char * formula)
   uint8_t cnt = ptoe.splitElements(formula);
   for (int i = 0; i < cnt; i++)
   {
-    Serial.print(ptoe.name(ptoe.element(i)));
+    int elem = ptoe.element(i);
+    Serial.print(elem);
+    Serial.print("\t");
+    Serial.print(ptoe.name(elem));
     Serial.print("\t");
     Serial.println(ptoe.massPercentage(formula, ptoe.name(ptoe.element(i))), 3);
   }

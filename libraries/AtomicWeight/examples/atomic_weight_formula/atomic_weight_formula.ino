@@ -23,11 +23,13 @@ char formula8[24] = "(Mg0.4Fe1.6)2.0SiO4";   //  Olivine mineral
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
+  Serial.println();
 
   Serial.print("C");
   Serial.print(" \t");

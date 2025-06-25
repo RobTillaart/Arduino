@@ -22,11 +22,13 @@ char formula6[24] = "xH2";           //  fails => 0;
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
+  Serial.println();
 
 
   //  COUNT

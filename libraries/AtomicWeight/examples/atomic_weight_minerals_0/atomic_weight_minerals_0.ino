@@ -1,4 +1,4 @@
-//    FILE: atomic_weight_minerals.ino
+//    FILE: atomic_weight_minerals_0.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AtomicWeight
@@ -17,13 +17,15 @@ PTOE ptoe;
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
+  Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
   Serial.println();
 
-  Serial.println();
-  Serial.println("IGNEOUS ROCK");
+  Serial.println("IGNEOUS ROCK (7)");
   Serial.println("NAME\tWEIGHT\tFORMULA\n");
 
   printMineral("ALBITE", ALBITE);
@@ -61,26 +63,6 @@ void setup()
   printMineral("HYDROXYAPATITE", HYDROXYAPATITE);
 
   Serial.println();
-  Serial.println("SEDIMENTARY ROCK");
-  Serial.println("NAME\tWEIGHT\tFORMULA\n");
-  printMineral("JADEITE", JADEITE);
-  printMineral("GOETHITE", GOETHITE);
-  printMineral("KAOLINITE", KAOLINITE);
-  printMineral("CALCITE", CALCITE);
-  printMineral("ARAGONITE", ARAGONITE);
-  printMineral("DOLOMITE", DOLOMITE);
-  printMineral("MAGNESITE", MAGNESITE);  
-  printMineral("SIDERITE", SIDERITE);
-  printMineral("RHODOCHROSITE", RHODOCHROSITE);
-  printMineral("HALITE", HALITE);
-  printMineral("SYLVITE", SYLVITE);
-  printMineral("GYPSUM", GYPSUM);
-  printMineral("ANHYDRITE", ANHYDRITE);
-  printMineral("FLUORAPATITE", FLUORAPATITE);
-  Serial.println();
-  Serial.println();
-  Serial.println();
-
   Serial.println("\ndone...");
 }
 

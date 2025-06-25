@@ -27,11 +27,13 @@ char formula8[24] = "Ca2SbMg4FeBe2Si4O20";  //  Welshite
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
+  Serial.println();
 
   test("C");
   test("C6");

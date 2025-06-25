@@ -126,12 +126,16 @@ See example.
 
 ```cpp
 char formula[24] = "YBa2Cu3O7";
-nr = splitElements(formula);
+Serial.println(formula);
+nr = PTOE.splitElements(formula);
 for (int i = 0; i < nr; i++)
 {
-  Serial.print(PTOE.massPercentage(formula, element(i)), 3);
+  int elem = PTOE.element(i);
+  Serial.print(PTOE.massPercentage(formula, PTOE.name(elem), 3);
   Serial.print("%\t");
-  Serial.print(element(i));
+  Serial.print(elem);
+  Serial.print("%\t");
+  Serial.print(PTOE.name(elem));
   Seriel.println();
 }
 ```
@@ -324,12 +328,14 @@ minimize the memory used for the elements mass lookup table.
   element 0 is defined as n conflict with N
 - support hydrates ?
   - **Ba(BrO3)2·2H2O**  new separator + starts with number.
+    ==> **Ba(BrO3)2(H2O)2** or **Ba(BrO3)2·(H2O)2** or ??
   - other liquids than water?
   - https://en.wikipedia.org/wiki/Glossary_of_chemical_formulae
 - is there a faster data structure?
   - search by nr is O(1)
   - search by name is O(n)
   - only if more RAM is used. => not
+- selection operator (Mg,Fe,Al)? not deterministic
 - parameters element should be less than \_size
   - user responsibility
 - more information?

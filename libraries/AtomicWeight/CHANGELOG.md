@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2025-06-22
+- update minerals.h (add formulas chapter 14)
+- split minerals example in 3 parts
+- update atomic_weight_split.ino (add element nr)
+- update readme.md
+- add example atomic_weight_count_protons.ino
+- minor update examples
+
 ## [0.3.1] - 2025-01-02
 - fix #4, update minerals.h
 - update example

@@ -1,7 +1,7 @@
-BOARD:  Arduino UNO
+BOARD:  Arduino UNO R3
 IDE:    1.8.19
 
-D:\Rob\WORK\Arduino\libraries\AtomicWeight\examples\atomic_weight_split\atomic_weight_split.ino
+atomic_weight_split.ino
 ATOMIC_WEIGHT_LIB_VERSION: 0.1.3
 
 C

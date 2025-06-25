@@ -21,9 +21,11 @@ float error = 10000;
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   float minError = 100;
   for (float factor = 197.0; factor <= 223.0; factor += 0.001)

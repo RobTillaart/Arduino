@@ -1,0 +1,74 @@
+BOARD:  Arduino UNO R3
+IDE:    1.8.19
+
+atomic_weight_split.ino
+ATOMIC_WEIGHT_LIB_VERSION: 0.3.2
+
+C
+6	C	100.000
+TIME:	28 us.
+
+
+C6
+6	C	100.000
+TIME:	32 us.
+
+
+CCCCCCC
+6	C	100.000
+TIME:	160 us.
+
+
+He6
+2	He	100.000
+TIME:	24 us.
+
+
+NaCl
+11	Na	39.337
+17	Cl	60.663
+TIME:	88 us.
+
+
+C6H6O6
+6	C	41.393
+1	H	3.474
+8	O	55.133
+TIME:	72 us.
+
+
+((COH)3)2
+6	C	41.393
+8	O	55.133
+1	H	3.474
+TIME:	76 us.
+
+
+H2SO4
+1	H	2.056
+16	S	32.692
+8	O	65.252
+TIME:	92 us.
+
+
+CuO2
+29	Cu	66.509
+8	O	33.491
+TIME:	108 us.
+
+
+(COH)3(COH)2COH
+6	C	41.393
+8	O	55.133
+1	H	3.474
+TIME:	212 us.
+
+
+YBa2Cu3O7
+39	Y	13.345
+56	Ba	41.228
+29	Cu	28.616
+8	O	16.811
+TIME:	324 us.
+
+done

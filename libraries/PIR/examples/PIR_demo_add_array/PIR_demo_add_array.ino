@@ -1,5 +1,5 @@
 //
-//    FILE: PIR_demo.ino
+//    FILE: PIR_demo_add_array.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo pir sensor class
 //     URL: https://github.com/RobTillaart/PIR
@@ -10,6 +10,7 @@
 
 PIR  P;
 
+uint8_t pins[4] = {3, 4, 5, 6};
 
 void setup()
 {
@@ -21,9 +22,7 @@ void setup()
   Serial.println(PIR_LIB_VERSION);
   Serial.println();
 
-  P.add(3);
-  P.add(4);
-  P.add(5);
+  P.add(pins, 4);
 }
 
 
@@ -36,4 +35,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

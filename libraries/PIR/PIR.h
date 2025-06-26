@@ -2,7 +2,7 @@
 //
 //    FILE: PIR.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 //    DATE: 2022-08-13
 // PURPOSE: PIR library
 //     URL: https://github.com/RobTillaart/PIR
@@ -11,13 +11,19 @@
 #include "Arduino.h"
 
 
-#define PIR_LIB_VERSION        (F("0.1.3"))
+#define PIR_LIB_VERSION           (F("0.2.0"))
 
-//
-#define PIR_OK                0x00
-#define PIR_ERR_NO_SENSOR     0xFF
-#define PIR_ERR_ARRAY_FULL    0xFE
-#define PIR_ERR_INDEX         0xFD
+
+#ifndef PIR_MAX_COUNT
+#define PIR_MAX_COUNT             8
+#endif
+
+
+//  ERROR CODES
+#define PIR_OK                    0x00
+#define PIR_ERR_NO_SENSOR         0xFF
+#define PIR_ERR_ARRAY_FULL        0xFE
+#define PIR_ERR_INDEX             0xFD
 
 
 class PIR
@@ -28,9 +34,16 @@ public:
   //  adds a pin to the set
   //  returns the index or PIR_ARRAY_FULL
   uint8_t add(uint8_t pin);
+  //  adds multiple pins in one call.
+  uint8_t add(uint8_t * pins, uint8_t length);
+
+  //  resets the internal set to empty.
+  void reset();
 
   //  returns number of PIR sensors added.
   uint8_t count();
+  //  returns number of PIR slots available.
+  uint8_t free();
 
   //  MULTI PIN INTERFACE
   //  read all PIR sensors in the set
@@ -54,7 +67,7 @@ public:
 
 
 protected:
-  uint8_t  _pins[8]   = {0,0,0,0, 0,0,0,0};
+  uint8_t  _pins[PIR_MAX_COUNT];
   uint8_t  _count     = 0;
   uint8_t  _lastValue = 0;
 };

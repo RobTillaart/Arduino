@@ -13,11 +13,13 @@ uint32_t start, stop;
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PIR_LIB_VERSION: ");
   Serial.println(PIR_LIB_VERSION);
+  Serial.println();
 
   //  fully loaded
   P.add(3);
@@ -28,6 +30,11 @@ void setup()
   P.add(8);
   P.add(9);
   P.add(10);
+
+  Serial.print("pins: ");
+  Serial.println(P.count());
+  Serial.println();
+  delay(10);
 
   test_read();
   test_lastValue();

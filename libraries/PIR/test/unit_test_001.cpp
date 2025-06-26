@@ -43,6 +43,8 @@ unittest(test_constants)
   assertEqual(0xFF, PIR_ERR_NO_SENSOR);
   assertEqual(0xFE, PIR_ERR_ARRAY_FULL);
   assertEqual(0xFD, PIR_ERR_INDEX);
+
+  assertEqual(8, PIR_MAX_COUNT);
 }
 
 
@@ -54,7 +56,6 @@ unittest(test_add)
   {
     assertEqual(i, P.add(i + 2));
   }
-
   assertEqual(PIR_ERR_ARRAY_FULL, P.add(10));
 }
 
@@ -72,6 +73,26 @@ unittest(test_count)
 
   P.add(10);
   assertEqual(8, P.count());
+}
+
+
+unittest(test_free)
+{
+  PIR P;
+
+  assertEqual(0, P.count());
+  assertEqual(8, P.free());
+  for (int i = 0; i < 5; i++)
+  {
+    P.add(i+2);
+    assertEqual(i+1, P.count());
+  }
+  assertEqual(5, P.count());
+  assertEqual(3, P.free());
+  
+  P.reset();
+  assertEqual(0, P.count());
+  assertEqual(8, P.free());
 }
 
 

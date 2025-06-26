@@ -16,15 +16,23 @@ PIR library for Arduino. Supports up to 8 PIR sensors.
 ## Description
 
 The PIR library implements a class to monitor 1 or more PIR sensors.
-The library supports up to 8 PIR sensors per object, which typically are added in **setup()**.
-It is possible to add a sensor (pin) multiple times.
-The library accepts duplicates.
+The library supports default 8 PIR sensors per object, which typically are added in **setup()**.
+It is possible to add a sensor (pin) multiple times as the library accepts duplicates.
 
 The library has two **read()** functions, one to read a specific sensor, and one to read all of them.
 The latter will return a mask indicating HIGH and LOW.
 The first added PIR will have the LSB.
 
+The maximum number of PIR sensors supported can be adjusted with a define 
+in the .h file named **PIR_MAX_COUNT**. The default maximum is 8.
+
 Instead of PIR sensors one can add other DigitalOut sensors or even switches.
+
+As always feedback is welcome.
+
+### Related
+
+- https://github.com/RobTillaart/TCRT5000
 
 
 ## Interface
@@ -33,15 +41,21 @@ Instead of PIR sensors one can add other DigitalOut sensors or even switches.
 #include "PIR.h"
 ```
 
-#### Base
+### Base
 
-- **PIR()** constructor. Allocated room for 8 PIRs.
+- **PIR()** constructor. Default allocated room for 8 PIRs.
 - **uint8_t add(uint8_t pin)** adds a PIR pin to the set of pins.
 Returns the index or PIR_ARRAY_FULL (0xFE)
-- **uint8_t count** returns number of PIR sensors added.
+- **uint8_t add(uint8_t \* pins, uint8_t length)** adds an array of PIR pins
+to the set of pins if there is enough room for all pins of the array.
+If there is no room in the internal set to add length pins, no pin is added. 
+Returns the (last) index or PIR_ARRAY_FULL (0xFE) in case no pin is added.
+- **void reset()** removes all pins from the internal set, reset lastRead too.
+- **uint8_t count()** returns number of PIR sensors added.
+- **uint8_t free()** returns number of free slots to add.
 
 
-#### Read
+### Read
 
 - **uint8_t read()** read all PIR sensors in the set.
 Returns a bit mask of HIGH / LOW values.
@@ -64,16 +78,14 @@ This can improve processing in some cases.
 
 - add examples
   - interrupts?
+- investigate dynamic allocation in constructor (0.3.0)
+  - 0.2.0 has compile time define.
 
 #### Could
 
-- investigate PIR16 PIR32 class that can hold more
-  - think MEGA2560.
-  - or dynamic allocation?  0.2.0
-- one lastRead for all?
-- **uint8_t pin(uint8_t index)** to get back configuration
-- **bool add(uint8_t array, length)** faster configuration. Return true if there was enough room.
-- **clear()** to reset whole object?
+- one lastRead for all
+- **uint8_t getPinAtIndex(uint8_t index)** to get back configuration
+
 
 #### Wont
 

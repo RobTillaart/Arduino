@@ -1,0 +1,23 @@
+
+IDE:    1.8.19
+BOARD:  UNO R3
+
+PIR_performance.ino
+PIR_LIB_VERSION: 0.2.0
+
+pins: 8
+
+
+test_read
+TIME:	32
+VAL:	FF
+
+test_lastValue
+TIME:	4
+VAL:	FF
+
+test_changed
+TIME:	36
+VAL:	0
+
+

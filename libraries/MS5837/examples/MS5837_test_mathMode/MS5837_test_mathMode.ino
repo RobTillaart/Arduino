@@ -1,16 +1,16 @@
-//    FILE: MS5837_demo.ino
+//    FILE: MS5837_test_mathMode.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo MS5837 library
 //     URL: https://github.com/RobTillaart/MS5837
 
 /*  AVR I2C codes
-|     0  |  success
-|     1  |  length to long for buffer
-|     2  |  address send, NACK received
-|     3  |  data send, NACK received
-|     4  |  other twi error
-|     5  |  timeout
- */
+  |     0  |  success
+  |     1  |  length to long for buffer
+  |     2  |  address send, NACK received
+  |     3  |  data send, NACK received
+  |     4  |  other twi error
+  |     5  |  timeout
+*/
 
 #include "Arduino.h"
 #include "Wire.h"
@@ -33,7 +33,7 @@ void setup()
 
   //  MS5837_30 = 0
   //  MS5837_02 = 1
-  if (MS.begin(0) == true)
+  if (MS.begin(1) == true)
   {
     Serial.println("MS5837 found.");
   }
@@ -48,10 +48,28 @@ void setup()
 
 void loop()
 {
+  testMathMode(0);
+  delay(1000);
+
+  testMathMode(1);
+  delay(1000);
+
+  testMathMode(2);
+  delay(1000);
+}
+
+
+void testMathMode(uint8_t mode)
+{
+  MS.reset(mode);
+  delay(100);
   if (MS.read(8) != 0)
   {
     Serial.print("Read Error!!\t");
   }
+
+  Serial.print("M: ");
+  Serial.print(mode);
   Serial.print("\tT: ");
   Serial.print(MS.getTemperature(), 2);
   Serial.print("\tP: ");
@@ -63,7 +81,6 @@ void loop()
   Serial.print("\tE: ");
   Serial.print(MS.getLastError());
   Serial.println();
-  delay(1000);
 }
 
 

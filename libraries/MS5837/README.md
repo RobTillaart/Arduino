@@ -19,23 +19,32 @@ Library for the MS5837 temperature and pressure sensor and compatibles.
 **Experimental**
 
 The MS5837 is a waterproof device to measure temperature and pressure to a high level
-of accuracy.
+of accuracy. Note only the sensor not the PCB is waterproof.
 
 From the measured pressure one can calculate the depth or the altitude of the sensor to some extend.
-- The MS5837_30 can go to depth of about 300 meter as it can measure up to 30 Bar.
+- The MS5837_30 can go to depth of about 300 meter (under water) as it can measure up to 30 Bar.
 - The MS5837_02 is meant for altitude measurements as it can as low as 300 mBar, -20°C
 - The MS5803_01 is meant for altitude measurements as it can as low as 10 mBar, -40°C
 
 The library only supports the I2C based sensors, fixed address 0x76 for the MS5837 
 and address 0x76 or 0x77 for the MS5803.
 
-The library does not use the partially 64 bit integer math as described in the datasheet.
+This library does not use the partially 64 bit integer math as described in the datasheet.
 Instead it uses float math.
 This choice reduces footprint on e.g. AVR and increases the math performance.
 This will however have an effect on the accuracy of the results, 
-although these are expected to be relative small.
+although this effect is expected to be relative small as the 32 bit floats have 6-7 digits accuracy.
 
-The library is not tested with hardware yet.
+The library (.cpp) has a 2nd order compensation which is not tested.
+This needs reference devices and equipment to verify which I do not have.
+Feedback is welcome.
+
+
+### 0.2.0
+
+The library is tested with hardware, the MS5837-02 (mathMode 1) works. 
+This resulted in fixing several bugs in read() and the 0.2.0 version.
+So pre 0.2.0 version are obsolete.
 
 Feedback as always is welcome.
 
@@ -43,9 +52,10 @@ Feedback as always is welcome.
 ### Related
 
 - https://github.com/RobTillaart/pressure Conversions
-- https://github.com/RobTillaart/temperature Conversions
+- https://github.com/RobTillaart/Temperature Conversions + weather math
 - https://github.com/RobTillaart/MS5611 temperature and pressure sensor
 - https://www.usgs.gov/special-topics/water-science-school/science/water-density
+- https://www.mide.com/air-pressure-at-altitude-calculator
 
 See also .h file
 
@@ -54,11 +64,11 @@ See also .h file
 
 See mathType notes below.
 
-|  Sensor         | mathType |  Celsius °C  |  pressure mBar  |  Notes  |
-|:----------------|:--------:|:------------:|:---------------:|:--------|
-|  MS5837-30 bar  |    0     |  -20 to +85  |  0 to 30000     |  for depth (under water).
-|  MS5837-02 bar  |    1     |  -20 to +85  |  300 to 1200    |  for altitude
-|  MS5803-01 bar  |    2     |  -40 to +85  |  10 to 1300     |  for altitude
+|  Sensor     | mathMode |  Celsius °C  |  pressure mBar  |  Notes  |
+|:------------|:--------:|:------------:|:---------------:|:--------|
+|  MS5837-30  |    0     |  -20 to +85  |  0 to 30000     |  for depth (under water).
+|  MS5837-02  |    1     |  -20 to +85  |  300 to 1200    |  for altitude
+|  MS5803-01  |    2     |  -40 to +85  |  10 to 1300     |  for altitude
 
 
 ### Pressure mathType 
@@ -79,11 +89,15 @@ The library implements **reset(uint8_t mathMode = 0)** to select the mathMode.
 
 The MS5837 library uses similar code as the tested MS5611 library.
 
-TODO: test with hardware.
+The library is tested with the Arduino UNO R3 for version 0.2.0:
 
-The library is tested with the following boards:
+|  BOARD   |  Sensor     | mathMode |  Notes  |
+|:--------:|:------------|:--------:|:--------|
+|  UNO R3  |  MS5837-30  |    0     |  works
+|  UNO R3  |  MS5837-02  |    1     |  works
+|  UNO R3  |  MS5803-01  |    2     |  not tested
 
-As always feedback is welcome.
+The MS5803 will be tested when I the hardware.
 
 Please let me know of other working platforms / processors (and failing ones!).
 
@@ -150,16 +164,16 @@ Returns 30 or 2 or zero if unknown.
 
 ### Temperature and Pressure
 
-- **bool read(uint8_t bits = 8)** the actual reading of the sensor. 
+- **int read(uint8_t bits = 8)** the actual reading of the sensor. 
 The bits determines the oversampling rate (OSR), see table below. 
-Returns true upon success, false otherwise.
+Returns 0 upon success, a negative number on failure (debug info).
 The call will block for 3 to 40 milliseconds, depending upon number of bits.
 
-|  type       |  bits read()  | 
-|:-----------:|:-------------:|
-|  MS5837_30  |  8..13        |
-|  MS5837_02  |  8..13        |
-|  MS5803_01  |  8..12        |
+|  type       |  bits read()  |  millis  |  notes  |
+|:-----------:|:-------------:|:--------:|:--------|
+|  MS5837_30  |  8..13        |   5-40   |
+|  MS5837_02  |  8..13        |   5-40   |
+|  MS5803_01  |  8..12        |          |  not tested
 
 
 - **uint32_t lastRead()** returns the timestamp of the last call to read() in 
@@ -177,7 +191,7 @@ One can compensate for the actual air pressure at sea level.
 
 Experimental note.
 
-**getALtitude()** might even work in caves below sea level, as the sensors can
+**getAltitude()** might even work in caves below sea level, as the sensors can
 measure up to 1200/1300 hPa. See air pressure table below. 
 This assumption is not confirmed yet.
 
@@ -208,11 +222,52 @@ Multiple calls will return the same value until read() is called again.
 
 ### Error handling
 
-experimental / minimal
+Experimental, 
 
 - **int lastError()** returns the last error code.
 Resets to 0 when called.
 
+|  Code  |  Description                 |  Notes  |
+|:------:|:----------------------------:|:--------|
+|     0  |  MS5837_OK                   |  no error
+|   1-5  |  twoWire specific            |  check low level library
+|     1  |  length to long for buffer   |  AVR TwoWire
+|     2  |  address send, NACK received |  AVR TwoWire
+|     3  |  data send, NACK received    |  AVR TwoWire
+|     4  |  other twi error             |  AVR TwoWire
+|     5  |  timeout                     |  AVR TwoWire
+|   -10  |  MS5837_ERROR_I2C            |  generic I2C (not used yet)
+|   -11  |  MS5837_ERROR_REQUEST        |  requestFrom error
+
+
+### Meta info
+
+Experimental, 
+
+The PROM index zero of the MS58xx hold some device specific information.
+As these 2 bytes are relative random it can be used as device identification. 
+For the **MS5837_02** the meaning of two fields of PROM(0) is known.
+For the **MS5837_30** only one field is known.
+
+|  function            |  MS5837_02  |  MS5837_30  |  MS5803_xx  |
+|:--------------------:|:-----------:|:-----------:|:-----------:|
+|  getCRC              |      V      |      V      |      x      |
+|  getProduct          |      V      |      x      |      x      |
+|  getFactorySettings  |      V      |      x      |      x      |
+|  getPromZero         |      V      |      V      |      V      |
+
+- **uint16_t getCRC()** can be used to verify the PROM codes, check not implemented.
+- **uint16_t getProduct()** see table below.
+- **uint16_t getFactorySettings()** meaning unknown.
+- **uint16_t getPromZero()** can be used as device identification. 
+
+|  Device         |  Product code  |
+|:---------------:|:--------------:|
+|  MS5837_02BA01  |          0x00  |
+|  MS5837_02BA21  |          0x15  |
+|  MS5837_30BA26  |          0x1A  |
+
+----
 
 ## Interface MS5803
 
@@ -232,7 +287,7 @@ Resets to 0 when called.
 ## Density 
 
 Some indicative figures about density of water and other liquids.
-Different sources give slight variations, which are less than 0.1%.
+Different sources give slight variations, which differ less than 0.1%.
 
 
 ### Temperature
@@ -428,26 +483,24 @@ From - https://www.mide.com/air-pressure-at-altitude-calculator
 #### Must
 
 - improve documentation
-- buy hardware - 30 or 2 bar version, both to test
-- check TODO's in code / documentation
-
+- improve class model
+  - derived classes MS5803
+  - refactor type & mathMode
+  - so one does not need to set mathMode ==> deviceType is better.
+  - meta info functions (reverse class hierarchy?)
 
 #### Should
 
-- improve error handling
-- improve class model
-  - derived classes MS5803
-  - so one does not need to set mathMode.
+- test **getAltitude()**
+- test **getDepth()**
+- test & verify 2nd order compensations. (Need special equipment)
 - investigate the effects of float math on accuracy / precision.
-
+  - simulate raw values through both maths.
 
 #### Could
 
-- add **uint16_t getPromZero()** read out manufacturer bits, CRC + extra bits.
-  - useful for debugging?
 - add **void setAirPressure(float airPressure)** idea is to set it only once when P changes.
 - add **float getAirPressure()** return last set value.
-- refactor type & mathMode
 - add offset functions for all measurements?
   - 3 offsets float == 12 bytes + 6 functions get/set.
 - async interface.
@@ -455,7 +508,6 @@ From - https://www.mide.com/air-pressure-at-altitude-calculator
   - **void requestMeasurement()** starts conversion D1.
   - **bool ready()** checks D1 to be ready, starts D2, checks D2 to be ready
   - need multiple calls to initiate steps.
-  - could be 0.2.0 if sync version works. 
   - ==> also MS5611 ?
 
 ```cpp
@@ -467,8 +519,6 @@ uint16_t getPromZero()
 ```
 
 #### Won't (unless requested)
-
-- performance test (as long as read is blocking)
 
 
 ## Support

@@ -1,7 +1,7 @@
 //
 //    FILE: MS5837.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.2.0
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -13,8 +13,8 @@
 #define MS5837_CMD_READ_ADC       0x00
 #define MS5837_CMD_READ_PROM      0xA0
 #define MS5837_CMD_RESET          0x1E
-#define MS5837_CMD_CONVERT_D1     0x4A  //  differs from MS5611
-#define MS5837_CMD_CONVERT_D2     0x5A  //  differs from MS5611
+#define MS5837_CMD_CONVERT_D1     0x40
+#define MS5837_CMD_CONVERT_D2     0x50
 
 
 //  CONSTRUCTOR
@@ -34,12 +34,17 @@ bool MS5837::begin(uint8_t mathMode)
 bool MS5837::isConnected()
 {
   _wire->beginTransmission(_address);
-  return ( _wire->endTransmission() == 0);
+  _error = _wire->endTransmission();
+  return ( _error == MS5837_OK);
 }
 
 bool MS5837::reset(uint8_t mathMode)
 {
   command(MS5837_CMD_RESET);
+  if (_error != MS5837_OK)
+  {
+    return false;
+  }
   uint32_t start = millis();
   //  while loop prevents blocking RTOS
   while (micros() - start < 10)
@@ -49,7 +54,10 @@ bool MS5837::reset(uint8_t mathMode)
   }
 
   initConstants(mathMode);
-
+  if (_error != MS5837_OK)
+  {
+    return false;
+  }
   //  SKIP CRC check (for now)
 
   //  derive the type from mathMode instead of the other way around.
@@ -77,9 +85,12 @@ uint8_t MS5837::getAddress()
 //
 //  datasheet page 7
 //  bits determines OSR => nr of samples => accuracy etc
-bool MS5837::read(uint8_t bits)
+int MS5837::read(uint8_t bits)
 {
-  if (isConnected() == false) return false;
+  if (isConnected() == false)
+  {
+    return -1;
+  }
 
   int OSR = constrain(bits, 8, 13);
   OSR -= 8;
@@ -92,37 +103,42 @@ bool MS5837::read(uint8_t bits)
   //  datasheet page 7 adjust command byte based on OSR
   _wire->write(MS5837_CMD_CONVERT_D1 + OSR * 2);
   _error = _wire->endTransmission();
-  if (_error != 0)
+  if (_error != MS5837_OK)
   {
-    //  _error = MS5837_I2C_ERROR ?
-    return false;
+    //  _error = twoWire specific.
+    return -2;
   }
 
   uint32_t start = millis();
 
   //  while loop prevents blocking RTOS
-  while (micros() - start < wait)
+  while (millis() - start < wait)
   {
     yield();
     delay(1);
   }
   //  NOTE: names D1 and D2 are reserved in MBED (NANO BLE)
   uint32_t _D1 = readADC();
+  if (_error != MS5837_OK)
+  {
+    //  _error = twoWire specific.
+    return -3;
+  }
 
    //  D2 conversion
   _wire->beginTransmission(_address);
   //  datasheet page 7 adjust command byte based on OSR
   _wire->write(MS5837_CMD_CONVERT_D2 + OSR * 2);
   _error = _wire->endTransmission();
-  if (_error != 0)
+  if (_error != MS5837_OK)
   {
-    //  _error = MS5837_I2C_ERROR ?
-    return false;
+    //  _error = twoWire specific.
+    return -4;
   }
 
   start = millis();
   //  while loop prevents blocking RTOS
-  while (micros() - start < wait)
+  while (millis() - start < wait)
   {
     yield();
     delay(1);
@@ -130,33 +146,84 @@ bool MS5837::read(uint8_t bits)
 
   //  NOTE: names D1 and D2 are reserved in MBED (NANO BLE)
   uint32_t _D2 = readADC();
+  if (_error != MS5837_OK)
+  {
+    //  _error = twoWire specific.
+    return -5;
+  }
 
+  //  determine temperature
   float dT = _D2 - C[5];
   _temperature = 2000 + dT * C[6];
 
+  //  determine pressure
   float offset = C[2] + dT * C[4];
   float sens   = C[1] + dT * C[3];
   _pressure = _D1 * sens + offset;
 
 
   //  Second order compensation
-  if (_temperature < 20)
+  //  Comment to save footprint (trade accuracy)
+  if ((_temperature * 0.01) < 20)
   {
-    float ti = dT * dT * (11 * 2.91038304567E-11);  //  1 / 2^35
-    float t = (_temperature - 2000) * (_temperature - 2000);
-    float offset2 = t * (31 * 0.125);  //  1 / 2^3
-    float sens2 = t * (63 * 0.03125);  //  1 / 2^5
-
+    float ti = 0, offset2 = 0, sens2 = 0;
+    float t2 = (_temperature - 2000) * (_temperature - 2000);
+    //  Math mode 0  Page 12
+    if (_type == MS5837_TYPE_30)
+    {
+      ti = dT * dT * (3 * 1.164153218269E-10);  //  1 / 2^33
+      offset2 = t2 * (3 * 0.5);  //  1 / 2^1
+      sens2 = t2 * (5 * 0.125);  //  1 / 2^3
+      if ((_temperature * 0.01) < -15)
+      {
+        t2 = (_temperature + 1500) * (_temperature + 1500);
+        offset2 += 7 * t2;
+        sens2   += 4 * t2;
+      }
+    }
+    //  math mode 1
+    if (_type == MS5837_TYPE_02)
+    {
+      ti = dT * dT * (11 * 2.91038304567E-11);  //  1 / 2^35
+      offset2 = t2 * (31 * 0.125);  //  1 / 2^3
+      sens2 = t2 * (63 * 0.03125);  //  1 / 2^5
+    }
+    //  math mode 2
+    if (_type == MS5803_TYPE_01)
+    {
+      ti = dT * dT * (3 * 4.656612873077E-10);  //  1 / 2^31
+      offset2 = t2 * (3 * 1.0);  //  1 / 2^0
+      sens2 = t2 * (7 * 0.125);  //  1 / 2^3
+      if ((_temperature * 0.01) < -15)
+      {
+        t2 = (_temperature + 1500) * (_temperature + 1500);
+        sens2   += 2 * t2;
+      }
+    }
+    else
+    {
+      // temperature > 20C MS5803 only
+      if ((_type == MS5803_TYPE_01) && ( (_temperature * 0.01) > 45))
+      {
+        t2 = (_temperature - 4500) * (_temperature - 4500);
+        sens2 -= t2 * 0.125;  //  1/2^3
+      }
+    }
     offset       -= offset2;
     sens         -= sens2;
     _temperature -= ti;
   }
+
+
   //                         1 / 2^21                    C[7] / 100
   _pressure = (_D1 * sens * 4.76837158203E-7 - offset) * C[7] * 0.01;
+  if (_type == MS5837_TYPE_30) _pressure *= 10;
+
   _temperature *= 0.01;
 
   _lastRead = millis();
-  return true;
+  _error = MS5837_OK;
+  return 0;
 }
 
 uint32_t MS5837::lastRead()
@@ -183,7 +250,7 @@ float MS5837::getTemperature()
 float MS5837::getAltitude(float airPressure)
 {
   float ratio = _pressure / airPressure;
-  return 44330 * (1 - pow(ratio, 0.190294957));
+  return 44307.694 * (1 - pow(ratio, 0.190284));
 }
 
 
@@ -227,6 +294,36 @@ int MS5837::getLastError()
 
 //////////////////////////////////////////////////////////////////////
 //
+//  PROM zero - meta info
+//
+uint16_t MS5837::getCRC()
+{
+  uint16_t value = C[0];
+  return value >> 12;
+}
+
+uint16_t MS5837::getProduct()
+{
+  uint16_t value = C[0];
+  return (value >> 5) & 0x007F;
+}
+
+uint16_t MS5837::getFactorySettings()
+{
+  uint16_t value = C[0];
+  return value & 0x001F;
+}
+
+
+uint16_t MS5837::getPromZero()
+{
+  uint16_t value = C[0];
+  return value;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//
 //  PROTECTED
 //
 int MS5837::command(uint8_t cmd)
@@ -234,8 +331,8 @@ int MS5837::command(uint8_t cmd)
   yield();
   _wire->beginTransmission(_address);
   _wire->write(cmd);
-  _result = _wire->endTransmission();
-  return _result;
+  _error = _wire->endTransmission();
+  return _error;
 }
 
 
@@ -254,7 +351,7 @@ void MS5837::initConstants(uint8_t mathMode)
   C[4] = 7.8125E-3;       //  TCO      = C[4] / 2^7   |  / 2^6   |  / 2^7   |
   C[5] = 256;             //  Tref     = C[5] * 2^8   |  * 2^8   |  * 2^8   |
   C[6] = 1.1920928955E-7; //  TEMPSENS = C[6] / 2^23  |  / 2^23  |  / 2^23  |
-  C[7] = 1.220703125E-4;  //  compensate uses / 2^13  |  / 2^15  |  / 2^15  |
+  C[7] = 1.220703125E-4;  //  compensate uses / 2^13  |  / 2^15  |  / 2^15  |  Pressure math (P)
 
   //  App note version for pressure.
   //  adjustments for MS5837_02
@@ -278,33 +375,42 @@ void MS5837::initConstants(uint8_t mathMode)
   {
     _wire->beginTransmission(_address);
     _wire->write(MS5837_CMD_READ_PROM + i + i);
-    _wire->endTransmission();
+    _error = _wire->endTransmission();
+    if (_error != MS5837_OK)
+    {
+      return;
+    }
     uint8_t length = 2;
-    _wire->requestFrom(_address, length);
+    if (_wire->requestFrom(_address, length) != length)
+    {
+      _error = MS5837_ERROR_REQUEST;
+      return;
+    }
     uint16_t tmp = _wire->read() << 8;
     tmp |= _wire->read();
     C[i] *= tmp;
   }
+  _error = MS5837_OK;
 }
 
 
 uint32_t MS5837::readADC()
 {
   command(MS5837_CMD_READ_ADC);
-  if (_result == 0)
+  if (_error != MS5837_OK)
   {
-    uint8_t length = 3;
-    int bytes = _wire->requestFrom(_address, length);
-    if (bytes >= length)
-    {
-      uint32_t value = _wire->read() * 65536UL;
-      value += _wire->read() * 256UL;
-      value += _wire->read();
-      return value;
-    }
     return 0UL;
   }
-  return 0UL;
+  uint8_t length = 3;
+  if (_wire->requestFrom(_address, length) != length)
+  {
+    _error = MS5837_ERROR_REQUEST;
+    return 0UL;
+  }
+  uint32_t value = _wire->read() * 65536UL;
+  value += _wire->read() * 256UL;
+  value += _wire->read();
+  return value;
 }
 
 
@@ -317,7 +423,7 @@ uint32_t MS5837::readADC()
 //
 //  MS5803
 //
-MS5803::MS5803(TwoWire *wire):MS5837(wire)
+MS5803::MS5803(TwoWire *wire) : MS5837(wire)
 {
 }
 

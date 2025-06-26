@@ -37,7 +37,10 @@ void setup()
 
 void loop()
 {
-  MS.read();           //  note no error checking => "optimistic".
+  if (MS.read() != 0)
+  {
+    Serial.print("Read Error!!");
+  }
   Serial.print("T:\t");
   Serial.print(MS.getTemperature(), 2);
   Serial.print("\tP:\t");
@@ -46,6 +49,8 @@ void loop()
   Serial.print(MS.getAltitude(), 2);
   Serial.print("\tD:\t");
   Serial.print(MS.getDepth(), 2);
+  Serial.print("\tE:\t");
+  Serial.print(MS.getLastError());
   Serial.println();
   delay(10000);
 }

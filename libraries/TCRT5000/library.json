@@ -1,0 +1,23 @@
+{
+  "name": "TCRT5000",
+  "keywords": "CO2,environment",
+  "description": "Arduino library for the TCRT5000 reflective optical sensor (IR).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCRT5000.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TCRT5000.h"
+}

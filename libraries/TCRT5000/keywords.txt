@@ -1,0 +1,21 @@
+# Syntax Colouring Map For TCRT5000
+
+# Data types (KEYWORD1)
+TCRT5000	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+read	KEYWORD2
+lastRead	KEYWORD2
+
+setThreshold	KEYWORD2
+getThreshold	KEYWORD2
+aboveThreshold	KEYWORD2
+belowThreshold	KEYWORD2
+
+
+# Constants (LITERAL1)
+TCRT5000_LIB_VERSION	LITERAL1
+
+TCRT5000_DEFAULT_THRESHOLD	LITERAL1
+

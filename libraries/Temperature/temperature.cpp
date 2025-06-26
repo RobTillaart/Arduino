@@ -1,7 +1,7 @@
 //
 //    FILE: temperature.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.4.0
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //     URL: https://github.com/RobTillaart/Temperature
@@ -172,7 +172,6 @@ float absoluteHumidity(float Celsius, float relHumidity)
 //  if convert is true => wind speed will be converted to 1.5 meter
 //  else ==> formula assumes wind speed @ 1.5 meter
 
-
 //  US
 float WindChill_F_mph(const float Fahrenheit, const float milesPerHour, const bool convert)
 {
@@ -182,7 +181,6 @@ float WindChill_F_mph(const float Fahrenheit, const float milesPerHour, const bo
   return 35.74 + 0.6125 * Fahrenheit + (0.4275 * Fahrenheit - 35.75) * windSpeed;
 }
 
-
 //  METRIC - standard wind chill formula for Environment Canada
 float WindChill_C_kmph(const float Celsius, const float kilometerPerHour, const bool convert)
 {
@@ -191,7 +189,6 @@ float WindChill_C_kmph(const float Celsius, const float kilometerPerHour, const 
   if (convert) windSpeed = pow(kilometerPerHour, 0.16);
   return 13.12 + 0.6215 * Celsius + (0.3965 * Celsius - 11.37) * windSpeed;
 }
-
 
 float WindChill_C_mps(const float Celsius, const float meterPerSecond, const bool convert)
 {
@@ -211,7 +208,6 @@ float baroToSeaLevelC( float pressure, float celsius, float altitude)
   float kelvin = celsius + 273.15;
   return pressure * pow( 1 - (altitudeFactor / (kelvin + altitudeFactor)), -5.257);
 }
-
 
 //  https://www.omnicalculator.com/physics/air-pressure-at-altitude
 //    temperature (Celsius) at altitude (meter)
@@ -241,7 +237,6 @@ float boilingFahrenheit(float feet)
   return 212;
 }
 
-
 float boilingCelsius(float meter)
 {
   if (meter > 0) return 100.08143 - meter * 3.39670635e-3;
@@ -253,6 +248,22 @@ float boilingMeter(float Celsius)
 {
   if (Celsius >= 100) return 0;
   return 29458.542 - Celsius * 294.34149;
+}
+
+
+//  https://www.jeeng.net/Heat-Stress-Analysis-Using-Discomfort-Index-Method-Impact-on-Macro-Environmental,144092,0,2.html
+//  Discomfort index (added 0.4.0)
+//
+float discomfortIndex(float TC, float RH)
+{
+  float DI = TC - (0.55 * (1.0 - 0.01 * RH) * (TC - 14.50));
+  return DI;
+}
+
+float DI2Celsius(float DI, float RH)
+{
+  float TC = 14.50 + (14.50 - DI) / (0.55 * (1.0 - 0.01 * RH) - 1.0 );
+  return TC;
 }
 
 

@@ -6,13 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-06-26
+- add discomfortIndex
+- add example
+- update unit tests
+- update keywords.txt
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.7] - 2023-11-12
 - update readme.md
 - renamed TEMPERATURE_VERSION => TEMPERATURE_LIB_VERSION
 - updated examples to show LIB version
 - update keywords.txt
 - minor edits
-
 
 ## [0.3.6] - 2023-02-17
 - add **absoluteHumidity(TC, RH)** from relative humidity

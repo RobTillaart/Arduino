@@ -2,7 +2,7 @@
 //    FILE: temperatureConvertor.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test
-//    DATE: 2022-01-08
+//     URL: https://github.com/RobTillaart/Temperature
 
 
 #include "temperature.h"
@@ -11,8 +11,9 @@ temperatureConverter TC;
 
 void setup()
 {
-  Serial.begin(115200);
   while(!Serial);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TEMPERATURE_LIB_VERSION: ");
   Serial.println(TEMPERATURE_LIB_VERSION);

@@ -2,7 +2,7 @@
 //    FILE: humidex_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-04-05
+//     URL: https://github.com/RobTillaart/Temperature
 
 
 #include "temperature.h"
@@ -17,6 +17,7 @@ volatile float hi;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TEMPERATURE_LIB_VERSION: ");
   Serial.println(TEMPERATURE_LIB_VERSION);

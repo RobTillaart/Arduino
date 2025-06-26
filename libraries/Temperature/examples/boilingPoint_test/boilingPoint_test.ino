@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for boiling point formula
 //     URL: https://github.com/RobTillaart/Temperature
-//
 
 
 #include "temperature.h"
@@ -14,6 +13,7 @@ uint32_t stop, start;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TEMPERATURE_LIB_VERSION: ");
   Serial.println(TEMPERATURE_LIB_VERSION);
@@ -49,7 +49,7 @@ void setup()
     Serial.print("\n");
   }
   Serial.println();
-  
+
   for (float temp = 100; temp >= 98; temp -= 0.1)
   {
     Serial.print(temp);

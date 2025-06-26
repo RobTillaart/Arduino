@@ -31,6 +31,8 @@ boilingFahrenheit	KEYWORD2
 boilingCelsius	KEYWORD2
 boilingMeter	KEYWORD2
 
+discomfortIndex	KEYWORD2
+DI2Celsius	KEYWORD2
 
 
 # temperatureConverter class

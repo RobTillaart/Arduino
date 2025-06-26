@@ -123,6 +123,22 @@ unittest(test_windChill)
 }
 
 
+unittest(test_discomfortIndex)
+{
+  for (int RH = 10; RH < 100; RH += 20)
+  {
+    fprintf(stderr, "RH: %d \n", RH);
+    for (int TC = 10; TC <= 50; TC += 10)
+    {
+      float DI = discomfortIndex(TC, RH);
+      float TT = DI2Celsius(DI, RH);
+
+      assertEqualFloat(TC, TT, 0.1);
+    }
+  }
+}
+
+
 unittest(test_converter)
 {
   temperatureConverter TC;

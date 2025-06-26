@@ -31,6 +31,7 @@ Note: pre-0.3.1 versions have incorrect heat-index.
 - https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 - https://wahiduddin.net/calc/density_algorithms.htm
 - https://github.com/RobTillaart/pressure
+- https://temperatures.com/  just a lot of interesting stuff
 
 
 ## Interface
@@ -130,6 +131,24 @@ For Fahrenheit from meters call:
 ```cpp
 F = boilingFahrenheit(meter * 3.2808);  //  * 3.280839895  == / 0.3048
 ```
+
+
+###  Discomfort Index
+
+- **float discomfortIndex(float TC, float RH)**
+- **float DI2Celsius(float DI, float RH)**
+
+
+|  DI (°C)  |  colour  |  description  |
+|:---------:|:--------:|:--------------|
+|    < 21   |  green   |  no discomfort
+|  21..24   |  yellow  |  < 50% people feel D.
+|  24..27   |  orange  |  > 50% people feel D.
+|  27..29   |  red     |  most people feel serious D.
+|  29..32   |  purple  |  severe D.
+|    > 32   |  black   |  extreme D. (emergency)
+
+Colour could be implemented with - https://github.com/RobTillaart/map2colour
 
 ----
 

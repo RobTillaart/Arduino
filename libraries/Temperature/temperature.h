@@ -2,7 +2,7 @@
 //
 //    FILE: temperature.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.4.0
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //     URL: https://github.com/RobTillaart/Temperature
@@ -11,14 +11,12 @@
 #include "Arduino.h"
 
 
-#define TEMPERATURE_LIB_VERSION         (F("0.3.7"))
-#define TEMPERATURE_VERSION             (F("0.3.7"))    //  obsolete in 0.4.0
+#define TEMPERATURE_LIB_VERSION         (F("0.4.0"))
 
 
+//  simple convertors
 float Fahrenheit(float celsius);
-
 float Celsius(float Fahrenheit);
-
 float Kelvin(float celsius);
 
 
@@ -30,7 +28,6 @@ float Kelvin(float celsius);
 float dewPoint(float celsius, float humidity);
 
 
-
 //  dewPointFast() is > 5x faster than dewPoint() - run dewpoint_test.ino
 //  delta mdewPointFastax with dewPoint() - run dewpoint_test.ino ==> ~0.347
 //  (earlier version mentions ~0.6544 but that test code is gone :(
@@ -38,21 +35,18 @@ float dewPoint(float celsius, float humidity);
 float dewPointFast(float celsius, float humidity);
 
 
-
 // https://en.wikipedia.org/wiki/Humidex
 float humidex(float celsius, float dewPoint);
 
 
-
-//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 //           previous  https://en.wikipedia.org/wiki/Heat_index
 //  TF = temp in Fahrenheit
 //  RH = relative humidity in %
 float heatIndex(float TF, float RH);
 
 
-
-//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml 
+//  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 //           previous  https://en.wikipedia.org/wiki/Heat_index
 //  TC = temp in Celsius
 //  RH = relative humidity in %
@@ -73,13 +67,10 @@ float absoluteHumidity(float Celsius, float relHumidity);
 //  if convert is true => wind speed will be converted to 1.5 meter
 //  else ==> formula assumes wind speed @ 1.5 meter
 
-
 //  US
 float WindChill_F_mph(const float Fahrenheit, const float milesPerHour, const bool convert = true);
-
 //  METRIC - standard wind chill formula for Environment Canada
 float WindChill_C_kmph(const float Celsius, const float kilometerPerHour, const bool convert = true);
-
 float WindChill_C_mps(const float Celsius, const float meterPerSecond, const bool convert = true);
 
 
@@ -90,26 +81,28 @@ float WindChill_C_mps(const float Celsius, const float meterPerSecond, const boo
 //
 //  Note: altitude in meters.
 float baroToSeaLevelC( float pressure, float celsius, float altitude);
-
 //  https://www.omnicalculator.com/physics/air-pressure-at-altitude
 //    temperature (Celsius) at altitude (meter)
 float seaLevelToAltitude( float pressureSeaLevel, float celsius, float altitude);
-
 float altitudeToSeaLevel( float pressure, float celsius, float altitude);
-
 
 
 //  https://en.wikipedia.org/wiki/High-altitude_cooking
 //  temperature at which water cooks
 //  1 feet = 0.3048 meter
 float boilingFahrenheit(float feet);   //  feet  = 0..15000
-float boilingCelsius(float meter);     //  meter = 0..4500 
-
-//  inverse function 
+float boilingCelsius(float meter);     //  meter = 0..4500
+//  inverse function
 //  Celsius = 80°..100°
 float boilingMeter(float Celsius);
 
 
+//  https://www.jeeng.net/Heat-Stress-Analysis-Using-Discomfort-Index-Method-Impact-on-Macro-Environmental,144092,0,2.html
+//  Epstein 2006
+//  Discomfort index (added 0.4.0)
+//
+float discomfortIndex(float TC, float RH);
+float DI2Celsius(float DI, float RH);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

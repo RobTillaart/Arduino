@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2025-06-30
+- fix #24, add printHelpersMT.h,
+  - class implementation for multThreading.
+  - scieng(), sci() and eng()
+  - print64()
+  - toBytes()
+  - hex(), bin()
+  - toRoman()
+  - printInch(), printFeet()
+  - csi(), fraction()
+- add several MT examples
+- update unit tests
+- fix PRINTHELPERS_LIB_VERSION
+- obsolete PRINTHELPERS_VERSION
+- catch error in print64() (buffer too small)
+- catch error in toBytes() (NAN)
+- catch error in printInch() (NEG)
+- catch error in printFeet() (NEG)
+- fix output of printFeet()
+- add parameter in csi for separator, default ','
+- update readme.md
+- minor edits
+
+----
+
 ## [0.4.6] - 2024-11-21
 - fix #22, negative fractions
 - fix unofficial **toRoman()** for > 4888

@@ -1,11 +1,11 @@
 //
-//    FILE: print_sci.ino
+//    FILE: print_sci_MT.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo program SCI
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "printHelpers.h"
+#include "printHelpersMT.h"
 
 
 void setup()
@@ -94,4 +94,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

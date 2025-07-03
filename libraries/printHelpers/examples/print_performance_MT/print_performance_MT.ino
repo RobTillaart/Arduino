@@ -1,11 +1,11 @@
 //
-//    FILE: print_performance.ino
+//    FILE: print_performance_MT.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test program
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "printHelpers.h"
+#include "printHelpersMT.h"
 
 
 uint32_t start = 0;
@@ -45,12 +45,12 @@ void setup()
   start = micros();
   for (int len = 0; len < 16; len++)
   {
-    b = print64(int64_t(E), 10);
+    print64(int64_t(E), 10);
   }
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(print64(int64_t(E), 10));
 
   Serial.println();
   Serial.println("SCI");
@@ -58,12 +58,12 @@ void setup()
   start = micros();
   for (int len = 0; len < 16; len++)
   {
-    b = sci(E, len);
+    sci(E, len);
   }
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(sci(E, 16));
 
   Serial.println();
   Serial.println("ENG");
@@ -71,12 +71,12 @@ void setup()
   start = micros();
   for (int len = 0; len < 16; len++)
   {
-    b = eng(E, len);
+    eng(E, len);
   }
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(eng(E, 16));
 
 
 #if defined(__AVR__)
@@ -117,12 +117,13 @@ void setup()
   start = micros();
   for (int len = 0; len < 16; len++)
   {
-    b = toBytes(E, len);
+    toBytes(E, len);
+    //  warning -> object out of scope!!
   }
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(toBytes(E, 16));
   delay(100);
 
   Serial.println();
@@ -131,12 +132,13 @@ void setup()
   start = micros();
   for (int len = 0; len < 16; len++)
   {
-    b = hex(uint64_t(E));
+    hex(uint64_t(E));
+    //  warning object out of scope.
   }
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(hex(uint64_t(E)));
   delay(100);
 
   Serial.println();
@@ -145,12 +147,13 @@ void setup()
   start = micros();
   for (int len = 0; len < 16; len++)
   {
-    b = bin(uint64_t(E));
+    bin(uint64_t(E));
+    //  warning object out of scope.
   }
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(bin(uint64_t(E)));
   delay(100);
 
 
@@ -165,7 +168,7 @@ void setup()
   stop = micros();
   Serial.print("TIME: ");
   Serial.println(stop - start);
-  Serial.println(b);
+  Serial.println(toRoman(999));
   delay(100);
 
 

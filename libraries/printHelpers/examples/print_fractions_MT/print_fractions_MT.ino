@@ -1,11 +1,11 @@
 //
-//    FILE: print_fractions.ino
+//    FILE: print_fractions_MT.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "printHelpers.h"
+#include "printHelpersMT.h"
 
 uint32_t start, stop, duration;
 

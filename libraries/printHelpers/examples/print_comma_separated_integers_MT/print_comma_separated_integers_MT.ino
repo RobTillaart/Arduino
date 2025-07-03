@@ -1,11 +1,11 @@
 //
-//    FILE: print_comma_separated_integers.ino
+//    FILE: print_comma_separated_integers_MT.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo readability of (large) integers
 //     URL: https://github.com/RobTillaart/printHelpers
 
 
-#include "printHelpers.h"
+#include "printHelpersMT.h"
 
 int64_t big = 123456789012345678;
 

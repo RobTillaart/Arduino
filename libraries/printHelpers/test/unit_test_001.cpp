@@ -174,6 +174,44 @@ unittest(test_toRoman_extended)
 }
 
 
+unittest(test_printInch)
+{
+  fprintf(stderr, "%s\n", printInch(10.75));
+  assertEqual(0, strcmp("10 3/4", printInch(10.75)));
+
+  fprintf(stderr, "%s\n", printInch(0));
+  assertEqual(0, strcmp("0 0/16", printInch(0)));
+
+  //  negative numbers not supported.
+  fprintf(stderr, "%s\n", printInch(-5.43));
+  assertEqual(0, strcmp("E-NEG", printInch(-5.43)));
+}
+
+
+unittest(test_printFeet)
+{
+  fprintf(stderr, "%s\n", printFeet(10.75));
+  assertEqual(0, strcmp("10\'9\"", printFeet(10.75)));
+
+  fprintf(stderr, "%s\n", printFeet(0));
+  assertEqual(0, strcmp("0\'0\"", printFeet(0)));
+
+  //  negative numbers not supported.
+  fprintf(stderr, "%s\n", printFeet(-5.43));
+  assertEqual(0, strcmp("E-NEG", printFeet(-5.43)));
+}
+
+
+unittest(test_csi)
+{
+  fprintf(stderr, "%s\n", csi(123456789));
+  assertEqual(0, strcmp("123,456,789", csi(123456789)));
+  
+  fprintf(stderr, "%s\n", csi(123456789, '_'));
+  assertEqual(0, strcmp("123_456_789", csi(123456789, '_')));
+}
+
+
 unittest(test_fraction)
 {
   //  positive

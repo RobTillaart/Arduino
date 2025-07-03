@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.4.6
+// VERSION: 0.5.0
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -22,7 +22,6 @@ char __printbuffer[PRINTBUFFERSIZE];
 //
 //  PRINT 64 BIT
 //
-
 //  print64 note
 //  buffer size 66 will work for base 2 -36
 //  buffer size 34 will work for base 4 -36
@@ -37,7 +36,12 @@ char * print64(int64_t value, uint8_t base)
 
   buffer[0] = 0;
   //  small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buffer;
+  if ((base < 10) && (PRINTBUFFERSIZE <= 66))
+  {
+    buffer[0] = 'E';  // Error
+    buffer[1] = 0;
+    return buffer;
+  }
   //  handle special case
   if (value == 0)
   {
@@ -96,7 +100,12 @@ char * print64(uint64_t value, uint8_t base)
 
   buffer[0] = 0;
   //  small base need bigger buffer
-  if ((base < 10) && (PRINTBUFFERSIZE <= 22)) return buffer;
+  if ((base < 10) && (PRINTBUFFERSIZE <= 66))
+  {
+    buffer[0] = 'E';  // Error
+    buffer[1] = 0;
+    return buffer;
+  }
   //  handle special case
   if (value == 0)
   {
@@ -129,10 +138,9 @@ char * print64(uint64_t value, uint8_t base)
 
 ////////////////////////////////////////////////////////////
 //
-//  SCIENTIFIC NOTATIION
+//  Scientific + Engineering notation
 //
-
-//  typical buffer size for 8 byte double is 22 bytes
+//  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
 //  15 bytes mantissa, sign dot E-xxx
 //  em = exponentMultiple == step size exponent.
 char * scieng(double value, uint8_t decimals, uint8_t em)
@@ -172,13 +180,13 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   }
 
   //  Scale exponent to multiple of em
-  //  TODO: can we remove loop to reduce rounding errors
+  //  loop can be removed by using pow and log however
+  //  in small tests it was not faster or more accurate
   while (value >= e1)
   {
     value *= e2;
     exponent += em;
   }
-  //  TODO: can we remove loop to reduce rounding errors
   while (value < 1 && value != 0.0)
   {
     value *= e1;
@@ -187,7 +195,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
-  //  TODO: can we remove loop to reduce rounding errors?
+  //  TODO: can optimize loop to reduce rounding errors?
   //        additional loop that steps per 1000?
   for (uint8_t i = 0; i < decimals; ++i)
   {
@@ -266,9 +274,8 @@ size_t sci(Stream &str, double value, uint8_t decimals)
 
 ////////////////////////////////////////////////////////////
 //
-//  toBytes
+//  toBytes()
 //
-
 //  official support to UDA == 1024^12
 //  kilo mega giga tera peta exa (1024^6)
 //  zetta yotta xona weka vunda uda (1024^12)
@@ -277,7 +284,8 @@ size_t sci(Stream &str, double value, uint8_t decimals)
 //  so code wise difficult and as it is seldom used, support stops there.
 //
 //  To have some support the code uses lowercase for the next 8 levels
-//  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^13 ~~ 1024^21)
+//  treda sorta rinta quexa pepta ocha nena minga luma
+//  (1024 ^13 .... 1024 ^21 (~10^63)
 //
 char * toBytes(double value, uint8_t decimals)
 {
@@ -288,9 +296,14 @@ char * toBytes(double value, uint8_t decimals)
   char  units[] = " KMGTPEZYXWVU";
   uint8_t i = 0;    //  i is index of the unit array == powers of 1024.
 
+  if (isnan(value))
+  {
+    strcpy(buffer, "nan");
+    return buffer;
+  }
   if (isinf(value))
   {
-    strcpy(buffer, "<inf>");
+    strcpy(buffer, "inf");
     return buffer;
   }
 
@@ -338,9 +351,9 @@ char * toBytes(double value, uint8_t decimals)
 
 ////////////////////////////////////////////////////////////
 //
-//  HEX
+//  hex()
 //
-//  always leading zero's - no prefix - no separator
+//  always leading zero's - no prefix - no separators
 char * hex(uint64_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -380,7 +393,7 @@ char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits
 //
 //  BIN
 //
-//  always leading zero's - no prefix - no separator
+//  always leading zero's - no prefix - no separators
 char * bin(uint64_t value, uint8_t digits)
 {
   uint64_t val = value;
@@ -416,11 +429,10 @@ char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits
 
 ////////////////////////////////////////////////////////////
 //
-//  toRoman
+//  toRoman()
 //
-//  extended with 10K units generated with the same but lower case chars.
-//  would expect a special char for 5000?
-//  need investigation.
+//  value should be in range 1..9999
+//  values 10K-100M are experimental in lower case (see readme.md)
 char * toRoman(int32_t value)
 {
   char * buffer     = __printbuffer;
@@ -486,11 +498,17 @@ char * toRoman(int32_t value)
 //
 //  Distances
 //  Experimental
-
+//
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 char * printInch(float inch, uint16_t step)
 {
   char * buffer = __printbuffer;
+  if (inch < 0)
+  {
+    //  cannot handle negative numbers.
+    strcpy(buffer, "E-NEG");
+    return buffer;
+  }
   uint32_t whole = inch;
   uint8_t num = round((inch - whole) * step);
   if (num == step)
@@ -499,7 +517,7 @@ char * printInch(float inch, uint16_t step)
     num = 0;
   }
   uint8_t den = step;
-  //  optional reduce
+  //  reduce factors 2
   while ((num > 0) && ((num & 1) == 0))
   {
     num >>= 1;
@@ -519,6 +537,12 @@ char * printInch(float inch, uint16_t step)
 char * printFeet(float feet)
 {
   char * buffer = __printbuffer;
+  if (feet < 0)
+  {
+    //  cannot handle negative numbers.
+    strcpy(buffer, "E-NEG");
+    return buffer;
+  }
   uint32_t ft = feet;
   uint8_t inch = round((feet - ft) * 12);
   if (inch == 12)
@@ -528,9 +552,9 @@ char * printFeet(float feet)
   }
 #if defined(ESP32)
   //  ESP32 does not support %ld  or ltoa()
-  sprintf(buffer, "%d\"%d\'", ft, inch);
+  sprintf(buffer, "%d\'%d\"", ft, inch);
 #else
-  sprintf(buffer, "%ld\"%d\'", ft, inch);
+  sprintf(buffer, "%ld\'%d\"", ft, inch);
 #endif
   return buffer;
 }
@@ -541,29 +565,29 @@ char * printFeet(float feet)
 //  Comma Separated Integers
 //  Experimental
 //
-//  TODO
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
 //
-char * csi(int64_t value)
+char * csi(int64_t value, char separator)
 {
   char * buffer = __printbuffer;
+  int64_t val = value;
   int index = 0;
-  bool negative = (value < 0);
+  bool negative = (val < 0);
   if (negative)
   {
-    value = -value;
+    val = -val;
   }
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   if (negative)
@@ -580,25 +604,26 @@ char * csi(int64_t value)
   return buffer;
 }
 
-char * csi(int32_t value)
+char * csi(int32_t value, char separator)
 {
+  int32_t val = value;
   char * buffer = __printbuffer;
   int index = 0;
-  bool negative = (value < 0);
+  bool negative = (val < 0);
   if (negative)
   {
-    value = -value;
+    val = -val;
   }
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   if (negative)
@@ -615,31 +640,32 @@ char * csi(int32_t value)
   return buffer;
 }
 
-char * csi(int16_t value)
+char * csi(int16_t value, char separator)
 {
-  return csi((int32_t)value);
+  return csi((int32_t)value, separator);
 }
 
-char * csi(int8_t value)
+char * csi(int8_t value, char separator)
 {
-  return csi((int32_t)value);
+  return csi((int32_t)value, separator);
 }
 
 
-char * csi(uint64_t value)
+char * csi(uint64_t value, char separator)
 {
   char * buffer = __printbuffer;
+  uint64_t val = value;
   int index = 0;
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   buffer[index--] = 0;
@@ -652,20 +678,21 @@ char * csi(uint64_t value)
   return buffer;
 }
 
-char * csi(uint32_t value)
+char * csi(uint32_t value, char separator)
 {
   char * buffer = __printbuffer;
+  uint64_t val = value;
   int index = 0;
   int threeCount = 0;
-  while (value > 0)
+  while (val > 0)
   {
-    buffer[index++] = '0' +  value % 10;
-    value /= 10;
+    buffer[index++] = '0' +  val % 10;
+    val /= 10;
     threeCount++;
-    if ((threeCount == 3) && (value > 0))
+    if ((threeCount == 3) && (val > 0))
     {
       threeCount = 0;
-      buffer[index++] = ',';
+      buffer[index++] = separator;
     }
   }
   buffer[index--] = 0;
@@ -678,14 +705,14 @@ char * csi(uint32_t value)
   return buffer;
 }
 
-char * csi(uint16_t value)
+char * csi(uint16_t value, char separator)
 {
-  return csi((uint32_t)value);
+  return csi((uint32_t)value, separator);
 }
 
-char * csi(uint8_t value)
+char * csi(uint8_t value, char separator)
 {
-  return csi((uint32_t)value);
+  return csi((uint32_t)value, separator);
 }
 
 
@@ -798,7 +825,7 @@ char * fraction(double value)
 }
 
 
-char * fraction(double value, uint32_t denum)
+char * fraction(double value, uint32_t denominator)
 {
   static char buffer[20];
   if (isnan(value))
@@ -826,10 +853,10 @@ char * fraction(double value, uint32_t denum)
     value -= whole;
   }
 
-  uint32_t num = round(value * denum);
+  uint32_t numerator = round(value * denominator);
   //  find GCD
-  uint32_t a = num;
-  uint32_t b = denum;
+  uint32_t a = numerator;
+  uint32_t b = denominator;
   while ( a != 0 )
   {
     uint32_t c = a;
@@ -837,27 +864,30 @@ char * fraction(double value, uint32_t denum)
     b = c;
   }
   //  simplify
-  denum /= b;
-  num /= b;
+  denominator /= b;
+  numerator /= b;
 
   //  produce the string
-  if (whole > 0) num += whole * denum;
+  if (whole > 0)
+  {
+    numerator += whole * denominator;
+  }
   if (negative)
   {
     #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d/%d", num, denum);
+    sprintf(buffer, "-%d/%d", numerator, denominator);
     #else
-    sprintf(buffer, "-%ld/%ld", num, denum);
+    sprintf(buffer, "-%ld/%ld", numerator, denominator);
     #endif
   }
   else
   {
     #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "%d/%d", num, denum);
+    sprintf(buffer, "%d/%d", numerator, denominator);
     #else
-    sprintf(buffer, "%ld/%ld", num, denum);
+    sprintf(buffer, "%ld/%ld", numerator, denominator);
     #endif
   }
   return buffer;
@@ -865,6 +895,4 @@ char * fraction(double value, uint32_t denum)
 
 
 //  -- END OF FILE --
-
-
 

@@ -35,17 +35,73 @@ unittest_teardown()
 }
 
 
-unittest(test_constants_I)
+unittest(test_constants_1)
 {
   assertEqual(0x48, ADS1015_ADDRESS);
   assertEqual(0x48, ADS1115_ADDRESS);
+}
 
+
+unittest(test_constants_error_codes)
+{
   assertEqual(   0, ADS1X15_OK);
   assertEqual(-100, ADS1X15_INVALID_VOLTAGE);
   assertEqual(-101, ADS1X15_ERROR_TIMEOUT);
   assertEqual(-102, ADS1X15_ERROR_I2C);
   assertEqual(0xFF, ADS1X15_INVALID_GAIN);
   assertEqual(0xFE, ADS1X15_INVALID_MODE);
+}
+
+
+unittest(test_constants_parameters)
+{
+//  PARAMETER setDataRate()
+  assertEqual(0x00, ADS1X15_DATARATE_0);
+  assertEqual(0x01, ADS1X15_DATARATE_1);
+  assertEqual(0x02, ADS1X15_DATARATE_2);
+  assertEqual(0x03, ADS1X15_DATARATE_3);
+  assertEqual(0x04, ADS1X15_DATARATE_4);
+  assertEqual(0x05, ADS1X15_DATARATE_5);
+  assertEqual(0x06, ADS1X15_DATARATE_6);
+  assertEqual(0x07, ADS1X15_DATARATE_7);
+
+//  PARAMETER setGain()
+  assertEqual(0x00, ADS1X15_GAIN_6144MV);
+  assertEqual(0x01, ADS1X15_GAIN_4096MV);
+  assertEqual(0x02, ADS1X15_GAIN_2048MV);
+  assertEqual(0x04, ADS1X15_GAIN_1024MV);
+  assertEqual(0x08, ADS1X15_GAIN_0512MV);
+  assertEqual(0x10, ADS1X15_GAIN_0256MV);
+
+//  PARAMETER setComparatorMode()
+  assertEqual(0x00, ADS1x15_COMP_MODE_TRADITIONAL);
+  assertEqual(0x01, ADS1x15_COMP_MODE_WINDOW);
+
+//  PARAMETER setComparatorPolarity()
+  assertEqual(0x00, ADS1x15_COMP_POL_FALLING_EDGE);
+  assertEqual(0x01, ADS1x15_COMP_POL_RISING_EDGE);
+
+//  PARAMETER setComparatorLatch()
+  assertEqual(0x00, ADS1x15_COMP_POL_NOLATCH);
+  assertEqual(0x01, ADS1x15_COMP_POL_LATCH);
+
+//  PARAMETER setComparatorQueConvert()
+  assertEqual(0x00, ADS1x15_COMP_QUE_CONV_TRIGGER_1);
+  assertEqual(0x01, ADS1x15_COMP_QUE_CONV_TRIGGER_2);
+  assertEqual(0x02, ADS1x15_COMP_QUE_CONV_TRIGGER_4);
+  assertEqual(0x03, ADS1x15_COMP_QUE_CONV_DISABLE);
+}
+
+
+unittest(test_constants_full_scale_range)
+{
+//  GAIN TO VOLTAGE FULL SCALE (See #91)
+  assertEqual(6.144, ADS1x15_GAIN_6144MV_FSRANGE_V);
+  assertEqual(4.096, ADS1x15_GAIN_4096MV_FSRANGE_V);
+  assertEqual(2.048, ADS1x15_GAIN_2048MV_FSRANGE_V);
+  assertEqual(1.024, ADS1x15_GAIN_1024MV_FSRANGE_V);
+  assertEqual(0.512, ADS1x15_GAIN_0512MV_FSRANGE_V);
+  assertEqual(0.256, ADS1x15_GAIN_0256MV_FSRANGE_V);
 }
 
 
@@ -266,6 +322,24 @@ unittest(test_comparator_que_convert)
   //  test out of range
   ADS.setComparatorQueConvert(4);
   assertEqual(3, ADS.getComparatorQueConvert());
+}
+
+
+unittest(test_getMaxRegValue)
+{
+  ADS1013 ADS0(0x48);
+  ADS1014 ADS1(0x48);
+  ADS1015 ADS2(0x48);
+  ADS1113 ADS3(0x49);
+  ADS1114 ADS4(0x49);
+  ADS1115 ADS5(0x49);
+
+  assertEqual(2047,  ADS0.getMaxRegValue());
+  assertEqual(2047,  ADS1.getMaxRegValue());
+  assertEqual(2047,  ADS2.getMaxRegValue());
+  assertEqual(32767, ADS3.getMaxRegValue());
+  assertEqual(32767, ADS4.getMaxRegValue());
+  assertEqual(32767, ADS5.getMaxRegValue());
 }
 
 

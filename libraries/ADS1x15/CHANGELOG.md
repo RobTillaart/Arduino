@@ -5,13 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2025-06-22
+- fix #91, problem with LATCH constants
+- add ( ) to the #defines, see #91
+- add getMaxRegValue(), see #91
+- fix #90, change parameter type toVoltage(float)
+- improve performance toVoltage(float)
+- update parameter constants section in .h file
+- update readme.md, interrupt and ALERT/RDY section (kudos to ejdp62)
+- update keywords.txt
+- update unit_tests (constants)
+- update readme.md
+- minor edits
+
 ## [0.5.2] - 2025-01-27
 - Add note about falling edge when using interrupts, see #87
 - update comments in some examples
-- minor edits 
+- minor edits
 
 ## [0.5.1] - 2024-10-17
-- fix #82, minimal timeout 10 ms for RTOS, kudos to deKees687 
+- fix #82, minimal timeout 10 ms for RTOS, kudos to deKees687
 - set error flag for TIMEOUT
 - add error codes to keywords.txt
 

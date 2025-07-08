@@ -48,9 +48,11 @@ uint32_t lastTime = 0;
 void setup()
 {
   Serial.begin(230400);       //  <<<<<<<<<  fast!
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(400000);

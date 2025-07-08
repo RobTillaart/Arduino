@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -10,49 +10,49 @@
 #include "ADS1X15.h"
 
 
-#define ADS1015_CONVERSION_DELAY    1
-#define ADS1115_CONVERSION_DELAY    8
+#define ADS1015_CONVERSION_DELAY    ( 1 )
+#define ADS1115_CONVERSION_DELAY    ( 8 )
 
 
 //  Kept #defines a bit in line with Adafruit library.
 
 //  REGISTERS
-#define ADS1X15_REG_CONVERT         0x00
-#define ADS1X15_REG_CONFIG          0x01
-#define ADS1X15_REG_LOW_THRESHOLD   0x02
-#define ADS1X15_REG_HIGH_THRESHOLD  0x03
+#define ADS1X15_REG_CONVERT         ( 0x00 )
+#define ADS1X15_REG_CONFIG          ( 0x01 )
+#define ADS1X15_REG_LOW_THRESHOLD   ( 0x02 )
+#define ADS1X15_REG_HIGH_THRESHOLD  ( 0x03 )
 
 
 //  CONFIG REGISTER
 
 //  BIT 15      Operational Status           //  1 << 15
-#define ADS1X15_OS_BUSY             0x0000
-#define ADS1X15_OS_NOT_BUSY         0x8000
-#define ADS1X15_OS_START_SINGLE     0x8000
+#define ADS1X15_OS_BUSY             ( 0x0000 )
+#define ADS1X15_OS_NOT_BUSY         ( 0x8000 )
+#define ADS1X15_OS_START_SINGLE     ( 0x8000 )
 
 //  BIT 12-14   read differential
-#define ADS1X15_MUX_DIFF_0_1        0x0000
-#define ADS1X15_MUX_DIFF_0_3        0x1000
-#define ADS1X15_MUX_DIFF_1_3        0x2000
-#define ADS1X15_MUX_DIFF_2_3        0x3000
+#define ADS1X15_MUX_DIFF_0_1        ( 0x0000 )
+#define ADS1X15_MUX_DIFF_0_3        ( 0x1000 )
+#define ADS1X15_MUX_DIFF_1_3        ( 0x2000 )
+#define ADS1X15_MUX_DIFF_2_3        ( 0x3000 )
 //              read single
-#define ADS1X15_READ_0              0x4000   //  pin << 12
-#define ADS1X15_READ_1              0x5000   //  pin = 0..3
-#define ADS1X15_READ_2              0x6000
-#define ADS1X15_READ_3              0x7000
+#define ADS1X15_READ_0              ( 0x4000 )   //  pin << 12
+#define ADS1X15_READ_1              ( 0x5000 )   //  pin = 0..3
+#define ADS1X15_READ_2              ( 0x6000 )
+#define ADS1X15_READ_3              ( 0x7000 )
 
 
 //  BIT 9-11    gain                         //  (0..5) << 9
-#define ADS1X15_PGA_6_144V          0x0000   //  voltage
-#define ADS1X15_PGA_4_096V          0x0200   //
-#define ADS1X15_PGA_2_048V          0x0400   //  default
-#define ADS1X15_PGA_1_024V          0x0600
-#define ADS1X15_PGA_0_512V          0x0800
-#define ADS1X15_PGA_0_256V          0x0A00
+#define ADS1X15_PGA_6_144V          ( 0x0000 )   //  voltage
+#define ADS1X15_PGA_4_096V          ( 0x0200 )   //
+#define ADS1X15_PGA_2_048V          ( 0x0400 )   //  default
+#define ADS1X15_PGA_1_024V          ( 0x0600 )
+#define ADS1X15_PGA_0_512V          ( 0x0800 )
+#define ADS1X15_PGA_0_256V          ( 0x0A00 )
 
 //  BIT 8       mode                         //  1 << 8
-#define ADS1X15_MODE_CONTINUE       0x0000
-#define ADS1X15_MODE_SINGLE         0x0100
+#define ADS1X15_MODE_CONTINUE       ( 0x0000 )
+#define ADS1X15_MODE_ONCE           ( 0x0100 )
 
 //  BIT 5-7     data rate sample per second  //  (0..7) << 5
 /*
@@ -71,22 +71,22 @@ differs for different devices, check datasheet or readme.md
 */
 
 //  BIT 4 comparator modi                    //  1 << 4
-#define ADS1X15_COMP_MODE_TRADITIONAL   0x0000
-#define ADS1X15_COMP_MODE_WINDOW        0x0010
+#define ADS1X15_COMP_MODE_TRADITIONAL   ( 0x0000 )
+#define ADS1X15_COMP_MODE_WINDOW        ( 0x0010 )
 
 //  BIT 3 ALERT active value                 //  1 << 3
-#define ADS1X15_COMP_POL_ACTIV_LOW      0x0000
-#define ADS1X15_COMP_POL_ACTIV_HIGH     0x0008
+#define ADS1X15_COMP_POL_ACTIV_LOW      ( 0x0000 )
+#define ADS1X15_COMP_POL_ACTIV_HIGH     ( 0x0008 )
 
 //  BIT 2 ALERT latching                     //  1 << 2
-#define ADS1X15_COMP_NON_LATCH          0x0000
-#define ADS1X15_COMP_LATCH              0x0004
+#define ADS1X15_COMP_NON_LATCH          ( 0x0000 )
+#define ADS1X15_COMP_LATCH              ( 0x0004 )
 
 //  BIT 0-1 ALERT mode                       //  (0..3)
-#define ADS1X15_COMP_QUE_1_CONV         0x0000  //  trigger alert after 1 convert
-#define ADS1X15_COMP_QUE_2_CONV         0x0001  //  trigger alert after 2 converts
-#define ADS1X15_COMP_QUE_4_CONV         0x0002  //  trigger alert after 4 converts
-#define ADS1X15_COMP_QUE_NONE           0x0003  //  disable comparator
+#define ADS1X15_COMP_QUE_1_CONV         ( 0x0000 )  //  trigger alert after 1 convert
+#define ADS1X15_COMP_QUE_2_CONV         ( 0x0001 )  //  trigger alert after 2 converts
+#define ADS1X15_COMP_QUE_4_CONV         ( 0x0002 )  //  trigger alert after 4 converts
+#define ADS1X15_COMP_QUE_NONE           ( 0x0003 )  //  disable comparator
 
 
 //  _CONFIG masks
@@ -102,14 +102,14 @@ differs for different devices, check datasheet or readme.md
 //  |   6   |  -                     |
 //  |   7   |  -                     |
 //
-#define ADS_CONF_CHAN_1  0x00
-#define ADS_CONF_CHAN_4  0x01
-#define ADS_CONF_RES_12  0x00
-#define ADS_CONF_RES_16  0x04
-#define ADS_CONF_NOGAIN  0x00
-#define ADS_CONF_GAIN    0x10
-#define ADS_CONF_NOCOMP  0x00
-#define ADS_CONF_COMP    0x20
+#define ADS_CONF_CHAN_1                 ( 0x00 )
+#define ADS_CONF_CHAN_4                 ( 0x01 )
+#define ADS_CONF_RES_12                 ( 0x00 )
+#define ADS_CONF_RES_16                 ( 0x04 )
+#define ADS_CONF_NOGAIN                 ( 0x00 )
+#define ADS_CONF_GAIN                   ( 0x10 )
+#define ADS_CONF_NOCOMP                 ( 0x00 )
+#define ADS_CONF_COMP                   ( 0x20 )
 
 
 //////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ ADS1X15::ADS1X15()
 void ADS1X15::reset()
 {
   setGain(0);      //  _gain = ADS1X15_PGA_6_144V;
-  setMode(1);      //  _mode = ADS1X15_MODE_SINGLE;
+  setMode(1);      //  _mode = ADS1X15_MODE_ONCE;
   setDataRate(4);  //  middle speed, depends on device.
 
   //  COMPARATOR variables   #  see notes .h
@@ -189,7 +189,7 @@ uint8_t ADS1X15::getGain()
 }
 
 
-float ADS1X15::toVoltage(int16_t value)
+float ADS1X15::toVoltage(float value)
 {
   if (value == 0) return 0;
 
@@ -199,11 +199,13 @@ float ADS1X15::toVoltage(int16_t value)
   volts *= value;
   if (_config & ADS_CONF_RES_16)
   {
-    volts /= 32767;  //  value = 16 bits - sign bit = 15 bits mantissa
+    //  value = 16 bits - sign bit = 15 bits mantissa
+    volts *= 3.0518509475997E-5;  //  volts /= 32767;
   }
   else
   {
-    volts /= 2047;   //  value = 12 bits - sign bit = 11 bit mantissa
+    //  value = 12 bits - sign bit = 11 bit mantissa
+    volts *= 4.8851978505129E-4;  //  volts /= 2047;
   }
   return volts;
 }
@@ -213,12 +215,12 @@ float ADS1X15::getMaxVoltage()
 {
   switch (_gain)
   {
-    case ADS1X15_PGA_6_144V: return 6.144;
-    case ADS1X15_PGA_4_096V: return 4.096;
-    case ADS1X15_PGA_2_048V: return 2.048;
-    case ADS1X15_PGA_1_024V: return 1.024;
-    case ADS1X15_PGA_0_512V: return 0.512;
-    case ADS1X15_PGA_0_256V: return 0.256;
+    case ADS1X15_PGA_6_144V: return ADS1x15_GAIN_6144MV_FSRANGE_V;
+    case ADS1X15_PGA_4_096V: return ADS1x15_GAIN_4096MV_FSRANGE_V;
+    case ADS1X15_PGA_2_048V: return ADS1x15_GAIN_2048MV_FSRANGE_V;
+    case ADS1X15_PGA_1_024V: return ADS1x15_GAIN_1024MV_FSRANGE_V;
+    case ADS1X15_PGA_0_512V: return ADS1x15_GAIN_0512MV_FSRANGE_V;
+    case ADS1X15_PGA_0_256V: return ADS1x15_GAIN_0256MV_FSRANGE_V;
   }
   _error = ADS1X15_INVALID_VOLTAGE;
   return _error;
@@ -231,7 +233,7 @@ void ADS1X15::setMode(uint8_t mode)
   {
     case 0: _mode = ADS1X15_MODE_CONTINUE; break;
     default:  //  catch invalid modi
-    case 1: _mode = ADS1X15_MODE_SINGLE;   break;
+    case 1: _mode = ADS1X15_MODE_ONCE;   break;
   }
 }
 
@@ -241,7 +243,7 @@ uint8_t ADS1X15::getMode(void)
   switch (_mode)
   {
     case ADS1X15_MODE_CONTINUE: return 0;
-    case ADS1X15_MODE_SINGLE:   return 1;
+    case ADS1X15_MODE_ONCE:   return 1;
   }
   _error = ADS1X15_INVALID_MODE;
   return _error;
@@ -452,7 +454,7 @@ int16_t ADS1X15::_readADC(uint16_t readmode)
   //  note readmode includes the channel
   _requestADC(readmode);
 
-  if (_mode == ADS1X15_MODE_SINGLE)
+  if (_mode == ADS1X15_MODE_ONCE)
   {
     uint32_t start = millis();
     //  timeout == { 138, 74, 42, 26, 18, 14, 12, 11 }

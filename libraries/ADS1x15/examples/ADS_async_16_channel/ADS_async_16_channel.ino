@@ -24,9 +24,11 @@ uint32_t last = 0, now = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

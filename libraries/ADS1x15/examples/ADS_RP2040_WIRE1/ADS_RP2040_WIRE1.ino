@@ -28,9 +28,11 @@ ADS1115 ADS(0x48, &Wire1);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADS1X15_LIB_VERSION: ");
   Serial.println(ADS1X15_LIB_VERSION);
+  Serial.println();
 
   //  SDA (Pin 26), SCL(Pin 27)
   Wire1.begin();

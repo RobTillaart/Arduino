@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -12,45 +12,79 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.5.2"))
+#define ADS1X15_LIB_VERSION               (F("0.5.3"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
 #ifndef ADS1015_ADDRESS
-#define ADS1015_ADDRESS                   0x48
+#define ADS1015_ADDRESS                   ( 0x48 )
 #endif
 
 #ifndef ADS1115_ADDRESS
-#define ADS1115_ADDRESS                   0x48
+#define ADS1115_ADDRESS                   ( 0x48 )
 #endif
 
 
-#define ADS1X15_OK                        0
-#define ADS1X15_INVALID_VOLTAGE           -100
-#define ADS1X15_ERROR_TIMEOUT             -101
-#define ADS1X15_ERROR_I2C                 -102
-#define ADS1X15_INVALID_GAIN              0xFF
-#define ADS1X15_INVALID_MODE              0xFE
+//  ERROR CONSTANTS
+#define ADS1X15_OK                        ( 0 )
+#define ADS1X15_INVALID_VOLTAGE           ( -100 )
+#define ADS1X15_ERROR_TIMEOUT             ( -101 )
+#define ADS1X15_ERROR_I2C                 ( -102 )
+#define ADS1X15_INVALID_GAIN              ( 0xFF )
+#define ADS1X15_INVALID_MODE              ( 0xFE )
 
 
-//  PARAMETER CONSTANTS NOT USED IN CODE YET
-//  enum ?
-#define ADS1X15_GAIN_6144MV               0x00
-#define ADS1X15_GAIN_4096MV               0x01
-#define ADS1X15_GAIN_2048MV               0x02
-#define ADS1X15_GAIN_1024MV               0x04
-#define ADS1X15_GAIN_0512MV               0x08
-#define ADS1X15_GAIN_0256MV               0x10
+//  PARAMETER CONSTANTS (not used in the code)
 
-#define ADS1x15_COMP_MODE_TRADITIONAL     0x00
-#define ADS1x15_COMP_MODE_WINDOW          0x01
+//  PARAMETER setMode()
+#define ADS1X15_MODE_CONTINUOUS           ( 0x00 )
+#define ADS1X15_MODE_SINGLE               ( 0x01 )
 
-#define ADS1x15_COMP_POL_FALLING_EDGE     0x00
-#define ADS1x15_COMP_POL_RISING_EDGE      0x01
+//  PARAMETER setDataRate()
+#define ADS1X15_DATARATE_0                ( 0x00 )
+#define ADS1X15_DATARATE_1                ( 0x01 )
+#define ADS1X15_DATARATE_2                ( 0x02 )
+#define ADS1X15_DATARATE_3                ( 0x03 )
+#define ADS1X15_DATARATE_4                ( 0x04 )
+#define ADS1X15_DATARATE_5                ( 0x05 )
+#define ADS1X15_DATARATE_6                ( 0x06 )
+#define ADS1X15_DATARATE_7                ( 0x07 )
 
-#define ADS1x15_COMP_POL_LATCH            0x00
-#define ADS1x15_COMP_POL_NOLATCH          0x01
+//  PARAMETER setGain()    read MV as  miliVolt
+#define ADS1X15_GAIN_6144MV               ( 0x00 )
+#define ADS1X15_GAIN_4096MV               ( 0x01 )
+#define ADS1X15_GAIN_2048MV               ( 0x02 )
+#define ADS1X15_GAIN_1024MV               ( 0x04 )
+#define ADS1X15_GAIN_0512MV               ( 0x08 )
+#define ADS1X15_GAIN_0256MV               ( 0x10 )
 
+//  PARAMETER setComparatorMode()
+#define ADS1x15_COMP_MODE_TRADITIONAL     ( 0x00 )
+#define ADS1x15_COMP_MODE_WINDOW          ( 0x01 )
+
+//  PARAMETER setComparatorPolarity()
+#define ADS1x15_COMP_POL_FALLING_EDGE     ( 0x00 )
+#define ADS1x15_COMP_POL_RISING_EDGE      ( 0x01 )
+
+//  PARAMETER setComparatorLatch()
+#define ADS1x15_COMP_POL_NOLATCH          ( 0x00 )
+#define ADS1x15_COMP_POL_LATCH            ( 0x01 )
+
+//  PARAMETER setComparatorQueConvert()
+#define ADS1x15_COMP_QUE_CONV_TRIGGER_1   ( 0x00 )
+#define ADS1x15_COMP_QUE_CONV_TRIGGER_2   ( 0x01 )
+#define ADS1x15_COMP_QUE_CONV_TRIGGER_4   ( 0x02 )
+#define ADS1x15_COMP_QUE_CONV_DISABLE     ( 0x03 )
+
+
+//  GAIN TO VOLTAGE FULL SCALE (See #91)
+//  used in getMaxVoltage()
+#define ADS1x15_GAIN_6144MV_FSRANGE_V     ( 6.144 )
+#define ADS1x15_GAIN_4096MV_FSRANGE_V     ( 4.096 )
+#define ADS1x15_GAIN_2048MV_FSRANGE_V     ( 2.048 )
+#define ADS1x15_GAIN_1024MV_FSRANGE_V     ( 1.024 )
+#define ADS1x15_GAIN_0512MV_FSRANGE_V     ( 0.512 )
+#define ADS1x15_GAIN_0256MV_FSRANGE_V     ( 0.256 )
 
 
 class ADS1X15
@@ -71,25 +105,24 @@ public:
   void     setGain(uint8_t gain = 0);    //  invalid values are mapped to 0 (default).
   uint8_t  getGain();                    //  0xFF == invalid gain error.
 
+  //  both return ADS1X15_INVALID_VOLTAGE if the gain is invalid.
+  float    toVoltage(float value = 1);   //  converts raw to voltage (can be an average!)
+  float    getMaxVoltage();              //  returns voltage with current gain
 
-  //  both may return ADS1X15_INVALID_VOLTAGE if the gain is invalid.
-  float    toVoltage(int16_t value = 1); //   converts raw to voltage
-  float    getMaxVoltage();              //   -100 == invalid voltage error
-
-
+  //  MODE
   //  0  =  CONTINUOUS
   //  1  =  SINGLE       default
   void     setMode(uint8_t mode = 1);    //  invalid values are mapped to 1 (default)
   uint8_t  getMode();                    //  0xFE == invalid mode error.
 
-
+  //  DATARATE
   //  0  =  slowest
   //  7  =  fastest
   //  4  =  default
   void     setDataRate(uint8_t dataRate = 4);  //  invalid values are mapped on 4 (default)
   uint8_t  getDataRate();                      //  actual speed depends on device
 
-
+  //  READ
   int16_t  readADC(uint8_t pin = 0);
   int16_t  readADC_Differential_0_1();
 
@@ -107,11 +140,10 @@ public:
   bool     isBusy();
   bool     isReady();
 
-
   //  returns a pin 0x0[0..3] or
   //          a differential "mode" 0x[pin second][pin first] or
   //          0xFF (no request / invalid request)
-  uint8_t   lastRequest();
+  uint8_t  lastRequest();
 
 
   //  COMPARATOR
@@ -142,17 +174,28 @@ public:
   void     setComparatorThresholdHigh(int16_t hi);
   int16_t  getComparatorThresholdHigh();
 
-
+  //  ERROR HANDLING
   int8_t   getError();
 
 
   //  EXPERIMENTAL
   //  see https://github.com/RobTillaart/ADS1X15/issues/22
+  //      to be removed when next issue is solved
+  //      https://github.com/arduino/Arduino/issues/11457
   void     setWireClock(uint32_t clockSpeed = 100000);
   //  prototype
   //  - getWireClock returns the value set by setWireClock
-  //    not necessary the actual value
+  //    not necessary the actual value as it can be overwritten
+  //    by other code.
   uint32_t getWireClock();
+
+  //  EXPERIMENTAL
+  //  see https://github.com/RobTillaart/ADS1X15/issues/91
+  //  returns the max raw value when reading.
+  inline uint16_t getMaxRegValue()
+  {
+    return (_config & 0x04) ? 32767 : 2047;
+  };
 
 
 protected:

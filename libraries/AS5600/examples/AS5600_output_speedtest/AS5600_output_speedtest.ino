@@ -67,6 +67,7 @@ void setup()
 {
   while (!Serial);
   Serial.begin(460800);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);

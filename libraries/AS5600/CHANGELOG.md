@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.6] - 2025-07-08
+- update **AS5600_burn_zpos.ino** (#38, kudos to eriknz)
+- add **AS5600_detect_type.ino** for debugging purpose
+- add **AS5600_pwm_test2.ino** optimized PWM version
+- update comments
+- update readme.md
+- remove ESP8266 from build (as build takes long)
+- minor edits
+
 ## [0.6.5] - 2025-03-13
 - update examples - added while(!Serial);
 - minor edits.

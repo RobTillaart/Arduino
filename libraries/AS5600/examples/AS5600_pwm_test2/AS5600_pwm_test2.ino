@@ -1,5 +1,5 @@
 //
-//    FILE: AS5600_pwm_test.ino
+//    FILE: AS5600_pwm_test2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AS5600
@@ -7,11 +7,34 @@
 //
 //  monitor the PWM output to determine the angle
 //  not tested with hardware yet
+//
+//  this is a slightly optimized version of AS5600_pwm_test.ino
 
 
 int PWMpin = 7;
 
-long fullPeriod = 0;
+//  variables for the timing
+float bitTime = 1.0;
+float f1 = 1.0;
+float f2 = 1.0;
+
+void measurePWMBitTime()
+{
+  // wait for LOW
+  while (digitalRead(PWMpin) == HIGH);
+  // wait for HIGH
+  while (digitalRead(PWMpin) == LOW);
+  uint32_t rise = micros();
+  // wait for LOW
+  while (digitalRead(PWMpin) == HIGH);
+  // wait for HIGH
+  while (digitalRead(PWMpin) == LOW);
+  long fullPeriod = micros() - rise;
+  bitTime = fullPeriod / 4351.0;
+  //  precalculate constants.
+  f1 = 128 * bitTime;
+  f2 = (360.0 / (4095 * bitTime));
+}
 
 
 float measureAngle()
@@ -26,13 +49,11 @@ float measureAngle()
   while (digitalRead(PWMpin) == HIGH);
   uint32_t highPeriod = micros() - rise;
 
-  // wait for HIGH
-  while (digitalRead(PWMpin) == LOW);
-  fullPeriod = micros() - rise;
-
-  float bitTime = fullPeriod / 4351.0;
-  float dataPeriod = highPeriod - 128 * bitTime;
-  float angle = 360.0 * dataPeriod / (4095 * bitTime);
+  //  precalculated constant
+  //  f1 = 128 * bittime
+  //  f2 = 360.0 / (4095 * bitTime)
+  float dataPeriod = highPeriod - f1;
+  float angle = dataPeriod * f2;
   return angle;
 }
 
@@ -54,6 +75,8 @@ void setup()
   Serial.println();
 
   pinMode(PWMpin, INPUT_PULLUP);
+  measurePWMBitTime();
+  
 
 //  //  test code
 //  for (int pwm = 0; pwm < 4096; pwm++)

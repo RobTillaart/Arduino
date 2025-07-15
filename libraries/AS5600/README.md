@@ -28,7 +28,7 @@ The sensor can measure a full rotation in 4096 steps.
 The precision of the position is therefore limited to approx 0.1°.
 Noise levels are unknown, but one might expect that the sensor is affected by electric
 and or magnetic signals in the environment.
-Also unknown is the influence of metals near the sensor or an unstable 
+Also unknown is the influence of metals near the sensor or an unstable
 or fluctuating power supply.
 
 Please share your experiences.
@@ -49,7 +49,7 @@ Version 0.6.2 fixes bugs that might affect your code.
 Version 0.5.0 introduced a breaking change.
 You cannot set the SDA and SCL pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the I2C pins 
+The user has to call **Wire.begin()** and can optionally set the I2C pins
 before calling **AS5600.begin()**.
 
 
@@ -75,7 +75,7 @@ and Fast-Mode-Plus == 1000 KHz.
 
 ### Pull ups
 
-I2C performance tests with an AS5600L with an UNO failed at 400 KHz. 
+I2C performance tests with an AS5600L with an UNO failed at 400 KHz.
 After investigation it became clear that pull ups are mandatory.
 The UNO expects 5 Volt I2C signals from the AS5600.
 However the device only provides 3V3 pulses on the bus.
@@ -87,11 +87,11 @@ After applying pull ups the AS5600L worked up to 1000 KHz.
 
 From datasheet, page 30 - Direction (clockwise vs. counter-clockwise)
 
-_**The AS5600 allows controlling the direction of the magnet 
+_**The AS5600 allows controlling the direction of the magnet
 rotation with the DIR pin. If DIR is connected to GND (DIR = 0)
-a clockwise rotation viewed from the top will generate an 
+a clockwise rotation viewed from the top will generate an
 increment of the calculated angle. If the DIR pin is connected
-to VDD (DIR = 1) an increment of the calculated angle will 
+to VDD (DIR = 1) an increment of the calculated angle will
 happen with counter-clockwise rotation.**_
 
 This AS5600 library offers a 3rd option for the DIR (direction) pin of the sensor:
@@ -100,14 +100,14 @@ This AS5600 library offers a 3rd option for the DIR (direction) pin of the senso
 1. Connect to **VCC** ==> fixed counter-clockwise.
 1. Connect to an IO pin of the processor == Hardware Direction Control by library.
 
-In the 3rd configuration the library controls the direction of counting by initializing 
-this pin in **begin(directionPin)**, followed by **setDirection(direction)**. 
+In the 3rd configuration the library controls the direction of counting by initializing
+this pin in **begin(directionPin)**, followed by **setDirection(direction)**.
 For the parameter direction the library defines two constants named:
 
 - **AS5600_CLOCK_WISE (0)**
 - **AS5600_COUNTERCLOCK_WISE (1)**
 
-(\*) if **begin()** is called without **directionPin** or with this 
+(\*) if **begin()** is called without **directionPin** or with this
 parameter set to **255**, Software Direction Control is enabled.
 
 See Software Direction Control below for more information.
@@ -129,7 +129,7 @@ See more in the sections Analog OUT and PWM OUT below.
 #### Note: (From Zipdox2 - See issue #36)
 
 Some AS5600 modules seem to have a resistor between **PGO** and **GND**.
-This causes the AS5600 to disable the output (to use it for programming, see datasheet). 
+This causes the AS5600 to disable the output (to use it for programming, see datasheet).
 This resistor needs to be removed to use the **OUT** pin.
 
 
@@ -145,7 +145,7 @@ See datasheet for a detailed list of steps to be done.
 See **Make configuration persistent** below.
 
 
-## I2C 
+## I2C
 
 The I2C address of the **AS5600** is always 0x36.
 
@@ -159,28 +159,28 @@ The I2C address of the **AS5600** is always 0x36.
 To use more than one **AS5600** on one I2C bus, see Multiplexing below.
 
 The **AS5600L** supports the change of I2C address, optionally permanent.
-Check the **setAddress()** function for non-permanent change. 
+Check the **setAddress()** function for non-permanent change.
 
 
 ### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
-This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
-to eight channels (think of it as I2C subnets) which can use the complete 
-address range of the device. 
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-Drawback of using a multiplexer is that it takes more administration in 
-your code e.g. which device is on which channel. 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
 This will slow down the access, which must be taken into account when
 deciding which devices are on which channel.
-Also note that switching between channels will slow down other devices 
+Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
 
-Alternative could be the use of a AND port for the I2C clock line to prevent 
-the sensor from listening to signals on the I2C bus. 
+Alternative could be the use of a AND port for the I2C clock line to prevent
+the sensor from listening to signals on the I2C bus.
 
 Finally the sensor has an analogue output **OUT**.
 This output could be used to connect multiple sensors to different analogue ports of the processor.
@@ -206,8 +206,8 @@ When polling the AS5600 with an ESP32 to measure RPM an issue has been reported.
 See https://github.com/RobTillaart/AS5600/issues/28
 
 The problem is that the ESP32 can be blocking for up to one second if there is a
-problem in the connection with the sensor. 
-Using **setWireTimeout()** does not seem to solve the problem (2023-01-31). 
+problem in the connection with the sensor.
+Using **setWireTimeout()** does not seem to solve the problem (2023-01-31).
 In the issue the goal was to measure the turns of a rotating device at around 3800 RPM.
 
 3800 RPM == 64 rounds / second.
@@ -253,11 +253,11 @@ Also Configuration bits below for configuration related ones.
 
 ### Constructor + I2C
 
-- **AS5600(TwoWire \*wire = &Wire)** Constructor with optional Wire 
+- **AS5600(TwoWire \*wire = &Wire)** Constructor with optional Wire
 interface as parameter.
-- **bool begin(uint8_t directionPin = AS5600_SW_DIRECTION_PIN)** 
-  set the value for the directionPin. 
-If the pin is set to AS5600_SW_DIRECTION_PIN, the default value, 
+- **bool begin(uint8_t directionPin = AS5600_SW_DIRECTION_PIN)**
+  set the value for the directionPin.
+If the pin is set to AS5600_SW_DIRECTION_PIN, the default value,
 there will be software direction control instead of hardware control.
 See below.
 - **bool isConnected()** checks if the address 0x36 (AS5600) is on the I2C bus.
@@ -277,13 +277,15 @@ See Software Direction Control below for more information.
 
 ### Configuration registers
 
-Please read the datasheet for details.
+Please read the datasheet (including. BURN section) for details.
 
-- **bool setZPosition(uint16_t value)** set start position for limited range. 
+- **bool setZPosition(uint16_t value)** set start position for limited range.
 Value = 0..4095. Returns false if parameter is out of range.
+One need to wait at least 1 ms after writing ZPOS (see BURN section datasheet).
 - **uint16_t getZPosition()** get current start position.
-- **bool setMPosition(uint16_t value)** set stop position for limited range. 
+- **bool setMPosition(uint16_t value)** set stop position for limited range.
 Value = 0..4095. Returns false if parameter is out of range.
+One need to wait at least 1 ms after writing MPOS (see BURN section datasheet).
 - **uint16_t getMPosition()** get current stop position.
 - **bool setMaxAngle(uint16_t value)** set limited range.
 Value = 0..4095. Returns false if parameter is out of range.
@@ -301,7 +303,7 @@ Returns false if parameter is out of range.
 - **uint16_t getConfigure()** returns the current configuration register a bit mask.
 
 
-|  Bit    |  short  | Description     |  Values                                                | 
+|  bit    |  short  |  description    |  values                                                |
 |:-------:|:--------|:----------------|:-------------------------------------------------------|
 |  0-1    |  PM     |  Power mode     |  00 = NOM,  01 = LPM1,   10 = LPM2,   11 = LPM3        |
 |  2-3    |  HYST   |  Hysteresis     |  00 = OFF,  01 = 1 LSB,  10 = 2 LSB,  11 = 3 LSB       |
@@ -310,14 +312,14 @@ Returns false if parameter is out of range.
 |  8-9    |  SF     |  Slow Filter    |  00 = 16x,  01 = 8x,     10 = 4x,     11 = 2x          |
 |  10-12  |  FTH    |  Fast Filter    |  Threshold 000 - 111 check datasheet                   |
 |  13     |  WD     |  Watch Dog      |  0 = OFF,    1 = ON                                    |
-|  15-14  |         |  not used       |  
+|  15-14  |         |  not used       |
 
 
 The library has functions to address these fields directly.
 
 The setters() returns false if parameter is out of range.
 
-- **bool setPowerMode(uint8_t powerMode)** 
+- **bool setPowerMode(uint8_t powerMode)**
 - **uint8_t getPowerMode()**
 - **bool setHysteresis(uint8_t hysteresis)**
 Suppresses "noise" on the output when the magnet is not moving.
@@ -337,24 +339,24 @@ In a way one is trading precision for stability.
 
 ### Read Angle
 
-- **uint16_t rawAngle()** returns 0 .. 4095. (12 bits) 
-Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625 
-or use AS5600_RAW_TO_RADIANS if needed. 
-- **uint16_t readAngle()** returns 0 .. 4095. (12 bits) 
-Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625 
+- **uint16_t rawAngle()** returns 0 .. 4095. (12 bits)
+Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625
+or use AS5600_RAW_TO_RADIANS if needed.
+- **uint16_t readAngle()** returns 0 .. 4095. (12 bits)
+Conversion factor AS5600_RAW_TO_DEGREES = 360 / 4096 = 0.087890625
 or use AS5600_RAW_TO_RADIANS if needed.
 The value of this register can be affected by the configuration bits above.
-This is the one most used. 
+This is the one most used.
 - **bool setOffset(float degrees)** overwrites the **existing** offset.
 It sets an offset in degrees, e.g. to calibrate the sensor after mounting.
-Typical values are -359.99 - 359.99 probably smaller. 
+Typical values are -359.99 - 359.99 probably smaller.
 Larger values will be mapped back to this interval.
-Be aware that larger values will affect / decrease the precision of the 
+Be aware that larger values will affect / decrease the precision of the
 measurements as floats have only 7 significant digits.
 Verify this for your application.
 Returns false if **degrees** > 360000.
 - **float getOffset()** returns offset in degrees.
-- **bool increaseOffset(float degrees)** adds degrees to the **existing** offset. 
+- **bool increaseOffset(float degrees)** adds degrees to the **existing** offset.
 If **setOffset(20)** is called first and **increaseOffset(-30)** thereafter the
 new offset is -10 degrees.
 Returns false if **degrees** > 360000.
@@ -385,8 +387,8 @@ as.increaseOffset(-30);
 
 ### Angular Speed
 
-- **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES, bool update = true)** 
-is an experimental function that returns 
+- **float getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES, bool update = true)**
+is an experimental function that returns
 an approximation of the angular speed in rotations per second.
 
 If update is false, the function will use the last read value of **readAngle()**.
@@ -397,7 +399,7 @@ See example **AS5600_position_speed.ino**.
 In case of a reading failure (when update == true), the function can return NAN.
 
 The function needs to be called at least **four** times per rotation
-or once per second to get a reasonably precision. 
+or once per second to get a reasonably precision.
 
 |  mode                 |  value  |  description   |  notes  |
 |:----------------------|:-------:|:---------------|:--------|
@@ -405,28 +407,28 @@ or once per second to get a reasonably precision.
 |  AS5600_MODE_DEGREES  |    0    |  degrees /sec  | default |
 |  other                |    -    |  degrees /sec  |         |
 
-Negative return values indicate reverse rotation. 
+Negative return values indicate reverse rotation.
 What that exactly means depends on the setup of your project.
 
 Note: the first call will return an erroneous value as it has no
-reference angle or time. 
-Also if one stops calling this function 
+reference angle or time.
+Also if one stops calling this function
 for some time the first call after such delays will be incorrect.
 
-Note: the frequency of calling this function of the sensor depends on the application. 
+Note: the frequency of calling this function of the sensor depends on the application.
 The faster the magnet rotates, the faster it may be called.
 Also if one wants to detect minute movements, calling it more often is the way to go.
 
-An alternative implementation is possible in which the angle is measured twice 
+An alternative implementation is possible in which the angle is measured twice
 with a short interval. The only limitation then is that both measurements
-should be within 180° = half a rotation. 
+should be within 180° = half a rotation.
 
 
 ### Cumulative position (experimental)
 
 Since 0.3.3 an experimental cumulative position can be requested from the library.
 The sensor does not provide interrupts to indicate a movement or revolution
-Therefore one has to poll the sensor at a frequency at least **three** times 
+Therefore one has to poll the sensor at a frequency at least **three** times
 per revolution with **getCumulativePosition()**
 
 The cumulative position (32 bits) consists of 3 parts
@@ -435,12 +437,12 @@ The cumulative position (32 bits) consists of 3 parts
 |:-------:|:--------------|:--------|
 |    31   |  sign         |  typical + == CW, - == CCW
 |  30-12  |  revolutions  |
-|  11-00  |  raw angle    |  call getCumulativePosition() 
+|  11-00  |  raw angle    |  call getCumulativePosition()
 
 
 Functions are:
 
-- **int32_t getCumulativePosition(bool update = true)** reads sensor and updates cumulative position.  
+- **int32_t getCumulativePosition(bool update = true)** reads sensor and updates cumulative position.
 Updated in 0.6.2 to follow the setting of the **directionPin**.
 If update is false, the function will use the last read value of **readAngle()**.
 This is also used by **getCumulativePosition()** and when used both these
@@ -450,11 +452,11 @@ See example **AS5600_position_speed.ino**.
 Convenience function.
 Updated in 0.6.2 to return **zero** for the first negative revolution as this
 is more correct as there is not yet a negative turn made.
-This might be breaking behavior.
+This might be breaking behaviour.
 - **int32_t resetPosition(int32_t position = 0)** resets the "revolutions" to position (default 0).
 It does not reset the delta (rotation) since last call to **getCumulativePosition()**.
 Returns last position (before reset).
-- **int32_t resetCumulativePosition(int32_t position = 0)** completely resets the cumulative counter. 
+- **int32_t resetCumulativePosition(int32_t position = 0)** completely resets the cumulative counter.
 This includes the delta (rotation) since last call to **getCumulativePosition()**.
 Returns last position (before reset).
 
@@ -471,7 +473,7 @@ int32_t resetRevolutions();   //  replaces resetPosition();
 
 Since 0.6.4 it is possible to optimize the performance of getting both.
 - **getCumulativePosition()**
-- **getAngularSpeed()** 
+- **getAngularSpeed()**
 
 As both use to read the Angle, one can reuse this by setting the update flag to false.
 One must call **readAngle()** right before both of them
@@ -479,9 +481,9 @@ In code:
 
 ```cpp
     ...
-    alpha = as5600.readAngle();
-    pos   = as5600.getCumulativePosition(false);
-    speed = as5600.getAngularSpeed(AS5600_MODE_DEGREES, false);
+    alpha    = as5600.readAngle();
+    position = as5600.getCumulativePosition(false);
+    speed    = as5600.getAngularSpeed(AS5600_MODE_DEGREES, false);
 
     //  process the values...
 ```
@@ -491,7 +493,7 @@ Please note that the **mode** parameter for getAngularSpeed() becomes mandatory.
 The call to **readAngle()** caches the angle read and uses it in both functions.
 The savings are substantial, see **AS5600_position_speed.ino**
 
-The advantage is that both speed and pos are based upon the same reading.
+The advantage is that both speed and position are based upon the same reading.
 A disadvantage is that the latter of the two calls is not max up to date.
 
 Use with care.
@@ -514,13 +516,13 @@ Scale is unclear, can be used as relative scale.
 
 Please read datasheet for details.
 
-|  Bit  | short | Description   | Values                | 
-|:-----:|:------|:-------------:|:----------------------|
-|  0-2  |       | not used      |                       |
-|  3    |  MH   | overflow      | 1 = magnet too strong |
-|  4    |  ML   | underflow     | 1 = magnet too weak   |
-|  5    |  MD   | magnet detect | 1 = magnet detected   |
-|  6-7  |       | not used      |                       |
+|  bit  | short |  description    |  values                 |
+|:-----:|:------|:---------------:|:------------------------|
+|  0-2  |       |  not used       |                         |
+|  3    |  MH   |  overflow       |  1 = magnet too strong  |
+|  4    |  ML   |  underflow      |  1 = magnet too weak    |
+|  5    |  MD   |  magnet detect  |  1 = magnet detected    |
+|  6-7  |       |  not used       |                         |
 
 
 ### Error handling
@@ -546,33 +548,34 @@ if (e != AS5600_OK)
 After reading the error status is cleared to **AS5600_OK**.
 
 
-|  Error codes              |  value  |  notes    |
-|:--------------------------|:-------:|:----------|
-|  AS5600_OK                |     0   |  default  |
-|  AS5600_ERROR_I2C_READ_0  |  -100   |
-|  AS5600_ERROR_I2C_READ_1  |  -101   |
-|  AS5600_ERROR_I2C_READ_2  |  -102   |
-|  AS5600_ERROR_I2C_READ_3  |  -103   |
-|  AS5600_ERROR_I2C_WRITE_0 |  -200   |
-|  AS5600_ERROR_I2C_WRITE_1 |  -201   |
+|  error codes               |  value  |  notes    |
+|:---------------------------|:-------:|:----------|
+|  AS5600_OK                 |     0   |  default  |
+|  AS5600_ERROR_I2C_READ_0   |  -100   |
+|  AS5600_ERROR_I2C_READ_1   |  -101   |
+|  AS5600_ERROR_I2C_READ_2   |  -102   |
+|  AS5600_ERROR_I2C_READ_3   |  -103   |
+|  AS5600_ERROR_I2C_WRITE_0  |  -200   |
+|  AS5600_ERROR_I2C_WRITE_1  |  -201   |
 
 
 ## Make configuration persistent. BURN
 
 ### Read burn count
 
-- **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS 
-registers are written to permanent memory. 
-You can only burn a new Angle 3 times to the AS5600, and only 2 times for the AS5600L. 
-This function is safe as it is readonly.
+- **uint8_t getZMCO()** reads back how many times the ZPOS and MPOS
+registers are written to permanent memory.
+You can only burn a new Angle 3 times to the AS5600, and only 2 times for the AS5600L.
+This function is safe as it is read-only.
 
 
 ### BURN function
 
-The burn functions are used to make settings persistent. 
+The burn functions are used to make ZPOS, MPOS and MANG settings persistent.
 These burn functions are permanent, therefore they are commented in the library.
-Please read datasheet twice, before uncomment them.
+Please read datasheet twice (page 21-24), before uncomment these functions.
 
+Note you need to add a delay of 1 ms after writing
 **USE AT OWN RISK**
 
 Please read datasheet **twice** as these changes are not reversible.
@@ -582,13 +585,15 @@ The risk is that you make your AS5600 / AS5600L **USELESS**.
 **USE AT OWN RISK**
 
 These are the two "unsafe" functions:
-- **void burnAngle()** writes the ZPOS and MPOS registers to permanent memory. 
+- **void burnAngle()** writes the **ZPOS** and **MPOS** registers to permanent memory.
 You can only burn a new Angle maximum **THREE** times to the AS5600
 and **TWO** times for the AS5600L.
-- **void burnSetting()** writes the MANG register to permanent memory. 
+- **void burnSetting()** writes the **MANG** register to permanent memory.
 You can write this only **ONE** time to the AS5600.
+Note that MANG can be written only if ZPOS and MPOS have **never** been
+permanently written (ZMCO == 00).
 
-Some discussion about burning see issue #38  
+Some discussion about burning see issue #38
 (I have no hands on experience with this functions)
 
 **USE AT OWN RISK**
@@ -598,21 +603,21 @@ Some discussion about burning see issue #38
 
 Experimental 0.2.0
 
-Normally one controls the direction of the sensor by connecting the DIR pin 
-to one of the available IO pins of the processor. 
+Normally one controls the direction of the sensor by connecting the DIR pin
+to one of the available IO pins of the processor.
 This IO pin is set in the library as parameter of the **begin(directionPin)** function.
 
 The directionPin is default set to 255, which defines a **Software Direction Control**.
 
 To have this working one has to connect the **DIR pin of the sensor to GND**.
-This puts the sensor in a hardware clockwise mode. Then it is up to the library 
-to do the additional math so the **readAngle()** and **rawAngle()** behave as 
+This puts the sensor in a hardware clockwise mode. Then it is up to the library
+to do the additional math so the **readAngle()** and **rawAngle()** behave as
 if the DIR pin was connected to a processor IO pin.
 
 The user still calls **setDirection()** as before to change the direction
 of the increments and decrements.
 
-The advantage is one does not need that extra IO pin from the processor. 
+The advantage is one does not need that extra IO pin from the processor.
 This makes connecting the sensor a bit easier.
 
 TODO: measure performance impact.
@@ -632,14 +637,14 @@ The OUT pin can be configured with the function:
 ### AS5600
 
 When the analog OUT mode is set the OUT pin provides a voltage
-which is linear with the angle. 
+which is linear with the angle.
 
-| VDD |  mode  | percentage | output    |  1° in V   |
-|:---:|:------:|:----------:|:---------:|:----------:|
-| 5V0 |   0    |  0 - 100%  | 0.0 - 5.0 | 0.01388889 |
-| 5V0 |   1    |  10 - 90%  | 0.5 - 4.5 | 0.01111111 |
-| 3V3 |   0    |  0 - 100%  | 0.0 - 3.3 | 0.00916667 |
-| 3V3 |   1    |  10 - 90%  | 0.3 - 3.0 | 0.00750000 |
+|  VDD  |  mode  |  percentage  |  output     |  1° in V     |
+|:-----:|:------:|:------------:|:-----------:|:------------:|
+|  5V0  |   0    |   0 - 100%   |  0.0 - 5.0  |  0.01388889  |
+|  5V0  |   1    |   10 - 90%   |  0.5 - 4.5  |  0.01111111  |
+|  3V3  |   0    |   0 - 100%   |  0.0 - 3.3  |  0.00916667  |
+|  3V3  |   1    |   10 - 90%   |  0.3 - 3.0  |  0.00750000  |
 
 To measure these angles a 10 bit ADC or higher is needed.
 
@@ -660,12 +665,12 @@ The OUT pin can be configured with the function:
 
 - **bool setOutputMode(uint8_t outputMode)** outputMode = 2 = PWM
 
-When the PWM OUT mode is set the OUT pin provides a duty cycle which is linear 
+When the PWM OUT mode is set the OUT pin provides a duty cycle which is linear
 with the angle. However they PWM has a lead in (HIGH) and a lead out (LOW).
 
 The pulse width is 4351 units, 128 high, 4095 angle, 128 low.
 
-|  Angle  |   HIGH  |  LOW   |  HIGH %  |  LOW %   |  Notes  |
+|  angle  |   HIGH  |  LOW   |  HIGH %  |  LOW %   |  notes  |
 |:-------:|:-------:|:------:|:--------:|:--------:|:--------|
 |     0   |    128  |  4223  |   2,94%  |  97,06%  |
 |    10   |    242  |  4109  |   5,56%  |  94,44%  |
@@ -677,7 +682,7 @@ The pulse width is 4351 units, 128 high, 4095 angle, 128 low.
 |   225   |   2687  |  1664  |  61,76%  |  38,24%  |
 |   270   |   3199  |  1152  |  73,53%  |  26,47%  |
 |   315   |   3711  |   640  |  85,29%  |  14,71%  |
-|   360   |   4223  |   128  |  97,06%  |   2,94%  | in fact 359.9 something as 360 == 0
+|   360   |   4223  |   128  |  97,06%  |   2,94%  |  in fact 359.9 something as 360 == 0
 
 
 ### Formula
@@ -692,7 +697,7 @@ t2 = micros();  //  rising;  new t0
 
 //  note that t2 - t0 should be a constant depending on frequency set.
 //  however as there might be up to 5% variation it cannot be hard coded.
-float dutyCycle = (1.0 * (t1 - t0)) / (t2 - t0);  
+float dutyCycle = (1.0 * (t1 - t0)) / (t2 - t0);
 float angle     = (dutyCycle - 0.0294) * (359.9 / (0.9706 - 0.0294));
 
 ```
@@ -703,16 +708,16 @@ float angle     = (dutyCycle - 0.0294) * (359.9 / (0.9706 - 0.0294));
 The AS5600 allows one to set the PWM base frequency (~5%)
 - **bool setPWMFrequency(uint8_t pwmFreq)**
 
-| mode | pwmFreq | step in us | 1° in time |
-|:----:|:-------:|:----------:|:----------:|
-|   0  |  115 Hz |    2.123   |    24.15   |
-|   1  |  230 Hz |    1.062   |    12.77   |
-|   2  |  460 Hz |    0.531   |     6.39   |
-|   3  |  920 Hz |    0.216   |     3.20   |
+|  mode  |  pwmFreq  |  step in us  |  1° in time  |
+|:------:|:---------:|:------------:|:------------:|
+|   0    |  115 Hz   |     2.123    |    24.15     |
+|   1    |  230 Hz   |     1.062    |    12.77     |
+|   2    |  460 Hz   |     0.531    |     6.39     |
+|   3    |  920 Hz   |     0.216    |     3.20     |
 
 Note that at the higher frequencies the step size becomes smaller
 and smaller and it becomes harder to measure.
-You need a sub-micro second hardware timer to measure the pulse width 
+You need a sub-micro second hardware timer to measure the pulse width
 with enough precision to get the max resolution.
 
 When PWM OUT is selected **readAngle()** will still return valid values.
@@ -734,13 +739,13 @@ This is a difference with the AS5600 constructor.
 
 ### Setting I2C UPDT
 
-UPDT = update  page 30 - AS5600L 
+UPDT = update  page 30 - AS5600L
 
 - **bool setI2CUPDT(uint8_t value)**
 - **uint8_t getI2CUPDT()**
 
 These functions seems to have only a function in relation to **setAddress()**
-so possibly obsolete in the future. 
+so possibly obsolete in the future.
 If you got other insights on these functions please let me know.
 
 ----
@@ -785,7 +790,6 @@ priority is relative.
 - rename revolution functions
   - to what?
 
-
 #### Should
 
 - Implement extended error handling in public functions.
@@ -805,7 +809,10 @@ priority is relative.
   - 1 minute (need HW)
 - check Timing Characteristics (datasheet)
   - is there improvement possible.
-
+- investigate **GEAR** idea - See PR 79
+  - wrapper class seems be ideal 
+  - GEAR myGear(AS5600 as); ->  myGear.setRatio(5); and what more?
+  - embed into main class? footprint / conditional extra math.
 
 #### Could
 
@@ -824,7 +831,7 @@ priority is relative.
 
 - fix for AS5600L as it does not support analog OUT.
   - type field?
-  - other class hierarchy? 
+  - other class hierarchy?
     - base class with commonalities?
   - ==> just ignore for now.
 - add mode parameter to offset functions.

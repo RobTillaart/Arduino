@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.5
+// VERSION: 0.6.6
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.6.5"))
+#define AS5600_LIB_VERSION              (F("0.6.6"))
 
 
 //  default addresses
@@ -119,6 +119,7 @@ public:
   void     setDirection(uint8_t direction = AS5600_CLOCK_WISE);
   uint8_t  getDirection();
 
+  //  returns how many times ZPOS and MPOS have been permanently written.
   uint8_t  getZMCO();
 
   //  0 .. 4095
@@ -211,6 +212,7 @@ public:
 
   //  BURN COMMANDS
   //  DO NOT UNCOMMENT - USE AT OWN RISK - READ DATASHEET
+  //  use getZMCO() to get the counter how often ZPOS/MPOS is "burned".
   //  void burnAngle();
   //  void burnSetting();
 

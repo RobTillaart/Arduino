@@ -8,11 +8,12 @@
 //  As burning the angle can only be done three times this sketch has to be used with care.
 //
 //  You need to
-//  - read the datasheet so you understand what you do
+//  - set ZPOS and MPOS to the correct value
+//  - read the datasheet, page 21-24, so you understand what you do
 //  - read issue #38 to understand the discussion that lead to this sketch
 //  - uncomment burnAngle() in AS5600.h and AS5600.cpp.
-//  - adjust settings and MaxAngle in burn_zpos() function below ==> line 77++
-//  - uncomment line 105 of this sketch
+//  - adjust settings and MaxAngle in burn_zpos() function below ==> line 85++
+//  - uncomment line 113 of this sketch
 //
 //  Examples may use AS5600 or AS5600L devices.
 //  Check if your sensor matches the one used in the example.
@@ -31,6 +32,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AS5600_LIB_VERSION: ");
   Serial.println(AS5600_LIB_VERSION);
@@ -53,7 +55,7 @@ void setup()
 
 
   Serial.println("\nWARNING  WARNING  WARNING  WARNING  WARNING  WARNING\n");
-  Serial.println("This sketch will burn settings to your AS5600.");
+  Serial.println("This sketch will burn zpos and mpos settings to your AS5600.");
   Serial.println("Adjust the settings in the sketch to your needs.");
   Serial.println("Press any key to continue.");
   Serial.println("\nWARNING  WARNING  WARNING  WARNING  WARNING  WARNING\n\n");
@@ -61,9 +63,10 @@ void setup()
   while (!Serial.available());
   Serial.read();
 
-
+  //  flush Serial input buffer
   while (Serial.available()) Serial.read();
-  Serial.print("Are you sure to burn zpos? [Y for Yes]");
+
+  Serial.print("Are you sure to burn zpos and mpos? [uppercase Y for Yes]");
   while (!Serial.available());
   char c = Serial.read();
   if (c == 'Y')
@@ -112,7 +115,6 @@ void burn_zpos()
   Serial.println(" done.");
   Serial.println("Reboot AS5600 to use the new settings.");
 }
-
 
 
 //  -- END OF FILE --

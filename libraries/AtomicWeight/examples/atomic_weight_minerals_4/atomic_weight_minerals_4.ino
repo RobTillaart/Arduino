@@ -1,10 +1,10 @@
-//    FILE: atomic_weight_minerals_1.ino
-//  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//     URL: https://github.com/RobTillaart/AtomicWeight
+//     FILE: atomic_weight_minerals_4.ino
+//   AUTHOR: Rob Tillaart
+//  PURPOSE: demo
+//      URL: https://github.com/RobTillaart/AtomicWeight
 //
 //  Note this sketch uses a lot of RAM for the char arrays used.
-//  Arduino UNO warns 
+//  Arduino UNO warns
 //  Could be solved by implementing "PROGMEM" formulas
 
 #include "Arduino.h"
@@ -25,23 +25,12 @@ void setup()
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
   Serial.println();
 
-  Serial.println("SEDIMENTARY ROCK (11)");
+  Serial.println("RARE EARTH MINERALS (17)");
   Serial.println("NAME\tWEIGHT\tFORMULA\n");
+  printWeight("XENOTIME", XENOTIME);
+  printWeight("NATROLITE", NATROLITE);
+  printWeight("STILBITE", STILBITE);
 
-  printWeight("JADEITE", JADEITE);
-  printWeight("GOETHITE", GOETHITE);
-  printWeight("KAOLINITE", KAOLINITE);
-  printWeight("CALCITE", CALCITE);
-  printWeight("ARAGONITE", ARAGONITE);
-  printWeight("DOLOMITE", DOLOMITE);
-  printWeight("MAGNESITE", MAGNESITE);  
-  printWeight("SIDERITE", SIDERITE);
-  printWeight("RHODOCHROSITE", RHODOCHROSITE);
-  printWeight("HALITE", HALITE);
-  printWeight("SYLVITE", SYLVITE);
-  printWeight("GYPSUM", GYPSUM);
-  printWeight("ANHYDRITE", ANHYDRITE);
-  printWeight("FLUORAPATITE", FLUORAPATITE);
 
   Serial.println();
   Serial.println("\ndone...");

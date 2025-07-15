@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2025-07-10
+- add acids.h
+- add atomic_weight_acids.ino
+- add atomic_weight_bases.ino
+- update minerals.h (add formulas chapter 15,16,17)
+- add atomic_weight_minerals_3.ino
+- add atomic_weight_minerals_4.ino
+- update atomic_weight_count_protons.ino
+- minor edits
+
 ## [0.3.2] - 2025-06-22
 - update minerals.h (add formulas chapter 14)
 - split minerals example in 3 parts
@@ -23,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - support float indices e.g. "(Mg0.4Fe1.6)2.0SiO4" == Olivine
 - update **atomic_weight_formula.ino**
 - add **minerals.h** (short list)
-- add **atomic_weight_minerals.ino** 
+- add **atomic_weight_minerals.ino**
 - update / clean up constants
 - add **weightEV()**
 - add **weightEV()**

@@ -29,39 +29,39 @@ void setup()
   Serial.println("METAMORPHIC ROCK (14)");
   Serial.println("NAME\tWEIGHT\tFORMULA\n");
 
-  printMineral("PYROPE", PYROPE);
-  printMineral("ALMANDINE", ALMANDINE);
-  printMineral("SPESSARTINE", SPESSARTINE);
-  printMineral("GROSSULAR", GROSSULAR);
-  printMineral("ANDRADITE", ANDRADITE);
-  printMineral("UVAROVITE", UVAROVITE);
-  printMineral("ANDALUSITE", ANDALUSITE);
-  printMineral("MULLITE", MULLITE);
-  printMineral("SILLIMANITE", SILLIMANITE);
-  printMineral("KYANITE", KYANITE);
-  printMineral("STAUROLITE", STAUROLITE);
-  printMineral("ANTHOPHYLLITE", ANTHOPHYLLITE);
-  printMineral("CUMMINGTONITE", CUMMINGTONITE);
-  printMineral("GRUNERITE", GRUNERITE);
-  printMineral("TREMOLITE", TREMOLITE);
-  printMineral("FERROACTINOLITE", FERROACTINOLITE);
-  printMineral("GLAUCAPHANE", GLAUCAPHANE);
-  printMineral("RHODONITE", RHODONITE);
-  printMineral("TALC", TALC);
-  printMineral("CHLORITE", CHLORITE);
-  printMineral("ANTIGORITE", ANTIGORITE);
-  printMineral("CHRYSOLITE", CHRYSOLITE);
-  printMineral("GRAPHITE", GRAPHITE);
-  printMineral("EPIDOTE", EPIDOTE);
-  printMineral("CLINOZOISITE", CLINOZOISITE);
-  printMineral("CORDEIRITE", CORDEIRITE);
-  printMineral("VESUVIANITE", VESUVIANITE);
-  printMineral("TITANITE", TITANITE);
-  printMineral("SCAPOLITE", SCAPOLITE);
-  printMineral("LAWSONITE", LAWSONITE);
-  printMineral("PUMPELLYITE", PUMPELLYITE);
-  printMineral("TOPAZ", TOPAZ);
-  printMineral("CHABAZITE", CHABAZITE);
+  printWeight("PYROPE", PYROPE);
+  printWeight("ALMANDINE", ALMANDINE);
+  printWeight("SPESSARTINE", SPESSARTINE);
+  printWeight("GROSSULAR", GROSSULAR);
+  printWeight("ANDRADITE", ANDRADITE);
+  printWeight("UVAROVITE", UVAROVITE);
+  printWeight("ANDALUSITE", ANDALUSITE);
+  printWeight("MULLITE", MULLITE);
+  printWeight("SILLIMANITE", SILLIMANITE);
+  printWeight("KYANITE", KYANITE);
+  printWeight("STAUROLITE", STAUROLITE);
+  printWeight("ANTHOPHYLLITE", ANTHOPHYLLITE);
+  printWeight("CUMMINGTONITE", CUMMINGTONITE);
+  printWeight("GRUNERITE", GRUNERITE);
+  printWeight("TREMOLITE", TREMOLITE);
+  printWeight("FERROACTINOLITE", FERROACTINOLITE);
+  printWeight("GLAUCAPHANE", GLAUCAPHANE);
+  printWeight("RHODONITE", RHODONITE);
+  printWeight("TALC", TALC);
+  printWeight("CHLORITE", CHLORITE);
+  printWeight("ANTIGORITE", ANTIGORITE);
+  printWeight("CHRYSOLITE", CHRYSOLITE);
+  printWeight("GRAPHITE", GRAPHITE);
+  printWeight("EPIDOTE", EPIDOTE);
+  printWeight("CLINOZOISITE", CLINOZOISITE);
+  printWeight("CORDEIRITE", CORDEIRITE);
+  printWeight("VESUVIANITE", VESUVIANITE);
+  printWeight("TITANITE", TITANITE);
+  printWeight("SCAPOLITE", SCAPOLITE);
+  printWeight("LAWSONITE", LAWSONITE);
+  printWeight("PUMPELLYITE", PUMPELLYITE);
+  printWeight("TOPAZ", TOPAZ);
+  printWeight("CHABAZITE", CHABAZITE);
 
   Serial.println();
   Serial.println("\ndone...");
@@ -73,7 +73,7 @@ void loop()
 }
 
 
-void printMineral(const char * name, const char * formula)
+void printWeight(const char * name, const char * formula)
 {
   Serial.print(name);
   Serial.print("\t");

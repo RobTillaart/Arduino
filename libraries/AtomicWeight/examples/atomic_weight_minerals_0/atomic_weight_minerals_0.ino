@@ -28,39 +28,39 @@ void setup()
   Serial.println("IGNEOUS ROCK (7)");
   Serial.println("NAME\tWEIGHT\tFORMULA\n");
 
-  printMineral("ALBITE", ALBITE);
-  printMineral("ANORTHITE", ANORTHITE);
-  printMineral("MICROLINE", MICROLINE);
-  printMineral("QUARTZ", QUARTZ);
-  printMineral("NEPHELINE", NEPHELINE);
-  printMineral("KALSILITE", KALSILITE);
-  printMineral("LEUCITE", LEUCITE);
-  printMineral("AEGIRINE", AEGIRINE);
-  printMineral("SODALITE", SODALITE);
-  printMineral("ENSTATITE", ENSTATITE);
-  printMineral("FERROSILITE", FERROSILITE);
-  printMineral("PIGEONITE", PIGEONITE);
-  printMineral("DIOPSIDE", DIOPSIDE);
-  printMineral("WOLLASTONITE", WOLLASTONITE);
-  printMineral("TREMOLITE", TREMOLITE);
-  printMineral("MUSCOVITE", MUSCOVITE);
-  printMineral("PHOLOGOPITE", PHOLOGOPITE);
-  printMineral("FORSTERITE", FORSTERITE);
-  printMineral("FAYALITE", FAYALITE);
-  printMineral("ZIRCON", ZIRCON);
-  printMineral("AKERMANITE", AKERMANITE);
-  printMineral("MAGNETITE", MAGNETITE);
-  printMineral("ULVOSPINEL", ULVOSPINEL);
-  printMineral("ILMENITE", ILMENITE);
-  printMineral("SPINEL", SPINEL);
-  printMineral("CHROMITE", CHROMITE);
-  printMineral("HEMATITE", HEMATITE);
-  printMineral("CORUNDUM", CORUNDUM);
-  printMineral("RUTILE", RUTILE);
-  printMineral("URANINITE", URANINITE);
-  printMineral("PYRITE", PYRITE);
-  printMineral("CHALCOPYRITE", CHALCOPYRITE);
-  printMineral("HYDROXYAPATITE", HYDROXYAPATITE);
+  printWeight("ALBITE", ALBITE);
+  printWeight("ANORTHITE", ANORTHITE);
+  printWeight("MICROLINE", MICROLINE);
+  printWeight("QUARTZ", QUARTZ);
+  printWeight("NEPHELINE", NEPHELINE);
+  printWeight("KALSILITE", KALSILITE);
+  printWeight("LEUCITE", LEUCITE);
+  printWeight("AEGIRINE", AEGIRINE);
+  printWeight("SODALITE", SODALITE);
+  printWeight("ENSTATITE", ENSTATITE);
+  printWeight("FERROSILITE", FERROSILITE);
+  printWeight("PIGEONITE", PIGEONITE);
+  printWeight("DIOPSIDE", DIOPSIDE);
+  printWeight("WOLLASTONITE", WOLLASTONITE);
+  printWeight("TREMOLITE", TREMOLITE);
+  printWeight("MUSCOVITE", MUSCOVITE);
+  printWeight("PHOLOGOPITE", PHOLOGOPITE);
+  printWeight("FORSTERITE", FORSTERITE);
+  printWeight("FAYALITE", FAYALITE);
+  printWeight("ZIRCON", ZIRCON);
+  printWeight("AKERMANITE", AKERMANITE);
+  printWeight("MAGNETITE", MAGNETITE);
+  printWeight("ULVOSPINEL", ULVOSPINEL);
+  printWeight("ILMENITE", ILMENITE);
+  printWeight("SPINEL", SPINEL);
+  printWeight("CHROMITE", CHROMITE);
+  printWeight("HEMATITE", HEMATITE);
+  printWeight("CORUNDUM", CORUNDUM);
+  printWeight("RUTILE", RUTILE);
+  printWeight("URANINITE", URANINITE);
+  printWeight("PYRITE", PYRITE);
+  printWeight("CHALCOPYRITE", CHALCOPYRITE);
+  printWeight("HYDROXYAPATITE", HYDROXYAPATITE);
 
   Serial.println();
   Serial.println("\ndone...");
@@ -72,7 +72,7 @@ void loop()
 }
 
 
-void printMineral(const char * name, const char * formula)
+void printWeight(const char * name, const char * formula)
 {
   Serial.print(name);
   Serial.print("\t");

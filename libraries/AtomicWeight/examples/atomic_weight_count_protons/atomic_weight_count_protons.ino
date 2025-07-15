@@ -20,7 +20,7 @@ void setup()
   Serial.print("ATOMIC_WEIGHT_LIB_VERSION: ");
   Serial.println(ATOMIC_WEIGHT_LIB_VERSION);
   Serial.println();
-  Serial.println("Formula\tProt\tNeut");
+  Serial.println("Formula\tProton\tNeutron");
   Serial.println();
 
   count("O");
@@ -37,7 +37,7 @@ void loop()
 }
 
 
-void count(char * formula)
+void count(const char * formula)
 {
   Serial.print(formula);
   Serial.print("\t");
@@ -47,7 +47,7 @@ void count(char * formula)
   Serial.print("\n");
 }
 
-uint32_t protons(char * formula)
+uint32_t protons(const char * formula)
 {
   uint32_t prot = 0;
   int nr = ptoe.splitElements(formula);
@@ -61,7 +61,7 @@ uint32_t protons(char * formula)
 }
 
 
-uint32_t neutrons(char * formula)
+uint32_t neutrons(const char * formula)
 {
   uint32_t neut = 0;
   int nr = ptoe.splitElements(formula);

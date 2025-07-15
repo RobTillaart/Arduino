@@ -277,11 +277,27 @@ This will prevent printing **OVF** overflow or **0.000**.
 minimize the memory used for the elements mass lookup table.
 
 
+## Formula files
+
+Primary for educational purposes.
+
+### Minerals.h
+
+Chemical formulas of several minerals. These are coded as defined char arrays.
+```#define MINERAL  "FORMULA"```
+
+### Acids.h
+
+Chemical formulas of several acids and bases. These are coded as defined char arrays.
+```#define ACID  "FORMULA"```
+
+
 ## Future
 
 #### Must
 
 - improve and reorganize documentation
+- reorder future section.
 
 #### Should
 
@@ -289,14 +305,9 @@ minimize the memory used for the elements mass lookup table.
   - user could use a char buffer to copy (but could be efficient)
 - float => double for precision.
   - all(?) functions?
-- reorder future section.
 
 #### Could
 
-- overload functions
-  - **uint32_t protons(formula)** worker, formula can be single element.
-  - **uint32_t neutrons(formula)** uses protons()
-  - **uint32_t electrons(formula)** uses protons()
 - handle Fe2+ Fe3+ (ignore number when encountering +)
   - user could use a char buffer to copy.
 - extend unit tests
@@ -310,11 +321,11 @@ minimize the memory used for the elements mass lookup table.
   - ==> more memory...
 - support \[] square brackets too.
   - (NH4)2\[Pt(SCN)6]
+  - e.g. for HYDRATES \[H2O]2
 - support spaces for readability?
   - "Ba (OH)4 (COOH)11 SiO4" ==> after last digit
-  - special print function for formulae
-
-
+  - special function **char \* prettyPrint(formula)**
+  - example sketch...
 - add a derived class PERIODIC_TABLE?
 - state table
   - liquid, gas, solid, unknown  (2 bits per element) = ~30 bytes
@@ -326,8 +337,8 @@ minimize the memory used for the elements mass lookup table.
 
 - case insensitive **find()**
   element 0 is defined as n conflict with N
-- support hydrates ?
-  - **Ba(BrO3)2·2H2O**  new separator + starts with number.
+- support HYDRATES ?
+  - **Ba(BrO3)2·2H2O**  => new separator + starts with number.
     ==> **Ba(BrO3)2(H2O)2** or **Ba(BrO3)2·(H2O)2** or ??
   - other liquids than water?
   - https://en.wikipedia.org/wiki/Glossary_of_chemical_formulae
@@ -350,6 +361,11 @@ minimize the memory used for the elements mass lookup table.
   - 2 bytes per temp 4 x 118 = 476 bytes
   - compression 3 bytes for 2 temps 2x 12 bits = 0..4095 K = 354 bytes
 - exponential notation floats? (H2O)1e30
+- overload functions
+  - **uint32_t protons(formula)** worker, formula can be single element.
+  - **uint32_t neutrons(formula)** uses weight - protons()
+  - **uint32_t electrons(formula)** uses protons()
+  - See atomic_weight_count_protons.ino
 
 
 ## Support

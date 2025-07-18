@@ -2,7 +2,7 @@
 //    FILE: multimap_reverse_logarithmic.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2023-06-23
+//     URL: https://github.com/RobTillaart/MultiMap
 
 
 #include "MultiMap.h"
@@ -24,7 +24,9 @@ int revlog10(int raw)
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);

@@ -1,8 +1,8 @@
 //
 //    FILE: multimap_BS_compare.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//    DATE: 2023-06-23
+// PURPOSE: demo binary search - performance
+//     URL: https://github.com/RobTillaart/MultiMap
 
 
 #include "MultiMap.h"
@@ -15,12 +15,13 @@ volatile int x;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
-  delay(100);
 
   for (int i = 0; i < 100; i++)
   {
@@ -28,8 +29,9 @@ void setup()
     out[i] = i * 7;
   }
 
+  Serial.println("size\tt1\tt2\tratio");
   //  make sure print has ended
-  delay(10);
+  delay(100);
   for (int size = 4; size < 100; size++)
   {
     compare(size);
@@ -67,8 +69,9 @@ void compare(uint8_t size)
   Serial.print("\t");
   Serial.print(dur2);
   Serial.print("\t");
-  Serial.println(100000.0 * dur2 / dur1);
-  delay(100);
+  Serial.println(100.0 * dur2 / dur1);
+  delay(25);
 }
+
 
 //  -- END OF FILE --

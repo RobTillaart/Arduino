@@ -2,8 +2,7 @@
 //    FILE: multimap_functions.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo (use serial plotter)...
-//    DATE: 2020-04-09
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/MultiMap
 //
 //  example show use of multiMap to approximate some well known functions.
 
@@ -13,7 +12,9 @@
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);

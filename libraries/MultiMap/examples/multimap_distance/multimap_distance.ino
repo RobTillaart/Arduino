@@ -2,7 +2,7 @@
 //    FILE: multimap_distance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-04-09
+//     URL: https://github.com/RobTillaart/MultiMap
 //
 //  example simulates the lookup graph of a distance sensor 
 
@@ -12,12 +12,13 @@
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);
   Serial.println();
-  delay(100);
 
   for (int i = 80; i < 512; i++)
   {

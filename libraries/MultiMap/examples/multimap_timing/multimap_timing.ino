@@ -2,8 +2,7 @@
 //    FILE: multimap_timing.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-04-09
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/MultiMap
 //
 // example measures the performance of multiMap <int> vs <float>
 
@@ -22,7 +21,9 @@ uint32_t stop;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);

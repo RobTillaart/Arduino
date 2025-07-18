@@ -2,8 +2,7 @@
 //    FILE: multimap_NTC.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-04-09
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/MultiMap
 //
 //  example uses multiMap to calculate the temperature from an 10K NTC.
 
@@ -33,7 +32,9 @@ int sz = 33;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);

@@ -1,8 +1,8 @@
 //
 //    FILE: multimap_distance_two_types.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//    DATE: 2023-11-12
+// PURPOSE: demo two types
+//     URL: https://github.com/RobTillaart/MultiMap
 //
 //  example simulates the lookup graph of a distance sensor
 
@@ -15,7 +15,9 @@ volatile float dist;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MULTIMAP_LIB_VERSION: ");
   Serial.println(MULTIMAP_LIB_VERSION);

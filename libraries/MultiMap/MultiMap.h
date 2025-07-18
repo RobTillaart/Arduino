@@ -2,7 +2,7 @@
 //
 //    FILE: MultiMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2011-01-26
 // PURPOSE: Arduino library for fast non-linear mapping or interpolation of values
 //     URL: https://github.com/RobTillaart/MultiMap
@@ -10,7 +10,7 @@
 
 
 
-#define MULTIMAP_LIB_VERSION                (F("0.2.0"))
+#define MULTIMAP_LIB_VERSION                (F("0.2.1"))
 
 
 #include "Arduino.h"
@@ -51,7 +51,7 @@ T multiMap(T value, T* _in, T* _out, uint8_t size)
 template<typename T>
 T multiMapCache(T value, T* _in, T* _out, uint8_t size)
 {
-  static T lastValue = -1;
+  static T lastValue = -1;  //  possible bug for 1st call
   static T cache = -1;
 
   if (value == lastValue)

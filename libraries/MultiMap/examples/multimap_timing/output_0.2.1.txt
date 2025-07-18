@@ -1,0 +1,13 @@
+
+BOARD:  UNO R3
+IDE:    1.8.19
+
+...Arduino\libraries\MultiMap\examples\multimap_timing\multimap_timing.ino
+MULTIMAP_LIB_VERSION: 0.2.1
+
+time <int>: 	20
+121.0000
+time <float>: 	88
+121.0909
+
+done...

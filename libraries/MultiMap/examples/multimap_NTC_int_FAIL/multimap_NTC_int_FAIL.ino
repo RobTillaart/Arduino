@@ -2,9 +2,7 @@
 //    FILE: multimap_NTC_int_FAIL.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of faulty optimizing 
-//    DATE: 2020-04-09
-//    (c) : MIT
-//
+//     URL: https://github.com/RobTillaart/MultiMap
 //
 //  NOTE:
 //  use integers instead of floats to minimize RAM. uses ~320 bytes PROGMEM ~120 bytes RAM less on UNO than float version
@@ -37,10 +35,14 @@ int sz = 33;
 
 void setup()
 {
+  //  while(!Serial);
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
-  delay(10);  //  make sure print has ended
+  Serial.println(__FILE__);
+  Serial.print("MULTIMAP_LIB_VERSION: ");
+  Serial.println(MULTIMAP_LIB_VERSION);
+  Serial.println();
+  delay(100);  //  make sure print has ended
 
   start = micros();
   x = val(z);

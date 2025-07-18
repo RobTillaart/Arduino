@@ -1,15 +1,7 @@
-D:\Rob\WORK\Arduino\libraries\MultiMap\examples\21
-Done...
-0
-509	20.00	20.00	20.00
-510	20.00	20.00	20.00
-511	20.00	20.00	20.00
+BOARD:  UNO R3
+IDE:    1.8.19
 
-TIME1: 195.55
-TIME2: 116.33
-TIME3: 116.21
-Done...
-D:\Rob\WORK\Arduino\libraries\MultiMap\examples\multimap_distance_two_types\multimap_distance_two_types.ino
+Arduino\libraries\MultiMap\examples\multimap_distance_two_types\multimap_distance_two_types.ino
 MULTIMAP_LIB_VERSION: 0.2.0
 
 80	150.00	150.00	150.00

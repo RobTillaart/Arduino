@@ -46,7 +46,7 @@ void loop()
   Serial.print("mcp1:\t");
   for (int pair = 0; pair < mcp1.channels(); pair++)
   {
-    uint16_t value = mcp1.differentialRead(pair);
+    int16_t value = mcp1.differentialRead(pair);
     Serial.print(value);
     Serial.print("\t");
   }
@@ -54,10 +54,11 @@ void loop()
   Serial.print("mcp2:\t");
   for (int pair = 0; pair < mcp2.channels(); pair++)
   {
-    uint16_t value = mcp2.differentialRead(pair);
+    int16_t value = mcp2.differentialRead(pair);
     Serial.print(value);
     Serial.print("\t");
   }
+  Serial.println();
   Serial.println();
 
   delay(1000);

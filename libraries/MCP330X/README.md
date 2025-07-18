@@ -39,9 +39,13 @@ The MCP3302/04-B is slightly more accurate than the MCP3302/04-C version.
 The code of the library is based upon MCP_ADC library which is quite similar.
 Nevertheless not all functionality of that library is implemented.
 
-Library is not tested with hardware yet.
-
 Feedback as always is welcome.
+
+
+### 0.2.0 breaking change
+
+In 0.2.0 the Single/Differential flag is fixed after testing with hardware.
+Pre 0.2.0 versions are therefore obsolete.
 
 
 ### Differential channel table
@@ -117,7 +121,7 @@ TODO: verify max SPI clock frequency the device works with.
 
 - **MCP330X(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
 - **MCP330X(SPIClass \* mySPI = &SPI)** hardware constructor other
-- **(uint8_t dataIn, uint8_t dataOut, uint8_t clock)**
+- **MCP330X(uint8_t dataIn, uint8_t dataOut, uint8_t clock)**
 
 The derived classes have both constructors with same parameters.
 - **MCP3302(...)** constructor 1+12 bit ADC 4 channel.
@@ -125,7 +129,7 @@ The derived classes have both constructors with same parameters.
 
 ### Base
 
-- **void begin(uint8_t select)** set select pin. Initialies the internals.
+- **void begin(uint8_t select)** set select pin. Initialises the internals.
 - **uint8_t channels()** returns the number of channels (4 or 8)
 - **int16_t maxValue()** returns 4095, the maxReading of the ADC.
 

@@ -1,6 +1,6 @@
 
 IDE:    1.8.19
-Board:  UNO
+Board:  UNO R3
 
 MCP330X\examples\MCP3302_performance\MCP3302_performance.ino
 MCP330X_LIB_VERSION: 0.1.0

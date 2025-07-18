@@ -8,7 +8,7 @@
 
 #include "MCP330X.h"
 
-MCP330X mcp2;
+MCP3302 mcp2;
 MCP3302 mcp2s(11, 12, 13);  //  software SPI
 MCP3304 mcp4;
 MCP3304 mcp4s(10, 12, 13);  //  software SPI
@@ -86,8 +86,9 @@ void loop()
 
 void test_2()
 {
+  Serial.println();
   Serial.println(__FUNCTION__);
-  uint32_t value = 0;
+  int32_t value = 0;
 
   start = micros();
   for (int channel = 0 ; channel < mcp2.channels(); channel++)
@@ -107,14 +108,16 @@ void test_2()
   stop = micros();
   Serial.print("mcp2.diffRead() 4x: \t");
   Serial.println(stop - start);
+
   delay(10);
 }
 
 
 void test_2s()
 {
+  Serial.println();
   Serial.println(__FUNCTION__);
-  uint32_t value = 0;
+  int32_t value = 0;
 
   start = micros();
   for (int channel = 0 ; channel < mcp2s.channels(); channel++)
@@ -140,8 +143,9 @@ void test_2s()
 
 void test_4()
 {
+  Serial.println();
   Serial.println(__FUNCTION__);
-  uint32_t value = 0;
+  int32_t value = 0;
 
   start = micros();
   for (int channel = 0 ; channel < mcp4.channels(); channel++)
@@ -167,8 +171,9 @@ void test_4()
 
 void test_4s()
 {
+  Serial.println();
   Serial.println(__FUNCTION__);
-  uint32_t value = 0;
+  int32_t value = 0;
 
   start = micros();
   for (int channel = 0 ; channel < mcp4s.channels(); channel++)
@@ -190,9 +195,6 @@ void test_4s()
   Serial.println(stop - start);
   delay(10);
 }
-
-
-
 
 
 //  -- END OF FILE --

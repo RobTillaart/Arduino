@@ -1,8 +1,8 @@
 //
 //    FILE: MCP330X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-//    DATE: 2015-04-16
+// VERSION: 0.2.0
+//    DATE: 2025-04-16
 // PURPOSE: Arduino library for MCP3302 and MCP3304 13-Bit Differential ADC, SPI
 //     URL: https://github.com/RobTillaart/MCP330X
 //
@@ -130,7 +130,7 @@ int16_t MCP330X::readADC(uint8_t channel, bool single)
   //  datasheet figure 6.4 page 27
   uint8_t  data[3] = { 0, 0, 0 };
   data[0] = 0x08;                      //  start bit
-  if (single) data[0] |= 0x40;         //  single read | differential
+  if (single) data[0] |= 0x04;         //  single read | differential
   data[0] |= channel >> 1;             //  channel d2 and d1;
   if (channel & 0x01) data[1] = 0x80;  //  channel d0
 

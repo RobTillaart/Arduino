@@ -1,0 +1,70 @@
+
+IDE:    1.8.19
+Board:  UNO R3
+
+MCP330X\examples\MCP3302_performance\MCP3302_performance.ino
+MCP330X_LIB_VERSION: 0.2.0
+
+
+ADC	CHAN	MAXVALUE
+mcp2	4	4095
+mcp2s	4	4095
+mcp4	8	4095
+mcp4s	8	4095
+
+Timing in micros().
+
+
+test_2
+mcp2.read()	4x: 	216
+mcp2.diffRead() 4x: 	196
+
+test_2s
+mcp2s.read()	4x: 	1904
+mcp2s.diffRead() 4x: 	1836
+
+test_4
+mcp4.read()	8x: 	432
+mcp4.diffRead() 8x: 	404
+
+test_4s
+mcp4s.read()	8x: 	3824
+mcp4s.diffRead() 8x: 	3752
+***************************************
+
+1000000
+
+test_2
+mcp2.read()	4x: 	212
+mcp2.diffRead() 4x: 	200
+2000000
+
+test_2
+mcp2.read()	4x: 	164
+mcp2.diffRead() 4x: 	148
+4000000
+
+test_2
+mcp2.read()	4x: 	140
+mcp2.diffRead() 4x: 	124
+8000000
+
+test_2
+mcp2.read()	4x: 	128
+mcp2.diffRead() 4x: 	112
+16000000
+
+test_2
+mcp2.read()	4x: 	128
+mcp2.diffRead() 4x: 	116
+
+done...
+
+----------------------------------------
+
+IDE:    1.8.19
+Board:  ESP32 240 MHz
+
+TODO
+
+done...

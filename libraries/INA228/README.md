@@ -291,6 +291,7 @@ See page 13++, page 32, 8.1.2
 
 The **getEnergy()** only has meaning in continuous mode.
 This is an accumulation register and can be reset to zero by **setAccumulation(1)**.
+Note this function resets other accumulation registers too.
 
 The accuracy of **getEnergy()** is 1.0% full scale (maximum).
 
@@ -307,6 +308,7 @@ The accuracy of **getEnergy()** is 1.0% full scale (maximum).
 
 The **getCharge()** only has meaning in continuous mode.
 This is an accumulation register and can be reset to zero by **setAccumulation(1)**.
+Note this function resets other accumulation registers too.
 
 The accuracy of **getCharge()** is 1.0% full scale (maximum).
 
@@ -323,16 +325,17 @@ Read datasheet for details, section 7.6.1.1, page 22
 - **void reset()** Resets the device, be aware that you need to calibrate the sensor
 (shunt register) again ==> call **setMaxCurrentShunt()** and more.
 - **bool setAccumulation(uint8_t value)** value: 0 == normal operation,  
-1 = clear Energy and Charge registers.
+1 = clear Energy and Charge accumulation registers.
 - **bool getAccumulation()** return set value. (TODO check).
 - **void setConversionDelay(uint8_t steps)**  Conversion delay in 0..255 steps of 2 ms
 - **uint8_t getConversionDelay()** return set value.
 - **void setTemperatureCompensation(bool on)** see Shunt temperature coefficient below.
 - **bool getTemperatureCompensation()** return set value.
 - **void setADCRange(bool flag)** flag = false => 164 mV, true => 41 mV
+Since 0.3.1 setADCRange() calls setMaxCurrentShunt() to update the internal LSB values.
 - **bool getADCRange()** return set value.
 
-TODO: wrapper + better name for setAccumulation().
+TODO: wrapper + better name for setAccumulation().  resetEnergyCharge() { setAccumulation(true) }
 
 TODO: examples to show the effect of the ADC configuration.
 

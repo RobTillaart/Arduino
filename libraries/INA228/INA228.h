@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -16,7 +16,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          (F("0.3.0"))
+#define INA228_LIB_VERSION          (F("0.3.1"))
 
 
 //  for setMode() and getMode()
@@ -154,7 +154,9 @@ public:
   //
   void     reset();
   //  value: 0 == normal operation,  1 = clear registers
-  bool     setAccumulation(uint8_t value);
+  //   bool     resetEnergyCharge(uint8_t value);  better name for setAccumulation()??
+  //  [[deprecated("Use ")]]  ??
+  bool     setAccumulation(uint8_t value);  //  idem
   bool     getAccumulation();
   //  Conversion delay in 0..255 steps of 2 ms
   void     setConversionDelay(uint8_t steps);

@@ -1,6 +1,6 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -237,13 +237,17 @@ bool INA228::getTemperatureCompensation()
 
 void INA228::setADCRange(bool flag)
 {
-  //  if (flag == _ADCRange) return;
-  _ADCRange = flag;
   uint16_t value = _readRegister(INA228_CONFIG, 2);
+  _ADCRange = (value & INA228_CFG_ADCRANGE) > 0;
+  //  nothing changed ==> we're done.
+  if (flag == _ADCRange) return;
+
+  _ADCRange = flag;
   if (flag) value |= INA228_CFG_ADCRANGE;
   else      value &= ~INA228_CFG_ADCRANGE;
-  //  if value has not changed we do not need to write it back.
   _writeRegister(INA228_CONFIG, value);
+  //  Fix #26, issue where shunt_cal was not modified
+  setMaxCurrentShunt(getMaxCurrent(), getShunt());
 }
 
 bool INA228::getADCRange()

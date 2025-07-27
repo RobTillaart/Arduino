@@ -1,6 +1,6 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -126,6 +126,18 @@ float INA228::getShuntVoltage()
   return voltage;
 }
 
+int32_t INA228::getShuntVoltageRAW()
+{
+  //  remove reserved bits.
+  uint32_t value = _readRegister(INA228_SHUNT_VOLTAGE, 3) >> 4;
+  //  handle negative values (20 bit)
+  if (value & 0x00080000)
+  {
+    value |= 0xFFF00000;
+  }
+  return (int32_t)value;
+}
+
 //  PAGE 25 + 8.1.2
 float INA228::getCurrent()
 {
@@ -235,19 +247,20 @@ bool INA228::getTemperatureCompensation()
   return (value & INA228_CFG_TEMPCOMP) > 0;
 }
 
-void INA228::setADCRange(bool flag)
+bool INA228::setADCRange(bool flag)
 {
   uint16_t value = _readRegister(INA228_CONFIG, 2);
   _ADCRange = (value & INA228_CFG_ADCRANGE) > 0;
   //  nothing changed ==> we're done.
-  if (flag == _ADCRange) return;
+  if (flag == _ADCRange) return true;
 
   _ADCRange = flag;
   if (flag) value |= INA228_CFG_ADCRANGE;
   else      value &= ~INA228_CFG_ADCRANGE;
   _writeRegister(INA228_CONFIG, value);
   //  Fix #26, issue where shunt_cal was not modified
-  setMaxCurrentShunt(getMaxCurrent(), getShunt());
+  bool rv = setMaxCurrentShunt(getMaxCurrent(), getShunt()) == 0;
+  return rv;
 }
 
 bool INA228::getADCRange()

@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -16,7 +16,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          (F("0.3.1"))
+#define INA228_LIB_VERSION          (F("0.3.2"))
 
 
 //  for setMode() and getMode()
@@ -114,6 +114,9 @@ public:
   float    getShuntMilliVolt()  { return getShuntVoltage() * 1e3; };
   float    getShuntMicroVolt()  { return getShuntVoltage() * 1e6; };
 
+  //  raw integer interface.
+  int32_t  getShuntVoltageRAW();
+  
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
   float    getAmpere()          { return getCurrent(); };
@@ -141,7 +144,7 @@ public:
   double   getWattHour()        { return getEnergy()       * (1.0 / 3600.0); };
   double   getKiloWattHour()    { return getEnergy()       * (1.0 / 3.6); };
 
-  //  CHARGE
+  //       CHARGE
   double   getCharge();         //  Coulombs
   double   getCoulomb()         { return getCharge(); };
   double   getMilliCoulomb()    { return getCharge()       * 1e3; };
@@ -164,7 +167,7 @@ public:
   void     setTemperatureCompensation(bool on);
   bool     getTemperatureCompensation();
   //  flag = false => 164 mV, true => 41 mV
-  void     setADCRange(bool flag);
+  bool     setADCRange(bool flag);
   bool     getADCRange();
 
   //

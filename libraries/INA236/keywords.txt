@@ -11,22 +11,30 @@ isConnected	KEYWORD2
 getAddress	KEYWORD2
 
 getBusVoltage	KEYWORD2
+getBusVolt	KEYWORD2
+getBusVoltage_mV	KEYWORD2
+getBusVoltage_uV	KEYWORD2
+
 getShuntVoltage	KEYWORD2
+getShuntVolt	KEYWORD2
+getBusVoltage_mV	KEYWORD2
+getShuntVoltage_uV	KEYWORD2
+
+getShuntVoltageRAW
+
 getCurrent	KEYWORD2
+getAmpere	KEYWORD2
+getCurrent_mA	KEYWORD2
+getCurrent_uA	KEYWORD2
+
 getPower	KEYWORD2
+getWatt	KEYWORD2
+getPower_mW	KEYWORD2
+getPower_uW	KEYWORD2
+getPower_kW	KEYWORD2
 
 isConversionReady	KEYWORD2
 waitConversionReady	KEYWORD2
-
-getBusVoltage_mV	KEYWORD2
-getShuntVoltage_mV	KEYWORD2
-getCurrent_mA	KEYWORD2
-getPower_mW	KEYWORD2
-
-getBusVoltage_uV	KEYWORD2
-getShuntVoltage_uV	KEYWORD2
-getCurrent_uA	KEYWORD2
-getPower_uW	KEYWORD2
 
 reset	KEYWORD2
 setAverage	KEYWORD2
@@ -88,6 +96,7 @@ INA236_ERR_NONE	LITERAL1
 INA236_ERR_SHUNTVOLTAGE_HIGH	LITERAL1
 INA236_ERR_MAXCURRENT_LOW	LITERAL1
 INA236_ERR_SHUNT_LOW	LITERAL1
+INA236_ERR_NORMALIZE_FAILED	LITERAL1
 
 INA236_MINIMAL_SHUNT	LITERAL1
 

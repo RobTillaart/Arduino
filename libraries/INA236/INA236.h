@@ -2,7 +2,7 @@
 //    FILE: INA236.h
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA236_LIB_VERSION                (F("0.1.2"))
+#define INA236_LIB_VERSION                (F("0.1.3"))
 
 
 //  set by setAlertRegister
@@ -84,26 +84,41 @@ public:
   uint8_t  getAddress();
 
 
-  //  Core functions
-  float    getBusVoltage();       //  Volt
-  float    getShuntVoltage();     //  Volt
-  float    getCurrent();          //  Ampere
-  float    getPower();            //  Watt
+  //
+  //  CORE FUNCTIONS + scale wrappers.
+  //
+  //       BUS VOLTAGE
+  float    getBusVoltage();     //  Volt
+  float    getBusVolt()         { return getBusVoltage(); };
+  float    getBusVoltage_mV()   { return getBusVoltage() * 1e3; };
+  float    getBusVoltage_uV()   { return getBusVoltage() * 1e6; };
+
+  //       SHUNT VOLTAGE
+  float    getShuntVoltage();   //  Volt
+  float    getShuntVolt()       { return getShuntVoltage(); };
+  float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
+  float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
+
+  //  raw integer interface.
+  int32_t  getShuntVoltageRAW();
+
+  //       SHUNT CURRENT
+  float    getCurrent();        //  Ampere
+  float    getAmpere()          { return getCurrent(); };
+  float    getCurrent_mA()      { return getCurrent() * 1e3; };
+  float    getCurrent_uA()      { return getCurrent() * 1e6; };
+
+  //       POWER
+  float    getPower();          //  Watt
+  float    getWatt()            { return getPower(); };
+  float    getPower_mW()        { return getPower() * 1e3; };
+  float    getPower_uW()        { return getPower() * 1e6; };
+  float    getPower_kW()        { return getPower() * 1e-3; };
+
+
   //  See #35
   bool     isConversionReady();   //  conversion ready flag is set.
   bool     waitConversionReady(uint32_t timeout = INA236_MAX_WAIT_MS);
-
-
-  //  Scale helpers milli range
-  float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
-  float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
-  float    getCurrent_mA()      { return getCurrent()      * 1e3; };
-  float    getPower_mW()        { return getPower()        * 1e3; };
-  //  Scale helpers micro range
-  float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
-  float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
-  float    getCurrent_uA()      { return getCurrent()      * 1e6; };
-  float    getPower_uW()        { return getPower()        * 1e6; };
 
 
   //  Configuration
@@ -114,10 +129,10 @@ public:
   uint8_t  getBusVoltageConversionTime();
   bool     setShuntVoltageConversionTime(uint8_t svct = INA236_1100_us);
   uint8_t  getShuntVoltageConversionTime();
+
   //  flag = false => 80 mV, true => 20 mV
   bool     setADCRange(bool flag);
   uint8_t  getADCRange();
-
 
 
   //  Calibration

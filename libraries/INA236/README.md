@@ -136,39 +136,55 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **bool isConnected()** returns true if the INA236 address is on the I2C bus.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
+### BUS VOLTAGE
 
-### Core Functions
+Main function + wrappers.
+
+- **float getBusVoltage()** idem. Returns value in volts. Max 85 Volt.
+This value is always positive.
+- **float getBusVolt()**
+- **float getBusMilliVolt()**
+- **float getBusMicroVolt()**
+
+### SHUNT VOLTAGE
+
+- **float getShuntVoltage()** idem, Returns value in volts.
+Note the value can be positive or negative as the INA229 is bidirectional.
+- **float getShuntVolt()**
+- **float getShuntMilliVolt()**
+- **float getShuntMicroVolt()**
+- **int32_t getShuntVoltageRAW()** integer version requested in issue #3.
+Returns raw ADC value, 20 bits with sign extended.
+
+### SHUNT CURRENT
+
+- **float getCurrent()** returns the current through the shunt in Ampere.
+Note this value can be positive or negative as the INA229 is bidirectional.
+- **float getAmpere()**
+- **float getMilliAmpere()**
+- **float getMicroAmpere()**
+
+### POWER
+
+- **float getPower()** returns the current x BusVoltage in Watt.
+- **float getWatt()**
+- **float getMilliWatt()**
+- **float getMicroWatt()**
+- **float getKiloWatt()**
+
+
+### Conversion Ready
 
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
 
-- **float getShuntVoltage()** idem, in volts.
-- **float getBusVoltage()** idem. in volts. Max 48 Volt.
-- **float getCurrent()** is the current through the shunt in Ampere.
-- **float getPower()** is the current x BusVoltage in Watt.
 - **bool isConversionReady()** returns true if conversion ready flag is set.
 - **bool waitConversionReady(uint32_t timeout = INA236_MAX_WAIT_MS)** 
 active waiting for ready flag.
 Polling for max timeout time, default 600 milliseconds, for wake up time.
 
-The library has helper functions to convert above output to a more appropriate scale of units.
 
-Helper functions for the milli scale.
-
-- **float getBusVoltage_mV()** idem, in milliVolts.
-- **float getShuntVoltage_mV()** idem, in milliVolts.
-- **float getCurrent_mA()** idem, in milliAmpere.
-- **float getPower_mW()** idem, in milliWatt.
-
-Helper functions for the micro scale.
-
-- **float getBusVoltage_uV()** idem, in microVolts.
-- **float getShuntVoltage_uV()** idem, in microVolts.
-- **float getCurrent_uA()** idem, in microAmpere.
-- **float getPower_uW()** idem, in microWatt.
-
-
-### Configuration
+### ADC conversion time
 
 **Note:**
 The internal conversions runs in the background in the device.
@@ -192,10 +208,6 @@ in your own code.
 - **bool reset()** software power on reset. 
 This implies calibration with **setMaxCurrentShunt()** needs to be redone.
 Returns true upon success.
-- **bool setAverage(uint8_t avg = INA236_1_SAMPLE)** see table below.
-(0 = default ==> 1 read), returns false if parameter > 7.
-- **uint8_t getAverage()** returns the value set. See table below.
-Note this is not the count of samples.
 - **bool setBusVoltageConversionTime(uint8_t bvct = INA236_1100_us)** see table below.
 (4 = default ==> 1.1 ms), returns false if parameter > 7.
 - **uint8_t getBusVoltageConversionTime()** return the value set. 
@@ -204,19 +216,6 @@ Note the value returned is not a unit of time.
 (4 = default ==> 1.1 ms), returns false if parameter > 7.
 - **uint8_t getShuntVoltageConversionTime()** return the value set. 
 Note the value returned is not a unit of time.
-
-
-|  enum description    | value | # samples |  notes  |
-|:--------------------:|:-----:|----------:|--------:|
-|  INA236_1_SAMPLE     |   0   |      1    |  default
-|  INA236_4_SAMPLES    |   1   |      4    |
-|  INA236_16_SAMPLES   |   2   |     16    |
-|  INA236_64_SAMPLES   |   3   |     64    |
-|  INA236_128_SAMPLES  |   4   |    128    |
-|  INA236_256_SAMPLES  |   5   |    256    |
-|  INA236_512_SAMPLES  |   6   |    512    |
-|  INA236_1024_SAMPLES |   7   |   1024    |
-
 
 
 |  enum description  | BVCT SVCT |   time    |  notes  |
@@ -231,6 +230,23 @@ Note the value returned is not a unit of time.
 |  INA236_8300_us    |     7     |  8.3 ms   |
 
 
+- **bool setAverage(uint8_t avg = INA236_1_SAMPLE)** see table below.
+(0 = default ==> 1 read), returns false if parameter > 7.
+- **uint8_t getAverage()** returns the value set. See table below.
+Note this is not the count of samples.
+
+|  enum description    | value | # samples |  notes  |
+|:--------------------:|:-----:|----------:|--------:|
+|  INA236_1_SAMPLE     |   0   |      1    |  default
+|  INA236_4_SAMPLES    |   1   |      4    |
+|  INA236_16_SAMPLES   |   2   |     16    |
+|  INA236_64_SAMPLES   |   3   |     64    |
+|  INA236_128_SAMPLES  |   4   |    128    |
+|  INA236_256_SAMPLES  |   5   |    256    |
+|  INA236_512_SAMPLES  |   6   |    512    |
+|  INA236_1024_SAMPLES |   7   |   1024    |
+
+
 Note: times are typical, check datasheet for operational range.
 (max is ~10% higher)
 
@@ -242,8 +258,10 @@ Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 The INA236 can set the ADC range to 20 mV (adcRange == true) 
 or to 80 mV (adcRange == false) to optimize the accuracy.
 
-- **bool setADCRange(bool flag)** adcRange = {true, false}.
-The function sets the voltage/LSB and returns false adcRange is out of range.
+- **bool setADCRange(bool flag)** The function sets the voltage/LSB,
+flag = false => 81.92 mV, true => 20.48 mV
+Since 0.1.3 setADCRange() calls setMaxCurrentShunt() to update the internal LSB values.
+Returns false on failure of setMaxCurrentShunt().
 - **uint8_t getADCRange()** returns set value.
 
 Note: this function is not available on INA226.

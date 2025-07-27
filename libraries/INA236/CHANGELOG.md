@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2025-07-21
+- Sync INA228, setADCRange() calls setMaxCurrentShunt();
+- update readme.md
+- update INA_comparison_table.md
+- minor edits.
+
 ## [0.1.2] - 2025-05-06
 - add **getLastError()** low level (I2C) error handling
 - update readme.md

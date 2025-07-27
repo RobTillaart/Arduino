@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA239.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-12-05
 // PURPOSE: Arduino library for the INA239, SPI, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA239
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA239_LIB_VERSION          (F("0.2.0"))
+#define INA239_LIB_VERSION          (F("0.2.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -149,7 +149,7 @@ public:
   void     setConversionDelay(uint8_t steps);
   uint8_t  getConversionDelay();
   //  flag = false => 164 mV, true => 41 mV
-  void     setADCRange(bool flag);
+  bool     setADCRange(bool flag);
   bool     getADCRange();
 
   //
@@ -179,7 +179,8 @@ public:
   float    getMaxCurrent();
   float    getShunt();
   float    getCurrentLSB();
-
+  float    getCurrentLSB_mA() { return _current_LSB * 1e3; };
+  float    getCurrentLSB_uA() { return _current_LSB * 1e6; };
 
   //
   //  DIAGNOSE ALERT REGISTER 11  (0x0B)

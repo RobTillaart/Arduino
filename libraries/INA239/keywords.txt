@@ -59,6 +59,8 @@ isCalibrated	KEYWORD2
 getMaxCurrent	KEYWORD2
 getShunt	KEYWORD2
 getCurrentLSB	KEYWORD2
+getCurrentLSB_mA	KEYWORD2
+getCurrentLSB_uA	KEYWORD2
 
 
 setDiagnoseAlert	KEYWORD2

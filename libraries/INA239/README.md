@@ -207,9 +207,9 @@ Note the value can be positive or negative as the INA239 is bidirectional.
 
 - **float getCurrent()** returns the current through the shunt in Ampere.
 Note this value can be positive or negative as the INA239 is bidirectional.
-- **float getAmpere()**
-- **float getMilliAmpere()**
-- **float getMicroAmpere()**
+- **float getAmpere()** idem
+- **float getMilliAmpere()** idem
+- **float getMicroAmpere()** idem
 
 ### TEMPERATURE
 
@@ -218,10 +218,10 @@ Note this value can be positive or negative as the INA239 is bidirectional.
 ### POWER
 
 - **float getPower()** returns the current x BusVoltage in Watt.
-- **float getWatt()**
-- **float getMilliWatt()**
-- **float getMicroWatt()**
-- **float getKiloWatt()**
+- **float getWatt()** idem
+- **float getMilliWatt()** idem
+- **float getMicroWatt()** idem
+- **float getKiloWatt()** idem
 
 
 ### Configuration
@@ -232,7 +232,9 @@ Read datasheet for details, section 7.6.1.1, page xx
 (shunt register) again ==> call **setMaxCurrentShunt()** and more.
 - **void setConversionDelay(uint8_t steps)**  Conversion delay in 0..255 steps of 2 ms
 - **uint8_t getConversionDelay()** return set value.
-- **void setADCRange(bool flag)** flag = false => 164 mV, true => 41 mV
+- **bool setADCRange(bool flag)** flag = false => 164 mV, true => 41 mV
+Since 0.2.1 setADCRange() calls setMaxCurrentShunt() to update the internal LSB values.
+Returns false on failure of setMaxCurrentShunt().
 - **bool getADCRange()** return set value.
 
 TODO: examples to show the effect of the ADC configuration.
@@ -317,7 +319,8 @@ The shunt should be 0.0001 Ω and up.
 - **float getMaxCurrent()** return set value.
 - **float getShunt()** return set value.
 - **float getCurrentLSB()** return actual currenLSB. 0.0 means not calibrated.
-
+- **float getCurrentLSB_mA()** returns the LSB in milliAmpere.
+- **float getCurrentLSB_uA()** returns the LSB in microAmpere.
 
 ### Diagnose alert
 

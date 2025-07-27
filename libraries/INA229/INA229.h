@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA229.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA229_LIB_VERSION          (F("0.4.0"))
+#define INA229_LIB_VERSION          (F("0.4.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -126,7 +126,6 @@ public:
   //  raw integer interface.
   int32_t  getShuntVoltageRAW();
 
-
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
   float    getAmpere()          { return getCurrent(); };
@@ -160,6 +159,7 @@ public:
   double   getMilliCoulomb()    { return getCharge()       * 1e3; };
   double   getMicroCoulomb()    { return getCharge()       * 1e6; };
 
+
   //
   //  CONFIG REGISTER 0
   //  read datasheet for details, section 7.6.1.1, page 21
@@ -174,7 +174,7 @@ public:
   void     setTemperatureCompensation(bool on);
   bool     getTemperatureCompensation();
   //  flag = false => 164 mV, true => 41 mV
-  void     setADCRange(bool flag);
+  bool     setADCRange(bool flag);
   bool     getADCRange();
 
   //
@@ -204,6 +204,8 @@ public:
   float    getMaxCurrent();
   float    getShunt();
   float    getCurrentLSB();
+  float    getCurrentLSB_mA() { return _current_LSB * 1e3; };
+  float    getCurrentLSB_uA() { return _current_LSB * 1e6; };
 
   //
   //  SHUNT TEMPERATURE COEFFICIENT REGISTER 3
@@ -213,6 +215,7 @@ public:
   uint16_t getShuntTemperatureCoefficent();
 
 
+  //
   //  DIAGNOSE ALERT REGISTER 11  (0x0B)
   //  read datasheet for details, section 7.6.1.12, page 26++.
   //

@@ -5,7 +5,7 @@ IDE:    1.8.19
 
 INA229_performance.ino
 
-INA229_LIB_VERSION: 0.3.0
+INA229_LIB_VERSION: 0.4.1
 
 
 ========================================================
@@ -14,22 +14,22 @@ Speed: 1000000
 test_core
 getBusVoltage:	592
 getShuntVoltage:	600
-getCurrent:	596
-getPower:	604
-getTemperature:	452
-getEnergy:	896
+getCurrent:	592
+getPower:	600
+getTemperature:	448
+getEnergy:	900
 getCharge:	896
 
 test_config
 getAccumulation:	444
-getConversionDelay:	444
-getTemperatureCompensation:	452
-getADCRange:	444
+getConversionDelay:	448
+getTemperatureCompensation:	448
+getADCRange:	448
 
 test_adc_config
-getMode:	448
+getMode:	452
 getBusVoltageConversionTime:	444
-getShuntVoltageConversionTime:	448
+getShuntVoltageConversionTime:	444
 getTemperatureConversionTime:	444
 getAverage:	444
 
@@ -41,8 +41,8 @@ test_thresholds
 getShuntOvervoltageTH:	444
 getShuntUndervoltageTH:	448
 getBusOvervoltageTH:	444
-getBusUndervoltageTH:	452
+getBusUndervoltageTH:	448
 getTemperatureOverLimitTH:	444
-getPowerOverLimitTH:	452
+getPowerOverLimitTH:	448
 
 ========================================================

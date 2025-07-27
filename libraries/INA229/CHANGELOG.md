@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-07-18
+- Sync INA228, setADCRange() calls setMaxCurrentShunt();
+- update readme.md
+- update INA_comparison_table.md
+- minor edits.
+
 ## [0.4.0] - 2025-03-08
 - redo #8, INA.getEnergy => keep it UNsigned. Broken in 0.3.0
 - update keywords.txt

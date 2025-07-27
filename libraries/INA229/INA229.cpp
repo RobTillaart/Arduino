@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -183,7 +183,7 @@ float INA229::getPower()
 float INA229::getTemperature()
 {
   uint32_t value = _readRegister(INA229_TEMPERATURE, 2);
-  float LSB = 7.8125e-3;  //   milli degree Celsius
+  float LSB = 7.8125e-3;  //  milli degree Celsius
   return value * LSB;
 }
 
@@ -269,15 +269,19 @@ bool INA229::getTemperatureCompensation()
 }
 
 //  PAGE 20
-void INA229::setADCRange(bool flag)
+bool INA229::setADCRange(bool flag)
 {
-  //  if (flag == _ADCRange) return;
-  _ADCRange = flag;
   uint16_t value = _readRegister(INA229_CONFIG, 2);
+  _ADCRange = (value & INA229_CFG_ADCRANGE) > 0;
+  //  nothing changed ==> we're done.
+  if (flag == _ADCRange) return true;
+  _ADCRange = flag;
   if (flag) value |= INA229_CFG_ADCRANGE;
   else      value &= ~INA229_CFG_ADCRANGE;
-  //  if value has not changed we do not need to write it back.
   _writeRegister(INA229_CONFIG, value);
+  //  INA228, #26 
+  bool rv = setMaxCurrentShunt(getMaxCurrent(), getShunt()) == 0;
+  return rv;
 }
 
 bool INA229::getADCRange()
@@ -468,7 +472,7 @@ void INA229::clearDiagnoseAlertBit(uint8_t bit)
 {
   uint16_t value = _readRegister(INA229_DIAG_ALERT, 2);
   uint16_t mask = (1 << bit);
-  //  only write new value if bit not set..
+  //  only write new value if bit not set.
   if ((value & mask ) != 0)
   {
     value &= ~mask;
@@ -621,32 +625,32 @@ bool INA229::usesHWSPI()
 uint32_t INA229::_readRegister(uint8_t reg, uint8_t bytes)  //  bytes = 2 or 3.
 {
   //  Dedicated SPI code
-  uint32_t rv = 0;
+  uint32_t value = 0;
   uint8_t addr = (reg << 2) + 1;  //  1 = Read flag.  P18 datasheet
   uint8_t count = bytes;
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    rv += _mySPI->transfer(addr);
+    value = _mySPI->transfer(addr);
     while (count--)
     {
-      rv <<= 8;
-      rv += _mySPI->transfer(0x00);
+      value <<= 8;
+      value |= _mySPI->transfer(0x00);
     }
     _mySPI->endTransaction();
   }
   else      //  Software SPI
   {
-    rv += swSPI_transfer(addr);
+    value = swSPI_transfer(addr);
     while (count--)
     {
-      rv <<= 8;
-      rv += swSPI_transfer(0x00);
+      value <<= 8;
+      value |= swSPI_transfer(0x00);
     }
   }
   digitalWrite(_select, HIGH);
-  return rv;
+  return value;
 }
 
 

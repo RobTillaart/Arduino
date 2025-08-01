@@ -17,7 +17,7 @@ Arduino Library for external I2C EEPROM - 24LC512, 24LC256, 24LC64/32/16/08/04/0
 
 ## Description
 
-This library is to access external I2C EEPROM up to 64KB (= 512 Kbit) in size.
+This library is to access the external I2C EEPROM up to 64KB (= 512 Kbit) in size.
 MicroChip 24LC512, 24LC256, 24LC64, 24LC32, 24LC16, 24LC08, 24LC04, 24LC02, 24LC01 and equivalents.
 
 Also confirmed working M24512-W, M24512-R, M24512-DF (See #68). 
@@ -50,20 +50,46 @@ before calling **I2C_eeprom.begin()**.
 ### Related
 
 - https://github.com/RobTillaart/I2C_24LC1025
+- https://github.com/RobTillaart/I2C_CAT24M01
+- https://github.com/RobTillaart/I2C_EEPROM
 
 
 ## Schematic
 
 ```cpp
-        +---U---+
-    A0  | 1   8 |  VCC = 1.7V to 5.5V
-    A1  | 2   7 |   WP = write protect pin
-    A2  | 3   6 |  SCL = I2C clock
-   GND  | 4   5 |  SDA = I2C data
-        +-------+
-
-Default address = 0x50 .. 0x57 depending on three address lines (A0, A1, A2).
+              +---U---+
+          A0  | 1   8 |  VCC = 1.7V to 5.5V
+          A1  | 2   7 |   WP = write protect pin
+          A2  | 3   6 |  SCL = I2C clock
+   (VSS) GND  | 4   5 |  SDA = I2C data
+              +-------+
 ```
+
+
+## I2C
+
+I2C address = 0x50 .. 0x57 depending on three address lines (A0, A1, A2).
+
+Read the datasheet, section device addressing.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
 
 
 ## Interface
@@ -88,9 +114,9 @@ constructor, with optional Wire interface.
 Furthermore it checks if the deviceAddress is available on the I2C bus.
 Returns true if deviceAddress is found on the bus, false otherwise.
 Optionally one can set the **WP** writeProtect pin. (see section below).
-If the **WP** pin is defined the default will be to **not** allow writing.
+If the **WP** pin is defined, the default behaviour will be to **not** allow writing.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
-- **uint8_t getAddress()** returns device address set in the constructor.
+- **uint8_t getAddress()** returns deviceAddress set in the constructor.
 
 
 ### Write functions
@@ -243,12 +269,8 @@ Manual control
 
 ## Limitation
 
-The library does not offer multiple EEPROMS as one continuous storage device. 
+The library does not offer multiple EEPROMS as one continuous storage device.
 
-
-## Operation
-
-See examples
 
 ## Future
 

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.9.3] - 2025-08-01
+- update readme.md
+
+
 ## [1.9.2] - 2024-11-25
 - fix #79, wrong default in constructor - kudos to ekinohito
 

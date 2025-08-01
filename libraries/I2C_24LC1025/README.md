@@ -11,12 +11,12 @@
 
 # I2C_24LC1025 - I2C 1MB EEPROM
 
-Arduino library for for external I2C EEPROM - 24LC1025 and equivalents e.g. 24AA1025/24FC1025.
+Arduino library for 24LC1025 (1 Mbit) I2C EEPROM and equivalents e.g. 24AA1025/24FC1025.
 
 
 ## Description
 
-This library is to access external I2C EEPROM of 128 KB in size, 
+This library is to access the external I2C EEPROM of 128 KB in size, 
 typically the 24LC1025 and equivalents e.g. 24AA1025/24FC1025.
 
 **Warning**
@@ -26,7 +26,8 @@ The device will **NOT** work when this pin floats or is connected to GND (0V).
 
 This library follows the I2C_EEPROM library, see links below.
 
-#### Breaking change
+
+### Breaking change
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -35,26 +36,51 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
+- https://github.com/RobTillaart/I2C_24LC1025
+- https://github.com/RobTillaart/I2C_CAT24M01
 - https://github.com/RobTillaart/I2C_EEPROM
 
 
 ## Schematic
 
 ```cpp
-        +---U---+
-    A0  | 1   8 |  VCC = +5V
-    A1  | 2   7 |   WP = write protect pin
-    A2  | 3   6 |  SCL = I2C clock
-   GND  | 4   5 |  SDA = I2C data
-        +-------+
-
-default address = 0x50 .. 0x53 depending on A0 and A1 address lines.
-A2 must be connected to VCC (5V).
-
-Read the datasheet, section device addressing, about A2 and B0 (block bit)
+              +---U---+
+          A0  | 1   8 |  VCC = +5V
+          A1  | 2   7 |   WP = write protect pin
+          A2  | 3   6 |  SCL = I2C clock
+   (VSS) GND  | 4   5 |  SDA = I2C data
+              +-------+
 ```
+
+
+## I2C
+
+I2C address = 0x50, 0x51, 0x52, 0x53 depending on A0 and A1 address lines.
+A2 must be connected to VCC (5V).
+Bit 2 of the I2C address is used for the MSB of the memory address.
+
+Read the datasheet, section device addressing, about A2 and B0 (block bit).
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
 
 
 ## Interface
@@ -72,13 +98,15 @@ Most important difference is 32 bit memory addresses.
 ### Constructor
 
 - **I2C_24LC1025(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface.
+The address = 0x50, 0x51, 0x52, 0x53 depending on A1 and A2 address lines, see above.
 - **bool begin(uint8_t writeProtectPin = -1)** initializes the I2C bus with the default pins.
 Furthermore it checks if the deviceAddress is available on the I2C bus.
 Returns true if deviceAddress is found on the bus, false otherwise.
 Optionally one can set the **WP** writeProtect pin. (see section below).
-If the **WP** pin is defined the default will be to **not** allow writing.
+If the **WP** pin is defined, the default behaviour will be to **not** allow writing.
 - **bool isConnected()** test to see if deviceAddress is found on the bus.
-- **uint8_t getAddress()** returns device address set in constructor.
+- **uint8_t getAddress()** returns deviceAddress set in the constructor.
+
 
 ### Write functions
 
@@ -113,8 +141,6 @@ Returns the number of bytes read, which should be length.
 
 ### Verify functions
 
-Since 0.2.0 - experimental, needs extensive testing.
-
 Same as write and update functions above. Returns true if successful, false indicates an error.
 
 - **bool writeByteVerify(uint32_t memoryAddress, uint8_t value)**
@@ -132,8 +158,6 @@ Same as write and update functions above. Returns true if successful, false indi
 
 
 ### UpdateBlock()
-
-(new since 0.1.3)
 
 The function **updateBlock()** reads the block of data and compares it with the new values to see if it needs rewriting.
 
@@ -162,8 +186,6 @@ or overrule the define on the command line.
 
 ### WriteProtectPin WP (experimental)
 
-(since 0.2.5)
-
 The library can control the **WP** = WriteProtect pin of the EEPROM.
 To do this one should connect a GPIO pin of the MCU to the **WP** pin of the EEPROM.
 Furthermore the **WP** should be defined as a parameter in **begin()**.
@@ -190,15 +212,9 @@ Manual control
 - **void preventWrite()** disables writing by setting **WP** to HIGH.
 
 
-
 ## Limitation
 
 The library does not offer multiple EEPROMS as one continuous storage device.
-
-
-## Operation
-
-See examples
 
 
 ## Future

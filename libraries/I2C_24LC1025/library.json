@@ -1,7 +1,7 @@
 {
   "name": "I2C_24LC1025",
-  "keywords": "24FC1025,24xx1025",
-  "description": "24FC1025 I2C EEPROM",
+  "keywords": "24FC1025,24LC1025,24AA1025,24xx1025",
+  "description": "Library for 24FC1025 1Mbit I2C EEPROM",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/I2C_24LC1025"
   },
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

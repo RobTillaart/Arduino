@@ -1,0 +1,49 @@
+# Syntax Colouring Map For I2C_CAT24M01
+
+
+# Data types (KEYWORD1)
+I2C_CAT24M01	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+
+# 24LC1025
+writeByte	KEYWORD2
+writeBlock	KEYWORD2
+setBlock	KEYWORD2
+
+readByte	KEYWORD2
+readBlock	KEYWORD2
+
+updateByte	KEYWORD2
+updateBlock	KEYWORD2
+
+writeByteVerify	KEYWORD2
+writeBlockVerify	KEYWORD2
+setBlockVerify	KEYWORD2
+updateByteVerify	KEYWORD2
+updateBlockVerify	KEYWORD2
+
+getDeviceSize	KEYWORD2
+getPageSize	KEYWORD2
+getLastWrite	KEYWORD2
+
+setExtraWriteCycleTime	KEYWORD2
+getExtraWriteCycleTime	KEYWORD2
+
+hasWriteProtectPin	KEYWORD2
+allowWrite	KEYWORD2
+preventWrite	KEYWORD2
+setAutoWriteProtect	KEYWORD2
+getAutoWriteProtect	KEYWORD2
+
+# Constants (LITERAL1)
+I2C_CAT24M01_VERSION	LITERAL1
+
+I2C_DEVICESIZE_CAT24M01	LITERAL1
+I2C_PAGESIZE_CAT24M01	LITERAL1
+

@@ -1,0 +1,23 @@
+{
+  "name": "I2C_CAT24M01",
+  "keywords": "CAT24M01",
+  "description": "Library for CAT24M01 1Mbit I2C EEPROM.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2C_CAT24M01"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "I2C_CAT24M01.h"
+}

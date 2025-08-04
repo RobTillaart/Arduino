@@ -1,7 +1,7 @@
 //
 //    FILE: RunAvgWeight.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-06-30
 // PURPOSE: Arduino library to calculate the running average with weights by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunAvgWeight
@@ -75,7 +75,7 @@ bool RunAvgWeight::addValue(const float value, const float weight)
   if (_index >= _size) _index = 0;  //  faster than %
   //  update count
   if (_count < _size) _count++;
-  
+
   //  handle min max
   if (_count == 1) _min = _max = value;
   else if (value < _min) _min = value;

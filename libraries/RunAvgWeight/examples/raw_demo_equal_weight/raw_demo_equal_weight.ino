@@ -15,13 +15,15 @@ int samples = 0;
 
 void setup(void)
 {
+  while(!Serial);  //  for Leonardo a.o.
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("RUNAVGWEIGHT_LIB_VERSION: ");
   Serial.println(RUNAVGWEIGHT_LIB_VERSION);
+  Serial.println();
 
-  myRA.clear();  //   explicitly start clean
+  myRA.clear();  //  explicitly start clean
 
   for (int i = 0; i < 10; i++)
   {
@@ -45,7 +47,7 @@ void loop(void)
   Serial.print(samples);
   Serial.print("\t Running Average: ");
   Serial.println(myRA.getAverage(), 3);
-  
+
   if (samples == 300)
   {
     samples = 0;

@@ -1,4 +1,4 @@
-# Syntax Colouring Map For RunningAverage
+# Syntax Colouring Map For RunAvgWeight
 
 
 # Data types (KEYWORD1)

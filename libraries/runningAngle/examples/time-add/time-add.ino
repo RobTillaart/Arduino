@@ -1,3 +1,6 @@
+
+//  URL: https://github.com/RobTillaart/runningAngle
+
 /*
    time-add.ino: Measure the average execution time of
    runningAngle::add().
@@ -55,7 +58,13 @@ static float unoptimize(float x)
 runningAngle heading(runningAngle::ANGLE_UNIT);
 
 void setup() {
-  Serial.begin(9600);
+  while(!Serial);  //  For Leonardo a.o.
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RUNNING_ANGLE_LIB_VERSION: ");
+  Serial.println(RUNNING_ANGLE_LIB_VERSION);
+  Serial.println();
 
   heading.setMode1();
 

@@ -46,7 +46,7 @@ raised by Edgar Bonet.
 [an issue]: https://github.com/RobTillaart/AverageAngle/issues/1
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/AngleConvertor
@@ -54,6 +54,10 @@ raised by Edgar Bonet.
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
+
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
 
 
 ## Smoothing coefficient
@@ -127,7 +131,7 @@ Note: Degree character ° = ALT-0176 (windows)
 #include "runningAngle.h"
 ```
 
-#### AngleType
+### AngleType
 
 - **enum AngleType { DEGREES, RADIANS, GRADIANS }** used to get type math right.
 
@@ -143,7 +147,7 @@ same as RADIANS \* 1000. This won't be supported.
 mRad and other angle-types can be converted here - https://github.com/RobTillaart/AngleConvertor
 
 
-#### runningAngle
+### runningAngle
 
 - **runningAngle(AngleType type = DEGREES)** constructor, default to DEGREES.
 - **float add(float angle)** adds a new value using a defined weight. 
@@ -161,7 +165,7 @@ Default weight = RA_DEFAULT_WEIGHT == 0.80.
 or \[-200..200> depending on the type set.
 
 
-#### Mode 
+### Mode 
 
 - **void setMode0()** average interval = \[-180..180>
 - **void setMode1()** average interval = \[0..360>

@@ -2,6 +2,7 @@
 //    FILE: runningAngle_0_360.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo mapping average from -180..180 to 0..360
+//     URL: https://github.com/RobTillaart/runningAngle
 
 
 #include "runningAngle.h"
@@ -13,8 +14,13 @@ runningAngle heading(runningAngle::DEGREES);
 
 void setup()
 {
+  while(!Serial);  //  For Leonardo a.o.
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("RUNNING_ANGLE_LIB_VERSION: ");
+  Serial.println(RUNNING_ANGLE_LIB_VERSION);
+  Serial.println();
 
   start = millis();
   for (int32_t a = 0; a < 36000; a++)

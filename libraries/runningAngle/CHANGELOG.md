@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.1] - 2023-11-21
+## [0.2.2] - 2025-08-01
+- update examples
 - update readme.md
 
+## [0.2.1] - 2023-11-21
+- update readme.md
 
 ## [0.2.0] - 2023-02-22
 - add **void setMode0()** ==> -180..180

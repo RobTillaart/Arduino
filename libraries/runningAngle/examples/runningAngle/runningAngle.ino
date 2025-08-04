@@ -2,6 +2,7 @@
 //    FILE: runningAngle.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demonstrates the usage of the runningAngle Class
+//     URL: https://github.com/RobTillaart/runningAngle
 
 
 #include "runningAngle.h"
@@ -11,8 +12,13 @@ uint32_t start, stop;
 
 void setup()
 {
+  while(!Serial);  //  For Leonardo a.o.
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("RUNNING_ANGLE_LIB_VERSION: ");
+  Serial.println(RUNNING_ANGLE_LIB_VERSION);
+  Serial.println();
 
   test0();
   test1();
@@ -74,8 +80,8 @@ void test1()
 }
 
 
-// shows effect of weight
-// e.g. to a robot rotating 360 degrees
+//  shows effect of weight
+//  e.g. to a robot rotating 360 degrees
 void test2()
 {
   Serial.println("\nTEST WEIGHTS");

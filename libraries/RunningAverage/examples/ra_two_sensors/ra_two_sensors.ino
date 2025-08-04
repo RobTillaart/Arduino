@@ -1,7 +1,6 @@
 //
 //    FILE: ra_two_sensors.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-12-06
 // PURPOSE: show working of runningAverage for two sensors
 //     URL: https://github.com/RobTillaart/RunningAverage
 
@@ -25,9 +24,10 @@ void setup(void)
   Serial.println(__FILE__);
   Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
+  Serial.println();
 
   //  explicitly start clean
-  RAT.clear(); 
+  RAT.clear();
   RAH.clear();
 }
 

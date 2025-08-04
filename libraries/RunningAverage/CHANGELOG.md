@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.8] - 2025-08-01
+- add array example
+- update examples
+- minor edits
+
 ## [0.4.7] - 2024-08-12
 - Fix #33, add **float getCoefficientOfVariation()**
 - update readme.md

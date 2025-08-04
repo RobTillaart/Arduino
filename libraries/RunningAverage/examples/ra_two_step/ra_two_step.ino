@@ -22,6 +22,8 @@ void setup(void)
   Serial.println(__FILE__);
   Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
+  Serial.println();
+
   raHours.clear();
   raDays.clear();
 }

@@ -36,12 +36,17 @@ update the internal **\_sum**.
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/infiniteAverage
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
 - https://github.com/RobTillaart/Student
+
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
 
 
 ## Interface

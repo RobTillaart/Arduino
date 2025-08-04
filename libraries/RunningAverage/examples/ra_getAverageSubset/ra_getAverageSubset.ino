@@ -20,8 +20,11 @@ void setup(void)
   Serial.println(__FILE__);
   Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
+  Serial.println();
 
-  myRA.clear();  //  explicitly start clean
+  delay(10);
+  //  explicitly start clean
+  myRA.clear();
 
   for (int i = 0; i < 20; i++)
   {

@@ -26,6 +26,7 @@ void setup(void)
   Serial.println(__FILE__);
   Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
+  Serial.println();
 
   //  explicitly start clean
   myRA.clear();
@@ -58,7 +59,7 @@ void measure_duration()
   Serial.println(stop - start);
   delay(10);
   Serial.println();
-}  
+}
 
 
 void test(long n)

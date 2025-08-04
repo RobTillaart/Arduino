@@ -15,31 +15,36 @@ int samples = 0;
 uint32_t start, stop;
 
 
-void setup(void) 
+void setup(void)
 {
   Serial.begin(115200);
-  Serial.print("Demo RunningAverage lib - fillValue ");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
+  Serial.println();
+
   delay(10);
+  //  explicitly start clean
+  myRA.clear();
 
   for (int i = 0; i < 15; i++)
   {
 	  measure_duration(i);
   }
-  
+
   Serial.println();
 }
 
 
-void loop(void) 
+void loop(void)
 {
   long rn = random(0, 100);
   myRA.addValue(rn / 100.0);
   samples++;
   Serial.print("Running Average: ");
   Serial.println(myRA.getAverage(), 4);
-  
+
   if (samples == 300)
   {
     samples = 0;

@@ -20,8 +20,12 @@ void setup(void)
   Serial.println(__FILE__);
   Serial.print("RUNNINGAVERAGE_LIB_VERSION: ");
   Serial.println(RUNNINGAVERAGE_LIB_VERSION);
-  
+  Serial.println();
+
+  delay(10);
+  //  explicitly start clean
   myRA.clear();
+
   for (uint16_t i = 0; i < 1000; i++)
   {
     myRA.addValue(i);

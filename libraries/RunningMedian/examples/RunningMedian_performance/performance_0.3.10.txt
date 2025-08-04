@@ -1,0 +1,56 @@
+
+RunningMedian_performance.ino
+RUNNING_MEDIAN_VERSION: 0.3.10
+
+Dynamic version using malloc() enabled
+
+test_median
+Allocated size = 25
+nr of elements = 0
+    searchMode = 0
+
+50 x add: 532
+     avg: 10.64
+ 1 x get: 1144		== sorting
+  median: 304.00
+ 1 x get: 8		== no sorting
+  median: 304.00
+
+test_median
+Allocated size = 25
+nr of elements = 0
+    searchMode = 1
+
+50 x add: 528
+     avg: 10.56
+ 1 x get: 796		== sorting
+  median: 304.00
+ 1 x get: 8		== no sorting
+  median: 304.00
+
+test_average
+Allocated size = 25
+nr of elements = 0
+    searchMode = 0
+
+50 x add: 532
+     avg: 10.64
+ 1 x get: 1348		== sorting
+ average: 303.65
+ 1 x get: 208		== no sorting
+ average: 303.65
+
+test_average
+Allocated size = 25
+nr of elements = 0
+    searchMode = 1
+
+50 x add: 520
+     avg: 10.40
+ 1 x get: 1000		== sorting
+ average: 303.65
+ 1 x get: 212		== no sorting
+ average: 303.65
+
+done..
+

@@ -34,7 +34,7 @@ the running median in the next steps in advance.
 to remove the oldest and keep them sorted to be able to select the median.
 
 
-#### Note: MEDIAN_MAX_SIZE
+### Note: MEDIAN_MAX_SIZE
 
 The maximum size of the internal buffer is defined by **MEDIAN_MAX_SIZE** and is 
 set to 255 (since version 0.3.1). The memory allocated currently is in the order
@@ -46,7 +46,7 @@ is large. For most applications a value much lower e.g. 19 is working well, and
 is performance wise O(100x) faster in sorting than 255 elements.
 
 
-#### Note: Configurable Options
+### Note: Configurable Options
 
 There are several options that can be configured via defines at compile time, those being:
 - **RUNNING_MEDIAN_USE_MALLOC**: bool
@@ -60,16 +60,22 @@ There are several options that can be configured via defines at compile time, th
   - Static: The buffer stores at most this many items.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/infiniteAverage
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
+- https://github.com/RobTillaart/Student
+
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
 
 
 ## Interface
@@ -79,7 +85,7 @@ There are several options that can be configured via defines at compile time, th
 ```
 
 
-#### Constructor
+### Constructor
 
 - **RunningMedian(const uint8_t size)** Constructor, dynamically allocates memory.
 - **~RunningMedian()** Destructor.
@@ -88,7 +94,7 @@ There are several options that can be configured via defines at compile time, th
 - **bool isFull()** returns true if the internal buffer is 100% filled.
 
 
-#### Base functions
+### Base functions
 
 - **clear()** resets internal buffer and variables, effectively empty the buffer.
 - **add(const float value)** adds a new value to internal buffer, 
@@ -107,7 +113,7 @@ This is done by adjusting the nMedian parameter (-1 or +1) if needed.
 This value is often interpolated.
 
 
-#### getMedianAverage(nMedian)
+### getMedianAverage(nMedian)
  
 **getAverage(nMedian)** and **getMedianAverage(uint8_t nMedian)** differ.
 When nMedian is odd and count is even or vice versa, the middle N are not 
@@ -129,7 +135,7 @@ It is possible that the name **getMedianAverage(uint8_t nMedian)**
 will change in the future to be more descriptive.
 
 
-#### Less used functions
+### Less used functions
 
 - **float getElement(const uint8_t n)** returns the n'th element from the values in time order.
 - **float getSortedElement(const uint8_t n)** returns the n'th element from the values in size order (sorted ascending).
@@ -137,7 +143,7 @@ will change in the future to be more descriptive.
 n must be smaller than **getSize()/2**.
 
 
-#### SearchMode optimization
+### SearchMode optimization
 
 Since 0.3.7 the internal sort has been optimized.
 It is now possible to select between LINEAR (=0) and BINARY (=1) insertion sort.
@@ -146,7 +152,7 @@ For larger internal arrays the performance gain of BINARY mode is substantial.
 
 - **void setSearchMode(uint8_t searchMode = 0)** 0 = linear, 1 = binary - see table below.
 Other values will set the searchMode to linear.
-- **uint8_t getSearchMode()** returns the set mode
+- **uint8_t getSearchMode()** returns the set searchMode.
 
 |  searchMode  |  value  | notes  |
 |:------------:|:-------:|:-------|
@@ -155,12 +161,7 @@ Other values will set the searchMode to linear.
 
 Depends on the board / clock used where the methods are equally fast.
 
-Give it a try, and let me know your.
-
-
-## Operation
-
-See examples.
+Give it a try, and let me know your experiences.
 
 
 ## Future
@@ -176,6 +177,8 @@ See examples.
 - check for optimizations.
   - get the median without (full) sorting. QuickSelect()
 - move all code to .cpp file
+
+#### Wont
 
 
 ## Support

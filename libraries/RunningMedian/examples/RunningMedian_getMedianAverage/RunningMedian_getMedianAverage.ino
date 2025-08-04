@@ -39,9 +39,14 @@ void test_compare()
 
 void setup()
 {
+  while (!Serial);  //  Wait for serial port to connect. Needed for Leonardo + MKR1010.
   Serial.begin(115200);
-  Serial.print("Running Median Version: ");
+  delay(1000);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
+  Serial.println();
 
   test_compare();
 

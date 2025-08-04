@@ -19,9 +19,14 @@ uint32_t start, dur1, dur2, dur3;
 
 void setup()
 {
+  while (!Serial);  //  Wait for serial port to connect. Needed for Leonardo + MKR1010.
   Serial.begin(115200);
-  Serial.print(F("Running Median Version: "));
+  delay(1000);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
+  Serial.println();
 
   Serial.println(samples.getSize());
 }
@@ -65,5 +70,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

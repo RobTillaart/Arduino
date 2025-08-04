@@ -26,11 +26,14 @@ RunningMedian samples = RunningMedian(sourceSize);
 
 void setup()
 {
+  while (!Serial);  //  Wait for serial port to connect. Needed for Leonardo + MKR1010.
   Serial.begin(115200);
-  while (!Serial); // Wait for serial port to connect. Needed for Leonardo + MKR1010.
-  delay(1000); // Simply to allow time for the ERW versions of the IDE time to automagically open the Serial Monitor. 1 second chosen arbitrarily.
-  Serial.print(F("Running Median Version: "));
+  delay(1000);  //  Simply to allow time for the ERW versions of the IDE time to automagically open the Serial Monitor. 1 second chosen arbitrarily.
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
+  Serial.println();
 
 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
@@ -64,7 +67,7 @@ void test1()
   Serial.println(samples.getSize());
   Serial.println();
 
-  // 50 iterations !!
+  //  50 iterations !!
   for (uint8_t i = 0; i <= (sourceSize - 1); i++)
   {
     Serial.print(F("Loop number : "));
@@ -166,5 +169,5 @@ void test1()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

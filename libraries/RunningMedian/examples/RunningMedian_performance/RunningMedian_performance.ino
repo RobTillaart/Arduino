@@ -25,16 +25,19 @@ const int sourceData[] =
 
 const int sourceSize = (sizeof(sourceData) / sizeof(sourceData[0]));
 
-// RunningMedian samples = RunningMedian(sourceSize);
+//  RunningMedian samples = RunningMedian(sourceSize);
 RunningMedian samples = RunningMedian(sourceSize / 2);
 
 void setup()
 {
-  Serial.begin(115200);
   while (!Serial);  //  Wait for serial port to connect. Needed for Leonardo + MKR1010.
+  Serial.begin(115200);
   delay(1000);
-  Serial.print(F("Running Median Version: "));
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
+  Serial.println();
 
 #ifdef RUNNING_MEDIAN_USE_MALLOC
   Serial.println(F("Dynamic version using malloc() enabled"));
@@ -93,7 +96,7 @@ void test_median()
   Serial.println(total / 50.0);
   delay(100);
 
-  // time to access the data
+  //  time to access the data
   start = micros();
   float result = samples.getMedian();
   stop = micros();
@@ -104,7 +107,7 @@ void test_median()
   Serial.println(result);
   delay(100);
 
-  // time to access the data
+  //  time to access the data
   start = micros();
   result = samples.getMedian();
   stop = micros();
@@ -147,7 +150,7 @@ void test_average()
   Serial.println(total / 50.0);
   delay(100);
 
-  // time to access the data
+  //  time to access the data
   start = micros();
   float result = samples.getAverage(20);
   stop = micros();

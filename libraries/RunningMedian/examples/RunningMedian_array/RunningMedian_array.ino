@@ -18,9 +18,14 @@ RunningMedian RM[4] = { a, b, c, d };
 
 void setup()
 {
+  while (!Serial);  //  Wait for serial port to connect. Needed for Leonardo + MKR1010.
   Serial.begin(115200);
-  Serial.print("Running Median Version: ");
+  delay(1000);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
+  Serial.println();
 }
 
 
@@ -30,7 +35,7 @@ void loop()
   {
     RM[i].add(random(100));
   }
-  for (int i = 0; i < 4; i++) 
+  for (int i = 0; i < 4; i++)
   {
     Serial.print(RM[i].getCount());
     Serial.print("\t");
@@ -42,4 +47,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

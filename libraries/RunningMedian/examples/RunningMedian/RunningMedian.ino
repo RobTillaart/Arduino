@@ -13,9 +13,14 @@ RunningMedian samples = RunningMedian(5);
 
 void setup()
 {
+  while (!Serial);  //  Wait for serial port to connect. Needed for Leonardo + MKR1010.
   Serial.begin(115200);
-  Serial.print("Running Median Version: ");  
+  delay(1000);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
   Serial.println(RUNNING_MEDIAN_VERSION);
+  Serial.println();
 }
 
 
@@ -28,15 +33,15 @@ void loop()
 void test1()
 {
   int x = analogRead(A0);
-  
+
   samples.add(x);
   long l = samples.getLowest();
   long m = samples.getMedian();
   long a = samples.getAverage();
   long h = samples.getHighest();
-  
+
   Serial.print(millis());
-  Serial.print("\t");  
+  Serial.print("\t");
   Serial.print(x);
   Serial.print("\t");
   Serial.print(l);
@@ -50,5 +55,5 @@ void test1()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

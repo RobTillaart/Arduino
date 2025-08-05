@@ -18,10 +18,14 @@ uint32_t start, stop;
 
 void setup()
 {
+  //  while(!Serial);  //  Leonardo
   Serial.begin(115200);
-  Serial.print(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FRACTION_LIB_VERSION: ");
+  Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   float f = PI;
   start = micros();
@@ -31,6 +35,7 @@ void setup()
   Serial.println(x.toString());
   Serial.println(x.toDouble(), 10);
   Serial.println();
+  delay(100);
 
   f = EULER;
   start = micros();
@@ -40,8 +45,10 @@ void setup()
   Serial.println(y.toString());
   Serial.println(y.toDouble(), 10);
   Serial.println();
+  delay(100);
 
   Serial.println("done...\n");
+  delay(100);
 }
 
 
@@ -64,6 +71,7 @@ void loop()
   Serial.print(y.toDouble(), 10);
   Serial.print("\t");
   Serial.println(f - y.toDouble(), 10);
+  delay(100);
 
   // mediant method.
   start = micros();
@@ -79,6 +87,7 @@ void loop()
   Serial.print(y.toDouble(), 10);
   Serial.print("\t");
   Serial.println(f - y.toDouble(), 10);
+  delay(100);
 }
 
 

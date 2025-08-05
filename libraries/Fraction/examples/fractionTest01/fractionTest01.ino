@@ -21,10 +21,14 @@ Fraction gr(1.6180339887498948482);  //  golden ratio
 
 void setup()
 {
+  //  while(!Serial);  //  Leonardo
   Serial.begin(115200);
-  Serial.print("Start fractionTest: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FRACTION_LIB_VERSION: ");
   Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   Serial.println(a.toString());
   Serial.println(aa.toString());

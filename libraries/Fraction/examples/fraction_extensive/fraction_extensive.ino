@@ -1,5 +1,5 @@
 //
-//    FILE: fraction_extensive_test.ino
+//    FILE: fraction_extensive.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: reasonable extensive fraction test
 //     URL: https://github.com/RobTillaart/Fraction
@@ -23,10 +23,11 @@ uint32_t pos = 0;
 
 void setup()
 {
-  //  NOTE BAUDRATE!
+  //  while(!Serial);  //  Leonardo
   Serial.begin(115200);
-  Serial.print(__FILE__);
-  Serial.print("FRACTION_LIB_VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FRACTION_LIB_VERSION: ");
   Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
   delay(100);
@@ -67,7 +68,7 @@ void setup()
   Serial.print("MILLIS: ");
   Serial.println(stop - start);
   Serial.print("MAXERR: ");
-  Serial.println(maxError);
+  Serial.println(maxError, 4);
   Serial.print("   POS: ");
   Serial.println(pos);
 }

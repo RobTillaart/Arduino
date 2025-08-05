@@ -2,14 +2,14 @@
 //
 //    FILE: fraction.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library to implement a Fraction data type
 //     URL: https://github.com/RobTillaart/Fraction
 
 
 #include "Arduino.h"
 
-#define FRACTION_LIB_VERSION            (F("0.2.0"))
+#define FRACTION_LIB_VERSION            (F("0.3.0"))
 
 
 class Fraction
@@ -28,9 +28,8 @@ public:
     explicit Fraction(uint8_t p)   : n(p), d(1) {}
     Fraction(const Fraction &f) : n(f.n), d(f.d) {}
 
-    //  EQUALITIES
+    //  (IN)EQUALITIES
     bool operator == (const Fraction&);
-    //  bool operator == (const float&);
     bool operator != (const Fraction&);
     bool operator >  (const Fraction&);
     bool operator >= (const Fraction&);
@@ -52,23 +51,27 @@ public:
     Fraction& operator /= (const Fraction&);
 
     //  CONVERSION and PRINTING
-    double  toDouble();
-    float   toFloat();
-    String  toString();
+    int32_t  toInt32();
+    double   toDouble();
+    float    toFloat();
+    String   toString();
 
-    bool    isProper();     //  abs(f) < 1
-    bool    isInteger();    //  d == 1
-    float   toAngle();
+    bool     isProper();     //  abs(f) < 1
+    bool     isInteger();    //  d == 1
+    float    toAngle();      //  uses atan2() => -180..180 degrees.
 
     int32_t  nominator();
     int32_t  denominator();
 
-    //  MISCELLANEOUS (static)
+    //  MISCELLANEOUS
     static Fraction mediant(const Fraction&, const Fraction&);
     static Fraction middle(const Fraction&, const Fraction&);
 
     //  approximate a fraction with defined denominator
     static Fraction setDenominator(const Fraction&, uint16_t);
+
+    //  return a Fraction == 1/F
+    Fraction reciprocal();
 
 
 protected:

@@ -17,11 +17,16 @@ uint32_t stop;
 
 void setup()
 {
-  pinMode(13, OUTPUT);
+  //  while(!Serial);  //  Leonardo
   Serial.begin(115200);
-  Serial.print("\n\nStart F: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FRACTION_LIB_VERSION: ");
   Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
+
+  pinMode(13, OUTPUT);
+
   randomSeed(analogRead(A0) * 256 + analogRead(A1));
 
   start = micros();

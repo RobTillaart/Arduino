@@ -1,7 +1,7 @@
 //
 //    FILE: fraction.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library to implement a Fraction data type
 //     URL: https://github.com/RobTillaart/Fraction
 
@@ -30,7 +30,7 @@ void Fraction::split(float f)
   //  handle special cases?
   //  PI = 355/113;      // 2.7e-7
   //  PI*2 = 710/113;
-  //  PI/2 = 335/226;
+  //  PI/2 = 355/226;
   //  EULER = 2721/1001; // 1.1e-7
   //  EULER = 1264/465;  // 2.2e-6
 
@@ -54,7 +54,7 @@ void Fraction::split(float f)
   if (negative) f = -f;
 
   //  strip of the integer part and process only remainder (0.0..1.0)
-  int32_t integerPart = int32_t(f);  
+  int32_t integerPart = int32_t(f);
   f = f - integerPart;
 
   fractionize(f);
@@ -225,6 +225,12 @@ Fraction& Fraction::operator /= (const Fraction &c)
 //
 //  CONVERSION and PRINTING
 //
+int32_t Fraction::toInt32()
+{
+  return n / d;
+}
+
+
 double Fraction::toDouble()
 {
   return double(n) / d;
@@ -240,7 +246,7 @@ float Fraction::toFloat()
 String Fraction::toString()
 {
   String s = "(";
-  // if (n < 0) s += "-";
+  //  if (n*d < 0) s += "-";   use abs(n)  abs(d)
   s += n;
   s += "/";
   s += d;
@@ -321,6 +327,12 @@ Fraction Fraction::setDenominator(const Fraction &a, uint16_t b)
 }
 
 
+Fraction Fraction::reciprocal()
+{
+  return Fraction(d, n);
+}
+
+
 //////////////////////////////////////
 //
 //  PROTECTED
@@ -382,19 +394,19 @@ void Fraction::simplify()
 // }
 
 
+//////////////////////////////////////////////////////////////////////////////
+//
+//  PRE 0.3.0 version
 //
 //  check for a discussion found later (link is dead)
 //  - http://mathforum.org/library/drmath/view/51886.html
 //  - http://www.gamedev.net/topic/354209-how-do-i-convert-a-decimal-to-a-fraction-in-c/
-//
-
-
 //  Dr. Peterson
 //  - http://mathforum.org/library/drmath/view/51886.html
 //  (100x) micros()=96048
 //  showed errors for very small values around 0
 
-
+/*
 void Fraction::fractionize(float val)
 {
   //  find nearest fraction
@@ -446,6 +458,39 @@ void Fraction::fractionize(float val)
   }
   n = high.n;
   d = high.d;
+}
+*/
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+//  Version from Edgar Bonet, see PR#12
+//
+//  This function computes the successive convergents of the continued
+//  fraction expansion of its argument. It returns the last convergent
+//  that has a denominator smaller than 10,000. The result is expected
+//  to be within a few UPLs of the input value.
+//
+void Fraction::fractionize(float val)
+{
+  constexpr int32_t max_denominator = 10000;
+  constexpr float epsilon = 1.0 / max_denominator;  //  practically zero
+  int16_t p2 = 0, p1 = 1;     //  successive numerators
+  int16_t q2 = 1, q1 = 0;     //  successive denominators
+  for (;;) {
+    int32_t a = val;          //  integer part
+    int32_t p = a * p1 + p2;  //  recurrence
+    int32_t q = a * q1 + q2;  //  recurrence
+    if (q >= max_denominator)
+      break;
+    p2 = p1; p1 = p;
+    q2 = q1; q1 = q;
+    if (val - a < epsilon)     //  found a quasi-exact match
+      break;
+    val = 1/(val - a);
+  }
+  n = p1;
+  d = q1;
 }
 
 

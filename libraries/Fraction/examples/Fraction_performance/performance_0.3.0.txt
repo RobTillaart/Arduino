@@ -1,0 +1,43 @@
+IDE 1.8.19
+Arduino UNO
+
+Fraction_performance.ino
+FRACTION_LIB_VERSION: 0.3.0
+
+
+test_constructor
+TIME: 	3024
+(21/50)
+(1/3)
+(1/3)
+(1/4)
+(0/1)
+(5/1)
+(355/113)
+(2721/1001)
+
+test_math
+TIME +: 	1564
+(6628/1131)
+TIME -: 	1332
+(479/1131)
+TIME *: 	1824
+(3220/377)
+TIME /: 	1828
+(3554/3075)
+
+test_conversion
+TIME toDouble(): 	44
+2.7182817
+TIME toFloat(): 	40
+2.7182817
+TIME toAngle(): 	196
+69.8024673
+
+test_misc
+TIME mediant(): 	372
+(1538/557)
+TIME middle(): 	1636
+(3314/1131)
+
+done...

@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/Fraction
 //
 //  (0.1.16) On AVR it uses 10 bytes per element, where 8 were expected.
-//  (0.2.0)  solved this 
+//  (0.2.0)  solved this
 
 
 #include "fraction.h"
@@ -16,11 +16,14 @@ Fraction arr[50];
 
 void setup()
 {
+  //  while(!Serial);  //  Leonardo
   Serial.begin(115200);
-  Serial.print(__FILE__);
-  Serial.print("FRACTION_LIB_VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FRACTION_LIB_VERSION: ");
   Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   for ( int n = 0; n < 33; n++)
   {

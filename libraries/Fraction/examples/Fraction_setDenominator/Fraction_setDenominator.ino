@@ -10,10 +10,14 @@
 
 void setup()
 {
+  //  while(!Serial);  //  Leonardo
   Serial.begin(115200);
-  Serial.print(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FRACTION_LIB_VERSION: ");
+  Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   Fraction pi(PI);
   Fraction appr = Fraction::setDenominator(pi, 32);

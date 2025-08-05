@@ -1,5 +1,5 @@
 //
-//    FILE: fractionTest01.ino
+//    FILE: Fraction_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test sketch for fraction math
 //     URL: https://github.com/RobTillaart/Fraction

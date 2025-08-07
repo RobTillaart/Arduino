@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.3
+// VERSION: 0.5.4
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -87,6 +87,9 @@ differs for different devices, check datasheet or readme.md
 #define ADS1X15_COMP_QUE_2_CONV         ( 0x0001 )  //  trigger alert after 2 converts
 #define ADS1X15_COMP_QUE_4_CONV         ( 0x0002 )  //  trigger alert after 4 converts
 #define ADS1X15_COMP_QUE_NONE           ( 0x0003 )  //  disable comparator
+
+//  FIX #94 comparator off for low power.
+#define ADS1X15_COMPARATOR_OFF          ( 0xFFF7 )
 
 
 //  _CONFIG masks
@@ -340,6 +343,14 @@ void ADS1X15::setComparatorMode(uint8_t mode)
 uint8_t ADS1X15::getComparatorMode()
 {
   return _compMode;
+}
+
+
+bool ADS1X15::setComparatorOff()
+{
+  uint16_t config = _readRegister(_address, ADS1X15_REG_CONFIG);
+  config &= ADS1X15_COMPARATOR_OFF;
+  return _writeRegister(_address, ADS1X15_REG_CONFIG, config);
 }
 
 

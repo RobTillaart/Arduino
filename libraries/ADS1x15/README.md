@@ -537,6 +537,17 @@ the high threshold register or falls below the low threshold register.
 In this mode the alert is held if the **LATCH** is set. This is similar as above.
 
 
+### Comparator Off
+
+**Experimental** See #94.
+
+- **bool setComparatorOff()** switch off the comparator to reduce energy usage
+during sleep. Needs confirmation.
+
+When a measurement is made after sleep the comparator is switched on automatically
+if needed.
+
+
 ### Polarity
 
 Default state of the **ALERT/RDY** pin is **LOW**, which can be to set **HIGH**.

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.4] - 2025-08-04
+- fix #94, add setComparatorOff() function. (experimental)
+- update keywords.txt
+- update readme.md.
+
 ## [0.5.3] - 2025-06-22
 - fix #91, problem with LATCH constants
 - add ( ) to the #defines, see #91

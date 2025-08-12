@@ -1,0 +1,34 @@
+# Syntax Colouring Map For SMC
+
+# Data types (KEYWORD1)
+SMC	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+outValue	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+
+setSetPoint	KEYWORD2
+getSetPoint	KEYWORD2
+setMaxValue	KEYWORD2
+getMaxValue	KEYWORD2
+
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
+setWeights	KEYWORD2
+getWeight1	KEYWORD2
+getWeight2	KEYWORD2
+
+
+# Constants (LITERAL1)
+SMC_LIB_VERSION	LITERAL1
+
+SMC_LINEAR	LITERAL1
+SMC_EXPONENTIAL	LITERAL1
+SMC_SIMPLE	LITERAL1
+

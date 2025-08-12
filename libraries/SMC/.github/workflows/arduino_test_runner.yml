@@ -1,0 +1,17 @@
+name: Arduino CI
+
+on: [push, pull_request]
+
+jobs:
+  runTest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - run: |
+          gem install arduino_ci
+          arduino_ci.rb

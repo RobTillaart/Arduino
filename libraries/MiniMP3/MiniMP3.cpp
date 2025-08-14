@@ -1,35 +1,37 @@
 //
 //    FILE: MiniMP3.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for DFRobotics MP3 player and compatibles.
+//    DATE: 2018-06-11
+//     URL: https://github.com/RobTillaart/MINIMP3
 
 
 #include "MiniMP3.h"
 
 
 //  CONSTANTS
-#define MP3_MAX_VOLUME      30
+#define MP3_MAX_VOLUME        30
 
 
 //  COMMANDS
-#define MP3_NEXT            0x01
-#define MP3_PREV            0x02
-#define MP3_PLAY            0x03
-#define MP3_VOL_INCR        0x04
-#define MP3_VOL_DECR        0x05
-#define MP3_VOL_SET         0x06
-#define MP3_EQUAL           0x07
-#define MP3_PLAYMODE        0x08
-#define MP3_PLAYSOURCE      0x09
-#define MP3_LOWPOWER        0x0A
-#define MP3_POWER           0x0B
-#define MP3_RESET           0x0C
-#define MP3_PLAYBACK        0x0D
-#define MP3_PAUSE           0x0E
-#define MP3_PLAY_FOLDER     0x0F
-#define MP3_VOL_ADJUST_SET  0x10
-#define MP3_REPEAT          0x11
+#define MP3_NEXT              0x01
+#define MP3_PREV              0x02
+#define MP3_PLAY              0x03
+#define MP3_VOL_INCR          0x04
+#define MP3_VOL_DECR          0x05
+#define MP3_VOL_SET           0x06
+#define MP3_EQUAL             0x07
+#define MP3_PLAYMODE          0x08
+#define MP3_PLAYSOURCE        0x09
+#define MP3_LOWPOWER          0x0A
+#define MP3_POWER             0x0B
+#define MP3_RESET             0x0C
+#define MP3_PLAYBACK          0x0D
+#define MP3_PAUSE             0x0E
+#define MP3_PLAY_FOLDER       0x0F
+#define MP3_VOL_ADJUST_SET    0x10
+#define MP3_REPEAT            0x11
 
 
 //  QUERIES

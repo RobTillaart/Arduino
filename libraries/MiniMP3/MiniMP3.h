@@ -2,14 +2,15 @@
 //
 //    FILE: MiniMP3.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for DFRobotics MP3 player and compatibles.
+//    DATE: 2018-06-11
 //     URL: https://github.com/RobTillaart/MINIMP3
 
 
 #include "Arduino.h"
 
-#define MINIMP3_LIB_VERSION     (F("0.1.3"))
+#define MINIMP3_LIB_VERSION     (F("0.1.4"))
 
 
 //  EQUALIZER MODI
@@ -59,7 +60,7 @@ public:
   void volumeUp();
   void volumeDown();
 
-  //  mode = 0..5
+  //  mode = 0..5, see defines above.
   void equalizer(uint8_t mode = MP3_EQ_NORMAL);
 
 

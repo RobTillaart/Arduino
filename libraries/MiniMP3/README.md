@@ -19,7 +19,7 @@ Arduino library for DFRobotics MP3 player and compatibles.
 **Experimental**
 
 MiniMP3 is an Arduino library to control the DFRobotics MP3 player and compatibles.
-Goal is to have basic control of the device via hardware Serial or software Serial.
+Goal is to have basic control of the device via hardware Serial or Software Serial.
 
 If you need complete control including all kinds of feedback events like
 "card inserted" you need to use the DFRobotics library.
@@ -27,7 +27,7 @@ If you need complete control including all kinds of feedback events like
 This library is work in progress.
 
 
-#### Schema
+### Schema
 
 ```
                MINI MP3
@@ -47,9 +47,10 @@ Serial TX and RX as the MiniMP3 is 3V3. Otherwise a big HUM.
 ```
 
 
-#### Links
+### Related
 
 - https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299  (extended library)
+- https://www.dfrobot.com/product-1121.html
 
 
 ## Interface
@@ -58,15 +59,16 @@ Serial TX and RX as the MiniMP3 is 3V3. Otherwise a big HUM.
 #include "MiniMP3.h"
 ```
 
-#### Constructor
+### Constructor
 
-- **MiniMP3(Stream \* stream = &Serial)** Can be used with software or hardware Serial.
-Default stream is Serial.
-- **void reset()** reset the player.
-- **void lowPower()** set the player in low power mode.
+- **MiniMP3(Stream \* stream = &Serial)** The MP3 player can be used with
+both Software or Hardware Serial.
+Default stream is Serial. Note this might interfere with the Serial Monitor.
+- **void reset()** reset the MP3 player.
+- **void lowPower()** set the MP3 player in low power mode.
 
 
-#### Basic controls
+### Basic controls
 
 - **void play(uint16_t track)** plays SD:/MP3/track.mp3
 - **void next()** go to next track.
@@ -75,7 +77,7 @@ Default stream is Serial.
 - **void stop()** stop playing.
 
 
-#### Volume
+### Volume
 
 - **void volume(uint16_t vol = 0)** set volume range 0..30. 
   - default volume off.
@@ -85,7 +87,7 @@ Default stream is Serial.
   - Set equalizer mode, see options below.
 
 
-#### Equalizer modi
+### Equalizer modi
 
 |  Mode            |  value  |  notes    |
 |:-----------------|:-------:|:---------:|
@@ -115,11 +117,11 @@ Default stream is Serial.
 - add examples
   - implement playlists
   - implement "skip_search" (play 10 seconds of each file).
-  - implement randomizer
 - add unit tests (possible?)
 - get current track
 - last track
 - last mode
+- **void previous()** go to previous track. Will replace prev() in future.
 
 #### Wont
 

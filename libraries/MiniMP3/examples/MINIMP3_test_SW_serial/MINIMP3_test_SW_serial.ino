@@ -16,7 +16,7 @@
 //  SPK_2  |  | CARD |  |  IO_1
 //         +--+------+--+
 //
-//  When connecting to a 5V MCU, you need to add a 1K resistor between 
+//  When connecting to a 5V MCU, you need to add a 1K resistor between
 //  the Serial TX and RX as the MINIMP3 is 3V3. Otherwise a big HUM.
 //
 

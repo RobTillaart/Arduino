@@ -1,7 +1,7 @@
 //
 //    FILE: Adler32_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo performance test
 //     URL: https://github.com/RobTillaart/Adler
 
 

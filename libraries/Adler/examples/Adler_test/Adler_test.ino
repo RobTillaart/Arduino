@@ -7,10 +7,11 @@
 
 #include "Arduino.h"
 #include "Adler.h"
+#include "printHelpers.h"
 
 
 //  expected output
-//  ADLER_LIB_VERSION: 0.2.0
+//  ADLER_LIB_VERSION: 0.3.0
 //
 //  E1F5
 //  4660
@@ -21,7 +22,14 @@
 //  81E0256
 //  E000325
 //  11E60398
-
+//
+//  000005C8000001F0
+//  0000081E00000256
+//  00000E0000000325
+//  000011E600000398
+//
+//  note: difference between the adler32 and the adler64 == extra zero's
+//        as the strings are very small.
 
 
 char str1[24] = "abcde";
@@ -53,6 +61,12 @@ void setup()
   Serial.println(adler32((uint8_t *) str4, 9), HEX);
   Serial.println();
 
+  Serial.println(hex(adler64((uint8_t *) str1, 5)));
+  Serial.println(hex(adler64((uint8_t *) str2, 6)));
+  Serial.println(hex(adler64((uint8_t *) str3, 8)));
+  Serial.println(hex(adler64((uint8_t *) str4, 9)));
+  Serial.println();
+
   Serial.println(adler16(str1, 5), HEX);
   Serial.println(adler16(str2, 6), HEX);
   Serial.println(adler16(str3, 8), HEX);
@@ -63,6 +77,12 @@ void setup()
   Serial.println(adler32(str2, 6), HEX);
   Serial.println(adler32(str3, 8), HEX);
   Serial.println(adler32(str4, 9), HEX);
+  Serial.println();
+
+  Serial.println(hex(adler64(str1, 5)));
+  Serial.println(hex(adler64(str2, 6)));
+  Serial.println(hex(adler64(str3, 8)));
+  Serial.println(hex(adler64(str4, 9)));
   Serial.println();
 }
 

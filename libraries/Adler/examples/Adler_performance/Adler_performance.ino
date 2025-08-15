@@ -7,7 +7,7 @@
 
 #include "Arduino.h"
 #include "Adler.h"
-
+#include "printHelpers.h"
 
 char str[] = "Lorem ipsum dolor sit amet, \
 consectetuer adipiscing elit. Aenean commodo ligula eget dolor. \
@@ -37,6 +37,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("ADLER_LIB_VERSION: ");
   Serial.println(ADLER_LIB_VERSION);
+  Serial.println();
 
   for (int i = 0; i < 60; i++)
   {
@@ -48,6 +49,17 @@ void setup()
   Serial.print("LENGTH STR: ");
   Serial.println(len);
   delay(100);
+
+//  start = micros();
+//  volatile uint64_t x64 = adler64((uint8_t *) str, len);
+//  stop = micros();
+//  Serial.print("   TIME us: ");
+//  Serial.println(stop - start);
+//  Serial.print("  ADLER-64: ");
+//  Serial.print(print64(x64));
+//  Serial.print("\t");
+//  Serial.println(hex(x64));
+//  delay(200);
 
   start = micros();
   volatile uint32_t x = adler32((uint8_t *) str, len);

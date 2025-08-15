@@ -1,0 +1,17 @@
+
+Tested on Arduino UNO R3
+IDE 1.18.19
+
+D:\Rob\WORK\Arduino\libraries\Adler\examples\Adler_performance\Adler_performance.ino
+ADLER_LIB_VERSION: 0.3.0
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ae...
+LENGTH STR: 868
+   TIME us: 7200
+  ADLER-64: 151377805974781069	0219CD5000013C8D
+   TIME us: 1280
+  ADLER-32: 3972480156	ECC73C9C
+   TIME us: 1912
+  ADLER-16: 57303	DFD7
+
+

@@ -1,0 +1,26 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+Adler64_performance
+ADLER64_LIB_VERSION: 0.3.0
+
+randomtime: 901496
+     total: 1052052
+ 1e4 x add: 150556
+  checksum: 76F1667100133696
+
+     total: 16121540
+ 1e6 x add: 15220044
+  checksum: B275C3BD079966E1
+
+LENGTH LOREM: 868
+
+   lorem 1: 13320	checksum: 0219CD5000013C8D
+   lorem 2: 13660	checksum: 0219CD5000013C8D
+   lorem 3: 7448	checksum: 0219CD5000013C8D
+
+LENGTH HELLO: 11
+
+   hello 1: 180	checksum: 00001A0B0000045D
+   hello 2: 184	checksum: 00001A0B0000045D
+   hello 3: 120	checksum: 00001A0B0000045D

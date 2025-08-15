@@ -1,15 +1,16 @@
 //
-//    FILE: Adler16_performance.ino
+//    FILE: Adler64_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo performance test
 //     URL: https://github.com/RobTillaart/Adler
 
 
 #include "Arduino.h"
-#include "Adler16.h"
+#include "Adler64.h"
+#include "printHelpers.h"
 
+Adler64 ad;
 
-Adler16 ad;
 volatile uint8_t z;
 uint32_t start, stop, randomtime;
 
@@ -38,9 +39,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("Adler16_performance");
-  Serial.print("ADLER16_LIB_VERSION: ");
-  Serial.println(ADLER16_LIB_VERSION);
+  Serial.println("Adler64_performance");
+  Serial.print("ADLER64_LIB_VERSION: ");
+  Serial.println(ADLER64_LIB_VERSION);
+  Serial.println();
 
   start = micros();
   for (uint16_t x = 0; x < 10000; x++)
@@ -68,7 +70,7 @@ void setup()
   delay(100);
 
   Serial.print("  checksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   Serial.println();
   delay(100);
 
@@ -86,7 +88,7 @@ void setup()
   Serial.println(stop - start - randomtime);
   delay(100);
   Serial.print("  checksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   Serial.println();
   delay(100);
 
@@ -106,7 +108,7 @@ void setup()
   Serial.print("   lorem 1: ");
   Serial.print(stop - start);
   Serial.print("\tchecksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   delay(100);
 
   ad.begin();
@@ -116,7 +118,7 @@ void setup()
   Serial.print("   lorem 2: ");
   Serial.print(stop - start);
   Serial.print("\tchecksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   delay(100);
 
   ad.begin();
@@ -126,7 +128,7 @@ void setup()
   Serial.print("   lorem 3: ");
   Serial.print(stop - start);
   Serial.print("\tchecksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   Serial.println();
   delay(100);
 
@@ -146,7 +148,7 @@ void setup()
   Serial.print("   hello 1: ");
   Serial.print(stop - start);
   Serial.print("\tchecksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   delay(100);
 
   ad.begin();
@@ -156,7 +158,7 @@ void setup()
   Serial.print("   hello 2: ");
   Serial.print(stop - start);
   Serial.print("\tchecksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   delay(100);
 
   ad.begin();
@@ -166,8 +168,9 @@ void setup()
   Serial.print("   hello 3: ");
   Serial.print(stop - start);
   Serial.print("\tchecksum: ");
-  Serial.println(ad.getAdler());
+  Serial.println(hex(ad.getAdler()));
   Serial.println();
+
 }
 
 
@@ -177,4 +180,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

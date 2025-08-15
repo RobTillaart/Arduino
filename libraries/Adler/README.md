@@ -11,17 +11,24 @@
 
 # Adler
 
-Arduino Library for Adler-32 and experimental Adler-16 checksum.
+Arduino Library for Adler-32, Adler-16 and Adler-64 checksum.
 
 
 ## Description
 
 This library provides an Adler32 checksum of a data block, typical an array of bytes.
-Since 0.2.0 the library also supports an experimental Adler16 implementation.
+The library also supports an Adler16 (0.2.0) and Adler64 (0.3.0) implementation.
+
 This Adler16 is often faster as it uses a smaller checksum than the Adler32.
-The price is that Adler16 is less sensitive than Adler32 as less possible checksums
-are possible. 
+The price is that Adler16 is less sensitive for error detection than Adler32 
+as less possible checksums are possible. 
 Still it will have its niches where it will be useful.
+
+The Adler64 is much slower as uint64 is not (seldom) supported on Arduino alike boards
+in hardware. 
+Furthermore the checksum, in HEX notation does look similar to the Adler32 value. 
+So only for big files (dozens to hundreds of MB's) the Adler64 shows its value.
+
 
 0.2.0 is a breaking change, file names have been changed to be more
 in line with the CRC library.
@@ -29,8 +36,11 @@ in line with the CRC library.
 - Adler32.h for the Adler32 class
 - Adler16.h for the Adler16 class.
 
+0.3.0 supports experimental 64 bit. 
+- Adler64.h for the Adler64 class.
+- performance is low due to emulation of 64 bit
 
-#### Related
+### Related
 
 - https://en.wikipedia.org/wiki/Adler-32
 - https://github.com/RobTillaart/Adler
@@ -39,15 +49,15 @@ in line with the CRC library.
 - https://github.com/RobTillaart/LUHN
 
 
-#### Tested
+### Tested
 
-Tested on Arduino UNO and ESP32.
+Tested on Arduino UNO and ESP32 (except 64 bit).
 
 
 ## Interface
 
 
-### Adler class
+### AdlerXX class
 
 ```cpp
 #include "Adler32.h"
@@ -55,7 +65,7 @@ Tested on Arduino UNO and ESP32.
 #include "Adler16.h"
 ```
 
-The interface for the Adler16 is very similar.
+The interface for the Adler16 and Adler64 class is very similar.
 
 - **Adler32()** Constructor, initializes internals.
 - **void begin(uint32_t s1 = 1, uint32_t s2 = 0)** resets the internals.
@@ -183,6 +193,21 @@ The gain of the faster 16 bit modulo meets the frequency of
 doing the modulo more often.
 
 
+## Performance Adler64
+
+**Experimental**
+
+Only tested on UNO R3.
+If you have data of other platforms, please let me know.
+
+Numbers measured with **Adler64_performance.ino**.
+
+The performance of Adler64 class is much slower than Adler32.
+Reason is that the uint64_t is not supported in hardware and is emulated.
+
+TODO: detailed numbers (?).
+
+
 ## Interface static functions
 
 ```cpp
@@ -194,13 +219,17 @@ Think of packets in a network, records in a database, or a checksum for an confi
 
 The functions are straightforward. Length is in bytes (8 bits).
 
+- **uint64_t adler64(uint8_t \*data, uint16_t length, uint64_t s1 = 1, uint64_t s2 = 0)**
 - **uint32_t adler32(uint8_t \*data, uint16_t length, uint32_t s1 = 1, uint32_t s2 = 0)**
 - **uint16_t adler16(uint8_t \*data, uint16_t length, uint16_t s1 = 1, uint16_t s2 = 0)**
 
-Two wrapper functions added in 0.2.4 for char array's (convenience).
+Three wrapper functions added in 0.2.4 for char array's (convenience).
 
+- **uint64_t adler64(char \*data, uint16_t length, uint64_t s1 = 1, uint64_t s2 = 0)**
 - **uint32_t adler32(char \*data, uint16_t length, uint32_t s1 = 1, uint32_t s2 = 0)**
 - **uint16_t adler16(char \*data, uint16_t length, uint16_t s1 = 1, uint16_t s2 = 0)**
+
+Note the 64 bit version is experimental.
 
 
 ### Performance
@@ -212,15 +241,23 @@ Numbers measured with **Adler_performance.ino**.
 
 Lorem Ipsum text = 868 bytes.
 
-| Version | Function | UNO 16 MHz | ESP32 240 MHz |
-|:-------:|:---------|:----------:|:-------------:|
+| Version | Function | UNO 16 MHz | ESP32 240 MHz |  Notes  |
+|:-------:|:---------|:----------:|:-------------:|:-------:|
 | 0.1.0   | Adler32  |  1116 us   |               |
 | 0.1.2   | Adler32  |  1116 us   |               |
 | 0.2.0   | Adler32  |  1116 us   |     60 us     |
 | 0.2.0   | Adler16  |  1736 us   |     75 us     |
+|         |          |            |               |
+| 0.3.0   | Adler64  |  7200 us   |        us     |
+| 0.3.0   | Adler32  |  1280 us   |        us     |  longer => inclusion 64 bit
+| 0.3.0   | Adler16  |  1912 us   |        us     |  longer => inclusion 64 bit
+
+The performance of the adler64 is slow as the UNO does not support 64 bit
+in hardware (emulation). If one does not use the Adler64 in a sketch, the
+performance figures of 0.2.0 "return".
 
 
-#### UNO
+### UNO
 
 Adler32 average 1116 / 868 = 1.29 us per byte.
 Adler16 average 1736 / 868 = 2.00 us per byte. (~1.5x slower !)
@@ -249,16 +286,11 @@ See examples.
   - other platforms?
 - extend unit tests
   - s1 s2 parameter static functions
-
+  - Adler64 unit tests?
 
 #### Could
 
-- Adler64 ?
-  - would need a large prime (which) => 4294967291
-  - max uint32_t       = 4.294.967.296
-  - max uint32_t prime = 4.294.967.291
-  - need printHelpers library for printing.
-  - only on request.
+- optimize performance of adler64 by doing math in 32 bit (partially)?
 - **void add(String str);**?
 
 

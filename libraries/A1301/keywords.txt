@@ -21,7 +21,7 @@ getSensitivity	KEYWORD2
 
 raw	KEYWORD2
 read	KEYWORD2
-readExt	KEYWORD2
+readExternal	KEYWORD2
 
 isNull	KEYWORD2
 isNorth	KEYWORD2
@@ -32,12 +32,12 @@ isFalling	KEYWORD2
 lastGauss	KEYWORD2
 prevGauss	KEYWORD2
 deltaGauss	KEYWORD2
-angle	KEYWORD2
 determineNoise	KEYWORD2
+angle	KEYWORD2
 
 Tesla	KEYWORD2
-mTesla	KEYWORD2
-uTesla	KEYWORD2
+milliTesla	KEYWORD2
+microTesla	KEYWORD2
 
 setMaxGauss	KEYWORD2
 getMaxGauss	KEYWORD2

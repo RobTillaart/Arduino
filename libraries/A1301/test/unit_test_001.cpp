@@ -106,16 +106,16 @@ unittest(test_read_external_ADC)
   H.begin(3.3, 4095);
   H.setMidPoint(2047);
 
-  assertEqualFloat(-0.337494, H.readExt(1000.0), 0.01);
+  assertEqualFloat(-0.337494, H.readExternal(1000.0), 0.01);
   assertTrue(H.isSouth());
 
-  assertEqualFloat(-0.176322, H.readExt(1500.0), 0.01);
+  assertEqualFloat(-0.176322, H.readExternal(1500.0), 0.01);
   assertTrue(H.isSouth());
 
-  assertEqualFloat(-0.0151502, H.readExt(2000.0), 0.01);
+  assertEqualFloat(-0.0151502, H.readExternal(2000.0), 0.01);
   assertTrue(H.isSouth());
 
-  assertEqualFloat(0.307194, H.readExt(3000.0), 0.01);
+  assertEqualFloat(0.307194, H.readExternal(3000.0), 0.01);
   assertTrue(H.isNorth());
 }
 
@@ -129,8 +129,8 @@ unittest(test_converters)
   float Gauss = 50;
 
   assertEqualFloat(0.005, H.Tesla(Gauss), 0.01);
-  assertEqualFloat(5.00, H.mTesla(Gauss), 0.01);
-  assertEqualFloat(5000, H.uTesla(Gauss), 0.01);
+  assertEqualFloat(5.00, H.milliTesla(Gauss), 0.01);
+  assertEqualFloat(5000, H.microTesla(Gauss), 0.01);
 }
 
 

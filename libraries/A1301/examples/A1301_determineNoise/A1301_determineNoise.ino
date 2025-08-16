@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("A1301_LIB_VERSION: ");
   Serial.println(A1301_LIB_VERSION);
+  Serial.println();
 
   mm.begin(5000, 1023);
 

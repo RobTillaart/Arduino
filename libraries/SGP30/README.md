@@ -11,7 +11,7 @@
 
 # SGP30
 
-Arduino library for SGP30 environment sensor
+Arduino library for SGP30 environment sensor.
 
 Warning: experimental, library is not functional complete yet.
 

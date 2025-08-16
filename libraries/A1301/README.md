@@ -14,19 +14,22 @@
 
 # A1301
 
-Arduino library for A1301 and A1302 magnetometer.
+Arduino library for the A1301, A1302 and compatible magnetometers.
 
 
 ## Description
 
-The A1301 and A1302 are continuous-time, Ratio-metric, linear Hall-effect sensors. 
-They are optimized to accurately provide a voltage output that is proportional to 
-an applied magnetic field. 
-These devices have a quiescent output voltage that is 50% of the supply voltage. 
+**Experimental**
+
+The A1301 and A1302 are continuous-time, Ratio-metric, linear Hall-effect sensors.
+They are optimized to accurately provide a voltage output that is proportional to
+an applied magnetic field.
+These devices have a quiescent output voltage that is 50% of the supply voltage.
 This voltage level is a.k.a. the midPoint.
 
-Two output sensitivity options are provided: 2.5 mV/G typical for the A1301, 
-and 1.3 mV/G typical for the A1302. (from datasheet)
+Two output sensitivity options are provided: 2.5 mV/G typical for the A1301,
+and 1.3 mV/G typical for the A1302. (from the datasheet).
+This sensitivity can be overridden to fine tune the library.
 
 The following 5 classes are supported:
 
@@ -38,15 +41,19 @@ The following 5 classes are supported:
 |  A1325   |  3.125 mV/Gauss |     Y     |
 |  A1326   |  2.500 mV/Gauss |     Y     |
 
-Other, more or less, compatible sensors are welcome.
-(see future below.)
-
-The library is experimental and need more testing.
-Feedback, issues and improvements are welcome, 
+The library needs more testing.
+Feedback, issues and improvements are welcome,
+also if compatible devices are missing.
 Please open an issue on GitHub.
 
 
-## Connection
+### 0.3.0 breaking change
+
+The 0.3.0 version improved some function names and added more return types.
+See changelog.md for details. Functional there are no changes.
+
+
+### Connection
 
 ```
 //  always check datasheet.
@@ -58,6 +65,11 @@ Please open an issue on GitHub.
 //     3     VDD +5V
 ```
 
+### Related
+
+- https://github.com/RobTillaart/AS5600
+- https://github.com/RobTillaart/AngleConvertor
+
 
 ## Interface
 
@@ -65,55 +77,58 @@ Please open an issue on GitHub.
 #include "A1301.h"
 ```
 
-
-#### Constructor
+### Constructor
 
 - **HALL(uint8_t pin)** base class constructor.
-pin is the analogPin to read from.
-- **A1301(uint8_t pin)** constructor.
-- **A1302(uint8_t pin)** constructor.
-- **A1324(uint8_t pin)** constructor.
-- **A1325(uint8_t pin)** constructor.
-- **A1326(uint8_t pin)** constructor.
+The parameter pin is the analogPin to read from.
+- **A1301(uint8_t pin)** constructor, other sensitivity, see table above.
+- **A1302(uint8_t pin)** constructor, other sensitivity, see table above.
+- **A1324(uint8_t pin)** constructor, other sensitivity, see table above.
+- **A1325(uint8_t pin)** constructor, other sensitivity, see table above.
+- **A1326(uint8_t pin)** constructor, other sensitivity, see table above.
 
 
-#### Configuration
+### Configuration
 
-- **void begin(float voltage, uint16_t steps)**
-Sets the parameters voltage and number of steps of the internal ADC.
-Note this allows to update the voltage runtime.
-Steps must be larger than zero.
-- **void setMidPoint(float midPoint)** the value of midPoint depends on the internal ADC.
+- **bool begin(float voltage, uint16_t steps)**
+Sets the parameters voltage and number of steps of the internal ADC, typical 5.0 V
+and 1023 steps for a 10 bit ADC.
+Note this function allows to update the voltage runtime.
+Voltage and Steps must be larger than zero, otherwise the function returns false.
+- **bool setMidPoint(float midPoint)** the value of midPoint depends on the internal ADC.
 It is the value where there is no (zero) magnetic field.
-Note it does not need to be a whole value. 
+Note it does not need to be a whole value.
 This allows quite precise tuning.
-- **float autoMidPoint(uint8_t times = 100)** assumes zero field. 
-Averages multiple (default 100) samples to set the midPoint.
-Uses internal ADC.
-Also returns the found midPoint.
+midPoint should be larger than zero, otherwise the function returns false.
+- **float autoMidPoint(uint8_t times = 100)** assumes a zero magnetic field.
+Averages multiple (default 100) samples to determine and set the midPoint.
+Uses the internal ADC specified in the constructor.
+The function returns the found midPoint.
 -- **float getMidPoint()** returns the current midPoint.
-- **void setSensitivity(float sensitivity)** overrule default sensitivity.
-Use with care.
+- **bool setSensitivity(float sensitivity)** overrules the default sensitivity.
+Sensitivity must be larger than zero, otherwise the function returns false.
+Use with care!
 - **float getSensitivity()** return the set / current sensitivity.
 
 
-#### Read
+### Read
 
-- **float raw(uint8_t times = 1)** raw analog measurement.
-- **float read(uint8_t times = 1)** raw measurement converted to Gauss.
-Can be positive (North) or negative (South).
+- **float raw(uint8_t times = 1)** returns the average of times raw analog measurements.
+Times must be larger than zero.
+- **float read(uint8_t times = 1)** returns the average of times raw measurements converted to Gauss.
+The value can be positive (== North) or negative (== South) or zero.
 Returns Gauss.
 - **float readExt(float raw)** to be used with external ADC.
-Note: **raw** is an ADC measurement, not a voltage.
-Can be positive (North) or negative (South).
+Note: **raw** is an raw external ADC measurement, not a voltage.
+Can be positive (== North) or negative (== South) or zero.
 Returns Gauss.
-Can also be used for testing, e.g. replay of a series of data.
+Note this function can also be used for testing, e.g. replay of a series of data.
 
 
-#### Analyse
+### Analyse
 
 - **bool isNull()** last read is zero.
-- **bool isNorth()** last read is above than zero.
+- **bool isNorth()** last read is above zero.
 - **bool isSouth()** last read is below zero.
 - **bool isRising()** trend (last 2 reads) is upward.
 - **bool isFalling()** trend (last 2 reads) is downward.
@@ -121,28 +136,31 @@ Can also be used for testing, e.g. replay of a series of data.
 - **float prevGauss()** returns previous measurement in Gauss.
 - **float deltaGauss()** returns last - previous measurement.
 
-Experimental.
+**Experimental**
 
-- **float determineNoise(uint8_t times = 2)** estimates noise level
-around measurements. **times** will be forced to be at least 2.
-Does not affect lastGauss or prevGauss values. 
-- **float angle()** returns atan2(prevGauss, lastGauss).
-Indicator of change.
-Returns angle in radians. For degrees multiply by 180/PI.
+- **float determineNoise(uint8_t times = 2)** estimates the noise level
+around measurements. The parameter **times** will be forced to be at least 2.
+Does not affect the lastGauss() or prevGauss() values.
+- **float angle()** returns the atan2(prevGauss, lastGauss).
+The angle indicates a relative change.
+Returns angle in radians. For an angle in degrees multiply by **(180.0/PI)**.
+An angle of 45 or 225 degrees means no change, where an angle of 135 or 315
+degrees implies maximum change.
 
 
-#### Saturation.
+### Saturation level
 
-Experimental saturation level.
+**Experimental**
 
-- **void setMaxGauss(float maxGauss)** set the saturation level.
+- **bool setMaxGauss(float maxGauss)** set the saturation level.
 If maxGauss < 0 the absolute value is set.
+The function returns false if maxGauss == 0.
 - **float getMaxGauss()** returns the set saturation level.
-- **bool isSaturated()** true when ADC (lastRead) seems to max out. 
+- **bool isSaturated()** true when ADC (lastRead) seems to max out.
 - **float saturationLevel()** returns value between 0..100%, or beyond!
 
 
-#### Tesla 
+### Tesla (conversion)
 
 - **float Tesla(float Gauss)** convenience convertor.
 - **float mTesla(float Gauss)** convenience convertor.
@@ -155,18 +173,13 @@ If maxGauss < 0 the absolute value is set.
 
 - improve documentation
 - buy hardware A1301 / A1302 / etc...
-- test with hardware (again)
+- test with hardware
 
+#### Should
 
-#### Should 
-
-- unit tests
 - test **isSaturated()** + **saturationLevel()**
   - limits might be sensor dependant.
-- investigate **atan2(prevGauss, lastGauss)**
-  - angle indicates relative delta compared to magnitude and direction.
-  - 45 & 315 degrees is no change.
-
+- add and improve unit tests
 
 #### Could
 
@@ -175,11 +188,10 @@ If maxGauss < 0 the absolute value is set.
   - HoneyWell - SS490 Series
 - temperature correction functions?
   - see datasheet.
-- relative flux = prevGauss / lastGauss 
+- relative flux() = prevGauss / lastGauss
   - smaller 1 => increasing
   - larger  1 => decreasing
   - negative  => flipping
-
 
 #### Ideas
 
@@ -188,16 +200,14 @@ If maxGauss < 0 the absolute value is set.
 - influence of angle of the field-lines?
 - defaults for parameters of some functions?
 
-
 #### Won't
 
 - printable interface
   - does not add much.
-
 - can the strength of the signal be converted to distance?
-  - for a given magnet maybe
+  - field strength ~~ (C/distance)^3 ==> distance ~~ C/thirdRoot(field)
+  - how to determine C constant, for a given magnet maybe
   - repeatability + noise is a problem.
-
 
 ## Support
 

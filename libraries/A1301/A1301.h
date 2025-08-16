@@ -2,7 +2,7 @@
 //
 //    FILE: A1301.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -18,24 +18,38 @@
 
 #include "Arduino.h"
 
-#define A1301_LIB_VERSION        (F("0.2.3"))
+#define A1301_LIB_VERSION        (F("0.3.0"))
 
-
+/**
+* @brief Construct a new HALL::HALL object
+*/
 class HALL
 {
 public:
+/**
+ * @brief Construct a new HALL::HALL object
+ *
+ * @param uint8_t pin IO pin to communicate with the HALL sensor
+ */
   HALL(uint8_t pin);
 
-  //  ADC parameters
-  void      begin(float voltage, uint16_t steps);
+  /**
+   * @brief initialize HALL instance
+   *
+   * @param voltage maximum voltage the ADC handles, e.g. 5.0
+   * @param steps number of steps the ADC uses between 0 and voltage, e.g. 1023
+   * @return true
+   * @return false
+   */
+  bool      begin(float voltage, uint16_t steps);
 
 
   //  midpoint depends on ADC.
-  void      setMidPoint(float midPoint);
+  bool      setMidPoint(float midPoint);
   float     autoMidPoint(uint8_t times = 100);
   float     getMidPoint();
   //  to override default sensitivity
-  void      setSensitivity(float sensitivity);
+  bool      setSensitivity(float sensitivity);
   float     getSensitivity();
 
 
@@ -44,9 +58,8 @@ public:
   //  uses internal ADC
   float     raw(uint8_t times = 1);   //  returns raw ADC
   float     read(uint8_t times = 1);  //  returns Gauss
-
   //  for external ADC
-  float     readExt(float raw);
+  float     readExternal(float raw);
 
 
   //  ANALYSE
@@ -59,20 +72,19 @@ public:
   float     lastGauss();
   float     prevGauss();
   float     deltaGauss();
-  float     angle();         //  == atan2(prevGauss, lastGauss);
   float     determineNoise(uint8_t times = 2);  //  in Gauss
-
+  float     angle();         //  == atan2(prevGauss, lastGauss);
 
 
   //  CONVERTERs
   float     Tesla(float Gauss);
-  float     mTesla(float Gauss);
-  float     uTesla(float Gauss);
+  float     milliTesla(float Gauss);
+  float     microTesla(float Gauss);
 
 
   //  SATURATION LEVEL = EXPERIMENTAL
   //  manual override default maxGauss
-  void      setMaxGauss(float maxGauss);
+  bool      setMaxGauss(float maxGauss);
   float     getMaxGauss();
   bool      isSaturated();
   float     saturationLevel();

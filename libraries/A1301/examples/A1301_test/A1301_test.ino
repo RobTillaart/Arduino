@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("A1301_LIB_VERSION: ");
   Serial.println(A1301_LIB_VERSION);
+  Serial.println();
 
   mm.begin(5000, 1023);
 
@@ -39,7 +40,7 @@ void test(float raw)
 {
   Serial.print(raw);
   Serial.print("\t");
-  Serial.print(mm.readExt(raw));
+  Serial.print(mm.readExternal(raw));
   Serial.print("\t");
   Serial.print(mm.isNull());
   Serial.print("\t");

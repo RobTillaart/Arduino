@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2025-08-15
+- improve API and documentation
+- rename readExt() => readExternal()
+- rename mTesla() => milliTesla()
+- rename uTesla() => microTesla()
+- change return type bool begin()
+- change return type bool setMidPoint()
+- change return type bool setSensitivity()
+- change return type bool setMaxGauss()
+- update readme.md
+- update examples to new API
+
+----
+
 ## [0.2.3] - 2024-04-19
 - update GitHub actions
 - experimental PlatformIO build-CI

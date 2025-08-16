@@ -1,7 +1,7 @@
 //
 //    FILE: A1301.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.3.0
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -27,11 +27,14 @@ HALL::HALL(uint8_t pin)
 }
 
 
-void HALL::begin(float voltage, uint16_t steps)
+bool HALL::begin(float voltage, uint16_t steps)
 {
+  if (voltage <= 0) return false;
+  if (steps == 0) return false;
   _maxADC   = steps;
   _mVStep   = voltage / steps;
   _midPoint = steps * 0.5;
+  return true;
 }
 
 
@@ -39,9 +42,11 @@ void HALL::begin(float voltage, uint16_t steps)
 //
 //  MIDPOINT
 //
-void HALL::setMidPoint(float midPoint)
+bool HALL::setMidPoint(float midPoint)
 {
+  if (midPoint <= 0) return false;
   _midPoint = midPoint;
+  return true;
 }
 
 
@@ -62,9 +67,11 @@ float HALL::getMidPoint()
 //
 //  SENSITIVITY
 //
-void HALL::setSensitivity(float sensitivity)
+bool HALL::setSensitivity(float sensitivity)
 {
+  if (sensitivity <= 0) return false;
   _GaussmV = 1.0 / sensitivity;
+  return true;
 }
 
 
@@ -116,7 +123,7 @@ float HALL::determineNoise(uint8_t times)
 }
 
 
-float HALL::readExt(float raw)
+float HALL::readExternal(float raw)
 {
   float milliVolts = (raw - _midPoint) * _mVStep;
   _prevGauss = _lastGauss;
@@ -193,13 +200,13 @@ float HALL::Tesla(float Gauss)
 }
 
 
-float HALL::mTesla(float Gauss)
+float HALL::milliTesla(float Gauss)
 {
   return Gauss * 0.1;
 }
 
 
-float HALL::uTesla(float Gauss)
+float HALL::microTesla(float Gauss)
 {
   return Gauss * 100;
 }
@@ -209,9 +216,11 @@ float HALL::uTesla(float Gauss)
 //
 //  SATURATION LEVEL
 //
-void HALL::setMaxGauss(float maxGauss)
+bool HALL::setMaxGauss(float maxGauss)
 {
+  if (maxGauss == 0) return false;
   _maxGauss = abs(maxGauss);
+  return true;
 }
 
 
@@ -223,7 +232,7 @@ float HALL::getMaxGauss()
 
 bool HALL::isSaturated()
 {
-  return (abs(_lastGauss) >= _maxGauss); 
+  return (abs(_lastGauss) >= _maxGauss);
 }
 
 

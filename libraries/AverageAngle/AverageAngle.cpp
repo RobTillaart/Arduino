@@ -1,7 +1,7 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2017-11-21
 // PURPOSE: Arduino library to calculate correctly the average of multiple angles.
 //     URL: https://github.com/RobTillaart/AverageAngle
@@ -10,7 +10,7 @@
 #include "AverageAngle.h"
 
 
-const float  AA_OVERFLOW_THRESHOLD = 10000;
+const float AA_OVERFLOW_THRESHOLD = 10000;
 
 
 AverageAngle::AverageAngle(const enum AngleType type)
@@ -37,10 +37,10 @@ uint32_t AverageAngle::add(float alpha, float length)
     dx *= length;
     dy *= length;
   }
-  _sumx += dx;
-  _sumy += dy;
+  _sumX += dx;
+  _sumY += dy;
   _error = AVERAGE_ANGLE_OK;
-  if ((abs(_sumx) > AA_OVERFLOW_THRESHOLD) || (abs(_sumy) > AA_OVERFLOW_THRESHOLD))
+  if ((abs(_sumX) > AA_OVERFLOW_THRESHOLD) || (abs(_sumY) > AA_OVERFLOW_THRESHOLD))
   {
     _error = AVERAGE_ANGLE_OVERFLOW;
   }
@@ -51,8 +51,8 @@ uint32_t AverageAngle::add(float alpha, float length)
 
 void AverageAngle::reset()
 {
-  _sumx  = 0;
-  _sumy  = 0;
+  _sumX  = 0;
+  _sumY  = 0;
   _count = 0;
   _error = AVERAGE_ANGLE_OK;
 }
@@ -66,7 +66,7 @@ uint32_t AverageAngle::count()
 
 float AverageAngle::getAverage()
 {
-  float angle = atan2(_sumy, _sumx);
+  float angle = atan2(_sumY, _sumX);
   if (isnan(angle))
   {
     _error = AVERAGE_ANGLE_SINGULARITY;
@@ -93,26 +93,26 @@ float AverageAngle::getAverage()
 float AverageAngle::getTotalLength()
 {
   if (_count == 0) return 0;
-  return hypot(_sumy, _sumx);
+  return hypot(_sumY, _sumX);
 }
 
 
 float AverageAngle::getAverageLength()
 {
   if (_count == 0) return 0;
-  return hypot(_sumy, _sumx) / _count;
+  return hypot(_sumY, _sumX) / _count;
 }
 
 
 float AverageAngle::getSumX()
 {
-  return _sumx;
+  return _sumX;
 }
 
 
 float AverageAngle::getSumY()
 {
-  return _sumy;
+  return _sumY;
 }
 
 

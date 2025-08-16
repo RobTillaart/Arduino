@@ -30,8 +30,10 @@ Example: The average angle of 359 (length = 2) and 1 (length = 1) is 359.somethi
 The average angle is calculated by converting the added angle (in DEGREES, etc) to polar coordinates.
 These (x,y) are added to a (sumX, sumY) and divided by the number of angles added so far. 
 
+As always, feedback is welcome.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/AngleConvertor
@@ -39,7 +41,7 @@ These (x,y) are added to a (sumX, sumY) and divided by the number of angles adde
 - https://github.com/RobTillaart/runningAngle
 
 
-#### AngleType
+### AngleType
 
 - **enum AngleType { DEGREES, RADIANS, GRADIANS }** idem. 
 
@@ -50,42 +52,45 @@ These (x,y) are added to a (sumX, sumY) and divided by the number of angles adde
 |    2    |  GRADIANS  |  0 .. 400  |  100 GRADIANS == 90 DEGREES.
 
 
+For lesser known angle-types, see - https://github.com/RobTillaart/AngleConvertor
+
+
 ## Interface
 
 ```cpp
 #include "AverageAngle.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **AverageAngle(AngleType type = DEGREES)** constructor, defaults to degrees.
 - **AngleType type()** returns DEGREES, RADIANS or GRADIANS.
 - **void setType(AngleType type)** changes type DEGREES, RADIANS or GRADIANS.
-Type can be changed run time and still continue to add.
+Type can be changed runtime and still continue to add.
 - **void reset()** clears internal counters.
 
 
-#### Core
+### Core
 
 - **uint32_t add(float alpha, float length = 1.0)** add a new angle, 
 optional with length other than 1. 
 Returns the number of elements added so far (count).
-If the internal sumx or sumy is >= 10000, the error **AVERAGE_ANGLE_OVERFLOW** is set. 
+If the internal sumX or sumY is >= 10000, the error **AVERAGE_ANGLE_OVERFLOW** is set. 
 This indicates that the internal math is near or over its accuracy limits.
 - **uint32_t count()** the number of angles added.
 If count == 0, there is no average.
 - **float getAverage()** returns the average, unless count == 0
-or the internal sums == (0,0) in which case we have a singularity ==> NAN (not a number)
+or if the internal sums == (0,0) in which case we have a singularity ==> NAN (not a number)
 If NAN the error **AVERAGE_ANGLE_SINGULARITY** is set. 
 - **float getTotalLength()** the length of the resulting 'angle' when we see them as vectors.
-If count == 0 ==> total length = 0.
+If count == 0 the total length is set to 0.
 - **float getAverageLength()** returns the average length of the angles added.
-If count == 0 ==> average length = 0.
-- **float getSumX()** get internal sumx counter. Rectangular coordinates.
-- **float getSumY()** get internal sumy counter. Rectangular coordinates.
+If count == 0 the average length is set to 0.
+- **float getSumX()** get internal sumX counter. Rectangular coordinates.
+- **float getSumY()** get internal sumY counter. Rectangular coordinates.
 
 
-#### Error handling
+### Error handling
 
 - **int lastError()**  return the last error detected.
 
@@ -96,7 +101,7 @@ If count == 0 ==> average length = 0.
 |  AVERAGE_ANGLE_SINGULARITY  |  -20    |
 
 
-#### Experimental Overflow
+### Experimental Overflow
 
 (since 0.2.0)
 
@@ -121,7 +126,7 @@ probably be redesigned in the future. See future section below.
 Gradians a.k.a. **gon**, is a less often used unit for angles. 
 There are 100 gradians in a right angle. A full circle = 400 gradians.
 
-https://en.wikipedia.org/wiki/Gradian
+- https://en.wikipedia.org/wiki/Gradian
 
 Other less used units for measuring angles:
 - https://github.com/RobTillaart/AngleConvertor
@@ -183,7 +188,6 @@ just change the type runtime.
 
 #### Should
 
-- add performance example
 - add overflow example
 - add singularity example
 

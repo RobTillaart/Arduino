@@ -1,5 +1,5 @@
 //
-//    FILE: averageAngle.ino
+//    FILE: averageAngle2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demonstrates the usage of the AverageAngle Class
 //     URL: https://github.com/RobTillaart/AverageAngle
@@ -11,7 +11,11 @@
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AVERAGE_ANGLE_LIB_VERSION: ");
+  Serial.println(AVERAGE_ANGLE_LIB_VERSION);
+  Serial.println();
 
   test0();
   test1();

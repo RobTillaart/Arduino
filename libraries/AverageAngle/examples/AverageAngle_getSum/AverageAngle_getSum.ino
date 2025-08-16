@@ -4,7 +4,7 @@
 // PURPOSE: demonstrates the usage of the AverageAngle Class
 //     URL: https://github.com/RobTillaart/AverageAngle
 //
-//  view in plotter is nice.
+//  View in serial plotter is nice.
 
 #include "AverageAngle.h"
 
@@ -12,10 +12,11 @@
 void setup()
 {
   Serial.begin(115200);
-//  Serial.println(__FILE__);
-//  Serial.print("AVERAGE_ANGLE_LIB_VERSION: ");
-//  Serial.println(AVERAGE_ANGLE_LIB_VERSION);
-//  Serial.println();
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("AVERAGE_ANGLE_LIB_VERSION: ");
+  Serial.println(AVERAGE_ANGLE_LIB_VERSION);
+  Serial.println();
 
   test0();
 }
@@ -42,10 +43,10 @@ void test0()
     Serial.print(AA.getSumY(), 4);
     Serial.print("\t");
     Serial.print(AA.getTotalLength(), 4);
-    Serial.println(); 
+    Serial.println();
   }
 }
 
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -11,7 +11,11 @@
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AVERAGE_ANGLE_LIB_VERSION: ");
+  Serial.println(AVERAGE_ANGLE_LIB_VERSION);
+  Serial.println();
 
   test_setType();
 }

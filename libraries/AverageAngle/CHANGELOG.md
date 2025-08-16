@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2025-08-16
+- update readme.md
+- add AverageAngle_performance.ino
+- minor edits
+
 ## [0.2.2] - 2024-04-08
 - update GitHub actions
 - fix version number
@@ -16,11 +21,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add unit test
 - minor edits
 
-
 ## [0.2.1] - 2023-10-17
 - update readme.md
 - update keywords.txt
-
 
 ## [0.2.0] - 2023-02-01
 - add experimental OVERFLOW detection in **add()**

@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AverageAngle.git"
   },
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+
+## [0.4.3] - 2025-08-15
+- update readme.md
+- update license
+- minor edits
+
 ## [0.4.2] - 2024-02-03
 - update readme.md 
   - added multiplexer section
@@ -17,7 +23,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - added **AGS02MA_ERROR_REQUEST**
   - redo **readRegister()**
 - minor edits
-
 
 ## [0.4.1] - 2023-12-10
 - fix #26, error in readme.

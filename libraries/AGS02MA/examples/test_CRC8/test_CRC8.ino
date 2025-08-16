@@ -21,6 +21,7 @@ void setup()
   delay(1000);
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);
@@ -55,7 +56,7 @@ void setup()
   _buffer[3] = 0xFF;
   _buffer[4] = 0x30;
   Serial.println(AGS._CRC8(_buffer, 5), HEX);
-  
+
   _buffer[0] = 0x14;
   _buffer[1] = 0x14;
   _buffer[2] = 0x14;

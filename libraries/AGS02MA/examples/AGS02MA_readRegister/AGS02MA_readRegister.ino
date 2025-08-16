@@ -22,6 +22,7 @@ void setup()
   delay(1000);
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);
@@ -85,7 +86,7 @@ void printRegister(uint8_t address, AGS02MA::RegisterData &reg) {
       reg.data[3]
     );
     break;
-  
+
   case 0x01:
   case 0x02:
   case 0x03:
@@ -101,17 +102,17 @@ void printRegister(uint8_t address, AGS02MA::RegisterData &reg) {
       reg.data[3]
     );
     break;
-  
+
   case 0x11:
     Serial.print("\tVersion:\t");
     Serial.print(reg.data[3]);
     break;
-  
+
   case 0x21:
     Serial.print("\tI2C address:\t0x");
     Serial.print(reg.data[0], HEX);
     break;
-  
+
   default:
     break;
   }

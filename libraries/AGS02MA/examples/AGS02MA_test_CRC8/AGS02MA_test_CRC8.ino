@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/AGS02MA
 //
 //  NOTE: this is a low level test for the communication / CRC
-//  to have this example to work, 
+//  to have this example to work,
 //  one need to make the _CRC8() and _buffer[]
 //  public in the AGS02MA.h file.
 
@@ -23,6 +23,7 @@ void setup()
   delay(1000);
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);

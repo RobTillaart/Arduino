@@ -18,6 +18,7 @@ void setup()
   delay(1000);
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AGS02MA_LIB_VERSION: ");
   Serial.println(AGS02MA_LIB_VERSION);
@@ -29,7 +30,7 @@ void setup()
   Serial.print("BEGIN:\t");
   Serial.println(b);
 
-  //  pre-heating improves measurement quality 
+  //  pre-heating improves measurement quality
   //  can be skipped
   Serial.println("\nWarming up (120 seconds = 24 dots)");
   while (AGS.isHeated() == false)

@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-12
-// PURPOSE: unit tests for the AGS02NA TVOC sensor
+// PURPOSE: unit tests for the AGS02MA TVOC sensor
 //          https://github.com/RobTillaart/AGS02MA
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

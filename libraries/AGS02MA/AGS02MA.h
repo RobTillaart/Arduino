@@ -3,17 +3,16 @@
 //    FILE: AGS02MA.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, Beanow
 //    DATE: 2021-08-12
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PURPOSE: Arduino library for AGS02MA TVOC sensor
 //     URL: https://github.com/RobTillaart/AGS02MA
-//
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define AGS02MA_LIB_VERSION         (F("0.4.2"))
+#define AGS02MA_LIB_VERSION         (F("0.4.3"))
 
 #define AGS02MA_OK                  0
 #define AGS02MA_ERROR               -10

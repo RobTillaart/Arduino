@@ -1,0 +1,14 @@
+IDE     1.8.19
+BOARD:  UNO R3
+
+AngleConverter_fast_factor\AngleConverter_fast_factor.ino
+ANGLECONVERTOR_LIB_VERSION: 0.2.2
+
+TIME: 	27676
+17760000.00
+
+TIME: 	22212
+17760000.00
+
+
+Done...

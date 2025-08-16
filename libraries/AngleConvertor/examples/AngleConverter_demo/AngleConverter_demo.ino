@@ -2,15 +2,12 @@
 //    FILE: AngleConverter_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angleConvertor class
-//    DATE: 2022-12-01
 //     URL: https://github.com/RobTillaart/AngleConvertor
-//
 
 
 #include "AngleConvertor.h"
 
 AngleConvertor conv;
-
 
 
 void setup()

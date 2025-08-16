@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2025-08-16
+- update readme.md
+- add AngleConverter_fast_factor.ino example
+- renamed internal variables.
+- minor edits
+
 ## [0.2.1] - 2024-01-24
 - add percent as unit
 - add milliRadians as unit
 - add unit tests for windrose()
-
 
 ## [0.2.0] - 2024-01-15
 - Fix #4, use **degrees** as internal format to improve precision (a bit)

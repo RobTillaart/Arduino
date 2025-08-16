@@ -20,11 +20,42 @@ AngleConvertor is an Arduino class to convert an angle from and to less known fo
 
 Since 0.2.0 the class uses degrees as internal format as that improved precision a bit
 compared to the pre-0.2.0 version that used radians.
-Furthermore to improve precision the class uses doubles, so platforms that support these
-can gain extra precision.
+Furthermore to improve precision the class uses doubles, so platforms that support 
+the double data type can gain extra precision (might be slower).
+
+If there are formats missing please open an issue, with a link to its description.
+
+### Example
+
+To convert from one less known format to another just takes two calls, example:
+
+```cpp
+  AngleConvertor AC;
+
+  AC.setPechus(24.2);
+  float x = AC.getAngularMil();
+```
+
+If you need to convert a lot of data between two formats, it is also possible to 
+pre-calculate a factor so the conversion is faster.
+On an UNO R3 the gain goes up to 20%, see example.
 
 
-#### Formats
+```cpp
+  AngleConvertor AC;
+
+  AC.setDegrees(1);  //  any non zero value will work.
+  float factor = AC.getAngularMil() / AC.getPechus();
+  sum = 0;
+  for (int i = 0; i < 1000; i++)
+  {
+    sum += i * factor;
+  }
+
+```
+
+
+### Formats
 
 
 |  name           |  full circle  |  notes  |
@@ -53,7 +84,7 @@ can gain extra precision.
 |  Turn           |            1  |
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
@@ -67,13 +98,12 @@ can gain extra precision.
 #include "AngleConvertor.h"
 ```
 
-
-#### Constructor
+### Constructor
 
 - **AngleConvertor()** create an AngleConvertor, default value is zero.
 
 
-#### Setters
+### Setters
 
 - **void setDegrees(double value = 0)**
 - **void setRadians(double value = 0)**
@@ -99,7 +129,7 @@ can gain extra precision.
 - **void setTurn(double value = 0)**
 
 
-#### Getters
+### Getters
 
 - **double getDegrees()**
 - **double getRadians()**
@@ -125,7 +155,7 @@ can gain extra precision.
 - **double getTurn()**
 
 
-#### WindRose
+### WindRose
 
 From: https://forum.arduino.cc/t/function-optimization-wind-direction-open-for-ideas/92493/10
 
@@ -135,11 +165,6 @@ Converts an angle in degrees to a char array like "WSW".
 - **char \* windrose()** converter version.
 - **char \* windrose(double degrees)** stand alone version.
 degrees should be between 0 and 360, as function does no normalization.
-
-
-## Operation
-
-See examples.
 
 
 ## Future
@@ -153,7 +178,6 @@ See examples.
 
 #### Could
 
-- add dedicated functions == faster (on request only).
 - add more conversions
 - integrate with **Angle class** ?
   - printing can be a lot of work

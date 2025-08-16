@@ -2,9 +2,7 @@
 //    FILE: AngleConverter_windrose.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angleConvertor class
-//    DATE: 2022-12-01
 //     URL: https://github.com/RobTillaart/AngleConvertor
-//
 
 
 #include "AngleConvertor.h"
@@ -17,11 +15,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("lib version: ");
+  Serial.print("ANGLECONVERTOR_LIB_VERSION: ");
   Serial.println(ANGLECONVERTOR_LIB_VERSION);
   Serial.println();
-
 
   for (int angle = 0; angle <= 360; angle += 5)
   {

@@ -2,9 +2,7 @@
 //    FILE: AngleConverter_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angleConvertor class
-//    DATE: 2022-12-01
 //     URL: https://github.com/RobTillaart/AngleConvertor
-//
 
 
 #include "AngleConvertor.h"
@@ -18,8 +16,9 @@ volatile float x;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("lib version: ");
+  Serial.print("ANGLECONVERTOR_LIB_VERSION: ");
   Serial.println(ANGLECONVERTOR_LIB_VERSION);
   Serial.println();
   delay(10);

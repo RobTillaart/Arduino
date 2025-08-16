@@ -31,7 +31,15 @@ The library implements the Printable interface, allowing one to call
 Degree sign ° = ALT-0176 (Windows)
 
 
-#### Related
+### Note
+
+The library has not been tested extensively and it could still contain bugs. 
+Especially the constructor does not check input so use it carefully.
+
+As always feedback is welcome
+
+
+### Related
 
 - https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
@@ -45,53 +53,42 @@ Degree sign ° = ALT-0176 (Windows)
 #include "Angle.h"
 ```
 
-#### Constructors
+### Constructors
 
 - **Angle(int dd = 0, int mm = 0, int ss = 0, int tt = 0)** create an Angle, default is zero.
 - **Angle(double alpha)** create an Angle from a double.
 - **Angle(char \* str)** create an Angle from a string e.g. "45.31234".
 
+### Base
 
-#### Base
-
-- **int sign()** returns -1 or 1.
+- **bool isZero()** returns true if angle is 0.
+- **int sign()** returns -1 or 1. Zero degrees will return 1.
 - **int degree()** returns # degrees.
 - **int minute()** returns # minutes.
 - **int second()** returns # seconds.
 - **int tenthousand()** returns # ten-thousands of a second.
 
-
-#### Conversions
+### Conversions
 
 - **double toDouble()** returns the angle as a double (0..360.0, float on UNO).
 - **double toRadians()** returns the angle in radians (0..TWO_PI).
 - **void fromRadian(double rad)** create an angle from radians.
 
-More conversions - https://github.com/RobTillaart/AngleConvertor
+For more conversions check - https://github.com/RobTillaart/AngleConvertor
 
 
-#### Equality operators
+### Equality operators
 
 The library supports equality operator "==", "!=", "<" "<=" ">" and ">=" .
 
 
-#### Math operators
+### Math operators
 
+The library supports:
 - **negate** returns -angle.
 - **addition** and **subtract** add angles to angles.
 - **multiplication** and **division** multiply an angle with a double.
-- **ratio**  ratio = Angle/Angle.
-
-
-## Operation
-
-See examples.
-
-
-## Note
-
-The library has not been tested extensively and it could still contain bugs. 
-Especially the constructor does not check input so use it carefully.
+- **ratio** ratio = Angle/Angle.
 
 
 ## Future

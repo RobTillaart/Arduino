@@ -1,7 +1,7 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
@@ -133,6 +133,12 @@ Angle::Angle(const char * str)
     }
 }
 
+
+//
+bool Angle::isZero()
+{
+  return (_degrees == 0 && _minutes == 0 && _seconds == 0 && _tenths == 0);
+}
 
 //  PRINTING
 size_t Angle::printTo(Print& p, AngleFormatMode mode) const

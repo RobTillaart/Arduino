@@ -2,7 +2,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: angle library for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define ANGLE_LIB_VERSION               (F("0.2.0"))
+#define ANGLE_LIB_VERSION               (F("0.2.1"))
 
 
 class Angle;
@@ -43,11 +43,12 @@ public:
     Angle(double alpha);
     Angle(const char * str);
 
-    int sign()        { return _negative ? -1 : 1; };
-    int degree()      { return _degrees; };
-    int minute()      { return _minutes; };
-    int second()      { return _seconds; };
-    int tenthousand() { return _tenths; };
+    bool isZero();
+    int  sign()        { return _negative ? -1 : 1; };
+    int  degree()      { return _degrees; };
+    int  minute()      { return _minutes; };
+    int  second()      { return _seconds; };
+    int  tenthousand() { return _tenths; };
 
     size_t printTo(Print& p) const { return printTo( p, T ); }
     size_t printTo(Print& p, AngleFormatMode mode) const;
@@ -56,7 +57,8 @@ public:
 
     double toDouble();
     double toRadians() { return toDouble() * (PI / 180.0); };
-    void fromRadians(double radians) { *this = radians * (180.0 / PI); };
+    void   fromRadians(double radians) { *this = radians * (180.0 / PI); };
+
 
     //  EQUALITIES
     bool operator == (const Angle& a) { return compare(*this, a) == 0; };
@@ -65,6 +67,7 @@ public:
     bool operator <= (const Angle& a) { return compare(*this, a) <= 0; };
     bool operator >  (const Angle& a) { return compare(*this, a) >  0; };
     bool operator >= (const Angle& a) { return compare(*this, a) >= 0; };
+
 
     //  NEGATE
     Angle operator - ();

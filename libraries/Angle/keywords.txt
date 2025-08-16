@@ -6,6 +6,7 @@ AngleFormatMode	KEYWORD1
 AngleFormat	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
+isZero	KEYWORD2
 sign	KEYWORD2
 degree	KEYWORD2
 minute	KEYWORD2

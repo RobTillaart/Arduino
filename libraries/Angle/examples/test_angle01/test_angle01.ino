@@ -2,7 +2,7 @@
 //    FILE: test_angle01.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angle class
-//     URL: https://github.com/RobTillaart/Angle.git
+//     URL: https://github.com/RobTillaart/Angle
 
 
 #include "Angle.h"
@@ -120,18 +120,31 @@ void testParts()
 {
   Serial.println("\n3. degrees, minutes, seconds, thousands");
   Serial.println(c);
+  Serial.println(c.isZero());
   Serial.println(c.sign());
   Serial.println(c.degree());
   Serial.println(c.minute());
   Serial.println(c.second());
   Serial.println(c.tenthousand());
+  Serial.println();
 
   Serial.println(cc);
+  Serial.println(cc.isZero());
   Serial.println(cc.sign());
   Serial.println(cc.degree());
   Serial.println(cc.minute());
   Serial.println(cc.second());
   Serial.println(cc.tenthousand());
+  Serial.println();
+
+  Serial.println(n);
+  Serial.println(n.isZero());
+  Serial.println(n.sign());
+  Serial.println(n.degree());
+  Serial.println(n.minute());
+  Serial.println(n.second());
+  Serial.println(n.tenthousand());
+  Serial.println();
 }
 
 
@@ -446,9 +459,11 @@ void testRatio()
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Start test_angle01");
-  Serial.print("lib version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("ANGLE_LIB_VERSION: ");
   Serial.println(ANGLE_LIB_VERSION);
+  Serial.println();
 
   testConstructors();
   testToDouble();
@@ -471,4 +486,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

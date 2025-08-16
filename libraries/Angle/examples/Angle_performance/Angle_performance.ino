@@ -2,7 +2,7 @@
 //    FILE: Angle_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch to test angle class
-//     URL: https://github.com/RobTillaart/Angle.git
+//     URL: https://github.com/RobTillaart/Angle
 
 
 #include "Angle.h"
@@ -84,28 +84,28 @@ void testParts()
   stop = micros();
   Serial.println(stop - start);
   Serial.println(s, 7);
-  
+
   delay(100);
   start = micros();
   s = c.degree();
   stop = micros();
   Serial.println(stop - start);
   Serial.println(s, 7);
-  
+
   delay(100);
   start = micros();
   s = c.minute();
   stop = micros();
   Serial.println(stop - start);
   Serial.println(s, 7);
-  
+
   delay(100);
   start = micros();
   s = c.second();
   stop = micros();
   Serial.println(stop - start);
   Serial.println(s, 7);
-  
+
   delay(100);
   start = micros();
   s = c.tenthousand();
@@ -195,8 +195,6 @@ void testMultiply()
 }
 
 
-
-
 void testDivide()
 {
   Serial.println(__FUNCTION__);
@@ -241,9 +239,11 @@ void testRatio()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ANGLE_LIB_VERSION: ");
   Serial.println(ANGLE_LIB_VERSION);
+  Serial.println();
 
   testConstructors();
   testToDouble();

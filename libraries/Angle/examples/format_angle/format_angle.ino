@@ -1,16 +1,23 @@
 /*
  * Printing a formatted Angle example.
- * 
+ *
  * Written by: Christopher Andrews (https://github.com/Chris--A)
- * 
+ *
  * Licenced under MIT, free to use, blah blah...
+ *
+ * URL: https://github.com/RobTillaart/Angle
  */
 
 #include <Angle.h>
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
-  Serial.println("Start format_angle\n");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("ANGLE_LIB_VERSION: ");
+  Serial.println(ANGLE_LIB_VERSION);
+  Serial.println();
 
   Angle angle( 23, 12, 10, 123 );
 

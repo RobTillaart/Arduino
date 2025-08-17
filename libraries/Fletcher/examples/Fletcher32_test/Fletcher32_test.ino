@@ -2,6 +2,8 @@
 //    FILE: Fletcher32_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Fletcher
+
 
 #include "Arduino.h"
 #include "Fletcher32.h"
@@ -26,13 +28,15 @@ uint16_t arr1[5]  = { 100, 120, 130, 135, 140 };
 uint16_t arr2[5]  = { 101, 120, 130, 135, 140 };  // minimal diff.
 uint16_t arr3[5]  = { 100, 120, 130, 135, 141 };  // minimal diff.
 
+
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
+  while(!Serial);
   Serial.println();
-  Serial.println("Fletcher32_test");
+  Serial.println(__FILE__);
+  Serial.println();
+  delay(100);
 
   fl.begin();
   fl.add((uint16_t *)str1, 3);
@@ -78,4 +82,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

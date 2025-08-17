@@ -2,6 +2,8 @@
 //    FILE: Fletcher16_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Fletcher
+
 
 #include "Arduino.h"
 #include "Fletcher16.h"
@@ -26,10 +28,11 @@ char str3[24] = "abcdefgh";
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
+  while(!Serial);
   Serial.println();
-  Serial.println("Fletcher16_test");
+  Serial.println(__FILE__);
+  Serial.println();
+  delay(100);
 
   fl.begin();
   fl.add((uint8_t *)str1, 5);
@@ -62,4 +65,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

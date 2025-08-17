@@ -1,0 +1,9 @@
+
+Board:        UNO R3
+IDE:          1.18.19
+LIB VERSION   0.1.10
+
+randomtime: 901152
+     total: 938032
+ 1e4 x add: 36880
+  checksum: 3613420079

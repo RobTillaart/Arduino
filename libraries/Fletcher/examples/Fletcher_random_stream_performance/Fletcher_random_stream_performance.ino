@@ -1,8 +1,11 @@
 /*
-  Author: Daniel Mohr
-  Date: 2022-09-13
+  Author:  Daniel Mohr
+  Date:    2022-09-13
   Purpose: shows stream performance
+  GitHub:  https://github.com/RobTillaart/Fletcher
 */
+
+
 #include "Arduino.h"
 
 #include "printHelpers.h" // needed for Arduino Nano

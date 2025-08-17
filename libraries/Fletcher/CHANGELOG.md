@@ -6,11 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.10] - 2025-08-16
+- update readme.md
+- minor update examples
+- minor edits
+
 ## [0.1.9] - 2023-10-30
 - update readme.md (badges)
 - fix changelog.md
 - minor edits
-
 
 ## [0.1.8] - 2023-01-17
 - add parameters to static functions (#17)

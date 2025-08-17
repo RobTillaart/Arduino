@@ -2,6 +2,8 @@
 //    FILE: Fletcher_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Fletcher
+
 
 #include "Arduino.h"
 #include "Fletcher.h"
@@ -29,11 +31,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
+  while(!Serial);
   Serial.println();
-  Serial.print("FLETCHER_LIB_VERSION: ");
-  Serial.println(FLETCHER_LIB_VERSION);
+  Serial.println(__FILE__);
+  Serial.println();
+  delay(100);
 
   for (int i = 0; i < 60; i++)
   {
@@ -80,4 +82,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

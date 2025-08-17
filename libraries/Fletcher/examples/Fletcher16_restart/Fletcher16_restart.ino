@@ -2,6 +2,8 @@
 //    FILE: Fletcher16_restart.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Fletcher
+
 
 #include "Arduino.h"
 #include "Fletcher16.h"
@@ -23,10 +25,11 @@ char str[32] = "abcdefghijklmnopqrstuvwxyz";
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
+  while(!Serial);
   Serial.println();
-  Serial.println("Fletcher16_restart");
+  Serial.println(__FILE__);
+  Serial.println();
+  delay(100);
 
   Serial.println("\n add array 0..4");
   fl.begin();
@@ -55,4 +58,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

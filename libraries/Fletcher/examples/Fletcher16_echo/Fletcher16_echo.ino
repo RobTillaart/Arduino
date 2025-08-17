@@ -2,6 +2,8 @@
 //    FILE: Fletcher16_echo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: echo's Fletcher checksum after every character.
+//     URL: https://github.com/RobTillaart/Fletcher
+
 
 #include "Arduino.h"
 #include "Fletcher16.h"
@@ -12,10 +14,11 @@ Fletcher16 fl;
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
-
+  while(!Serial);
   Serial.println();
-  Serial.println("Fletcher16_echo");
+  Serial.println(__FILE__);
+  Serial.println();
+  delay(100);
 
   fl.begin();
 }
@@ -34,4 +37,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

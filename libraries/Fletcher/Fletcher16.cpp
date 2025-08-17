@@ -67,13 +67,13 @@ uint16_t Fletcher16::getFletcher()
   if (_s1 >= FLETCHER_16) _s1 -= FLETCHER_16;
   if (_s2 >= FLETCHER_16) _s2 -= FLETCHER_16;
   return (((uint16_t)_s2) << 8) | _s1;
-};
+}
 
 
 uint32_t Fletcher16::count()
 {
   return _count;
-};
+}
 
 
 //  -- END OF FILE --

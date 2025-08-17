@@ -1,7 +1,7 @@
 //
 //    FILE: Fletcher.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2022-01-25
 // PURPOSE: Arduino Library for calculating Fletcher's checksum
 //     URL: https://github.com/RobTillaart/Fletcher
@@ -75,6 +75,6 @@ uint64_t fletcher64(uint32_t *data, uint16_t length, uint64_t s1, uint64_t s2)
 }
 
 
-//  -- END OF FILE -- 
+//  -- END OF FILE --
 
 

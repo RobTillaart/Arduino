@@ -9,9 +9,9 @@
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/FLETCHER.svg)](https://registry.platformio.org/libraries/robtillaart/FLETCHER)
 
 
-# FLETCHER
+# Fletcher
 
-Arduino Library for Fletcher's checksum
+Arduino Library for Fletcher's checksum, 16, 32 and 64 bit.
 
 
 ## Description
@@ -20,6 +20,10 @@ This library provides a Fletcher checksum of a data array.
 
 Fletcher's checksum is in general faster than CRC but possibly not as 
 good in detecting errors.
+The library supports 3 versions of the Fletcher checksum, a 16, 32 and 64 bit.
+The latter only adds some value for very large data blocks or streams.
+Think of order 100 MB's. Normally one would use one of the other two.
+
 See https://en.wikipedia.org/wiki/Fletcher%27s_checksum for details.
 
 Relates to https://github.com/RobTillaart/CRC
@@ -29,7 +33,7 @@ Use https://github.com/RobTillaart/printHelpers to print the Fletcher64().
 Tested on Arduino UNO + ESP32 + SAMD (See PR #7).
 
 
-#### Related
+### Related
 
 - https://en.wikipedia.org/wiki/Fletcher%27s_checksum
 - https://github.com/RobTillaart/Adler
@@ -40,22 +44,27 @@ Tested on Arduino UNO + ESP32 + SAMD (See PR #7).
 
 ## Interface
 
-
-## Fletcher16
-
 These interfaces are very similar for Fletcher16, Fletcher32 and Fletcher64 class.
 
 ```cpp
 #include "Fletcher16.h"
 ```
 
+### Constructor
+
 - **Fletcher16()** Constructor, initializes internals.
 - **void begin(uint8_t s1 = 0, uint8_t s2 = 0)** resets the internals.
-optional setting start values for s1 and s2. Note this is not part of the standard.
+Optional setting the start values for s1 and s2. 
+Note this latter is not part of the standard.
+It can be used if one has a chain of fletcher checksums and want to redo a block.
+
+### Core
+
 - **void add(uint8_t value)** add a single value to the checksum.
 - **void add(const uint8_t \* array, uint8_t length)** add an array of values to the checksum.
 - **uint16_t getFletcher()** get the current checksum.
-- **uint32_t count()** get the number of items added. Merely a debugging feature, can overflow without affecting checksum.
+- **uint32_t count()** get the number of items added. 
+Merely a debugging feature, can overflow without affecting checksum.
 
 The checksum from **getFletcher()** can be split into a high and a low part 
 to be used to "feed" **begin()** again. See restart example.
@@ -81,7 +90,7 @@ Added parameters s1 and s2 to make the functions more versatile.
 Defaults are backwards compatible.
 
 
-#### Performance I
+### Performance I
 
 Not tested ESP32 (and many other platforms) yet.
 First numbers of **.add(value)** measured with test sketch shows the following timing.
@@ -94,7 +103,7 @@ First numbers of **.add(value)** measured with test sketch shows the following t
 | Average     |     6.5 us  |    0.24 us    |
 
 
-#### Performance II
+### Performance II
 
 Not tested extensively, first numbers of **.add(array, length)**
 measured with **Fletcher_performance.ino** sketch shows the following timing.
@@ -115,11 +124,6 @@ Version 0.1.3.
 Note 0.1.4 has improved the performance. See PR #7 for some numbers.
 
 
-## Operation
-
-See examples.
-
-
 ## Future ideas
 
 #### Must
@@ -134,8 +138,12 @@ See examples.
   - start parameters static functions.
 - redo performance tests static functions after parameter addition.
 - create defines for MAGIC NRS (0.2.0).
+- add **add(const char \* str)**
 
 #### Could
+
+
+#### Wont
 
 - others e.g. Fletcher24?
 - generic FletcherN(). for N = 1..32
@@ -143,8 +151,7 @@ See examples.
   - or Printable() ?
   - Stream ??
 - add getters for S1 and S2 in the classes
-
-#### Wont
+  ==> getFletcher() output can easily be split
 
 
 ## Support

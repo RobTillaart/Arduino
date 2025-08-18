@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.1
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -48,6 +48,12 @@ bool MCP9808::isConnected()
 {
   _wire->beginTransmission(_address);
   return (_wire->endTransmission() == 0);
+}
+
+
+uint8_t MCP9808::getAddress()
+{
+  return _address;
 }
 
 

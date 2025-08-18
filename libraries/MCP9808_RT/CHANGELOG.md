@@ -6,13 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-08-18
+- update readme.md
+- fix version .cpp file
+- add getAddress()
+- add URL to examples
+- update keywords.txt
+- minor edits
+
 ## [0.4.0] - 2023-10-04
 - Fix #13 Refactor constructor - (simpler)
 - removed **setAddress()** - (force one sensor one object)
   as different addresses can have e.g. different offsets.
 - add ESP32 specific example.
 - Fix #15 PlatformIO badge
--
 
 ----
 
@@ -54,7 +61,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.2] - 2020-11-16
 - removed hasAlert
-- removed setAlertPin, 
+- removed setAlertPin
 - added 2 alert examples
 - refactor low level
 

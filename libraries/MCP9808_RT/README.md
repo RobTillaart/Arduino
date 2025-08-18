@@ -41,26 +41,13 @@ of electronics if the temperature hits a predefined value or temperature zone.
 //
 ```
 
-
-## Interface
-
-```cpp
-#include "mcp9808.h"
-```
-
-#### Constructor
-
-- **MCP9808(const uint8_t address, TwoWire \*wire = &Wire)** Set the device address.
-Option one can set the I2C bus if multiple I2C buses are present.
-Default I2C bus is Wire.
-
-**0.4.0 Breaking change**
+### 0.4.0 Breaking change
 
 The user must initialize the I2C bus in **setup()**, the library doesn't do that
 since 0.4.0. So one need to call **Wire.begin()** or **Wire.begin(SDA, SCL)**.
 
 
-#### Address
+### I2C address
 
 There are max 8 sensors on one I2C bus.
 Normal address = 0011xxx where xxx = A2, A1, A0  
@@ -80,7 +67,49 @@ On request manufacturer will provide 1001xxx as base address
 allowing up to 16 temp sensors on one bus.
 
 
-#### Temperature and status
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+### Related
+
+(and many more temp sensors)
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+- https://github.com/milesburton/Arduino-Temperature-Control-Library
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+
+
+## Interface
+
+```cpp
+#include "mcp9808.h"
+```
+
+### Constructor
+
+- **MCP9808(const uint8_t address, TwoWire \*wire = &Wire)** Set the device address.
+Option one can set the I2C bus if multiple I2C buses are present.
+Default I2C bus is Wire.
+- **bool isConnected()** returns true if I2C address is seen on I2C bus.
+- **uint8_t getAddress()** returns set I2C address.
+
+
+### Temperature and status
 
 - **void setOffset(float offset = 0.0)** set an offset to calibrate or to correct for self heating. 
 The value of offset is not validated to keep footprint small.
@@ -99,7 +128,7 @@ A value of 6 == mask == 110 means that TA is above the upper AND above the criti
 |   2   |  0x04  |  TA ≥ TCRIT   |  larger or equal |
 
 
-#### Resolution
+### Resolution
 
 - **void setResolution(uint8_t resolution = 3)** set the resolution, if resolution > 3, it is not set.
 - **uint8_t getResolution()** returns the resolution set.
@@ -116,7 +145,7 @@ Note: for the same resolution the MCP9808 is about 3x faster than
 the popular DS18B20.
 
 
-#### Configuration
+### Configuration
 
 - **void setConfigRegister(uint16_t configuration)** see table below + read datasheet.
 - **uint16_t getConfigRegister()** return set value.
@@ -138,7 +167,7 @@ the popular DS18B20.
 Check datasheet for the details...
 
 
-#### Temperature limits / thresholds
+### Temperature limits / thresholds
 
 - **void setTupper(float temp)** write upper register, accuracy 0.25°C.
 - **float getTupper()** idem.
@@ -154,7 +183,7 @@ value of these triggers.
 The values set are not validated to keep footprint of the library small.
 
 
-#### Miscellaneous
+### Miscellaneous
 
 - **uint16_t getManufacturerID()** returns 84 (my version).
 - **uint8_t getDeviceID()** returns 0 (my version).
@@ -162,7 +191,7 @@ The values set are not validated to keep footprint of the library small.
 - **uint16_t getRFU()** returns 29 (my version). Reserved for future use. 
 
 
-#### Hidden registers
+### Hidden registers
 
 The MCP9808 has hidden registers mentioned only on p.16 of the datasheet.
 These are for testing and calibration.
@@ -173,22 +202,18 @@ The library prevents reading / writing them to keep sensors working.
 
 #### Must
 
-- refactor the constructor to include Wire param
-- add begin() function.
-
+- improve documentation
+  - compare DS18B20 (?)
 
 #### Should
 
-- update documentation
-  - compare DS18B20?
 - test more
   - negative temperatures
-- do unit test
 - check for optimizations
-
 
 #### Could
 
+- implement unit test
 - add examples 
   - for the **ALERT**
   - multi sensor

@@ -2,7 +2,7 @@
 //    FILE: mcp9808_test_alert.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo alert
-//    DATE: 2020-11-12
+//     URL: https://github.com/RobTillaart/MCP9808_RT
 //
 //  MCP9808 breakout board
 //  +----------+
@@ -26,19 +26,21 @@ MCP9808 ts(24);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP9808_LIB_VERSION: ");
   Serial.println(MCP9808_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
-  // SET TEMPERATURE WINDOW FOR COMPERATOR MODE �C
+  //  SET TEMPERATURE WINDOW FOR COMPERATOR MODE �C
   ts.setTlower(21);
   ts.setTupper(23);
 
-  // SET AUTO RESET  (p32 datasheet)
-  // same value as Tupper to have auto reset in comparator mode.
-  // note no hysteresis set
+  //  SET AUTO RESET  (p32 datasheet)
+  //  same value as Tupper to have auto reset in comparator mode.
+  //  note no hysteresis set
   ts.setTcritical(23);
 
   Serial.print("LOW:\t");
@@ -48,13 +50,13 @@ void setup()
   Serial.print("CRIT\t");
   Serial.println(ts.getTcritical());
 
-  // SET ALERT PARAMETERS
+  //  SET ALERT PARAMETERS
   uint16_t cfg = ts.getConfigRegister();
-  cfg &= ~0x0001;      // set comparator mode
-  // cfg &= ~0x0002;      // set polarity HIGH
-  cfg |= 0x0002;       // set polarity LOW
-  cfg &= ~0x0004;      // use upper lower and critical
-  cfg |= 0x0008;       // enable alert
+  cfg &= ~0x0001;       //  set comparator mode
+  //  cfg &= ~0x0002;   //  set polarity HIGH
+  cfg |= 0x0002;        //  set polarity LOW
+  cfg &= ~0x0004;       //  use upper lower and critical
+  cfg |= 0x0008;        //  enable alert
   ts.setConfigRegister(cfg);
 }
 
@@ -71,4 +73,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

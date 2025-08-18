@@ -2,7 +2,7 @@
 //    FILE: mcp9808_test_alert_irq.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo alert to interrupt 0 = PIN2 of Arduino UNO.
-//    DATE: 2020-11-16
+//     URL: https://github.com/RobTillaart/MCP9808_RT
 //
 //  MCP9808 breakout board
 //  +----------+
@@ -36,19 +36,21 @@ void detectAlert()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP9808_LIB_VERSION: ");
   Serial.println(MCP9808_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
-  // SET TEMPERATURE WINDOW FOR COMPERATOR MODE �C
-  // small window for 'fast' effect
+  //  SET TEMPERATURE WINDOW FOR COMPERATOR MODE �C
+  //  small window for 'fast' effect
   ts.setTlower(22);
   ts.setTupper(23);
-  // SET AUTO RESET  (p32 datasheet)
-  // same value as Tupper to have auto reset in comparator mode.
-  // note no hysteresis set
+  //  SET AUTO RESET  (p32 datasheet)
+  //  same value as Tupper to have auto reset in comparator mode.
+  //  note no hysteresis set
   ts.setTcritical(23);
 
   Serial.print("LOW:\t");
@@ -62,13 +64,13 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(ALERTPIN), detectAlert, RISING);  // CHANGE
 
 
-  // SET ALERT PARAMETERS
+  //  SET ALERT PARAMETERS
   uint16_t cfg = ts.getConfigRegister();
-  cfg &= ~0x0001;      // set comparator mode
-  // cfg &= ~0x0002;      // set polarity HIGH
-  cfg |= 0x0002;       // set polarity LOW
-  cfg &= ~0x0004;      // use upper lower and critical
-  cfg |= 0x0008;       // enable alert
+  cfg &= ~0x0001;       //  set comparator mode
+  // cfg &= ~0x0002;    //  set polarity HIGH
+  cfg |= 0x0002;        //  set polarity LOW
+  cfg &= ~0x0004;       //  use upper lower and critical
+  cfg |= 0x0008;        //  enable alert
   ts.setConfigRegister(cfg);
 }
 
@@ -90,4 +92,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

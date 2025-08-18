@@ -6,6 +6,9 @@ MCP9808	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
 setConfigRegister	KEYWORD2
 getConfigRegister	KEYWORD2
 
@@ -16,11 +19,10 @@ getTlower	KEYWORD2
 setTcritical	KEYWORD2
 getTcritical	KEYWORD2
 
-getTemperature	KEYWORD2
-getStatus	KEYWORD2
-
 setOffset	KEYWORD2
 getOffset	KEYWORD2
+getTemperature	KEYWORD2
+getStatus	KEYWORD2
 
 setResolution	KEYWORD2
 getResolution	KEYWORD2

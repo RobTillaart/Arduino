@@ -2,7 +2,7 @@
 //    FILE: mcp9808_test_alert_polling.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo alert to PIN5 of Arduino UNO.
-//    DATE: 2020-11-16
+//     URL: https://github.com/RobTillaart/MCP9808_RT
 //
 //  MCP9808 breakout board
 //  +----------+
@@ -28,9 +28,11 @@ const uint8_t ALERTPIN = 5;     //  ADJUST IF NEEDED
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP9808_LIB_VERSION: ");
   Serial.println(MCP9808_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -52,10 +54,10 @@ void setup()
 
   pinMode(ALERTPIN, INPUT_PULLUP);
 
-  // SET ALERT PARAMETERS
+  //  SET ALERT PARAMETERS
   uint16_t cfg = ts.getConfigRegister();
   cfg &= ~0x0001;      //  set comparator mode
-  // cfg &= ~0x0002;      //  set polarity HIGH
+  // cfg &= ~0x0002;   //  set polarity HIGH
   cfg |= 0x0002;       //  set polarity LOW
   cfg &= ~0x0004;      //  use upper lower and critical
   cfg |= 0x0008;       //  enable alert

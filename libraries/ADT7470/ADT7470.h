@@ -2,7 +2,7 @@
 //
 //    FILE: ADT7470.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for I2C ADT7470 Fan Monitoring
 //     URL: https://github.com/RobTillaart/ADT7470
 //          http://forum.arduino.cc/index.php?topic=363218.0
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADT7470_LIB_VERSION         (F("0.2.1"))
+#define ADT7470_LIB_VERSION         (F("0.2.2"))
 
 #ifndef ADT7470_TIMEOUT
 #define ADT7470_TIMEOUT             1000

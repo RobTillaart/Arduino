@@ -6,21 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2025-08-18
+- update readme.md
+- add URL to example
+- minor edits
+
 ## [0.2.1] - 2023-04-06
 - update GitHub actions
 - minor edits
 
-
 ## [0.2.0] - 2023-10-13
 - add support for Wire1 etc (ESP32)
 - add CHANGELOG.md
-- update readme.md 
+- update readme.md
 - minor edits
 
 ----
 
 ## [0.1.4] - 2021-12-11
-- update library.json, license, 
+- update library.json, license,
 - update readme.md
 - improve readability (#11)
 
@@ -40,6 +44,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.0.01] - 2015-12-03
 - first beta
 
-## [0.0.00] - 2015-12-02  
+## [0.0.00] - 2015-12-02
 - major refactor - first public version
 

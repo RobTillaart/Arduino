@@ -2,6 +2,7 @@
 //    FILE: adt7470_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo ADT7470 library
+//     URL: https://github.com/RobTillaart/ADT7470
 
 
 #include "ADT7470.h"

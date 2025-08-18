@@ -17,11 +17,13 @@ DMM dmm;
 
 void setup()
 {
+  Serial.begin(115200);
   while (!Serial);
-  Serial.begin(115200); 
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DMM_LIB_VERSION: ");
   Serial.println(DMM_LIB_VERSION);
+  Serial.println();
 
   dmm.begin(A0, 5.000, 1023);  //  Arduino UNO, adjust if needed
   dmm.setReferenceR(998);      //  R reference, adjust if needed
@@ -35,7 +37,7 @@ void loop()
   float Kohm = dmm.readKiloOhm(3);
   Serial.print("voltage: ");
   Serial.print(voltage);
-  Serial.print("\tohm: ");    //  Ω 
+  Serial.print("\tohm: ");    //  Ω
   Serial.print(ohm);
   Serial.print("\tKohm: ");
   Serial.print(Kohm);

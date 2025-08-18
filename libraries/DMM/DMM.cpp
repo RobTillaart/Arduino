@@ -1,7 +1,7 @@
 //
 //    FILE: DMM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-12-19
 // PURPOSE: Library for a DMM class for Arduino UNO.
 //     URL: https://github.com/RobTillaart/DMM
@@ -56,7 +56,7 @@ float DMM::getGain()
 float DMM::readVolts(uint8_t times)
 {
   uint32_t total = 0;
-  if (times == 0) 
+  if (times == 0)
   {
     times = 1;
   }
@@ -66,7 +66,7 @@ float DMM::readVolts(uint8_t times)
   }
   float volts = (total * _voltageStep) / times;
 
-  if (_gain != 1.0) 
+  if (_gain != 1.0)
   {
     volts *= _gain;
   }
@@ -112,7 +112,7 @@ void DMM::setReferenceR(float ohm)
 float DMM::readOhm(uint8_t times)
 {
   float voltage = readVolts(times);
-  
+
   float R = _ReferenceR / voltage * _maxVoltage - _ReferenceR;
   // float R = (_maxVoltage - voltage) * _ReferenceR / voltage;
   return R;

@@ -14,7 +14,6 @@ getGain	KEYWORD2
 
 readVolts	KEYWORD2
 readMilliVolts	KEYWORD2
-
 readNoise	KEYWORD2
 
 setReferenceR	KEYWORD2

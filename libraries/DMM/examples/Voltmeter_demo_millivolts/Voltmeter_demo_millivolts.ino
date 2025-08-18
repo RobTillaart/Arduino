@@ -15,9 +15,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DMM_LIB_VERSION: ");
   Serial.println(DMM_LIB_VERSION);
+  Serial.println();
 
   dmm.begin(A0, 5.000, 1023);
 }

@@ -2,7 +2,7 @@
 //
 //    FILE: DMM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-12-19
 // PURPOSE: Library for a DMM class for Arduino.
 //     URL: https://github.com/RobTillaart/DMM
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define DMM_LIB_VERSION        (F("0.1.3"))
+#define DMM_LIB_VERSION        (F("0.1.4"))
 
 
 class DMM
@@ -41,17 +41,17 @@ public:
   //  READ OHM
   void  setReferenceR(float ohm);
   float readOhm(uint8_t times = 1);
-  float readKiloOhm(uint8_t times = 1); 
+  float readKiloOhm(uint8_t times = 1);
 
 
 private:
-  uint8_t  _pin         = 14;  //  A0;
+  uint8_t  _pin         = 14;  //  A0 (UNO R3);
   float    _maxVoltage  = 5.0;
   uint16_t _maxSteps    = 1023;
   float    _voltageStep = _maxVoltage/_maxSteps;
 
   float    _gain        = 1.0;
-  
+
   float    _ReferenceR  = 0;
 };
 

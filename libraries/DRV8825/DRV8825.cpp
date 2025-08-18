@@ -36,7 +36,7 @@ bool DRV8825::begin(uint8_t DIR, uint8_t STEP, uint8_t EN, uint8_t RST, uint8_t 
   {
     _resetPin = RST;
     pinMode(_resetPin, OUTPUT);
-    digitalWrite(_resetPin, HIGH);   //  page 3
+    digitalWrite(_resetPin, HIGH);   //  page 3 (#9)
   }
   if (SLP != 255)
   {

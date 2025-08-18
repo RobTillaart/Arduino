@@ -2,7 +2,8 @@
 //    FILE: DRV8825_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-11-14
+//     URL: https://github.com/RobTillaart/DRV8825
+
 
 #include "DRV8825.h"
 
@@ -11,7 +12,7 @@ const int DIRECTION_PIN = 4;
 const int STEP_PIN = 5;
 
 
-//  connect to ground if pushed
+//  connect buttons to ground if pushed
 const int FORWARD_PIN = 8;
 const int BACKWARD_PIN = 9;
 
@@ -19,9 +20,11 @@ const int BACKWARD_PIN = 9;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DRV8825_LIB_VERSION: ");
   Serial.println(DRV8825_LIB_VERSION);
+  Serial.println();
 
   stepper.begin(DIRECTION_PIN, STEP_PIN);
 
@@ -60,4 +63,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

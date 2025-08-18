@@ -6,12 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2025-08-17
+- update readme.md
+- fix changelog.md
+- minor edits
+
+## [0.2.0] - 2023-09-17
+- fix #9, default RST pin status should be HIGH
+- add example**DRV8825_reset_sleep.ino**
+- update readme.md badges
+- minor edits (internal variables)
+
+----
+
 ## [0.1.5] - 2023-09-14
 - fix #9
 - add example**DRV8825_reset_sleep.ino**
 - update readme.md badges
 - minor edits (internal variables)
-
 
 ## [0.1.4] - 2023-02-19
 - fix keywords.txt

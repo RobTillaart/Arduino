@@ -2,7 +2,8 @@
 //    FILE: DRV8825_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-07-07
+//     URL: https://github.com/RobTillaart/DRV8825
+
 
 #include "DRV8825.h"
 
@@ -12,9 +13,11 @@ DRV8825 stepper;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DRV8825_LIB_VERSION: ");
   Serial.println(DRV8825_LIB_VERSION);
+  Serial.println();
 
   stepper.begin(4, 5);  //  set direction pin + step pin.
 }

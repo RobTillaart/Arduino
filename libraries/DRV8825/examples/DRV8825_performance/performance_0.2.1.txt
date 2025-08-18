@@ -1,0 +1,8 @@
+
+IDE:    1.8.19
+BOARD:  UNO R3
+
+DRV8825_performance.ino
+DRV8825_LIB_VERSION: 0.2.1
+
+TIME 1	14152

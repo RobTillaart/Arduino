@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //     URL: https://github.com/RobTillaart/AM232X
 
@@ -268,7 +268,7 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t count, int16_t value)
   {
     _wire->write(_bits[i]);
   }
-  // send the CRC
+  //  send the CRC
   uint16_t crc = _crc16(_bits, length);
   _wire->write(crc & 0xFF);
   _wire->write(crc >> 8);
@@ -276,7 +276,7 @@ int AM232X::_writeRegister(uint8_t reg, uint8_t count, int16_t value)
   int rv = _wire->endTransmission();
   if (rv < 0) return rv;
 
-  // wait for the answer
+  //  wait for the answer
   rv = _getData(length);
   return rv;
 }
@@ -292,7 +292,7 @@ int AM232X::_getData(uint8_t length)
     _bits[i] = _wire->read();
   }
 
-  // ANALYZE ERRORS
+  //  ANALYZE ERRORS
   //   will not detect if we requested 1 byte as that will
   //   return 5 bytes as requested. E.g. getStatus()
   //   design a fix if it becomes a problem.
@@ -309,7 +309,7 @@ int AM232X::_getData(uint8_t length)
     }
   }
 
-  // CRC is LOW Byte first
+  //  CRC is LOW Byte first
   uint16_t crc = _bits[bytes - 1] * 256 + _bits[bytes - 2];
   if (_crc16(&_bits[0], bytes - 2) != crc)
   {
@@ -346,7 +346,7 @@ uint16_t AM232X::_crc16(uint8_t *ptr, uint8_t length)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// AM232X derived classes
+//  AM232X derived classes
 //
 AM2320::AM2320(TwoWire *wire) : AM232X(wire)
 {
@@ -364,5 +364,5 @@ AM2322::AM2322(TwoWire *wire) : AM232X(wire)
 
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

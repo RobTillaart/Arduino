@@ -25,7 +25,7 @@ See multiplexing below.
 This library works also for the **AM2315** which has a library of its own - https://github.com/RobTillaart/AM2315
 
 
-#### Typical parameters
+### Typical parameters
 
 |             |  range     | accuracy | repeatability |
 |:------------|:----------:|:--------:|:-------------:|
@@ -34,7 +34,7 @@ This library works also for the **AM2315** which has a library of its own - http
 | Sample time | 2 seconds  |          |               |
 
 
-#### Hardware connection
+### Hardware connection
 
 ```
 //  AM232X PIN layout             AM2315 COLOR
@@ -50,12 +50,44 @@ This library works also for the **AM2315** which has a library of its own - http
 // do not forget pull up resistors between SDA, SCL and VDD.
 ```
 
+### Related
 
-#### I2C clock speed
+- https://github.com/RobTillaart/AM2315
+- https://github.com/RobTillaart/DHTNew (for "oneWire" API)
+
+
+## I2C
+
+### Address
+
+the AM232X has a fixed address **0x5C**.
+
+
+### I2C clock speed
 
 The datasheet states the AM2320 should be used on 100 KHz I2C only.
 
 TODO measure and verify (see AM2315)
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+(more multiplexing ideas see below)
 
 
 ## One Wire Protocol
@@ -71,6 +103,7 @@ If problems arise with the "OneWire" protocol, please let me know and
 file the issues under DHTNew.
 
 
+
 ## Interface
 
 ```cpp
@@ -80,7 +113,7 @@ file the issues under DHTNew.
 Since 0.4.2 the library provides specific classes for the AM2320, AM2321 and AM2322 which have the same interface.
 
 
-#### Constructor
+### Constructor
 
 - **AM232X(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), 
 optionally set to Wire0 .. WireN.
@@ -91,7 +124,7 @@ As the device can be in sleep modus it will retry for the defined timeout (in mi
 minimum = 800 us and maximum = 3000 us according to datasheet.
 
 
-#### Core
+### Core
 
 - **int read()** read the sensor and store the values internally.
 Returns the status of the read which should be **AM232X_OK** == 0.
@@ -104,7 +137,7 @@ This error can be suppressed, see below.
 - **uint32_t lastRead()** returns the timestamp in milliseconds since startup of the last successful read.
 
 
-#### Offset
+### Offset
 
 - **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
 Default offset = 0, so no parameter will reset the offset to 0.
@@ -114,7 +147,7 @@ Default offset = 0, so no parameter will reset the offset to 0.
 - **float getTempOffset()** return the current temperature offset, default 0.
 
 
-#### Control
+### Control
 
 Functions to adjust the communication with the sensor.
 
@@ -130,7 +163,7 @@ This can be used to keep spikes out of your graphs / logs.
 - **bool getSuppressError()**  returns the current suppression setting.
 
 
-#### Metadata
+### Metadata
 
 Check datasheet for details.
 
@@ -141,7 +174,7 @@ Check datasheet for details.
 - **int getStatus()**
 
 
-#### User registers
+### User registers
 
 Check datasheet for details.
 
@@ -150,8 +183,11 @@ Check datasheet for details.
 - **int getUserRegisterA()**
 - **int getUserRegisterB()**
 
+A use for these user registers could be a project specific identification,
+or to store the maximum and minimum measured, or thresholds for alarm etc.
 
-#### Error codes
+
+### Error codes
 
 | name                              | value | notes       |
 |:----------------------------------|------:|:------------|
@@ -185,7 +221,7 @@ Note that the sensor can go into sleep mode after 3 seconds after last read,
 so one might need to call **wakeUp()** before the **read()**.
 
 
-## Multiplexing 
+## Multiplexing II
 
 Multiplexing the **AM232X** can be done in several ways.
 This is not a complete list or tutorial but should get you started.

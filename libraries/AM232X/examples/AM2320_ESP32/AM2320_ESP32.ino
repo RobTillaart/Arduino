@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM2320 demo sketch for AM2320 I2C humidity & temperature sensor
 //          with second I2C port of ESP32
+//     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
 //  ============================================

@@ -2,6 +2,7 @@
 //    FILE: AM2322.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo sketch for AM2322 I2C humidity & temperature sensor
+//     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
 //  ============================================

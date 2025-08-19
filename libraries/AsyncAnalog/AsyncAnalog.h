@@ -2,13 +2,13 @@
 //
 //    FILE: AsyncAnalog.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2018-09-05
 // PURPOSE: Async version of analogRead for AVR
 //     URL: https://github.com/RobTillaart/AsyncAnalog
 
 
-#define ASYNCANALOG_LIB_VERSION       (F("0.2.0"))
+#define ASYNCANALOG_LIB_VERSION       (F("0.2.1"))
 
 
 #if defined(ARDUINO_ARCH_AVR)

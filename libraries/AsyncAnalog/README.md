@@ -33,7 +33,7 @@ in async way simultaneously. Still it offers to about 100 micros to do something
 **Use with care**
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AnalogPin
 
@@ -44,7 +44,12 @@ in async way simultaneously. Still it offers to about 100 micros to do something
 #include "AsynAnalog,h"
 ```
 
+### Constructor
+
 - **AsyncAnalog(uint8_t pin)** constructor, defines the analogue pin to use.
+
+### Async API
+
 - **void start()** triggers a new ADC measurement.
 - **bool ready()** Checks if the measurement is completed. 
 If so the value is calculated and cached for **value()**.

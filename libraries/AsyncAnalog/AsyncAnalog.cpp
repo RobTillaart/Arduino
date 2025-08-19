@@ -1,7 +1,7 @@
 //
 //    FILE: AsyncAnalog.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2018-09-05
 // PURPOSE: Async version of analogRead, prevent blocking wait
 //     URL: https://github.com/RobTillaart/AsyncAnalog

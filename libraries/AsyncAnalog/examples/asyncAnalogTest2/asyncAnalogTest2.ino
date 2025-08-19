@@ -2,7 +2,7 @@
 //    FILE: asyncAnalogTest2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo async is faster on AVR
-
+//     URL: https://github.com/RobTillaart/AsyncAnalog
 
 #include "AsyncAnalog.h"
 
@@ -78,4 +78,4 @@ void async_test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

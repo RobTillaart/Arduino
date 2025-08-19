@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogKeypad.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2019-01-31
 // PURPOSE: Class for (Robotdyn) 4x4 and 4x3 analog keypad
 
@@ -49,7 +49,7 @@ uint8_t AnalogKeypad::pressed()
   int rv = NOKEY;
 
   uint8_t _key = _rawRead();
-  if (_key == _lastKey)           //  NOKEY OR REPEAT
+  if (_key == _lastKey)                     //  NOKEY OR REPEAT
   {
     rv = _lastKey;
   }
@@ -85,10 +85,10 @@ uint8_t AnalogKeypad::_rawRead()
   //  spends most time in analogRead (UNO ~110 microseconds)
   uint8_t val = (analogRead(_analogPin) >> _analogShift);
 
-  //  handle NOKEY first
+  //  handle NOKEY first as it happens most often.
   if (val < 57) return 0;
 
-  //  reduce average # compares by 2  (4x4 keypad)
+  //  reduce average # compares by factor 2  (4x4 keypad)
   if (val < 135)
   {
     if (val < 62) return 16;

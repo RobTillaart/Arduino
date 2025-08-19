@@ -21,10 +21,10 @@ No other keypads are tested, but they should work with this library after adjust
 the **MAGIC NUMBERS** in the function **rawRead()**.
 
 
-#### Related
+### Related
 
-- https://github.com/RobTillaart/I2CKeyPad
-- https://github.com/RobTillaart/I2CKeyPad8x8
+- https://github.com/RobTillaart/I2CKeyPad    (based upon PCF8574)
+- https://github.com/RobTillaart/I2CKeyPad8x8 (based upon PCF8575)
 
 
 ## Interface
@@ -34,20 +34,20 @@ the **MAGIC NUMBERS** in the function **rawRead()**.
 ```
 
 
-#### Constructor
+### Constructor
 
 - **AnalogKeypad(const uint8_t analogPin, const uint8_t bitsADC = 10)** constructor, 
 analogPin is typical A0 etc. BitsADC has a default of 10, but need to be set to match the platform.
 If bits < 8 then the internal shift would be too large causing all reads to return 0 or so.
 
 
-#### polling interface
+### polling interface
 
 - **uint8_t pressed()** returns 0 if no key pressed, otherwise returns key pressed (may fluctuate).
 - **uint8_t read()** read the key pressed returns 0 .. 16 where 0 means NOKEY.
 
 
-#### event interface
+### event interface
 
 - **uint8_t event()** checks if a change has occurred since last time.
 - **uint8_t key()** returns the key involved with last event.
@@ -111,13 +111,15 @@ See Examples
 
 #### Could
 
-- make internal mapping array runtime adaptable?
-  - store in RAM, accessor functions
 - version for external ADC
   - see ADC712
 - derive class for 4x3, 4x2 and 4x1 analog keypads?
 
 #### Wont
+
+- make internal mapping array runtime adaptable?
+  - store in RAM, accessor functions
+  - for now hardcoded to save RAM.
 
 
 ## Support

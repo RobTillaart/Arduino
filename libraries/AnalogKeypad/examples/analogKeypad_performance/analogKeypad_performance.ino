@@ -2,6 +2,7 @@
 //    FILE: analogKeypad.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo 4x4 analogue keypad
+//     URL: https://github.com/RobTillaart/AnalogKeypad
 //
 // https://www.tinytronics.nl/shop/nl/arduino/accessoires/robotdyn-keypad-4x4-matrix-analoog?search=matrix
 

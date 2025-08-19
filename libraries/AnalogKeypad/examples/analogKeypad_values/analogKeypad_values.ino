@@ -2,6 +2,7 @@
 //    FILE: analogKeypad_values.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: helper for adjust 4x4 analogue keypad MAGIC numbers
+//     URL: https://github.com/RobTillaart/AnalogKeypad
 
 
 #define ANALOGPORT    A0

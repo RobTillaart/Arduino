@@ -52,8 +52,10 @@ unittest(test_constants)
 {
   //  error constants
   assertEqual(0x00, MAX14661_OK);
-  assertEqual(0x80, MAX14661_ERR_I2C);
-  assertEqual(0x81, MAX14661_ERR_CHANNEL);
+  assertEqual(0x80, MAX14661_ERR_I2C_READ);
+  assertEqual(0x81, MAX14661_ERR_I2C_REQUEST);
+  assertEqual(0x90, MAX14661_ERR_CHANNEL);
+  assertEqual(0x91, MAX14661_ERR_ADDRESS);
 }
 
 
@@ -70,29 +72,37 @@ unittest(test_constructor)
 }
 
 
-unittest(test_channel_out_Of_range)
+unittest(test_channel_out_of_range)
 {
   MAX14661 MUX(0x4C);
 
   Wire.begin();
   MUX.begin();
 
-  assertFalse(MUX.openChannel(16));
-  assertFalse(MUX.closeChannel(16));
-  assertFalse(MUX.isOpenChannel(16));
+  assertFalse(MUX.connectPair(8));
+  assertFalse(MUX.disconnectPair(8));
+  assertFalse(MUX.isConnectedPair(8));
+  assertEqual(MAX14661_ERR_CHANNEL, MUX.lastError());
+
 
   assertFalse(MUX.openShadowChannelA(16));
   assertFalse(MUX.openShadowChannelA(16));
   assertFalse(MUX.isOpenShadowChannelA(16));
+  assertEqual(MAX14661_ERR_CHANNEL, MUX.lastError());
 
   assertFalse(MUX.openShadowChannelB(16));
   assertFalse(MUX.openShadowChannelB(16));
   assertFalse(MUX.isOpenShadowChannelB(16));
+  assertEqual(MAX14661_ERR_CHANNEL, MUX.lastError());
 
-  assertFalse(MUX.openA(16));
-  assertFalse(MUX.openB(16));
-  assertFalse(MUX.closeA(16));
-  assertFalse(MUX.closeB(16));
+
+  assertFalse(MUX.connectA(16));
+  assertFalse(MUX.connectB(16));
+  assertFalse(MUX.disconnectA(16));
+  assertFalse(MUX.disconnectB(16));
+  assertEqual(MAX14661_ERR_CHANNEL, MUX.lastError());
+  //  error resets
+  assertEqual(MAX14661_OK, MUX.lastError());
 }
 
 

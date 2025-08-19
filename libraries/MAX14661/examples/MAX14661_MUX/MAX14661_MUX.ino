@@ -1,28 +1,31 @@
 //
 //    FILE: MAX14661_MUX.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo PAIR interface
-//    DATE: 2021-01-29
+// PURPOSE: demo MUX interface
 //     URL: https://github.com/RobTillaart/MAX14661
 
 
 #include "Wire.h"
 #include "MAX14661.h"
 
-MAX14661 mux(0x62);
+MAX14661 mux(0x4C);
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX14661_LIB_VERSION: ");
   Serial.println(MAX14661_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
+
   if (mux.begin() == false)
   {
-    Serial.println("Could not find MAX14661");
+    Serial.print(mux.lastError());
+    Serial.println("\t Could not find MAX14661");
     while (1);
   }
 
@@ -80,4 +83,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

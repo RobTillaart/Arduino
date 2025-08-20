@@ -2,6 +2,7 @@
 //    FILE: Gauss_DS18B20.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Gauss
 //
 //  can be used with plotter
 
@@ -20,6 +21,7 @@ Gauss G;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("GAUSS_LIB_VERSION:\t");
   Serial.println(GAUSS_LIB_VERSION);
@@ -27,7 +29,7 @@ void setup(void)
   Serial.println(DS18B20_LIB_VERSION);
   Serial.println();
 
-  //  default temperature + stddev 
+  //  default temperature + stddev
   //  adjust to your local situation
   G.begin(26.00, 0.2);
   sensor.begin();

@@ -2,6 +2,7 @@
 //    FILE: Gauss_HX711.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Gauss
 //
 //  can be used with plotter
 
@@ -19,6 +20,7 @@ Gauss G;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("GAUSS_LIB_VERSION:\t");
   Serial.println(GAUSS_LIB_VERSION);

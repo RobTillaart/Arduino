@@ -6,17 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2025-08-20
+- update GitHub actions
+- update examples
+- remove Gauss.cpp as all code fits in .h file.
+- minor edits
+
 ## [0.2.1] - 2023-11-02
 - update readme.md
 - minor edits.
-
 
 ## [0.2.0] - 2023-07-10
 - improve performance => faster lookup.
   - removed __z[] saves 136 bytes RAM
 - remove MultiMap dependency.
 - - remove **\_stddev** as **\_reciprokeSD** holds same information.
-- add **float P_outside(float f, float g)** 
+- add **float P_outside(float f, float g)**
   - returns **P(x < f) + P(g < x)** under condition (f < g).
 - add **float denormalize(float value)** (reverse normalize).
 - add examples DS18B20 and HX711 and BMI

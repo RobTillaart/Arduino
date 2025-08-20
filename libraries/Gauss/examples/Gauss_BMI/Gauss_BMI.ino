@@ -2,6 +2,8 @@
 //    FILE: Gauss_BMI.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo - not a medical program
+//     URL: https://github.com/RobTillaart/Gauss
+
 
 #include "Gauss.h"
 
@@ -11,6 +13,7 @@ Gauss G;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("GAUSS_LIB_VERSION:\t");
   Serial.println(GAUSS_LIB_VERSION);

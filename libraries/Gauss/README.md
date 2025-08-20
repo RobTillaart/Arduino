@@ -16,9 +16,11 @@ Library for the Gauss probability math. (Normal Distribution).
 
 ## Description
 
+**Experimental**
+
 Gauss is an experimental Arduino library to approximate the probability that a value is 
 smaller or larger than a given value.
-These under the premises of a Gaussian distribution with parameters **mean** and **stddev** 
+These under the premises of a **Gaussian distribution** with parameters **mean** and **stddev** 
 (a.k.a. average / mu / µ and standard deviation / sigma / σ).
 If these parameters are not given, mean == 0 and stddev == 1 are used by default.
 This is the normalized Gaussian distribution.
@@ -32,7 +34,7 @@ Note: The number of lookup points might chance in the future, keeping a balance 
 accuracy and footprint.
 
 
-#### Accuracy / precision
+### Accuracy / precision
 
 The version 0.2.0 lookup table has 34 points with 8 decimals. 
 This matches the precision of float data type.
@@ -54,7 +56,7 @@ spreadsheet function.
 Note: 0.1.0 was 32 points 4 decimals. Need to investigate reduction of points.
 
 
-#### Applications
+### Applications
 
 - use as a filter e.g. detect above N1 sigma and under N2 sigma
 - compare historic data to current data e.g. temperature.
@@ -63,7 +65,7 @@ Note: 0.1.0 was 32 points 4 decimals. Need to investigate reduction of points.
 - compare population data with individual, e.g. Body Mass Index (BMI).
 
 
-#### Character
+### Character
 
 |  parameter  |  name  |  ALT-code  |  char |
 |:-----------:|:------:|:----------:|:-----:|
@@ -74,7 +76,7 @@ Note: 0.1.0 was 32 points 4 decimals. Need to investigate reduction of points.
 - https://altcodesguru.com/greek-alt-codes.html
 
 
-#### Related
+### Related
 
 - https://en.wikipedia.org/wiki/Normal_distribution
 - https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability9.html
@@ -89,7 +91,7 @@ Note: 0.1.0 was 32 points 4 decimals. Need to investigate reduction of points.
 ```
 
 
-#### Base
+### Constructor
 
 - **Gauss()** constructor. Uses mean = 0 and stddev = 1 by default.
 - **bool begin(float mean = 0, float stddev = 1)** set the mean and stddev.
@@ -103,7 +105,7 @@ The default values (0, 1) gives the normalized Gaussian distribution.
 - **float getStddev()** returns current stddev.
 
 
-#### Probability
+### Probability
 
 Probability functions return NAN if stddev == 0.  
 Return values are given as a float 0.0 .. 1.0.  
@@ -122,7 +124,7 @@ This uses the bell curve formula.
   - **P_outside() = 1 - P_between()**
 
 
-#### Normalize
+### Normalize
 
 - **float normalize(float f)** normalize a value to normalized distribution.
 E.g if mean == 50 and stddev == 14, then 71 ==> +1.5 sigma.
@@ -133,7 +135,7 @@ What value would have a deviation of 1.73 stddev.
 Identical to **normalize()**.
 
 
-#### Other
+### Other
 
 wrapper functions:
 

@@ -2,6 +2,7 @@
 //    FILE: Gauss_test_dump.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Gauss
 
 
 #include "Gauss.h"
@@ -12,9 +13,11 @@ Gauss G;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("GAUSS_LIB_VERSION: ");
+  Serial.print("GAUSS_LIB_VERSION:\t");
   Serial.println(GAUSS_LIB_VERSION);
+  Serial.println();
 
   test_1();
   test_2();
@@ -78,4 +81,4 @@ void test_4()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

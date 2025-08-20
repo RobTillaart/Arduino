@@ -2,7 +2,7 @@
 //    FILE: Gauss_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-
+//     URL: https://github.com/RobTillaart/Gauss
 
 #include "Gauss.h"
 
@@ -16,13 +16,15 @@ uint32_t stop;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("GAUSS_LIB_VERSION: ");
+  Serial.print("GAUSS_LIB_VERSION:\t");
   Serial.println(GAUSS_LIB_VERSION);
   Serial.println();
   Serial.println("Timing in micros (1000 calls)");
   Serial.println();
-  
+  delay(100);
+
   test_1();
   test_2();
   test_3();
@@ -150,4 +152,4 @@ void test_6()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

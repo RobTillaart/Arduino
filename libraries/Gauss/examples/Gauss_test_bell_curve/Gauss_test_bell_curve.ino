@@ -2,8 +2,10 @@
 //    FILE: Gauss_test_bell_curve.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Gauss
 //
 //  use plotter to create the graph in two ways
+
 
 #include "Gauss.h"
 
@@ -11,11 +13,13 @@ Gauss G;
 
 volatile float x;
 
+
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("GAUSS_LIB_VERSION: ");
+  Serial.print("GAUSS_LIB_VERSION:\t");
   Serial.println(GAUSS_LIB_VERSION);
   Serial.println();
 
@@ -87,4 +91,4 @@ void find_correction_factor()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

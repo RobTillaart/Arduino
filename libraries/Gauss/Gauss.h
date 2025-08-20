@@ -2,14 +2,14 @@
 //
 //    FILE: Gauss.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Library for the Gauss probability math.
 //    DATE: 2023-07-06
 
 
 #include "Arduino.h"
 
-#define GAUSS_LIB_VERSION       (F("0.2.1"))
+#define GAUSS_LIB_VERSION       (F("0.2.2"))
 
 
 class Gauss
@@ -117,7 +117,7 @@ private:
   {
     //  NORM.DIST(mean, stddev, x, true)
     //  these points correspond with
-    //  0.0 .. 3.0 in steps of 0.1 followed by 4.0, 5.0 and 6.0 
+    //  0.0 .. 3.0 in steps of 0.1 followed by 4.0, 5.0 and 6.0
     float __gauss[] = {
       0.50000000, 0.53982784, 0.57925971, 0.61791142,
       0.65542174, 0.69146246, 0.72574688, 0.75803635,

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-08-20
+- Fix #30, getKiloWattHour() (thanks to Eerth)
+- update GitHub actions
+
+----
+
 ## [0.3.2] - 2025-07-25
 - change return type getADCRange()
 - add getShuntVoltageRAW()

@@ -1,7 +1,7 @@
 //
-//    FILE: gammaTest2.ino
+//    FILE: Gamma_test_negative.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo setGamma
+// PURPOSE: demo setGamma negative
 //     URL: https://github.com/RobTillaart/GAMMA
 //
 // Use Arduino Plotter to see the different curves.
@@ -9,7 +9,7 @@
 
 #include "gamma.h"
 
-GAMMA gt;  //  uses default size 32
+GAMMA gt(32);  //  uses default size 32
 
 
 void setup()
@@ -25,7 +25,18 @@ void setup()
 
   for (int i = 0; i < 256; i++)
   {
-    for (float gamma = 0.1; gamma < 10; gamma *= 2)
+    for (float gamma = 0.1; gamma <= 10; gamma *= 2)
+    {
+      gt.setGamma(gamma);
+      Serial.print(gt[i]);
+      Serial.print('\t');
+    }
+    Serial.println();
+  }
+  
+  for (int i = 0; i < 256; i++)
+  {
+    for (float gamma = -0.1; gamma > -10; gamma *= 2)
     {
       gt.setGamma(gamma);
       Serial.print(gt[i]);
@@ -42,4 +53,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

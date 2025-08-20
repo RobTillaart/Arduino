@@ -2,6 +2,7 @@
 //    FILE: GammaErrorAnalysis.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/GAMMA
 
 
 #include "gamma.h"
@@ -28,6 +29,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GAMMA_LIB_VERSION: ");
   Serial.println(GAMMA_LIB_VERSION);
+  Serial.println();
 
   gt1.begin();
   gt2.begin();
@@ -81,4 +83,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

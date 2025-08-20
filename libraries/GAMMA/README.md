@@ -39,8 +39,10 @@ Since 0.2.2 the library also has **dumpArray()** to generate a C-style array.
 
 Note: tested on UNO and ESP32 only.
 
+As always, feedback is welcome.
 
-#### Related
+
+### Related
 
 - https://en.wikipedia.org/wiki/Gamma_correction
 - https://github.com/RobTillaart/map2colour
@@ -52,29 +54,38 @@ Note: tested on UNO and ESP32 only.
 #include "gamma.h"
 ```
 
-### Core functions
+### Constructor
 
 - **GAMMA(uint16_t size = 32)** constructor, gets the size of the internal
 array as parameter. The default for size = 32 as this is a good balance between performance
 and size of the internal array.
-The size parameter must be in {2, 4, 8, 16, 32, 64, 128, 256 }.
+The size parameter must be a power of 2, so in {2, 4, 8, 16, 32, 64, 128, 256 }.
 - **~GAMMA()** destructor.
-- **bool begin()** The internal array is allocated and initialized with a gamma == 2.8.
+- **bool begin()** The internal lookup array is allocated and initialized with a gamma == 2.8.
 This is an often used value to adjust light to human eye responses.
 Note that **begin()** must be called before any other function.
 Returns false if allocation fails.
-- **void setGamma(float gamma)** calculates and fills the array with new values.
-This can be done runtime so runtime adjustment of gamma mapping is possible.
+- **bool isAllocated()** returns true if the internal lookup array is allocated.
+
+
+### Core functions
+
+- **void setGamma(float gamma)** calculates and fills the internal lookup array with new values.
+This can be done runtime, so adjustment of gamma mapping is possible anytime.
 This calculation are relative expensive and takes quite some time (depending on size).
-If the array already is calculated for gamma, the calculation will be skipped.
-The parameter **gamma** must be > 0. The value 1 gives an 1:1 mapping.
-Returns false if gamma <= 0 or if no array is allocated.
+If the internal array already is calculated for gamma, the calculation will be skipped.
+Returns false if gamma == 0 or if no array is allocated.
 - **float getGamma()** returns the set gamma value.
 - **uint8_t operator \[uint8_t index\]** allows the GAMMA object to be accessed as an array.
 like ```x = G[40];``` Makes it easy to switch with a real array.
 The value returned is in the range 0 .. 255, so the user may need to scale it e.g. to 0.0 - 1.0.
 Note: if internal array not allocated the function returns 0.
 As this is a legitimate value the user should take care.
+
+The parameter **gamma** normally must be > 0. The value 1 gives an 1:1 mapping.
+Since 0.5.0 the library supports a negative value of **gamma**.
+It inverts the values returned (0..255) => (255..0).
+This can be useful e.g. for inverted PWM polarity.
 
 
 ### Development functions
@@ -115,7 +126,6 @@ See example.
 #### Wont
 
 - look for optimizations (done in 0.4.0)
-  - getter \[\]
   - setGamma -> pow() is expensive
   - setGamma(gamma)  gamma = 1.0 is linear, less math (too specific?)
 

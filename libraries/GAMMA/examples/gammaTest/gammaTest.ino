@@ -2,7 +2,7 @@
 //    FILE: gammaTest.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-
+//     URL: https://github.com/RobTillaart/GAMMA
 
 #include "gamma.h"
 
@@ -10,7 +10,7 @@
 GAMMA gt1(256);
 GAMMA gt2(128);
 GAMMA gt3(64);
-GAMMA gt4(32);    // default
+GAMMA gt4(32);    //  default
 GAMMA gt5(16);
 
 
@@ -59,5 +59,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

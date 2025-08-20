@@ -2,6 +2,7 @@
 //    FILE: gammaPerformance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/GAMMA
 
 
 #include "gamma.h"
@@ -24,6 +25,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GAMMA_LIB_VERSION: ");
   Serial.println(GAMMA_LIB_VERSION);
+  Serial.println();
 
   gt1.begin();
   gt2.begin();
@@ -66,6 +68,7 @@ void setup()
 
 void test_setGamma(GAMMA & gt)
 {
+  delay(100);
   start = micros();
   gt.setGamma(2.2);
   d1 = micros() - start;
@@ -74,12 +77,12 @@ void test_setGamma(GAMMA & gt)
   Serial.print(d1);
   Serial.print('\t');
   Serial.println(1.0 * d1 / gt.size());
-  delay(10);
 }
 
 
 void test_index(GAMMA & gt)
 {
+  delay(100);
   start = micros();
   for (int i = 0; i < 256; i++)
   {
@@ -91,7 +94,6 @@ void test_index(GAMMA & gt)
   Serial.print(d1);
   Serial.print('\t');
   Serial.println(d1 / 256.0);
-  delay(10);
 }
 
 
@@ -100,5 +102,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

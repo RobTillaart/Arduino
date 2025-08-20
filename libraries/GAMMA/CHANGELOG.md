@@ -6,9 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2025-08-19
+- fix bug in \[\] operator in AVR code.
+- update GitHub actions
+- add experimental support for negative gamma.
+- minor fix in **begin()** if allocation fails, internal size is set to zero.
+- add **bool isAllocated()** to verify if internal table is allocated.
+- update examples
+- minor edits
+
+----
+
 ## [0.4.1] - 2023-10-26
 - update readme.md
-
 
 ## [0.4.0] - 2023-01-26
 - optimize **setGamma()** especially for ESP32

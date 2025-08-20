@@ -107,7 +107,7 @@ unittest(test_get_set)
 
 unittest(test_gamma_fail)
 {
-  GAMMA gt;  // uses default 32 size
+  GAMMA gt;  //  uses default 32 size
 
   //  do not call begin() to force allocate error
   assertFalse(gt.setGamma(3.14));
@@ -120,7 +120,7 @@ unittest(test_gamma_fail)
   //  allocate
   assertTrue(gt.begin());
   //  still fails.
-  assertFalse(gt.setGamma(-2.0));
+  assertFalse(gt.setGamma(0.0));
   //  this works now
   assertTrue(gt.setGamma(3.14));
   assertEqualFloat(3.14, gt.getGamma(), 0.001);
@@ -129,4 +129,6 @@ unittest(test_gamma_fail)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

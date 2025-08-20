@@ -1,7 +1,8 @@
 //
 //    FILE: gammaFast.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: experiment / test
+//     URL: https://github.com/RobTillaart/GAMMA
 
 
 #include "gamma.h"
@@ -12,7 +13,7 @@ GAMMA gt1(256);
 //  fastGamma is based upon values found with GAMMA(8).setGamma(2.8);
 //  it is however not fast enough...
 //  binary search
-int fastGamma(uint8_t idx)
+int fastGamma(int idx)
 {
   if (idx < 128)
   {
@@ -44,6 +45,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GAMMA_LIB_VERSION: ");
   Serial.println(GAMMA_LIB_VERSION);
+  Serial.println();
 
   gt1.begin();
   gt1.setGamma(2.8);
@@ -62,6 +64,7 @@ void setup()
     Serial.print(gt1[i] - fastGamma(i));
     Serial.println();
   }
+  delay(100);
 
   volatile uint32_t x = 0;
   uint32_t start = micros();
@@ -72,7 +75,7 @@ void setup()
   Serial.println(d1);
   Serial.print("            x : ");
   Serial.println(x);
-  delay(10);
+  delay(100);
 
   x = 0;
   start = micros();
@@ -82,7 +85,7 @@ void setup()
   Serial.println(d1);
   Serial.print("            x : ");
   Serial.println(x);
-  delay(10);
+  delay(100);
 
   Serial.println("\ndone...");
 }

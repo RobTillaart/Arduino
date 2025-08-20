@@ -2,7 +2,7 @@
 //
 //    FILE: HeartBeat.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.3.7
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define HEARTBEAT_LIB_VERSION       (F("0.3.6"))
+#define HEARTBEAT_LIB_VERSION       (F("0.3.7"))
 
 
 class HeartBeat

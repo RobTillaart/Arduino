@@ -2,6 +2,7 @@
 //    FILE: HeartBeat_ACS712_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo distance sensor
+//
 //     URL: https://github.com/RobTillaart/HeartBeat
 //          https://github.com/RobTillaart/ACS712
 
@@ -28,6 +29,7 @@ void setup()
 {
   while (!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
@@ -35,8 +37,8 @@ void setup()
   Serial.println(ACS712_LIB_VERSION);
   Serial.println();
 
-  HB.begin(buzzer, 0.1);  // very low frequency
-  HB.setDutyCycle(10);    // short pulses
+  HB.begin(buzzer, 0.1);  //  very low frequency
+  HB.setDutyCycle(10);    //  short pulses
 
   ACS.autoMidPoint();
 }
@@ -62,4 +64,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

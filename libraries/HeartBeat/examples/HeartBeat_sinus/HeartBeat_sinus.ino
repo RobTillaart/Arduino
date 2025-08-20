@@ -1,8 +1,8 @@
 //
 //    FILE: HeartBeat_sinus.ino
-//  AUTHOR: Rob Tillaart 
+//  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-
+//     URL: https://github.com/RobTillaart/HeartBeat
 
 #include "HeartBeat.h"
 
@@ -10,13 +10,14 @@
 HeartBeat HB;
 
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
+  Serial.println();
 
   HB.begin(13, 1.0);
 }
@@ -28,9 +29,9 @@ void loop()
 
   float frequency = 5 * (1 + sin(millis()/1000.0));
   HB.setFrequency(frequency);
-  // Serial.println(frequency, 6);
-  // do other stuff here
+  //  Serial.println(frequency, 6);
+  //  do other stuff here
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

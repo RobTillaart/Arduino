@@ -25,14 +25,16 @@ uint32_t lastTime = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HEARTBEAT_LIB_VERSION: ");
   Serial.println(HEARTBEAT_LIB_VERSION);
   Serial.print("    SRF05_LIB_VERSION: ");
   Serial.println(SRF05_LIB_VERSION);
+  Serial.println();
 
-  HB.begin(buzzer, 0.1);  // very low frequency
-  HB.setDutyCycle(10);    // short pulses
+  HB.begin(buzzer, 0.1);  //  very low frequency
+  HB.setDutyCycle(10);    //  short pulses
 
   SRF.setCorrectionFactor(1.035);
 }
@@ -42,7 +44,8 @@ void loop()
 {
   HB.beat();
 
-  if (millis() - lastTime > 250)      // 4 times per second
+  //  4 times per second
+  if (millis() - lastTime > 250)
   {
     lastTime = millis();
     //  map 0..5 meter ==> 10..0 Hz
@@ -53,4 +56,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

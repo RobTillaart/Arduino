@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2025-08-20
+- update github actions
+- update examples
+- minor edits
+
 ## [0.3.6] - 2025-04-08
 - fix #15, Conflicting name with ESP Core V3.1.0
 - updated library.properties and library.json

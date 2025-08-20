@@ -2,10 +2,11 @@
 //    FILE: DEVFULL_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/DEVFULL
 //
-// this shows that a print can be split up in many write calls
-// that all return -28. Print will add these together.
-// (is a limit of the Arduino environment)
+//  this shows that a print can be split up in many write calls
+//  that all return -28. Print will add these together.
+//  (is a limit of the Arduino environment)
 
 
 #include "DEVFULL.h"
@@ -30,7 +31,7 @@ void setup()
   Serial.print("PRINTLN: \t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -40,7 +41,7 @@ void setup()
   Serial.print("WRITE: \t\t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -50,7 +51,7 @@ void setup()
   Serial.print("long: \t\t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -60,7 +61,7 @@ void setup()
   Serial.print("float0: \t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -70,7 +71,7 @@ void setup()
   Serial.print("float1: \t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -80,7 +81,7 @@ void setup()
   Serial.print("float2: \t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -90,7 +91,7 @@ void setup()
   Serial.print("float3: \t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
@@ -100,11 +101,11 @@ void setup()
   Serial.print("float4: \t");
   Serial.print(stop - start);
   Serial.print('\t');
-  Serial.println(n / -28);   // # of ENOSPC == #write calls.
+  Serial.println(n / -28);   //  # of ENOSPC == #write calls.
   delay(10);
 
 
-  // NOTE: THIS WILL NEVER STOP as it is always full.
+  //  NOTE: THIS WILL NEVER STOP as it is always full.
   start = micros();
   df.find((char *)"hello");
   stop = micros();
@@ -122,4 +123,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

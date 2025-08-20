@@ -2,6 +2,7 @@
 //    FILE: DEVFULL_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/DEVFULL
 
 
 #include "DEVFULL.h"
@@ -15,15 +16,15 @@ void setup()
   Serial.println(__FILE__);
 
   Serial.print("PRINTLN:   ");
-  // returns 65480 == -28 + -28 = -56 println() is split in 2 write calls.
+  //  returns 65480 == -28 + -28 = -56 println() is split in 2 write calls.
   Serial.println(df.println("it is full in here..."));
 
   Serial.print("PRINT:     ");
-  // returns 65508 == -28 print() maps on one write() call.
+  //  returns 65508 == -28 print() maps on one write() call.
   Serial.println(df.print("it is full in here..."));
 
   Serial.print("WRITE:     ");
-  // returns 65508 == -28 print() maps on one write() call.
+  //  returns 65508 == -28 print() maps on one write() call.
   Serial.println(df.write((const uint8_t *) "it is full in here...", 21));
 
   Serial.print("AVAILABLE: ");
@@ -43,4 +44,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

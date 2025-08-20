@@ -1,7 +1,7 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for I2C DHT12 temperature and humidity sensor.
 //     URL: https://github.com/RobTillaart/DHT12
 
@@ -41,7 +41,10 @@ int8_t DHT12::read()
 {
   //  READ SENSOR
   int status = _readSensor();
-  if (status < 0) return status;
+  if (status < 0) 
+  {
+    return status;
+  }
 
   //  CONVERT AND STORE
   _humidity    = _bits[0] + _bits[1] * 0.1;

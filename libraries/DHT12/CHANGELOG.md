@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2025-08-20
+- update github actions
+- update examples
+- minor edits
+
 ## [0.5.0] - 2023-10-24
 - simplify begin() == breaking change, see examples.
 - fix examples
@@ -29,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add changelog.md
 - add rp2040 to build-CI
 
-## [0.3.2] - 2021-12-16  
+## [0.3.2] - 2021-12-16
 - update library.json
 - update license
 - add isConnected()
@@ -48,13 +53,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.2.1] - 2020-06-07
 - fix library.json
 
-## [0.2.0] - 2020-04-11  
-- explicit constructors, select other Wire interface, 
+## [0.2.0] - 2020-04-11
+- explicit constructors, select other Wire interface,
 - #pragma once
 
 ----
 
-## [0.1.2] - 2018-09-02 
+## [0.1.2] - 2018-09-02
 - fix negative temperature DHT12 - issue #111
 
 ## [0.1.1] - 2017-12-19

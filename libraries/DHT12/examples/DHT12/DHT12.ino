@@ -2,6 +2,7 @@
 //    FILE: DHT12.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for DHT12 I2C humidity & temperature sensor
+//     URL: https://github.com/RobTillaart/DHT12
 
 
 #include "DHT12.h"
@@ -12,6 +13,7 @@ DHT12 DHT;  //  implicit Wire
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DHT12 LIBRARY VERSION: ");
   Serial.println(DHT12_LIB_VERSION);

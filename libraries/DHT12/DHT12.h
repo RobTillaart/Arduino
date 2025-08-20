@@ -2,7 +2,7 @@
 //
 //    FILE: DHT12.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for I2C DHT12 temperature and humidity sensor.
 //     URL: https://github.com/RobTillaart/DHT12
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT12_LIB_VERSION                    (F("0.5.0"))
+#define DHT12_LIB_VERSION                    (F("0.5.1"))
 
 #define DHT12_OK                             0
 #define DHT12_ERROR_CHECKSUM                -10

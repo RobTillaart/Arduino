@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.4] - 2025-08-20
+- update github actions
+- update examples
+- minor edits
+
 ## [0.5.3] - 2025-01-21
 - update readme.md - fix for R4
   - https://github.com/arduino/uno-r4-library-compatibility/issues/38

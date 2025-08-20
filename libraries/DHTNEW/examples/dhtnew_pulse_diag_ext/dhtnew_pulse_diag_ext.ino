@@ -34,6 +34,7 @@ void setup()
   while (!Serial);       //  MKR1010 needs this
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println("dhtnew_pulse_diag_ext.ino");
   Serial.println();
 

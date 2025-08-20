@@ -27,9 +27,11 @@ void setup()
   while(!Serial);        //  MKR1010 needs this
 
   Serial.begin(115200);
-  Serial.println("dhtnew_test.ino");
+  Serial.println();
+  Serial.println("dhtnew_powerDown.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
+  Serial.println();
 
   //  MKR1010 needs this
   //  mySensor.setDisableIRQ(false);

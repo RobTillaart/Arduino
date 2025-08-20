@@ -21,6 +21,7 @@ DHTNEW mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println("dhtnew_debug.ino");
   Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);

@@ -2,8 +2,7 @@
 //    FILE: dhtnew_endless_insideFunction.ino
 // AUTHORS: Rob Tillaart, Vladislaw Kuzmin
 // PURPOSE: Demonstration example of endless DHT values' reporting in a function
-//    DATE: 2021-02-19
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/DHTNEW
 
 //  DHT PINs' layout from left to right
 //  =================================
@@ -28,7 +27,8 @@ void setup()
   while(!Serial);     //  MKR1010 needs this
 
   Serial.begin(115200);
-  Serial.println("DHT_endless.ino");
+  Serial.println();
+  Serial.println("dhtnew_endless_insideFunction.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();

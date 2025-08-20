@@ -27,8 +27,10 @@ void setup()
 {
   while(!Serial);        // MKR1010 needs this
 
-  Serial.begin(115200);
-  Serial.println(__FILE__);
+  Serial.println();
+  Serial.println("dhtnew_suppressError.ino");
+  Serial.print("LIBRARY VERSION: ");
+  Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
   // MKR1010 needs this

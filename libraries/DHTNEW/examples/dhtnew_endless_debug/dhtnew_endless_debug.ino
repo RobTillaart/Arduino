@@ -2,8 +2,7 @@
 //    FILE: DHT_endless_debug.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-04
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/DHTNEW
 
 //  make _bits public + disable CRC check to run this program.
 
@@ -32,7 +31,8 @@ void setup()
   while (!Serial);    //  MKR1010 needs this
 
   Serial.begin(115200);
-  Serial.println("DHT_endless.ino");
+  Serial.println();
+  Serial.println("DHT_endless_debug.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();

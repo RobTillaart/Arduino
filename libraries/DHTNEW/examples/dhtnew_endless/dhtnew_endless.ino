@@ -2,8 +2,7 @@
 //    FILE: DHT_endless.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-04
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/DHTNEW
 
 //  DHT PIN layout from left to right
 //  =================================
@@ -29,6 +28,7 @@ void setup()
   while(!Serial);     //  MKR1010 needs this
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println("DHT_endless.ino");
   Serial.print("LIBRARY VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);

@@ -31,6 +31,7 @@ void setup()
   while(!Serial);        //  MKR1010 needs this
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println("dhtnew_pulse_diag.ino");
   Serial.println();
 
@@ -104,7 +105,7 @@ void dump()
 void measure()
 {
   count++;
-  //  yield(); // handle pending interrupts
+  //  yield(); //  handle pending interrupts
 
   //  reset measurements table
   idx = 0;
@@ -125,7 +126,7 @@ void measure()
   pinMode(_dataPin, INPUT_PULLUP);
 
   //  DISABLE INTERRUPTS when clock in the bits
-  //  noInterrupts();      // gives problems on AVR
+  //  noInterrupts();      //  gives problems on AVR
 
 
   times[idx++] = micros();

@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA229.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.5.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA229_LIB_VERSION          (F("0.4.1"))
+#define INA229_LIB_VERSION          (F("0.5.0"))
 
 
 #ifndef __SPI_CLASS__
@@ -150,8 +150,8 @@ public:
   double   getKiloJoule()       { return getEnergy()       * 1e-3; };
   double   getMilliJoule()      { return getEnergy()       * 1e3; };
   double   getMicroJoule()      { return getEnergy()       * 1e6; };
-  double   getWattHour()        { return getEnergy()       * (1.0 / 3600.0); };
-  double   getKiloWattHour()    { return getEnergy()       * (1.0 / 3.6); };
+  double   getWattHour()        { return getEnergy()       * (1.0  / 3600.0); };
+  double   getKiloWattHour()    { return getEnergy()       * (1e-3 / 3600.0); };
 
   //  CHARGE
   double   getCharge();         //  Coulombs

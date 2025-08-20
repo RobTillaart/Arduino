@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.5.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -279,7 +279,7 @@ bool INA229::setADCRange(bool flag)
   if (flag) value |= INA229_CFG_ADCRANGE;
   else      value &= ~INA229_CFG_ADCRANGE;
   _writeRegister(INA229_CONFIG, value);
-  //  INA228, #26 
+  //  INA228, #26
   bool rv = setMaxCurrentShunt(getMaxCurrent(), getShunt()) == 0;
   return rv;
 }

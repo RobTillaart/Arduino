@@ -33,7 +33,7 @@ with only a return 0; (or at least **print(Type)** as the **println(T)** would o
 call once extra for the "\n".
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/DEVFULL
 - https://github.com/RobTillaart/DEVNULL
@@ -46,7 +46,12 @@ call once extra for the "\n".
 #include "DEVNULL.h"
 ```
 
+### Constructor
+
 - **DEVNULL()** constructor, sets the timeout to zero.
+
+### Stream interface
+
 - **int available()** always return zero.
 - **int peek()** always returns EOF.
 - **int read()** always return EOF.

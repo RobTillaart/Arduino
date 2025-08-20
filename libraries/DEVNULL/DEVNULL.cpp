@@ -1,7 +1,7 @@
 //
 //    FILE: DEVNULL.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library for a /dev/null stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVNULL
 
@@ -18,23 +18,23 @@ DEVNULL::DEVNULL()
 int  DEVNULL::available()
 {
   return 0;
-};
+}
 
 int  DEVNULL::peek()
 {
   return EOF;
-};
+}
 
 int  DEVNULL::read()
 {
   return EOF;
-};
+}
 
 //  placeholder to keep CI happy
 void DEVNULL::flush()
 {
   return;
-};
+}
 
 size_t DEVNULL::write(const uint8_t data)
 {

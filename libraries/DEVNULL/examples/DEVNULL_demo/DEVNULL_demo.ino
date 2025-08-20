@@ -1,11 +1,9 @@
 //
 //    FILE: DEVNULL_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020-06-23
-//    (c) : MIT
-//
+//     URL: https://github.com/RobTillaart/DEVNULL
+
 
 #include "DEVNULL.h"
 
@@ -15,7 +13,11 @@ DEVNULL dn;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DEVNULL_LIB_VERSION: ");
+  Serial.println(DEVNULL_LIB_VERSION);
+  Serial.println();
 
   dn.println("it is dark in here...");
 
@@ -34,5 +36,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

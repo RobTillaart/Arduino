@@ -2,9 +2,8 @@
 //    FILE: DEVRANDOM_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-23
+//     URL: https://github.com/RobTillaart/DEVRANDOM
 //
-
 // USE WITH SERIAL PLOTTER
 
 
@@ -18,7 +17,10 @@ volatile int a, b, c, d;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("DEVRANDOM_LIB_VERSION: ");
+  Serial.println(DEVRANDOM_LIB_VERSION);
   Serial.println();
 
   Serial.println("SOFTWARE\tDIGITAL\tANALOG\tMARSAGLIA");
@@ -51,5 +53,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

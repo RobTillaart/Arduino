@@ -129,4 +129,6 @@ unittest(test_generator_mode_Marsaglia)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

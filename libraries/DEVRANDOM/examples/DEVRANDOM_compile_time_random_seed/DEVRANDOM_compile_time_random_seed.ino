@@ -2,9 +2,7 @@
 //    FILE: DEVRANDOM_compile_time_random_seed.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo compile time random seed
-//    DATE: 2020-06-23
-//    (c) : MIT
-//
+//     URL: https://github.com/RobTillaart/DEVRANDOM
 
 
 #include "DEVRANDOM.h"
@@ -18,7 +16,10 @@ volatile int x;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("DEVRANDOM_LIB_VERSION: ");
+  Serial.println(DEVRANDOM_LIB_VERSION);
   Serial.println();
 
   //  setup compile time random seed
@@ -41,4 +42,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

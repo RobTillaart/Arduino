@@ -1,7 +1,7 @@
 //
 //    FILE: DEVRANDOM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for a /dev/random stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVRANDOM
 
@@ -12,40 +12,40 @@
 DEVRANDOM::DEVRANDOM()
 {
   _next = _rnd();
-};
+}
 
 
 DEVRANDOM::DEVRANDOM(const char * str)
 {
   this->print(str);
   _next = _rnd();
-};
+}
 
 
 DEVRANDOM::DEVRANDOM(const uint32_t value)
 {
    this->print(value);
   _next = _rnd();
-};
+}
 
 
 DEVRANDOM::DEVRANDOM(const float value)
 {
   this->print(value, 6);
   _next = _rnd();
-};
+}
 
 
 int DEVRANDOM::available()
 {
   return 1;
-};
+}
 
 
 int DEVRANDOM::peek()
 {
   return _next;
-};
+}
 
 
 int DEVRANDOM::read()
@@ -53,19 +53,19 @@ int DEVRANDOM::read()
   uint8_t x = _next;
   _next = _rnd();
   return x;
-};
+}
 
 
 //  keep CI happy as parent class flush is virtual.
 void DEVRANDOM::flush()
 {
-};
+}
 
 
 size_t DEVRANDOM::write(const uint8_t data)
 {
   return write(&data, 1);
-};
+}
 
 
 size_t DEVRANDOM::write(const uint8_t * buffer, size_t size)
@@ -85,20 +85,20 @@ size_t DEVRANDOM::write(const uint8_t * buffer, size_t size)
     _m_w = ( tmp  == 0) ? 2 : tmp;
   }
   return size;
-};
+}
 
 
 void DEVRANDOM::useMarsaglia()
 {
   _mode = 3;
-};
+}
 
 
 void DEVRANDOM::useAnalogRead(uint8_t pin)
 {
   _mode = 2;
   _pin = pin;
-};
+}
 
 
 void DEVRANDOM::useDigitalRead(uint8_t pin)
@@ -106,19 +106,19 @@ void DEVRANDOM::useDigitalRead(uint8_t pin)
   _mode = 1;
   _pin = pin;
   pinMode(_pin, INPUT);
-};
+}
 
 
 void DEVRANDOM::useRandom()
 {
   _mode = 0;
-};
+}
 
 
 uint8_t DEVRANDOM::getMode()
 {
   return _mode;
-};
+}
 
 
 int DEVRANDOM::_rnd()

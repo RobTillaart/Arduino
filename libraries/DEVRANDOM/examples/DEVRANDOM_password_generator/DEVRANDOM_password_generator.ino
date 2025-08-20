@@ -1,15 +1,12 @@
 //
 //    FILE: DEVRANDOM_password_generator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020-06-25
-//    (c) : MIT
+//     URL: https://github.com/RobTillaart/DEVRANDOM
 //
-
-// To use this as a real password generator one needs a use
-// a hardware random noise generator to have some level of quality
-// this example is merely a proof of concept.
+//  To use this as a real password generator one needs a use
+//  a hardware random noise generator to have some level of quality
+//  this example is merely a proof of concept.
 
 
 #include "DEVRANDOM.h"
@@ -33,7 +30,10 @@ int mx = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("DEVRANDOM_LIB_VERSION: ");
+  Serial.println(DEVRANDOM_LIB_VERSION);
   Serial.println();
 
   //  compile time randomization
@@ -44,8 +44,8 @@ void setup()
 
   // dr.useDigitalRead(5);
   // dr.useAnalogRead(A0);
-  // dr.useMarsaglia();     // faster than build in random (UNO).
-  dr.useRandom();  // for proof of concept this is OK
+  // dr.useMarsaglia();     //  faster than build in random (UNO).
+  dr.useRandom();  //  for proof of concept this is OK
 }
 
 
@@ -112,5 +112,5 @@ int generatePassword(int length)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,8 +2,7 @@
 //    FILE: DEVRANDOM_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-23
-//
+//     URL: https://github.com/RobTillaart/DEVRANDOM
 
 
 #include "DEVRANDOM.h"
@@ -17,7 +16,10 @@ volatile int x;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("DEVRANDOM_LIB_VERSION: ");
+  Serial.println(DEVRANDOM_LIB_VERSION);
   Serial.println();
 
   Serial.println("Reseeding compile time");
@@ -134,5 +136,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

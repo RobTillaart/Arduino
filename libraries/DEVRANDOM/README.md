@@ -25,6 +25,8 @@ device of a Linux system. It can be used for testing with streams.
 - https://github.com/RobTillaart/DEVFULL
 - https://github.com/RobTillaart/DEVNULL
 - https://github.com/RobTillaart/DEVRANDOM
+- https://github.com/RobTillaart/Prandom
+- https://github.com/RobTillaart/randomHelpers
 
 
 ## Interface
@@ -41,7 +43,7 @@ device of a Linux system. It can be used for testing with streams.
 - **DEVRANDOM(float value)** Constructor, seeding with a float value.
 
 
-### Streeam interface
+### Stream interface
 
 To read and to reseed the random generator.
 

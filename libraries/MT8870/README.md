@@ -42,6 +42,8 @@ DTMF tones, uses one from A..D and one from E..H.
 #include "MT8870.h"
 ```
 
+### Constructor
+
 - **MT8870()** constructor
 - **void begin(uint8_t STQ, uint8_t Q1, uint8_t Q2, uint8_t Q3, uint8_t Q4)** defines which pins to use. 
 Technically it is possible to have readout multiple decoders
@@ -49,6 +51,9 @@ with one MT8870 object by calling **begin()** with other pins.
   - **STQ**    = data available signal
   - **Q1..Q4** = data pins.
   - Calling begin resets the **lastRead** char
+
+### Communication
+
 - **bool available()** returns true if there is a DMTF signal 
 - **char read()** reads the character available. Returns 255 if no signal available.
 - **uint8_t readRaw()** returns 0 .. 15 or 255 if no signal is available.

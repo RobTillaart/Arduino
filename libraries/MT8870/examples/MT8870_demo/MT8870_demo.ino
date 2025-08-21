@@ -2,7 +2,7 @@
 //    FILE: MT8870_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-08-13
+//     URL: https://github.com/RobTillaart/MT8870
 
 
 #include "MT8870.h"
@@ -13,9 +13,11 @@ MT8870 DTMF;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MT8870_LIB_VERSION: ");
   Serial.println(MT8870_LIB_VERSION);
+  Serial.println();
 
   DTMF.begin(2, 4, 5, 6, 7);
 }
@@ -33,9 +35,8 @@ void loop()
     Serial.println();
   }
 
-  // do something else
+  //  do something else
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

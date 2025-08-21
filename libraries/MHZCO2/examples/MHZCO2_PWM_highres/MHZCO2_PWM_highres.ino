@@ -2,6 +2,7 @@
 //    FILE: MHZCO2_PWM_highres.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo MHZ library / sensor
+//     URL: https://github.com/RobTillaart/MHZCO2
 //
 //  This example measures the HIGH and PERIOD timing in microseconds.
 //  It uses the actual period length and returns the PPM as float.
@@ -20,10 +21,11 @@
 //  adjust to calibrate.
 const float MAX_CONCENTRATION = 2000.0;
 
-//
+
 //  interrupt variables
 volatile uint32_t period;
 volatile uint32_t width;
+
 
 void IRQ()
 {

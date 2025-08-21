@@ -2,8 +2,8 @@
 //    FILE: MHZCO2_PWM.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo MHZ library / sensor
-//    DATE: 2020-09-01
-
+//     URL: https://github.com/RobTillaart/MHZCO2
+//
 //  This example measures the HIGH timing of the PWM in milliseconds.
 //  It does NOT measure the actual period length but uses the average 1000 milliseconds.
 

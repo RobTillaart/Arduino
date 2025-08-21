@@ -2,6 +2,7 @@
 //    FILE: MHZCO2_serial1_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo for MEGA / 2560 etc with Serial1
+//     URL: https://github.com/RobTillaart/MHZCO2
 
 
 #include "Arduino.h"

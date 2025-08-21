@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.3] - 2025-08-21
+- update github actions
+- mior edits
+
 ## [0.2.2] - 2025-04-22
 - improve readme.md (PWM + analog)
 - add **MHZCO2_PWM_highres.ino** example

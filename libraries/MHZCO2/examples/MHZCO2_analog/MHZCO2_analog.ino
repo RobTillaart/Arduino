@@ -2,7 +2,7 @@
 //    FILE: MHZCO2_analog.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo MHZ library / sensor
-//    DATE: 2020-09-01
+//     URL: https://github.com/RobTillaart/MHZCO2
 
 
 #include "Arduino.h"

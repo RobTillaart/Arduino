@@ -2,7 +2,7 @@
 //
 //    FILE: MHZCO2.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino Library for MHZ series CO2 sensors.
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define MHZCO2_LIB_VERSION        (F("0.2.2"))
+#define MHZCO2_LIB_VERSION        (F("0.2.3"))
 
 #define MHZCO2_OK                 0
 #define MHZCO2_TIMEOUT            -10

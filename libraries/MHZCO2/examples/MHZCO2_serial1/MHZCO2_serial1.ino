@@ -2,7 +2,7 @@
 //    FILE: MHZCO2_serial1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo for MEGA / 2560 etc with Serial1
-//    DATE: 2020-09-01
+//     URL: https://github.com/RobTillaart/MHZCO2
 
 
 #include "Arduino.h"

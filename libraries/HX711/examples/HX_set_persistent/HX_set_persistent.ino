@@ -3,7 +3,7 @@
 //    FILE: HX_set_persistent.ino
 //  AUTHOR: Felix Moli Grao la base de Rob Tillaart
 // PURPOSE: HX711 demo
-
+//     URL: https://github.com/RobTillaart/HX711
 
 //scale.set_offset(-186985);
 //scale.set_scale(14.18);

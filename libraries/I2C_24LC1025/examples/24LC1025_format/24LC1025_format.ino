@@ -2,7 +2,7 @@
 //    FILE: 24LC1025_format.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: clear 24LC1025 EEPROM
-//    DATE: 2021-01-27
+//     URL: https://github.com/RobTillaart/I2C_24LC1025
 
 
 #include "I2C_24LC1025.h"
@@ -15,9 +15,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_24LC1025_LIB_VERSION: ");
   Serial.println(I2C_24LC1025_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

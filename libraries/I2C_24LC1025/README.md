@@ -82,7 +82,6 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-
 ## Interface
 
 ```cpp

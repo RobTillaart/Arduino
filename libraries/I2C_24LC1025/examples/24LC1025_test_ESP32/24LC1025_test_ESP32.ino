@@ -2,6 +2,7 @@
 //    FILE: 24LC1025_test_ESP32.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo ESP32 specific
+//     URL: https://github.com/RobTillaart/I2C_24LC1025
 
 
 #include "I2C_24LC1025.h"
@@ -14,9 +15,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_24LC1025_LIB_VERSION: ");
   Serial.println(I2C_24LC1025_LIB_VERSION);
+  Serial.println();
 
   //  adjust pins if needed
   //  Wire.begin(20, 21);
@@ -36,13 +39,13 @@ void setup()
   Serial.println(ee.readByte(65536));
 
   start = micros();
-  dump(0x00, 0x0FFFF);  // First block of 64K
+  dump(0x00, 0x0FFFF);  //  First block of 64K
   stop = micros();
   Serial.print("\nTIME: \t");
   Serial.println(stop - start);
 
-  // dump(0xFFF0, 0x1000F);
-  // test(65530);
+  //  dump(0xFFF0, 0x1000F);
+  //  test(65530);
   Serial.println("\nDone...");
 }
 
@@ -54,7 +57,7 @@ void loop()
 
 void dump(uint32_t from, uint32_t to)
 {
-  for (uint32_t i = from; i < to; i++)  // I2C_DEVICESIZE_24LC1025
+  for (uint32_t i = from; i < to; i++)  //  I2C_DEVICESIZE_24LC1025
   {
     volatile int x = ee.readByte(i);
     char buffer[24];

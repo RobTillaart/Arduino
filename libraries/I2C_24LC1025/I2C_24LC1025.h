@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_24LC1025.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM 24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_24LC1025_LIB_VERSION    (F("0.3.1"))
+#define I2C_24LC1025_LIB_VERSION    (F("0.3.2"))
 
 
 #define I2C_DEVICESIZE_24LC1025     131072

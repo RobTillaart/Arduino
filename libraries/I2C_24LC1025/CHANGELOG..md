@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2025-08-21
+- update github actions
+- minor edits
+
 ## [0.3.1] - 2025-07-31
 - update readme
 - minor edits
@@ -31,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 
 ## [0.2.4] - 2023-05-11
-- redo support for RP2040 
+- redo support for RP2040
   - see issue #53 / #55 I2C_EEPROM
 
 ## [0.2.3] - 2023-05-02

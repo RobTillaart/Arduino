@@ -2,7 +2,7 @@
 //    FILE: CAT24M01_format.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: clear CAT24M01 EEPROM
-//    DATE: 2021-01-27
+//     URL: https://github.com/RobTillaart/I2C_CAT24M01
 
 
 #include "I2C_CAT24M01.h"

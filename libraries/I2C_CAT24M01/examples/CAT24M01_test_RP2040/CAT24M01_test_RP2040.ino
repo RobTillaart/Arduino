@@ -2,7 +2,7 @@
 //    FILE: CAT24M01_test_RP2040.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo RP2040 specific
-
+//     URL: https://github.com/RobTillaart/I2C_CAT24M01
 
 
 #include "I2C_CAT24M01.h"
@@ -40,13 +40,13 @@ void setup()
   Serial.println(ee.readByte(65536));
 
   start = micros();
-  dump(0x00, 0x0FFFF);  // First block of 64K
+  dump(0x00, 0x0FFFF);  //  First block of 64K
   stop = micros();
   Serial.print("\nTIME: \t");
   Serial.println(stop - start);
 
-  // dump(0xFFF0, 0x1000F);
-  // test(65530);
+  //  dump(0xFFF0, 0x1000F);
+  //  test(65530);
   Serial.println("\nDone...");
 }
 
@@ -58,7 +58,7 @@ void loop()
 
 void dump(uint32_t from, uint32_t to)
 {
-  for (uint32_t i = from; i < to; i++)  // I2C_DEVICESIZE_CAT24M01
+  for (uint32_t i = from; i < to; i++)  //  I2C_DEVICESIZE_CAT24M01
   {
     volatile int x = ee.readByte(i);
     char buffer[24];

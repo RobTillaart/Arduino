@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_CAT24M01.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: I2C_CAT24M01 library for Arduino with EEPROM I2C_CAT24M01 et al.
 //     URL: https://github.com/RobTillaart/I2C_CAT24M01
 //

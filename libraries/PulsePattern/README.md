@@ -16,7 +16,9 @@ Arduino Library to generate repeating pulse patterns **AVR ONLY**.
 
 ## Description
 
-This is an **experimental** library to generate pulse patterns by means of an Arduino UNO.
+**Experimental**
+
+This is an experimental library to generate pulse patterns by means of an Arduino UNO.
 As the library uses **AVR hardware timers** it is definitely **NOT** working for ESP
 or other non-AVR processors.
 
@@ -33,6 +35,14 @@ Use with care.
 
 Note: there is no active development.
 
+As always, feedback is welcome.
+
+
+### Related
+
+- https://github.com/RobTillaart/Metronome
+- https://github.com/RobTillaart/PulsePattern  (AVR only)
+
 
 ## Interface
 
@@ -43,12 +53,15 @@ Note: there is no active development.
 ### Constructor
 
 - **PulsePattern()** constructor
-- **void init(uint8_t pin, uint16_t\*ar, uint8_t size, luint8_t evel, uint8_t prescaler)** initializer of the Timer1
+- **void init(uint8_t pin, uint16_t\*ar, uint8_t size, uint8_t level, uint8_t prescaler)** initializer of the Timer1
    - pin that outputs the pattern
    - array of durations
    - size (or part) of the array to be used
    - starting level HIGH/LOW
    - pre-scaler, one of the 5 defines from .h file (table below)
+
+### Calibrate timing
+
 - **void setFactor(float perc)** percentage = factor to correct timing (relative).
 - **float getFactor()** get the internal used factor. Due to rounding it can be slightly different.
 
@@ -80,16 +93,18 @@ There is some bad understood __vector_11() error when worker() is private.
 |    7    |  EXT_T2_RISING   |              |  not tested
 
 
-# Operation
-
-See examples.
-
-
 ## Future
+
+On request only
 
 #### Must
 
 #### Should
+
+- redo API => split init()
+  - set pin in constructor(?)
+  - setPattern();
+- rename init() ==> begin() ?
 
 #### Could
 
@@ -98,6 +113,8 @@ See examples.
 - add interval between patterns?
   - or is this just LOW/HIGH for a certain time.
 if time permits ...
+- generic pattern language
+  (pin, 'RN', start LH, time, time, time, time, ...}
 
 #### Wont
 

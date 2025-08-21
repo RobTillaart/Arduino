@@ -4,13 +4,14 @@
 //    DATE: 2012-11-23
 // PURPOSE: demo of the PulsePattern Library
 //          uses timer1
+//     URL: https://github.com/RobTillaart/PulsePattern
 
 
 #include "PulsePattern.h"
 
-// a pattern consists of durations of LOW and HIGH periods
-// NOTE max period = 4095.
-//      min period = about 12
+//  a pattern consists of durations of LOW and HIGH periods
+//  NOTE max period = 4095.
+//       min period = about 12
 uint16_t pattern[] =
 {
   1500, 1500, 1400, 1400, 1300, 1300, 1200, 1200, 1100, 1100,
@@ -26,7 +27,11 @@ uint8_t startLevel = LOW;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("PULSEPATTERN_LIB_VERSION: ");
+  Serial.println(PULSEPATTERN_LIB_VERSION);
+  Serial.println();
 
   PPGenerator.init(13, pattern, patternSize, startLevel, PRESCALE_1024);
   PPGenerator.start();
@@ -40,5 +45,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

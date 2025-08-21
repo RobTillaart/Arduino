@@ -2,12 +2,12 @@
 //
 //    FILE: PulsePattern.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //          sends a pulse pattern to a digital pin (continuously)
-// HISTORY: See PulsePattern.cpp
-//
+//     URL: https://github.com/RobTillaart/PulsePattern
+
 
 #if !defined(__AVR__)
   #error "Only support for AVR boards"
@@ -17,7 +17,7 @@
 #include "Arduino.h"
 
 
-#define PULSEPATTERN_LIB_VERSION        (F("0.1.8"))
+#define PULSEPATTERN_LIB_VERSION        (F("0.1.9"))
 
 //  RUNNING STATES
 #define NOTINIT                         -1

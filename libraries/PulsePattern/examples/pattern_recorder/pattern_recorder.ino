@@ -2,7 +2,7 @@
 //    FILE: pattern_recorder.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: records and writes a pattern to serial
-//    DATE: 2020-07-25
+//     URL: https://github.com/RobTillaart/PulsePattern
 
 
 #include "Arduino.h"
@@ -18,7 +18,11 @@ uint32_t sum = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  //  Serial.println("PULSEPATTERN_LIB_VERSION: ");
+  //  Serial.println(PULSEPATTERN_LIB_VERSION);
+  Serial.println();
 }
 
 
@@ -62,5 +66,5 @@ uint32_t recordPulse(uint8_t pin, uint16_t unit, uint16_t minperiod)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

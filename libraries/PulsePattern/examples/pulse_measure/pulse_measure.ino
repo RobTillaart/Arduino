@@ -2,26 +2,26 @@
 //    FILE: pulse_measure.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: measure pulselength
-//    DATE: 2020-08-07
+//     URL: https://github.com/RobTillaart/PulsePattern
 //
-// TEST
-//   generate with one Arduino a pulse of 1000 ms
-//   measure it with this sketch to determine the correction percentage
+//  TEST
+//    generate with one Arduino a pulse of 1000 ms
+//    measure it with this sketch to determine the correction percentage
 
 
 #include "Arduino.h"
 
-// measure pin = A5 on UNO
+//  measure pin = A5 on UNO
 uint8_t  pin = 19;
 
 
-// record pulses in units of 10 milliseconds
-// an a minimum duration of 20 miiliseconds.
+//  record pulses in units of 10 milliseconds
+//  an a minimum duration of 20 milliseconds.
 uint16_t minDuration = 20;
 uint16_t units = 10;
 
 
-// to calc the average
+//  to calculate the average
 uint32_t count = 0;
 uint32_t sum = 0;
 
@@ -29,9 +29,13 @@ uint32_t sum = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  //  Serial.println("PULSEPATTERN_LIB_VERSION: ");
+  //  Serial.println(PULSEPATTERN_LIB_VERSION);
+  Serial.println();
 
-  // wait for pulse edge to start
+  //  wait for pulse edge to start
   recordPulse(pin, units, minDuration);
 }
 
@@ -61,13 +65,13 @@ uint32_t recordPulse(uint8_t pin, uint16_t unit, uint16_t minperiod)
   }
 
   uint8_t newState = state;
-  // wait minimal amount of time
+  //  wait minimal amount of time
   while ((millis() - start) < minperiod - unit);
 
   uint32_t now = millis();
   while (newState == state)
   {
-    // have fixed units
+    //  have fixed units
     while (millis() - now < unit);
     now = millis();
     newState = digitalRead(pin);
@@ -79,5 +83,5 @@ uint32_t recordPulse(uint8_t pin, uint16_t unit, uint16_t minperiod)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

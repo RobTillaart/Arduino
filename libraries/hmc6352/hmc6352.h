@@ -2,15 +2,16 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: HMC6352 library for Arduino
+//     URL: https://github.com/RobTillaart/HMC6352
 
 
 #include "Wire.h"
 #include "Arduino.h"
 
 
-#define HMC6352_LIB_VERSION                    (F("0.4.0"))
+#define HMC6352_LIB_VERSION                    (F("0.4.1"))
 
 //  status function calls
 #define HMC6532_OK                               0

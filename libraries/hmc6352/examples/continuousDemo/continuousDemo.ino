@@ -2,6 +2,7 @@
 //    FILE: continuousDemo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo app HMC6352 library - continuous mode for Arduino
+//     URL: https://github.com/RobTillaart/HMC6352
 
 
 #include "hmc6352.h"
@@ -14,9 +15,11 @@ int heading;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HMC6352_LIB_VERSION: ");
   Serial.println(HMC6352_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Compass.begin();

@@ -2,6 +2,7 @@
 //    FILE: hmc6352Config.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test HMC6352 library for Arduino
+//     URL: https://github.com/RobTillaart/HMC6352
 
 
 #include "hmc6352.h"
@@ -12,9 +13,11 @@ hmc6352 Compass(33);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HMC6352_LIB_VERSION: ");
   Serial.println(HMC6352_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Compass.begin();
@@ -139,7 +142,7 @@ void OutPutModusMenu()
   //  WAIT FOR PARAM
   while (Serial.available() == 0);
   char cmd = Serial.read();
-  cmd -= '0'; // make a digit out of it
+  cmd -= '0';  //  make a digit out of it
   int x = Compass.setOutputModus(cmd);
   Serial.print("Returns: ");
   Serial.println(x);

@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Reset HMC6352 to standby mode without library
 //          (esp if it is struck in continuous mode - Arduino)
+//     URL: https://github.com/RobTillaart/HMC6352
 
 
 #include "hmc6352.h"
@@ -15,9 +16,11 @@ boolean ledState = LOW;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HMC6352_LIB_VERSION: ");
   Serial.println(HMC6352_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Serial.print("HMC6352 : start - ");

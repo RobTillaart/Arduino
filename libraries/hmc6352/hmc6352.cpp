@@ -1,8 +1,9 @@
 //
 //    FILE: hmc6352.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for HMC6352 digital compass sensor
+//     URL: https://github.com/RobTillaart/HMC6352
 
 
 #include "hmc6352.h"

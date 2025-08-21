@@ -2,7 +2,7 @@
 //    FILE: PCF8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
@@ -195,7 +195,7 @@ void PCF8574::select(const uint8_t pin)
   uint8_t n = 0x00;
   if (pin < 8) n = 1 << pin;
   write8(n);
-};
+}
 
 
 void PCF8574::selectN(const uint8_t pin)

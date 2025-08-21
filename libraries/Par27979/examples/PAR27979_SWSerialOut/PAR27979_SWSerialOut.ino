@@ -1,22 +1,33 @@
 //
 //    FILE: par27979_demo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo with SWSerialOut library (TX only).
 //     URL: https://github.com/RobTillaart/PAR27979
 
 
 #include "PAR27979.h"
+#include "SWSerialOut.h"
 
-PAR27979 display(&Serial);
+SWSerialOut SWSO(3);  //  adjust if needed
+
+PAR27979 display(&SWSO);
 
 
 void setup()
 {
-  Serial.begin(19200);  //  max speed parallax display
+  Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("PAR27929_LIB_VERSION: ");
+  Serial.println(PAR27929_LIB_VERSION);
+  Serial.println();
+
+  SWSO.begin(19200);  //  max speed parallax display
 
   display.clearHome();
 
-  // ON OFF TEST
+  //  ON OFF TEST
   display.on();
   delay(1000);
   display.off();
@@ -73,4 +84,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

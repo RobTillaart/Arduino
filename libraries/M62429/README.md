@@ -16,7 +16,7 @@ Arduino library for M62429 volume control IC.
 
 ## Description
 
-#### M62429
+### M62429
 
 This library is used to set the attenuation (volume) of the 
 M62429 IC a.k.a. FM62429.
@@ -30,7 +30,7 @@ For faster processors this define can be overruled runtime by setting it
 before including "M62429.h" or by defining it as command line parameter.
 
 
-#### M62429_RAW
+### M62429_RAW
 
 The library also implements a M62429_RAW class which has a minimalistic interface.
  
@@ -43,9 +43,14 @@ The library also implements a M62429_RAW class which has a minimalistic interfac
 
 The interface is straightforward
 
+### Constructor
+
 - **M62429()** Constructor
 - **void begin(uint8_t dataPin, uint8_t clockPin)** defines the clock and data pin.
 One has to create one object per IC. 
+
+### Volume
+
 - **int getVolume(uint8_t channel)** channel is 0, 1 or 2 (both). 
 In the latter case the volume of channel 0 is used as volume of both channels.
 See remark future section.
@@ -53,15 +58,18 @@ See remark future section.
   - channel = 0, 1, 2 = both
   - volume = 0 .. 255
   - Note: if system is muted, no changes are made.
-- **int incr(uint8_t channel = 2)** increment volume (both channels is default) until max (255) is reached.
+- **int increment(uint8_t channel = 2)** increment volume (both channels is default) until max (255) is reached.
 This is another way to set volume that is better suited for a rotary 
 encoder or a \[+\] button.
   - Note: if system is muted, no changes are made.
-- **int decr(uint8_t channel = 2)** decrement volume (both channels is default) until 0 is reached. 
+- **int decrement(uint8_t channel = 2)** decrement volume (both channels is default) until 0 is reached. 
   - Note: if system is muted, no changes are made.
 - **int average()** averages the 2 channels to same = average level.  
 Sort of set balance in the middle functionality.
   - Note: if system is muted, no changes are made.
+
+### Mute
+
 - **void muteOn()** silences both channels but remembers the volume.
 GetVolume() will return the 'saved' volume value.
 - **void muteOff()** resets the volume per channel again.
@@ -73,7 +81,7 @@ This choice is made as the range 0..255 is more often used than the 0..87 range
 and therefore better fits other sensors and devices.
 
 
-#### Error codes
+### Error codes
 
 The functions **getVolume(), setVolume(), incr(), decr()** and **average()**
 can return one of the  error codes.
@@ -115,6 +123,8 @@ In the latter case the attenuation of channel 0 is used as attenuation of both c
 - improve documentation
 
 #### Should
+
+- make incr() and decr() obsolete in future
 
 #### Could
 

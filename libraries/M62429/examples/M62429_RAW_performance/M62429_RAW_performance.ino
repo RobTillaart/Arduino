@@ -2,6 +2,7 @@
 //    FILE: M62429_RAW_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo M62429_RAW class for IC FM62429
+//     URL: https://github.com/RobTillaart/M62429
 
 
 #include "M62429.h"
@@ -14,10 +15,11 @@ M62429_RAW  AMP;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("M62429_VERSION: ");
   Serial.println(M62429_VERSION);
+  Serial.println();
 
   AMP.begin(4, 5);
   delay(100);

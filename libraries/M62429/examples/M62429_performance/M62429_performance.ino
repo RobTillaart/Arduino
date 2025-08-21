@@ -2,7 +2,7 @@
 //    FILE: M62429_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo volume IC FM62429
-//    DATE: 2021-12-30
+//     URL: https://github.com/RobTillaart/M62429
 
 
 #include "M62429.h"
@@ -15,10 +15,12 @@ M62429  AMP;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
+  Serial.begin(115200);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("M62429_VERSION: ");
   Serial.println(M62429_VERSION);
+  Serial.println();
 
   AMP.begin(4, 5);
   delay(100);
@@ -62,7 +64,7 @@ void setup()
 
   AMP.setVolume(2, 0);
   start = micros();
-  AMP.incr();
+  AMP.increment();
   stop = micros();
   Serial.print("increment: \t");
   Serial.println(stop - start);
@@ -70,7 +72,7 @@ void setup()
 
   AMP.setVolume(2, 0);
   start = micros();
-  AMP.decr();
+  AMP.decrement();
   stop = micros();
   Serial.print("decrement: \t");
   Serial.println(stop - start);

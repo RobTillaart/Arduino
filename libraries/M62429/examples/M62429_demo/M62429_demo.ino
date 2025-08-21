@@ -2,7 +2,7 @@
 //    FILE: M62429_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo volume IC FM62429
-//    DATE: 2020-08-02
+//     URL: https://github.com/RobTillaart/M62429
 
 
 #include "M62429.h"
@@ -15,8 +15,12 @@ M62429  AMP;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.println("\nTest takes a ~2 minutes.\n");
+  Serial.print("M62429_VERSION: ");
+  Serial.println(M62429_VERSION);
+  Serial.println();
+  Serial.println("Test takes a ~2 minutes.\n");
 
   AMP.begin(4, 5);
 
@@ -24,7 +28,7 @@ void setup()
 
   test_channel(0);
   test_channel(1);
-  test_channel(2); // both
+  test_channel(2);  //  both
   test_mute(0);
   test_mute(1);
   test_average();
@@ -98,17 +102,17 @@ void test_channel(uint8_t ch)
   AMP.setVolume(ch, 0);
   Serial.println();
 
-  Serial.println("incr()");
+  Serial.println("increment()");
   AMP.setVolume(ch, 0);
   for (int i = 0; i < 255; i++)
   {
-    AMP.incr();
+    AMP.increment();
     delay(10);
   }
-  Serial.println("decr()");
+  Serial.println("decrement()");
   for (int i = 0; i < 255; i++)
   {
-    AMP.decr();
+    AMP.decrement();
     delay(10);
   }
   AMP.setVolume(2, 0);

@@ -3,14 +3,14 @@
 //    FILE: M62429.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 //     URL: https://github.com/RobTillaart/M62429
 
 
 #include "Arduino.h"
 
 
-#define M62429_VERSION              (F("0.3.7"))
+#define M62429_VERSION              (F("0.3.8"))
 
 
 // minimum pulse width CLOCK = 1.6 us (datasheet);
@@ -49,8 +49,13 @@ public:
   //  volume  = {0 .. 255 }
   int     setVolume(uint8_t channel, uint8_t volume);
   //  increment / decrement until min/max = 0..255
-  int     incr(uint8_t channel = 2);
-  int     decr(uint8_t channel = 2);
+  int     increment(uint8_t channel = 2);
+  int     decrement(uint8_t channel = 2);
+
+  //  [[deprecated("Use increment(channel)")]]
+  int     incr(uint8_t channel = 2) { return increment(channel); };
+  //  [[deprecated("Use decrement(channel)")]]
+  int     decr(uint8_t channel = 2) { return decrement(channel); };
 
   int     average();
 

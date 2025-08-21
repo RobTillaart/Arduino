@@ -1,0 +1,19 @@
+...\M62429_performance.ino
+BOARD   UNO R3
+IDE     1.18.19
+
+M62429_VERSION: 0.3.8
+
+setVolume: 	208
+setVolume: 	208
+setVolume: 	204
+setVolume: 	204
+getVolume: 	4
+getVolume: 	100
+increment: 	412
+decrement: 	4
+muteOn: 	192
+muteOff: 	420
+average: 	208
+
+Done...

@@ -2,6 +2,7 @@
 //    FILE: M62429_interactive.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo volume IC FM62429
+//     URL: https://github.com/RobTillaart/M62429
 
 
 #include "M62429.h"
@@ -15,7 +16,11 @@ uint8_t attn = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("M62429_VERSION: ");
+  Serial.println(M62429_VERSION);
+  Serial.println();
 
   AMP.begin(4, 5);  //  data, clock
 
@@ -49,10 +54,10 @@ void loop()
   switch (cmd)
   {
     case 'd':
-      AMP.decr();
+      AMP.decrement();
       break;
     case 'i':
-      AMP.incr();
+      AMP.increment();
       break;
     case '0':
       AMP.setVolume(2, 0);

@@ -2,7 +2,7 @@
 //    FILE: M62429.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.7
+// VERSION: 0.3.8
 // HISTORY: See M62429.cpp2
 //     URL: https://github.com/RobTillaart/M62429
 
@@ -57,7 +57,7 @@ int M62429::setVolume(uint8_t channel, uint8_t volume)
 }
 
 
-int M62429::incr(uint8_t channel)
+int M62429::increment(uint8_t channel)
 {
   if (channel > 2) return M62429_CHANNEL_ERROR;
   if (_muted) return M62429_MUTED;
@@ -76,7 +76,7 @@ int M62429::incr(uint8_t channel)
 }
 
 
-int M62429::decr(uint8_t channel)
+int M62429::decrement(uint8_t channel)
 {
   if (channel > 2) return M62429_CHANNEL_ERROR;
   if (_muted) return M62429_MUTED;

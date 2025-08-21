@@ -2,7 +2,7 @@
 //    FILE: Multiplex_softwareSerial_SDcard.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-06-13
+//     URL: https://github.com/RobTillaart/Multiplex
 //
 // Needs to be tested with an SD card attached
 // Note uses quite some RAM.
@@ -104,4 +104,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

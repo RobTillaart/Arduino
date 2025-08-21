@@ -2,7 +2,7 @@
 //    FILE: Multiplex_softwareSerial_remove.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-01-17
+//     URL: https://github.com/RobTillaart/Multiplex
 
 
 #include "Multiplex.h"
@@ -118,4 +118,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

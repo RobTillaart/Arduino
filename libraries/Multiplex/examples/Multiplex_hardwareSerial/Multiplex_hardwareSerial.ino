@@ -2,7 +2,7 @@
 //    FILE: Multiplex_hardwareSerial.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-11-10
+//     URL: https://github.com/RobTillaart/Multiplex
 //
 //  example for MEGA 2560 only
 //  MEGA has four serial outputs
@@ -69,5 +69,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -50,7 +50,6 @@ Setting MAX_MULTIPLEX to one creates a single stream that one can enable/disable
 
 Since 0.2.2 the library has **experimental** remove support.
 
-
 Current implementation (0.2.8) keeps the remaining streams in the same order, 
 however some streams will have a new index.
 So the order in which streams are handled will stay the same.

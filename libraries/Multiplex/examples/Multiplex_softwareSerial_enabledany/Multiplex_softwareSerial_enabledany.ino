@@ -2,7 +2,7 @@
 //    FILE: Multiplex_softwareSerial_enabled_any.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-06-13
+//     URL: https://github.com/RobTillaart/Multiplex
 
 
 #include "Multiplex.h"
@@ -100,4 +100,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

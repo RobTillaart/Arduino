@@ -1,7 +1,7 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: Arduino Library implementing a Print stream multiplexer.
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex

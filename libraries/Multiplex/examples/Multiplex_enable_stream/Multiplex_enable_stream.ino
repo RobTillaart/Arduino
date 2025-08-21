@@ -2,7 +2,7 @@
 //    FILE: Multiplex_enable_stream.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-089-10
+//     URL: https://github.com/RobTillaart/Multiplex
 
 
 #include "Multiplex.h"
@@ -66,5 +66,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,18 +2,18 @@
 //    FILE: Multiplex_softwareSerial.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-01-17
+//     URL: https://github.com/RobTillaart/Multiplex
 
 
 #include "Multiplex.h"
 #include <SoftwareSerial.h>
 
 
-// one multiplexer
+//  one multiplexer
 Multiplex mp;
 
 
-// three serial outputs
+//  three serial outputs
 SoftwareSerial Serial_A(-1, 8);
 SoftwareSerial Serial_B(-1, 9);
 SoftwareSerial Serial_C(-1, 10);
@@ -69,5 +69,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

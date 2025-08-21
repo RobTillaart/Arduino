@@ -2,7 +2,7 @@
 //
 //    FILE: ParallelPrinter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: parallel printer class that implements the Print interface
 //    DATE: 2013-09-30
 //     URL: https://github.com/RobTillaart/ParallelPrinter
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define PARALLELPRINTER_VERSION               (F("0.2.6"))
+#define PARALLELPRINTER_VERSION               (F("0.2.7"))
 
 #define FORMFEED                              12
 #define LINEFEED                              10
@@ -48,8 +48,8 @@ public:
   uint8_t  getLineFeed()           { return _lineFeed; };
 
   void     printLineNumber(bool b) { _printLineNumber = b; };
-  void     formfeed()              { write(FORMFEED); };
-  void     linefeed()              { write(LINEFEED); };
+  size_t   formfeed()              { return write(FORMFEED); };
+  size_t   linefeed()              { return write(LINEFEED); };
   bool     isOutOfPaper()          { return digitalRead(_busyPin) == LOW; };
   bool     isBusy()                { return digitalRead(_oopPin) == HIGH; };
 

@@ -1,11 +1,10 @@
 //
 //    FILE: ParallelPrinter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: parallel printer class that implements the Print interface
 //    DATE: 2013-09-30
 //     URL: https://github.com/RobTillaart/ParallelPrinter
-
 
 
 #include "ParallelPrinter.h"
@@ -126,7 +125,6 @@ void ParallelPrinter::processSingleChar(uint8_t c)
     _lineNr = 0;
     _pageNr++;
   }
-
 }
 
 
@@ -139,7 +137,6 @@ void ParallelPrinter::sendByte(uint8_t c)
 
   Serial.write(c);  //  debugging
   return;
-
 
   //  wait until printer is ready.
   while (digitalRead(_busyPin) == HIGH) yield();

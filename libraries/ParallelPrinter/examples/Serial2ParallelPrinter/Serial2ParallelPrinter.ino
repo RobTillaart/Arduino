@@ -2,14 +2,14 @@
 //    FILE: Serial2ParPrinter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-05-26
+//     URL: https://github.com/RobTillaart/ParallelPrinter
 
 
 #include "ParallelPrinter.h"
 
-// uses defaults
-// uint8_t p[] = {3, 4, 5, 6, 7, 8, 9, 10};
-// ParPrinter(13, 2, 12, p );
+//  uses defaults
+//  uint8_t p[] = {3, 4, 5, 6, 7, 8, 9, 10};
+//  ParPrinter(13, 2, 12, p );
 
 ParallelPrinter PP;
 
@@ -17,8 +17,12 @@ ParallelPrinter PP;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  
+  Serial.println("PARALLELPRINTER_VERSION: ");
+  Serial.println(PARALLELPRINTER_VERSION);
+  Serial.println();
+
   PP.begin();
 }
 
@@ -29,5 +33,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

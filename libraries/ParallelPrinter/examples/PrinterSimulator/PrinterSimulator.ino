@@ -2,7 +2,7 @@
 //    FILE: PrinterSimulator.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-24
+//     URL: https://github.com/RobTillaart/ParallelPrinter
 //
 // Simple parallel printer simulator, prints to serial...
 // version could be made with a shiftin register ....
@@ -20,28 +20,30 @@ uint8_t dataPins[] = { 3, 4, 5, 6, 7, 8, 9, 10 };
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   pinMode(PIN_STROBE, INPUT);
   pinMode(PIN_OOP,    OUTPUT);
-  pinMode(PIN_BUSY,   OUTPUT);  // build in LED UNO.
+  pinMode(PIN_BUSY,   OUTPUT);  //  build in LED UNO.
 
   for (uint8_t i = 0; i < 8; i++)
   {
     pinMode(dataPins[i], INPUT);
   }
 
-  digitalWrite(PIN_OOP, HIGH);  // HIGH is OK
-  digitalWrite(PIN_BUSY, HIGH); // BUSY during startup
+  digitalWrite(PIN_OOP, HIGH);  //  HIGH is OK
+  digitalWrite(PIN_BUSY, HIGH); //  BUSY during startup
 
-  delay(5000);              // do startup thingies.
+  delay(5000);                  //  do other startup actions.
 }
 
 
 void loop()
 {
   handleInput();
-  // do other things here
+  //  other actions
 }
 
 
@@ -59,10 +61,9 @@ void handleInput()
   while (digitalRead(PIN_STROBE) == LOW) yield();
   digitalWrite(PIN_BUSY, HIGH);
 
-  // process data
+  //  process data
   Serial.write(x);
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

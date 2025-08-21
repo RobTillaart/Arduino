@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.7] - 2025-08-21
+- update github actions
+- change return type linefeed() and formfeed()
+- minor edits
+
 ## [0.2.6] - 2023-11-14
 - update readme.md
-
 
 ## [0.2.5] - 2022-11-19
 - add RP2040 in build-CI

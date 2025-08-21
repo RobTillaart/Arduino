@@ -16,9 +16,9 @@ Arduino library that implements a parallel printer (driver) - implements the PRI
 
 ## Description
 
-This library defines a parallel printer object.
+The ParallelPrinter library implements the protocol to connect to a parallel printer.
 
-It implements the **Print interface** to be able to print all data types 
+It implements the **Print interface** to be able to print all data types like int and float
 using **write()**, **print()** and **println()**.
 The printer writes every byte over 8 parallel lines including a **STROBE** (clock) pulse,
 while waiting for the connected printer not to be **BUSY** or **OUT OF PAPER** (OOP).
@@ -28,7 +28,40 @@ specific parallel printer. These can often be bought in 2nd hand stores or so.
 
 Have fun!
 
-**Note:** This lib is a extended redo of the ParPrinter class.
+**Note:** This library is an extended redo of the (obsolete) ParPrinter class.
+
+As always, feedback is welcome.
+
+
+### Schema
+
+```
+      Arduino                             Printer
+   *--------------+                     *--------------+
+   |              |                     |              |
+   |            o |<--------------------| BUSY         |
+   |            o |<--------------------| OUT OF PAPER |
+   |              |                     |              |
+   |            o |-------------------->| STROBE       |
+   |            o |-------------------->| D0           |
+   |            o |-------------------->| D1           |
+   |              |                     | ...          |
+   |            o |-------------------->| D6           |
+   |            o |-------------------->| D7           |
+   |              |                     |              |
+   +--------------+                     +--------------+
+
+```
+
+
+### Related
+
+- https://en.wikipedia.org/wiki/Parallel_port#Centronics
+- https://github.com/RobTillaart/ParallelPrinter
+
+somehow related
+- https://github.com/RobTillaart/ANSI  (display control)
+- https://github.com/RobTillaart/lineFormatter  (columns, free format tabs)
 
 
 ## Interface
@@ -40,7 +73,7 @@ Have fun!
 ### Constructor
 
 - **ParallelPrinter()** uses default pins (13, 2, 12, \[3,4,5,6,7,8,9,10\])
-- **ParallelPrinter(uint8_t strobe, uint8_t busy, uint8_t oop, uint8_t \*arr)** 
+- **ParallelPrinter(uint8_t STROBE, uint8_t BUSY, uint8_t OOP, uint8_t \*arr)** 
 define 3 control pins + 8 data pins (= arr\[8\]).
 - **void begin(uint8_t lineLength, uint8_t pageLength)** set line and page length parameters
 
@@ -49,8 +82,8 @@ define 3 control pins + 8 data pins (= arr\[8\]).
 
 - **size_t write(uint8_t c)** send a single byte to printer, implements Print interface. 
 Therefore all **print()** and **println()** functions will work.
-- **void formfeed()** to eject current page or forced go to the next page.
-- **void linefeed()** send a linefeed. 
+- **size_t formfeed()** to eject current page or forced go to the next page.
+- **size_t linefeed()** send a linefeed. 
 The number of actual lines is set by **setLineFeed()**
 
 
@@ -84,16 +117,6 @@ Default value = 2000. Time in microseconds.
 data as they do not have large buffers.  (==> BUSY line)
 
 
-## See also
-
-https://en.wikipedia.org/wiki/Parallel_port#Centronics
-
-
-## Operation
-
-See examples.
-
-
 ## Future
 
 #### Must
@@ -102,22 +125,26 @@ See examples.
 
 #### Should
 
-- extend unit tests?
 - test more.
 - extend simulator sketch.
   - Make a front end of a parallel printer, 
   - Accepts the clocked bytes and print them e.g. over serial.
+- CamelCase
+  - formFeed() + lineFeed()
 
 #### Could
 
+- extend unit tests?
 - derive e.g. an HP or an EPSON printer from this class.
   - special modes e.g. bold italic underline.
 - **write(uint8_t \* buf, uint8_t length)** should be added
-  - might not really add to performance..
+  - might not really add to performance..  (able to send a line at once)
 - fix blocking TODO in sendByte
+- StrobeDelay should be in milliseconds or uint32_t?
 
 #### Wont
 
+- send 8 bit data over SPI with an ser2par?
 
 ## Support
 

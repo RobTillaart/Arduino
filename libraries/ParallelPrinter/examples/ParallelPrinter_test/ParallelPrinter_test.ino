@@ -2,7 +2,7 @@
 //    FILE: ParPrinter_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-05-26
+//     URL: https://github.com/RobTillaart/ParallelPrinter
 
 
 #include "ParallelPrinter.h"
@@ -12,7 +12,12 @@ ParallelPrinter PP;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("PARALLELPRINTER_VERSION: ");
+  Serial.println(PARALLELPRINTER_VERSION);
+  Serial.println();
+
 
   PP.begin();
   test1();
@@ -52,7 +57,7 @@ void test3()
   PP.setLineFeed(2);
   PP.formfeed();
 
-  //PP.setTabSize(0);
+  //  PP.setTabSize(0);
   PP.printLineNumber(true);
   for (int i = 0; i < 100; i++) PP.print("Hello World ");
   PP.printLineNumber(false);
@@ -80,5 +85,5 @@ void test3()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

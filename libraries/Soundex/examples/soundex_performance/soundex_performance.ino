@@ -2,6 +2,7 @@
 //    FILE: soundex_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Soundex
 
 
 #include "Arduino.h"
@@ -37,8 +38,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("SOUNDEX_LIB_VERSION: ");
   Serial.println(SOUNDEX_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   //  SOUNDEX PER WORD
@@ -84,4 +87,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

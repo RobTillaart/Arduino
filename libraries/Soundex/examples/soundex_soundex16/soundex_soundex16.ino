@@ -2,6 +2,7 @@
 //    FILE: soundex_soundex16.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Soundex
 
 
 #include "Arduino.h"
@@ -18,8 +19,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("SOUNDEX_LIB_VERSION: ");
   Serial.println(SOUNDEX_LIB_VERSION);
+  Serial.println();
   delay(1000);
 
   Serial.println("\nTrichloroethylene");

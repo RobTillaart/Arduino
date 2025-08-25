@@ -32,7 +32,7 @@ These experimental functions can be used e.g. to optimize word-searching
 as less bytes need to be compared / stored.
 
 
-#### 0.1.2 Experimental
+### 0.1.2 Experimental
 
 The library has two experimental functions, **soundex16()** and **soundex32()**.
 These functions pack a Soundex length 5 hash in a uint16_t and a length 10 in a uint32_t.
@@ -68,7 +68,7 @@ Application might be chemical formulas.
 It could use the **printHelper** library to print the uint64_t as HEX.
 
 
-#### Related
+### Related
 
 - https://en.wikipedia.org/wiki/Soundex
 - https://en.wikipedia.org/wiki/Metaphone  (not implemented)
@@ -80,7 +80,7 @@ It could use the **printHelper** library to print the uint64_t as HEX.
 #include "Soundex.h"
 ```
 
-#### Core
+### Core
 
 - **Soundex()** Constructor.
 - **void setLength(uint8_t length = 4)** Sets the length to include more digits.
@@ -88,7 +88,7 @@ Maximum length = SOUNDEX_MAX_LENGTH - 1 == 11 (default).
 - **uint8_t getLength()** returns current length.
 - **char \* soundex(const char \* str)** determines the (Russell & Odell) Soundex code of the string.
 
-#### Experimental
+### Experimental
 
 - **uint16_t soundex16(const char \* str)** determines the (Russell & Odell) Soundex code with
 length = 5 of the string and packs the result in an uint16_t.
@@ -98,7 +98,7 @@ length == 10 of the string and packs it in an uint32_t.
 Note: preferably printed in HEX.
 
 
-#### Performance
+### Performance
 
 Not tested on other platforms.
 

@@ -2,6 +2,7 @@
 //    FILE: soundex_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/Soundex
 
 
 #include "Arduino.h"
@@ -18,8 +19,10 @@ void setup()
   while (!Serial);
 
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("SOUNDEX_LIB_VERSION: ");
   Serial.println(SOUNDEX_LIB_VERSION);
+  Serial.println();
   delay(100);
   
   start = micros();
@@ -29,19 +32,19 @@ void setup()
   Serial.print("\t");
   Serial.println(stop - start);
 
-  // examples from wikipedia
-  Serial.println(SDX.soundex("Robert"));    // R163
-  Serial.println(SDX.soundex("Rupert"));    // R163
-  Serial.println(SDX.soundex("Rubin"));     // R150
-  Serial.println(SDX.soundex("Tymczak"));   // T522
-  Serial.println(SDX.soundex("Pfister"));   // P236
-  Serial.println(SDX.soundex("Honeyman"));  // H555
+  //  examples from Wikipedia
+  Serial.println(SDX.soundex("Robert"));    //  R163
+  Serial.println(SDX.soundex("Rupert"));    //  R163
+  Serial.println(SDX.soundex("Rubin"));     //  R150
+  Serial.println(SDX.soundex("Tymczak"));   //  T522
+  Serial.println(SDX.soundex("Pfister"));   //  P236
+  Serial.println(SDX.soundex("Honeyman"));  //  H555
 
   SDX.setLength(10);
-  // e.g. for long chemical names
-  Serial.println(SDX.soundex("Trichloroethylene"));       // T624634500
-  Serial.println(SDX.soundex("pentacarbon decahydrate")); // P532615323
-  Serial.println(SDX.soundex("deoxyribonucleic acid"));   // D261524223
+  //  e.g. for long chemical names
+  Serial.println(SDX.soundex("Trichloroethylene"));       //  T624634500
+  Serial.println(SDX.soundex("pentacarbon decahydrate")); //  P532615323
+  Serial.println(SDX.soundex("deoxyribonucleic acid"));   //  D261524223
 }
 
 
@@ -50,4 +53,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

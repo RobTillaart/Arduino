@@ -2,9 +2,15 @@
 [![Arduino CI](https://github.com/RobTillaart/DHT_Simulator/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/DHT_Simulator/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/DHT_Simulator/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/DHT_Simulator/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/DHT_Simulator/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/DHT_Simulator.svg)](https://github.com/RobTillaart/DHT_Simulator/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/DHT_Simulator/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/DHT_Simulator.svg?maxAge=3600)](https://github.com/RobTillaart/DHT_Simulator/releases)
 
+```
+when converted to a simulation class
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/DHT_Simulator.svg)](https://registry.platformio.org/libraries/robtillaart/DHT_Simulator)
+```
 
 # DHT_Simulator
 
@@ -48,6 +54,20 @@ decrease of the temperature and humidity.
 
 The simulator is not tested extensively so please report bugs.
 
+### Related
+
+- https://github.com/RobTillaart/DHTNew
+- https://github.com/RobTillaart/DHTStable
+- https://github.com/RobTillaart/DHT_Simulator
+
+
+## Operation
+
+- adjust the pins in the head of the program to meet your setup
+- compile, connect, run
+
+And have fun.
+
 
 ## Future
 
@@ -61,6 +81,8 @@ with any DHT library with the performance of a DHT (~ 5ms).
 2) implement a recorder mode, to be able to replay a certain
 behaviour time after time. 
 
+3) make a SHT Simulator class?
+
 
 ## Operation
 
@@ -68,3 +90,13 @@ behaviour time after time.
 - compile, connect, run
 
 And have fun.
+
+
+## Support
+
+If you appreciate my libraries, you can support the development and maintenance.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
+
+Thank you,
+

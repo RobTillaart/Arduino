@@ -2,20 +2,20 @@
 //    FILE: TSL235R_multi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-05-29
+//     URL: https://github.com/RobTillaart/TSL235R
 //
-// NOTE
-//   the max number of interrupt an Arduino UNO can handle
-//   is in the order of ~150 KHz for all interrupts.
+//  NOTE
+//    the max number of interrupt an Arduino UNO can handle
+//    is in the order of ~150 KHz for all interrupts.
 //
-// Digital Pin layout ARDUINO
-// =============================
-//  2     IRQ 0    - to TSL235R
-//  3     IRQ 1    - to TSL235R
+//  Digital Pin layout ARDUINO
+//  =============================
+//   2     IRQ 0    - to TSL235R
+//   3     IRQ 1    - to TSL235R
 //
-// PIN 1 - GND
-// PIN 2 - VDD - 5V
-// PIN 3 - SIGNAL
+//  PIN 1 - GND
+//  PIN 2 - VDD - 5V
+//  PIN 3 - SIGNAL
 
 
 #include "TSL235R.h"
@@ -46,12 +46,16 @@ void count_irq2()
 
 ///////////////////////////////////////////////////////////////////
 //
-// SETUP
+//  SETUP
 //
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("TSL235R_LIB_VERSION: ");
+  Serial.println(TSL235R_LIB_VERSION);
+  Serial.println();
 
   pinMode(2, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
@@ -87,5 +91,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -34,13 +34,19 @@ convert the value to Hz, which is the number of pulses in 1 second.
 The library provides two **irradiance()** functions to do that for you.
 
 
-#### Related
+### Related
 
-- https://github.com/RobTillaart/TSL235R pulse based irradiance variant.
-- https://github.com/RobTillaart/TSL260R analog IR irradiance variant.
+- https://github.com/RobTillaart/BH1750FVI_RT
+- https://github.com/RobTillaart/Max44007
+- https://github.com/RobTillaart/Max44009
+- https://github.com/RobTillaart/TSL235R  pulse based irradiance variant.
+
+UV sensors
 - https://github.com/RobTillaart/AnalogUVSensor
-- https://github.com/RobTillaart/ML8511  UV sensor
-- https://github.com/RobTillaart/BH1750FVI_RT  lux sensor
+- https://github.com/RobTillaart/ML8511
+
+IR sensor
+- https://github.com/RobTillaart/TSL260R  analog IR irradiance variant.
 
 
 ## Connection
@@ -60,14 +66,14 @@ Always check the datasheet.
 #include "TSL235R.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **TSL235R(float voltage = TSL235_DEFAULT_VOLTAGE)** constructor, optionally one can give the operational voltage 
 to add a small correction (< 1.5%).
 Default voltage is 5.0 Volts, this define can be overruled from command line.
 
 
-#### Irradiance
+### Irradiance
 
 - **float irradiance(uint32_t Hz)** returns the irradiance in uW/cm2.
 Note that Hz implies the measured pulses for 1 second.
@@ -78,7 +84,7 @@ To get irradiance in W/m2 one must divide by 100.
 This formula is used when the time is measured in microseconds. 
 This is the most accurate measurement.
 
-#### Configuration
+### Configuration
 
 - **float getFactor()** returns the inner conversion factor from Hz to Watt/cm2.
 - **void setWavelength(uint16_t wavelength = 635)** sets the wavelength so the formulas can use a 

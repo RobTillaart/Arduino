@@ -2,23 +2,23 @@
 //    FILE: TSL235R_non_interrupt_UNO.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo polling with direct port access = AVR.UNO specific!
-//    DATE: 2021-06-03
+//     URL: https://github.com/RobTillaart/TSL235R
 //
-// NOTE
-//   This code will work up to ~1700 kHz (3800 uW/cm2) on an Arduino UNO
-//   above that pulses come in faster than the code can reliably handle
+//  NOTE
+//    This code will work up to ~1700 kHz (3800 uW/cm2) on an Arduino UNO
+//    above that pulses come in faster than the code can reliably handle
 //
-// NOTE
-//   the code is UNO specific as it uses low level PORT manipulations
-//   the code is blocking and not suitable for low level of radiance.
+//  NOTE
+//    the code is UNO specific as it uses low level PORT manipulations
+//    the code is blocking and not suitable for low level of radiance.
 //
-// Digital Pin layout ARDUINO
-// =============================
-//  2 - to TSL235R
+//  Digital Pin layout ARDUINO
+//  =============================
+//   2 - to TSL235R
 //
-// PIN 1 - GND
-// PIN 2 - VDD - 5V
-// PIN 3 - SIGNAL
+//  PIN 1 - GND
+//  PIN 2 - VDD - 5V
+//  PIN 3 - SIGNAL
 
 
 #include "TSL235R.h"
@@ -30,7 +30,11 @@ TSL235R  mySensor;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("TSL235R_LIB_VERSION: ");
+  Serial.println(TSL235R_LIB_VERSION);
+  Serial.println();
 
   pinMode(2, INPUT_PULLUP);
   mySensor.setWavelength(450);
@@ -43,9 +47,9 @@ void loop()
   uint32_t start = micros();
   while (cnt < 60000)
   {
-    while (PIND & 0x04);             // wait for LOW      AVR.UNO specific !!
+    while (PIND & 0x04);             //  wait for LOW      AVR.UNO specific !!
     cnt++;
-    while ((PIND & 0x04) == 0x00);   // wait for HIGH
+    while ((PIND & 0x04) == 0x00);   //  wait for HIGH
   }
   uint32_t duration = micros() - start;
   float freq = (1e6 * cnt) / duration;
@@ -54,10 +58,10 @@ void loop()
   Serial.print(freq);
   Serial.print("\t");
   Serial.print(mySensor.irradiance_HS(cnt, duration));
-  // Serial.print(mySensor.irradiance(freq));
+  //  Serial.print(mySensor.irradiance(freq));
   Serial.println(" uW/cm2");
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

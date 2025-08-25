@@ -25,8 +25,9 @@ Since **0.2.0** it has a total counter to add up the characters "printed" since
 the last **reset()** call. See examples.
 
 
-#### Related
+### Related
 
+- https://github.com/RobTillaart/lineFormatter for tabular formatting.
 - https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
 - https://github.com/RobTillaart/PrintSize counts length of a number of print commands.
 - https://github.com/RobTillaart/PrintString captures data in a String.
@@ -56,13 +57,14 @@ Example PrintSize_total.ino shows (elementary) line fitting.
 
 ## Applications
 
-Can be used to calculate the needed space.
+Can be used to calculate the needed space characters (bytes),
 - to properly do a right alignment e.g. for numbers or variable text.
 - do left alignment and overwrite previous output with just enough spaces.
 - centring of numbers.
-- see if output will fit into a line / display.
-- see if a string fits in EEPROM or any other storage medium.
-- see if a string fits in a communication buffer.
+- allocate dynamic memory (for a string to be)
+- check if output will fit into a line / display.
+- check if a string fits in EEPROM or any other storage medium.
+- check if a string fits in a communication buffer.
 
 
 ## Future
@@ -72,7 +74,7 @@ Can be used to calculate the needed space.
 #### Should
 
 - add examples
-- add a function to handle **tab** char correctly e.g. 
+- add a function to handle **tab** char correctly e.g.
   could add more than one char. Interferes with the **write(str, length)**.
   - setTabSize(2, 4, 6, 8...);
   - getTabSize();

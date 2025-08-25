@@ -30,6 +30,7 @@ PrintSize ps;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTSIZE_VERSION: ");
   Serial.println(PRINTSIZE_VERSION);
@@ -60,16 +61,16 @@ void loop()
 }
 
 
-// split the stream of words in lines of maxLength
+//  split the stream of words in lines of maxLength
 void process(char * w, uint8_t maxLength)
 {
-  // skip empty words.
+  //  skip empty words.
   if (strlen(w) == 0) return;
 
-  // remember position
+  //  remember position
   uint8_t prev = ps.total();
 
-  // does the word fit on the line
+  //  does the word fit on the line
   ps.print(w);
   ps.print(' ');
   if (ps.total() >= maxLength)
@@ -78,7 +79,7 @@ void process(char * w, uint8_t maxLength)
     for (; prev < maxLength; prev++) Serial.print('-');
     Serial.println();
 
-    // start counter for new line.
+    //  start counter for new line.
     ps.reset();
     ps.print(w);
     ps.print(' ');

@@ -2,6 +2,7 @@
 //    FILE: PrintSize_printf.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo printSize printf
+//     URL: https://github.com/RobTillaart/PrintSize
 //
 //    NOTE: - UNO does not support printf, - ESP32 does
 
@@ -14,6 +15,7 @@ PrintSize ps;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTSIZE_VERSION: ");
   Serial.println(PRINTSIZE_VERSION);
@@ -52,5 +54,5 @@ void printSpaces(uint8_t n)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

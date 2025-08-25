@@ -13,6 +13,7 @@ PrintSize ps;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTSIZE_VERSION: ");
   Serial.println(PRINTSIZE_VERSION);

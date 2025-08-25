@@ -1,5 +1,5 @@
 //
-//    FILE: PrintSize_centering.ino
+//    FILE: PrintSize_centring.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo printSize centring
 //     URL: https://github.com/RobTillaart/PrintSize
@@ -16,6 +16,7 @@ PrintSize ps;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRINTSIZE_VERSION: ");
   Serial.println(PRINTSIZE_VERSION);
@@ -36,7 +37,7 @@ void loop()
   Serial.println("  Centring");
   for (int i = 0; i < 10; i++)
   {
-    // create different order of magnitude random numbers
+    //  create different order of magnitude random numbers
     uint32_t maxsize = pow(10, 1 + random(9));
     uint32_t rn = random(maxsize);
     int length = ps.println(rn);
@@ -55,7 +56,7 @@ void loop()
   Serial.println("  Right Align");
   for (int i = 0; i < 10; i++)
   {
-    // create different order of magnitude random numbers
+    //  create different order of magnitude random numbers
     uint32_t maxsize = pow(10, 1 + random(9));
     uint32_t rn = random(maxsize);
     int length = ps.println(rn);
@@ -79,5 +80,5 @@ void printSpaces(uint8_t n)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

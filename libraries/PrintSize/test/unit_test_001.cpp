@@ -92,4 +92,6 @@ unittest(test_write)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

@@ -1,9 +1,15 @@
-//   https://github.com/RobTillaart/TinyKT0803/
+//
+//    FILE: KT0803_oled.ino
+//  AUTHOR: ?
+// PURPOSE: ?
+//     URL: https://github.com/RobTillaart/TinyKT0803
+
 
 #include <TinyKT0803.h>
 #include <Tiny4kOLED.h>
 
 TinyKT0803 FM_SEND;
+
 
 void oledInit() {
   oled.begin(128, 64, sizeof(tiny4koled_init_128x64br), tiny4koled_init_128x64br);
@@ -34,3 +40,4 @@ void setup() {
 void loop() {
   //
 }
+

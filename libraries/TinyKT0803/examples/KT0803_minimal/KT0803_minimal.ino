@@ -13,7 +13,7 @@ TinyKT0803 FM_SEND;
 
 void setup()
 {
-  //  Tiny only supports SWSerial 
+  //  Tiny only supports SWSerial
   //  Serial.begin(115200);
   //  while(!Serial);
 

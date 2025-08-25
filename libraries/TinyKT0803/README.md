@@ -25,7 +25,9 @@ device like the KT0803 in your projects, either hobby, commercial or otherwise.
 
 ## Description
 
-This is an **EXPERIMENTAL** port to the Tiny85/45/25 processor of - https://github.com/RobTillaart/KT0803
+**Experimental**
+
+This is an experimental port to the Tiny85/45/25 processor of - https://github.com/RobTillaart/KT0803
 
 The library is verified to work - See issue #2  
 There are two points of attention:
@@ -43,7 +45,7 @@ The interface section below is identical except for the constructor.
 #include "TinyKT0803.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **TinyKT0803()** constructor.
 - **TinyKT0803K()** constructor.
@@ -54,7 +56,7 @@ Returns true if deviceAddress is found on the bus, false otherwise.
 - **bool isConnected()** test to see if deviceAddress is found on the I2C-bus.
 
 
-#### Frequency
+### Frequency
 
 - **bool setFrequency(float MHz)** converts the frequency in MHz to 
 call **setChannel(channel)**. The value of channel is rounded off depending 
@@ -69,7 +71,7 @@ This involves two or three writes to different device registers.
 returns it.
 
 
-#### PGA
+### PGA
 
 Read Datasheet.
 
@@ -93,7 +95,7 @@ Returns false if pga is out of range (0..7).
 |  011  |  -12dB  |
 
 
-#### RFGain
+### RFGain
 
 Read Datasheet.
 
@@ -126,7 +128,7 @@ Returns false if rfgain is out of range (0..15).
 |   1111   |  108.0 dBuV  |  112.5 dBuV  |  default
 
 
-#### Region selection
+### Region selection
 
 Read datasheet for details.
 
@@ -149,7 +151,7 @@ a wrapper for it.
 |    1      |  50 μs  |  Europe, Australia
 
 
-#### PilotToneAdjust
+### PilotToneAdjust
 
 Read datasheet.
 
@@ -157,7 +159,7 @@ Read datasheet.
 - **uint8_t getPilotToneAdjust()**
 
 
-#### Mute
+### Mute
 
 Default the device is not muted, but **begin()** will default mute it.
 See interface section above.
@@ -193,18 +195,18 @@ a derived class is straightforward.
 
 (not tested), check datasheet.
 
-#### Mono Stereo
+### Mono Stereo
 
 - **bool setMono()** idem
 - **bool setStereo()** idem
 - **bool isStereo()** idem
 
-#### Bass
+### Bass
 
 - **bool setBass(uint8_t bass);  //  0..3 = 0, 5, 11, 17 dB
 - **uint8_t getBass()** idem
 
-#### Misc
+### Misc
 
 - **bool powerOK()** idem
 - **bool silenceDetected()** idem

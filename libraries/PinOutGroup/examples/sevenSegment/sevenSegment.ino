@@ -1,19 +1,20 @@
 //    FILE: sevenSegment.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo PinOutGroup library for Arduino
+//     URL: https://github.com/RobTillaart/PinOutGroup
 
 
 #include "PinOutGroup.h"
 
-// connect Arduino UNO pins 2.. 8 to pins A..G of a 7 segments display
+//  connect Arduino UNO pins 2.. 8 to pins A..G of a 7 segments display
 
 
 uint8_t ar[7] = {2, 3, 4, 5, 6, 7, 8};
 
 int ssc[16] = // seven segment char
 {
-  63, 6, 91, 79, 102, 109, 125, 7, 127, 111,  // 0 .. 9
-  119, 124, 57, 94, 121, 113                  // A .. F
+  63, 6, 91, 79, 102, 109, 125, 7, 127, 111,  //  0 .. 9
+  119, 124, 57, 94, 121, 113                  //  A .. F
 };
 
 PinOutGroup display;
@@ -22,8 +23,9 @@ uint32_t start, stop, t1, t2;
 
 
 void setup()
-{ 
+{
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print(F("PINOUTGROUP_LIB_VERSION: "));
   Serial.println(PINOUTGROUP_LIB_VERSION);
@@ -42,7 +44,7 @@ void setup()
     digitalWrite(7, ssc[i] & 0x20);
     digitalWrite(8, ssc[i] & 0x40);
   }
-  stop = micros();  
+  stop = micros();
   Serial.println("cycling through 16 chars");
   Serial.print("Time: ");
   t1 = stop - start;
@@ -53,19 +55,19 @@ void setup()
   Serial.println("With PinOutGroup");
   delay(10);
   display.add(7, ar);
-  
+
   start = micros();
   for (int i = 0; i < 16; i++)
   {
     display.write(ssc[i]);
   }
-  stop = micros();  
+  stop = micros();
   Serial.println("cycling through 16 chars");
   Serial.print("Time: ");
   t2 = stop - start;
   Serial.println(stop - start);
   Serial.println();
-  
+
   Serial.print("Percentage: ");
   Serial.println((100.0 * t2)/ t1);
   Serial.println();
@@ -82,5 +84,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

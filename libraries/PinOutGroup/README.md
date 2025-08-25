@@ -27,7 +27,7 @@ So use with care.
 Default **PINOUTGROUP_MAXSIZE** = 16.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/PinInGroup
 
@@ -56,7 +56,7 @@ This is platform, group size and pin state dependent.
 
 - **PinOutGroup()** Constructor.
 
-### Administration
+### Pin administration
 
 - **void clear()** resets all pins in the group to LOW and sets the size to zero.
 so one can repopulate.

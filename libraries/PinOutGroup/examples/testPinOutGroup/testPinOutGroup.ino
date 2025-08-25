@@ -1,6 +1,7 @@
 //    FILE: testPinOutGroup.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo PinOutGroup library for Arduino
+//     URL: https://github.com/RobTillaart/PinOutGroup
 
 
 #include "PinOutGroup.h"
@@ -12,9 +13,11 @@ uint8_t ar[4] = {2, 3, 4, 13};
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print(F("PINOUTGROUP_LIB_VERSION: "));
   Serial.println(PINOUTGROUP_LIB_VERSION);
+  Serial.println();
 
   test0();
   test1();
@@ -41,7 +44,7 @@ void test0()
   Serial.println(F("Time reference functionality.\n"));
 
   int i = 3;
-  // CHANGE 1 PINS
+  //  CHANGE 1 PINS
   pinMode(2, OUTPUT);
   uint32_t t1 = micros();
   digitalWrite(2, i++ % 2);
@@ -73,27 +76,27 @@ void test1()
   Serial.println(POG.size());
 
   Serial.println("\n#PINS\tTIME");
-  // CHANGE 1 PINS
+  //  CHANGE 1 PINS
   uint32_t t1 = micros();
   n1 = POG.write(B1000);
   uint32_t t2 = micros();
 
-  // CHANGE 2 PINS
+  //  CHANGE 2 PINS
   uint32_t t3 = micros();
   n2 = POG.write(B0100);
   uint32_t t4 = micros();
 
-  // CHANGE 3 PINS
+  //  CHANGE 3 PINS
   uint32_t t5 = micros();
   n3 = POG.write(B1010);
   uint32_t t6 = micros();
 
-  // CHANGE 4 PINS
+  //  CHANGE 4 PINS
   uint32_t t7 = micros();
   n4 = POG.write(B0101);
   uint32_t t8 = micros();
 
-  // RESET ALL
+  //  RESET ALL
   POG.write(B0000);
 
   Serial.print(n1);
@@ -224,7 +227,7 @@ void test5()
 }
 
 
-// wrapper for test6()
+//  wrapper for test6()
 void dw(const uint8_t pin, const uint8_t val)
 {
   static uint8_t preVal = -1;
@@ -327,7 +330,7 @@ void test7()
   Serial.println(F("Test average gain indication (simplified).\n"));
 
   PinOutGroup POG;
-  // effectively 16 pins...
+  //  effectively 16 pins...
   POG.add(4, ar);
   POG.add(4, ar);
   POG.add(4, ar);
@@ -393,5 +396,5 @@ void test8()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

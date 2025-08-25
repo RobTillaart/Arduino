@@ -1,7 +1,7 @@
 //
 //    FILE: SHEX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library to generate hex dump over Serial
 //    DATE: 2020-05-24
 //     URL: https://github.com/RobTillaart/SHEX
@@ -150,7 +150,7 @@ void SHEX::setVTAB(uint8_t vtab)
 {
   _vtab = vtab;
   restartOutput();
-};
+}
 
 
 uint8_t SHEX::getVTAB()
@@ -166,7 +166,7 @@ void SHEX::setCountDigits(uint8_t digits)
   if (_digits < 4) _digits = 4;
   if (_digits > 8) _digits = 8;
   restartOutput();
-};
+}
 
 
 void SHEX::restartOutput()
@@ -196,7 +196,7 @@ size_t SHEXA::write(uint8_t c)
   if ((_charCount % _length) == 0)
   {
     //  printable ASCII column
-    if (_charCount != 0) 
+    if (_charCount != 0)
     {
       flushASCII();
     }

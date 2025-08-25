@@ -7,6 +7,7 @@ SHEXA	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
+reset	KEYWORD2
 write	KEYWORD2
 
 setHEX	KEYWORD2
@@ -20,6 +21,9 @@ getSeparator	KEYWORD2
 
 setCountDigits	KEYWORD2
 getCountDigits	KEYWORD2
+
+restartOutput	KEYWORD2
+getCounter	KEYWORD2
 
 setVTAB	KEYWORD2
 getVTAB	KEYWORD2

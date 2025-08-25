@@ -11,9 +11,11 @@
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHEX_LIB_VERSION: ");
   Serial.println(SHEX_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nSHEX DEFAULT");
   SHEX shex(&Serial, 16);
@@ -46,4 +48,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

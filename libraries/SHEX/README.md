@@ -11,7 +11,7 @@
 
 # SHEX
 
-Arduino library to generate hex dump over Serial (any stream).
+Arduino library to generate an hex dump over Serial (any stream).
 
 
 ## Description
@@ -27,13 +27,13 @@ ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx
 ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx
 ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx
 
-ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx 
+ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx
 ```
 
-with a separator line after each 8th line.
+with a separator (blank) line after each 8th line.
 
 The constructor has a length parameter which can be used to have another number of bytes per row.
-This can be changed with **setBytesPerLine()**.
+This can also be changed with **setBytesPerLine()**.
 
 One can toggle HEX output or pass through by means of **setHEX(bool)**.
 This makes it possible to switch between the modes e.g. between 'debugging' and 'release' mode.
@@ -43,11 +43,11 @@ One can toggle the character count at the start of the line.
 
 ### SHEXA
 
-**SHEXA** (Serial HEX ASCII) is a derived class from **SHEX** that also 
+**SHEXA** (Serial HEX ASCII) is a derived class from **SHEX** that also
 displays a column with printable characters.
 
 
-The default output format is 
+The default output format is
 ```
 ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx  abcdefgh ijklmnop
 ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx  abcdefgh ijklmnop
@@ -56,7 +56,7 @@ ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx  abcdefgh ijklmnop
 ABCD  xx xx xx xx  xx xx xx xx  xx xx xx xx  xx xx xx xx  etc
 ```
 
-To print this ASCII column extra RAM and code is used. 
+To print this ASCII column extra RAM and code is used.
 Therefore this is made a derived class from **SHEX**.
 
 Furthermore **SHEXA** has a function **flushASCII()** to flush the ASCII column to output.
@@ -86,7 +86,7 @@ To be adjusted via command line (or in SHEX.h file)
 
 ### Constructor + Core
 
-- **SHEX(Print \* stream = &Serial, uint8_t length = SHEX_DEFAULT_LENGTH)** Constructor, 
+- **SHEX(Print \* stream = &Serial, uint8_t length = SHEX_DEFAULT_LENGTH)** Constructor,
 optional set the number of bytes per line.
 default 16 bytes per line, forced multiple of 4, max SHEX_MAX_LENGTH = 32.
 - **size_t write(uint8_t c)** implements the Print interface.
@@ -96,7 +96,7 @@ default 16 bytes per line, forced multiple of 4, max SHEX_MAX_LENGTH = 32.
 
 - **void setHEX(bool hexOutput = true)** switch between modi, HEX (true) or pass through (false).
 - **bool getHEX()** returns mode set above.
-- **void setBytesPerLine(uint8_t length = SHEX_DEFAULT_LENGTH)** idem, default 16 bytes per line, 
+- **void setBytesPerLine(uint8_t length = SHEX_DEFAULT_LENGTH)** idem, default 16 bytes per line,
 forced multiple of 4, max SHEX_MAX_LENGTH = 32.
 - **uint8_t getBytesPerLine()** returns number of bytes per line.
 
@@ -110,7 +110,7 @@ Some people like a dot '.', or a tab '\t'. Feel free to experiment.
 
 ### Counter
 
-- **void setCountDigits(uint8_t digits)** set the length of the counter, 8 or 6 or 4 (default). 
+- **void setCountDigits(uint8_t digits)** set the length of the counter, 8 or 6 or 4 (default).
 Other numbers will be rounded up to 4, 6 or 8.
 - **uint8_t getCountDigits()** returns idem.
 - **void restartOutput()** restarts the counter from 0 and a new line.
@@ -121,7 +121,7 @@ Is automatically called if a setting is modified like **bytesPerLine**
 
 ### VTAB
 
-- **void setVTAB(uint8_t vtab = SHEX_DEFAULT_VTAB)** set the vertical separator line. 
+- **void setVTAB(uint8_t vtab = SHEX_DEFAULT_VTAB)** set the vertical separator line.
 - **uint8_t getVTAB()** return the current vertical separator line.
 
 
@@ -150,13 +150,13 @@ See examples.
   - print vs write
 - more testing
   - performance measurement
-  - different platforms. 
+  - different platforms.
   - different streams incl SW Serial
 
 #### Could
 
 - investigate **flushASCII()** performance.
-- HEX reader: **RHEX** 
+- HEX reader: **RHEX**
   - converts dump format to a binary or ASCII stream.
   - separate library.
 - **void setSeparatorInterval()**
@@ -169,7 +169,7 @@ See examples.
   needs quite a rewrite..
   Needs a big buffer: ~150 bytes. (counter 8 + hex 96 + printable 32 + extra sep)
   ==> go through a small buffer twice as data is same!!
-- header line: runtime configurable; 
+- header line: runtime configurable;
   optional combined with separator
   and after how many lines the header should repeat
   **header(str, lines)** ?

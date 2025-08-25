@@ -2,7 +2,7 @@
 //    FILE: SHEXA_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo SHEX hex dump class
-//    DATE: 2022-05-28
+//     URL: https://github.com/RobTillaart/SHEX
 
 
 #include "SHEX.h"
@@ -26,9 +26,11 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHEX_LIB_VERSION: ");
   Serial.println(SHEX_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nNORMAL\n");
   for (int i = 0; i < 64; i++)
@@ -63,4 +65,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

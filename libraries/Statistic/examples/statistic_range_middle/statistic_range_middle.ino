@@ -2,20 +2,24 @@
 //    FILE: statistic_range_middle.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Sample sketch for statistic library Arduino
+//     URL: https://github.com/RobTillaart/Statistic
 
 
 #include "Statistic.h"
 
 statistic::Statistic<float, uint32_t, true> myStats;
-// Statistic myStats;  // pre 1.0.0 declaration
+//  Statistic myStats;  //  pre 1.0.0 declaration
 
 
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATISTIC_LIB_VERSION: ");
   Serial.println(STATISTIC_LIB_VERSION);
+  Serial.println();
+
   myStats.clear();  //  explicitly start clean
 }
 

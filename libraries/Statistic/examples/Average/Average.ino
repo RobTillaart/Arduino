@@ -2,12 +2,13 @@
 //    FILE: Average.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Sample sketch for statistic library Arduino
+//     URL: https://github.com/RobTillaart/Statistic
 
 
 #include "Statistic.h"
 
 statistic::Statistic<float, uint32_t, true> myStats;
-// Statistic myStats;  // pre 1.0.0 declaration
+//  Statistic myStats;  // pre 1.0.0 declaration
 
 uint32_t start;
 uint32_t stop;
@@ -16,10 +17,14 @@ uint32_t stop;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("Demo Statistics lib ");
+  Serial.print("STATISTIC_LIB_VERSION: ");
   Serial.println(STATISTIC_LIB_VERSION);
-  myStats.clear(); //explicitly start clean
+  Serial.println();
+
+  myStats.clear();  //  explicitly start clean
   start = millis();
 }
 
@@ -55,5 +60,5 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

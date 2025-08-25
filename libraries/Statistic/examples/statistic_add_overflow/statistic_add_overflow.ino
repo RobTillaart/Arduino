@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: this sketch shows a known (rounding) problem when the
 //          internal sum is orders of magnitude larger than the added value.
+//     URL: https://github.com/RobTillaart/Statistic
 
 
 #include "Statistic.h"
@@ -13,10 +14,12 @@ Statistic myStats;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATISTIC_LIB_VERSION: ");
   Serial.println(STATISTIC_LIB_VERSION);
-  
+  Serial.println();
+
   myStats.clear();
 
   Serial.println("\nCOUNT\tVALUE\tACTUAL\tRATIO");
@@ -59,5 +62,5 @@ void loop(void)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

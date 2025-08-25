@@ -35,24 +35,26 @@ the class constructor and was never modified at run-time.
 ## Description
 
 The statistic library is made to get basic statistical information from a 
-one dimensional set of data, e.g. a stream of values of a sensor.
+one dimensional set of data, e.g. a stream of values from a sensor.
 
 The stability of the formulas is improved by the help of Gil Ross (Thanks!).
 
 The template version (1.0.0) is created by Glen Cornell  (Thanks!).
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/Histogram
+- https://github.com/RobTillaart/infiniteAverage
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
 - https://github.com/RobTillaart/Student
+- https://github.com/RobTillaart/PrintHelpers - print values in scientific / engineering format.
 
 
 ## Interface
@@ -61,7 +63,7 @@ The template version (1.0.0) is created by Glen Cornell  (Thanks!).
 #include "Statistic.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **Statistic(void)** Default constructor.
 - **statistic::Statistic<float, uint32_t, true>** Constructor, with value type, count type, and standard deviation flag.
@@ -71,7 +73,7 @@ You can override e.g. **statistic::Statistic<double, uint64_t, false>** for many
 - **void clear()** resets all internal variables and counters.
 
 
-#### Core
+### Core
 
 - **typename T add(const typename T value)** returns value actually added to internal sum.
 If this differs from what should have been added, or even zero, the internal administration is running out of precision.
@@ -92,12 +94,12 @@ These three functions only work if **useStdDev == true** (in the template).
 pop_stdev = population standard deviation, 
 - **typename T unbiased_stdev()** returns NAN if count == zero.
 - **typename T getCoefficientOfVariation()** returns coefficient of variation.
-This is defined as standardDeviation / Average. 
+This is defined as ```standardDeviation / average```. 
 It indicates if the distribution is relative small ( < 1) or relative wide ( > 1).
 Note it has no meaning when the average is zero (or close to zero).
 
 
-#### Deprecated methods
+### Deprecated methods
 
 - **Statistic(bool)** Constructor previously used to enable/disable the standard deviation functions. 
 This argument now has no effect.  It is recommended to migrate your code to the default constructor 
@@ -106,7 +108,7 @@ This argument now has no effect.  It is recommended to migrate your code to the 
 It is recommended to migrate your code to `clear()` (with no arguments).
 
 
-#### Range() and middle()
+### Range() and middle()
 
 **Range()** and **middle()** are fast functions with limited statistical value. 
 Still they have their uses.

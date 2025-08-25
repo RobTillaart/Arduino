@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: measure time difference for runtime stddev toggle.
 //          add is 1024 milliseconds faster for 10K adds ==> ~ 100uSec per add faster.
+//     URL: https://github.com/RobTillaart/Statistic
 
 
 #include "Statistic.h"
@@ -18,9 +19,12 @@ bool useStdDev = true;
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("Demo Statistics lib ");
+  Serial.print("STATISTIC_LIB_VERSION: ");
   Serial.println(STATISTIC_LIB_VERSION);
+  Serial.println();
+
   myStats.clear(useStdDev);
   start = millis();
 }

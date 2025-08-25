@@ -103,6 +103,12 @@ Double
 - IEEE754 doubles have a maximum value of about **+-1.797693134862315E+308**
 
 
+#### Q: How to print very large or very small values? (scientific / engineering format)
+
+One might use https://github.com/RobTillaart/PrintHelpers to print values in scientific 
+or engineering format.
+
+
 #### Q: Why are there two functions for stdev?
 
 There are two standard deviation (stdev) functions the population stdev and the unbiased stdev. 

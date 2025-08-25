@@ -12,15 +12,14 @@ sum	KEYWORD2
 
 minimum	KEYWORD2
 maximum	KEYWORD2
-average	KEYWORD2
+range	KEYWORD2
+middle	KEYWORD2
 
+average	KEYWORD2
 variance	KEYWORD2
 pop_stdev	KEYWORD2
 unbiased_stdev	KEYWORD2
 getCoefficientOfVariation	KEYWORD2
-
-range	KEYWORD2
-middle	KEYWORD2
 
 
 # Instances (KEYWORD2)

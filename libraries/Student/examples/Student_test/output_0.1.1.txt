@@ -1,0 +1,17 @@
+
+IDE:    1.8.19
+BOARD:  UNO R3
+
+Student_test.ino
+STUDENT_LIB_VERSION: 0.1.1
+
+Size:	20
+Count:	10
+mean:	12.000
+var:	0.073
+dev:	0.271
+E dev:	0.086
+MeanLow:	11.809
+MeanUp:	12.191
+
+done...

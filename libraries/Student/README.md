@@ -158,7 +158,7 @@ oor subtracted to the mean to determine the confidence interval.
 
 - t test example.
 - optimize code, e.g. cache values for performance.
-- optimize lookup table, PROGMEM for footprint?
+- optimize lookup table, **PROGMEM** for footprint?
 - dynamic allocation for sizes > 20
   - or derived classes, student30, student40, student50, student100?
   - linear interpolation for values > 10 (performance?)

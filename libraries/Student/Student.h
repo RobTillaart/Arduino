@@ -2,15 +2,16 @@
 //
 //    FILE: Student.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for Student or T-distribution math.
 //    DATE: 2024-07-22
+//     URL: https://github.com/RobTillaart/Student
 
 
 #include "Arduino.h"
 #include "StudentTable.h"
 
-#define STUDENT_LIB_VERSION       (F("0.1.0"))
+#define STUDENT_LIB_VERSION       (F("0.1.1"))
 
 
 class Student

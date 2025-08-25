@@ -1,0 +1,28 @@
+
+BOARD:    UNO R3
+IDE:      1.8.19
+
+Note: SUMs will probably differ
+
+test_random_timing.ino
+TIME	SUM		Function
+========================================
+40672	538708730	test_randrange_1
+41428	1505609		test_randrange_2
+43644	1493415		test_randrange_3
+
+46088	488.8923	test_random_0
+46012	1955.5565	test_random_1
+53612	2926.4765	test_uniform_2
+112960	3202.3488	test_triangular_0
+417944	4987.5048	test_normalvariate_2
+591984	171602.0781	test_lognormvariate_2
+273012	4982.4042	test_gauss_2
+233736	6309.6791	test_expovariate_1
+757912	200865.2187	test_gammavariate_2
+1671812	493.9839	test_betavariate_2
+369608	1120.7795	test_paretovariate_1
+211896	2972.3930	test_weibullvariate_2
+54596	3247.8603	test_vonmisesvariate_2
+
+Done...

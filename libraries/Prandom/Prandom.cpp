@@ -1,7 +1,7 @@
 //
 //    FILE: Prandom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library for random number generation with Python random interface
 //     URL: https://github.com/RobTillaart/Prandom
 //
@@ -142,7 +142,7 @@ float Prandom::gauss(float mu, float sigma)
     next = sin(x2pi) * g2rad;
   }
   return z * sigma + mu;
-};
+}
 
 
 float Prandom::expovariate(float lambda)
@@ -222,7 +222,7 @@ float Prandom::betavariate(float alpha, float beta)
   float y = gammavariate(alpha, 1.0);
   if (y == 0) return 0.0;
   return y / (y + gammavariate(beta, 1.0));
-};
+}
 
 
 float Prandom::paretovariate(float alpha)

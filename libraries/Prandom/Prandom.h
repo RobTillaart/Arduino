@@ -2,7 +2,7 @@
 //
 //    FILE: Prandom.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 // PURPOSE: Arduino library for random numbers with Python Random interface
 //          The underlying pseudo-random number generator is a
 //          Multiply-with-carry method invented by George Marsaglia.
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define PRANDOM_LIB_VERSION                 (F("0.1.6"))
+#define PRANDOM_LIB_VERSION                 (F("0.1.7"))
 
 
 class Prandom
@@ -23,7 +23,7 @@ public:
   Prandom(uint32_t s);
 
   void seed();
-  void seed(uint32_t s, uint32_t t = 2);  //  Marsaglia need 2 seeds, but 1 will work too
+  void seed(uint32_t s, uint32_t t = 2);  //  Marsaglia need 2 seeds, but 1 will work.
 
 
   //  integer methods
@@ -31,7 +31,7 @@ public:
   uint32_t getrandbits(uint8_t n);
   uint32_t randrange(uint32_t stop);
   uint32_t randrange(uint32_t start, uint32_t stop, uint32_t step = 1);
-  //  randint is inclusive end value
+  //  randint includes the stop value
   uint32_t randint(uint32_t start, uint32_t stop) { return randrange(start, stop + 1); };
 
 
@@ -49,7 +49,7 @@ public:
   float paretovariate(float alpha);
   float weibullvariate(float alpha, float beta);
 
- 
+
   //  Circular distributions
   //
   //  mu is mean angle in radians

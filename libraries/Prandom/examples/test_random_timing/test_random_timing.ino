@@ -2,7 +2,7 @@
 //    FILE: test_random_timing.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-05-13
+//     URL: https://github.com/RobTillaart/Prandom
 
 
 #include "Prandom.h"
@@ -17,7 +17,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("PRANDOM_LIB_VERSION: ");
+  Serial.println(PRANDOM_LIB_VERSION);
+  Serial.println();
 
   Serial.println(F("TIME\tSUM\t\tFunction"));
   Serial.println(F("========================================"));
@@ -50,6 +54,7 @@ void loop() {}
 
 void test_randrange_1()
 {
+  delay(10);
   uint32_t sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -67,6 +72,7 @@ void test_randrange_1()
 
 void test_randrange_2()
 {
+  delay(10);
   uint32_t sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -84,6 +90,7 @@ void test_randrange_2()
 
 void test_randrange_3()
 {
+  delay(10);
   uint32_t sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -101,6 +108,7 @@ void test_randrange_3()
 
 void test_random_0()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -118,6 +126,7 @@ void test_random_0()
 
 void test_random_1()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -135,6 +144,7 @@ void test_random_1()
 
 void test_uniform_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -152,6 +162,7 @@ void test_uniform_2()
 
 void test_triangular_0()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -169,6 +180,7 @@ void test_triangular_0()
 
 void test_normalvariate_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -186,6 +198,7 @@ void test_normalvariate_2()
 
 void test_lognormvariate_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -203,6 +216,7 @@ void test_lognormvariate_2()
 
 void test_gauss_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -220,6 +234,7 @@ void test_gauss_2()
 
 void test_expovariate_1()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -237,6 +252,7 @@ void test_expovariate_1()
 
 void test_gammavariate_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -254,6 +270,7 @@ void test_gammavariate_2()
 
 void test_betavariate_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -271,6 +288,7 @@ void test_betavariate_2()
 
 void test_paretovariate_1()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -288,6 +306,7 @@ void test_paretovariate_1()
 
 void test_weibullvariate_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -305,6 +324,7 @@ void test_weibullvariate_2()
 
 void test_vonmisesvariate_2()
 {
+  delay(10);
   float sum = 0;
   start = micros();
   for (int i = 0; i < runs; i++)
@@ -320,5 +340,5 @@ void test_vonmisesvariate_2()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

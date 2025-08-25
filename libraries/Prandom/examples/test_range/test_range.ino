@@ -2,7 +2,7 @@
 //    FILE: test_range.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-05-13
+//     URL: https://github.com/RobTillaart/Prandom
 
 
 #include "Prandom.h"
@@ -17,7 +17,10 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("PRANDOM_LIB_VERSION: ");
+  Serial.println(PRANDOM_LIB_VERSION);
   Serial.println();
 
   Serial.println(F("TIME\tSUM\t\tSSQ\t\tMIN\tMAX\t\tFunction"));
@@ -51,6 +54,7 @@ void loop() {}
 
 void test_randrange_1()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -81,6 +85,7 @@ void test_randrange_1()
 
 void test_randrange_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -111,6 +116,7 @@ void test_randrange_2()
 
 void test_randrange_3()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -141,6 +147,7 @@ void test_randrange_3()
 
 void test_random_0()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -171,6 +178,7 @@ void test_random_0()
 
 void test_random_1()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -201,6 +209,7 @@ void test_random_1()
 
 void test_uniform_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -231,6 +240,7 @@ void test_uniform_2()
 
 void test_triangular_0()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -261,6 +271,7 @@ void test_triangular_0()
 
 void test_normalvariate_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -291,6 +302,7 @@ void test_normalvariate_2()
 
 void test_lognormvariate_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -321,6 +333,7 @@ void test_lognormvariate_2()
 
 void test_gauss_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -351,6 +364,7 @@ void test_gauss_2()
 
 void test_expovariate_1()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -381,6 +395,7 @@ void test_expovariate_1()
 
 void test_gammavariate_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -411,6 +426,7 @@ void test_gammavariate_2()
 
 void test_betavariate_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -441,6 +457,7 @@ void test_betavariate_2()
 
 void test_paretovariate_1()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -471,6 +488,7 @@ void test_paretovariate_1()
 
 void test_weibullvariate_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -501,6 +519,7 @@ void test_weibullvariate_2()
 
 void test_vonmisesvariate_2()
 {
+  delay(10);
   float sum = 0;
   float sqsum = 0;
   float _min = 1e20;
@@ -529,5 +548,5 @@ void test_vonmisesvariate_2()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

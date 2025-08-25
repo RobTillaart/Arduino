@@ -46,7 +46,7 @@ There is an extended library version which has more functionality and documentat
 - https://github.com/RobTillaart/AnalogUVSensor
 
 
-#### Notes
+### Notes
 
 Note: The sensor is not calibrated and the table is indicative for sunlight (assumption!)
 and therefore not suitable for e.g. medical or industrial usage.
@@ -57,9 +57,9 @@ This may help to calibrate the zero level of the sensor.
 Note: depending on the light source used, the table above is incorrect.
 
 
-#### Sensitivity
+### Sensitivity
 
-The sensor is sensitive for wavelengths from 200 - 370 nm, 
+The sensor is sensitive for wavelengths from 200 - 370 nm,
 so mostly in UVB and UVA region and less in the UVC.
 
 https://en.wikipedia.org/wiki/Ultraviolet

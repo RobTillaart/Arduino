@@ -2,6 +2,7 @@
 //    FILE: PID_simulated_heater.ino
 //  AUTHOR: drf5n  (based on basic example)
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/PID_RT
 //
 //  This simulates a 20W heater block driven by the PID
 //  Wokwi https://wokwi.com/projects/356437164264235009
@@ -22,7 +23,11 @@ float input = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("PID_LIB_VERSION: ");
+  Serial.println(PID_LIB_VERSION);
+  Serial.println();
 
   PID.setPoint(125);
   PID.setOutputRange(0, 255);   //  PWM range

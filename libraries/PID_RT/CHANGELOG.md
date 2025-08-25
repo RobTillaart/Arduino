@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.9] - 2024-08-22
+- update github actions
+- minor edits
+
 ## [0.1.8] - 2024-04-17
 - fix #8, add compile time flag to disable compute interval checking.
 - minor edits.

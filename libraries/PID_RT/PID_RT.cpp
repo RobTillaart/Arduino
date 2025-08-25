@@ -1,7 +1,7 @@
 //
 //    FILE: PID_RT.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: PID library for Arduino
 //     URL: https://github.com/RobTillaart/PID
 
@@ -64,7 +64,7 @@ bool PID_RT::setKp(float Kp)
   __Kp = Kp;
   if (_reverse) __Kp = - __Kp;
   return true;
-};
+}
 
 
 bool PID_RT::setKi(float Ki)
@@ -74,7 +74,7 @@ bool PID_RT::setKi(float Ki)
   __Ki = _Ki * _interval * 0.001;   //  milliseconds.
   if (_reverse) __Ki = - __Ki;
   return true;
-};
+}
 
 
 bool PID_RT::setKd(float Kd)
@@ -84,7 +84,7 @@ bool PID_RT::setKd(float Kd)
   __Kd = Kd / (_interval * 0.001);
   if (_reverse) __Kd = - __Kd;
   return true;
-};
+}
 
 
 bool PID_RT::compute(float input)
@@ -117,7 +117,7 @@ bool PID_RT::compute(float input)
     _output = 0;
     _errorSum += __Kp * dI;
   }
-  
+
   //  I
   _errorSum += __Ki * _error;
   if (_errorSum > _rangeMax) _errorSum = _rangeMax;
@@ -149,5 +149,5 @@ bool PID_RT::setInterval(uint32_t interval)
 }
 
 
-//  -- END OF FILE -- 
+//  -- END OF FILE --
 

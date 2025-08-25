@@ -19,7 +19,7 @@ Arduino library for PID controller.
 The PID_RT class allows the user to instantiate a PID controller.
 
 This library allows one to 
-- adjust the K parameters runtime.
+- adjust the K parameters (pid) runtime.
 - stop / start computing runtime.
 
 (to be elaborated)

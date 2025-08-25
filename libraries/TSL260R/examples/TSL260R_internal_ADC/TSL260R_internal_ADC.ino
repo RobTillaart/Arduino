@@ -2,7 +2,7 @@
 //    FILE: TSL260R_internal_ADC.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo internal ADC
-//    DATE: 2022-11-27
+//     URL: https://github.com/RobTillaart/TSL260R
 //
 //  always check datasheet
 //
@@ -23,8 +23,9 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("\nTSL260R_LIB_VERSION: ");
+  Serial.print("TSL260R_LIB_VERSION: ");
   Serial.println(TSL260R_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\t TSL260\tTSL261\tTSL262");
   Serial.println("uW/cm2");
@@ -42,4 +43,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -2,7 +2,7 @@
 //    FILE: TSL260R_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test wavelength
-//    DATE: 2022-11-27
+//     URL: https://github.com/RobTillaart/TSL260R
 //
 //  always check datasheet
 //
@@ -25,8 +25,10 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print(" TSL260R_LIB_VERSION: ");
+  Serial.print("TSL260R_LIB_VERSION: ");
   Serial.println(TSL260R_LIB_VERSION);
+  Serial.println();
+
 
   Serial.println(TSL0.getWaveLength());
   Serial.println(TSL0.getWaveLengthFactor());
@@ -50,4 +52,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

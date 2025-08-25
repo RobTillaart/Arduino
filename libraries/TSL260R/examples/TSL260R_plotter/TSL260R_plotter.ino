@@ -2,7 +2,7 @@
 //    FILE: TSL260R_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-11-27
+//     URL: https://github.com/RobTillaart/TSL260R
 //
 //  always check datasheet
 //
@@ -21,9 +21,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-//  Serial.println(__FILE__);
-//  Serial.print(" TSL260R_LIB_VERSION: ");
-//  Serial.println(TSL260R_LIB_VERSION);
+  //  Serial.println(__FILE__);
+  //  Serial.print("TSL260R_LIB_VERSION: ");
+  //  Serial.println(TSL260R_LIB_VERSION);
+  //  Serial.println();
 }
 
 
@@ -43,4 +44,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

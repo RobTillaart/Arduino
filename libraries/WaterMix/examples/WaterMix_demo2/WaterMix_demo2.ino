@@ -1,8 +1,8 @@
 //
 //    FILE: WaterMix_demo2.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-08-29
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/WaterMix
 
 
 #include "WaterMix.h"
@@ -15,6 +15,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("WATERMIX_LIB_VERSION: ");
   Serial.println(WATERMIX_LIB_VERSION);
@@ -41,8 +42,6 @@ void setup()
   Serial.print(WM1.volume());
   Serial.print("\t");
   Serial.println(WM1.temperature());
-  
-
 }
 
 

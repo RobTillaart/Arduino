@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.5.2
 // PURPOSE: demo 8x7segment display with 74HC595 controllers
+//     URL: https://github.com/RobTillaart/Arduino/sketches
 // LICENSE: MIT
 // HISTORY: based upon demo code @ Tinytronics
 // 0.5.1    added PROGMEM
@@ -11,9 +12,9 @@
 //     TODO: put all in a class?
 
 
-const int datapin = 5;  //DIO
-const int clockpin = 6; //SCK
-const int latchpin = 7; //RCK
+const int datapin = 5;  //  DIO
+const int clockpin = 6; //  SCK
+const int latchpin = 7; //  RCK
 
 /* Segment bit location(7=MSB, 0=LSB):
 
@@ -24,7 +25,7 @@ const int latchpin = 7; //RCK
       |--3--| **7
 */
 
-// Array with possible values(0 = segment ON, 1 = segment off)
+//  Array with possible values (0 = segment ON, 1 = segment off)
 const byte value[] PROGMEM = {
   B11000000, // 0
   B11111001, // 1
@@ -55,7 +56,7 @@ const byte value[] PROGMEM = {
 };
 
 const byte digit[] PROGMEM = {
-  B00010000, // left segment
+  B00010000, //  left segment
   B00100000,
   B01000000,
   B10000000,
@@ -63,7 +64,8 @@ const byte digit[] PROGMEM = {
   B00000010,
   B00000100,
   B00001000
-}; // right segment
+}; //  right segment
+
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -74,7 +76,7 @@ void showVUvertical(uint8_t val)
     if (val == 0) return;
     if (val >= 2)
     {
-      showDigit(i, 18, false);  // digit 8 also works very well...
+      showDigit(i, 18, false);  //  digit 8 also works very well...
       val -= 2;
       continue;
     }
@@ -86,8 +88,8 @@ void showVUvertical(uint8_t val)
   }
 }
 
-// TODO same values at once would be faster
-void showEqualizer(uint8_t ar[8])  // values 0..3
+//  TODO same values at once would be faster
+void showEqualizer(uint8_t ar[8])  //  values 0..3
 {
   for (int i = 0; i < 8; i++)
   {
@@ -122,17 +124,17 @@ void showHex(uint32_t value)
   for (int i = 7; i > -1; i--)
   {
     uint32_t t = v / 16;
-    int d = v - 16 * t;  // faster than %
+    int d = v - 16 * t;  //  faster than %
     v = t;
     showDigit(i, d, false);
   }
 }
 
 
-// implementation of showing a float number in one go.
-// range positive from 0.0000001 - 99999999 + 0  (8 digits)
-// range negative from -0.000001 - -9999999      (7 digits + sign)
-// needs to be called also as much as possible, once every millisecond.
+//  implementation of showing a float number in one go.
+//  range positive from 0.0000001 - 99999999 + 0  (8 digits)
+//  range negative from -0.000001 - -9999999      (7 digits + sign)
+//  needs to be called also as much as possible, once every millisecond.
 void showFloat(float value)
 {
   float v = value;
@@ -163,9 +165,9 @@ void showFloat(float value)
 }
 
 
-// implementation of showing a long number in one go.
-// range from -9999999 (7 digits + sign)   -   99999999  (8 digits)
-// needs to be called also as much as possible, once every millisecond.
+//  implementation of showing a long number in one go.
+//  range from -9999999 (7 digits + sign)   -   99999999  (8 digits)
+//  needs to be called also as much as possible, once every millisecond.
 void showLong(long value)
 {
   long v = value;
@@ -187,7 +189,7 @@ void showLong(long value)
   }
 }
 
-// clear does write a space to all segments in one step
+//  clear does write a space to all segments in one step
 //
 void clear()
 {
@@ -195,11 +197,11 @@ void clear()
 }
 
 
-// displaying single digit
-// shiftOut could be replaced by faster implementation
-// as the datapin and clockpin are always same and
-// the order is always MSBFIRST
-// see also my FastShiftOut library
+//  displaying single digit
+//  shiftOut could be replaced by faster implementation
+//  as the data pin and clock pin are always same and
+//  the order is always MSBFIRST
+//  see also my FastShiftOut library
 void showDigit(int segmentnum, int number, bool showdecimalpoint)
 {
   byte value_temp = pgm_read_byte_near(value + number);
@@ -211,9 +213,10 @@ void showDigit(int segmentnum, int number, bool showdecimalpoint)
   digitalWrite(latchpin, HIGH);
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////
 //
-// demo sketch
+//  demo sketch
 //
 uint32_t counter = 0;
 uint32_t start = 0;
@@ -340,4 +343,4 @@ void loop()
   delay(1000);
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

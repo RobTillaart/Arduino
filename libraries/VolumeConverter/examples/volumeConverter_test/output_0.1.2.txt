@@ -1,0 +1,21 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+volumeConverter_test.ino
+VOLUMECONVERTER_LIB_VERSION: 0.1.2
+
+liters:		100.0000
+milliLiters:	100000.0000
+cubic meter:	0.1000
+long ton:	0.0779
+short ton:	0.1103
+barrels:	0.6290
+gallons:	26.4173
+quarts:		105.6688
+pints:		211.3376
+cups:		422.6753
+fluid ounce:	3381.4020
+table spoons:	6762.8022
+tea spoons:	20288.4199
+
+etc...

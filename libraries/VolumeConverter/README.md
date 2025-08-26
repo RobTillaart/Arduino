@@ -34,11 +34,66 @@ and volume related math functions and constants.
 Also good examples (e.g. educational) are welcome.
 
 
-#### Accuracy
+### Accuracy
 
 As the library uses floats the accuracy is limited especially
 if one tries to add or convert the extremes of the scales.
 E.g. Long tons to teaspoons will loose significant digits.
+
+
+### Example
+
+To convert from one less known format to another just takes two calls, example:
+
+```cpp
+  VolumeConverter VC;
+
+  VC.setCubicMeters(24.2);
+  float x = VC.getGallons();
+```
+
+If you need to convert a lot of data between two formats, it is also possible to 
+pre-calculate a factor so the conversion is faster.
+On an UNO R3 the gain goes up to 20%.
+
+
+```cpp
+  VolumeConverter VC;
+
+  VC.setLiters(1);  //  any non zero value will work.
+  float factor = VC.getGallons() / VC.getCubicMeters();
+  sum = 0;
+  for (int i = 0; i < 1000; i++)
+  {
+    sum += i * factor;
+  }
+
+```
+
+
+### Formats
+
+|  name           |      liters  |  notes  |
+|:----------------|-------------:|:--------|
+|  Liters         |           1  |
+|  MilliLiters    |       0.001  | 
+|  CubicMeters    |        1000  |
+|  LongTons       |  1284.16209  |
+|  ShortTons      |   906.98184  |
+|  Barrels        |    158.9868  |
+|  Gallons        |      3.7854  |
+|  Quarts         |  0.94635296  |
+|  Pints          |  0.47317648  |
+|  Cups           |  0.23658824  |
+|  FluidOunces    |  0.02957353  |
+|  TableSpoons    |  0.01478677  |
+|  TeaSpoons      |  0.00492892  |
+
+If units are missing, please open an issue.
+
+
+### Related
+
 
 
 ## Interface
@@ -49,11 +104,11 @@ E.g. Long tons to teaspoons will loose significant digits.
 
 Internal representation is the **liter** as it the ISO standard.
 
-#### Constructor
+### Constructor
 
 - **VolumeConverter()** sets the internal value to 0.
 
-#### Setters
+### Setters
 
 - **void setLiters(float value = 0)**
 - **void setMilliLiters(float value = 0)**
@@ -69,7 +124,7 @@ Internal representation is the **liter** as it the ISO standard.
 - **void setTableSpoons(float value = 0)**
 - **void setTeaSpoons(float value = 0)**
 
-#### Adders
+### Adders
 
 - **void addLiters(float value = 0)**
 - **void addMilliLiters(float value = 0)**
@@ -85,7 +140,7 @@ Internal representation is the **liter** as it the ISO standard.
 - **void addTableSpoons(float value = 0)**
 - **void addTeaSpoons(float value = 0)**
 
-#### getters
+### getters
 
 - **float getLiters()**
 - **float getMilliLiters()**
@@ -118,6 +173,9 @@ Internal representation is the **liter** as it the ISO standard.
 - add more examples
 
 #### won't (unless)
+
+- use double instead of float (only if needed).
+  - template, with default float?
 
 
 ## Support

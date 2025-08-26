@@ -2,6 +2,8 @@
 //    FILE: X9C10X_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/X9C10X
+
 
 #include "Arduino.h"
 #include "X9C10X.h"
@@ -33,10 +35,12 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("X9C10X_LIB_VERSION: ");
   Serial.println(X9C10X_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   pot.begin(8, 9, 10);  //  pulse, direction, select
   pot.setPosition(0);  //  position
@@ -163,4 +167,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

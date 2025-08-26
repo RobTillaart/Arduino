@@ -1,8 +1,9 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
+//    DATE: 2022-01-26
 //     URL: https://github.com/RobTillaart/X9C10X
 
 
@@ -88,7 +89,7 @@ void X9C::store()
 void X9C::_move(uint8_t direction, uint8_t steps)
 {
   digitalWrite(_directionPin, direction);
-  delayMicroseconds(3);  // Tdi  (page 5)
+  delayMicroseconds(3);  //  Tdi  (page 5)
 
   //  _pulsePin starts default HIGH
   digitalWrite(_selectPin, LOW);
@@ -106,7 +107,7 @@ void X9C::_move(uint8_t direction, uint8_t steps)
   }
   //  _pulsePin == LOW, (No Store, page 7)
   digitalWrite(_selectPin, HIGH);
-  // reset _pulsePin to default.
+  //  reset _pulsePin to default.
   digitalWrite(_pulsePin, HIGH);
 }
 
@@ -203,13 +204,13 @@ uint8_t X9C10X::restoreInternalPosition(uint8_t position)
 uint32_t X9C10X::getOhm()
 {
   return (_maxOhm * _position + 49) / 99;
-};
+}
 
 
 uint32_t X9C10X::getMaxOhm()
 {
   return _maxOhm;
-};
+}
 
 
 //  rounding needed!
@@ -225,7 +226,7 @@ uint8_t X9C10X::Ohm2Position(uint32_t value, bool invert)
 uint16_t X9C10X::getType()
 {
   return _type;
-};
+}
 
 
 /////////////////////////////////////////////////////////

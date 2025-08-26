@@ -2,6 +2,7 @@
 //    FILE: X9C10X_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
+//     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
@@ -30,11 +31,12 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("X9C10X_LIB_VERSION: ");
   Serial.println(X9C10X_LIB_VERSION);
   Serial.println();
+
   Serial.println(pot.getType());
 
   pot.begin(8, 9, 10);  //  pulse, direction, select
@@ -107,4 +109,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

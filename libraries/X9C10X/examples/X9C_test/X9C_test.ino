@@ -2,6 +2,7 @@
 //    FILE: X9C_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo minimalistic base class for X9Cxxx devices.
+//     URL: https://github.com/RobTillaart/X9C10X
 
 
 #include "Arduino.h"
@@ -30,10 +31,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("X9C10X_LIB_VERSION: ");
   Serial.println(X9C10X_LIB_VERSION);
+  Serial.println();
 
   pot.begin(8, 9, 10);  //  pulse, direction, select
 
@@ -63,4 +65,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

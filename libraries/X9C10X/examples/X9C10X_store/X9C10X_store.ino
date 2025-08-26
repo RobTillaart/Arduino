@@ -2,6 +2,8 @@
 //    FILE: X9C10X_store.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo store
+//     URL: https://github.com/RobTillaart/X9C10X
+
 
 //    NOTE: AVR Arduino UNO only
 //          be aware the internal EEPROM can wear out !
@@ -47,8 +49,8 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("X9C10X_LIB_VERSION: ");
   Serial.println(X9C10X_LIB_VERSION);
   Serial.println();
@@ -105,5 +107,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

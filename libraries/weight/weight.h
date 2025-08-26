@@ -2,7 +2,7 @@
 //
 //    FILE: weight.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Collection weight conversion functions
 //     URL: https://github.com/RobTillaart/weight
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define WEIGHT_LIB_VERSION        (F("0.3.1"))
+#define WEIGHT_LIB_VERSION        (F("0.3.2"))
 
 
 /////////////////////////////////////////////////////////////

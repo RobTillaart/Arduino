@@ -22,7 +22,7 @@ Open for additions, including obscure weight metrics or
 weight related math functions and constants.
 
 
-#### Overview of conversions:
+### Overview of conversions:
 
 ```
           stone - lbs - ounce
@@ -34,7 +34,7 @@ weight related math functions and constants.
 ```
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AtomicWeight
 - https://github.com/RobTillaart/VolumeConverter
@@ -55,14 +55,14 @@ Functions are straightforward.
 - **float ounce2gram(float ounce)**
 - **float gram2ounce(float gram)**
 - **float gram2kilo(float gram)**
-- **float kilo2gram( float kilo)**
+- **float kilo2gram(float kilo)**
 - **float lbs2ounce(float lbs)**
 - **float ounce2lbs(float ounce)**
 - **float stone2lbs(float stone)**
 - **float lbs2stone(float lbs)**
 - **float stone2kilo(float stone)**
 - **float kilo2stone(float kilo)**
-- **float US2metric(float stone, float lbs, float ounce)**
+- **float US2metric(float stone, float lbs, float ounce)** returns kg.
 - **float metric2US(float kilo, float &stone, float &lbs, float &ounce)**
 
 
@@ -89,17 +89,58 @@ Internal representation is the gram as it the ISO standard.
 Since version 0.3.0 the converter can also add different units.
 
 
+### Example
+
+To convert from one less known format to another just takes two calls, example:
+
+```cpp
+  weightConverter wc;
+
+  wc.setStone(24.2);
+  float x = wc.getRobie();
+```
+
+If you need to convert a lot of data between two formats, it is also possible to 
+pre-calculate a factor so the conversion is faster.
+On an UNO R3 the gain goes up to 20%.
+
+
+```cpp
+  weightConverter wc;
+
+  wc.setGram(1);  //  any non zero value will work.
+  float factor = wc.getRobie() / wc.getStone();
+  sum = 0;
+  for (int i = 0; i < 1000; i++)
+  {
+    sum += i * factor;
+  }
+
+```
+
+or with the functions.
+
+```cpp
+  float grams2stoneFactor = lbs2stone(ounce2lbs(gram2ounce(1)));
+  sum = 0;
+  for (int i = 0; i < 1000; i++)
+  {
+    sum += i * factor;
+  }
+```
+
+
 ## Interface
 
 ```cpp
 #include "weight.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **weightConverter()**
 
-#### Setters
+### Setters
 
 - **void setKilogram(float value = 0)** 
 - **void setGram(float value = 0)** 
@@ -120,7 +161,7 @@ Since version 0.3.0 the converter can also add different units.
 - **void setGrain(float value = 0)**
 - **void setCarat(float value = 0)**
 
-#### Adders
+### Adders
 
 - **void addKilogram(float value = 0)** 
 - **void addGram(float value = 0)** 
@@ -141,7 +182,7 @@ Since version 0.3.0 the converter can also add different units.
 - **void addGrain(float value = 0)**
 - **void addCarat(float value = 0)**
 
-#### Getters
+### Getters
 
 - **float getKilogram()**
 - **float getGram()**

@@ -2,7 +2,7 @@
 //    FILE: weightConverter_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2022-12-05
+//     URL: https://github.com/RobTillaart/weight
 
 
 #include "weight.h"
@@ -13,7 +13,10 @@ const float accuracy = 0.0001;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("WEIGHT_LIB_VERSION: ");
+  Serial.println(WEIGHT_LIB_VERSION);
   Serial.println();
 
   weightConverter WC;

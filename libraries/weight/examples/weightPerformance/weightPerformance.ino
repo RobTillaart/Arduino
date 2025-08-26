@@ -2,7 +2,7 @@
 //    FILE: weightPerformance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-06-17
+//     URL: https://github.com/RobTillaart/weight
 
 
 #include "weight.h"
@@ -16,10 +16,14 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("WEIGHT_LIB_VERSION: ");
+  Serial.println(WEIGHT_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nFUNCTION:\tTIME (us)");
-  // measure_1();
+  //  measure_1();
   measure_2();
 }
 

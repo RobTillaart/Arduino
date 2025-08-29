@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2025-08-18
+- update GitHub actions
+- allow overrule INA236_MINIMAL_SHUNT on command line.
+- update reference in readme.md (fix #8)
+- minor edits.
+
 ## [0.1.3] - 2025-07-21
 - Sync INA228, setADCRange() calls setMaxCurrentShunt();
 - update readme.md

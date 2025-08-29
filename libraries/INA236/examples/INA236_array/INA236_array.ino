@@ -24,6 +24,7 @@ INA236 INA[INA_COUNT] =
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INA236_LIB_VERSION: ");
   Serial.println(INA236_LIB_VERSION);

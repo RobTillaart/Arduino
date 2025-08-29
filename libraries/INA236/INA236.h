@@ -2,7 +2,7 @@
 //    FILE: INA236.h
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA236_LIB_VERSION                (F("0.1.3"))
+#define INA236_LIB_VERSION                (F("0.1.4"))
 
 
 //  set by setAlertRegister
@@ -41,8 +41,10 @@
 #define INA236_ERR_SHUNT_LOW              0x8002
 #define INA236_ERR_NORMALIZE_FAILED       0x8003
 
-//  See INA226 issue #26
+//  See INA226 issue #26 + INA236 issue #8
+#ifndef INA236_MINIMAL_SHUNT
 #define INA236_MINIMAL_SHUNT              0.001
+#endif
 
 #define INA236_MAX_WAIT_MS                600   //  millis
 

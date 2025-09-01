@@ -34,6 +34,7 @@ determineSize	KEYWORD2
 determineSizeNoWrite	KEYWORD2
 getDeviceSize	KEYWORD2
 getPageSize	KEYWORD2
+calculatePageSize	KEYWORD2
 getLastWrite	KEYWORD2
 
 setDeviceSize	KEYWORD2

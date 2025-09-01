@@ -30,7 +30,12 @@ I2C_eeprom_cyclic_store<SampleData> cs;
 void setup()
 {
   Serial.begin(115200);
-  while(!Serial);
+  while (!Serial);  //  wait for Serial port to connect. Needed for Leonardo only
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("I2C_EEPROM_VERSION: ");
+  Serial.println(I2C_EEPROM_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -45,8 +50,8 @@ void setup()
     sprintf(data.message, "Initialized to %x", data.counter);
     cs.write(data);
   }
-
 }
+
 
 void loop()
 {

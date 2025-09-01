@@ -45,7 +45,7 @@ I2C_eeprom::I2C_eeprom(const uint8_t deviceAddress, const uint32_t deviceSize, T
 {
   _deviceAddress = deviceAddress;
   _deviceSize = setDeviceSize(deviceSize);
-  _pageSize = getPageSize(_deviceSize);
+  _pageSize = calculatePageSize(_deviceSize);
   _wire = wire;
 
   //  Chips 16 Kbit (2048 Bytes) or smaller only have one-word addresses.
@@ -296,7 +296,7 @@ bool I2C_eeprom::updateBlockVerify(const uint16_t memoryAddress, const uint8_t *
 //   24LC01      128 B    YES
 uint32_t I2C_eeprom::determineSize(const bool debug)
 {
-  // try to read a byte to see if connected
+  //  try to read a byte to see if connected
   if (! isConnected()) return 0;
 
   uint8_t patAA = 0xAA;
@@ -308,7 +308,7 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
 
     //  store old values
     bool addressSize = _isAddressSizeTwoWords;
-    _isAddressSizeTwoWords = size > I2C_DEVICESIZE_24LC16;  // 2048
+    _isAddressSizeTwoWords = size > I2C_DEVICESIZE_24LC16;  //  2048
     uint8_t buf = readByte(size);
 
     //  test folding
@@ -338,7 +338,7 @@ uint32_t I2C_eeprom::determineSize(const bool debug)
 //  new 1.8.1 #61
 //  updated 1.8.2 #63
 //
-// Returns:
+//  Returns:
 //  0 if device size cannot be determined or device is not online
 //  1 if device has default bytes in first dataFirstBytes bytes [0-BUFSIZE]
 //      Write some dataFirstBytes to the first bytes and retry or use the determineSize method
@@ -402,14 +402,14 @@ uint32_t I2C_eeprom::determineSizeNoWrite()
     _isAddressSizeTwoWords = (size >= I2C_DEVICESIZE_24LC16);  //  == 2048
 
     //  Try to read last byte of the block, should return length of 0 when fails for single byte devices
-    //  Will return the same dataFirstBytes as initially read on other devices 
+    //  Will return the same dataFirstBytes as initially read on other devices
     //  as the data pointer could not be moved to the requested position
     delay(2);
     uint16_t bSize = readBlock(size, dataMatch, BUFSIZE);
 
     if (bSize == BUFSIZE && memcmp(dataFirstBytes, dataMatch, BUFSIZE) != 0)
     {
-        //  Read is performed just over size (size + BUFSIZE), 
+        //  Read is performed just over size (size + BUFSIZE),
         //  this will only work for devices with mem > size;
         //  therefore return size * 2
         _isAddressSizeTwoWords = addressSize;
@@ -433,7 +433,7 @@ uint8_t I2C_eeprom::getPageSize()
 }
 
 
-uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
+uint8_t I2C_eeprom::calculatePageSize(uint32_t deviceSize)
 {
     //  determine page size from device size
     //  based on Microchip 24LCXX data sheets.
@@ -441,8 +441,15 @@ uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
     if (deviceSize <= I2C_DEVICESIZE_24LC16) return 16;
     if (deviceSize <= I2C_DEVICESIZE_24LC64) return 32;
     if (deviceSize <= I2C_DEVICESIZE_24LC256) return 64;
-    //  I2C_DEVICESIZE_24LC512
-    return 128;
+    if (deviceSize <= I2C_DEVICESIZE_24LC512) return 128;
+    //  Error.
+    return 0;
+}
+
+
+uint8_t I2C_eeprom::getPageSize(uint32_t deviceSize)
+{
+    return calculatePageSize(deviceSize);
 }
 
 
@@ -469,7 +476,7 @@ uint32_t I2C_eeprom::setDeviceSize(uint32_t deviceSize)
 
 uint8_t I2C_eeprom::setPageSize(uint8_t pageSize)
 {
-  // force power of 2.
+  //  force power of 2.
   if (pageSize >= 128) {
       _pageSize = 128;
   }
@@ -616,7 +623,7 @@ int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer
 
   _lastWrite = micros();
 
-  yield();     // For OS scheduling
+  yield();     //  For OS scheduling
 
 //  if (rv != 0)
 //  {
@@ -627,7 +634,7 @@ int I2C_eeprom::_WriteBlock(const uint16_t memoryAddress, const uint8_t * buffer
 //      SPRN("\t");
 //      SPRNL(rv);
 //    }
-//    return -(abs(rv));  // error
+//    return -(abs(rv));  //  error
 //  }
   return rv;
 }
@@ -728,9 +735,9 @@ void I2C_eeprom::_waitEEReady()
   {
     if (isConnected()) return;
     //  TODO remove pre 1.7.4 code
-    // _wire->beginTransmission(_deviceAddress);
-    // int x = _wire->endTransmission();
-    // if (x == 0) return;
+    //  _wire->beginTransmission(_deviceAddress);
+    //  int x = _wire->endTransmission();
+    //  if (x == 0) return;
     yield();     //  For OS scheduling
   }
   return;

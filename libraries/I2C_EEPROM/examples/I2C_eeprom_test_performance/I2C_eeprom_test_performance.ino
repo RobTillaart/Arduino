@@ -18,9 +18,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);  //  wait for Serial port to connect. Needed for Leonardo only
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_EEPROM_VERSION: ");
   Serial.println(I2C_EEPROM_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -140,7 +142,7 @@ void test()
   Serial.println(totals);
   totals = 0;
 
-  // does it go well?
+  //  did it go well?
   Serial.println(xx);
 }
 
@@ -157,7 +159,7 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
   }
   Serial.println();
 
-  // block to defined length
+  //  block to defined length
   memoryAddress = memoryAddress / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
   length = (length + BLOCK_TO_LENGTH - 1) / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
 

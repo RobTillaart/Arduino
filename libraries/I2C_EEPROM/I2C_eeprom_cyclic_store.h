@@ -5,6 +5,7 @@
 // VERSION: 1.0.0
 // PURPOSE: Supplemental utility class for I2C_EEPROM library
 //
+//     URL: https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include <I2C_eeprom.h>

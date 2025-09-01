@@ -6,7 +6,6 @@
 //
 //  uses a 24LC256 (32KB) EEPROM
 //  as this test writes a lot it might wear out EEPROMs eventually.
-//
 
 
 #include "Wire.h"
@@ -29,9 +28,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);  //  wait for Serial port to connect. Needed for Leonardo only
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_EEPROM_VERSION: ");
   Serial.println(I2C_EEPROM_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -39,7 +40,7 @@ void setup()
   if (! ee.isConnected())
   {
     Serial.println("ERROR: Can't find eeprom (stopped)...");
-    // while (1);
+    //  while (1);
   }
 
   Serial.print("size: \t");

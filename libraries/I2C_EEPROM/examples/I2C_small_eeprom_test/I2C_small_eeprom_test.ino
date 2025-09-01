@@ -1,12 +1,13 @@
 //
 //    FILE: I2C_small_eeprom_test.ino
 //  AUTHOR: Tyler Freeman
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: show/test I2C_EEPROM library with small EEPROMS
 //     URL: https://github.com/RobTillaart/I2C_EEPROM
 // HISTORY
 // 0.1.0    2014-05-xx initial version
 // 0.1.1    2020-07-14 fix #1 compile for ESP; fix author
+// 0.1.2    2025-08-27 add print filename and version number of library
 
 
 #include <Wire.h>
@@ -101,7 +102,12 @@ void readAndWritePage(unsigned int pageAddress, int bufferLen) {
 void setup()
 {
   SERIAL_DEBUG.begin(57600);
-  while (!SERIAL_DEBUG); // wait for SERIAL_DEBUG port to connect. Needed for Leonardo only
+  while (!SERIAL_DEBUG);  //  wait for SERIAL_DEBUG port to connect. Needed for Leonardo only
+  SERIAL_DEBUG.println();
+  SERIAL_DEBUG.println(__FILE__);
+  SERIAL_DEBUG.print("I2C_EEPROM_VERSION: ");
+  SERIAL_DEBUG.println(I2C_EEPROM_VERSION);
+  SERIAL_DEBUG.println();
 
   SERIAL_DEBUG.println("IT IS BEGINNING");
   SERIAL_DEBUG.println("WAIT FOR IT");
@@ -144,6 +150,6 @@ void setup()
 
 void loop()
 {
-  // Nothing to do during loop
+  //  Nothing to do during loop
 }
 

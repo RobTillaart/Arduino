@@ -18,8 +18,7 @@
 // #define SERIAL_OUT SerialUSB
 
 
-I2C_eeprom ee(0x50);
-//  I2C_eeprom ee(0x50, I2C_DEVICESIZE_24LC256);
+I2C_eeprom ee(0x50, I2C_DEVICESIZE_24LC256);
 
 uint32_t start, diff, totals = 0;
 
@@ -28,9 +27,11 @@ void setup()
 {
   SERIAL_OUT.begin(115200);
   while (!SERIAL_OUT);  //  wait for SERIAL_OUT port to connect. Needed for Leonardo only
+  SERIAL_OUT.println();
   SERIAL_OUT.println(__FILE__);
   SERIAL_OUT.print("I2C_EEPROM_VERSION: ");
   SERIAL_OUT.println(I2C_EEPROM_VERSION);
+  SERIAL_OUT.println();
 
   Wire.begin();
 
@@ -68,7 +69,7 @@ void setup()
   ee.setBlock(0, 0, 128);
   dumpEEPROM(0, 128);
   Serial.println("---");
-  // char data[] = "11111111111111111111";
+  //  char data[] = "11111111111111111111";
   char data[] = "33333333333333333333";
   ee.writeBlock(60, (uint8_t*) data, 10);
   dumpEEPROM(0, 128);
@@ -155,7 +156,7 @@ void setup()
   SERIAL_OUT.println(totals);
   totals = 0;
 
-  // same tests but now with a 5 millisec delay in between.
+  //  same tests but now with a 5 millisec delay in between.
   delay(5);
 
   SERIAL_OUT.print("\nTEST: timing writeByte()\t");
@@ -200,7 +201,7 @@ void setup()
   SERIAL_OUT.println(totals);
   totals = 0;
 
-  // does it go well?
+  //  did it go well?
   SERIAL_OUT.println(xx);
 
   SERIAL_OUT.println("\tDone...");
@@ -224,7 +225,7 @@ void dumpEEPROM(uint16_t memoryAddress, uint16_t length)
   }
   SERIAL_OUT.println();
 
-  // block to defined length
+  //  block to defined length
   memoryAddress = memoryAddress / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
   length = (length + BLOCK_TO_LENGTH - 1) / BLOCK_TO_LENGTH * BLOCK_TO_LENGTH;
 

@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_24LC1025.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM I2C_24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -20,7 +20,7 @@
 
 ////////////////////////////////////////////////////////////////////
 //
-// PUBLIC FUNCTIONS
+//  PUBLIC FUNCTIONS
 //
 I2C_24LC1025::I2C_24LC1025(uint8_t deviceAddress, TwoWire * wire)
 {
@@ -37,6 +37,7 @@ bool I2C_24LC1025::begin(int8_t writeProtectPin)
   _writeProtectPin = writeProtectPin;
   if (_writeProtectPin >= 0)
   {
+    _autoWriteProtect = EN_AUTO_WRITE_PROTECT;
     pinMode(_writeProtectPin, OUTPUT);
     preventWrite();
   }
@@ -339,13 +340,13 @@ void I2C_24LC1025::_beginTransmission(uint32_t memoryAddress)
 {
   // chapter 5+6 - datasheet - need three bytes for address
   _actualAddress = _deviceAddress;
-  if (memoryAddress >= 0x10000) _actualAddress |= 0x04;  // addresbit 16
+  if (memoryAddress >= 0x10000) _actualAddress |= 0x04;  //  address bit 16
 
 
   //  Wait until EEPROM gives ACK again.
-  //  this is a bit faster than the hardcoded 5 milliSeconds  // chapter 7
+  //  this is a bit faster than the hardcoded 5 milliSeconds
   //  TWR = WriteCycleTime
-  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;  // do the math once.
+  uint32_t waitTime = I2C_WRITEDELAY + _extraTWR * 1000UL;  //  do the math once.
   while ((micros() - _lastWrite) <= waitTime)
   {
     _wire->beginTransmission(_actualAddress);
@@ -355,9 +356,9 @@ void I2C_24LC1025::_beginTransmission(uint32_t memoryAddress)
   }
 
    uint16_t memAddr = (memoryAddress & 0xFFFF);
-  _wire->beginTransmission(_actualAddress);    // device address + bit 16
-  _wire->write((memAddr >> 8) & 0xFF);         // highByte
-  _wire->write(memAddr & 0xFF);                // lowByte
+  _wire->beginTransmission(_actualAddress);    //  device address + address bit 16
+  _wire->write((memAddr >> 8) & 0xFF);         //  highByte
+  _wire->write(memAddr & 0xFF);                //  lowByte
 }
 
 

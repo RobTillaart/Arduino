@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_24LC1025.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: I2C_24LC1025 library for Arduino with EEPROM 24LC1025 et al.
 //     URL: https://github.com/RobTillaart/I2C_24LC1025
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define I2C_24LC1025_LIB_VERSION    (F("0.3.2"))
+#define I2C_24LC1025_LIB_VERSION    (F("0.3.3"))
 
 
 #define I2C_DEVICESIZE_24LC1025     131072
@@ -23,6 +23,14 @@
 //  (see private _waitEEReady() function)
 #ifndef I2C_WRITEDELAY
 #define I2C_WRITEDELAY              5000
+#endif
+
+
+//  set the flag EN_AUTO_WRITE_PROTECT to 1 to enable the Write Control at compile time 
+//  used if the write_protect pin is explicitly set in the begin() function.
+//  the flag can be set as command line option.
+#ifndef EN_AUTO_WRITE_PROTECT
+#define EN_AUTO_WRITE_PROTECT       0
 #endif
 
 
@@ -125,7 +133,7 @@ private:
   bool     _debug = false;
 
   int8_t   _writeProtectPin = -1;
-  bool     _autoWriteProtect = false;
+  bool     _autoWriteProtect = EN_AUTO_WRITE_PROTECT;
 };
 
 

@@ -23,7 +23,7 @@
 //              +--------+
 //
 //  PS to VCC  ==>  I2C  (GY-63 board has internal pull up, so not needed)
-//  PS to GND  ==>  SPI
+//  PS to GND  ==>  SPI  (not supported in library)
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
 
@@ -58,15 +58,16 @@ void setup()
   Serial.println();
 
   Serial.println("OSR \t TIME");
+  delay(10);  //  to flush serial.
 
 
   start = micros();
-  MS5611.read();   // uses default OSR_ULTRA_LOW  (fastest)
+  MS5611.read();   //  uses default OSR_ULTRA_LOW  (fastest)
   stop = micros();
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);  //  to flush serial.
 
 
   MS5611.setOversampling(OSR_LOW);
@@ -76,7 +77,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);  //  to flush serial.
 
 
   MS5611.setOversampling(OSR_STANDARD);
@@ -86,7 +87,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);  //  to flush serial.
 
 
   MS5611.setOversampling(OSR_HIGH);
@@ -96,7 +97,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);  //  to flush serial.
 
 
   MS5611.setOversampling(OSR_ULTRA_HIGH);
@@ -106,7 +107,7 @@ void setup()
   Serial.print( (uint8_t) MS5611.getOversampling());
   Serial.print("\t");
   Serial.println(stop - start);
-  delay(10); // to flush serial.
+  delay(10);  //  to flush serial.
 
 
   Serial.println("\ndone...");

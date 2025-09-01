@@ -2,11 +2,9 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
-//
-//  HISTORY see changelog.md
 
 
 #include "MS5611.h"
@@ -45,7 +43,7 @@ bool MS5611::begin()
   if ((_address < 0x76) || (_address > 0x77)) return false;
   if (! isConnected()) return false;
 
-  return reset();
+  return reset(0);  //  MS5611 has mathMode 0, see datasheet + initConstants.
 }
 
 
@@ -169,7 +167,7 @@ float MS5611::getTemperature() const
 {
   if (_temperatureOffset == 0) return _temperature * 0.01;
   return _temperature * 0.01 + _temperatureOffset;
-};
+}
 
 
 //  milliBar
@@ -177,7 +175,7 @@ float MS5611::getPressure() const
 {
   if (_pressureOffset == 0) return _pressure * 0.01;
   return _pressure * 0.01 + _pressureOffset;
-};
+}
 
 
 //  Pascal SI-unit.
@@ -185,7 +183,18 @@ float MS5611::getPressurePascal() const
 {
   if (_pressureOffset == 0) return _pressure;
   return _pressure + _pressureOffset * 100.0;
-};
+}
+
+
+//  (from MS5837)
+//  https://www.mide.com/air-pressure-at-altitude-calculator
+//  https://community.bosch-sensortec.com/t5/Question-and-answers/How-to-calculate-the-altitude-from-the-pressure-sensor-data/qaq-p/5702 (stale link).
+//  https://en.wikipedia.org/wiki/Pressure_altitude
+float MS5611::getAltitude(float airPressure)
+{
+  float ratio = _pressure / airPressure;
+  return 44307.694 * (1 - pow(ratio, 0.190284));
+}
 
 
 //       EXPERIMENTAL
@@ -214,7 +223,7 @@ uint16_t MS5611::getCRC()
 
 /////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 void MS5611::convert(const uint8_t addr, uint8_t bits)
 {
@@ -317,6 +326,24 @@ void MS5611::initConstants(uint8_t mathMode)
   }
 }
 
+
+///////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+MS5607::MS5607(uint8_t deviceAddress, TwoWire *wire)
+      : MS5611(deviceAddress, wire)
+{
+};
+
+
+bool MS5607::begin()
+{
+  if ((_address < 0x76) || (_address > 0x77)) return false;
+  if (! isConnected()) return false;
+
+  return reset(1);  //  MS5607 has mathMode 1, see datasheet + initConstants.
+};
 
 //  -- END OF FILE --
 

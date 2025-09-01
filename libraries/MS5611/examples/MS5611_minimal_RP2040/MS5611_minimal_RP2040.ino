@@ -23,7 +23,7 @@
 //              +--------+
 //
 //  PS to VCC  ==>  I2C  (GY-63 board has internal pull up, so not needed)
-//  PS to GND  ==>  SPI
+//  PS to GND  ==>  SPI  (not supported in library)
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
 

@@ -1,12 +1,12 @@
 //
-//    FILE: MS5611_deviceID.ino
+//    FILE: MS5611_altitude.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2022-01-22
 //     URL: https://github.com/RobTillaart/MS5611
 
 
 #include "MS5611.h"
+
 
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
@@ -30,9 +30,6 @@
 MS5611 MS5611(0x77);
 
 
-uint32_t start, stop;
-
-
 void setup()
 {
   Serial.begin(115200);
@@ -43,31 +40,32 @@ void setup()
   Serial.println(MS5611_LIB_VERSION);
   Serial.println();
 
-  pinMode(LED_BUILTIN, OUTPUT);
-
   Wire.begin();
   if (MS5611.begin() == true)
   {
     Serial.print("MS5611 found: ");
-    Serial.println(MS5611.getDeviceID(), HEX);
+    Serial.println(MS5611.getAddress());
   }
   else
   {
     Serial.println("MS5611 not found. halt.");
-    while (1)
-    {
-      digitalWrite(LED_BUILTIN, HIGH);
-      delay(1000);
-      digitalWrite(LED_BUILTIN, LOW);
-      delay(1000);
-    }
+    //  while (1);
   }
-  Serial.println("done");
+  Serial.println();
+  Serial.println("Celsius\tmBar\tPascal");
 }
 
 
 void loop()
 {
+  MS5611.read();           //  note no error checking => "optimistic".
+  Serial.print(MS5611.getTemperature(), 2);
+  Serial.print('\t');
+  Serial.print(MS5611.getPressure(), 2);
+  Serial.print('\t');
+  Serial.print(MS5611.getAltitude(), 2);
+  Serial.println();
+  delay(1000);
 }
 
 

@@ -1,13 +1,14 @@
 //
-//    FILE: MS5611_deviceID.ino
+//    FILE: MS5607_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2022-01-22
 //     URL: https://github.com/RobTillaart/MS5611
 
 
 #include "MS5611.h"
 
+
+//  (TODO: check if 5607 has same breakout)
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
 //  SPI    I2C
@@ -27,10 +28,7 @@
 //  CS to GND  ==>  0x77
 
 
-MS5611 MS5611(0x77);
-
-
-uint32_t start, stop;
+MS5607 MS5607(0x77);
 
 
 void setup()
@@ -43,31 +41,30 @@ void setup()
   Serial.println(MS5611_LIB_VERSION);
   Serial.println();
 
-  pinMode(LED_BUILTIN, OUTPUT);
-
   Wire.begin();
-  if (MS5611.begin() == true)
+  if (MS5607.begin() == true)
   {
-    Serial.print("MS5611 found: ");
-    Serial.println(MS5611.getDeviceID(), HEX);
+    Serial.print("MS5607 found: ");
+    Serial.println(MS5607.getAddress());
   }
   else
   {
-    Serial.println("MS5611 not found. halt.");
-    while (1)
-    {
-      digitalWrite(LED_BUILTIN, HIGH);
-      delay(1000);
-      digitalWrite(LED_BUILTIN, LOW);
-      delay(1000);
-    }
+    Serial.println("MS5607 not found. halt.");
+    while (1);
   }
-  Serial.println("done");
+  Serial.println();
 }
 
 
 void loop()
 {
+  MS5607.read();           //  note no error checking => "optimistic".
+  Serial.print("T:\t");
+  Serial.print(MS5607.getTemperature(), 2);
+  Serial.print("\tP:\t");
+  Serial.print(MS5607.getPressure(), 2);
+  Serial.println();
+  delay(1000);
 }
 
 

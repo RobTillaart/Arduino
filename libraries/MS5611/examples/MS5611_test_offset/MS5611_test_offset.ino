@@ -23,7 +23,7 @@
 //              +--------+
 //
 //  PS to VCC  ==>  I2C  (GY-63 board has internal pull up, so not needed)
-//  PS to GND  ==>  SPI
+//  PS to GND  ==>  SPI  (not supported in library)
 //  CS to VCC  ==>  0x76
 //  CS to GND  ==>  0x77
 
@@ -65,20 +65,19 @@ void setup()
   }
   Serial.println();
 
-  MS5611.setTemperatureOffset(273.15);  // set temp in Kelvin
-  MS5611.setPressureOffset(-1013);      // set pressure relative to 1 ATM
+  MS5611.setTemperatureOffset(273.15);  //  set temp in Kelvin
+  MS5611.setPressureOffset(-1013);      //  set pressure relative to 1 ATM
 }
 
 
-/*
-  There are 5 oversampling settings, each corresponding to a different amount of milliseconds
-  The higher the oversampling, the more accurate the reading will be, however the longer it will take.
-  OSR_ULTRA_HIGH -> 8.22 millis
-  OSR_HIGH       -> 4.11 millis
-  OSR_STANDARD   -> 2.1 millis
-  OSR_LOW        -> 1.1 millis
-  OSR_ULTRA_LOW  -> 0.5 millis   Default = backwards compatible
-*/
+//  There are 5 oversampling settings, each corresponding to a different amount of milliseconds
+//  The higher the oversampling, the more accurate the reading will be, however the longer it will take.
+//  OSR_ULTRA_HIGH -> 8.22 millis
+//  OSR_HIGH       -> 4.11 millis
+//  OSR_STANDARD   -> 2.1 millis
+//  OSR_LOW        -> 1.1 millis
+//  OSR_ULTRA_LOW  -> 0.5 millis   Default = backwards compatible
+
 
 void loop()
 {
@@ -117,6 +116,7 @@ void loop()
 
 void test()
 {
+  delay(10);  //  flush Serial
   start = micros();
   int result = MS5611.read();
   stop = micros();

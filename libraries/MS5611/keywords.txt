@@ -3,6 +3,7 @@
 
 # Data types (KEYWORD1)
 MS5611	KEYWORD1
+MS5607	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -26,6 +27,8 @@ setTemperatureOffset	KEYWORD2
 getTemperatureOffset	KEYWORD2
 setPressureOffset	KEYWORD2
 getPressureOffset	KEYWORD2
+
+getAltitude	KEYWORD2
 
 getLastResult	KEYWORD2
 lastRead	KEYWORD2

@@ -3,13 +3,14 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for MS5611 temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
 
 #include "Arduino.h"
 #include "Wire.h"
+
 
 //  BREAKOUT  MS5611  aka  GY63 - see datasheet
 //
@@ -30,7 +31,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_LIB_VERSION                    (F("0.4.1"))
+#define MS5611_LIB_VERSION                    (F("0.4.2"))
 
 #ifndef MS5611_DEFAULT_ADDRESS
 #define MS5611_DEFAULT_ADDRESS                0x77
@@ -93,6 +94,10 @@ public:
   void     setTemperatureOffset(float offset = 0) { _temperatureOffset = offset; };
   float    getTemperatureOffset() { return _temperatureOffset; };
 
+  //  ALTITUDE (from MS5837)
+  float    getAltitude(float airPressure = 1013.25);
+
+
   //  to check for failure
   int      getLastResult() const   { return _result; };
 
@@ -133,12 +138,26 @@ protected:
   float    _pressureOffset;
   float    _temperatureOffset;
   int      _result;
-  float    C[7];
+  float    C[7];   //  constants, name from datasheet
   uint32_t _lastRead;
   uint32_t _deviceID;
   bool     _compensation;
 
   TwoWire * _wire;
+};
+
+
+
+///////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+class MS5607 : public MS5611
+{
+public:
+  MS5607(uint8_t deviceAddress, TwoWire *wire = &Wire);
+
+  bool begin();  //  to set MathMode correctly
 };
 
 

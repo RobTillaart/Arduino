@@ -63,8 +63,10 @@ unittest(test_new_operator)
 unittest(test_constants)
 {
   assertEqual(MS5611_READ_OK , 0);
-  assertEqual(MS5611_ERROR_2 , 2); 
+  assertEqual(MS5611_ERROR_2 , 2);
   assertEqual(MS5611_NOT_READ, -999);
+
+  assertEqual(MS5611_DEFAULT_ADDRESS, 0x77);
 }
 
 
@@ -74,7 +76,7 @@ unittest(test_constructor)
   MS5611 sensor(0x77);
 
   Wire.begin();
-  assertFalse(sensor.begin());  // as there is no sensor, and no ROM values.
+  assertFalse(sensor.begin());  //  as there is no sensor, and no ROM values.
 
   assertEqualFloat(-9.99, sensor.getTemperature(), 0.01);
   assertEqualFloat(-9.99, sensor.getPressure(),    0.01);
@@ -107,7 +109,7 @@ unittest(test_overSampling)
   Wire.begin();
   assertFalse(sensor.begin());
 
-  // default
+  //  default
   assureEqual(OSR_ULTRA_LOW, sensor.getOversampling());
 
   sensor.setOversampling(OSR_ULTRA_LOW);

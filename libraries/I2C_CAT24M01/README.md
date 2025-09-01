@@ -16,7 +16,12 @@ Arduino library for CAT24M01 1Mbit I2C EEPROM.
 
 ## Description
 
-This library is to access the external CAT24M01 1Mbit I2C EEPROM.
+This library is to access the external CAT24M01 I2C EEPROM of 128 KB = 1 Mbit in size.
+
+The user is responsible to verify the used memoryAddress (range) exists in the used EEPROM. 
+(read / write / verify functions).
+The library does not check this. If the address is larger than the EEPROM size, 
+the address used will probably be memoryAddress % deviceSize.
 
 This library follows the I2C_EEPROM and I2C_24LC1025 libraries, see links below.
 
@@ -26,6 +31,7 @@ memory address is inserted in the device address.
 Power-up to Ready Mode = 100 usec, so one has to wait 0.1 msec or more before using the EEPROM.
 
 The library is not tested (extensively) with hardware yet.
+
 Feedback, as always, is welcome.
 
 
@@ -37,6 +43,8 @@ Feedback, as always, is welcome.
 
 
 ## Schematic
+
+Verify the datasheet for your specific EEPROM.
 
 ```cpp
               +---U---+
@@ -88,15 +96,19 @@ Most important difference is 32 bit memory addresses.
 
 ### Constructor
 
-- **I2C_CAT24M01(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor, optional Wire interface.
+- **I2C_CAT24M01(uint8_t deviceAddress, TwoWire \*wire = &Wire)** constructor,
+to set the device address and optional Wire interface.
 The address = 0x50, 0x52, 0x54, 0x56 depending on A1 and A2 address lines, see above.
-- **bool begin(uint8_t writeProtectPin = -1)** initializes the I2C bus with the default pins.
-Furthermore it checks if the deviceAddress is available on the I2C bus.
-Returns true if deviceAddress is found on the bus, false otherwise.
-Optionally one can set the **WP** writeProtect pin. (see section below).
+- **bool begin(uint8_t writeProtectPin = -1)** Optionally one can set the **WP**
+writeProtect pin. (see section below).
 If the **WP** pin is defined, the default behaviour will be to **not** allow writing.
-- **bool isConnected()** test to see if deviceAddress is found on the bus.
+Furthermore it checks if the deviceAddress given in the constructor is available 
+on the defined I2C bus.
+Returns true if deviceAddress is found on the I2C bus, false otherwise.
+- **bool isConnected()** returns true if the address given in the constructor is
+available on the defined I2C bus.
 - **uint8_t getAddress()** returns deviceAddress set in the constructor.
+Convenience.
 
 
 ### Write functions
@@ -114,6 +126,9 @@ Returns I2C status, 0 = OK.
 
 ### Update functions
 
+Using update instead of write functions does not write if the value is the same.
+The price is an extra read() call, but if there is no change the gain is performance.
+
 - **int updateByte(uint32_t memoryAddress, uint8_t value)** write a single byte,
 but only if changed. 
 Returns 0 if value was same or write succeeded.
@@ -128,24 +143,27 @@ Returns bytes written.
 - **uint32_t readBlock(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)** 
 read length bytes into buffer starting at specified memory address.
 Returns the number of bytes read, which should be length.
+The user is responsible that the used buffer can hold length bytes.
 
 
 ### Verify functions
 
 Same as write and update functions above. Returns true if successful, false indicates an error.
+The user is responsible that the used buffer can hold length bytes.
 
 - **bool writeByteVerify(uint32_t memoryAddress, uint8_t value)**
 - **bool writeBlockVerify(uint32_t memoryAddress, uint8_t \* buffer,  uint32_t length)**
 - **bool setBlockVerify(uint32_t memoryAddress, uint8_t value, uint32_t length)**
 - **bool updateByteVerify(uint32_t memoryAddress, uint8_t value)**
 - **bool updateBlockVerify(uint32_t memoryAddress, uint8_t \* buffer, uint32_t length)**
+Returns true is buffer equals memoryAddress for length bytes.
 
 
 ### Other
 
-- **uint32_t getDeviceSize()** idem
-- **uint8_t  getPageSize()** idem
-- **uint32_t getLastWrite()** idem
+- **uint32_t getDeviceSize()** returns the current set deviceSize.
+- **uint16_t getPageSize()** returns the current set pageSize.
+- **uint32_t getLastWrite()** returns timestamp in millis since start of program.
 
 
 ### UpdateBlock()
@@ -154,7 +172,7 @@ The function **updateBlock()** reads the block of data and compares it with the 
 
 As the function reads/writes the data in blocks with a maximum length of **I2C_TWIBUFFERSIZE** 
 (== 30 AVR limitation; 128 for ESP32) 
-It does this comparison in chunks if the length exceeds this number.
+It does this comparison in chunks if the length exceeds the length of the I2C buffer.
 The result is that an **updateBlock()** call can result e.g. in 4 reads and only 2 writes under the hood.
 
 If data is changed often between writes, **updateBlock()** is slower than **writeBlock()**.
@@ -165,7 +183,7 @@ So you should verify if your sketch can make use of the advantages of **updateBl
 
 To improve support older I2C EEPROMs e.g. IS24C16 two functions were 
 added to increase the waiting time before a read and/or write as some 
-older devices have a larger timeout 
+older devices have a larger timeout
 than 5 milliseconds which is the minimum.
 
 - **void     setExtraWriteCycleTime(uint8_t ms)** idem
@@ -212,6 +230,7 @@ The library does not offer multiple EEPROMS as one continuous storage device.
 
 - See I2C EEPROM as this library is following.
 - add examples
+- sync _pageSize with I2C_24LC1025
 
 
 ## Support

@@ -1,12 +1,10 @@
 //
 //    FILE: I2C_CAT24M01.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: I2C_CAT24M01 library for Arduino with EEPROM I2C_CAT24M01 et al.
 //     URL: https://github.com/RobTillaart/I2C_CAT24M01
-//
-//  based upon I2C_24LC1025, some comments may be just plain wrong.
-//
+
 
 #include "I2C_CAT24M01.h"
 
@@ -22,7 +20,7 @@
 
 ////////////////////////////////////////////////////////////////////
 //
-// PUBLIC FUNCTIONS
+//  PUBLIC FUNCTIONS
 //
 I2C_CAT24M01::I2C_CAT24M01(uint8_t deviceAddress, TwoWire * wire)
 {
@@ -39,6 +37,7 @@ bool I2C_CAT24M01::begin(int8_t writeProtectPin)
   _writeProtectPin = writeProtectPin;
   if (_writeProtectPin >= 0)
   {
+    _autoWriteProtect = EN_AUTO_WRITE_PROTECT;
     pinMode(_writeProtectPin, OUTPUT);
     preventWrite();
   }

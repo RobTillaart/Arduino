@@ -2,18 +2,19 @@
 //
 //    FILE: I2C_CAT24M01.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: I2C_CAT24M01 library for Arduino with EEPROM CAT24M01 et al.
 //     URL: https://github.com/RobTillaart/I2C_CAT24M01
 //
-//  based upon I2C_24LC1025, some comments may be just plain wrong.
+//  based upon I2C_24LC1025
 //
+
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define I2C_CAT24M01_LIB_VERSION    (F("0.1.1"))
+#define I2C_CAT24M01_LIB_VERSION    (F("0.1.2"))
 
 
 #define I2C_DEVICESIZE_CAT24M01     131072
@@ -25,6 +26,14 @@
 //  (see private _waitEEReady() function)
 #ifndef I2C_WRITEDELAY
 #define I2C_WRITEDELAY              5000
+#endif
+
+
+//  set the flag EN_AUTO_WRITE_PROTECT to 1 to enable the Write Control at compile time
+//  used if the write_protect pin is explicitly set in the begin() function.
+//  the flag can be set as command line option.
+#ifndef EN_AUTO_WRITE_PROTECT
+#define EN_AUTO_WRITE_PROTECT       0
 #endif
 
 
@@ -127,7 +136,7 @@ private:
   bool     _debug = false;
 
   int8_t   _writeProtectPin = -1;
-  bool     _autoWriteProtect = false;
+  bool     _autoWriteProtect = EN_AUTO_WRITE_PROTECT;
 };
 
 

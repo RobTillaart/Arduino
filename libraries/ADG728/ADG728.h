@@ -2,7 +2,7 @@
 //
 //    FILE: ADG728.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG728 matrix switch. 1x8 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG728
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ADG728_LIB_VERSION             (F("0.1.1"))
+#define ADG728_LIB_VERSION             (F("0.1.2"))
 
 
 //  ERROR CODES (to be elaborated)

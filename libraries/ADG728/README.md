@@ -98,11 +98,11 @@ deviceAddress = 0x4C .. 0x4F, wire = Wire or WireN.
 
 All channel functions return true on success.
 
-- **bool enableChannel(uint8_t channel)** enables channel 0 .. 7 **non-exclusive**.  
+- **bool enableChannel(uint8_t channel)** enables channel 0 .. 7 **non-exclusive**.
 Multiple channels can be enabled in parallel.
 - **bool disableChannel(uint8_t channel)** disables channel 0 .. 7.
 Will not disable other channels.
-- **bool selectChannel(uint8_t channel)** enables a single channel 0 .. 7 **exclusive**.  
+- **bool selectChannel(uint8_t channel)** enables a single channel 0 .. 7 **exclusive**.
 All other channels will be disabled in the same call, so not before or after.
 - **bool isEnabled(uint8_t channel)** returns true if the channel is enabled.
 - **bool disableAllChannels()** fast way to disable all channels.
@@ -128,11 +128,11 @@ Optional the library can reset the device.
 
 ### Forced IO
 
-When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**, 
+When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**,
 will go to the device.
 If the **forced-IO** flag is set to false, it will cache the value of the channels enabled.
 This will result in far more responsive and faster calls.
-Note that writes are only optimized if the channels are already set.  
+Note that writes are only optimized if the channels are already set.
 Forced IO is also used to speed up **getChannelMask()**.
 
 - **void setForced(bool forced = false)** set forced write, slower but more robust.

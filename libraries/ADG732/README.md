@@ -18,7 +18,7 @@ Arduino library for ADG732 - 32 to 1 channel multiplexer.
 
 **Experimental**
 
-ADG732 is an Arduino class that controls a 1 x 32 multiplexer over a 
+ADG732 is an Arduino class that controls a 1 x 32 multiplexer over a
 **parallel** interface.
 Only one of the 32 channels can be connected at the same time.
 The library also support to select none (== 33th state).

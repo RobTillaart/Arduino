@@ -3,14 +3,14 @@
 //    FILE: ADG732.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-24
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for ADG732 - 32 to 1 channel multiplexer
 //     URL: https://github.com/RobTillaart/ADG732
 
 
 #include "Arduino.h"
 
-#define ADG732_LIB_VERSION         (F("0.1.2"))
+#define ADG732_LIB_VERSION         (F("0.1.3"))
 
 #define ADG732_ALLOFF              0x80
 

@@ -1,7 +1,7 @@
 //
 //    FILE: ADG729.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG729 matrix switch. 2x4 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG729

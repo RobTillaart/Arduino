@@ -20,6 +20,7 @@ uint32_t lastTime = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADG729_LIB_VERSION: ");
   Serial.println(ADG729_LIB_VERSION);

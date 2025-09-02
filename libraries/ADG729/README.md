@@ -96,9 +96,9 @@ Other multiplexers
 
 **Warning**
 
-There are two interaction models with the ADG729. 
-These exist of single-channel and dual-channel functions. 
-Note that mixing these two interaction models might complicate the logic of your code. 
+There are two interaction models with the ADG729.
+These exist of single-channel and dual-channel functions.
+Note that mixing these two interaction models might complicate the logic of your code.
 However it is allowed.
 
 
@@ -115,11 +115,11 @@ deviceAddress = 0x44 .. 0x47, wire = Wire or WireN.
 
 All channel functions return true on success.
 
-- **bool enableChannel(uint8_t channel)** enables channel 0 .. 7 **non-exclusive**.  
+- **bool enableChannel(uint8_t channel)** enables channel 0 .. 7 **non-exclusive**.
 Multiple channels can be enabled in parallel.
 - **bool disableChannel(uint8_t channel)** disables channel 0 .. 7.
 Will not disable other channels.
-- **bool selectChannel(uint8_t channel)** enables a single channel 0 .. 7 **exclusive**.  
+- **bool selectChannel(uint8_t channel)** enables a single channel 0 .. 7 **exclusive**.
 All other channels will be disabled in the same call, so not before or after.
 - **bool isEnabled(uint8_t channel)** returns true if the channel is enabled.
 - **bool disableAllChannels()** fast way to disable all channels.
@@ -137,7 +137,7 @@ use two wires.
 - **bool enableAB(uint8_t channel)** enables channel 0 .. 3 for both A and B **non-exclusive**.
 - **bool disableAB(uint8_t channel)** disables channel 0 .. 3 for both A and B .
 Will not disable other channels.
-- **bool selectAB(uint8_t channel)** enables a single channel 0 .. 3 **exclusive**.  
+- **bool selectAB(uint8_t channel)** enables a single channel 0 .. 3 **exclusive**.
 All other channels will be disabled in the same call, so not before or after.
 - **bool isEnabledAB(uint8_t channel)** returns true if the channel is enabled for both A and B.
 
@@ -164,11 +164,11 @@ These functions do the hard work for the single and dual channel functions.
 
 ### Forced IO
 
-When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**, 
+When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**,
 will go to the device.
 If the **forced-IO** flag is set to false, it will cache the value of the channels enabled.
 This will result in far more responsive and faster calls.
-Note that writes are only optimized if the channels are already set.  
+Note that writes are only optimized if the channels are already set.
 Forced IO is also used to speed up **getChannelMask()**.
 
 - **void setForced(bool forced = false)** set forced write, slower but more robust.

@@ -3,14 +3,14 @@
 //    FILE: ADG725.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-24
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for ADG725 - 16 to 1 channel (2x) multiplexer
 //     URL: https://github.com/RobTillaart/ADG725
 
 
 #include "Arduino.h"
 
-#define ADG725_LIB_VERSION         (F("0.1.2"))
+#define ADG725_LIB_VERSION         (F("0.1.3"))
 
 #define ADG725_ALLOFF              0x80    //  ENable bit (false)
 #define ADG725_A_ONLY              0x20    //  retain B

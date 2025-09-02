@@ -16,10 +16,13 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("ADG731_LIB_VERSION: ");
   Serial.println(ADG731_LIB_VERSION);
+  Serial.println();
   delay(100);
-  
+
   start = micros();
   for (int ch = 0; ch < 32; ch++)
   {

@@ -29,10 +29,11 @@ This library can be used e.g. to connect 32 analog devices to
 one analog port, or to select between 32 DHT22 sensors.
 
 No tests with hardware have been done yet, so use with care.
-Feedback welcome!
+
+Feedback as always is welcome!
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051 (1x8 mux)
 - https://github.com/RobTillaart/HC4052 (2x8 mux)

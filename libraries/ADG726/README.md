@@ -34,7 +34,7 @@ No tests with hardware have been done yet, so use with care.
 Feedback welcome!
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051 (1x8 mux)
 - https://github.com/RobTillaart/HC4052 (2x8 mux)

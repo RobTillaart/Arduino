@@ -16,7 +16,7 @@
 //                    SCL         A5
 //                    INT         2
 //
-//  note: a dedicated rotary decoder class is created 
+//  note: a dedicated rotary decoder class is created
 //        - https://github.com/RobTillaart/rotaryDecoder -
 
 
@@ -97,9 +97,11 @@ void updateRotaryDecoder()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PCF8574_LIB_VERSION:\t");
+  Serial.print("PCF8574_LIB_VERSION: ");
   Serial.println(PCF8574_LIB_VERSION);
+  Serial.println();
 
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(0, moved, FALLING);
@@ -114,7 +116,7 @@ void setup()
     while (1);
   }
   Wire.setClock(600000);
-  
+
   initRotaryDecoder();
 
   uint32_t start = micros();

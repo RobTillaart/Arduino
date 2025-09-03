@@ -3,7 +3,7 @@
 //    FILE: PCF8574.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 02-febr-2013
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 // PURPOSE: Arduino library for PCF8574 - 8 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8574
 //          http://forum.arduino.cc/index.php?topic=184800
@@ -13,15 +13,16 @@
 #include "Wire.h"
 
 
-#define PCF8574_LIB_VERSION         (F("0.4.3"))
+#define PCF8574_LIB_VERSION           (F("0.4.4"))
 
 #ifndef PCF8574_INITIAL_VALUE
-#define PCF8574_INITIAL_VALUE       0xFF
+#define PCF8574_INITIAL_VALUE         0xFF
 #endif
 
-#define PCF8574_OK                  0x00
-#define PCF8574_PIN_ERROR           0x81
-#define PCF8574_I2C_ERROR           0x82
+#define PCF8574_OK                    0x00
+#define PCF8574_PIN_ERROR             0x81
+#define PCF8574_I2C_ERROR             0x82
+#define PCF8574_BUFFER_LENGTH_ERROR   0x83
 
 
 class PCF8574
@@ -32,20 +33,24 @@ public:
   bool    begin(uint8_t value = PCF8574_INITIAL_VALUE);
   bool    isConnected();
 
-
   //  note: setting the address corrupt internal buffer values
   //  a read8() / write8() call updates them.
   bool    setAddress(const uint8_t deviceAddress);
   uint8_t getAddress() const { return _address; }
 
+
+  //  read write
   uint8_t read8();
   uint8_t read(const uint8_t pin);
   uint8_t value() const { return _dataIn; };
 
-
   void    write8(const uint8_t value);
   void    write(const uint8_t pin, const uint8_t value);
   uint8_t valueOut() const { return _dataOut; }
+
+  //  experimental 0.4.4
+  bool    writeArray(uint8_t *array, uint8_t size);
+  bool    readArray(uint8_t *array, uint8_t size);
 
 
   //  added 0.1.07/08 Septillion

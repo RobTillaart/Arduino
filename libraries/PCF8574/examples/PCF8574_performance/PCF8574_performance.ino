@@ -18,15 +18,17 @@ volatile uint8_t x;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PCF8574_LIB_VERSION:\t");
+  Serial.print("PCF8574_LIB_VERSION: ");
   Serial.println(PCF8574_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
   PCF.begin();
   Serial.println(PCF.isConnected());
-  delay(100);  //  time to flush Serial 
+  delay(100);  //  time to flush Serial
 
 
   for (long clk = 100000; clk < 800000; clk += 50000)

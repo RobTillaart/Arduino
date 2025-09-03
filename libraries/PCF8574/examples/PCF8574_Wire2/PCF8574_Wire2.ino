@@ -9,7 +9,7 @@
 #include "PCF8574.h"
 
 //  adjust addresses if needed
-PCF8574 PCF(0x39, &Wire2);  //  Wire2 ==> Teensy 
+PCF8574 PCF(0x39, &Wire2);  //  Wire2 ==> Teensy
 
 
 void doHigh()
@@ -42,9 +42,11 @@ void doToggle()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PCF8574_LIB_VERSION:\t");
+  Serial.print("PCF8574_LIB_VERSION: ");
   Serial.println(PCF8574_LIB_VERSION);
+  Serial.println();
 
   Wire2.begin();
 

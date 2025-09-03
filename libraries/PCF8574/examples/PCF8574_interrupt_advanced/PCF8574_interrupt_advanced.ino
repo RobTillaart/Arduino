@@ -39,9 +39,11 @@ void pcf_irq()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCF8574_LIB_VERSION: ");
   Serial.println(PCF8574_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   PCF.begin();

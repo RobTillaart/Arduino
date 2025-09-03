@@ -15,9 +15,11 @@ PCF8574 PCF_39(0x39);  //  add LEDs to lines      (used as output)
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PCF8574_LIB_VERSION:\t");
+  Serial.print("PCF8574_LIB_VERSION: ");
   Serial.println(PCF8574_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

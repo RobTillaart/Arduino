@@ -99,13 +99,20 @@ before calling **begin()**.
 - https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
 - https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
 - https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
-
+- https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
 
 8 bit port expanders
 
 - https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
 - https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
 - https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
+- https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
+
+Other libs based upon PCF8574
+
+- https://github.com/RobTillaart/I2CKeyPad
+- https://github.com/RobTillaart/rotaryDecoder
+- https://github.com/RobTillaart/rotaryDecoderSwitch
 
 
 ## I2C
@@ -113,7 +120,8 @@ before calling **begin()**.
 
 ### Performance
 
-Tested on UNO with **PCF8574_performance** showed that the PCF8574 still works at 500 KHz and failed at 600 KHz.
+Tested on UNO with **PCF8574_performance** showed that the PCF8574 still works 
+at 500 kHz and failed at 600 kHz.
 These values are outside the specs of the datasheet so they are not recommended.
 However when performance is needed you can try to overclock the chip. 
 
@@ -122,7 +130,7 @@ However when performance is needed you can try to overclock the chip.
 |  100000     |  236   |   240   |  spec datasheet     |
 |  200000     |  132   |   140   |
 |  300000     |  104   |   108   |
-|  400000     |   96   |    96   |  max advised speed  |
+|  400000     |   96   |    96   |  max speed advised  |
 |  500000     |   92   |    92   |  not recommended    |
 |  600000     | crash  |  crash  | 
 
@@ -177,6 +185,63 @@ in the class this is faster than reread the pins.
 - **uint8_t write(const uint8_t pin, const uint8_t value)** writes a single pin; pin = 0..7; 
 value is HIGH(1) or LOW (0)
 - **uint8_t valueOut()** returns the last written data.
+
+
+### ReadArray and WriteArray 
+
+**Experimental (0.4.4)**
+
+Needs testing and verification with scope.
+See issue #60 and datasheet, 7.4 Device Functional Modes
+
+These array functions read / write up to 30 bytes in one I2C transaction.
+30 bytes is the maximum length of an AVR I2C buffer.
+Other lengths are possible by patching the PCF8574.cpp file.
+
+- **bool writeArray(uint8_t \*array, uint8_t size)** writes size bytes in one **blocking** call. 
+Blocking time depends on the I2C bus speed.
+ValueOut() is set to the last byte send.
+- **bool readArray(uint8_t \*array, uint8_t size)** reads size bytes in one **blocking** call.
+Value() is set to the last byte received.
+
+With **writeArray()** one can implement short pulses on the output pins.
+The duration of those pulses are 9 I2C clock pulses.
+So the duration of the pulse depends on (1) in how many bytes the pin 
+is HIGH, (2) the I2C clock speed, and (3) the precision of the I2C clock.
+
+```cpp
+uint8_t arr[10] = { 0, 1, 0, 1, 1, 0, 1, 1, 1, 0 };
+Wire.setClock(300000);
+PCF.writeArray(arr, 10);
+Wire.setClock(100000);
+```
+
+Indicative pulse duration, depends also on the precision of the I2C clock. 
+By varying the clock speed one can adjust pulse length.
+(e.g. a pulse of 50 us needs about 9000/50 = 180 kHz, with len = 1)
+
+|  I2C CLK  |  len = 1  |   len = 2  |   len = 3  |  notes  |
+|:---------:|:---------:|:----------:|:----------:|:--------|
+|   45 kHz  | 200.0 us  |  400.0 us  |  600.0 us  |
+|   90 kHz  | 100.0 us  |  200.0 us  |  300.0 us  |
+|  100 kHz  |  90.0 us  |  180.0 us  |  270.0 us  |
+|  200 kHz  |  45.0 us  |   90.0 us  |  135.0 us  |
+|  300 kHz  |  30.0 us  |   60.0 us  |   90.0 us  |
+|  400 kHz  |  22.5 us  |   45.0 us  |   67.5 us  |  max speed advised
+|  450 kHz  |  20.0 us  |   40.0 us  |   60.0 us  |  could work.
+
+Note 1: that one writes to all pins so one might need a **read8()** to get the
+status of the pins that should not be affected.
+
+Note 2: I2C clocks might not be able to be set to all possible frequencies.
+
+
+With **readArray()** one can implement a parallel sampling of up to 
+32 bytes of up to 8 input lines at a sub millisecond range. 
+This is not enough data for a full logical analyser, however it 
+might be useful in other applications.
+
+As stated, these function needs testing, so feedback is welcome.
 
 
 ### Button

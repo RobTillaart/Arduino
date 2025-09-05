@@ -2,7 +2,7 @@
 //
 //    FILE: datetimeHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library with date time helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/dateTimeHelpers
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define DATETIMEHELPER_LIB_VERSION      (F("0.1.3"))
+#define DATETIMEHELPER_LIB_VERSION      (F("0.1.4"))
 
 #define SECONDS_MINUTE                  60UL
 #define SECONDS_HOUR                    3600UL
@@ -236,22 +236,48 @@ char * millis2clock(uint32_t millis)
 //
 float seconds2weeks(uint32_t seconds)
 {
-  return seconds * 1.653439153439e-6;  //  /604800
+  return seconds * (1.0 / SECONDS_WEEK);  //  1.653439153439e-6;
 }
 
 float seconds2days(uint32_t seconds)
 {
-  return seconds * 1.157407407407e-5;  //  /86400
+  return seconds * (1.0 / SECONDS_DAY);  //  1.157407407407e-5;
 }
 
 float seconds2hours(uint32_t seconds)
 {
-  return seconds * 2.777777777778e-4;  //  /3600
+  return seconds * (1.0 / SECONDS_HOUR);  //  2.777777777778e-4;
 }
 
 float seconds2minutes(uint32_t seconds)
 {
-  return seconds * 1.666666666667e-2;  //  /60
+  return seconds * (1.0 / SECONDS_MINUTE);  //  1.666666666667e-2;
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+//  ANGLE FOR CLOCK
+//
+float hourAngle(uint8_t hh, uint8_t mm, uint8_t ss)
+{
+  float angle = (hh % 12) * 30;
+  angle += (mm * 30.0 / 60.0);
+  angle += (ss * 0.5 / 60.0);
+  return angle;
+}
+
+float minuteAngle(uint8_t mm, uint8_t ss)
+{
+  float angle = (mm * 6.0);
+  angle += (ss * 6.0 / 60.0);
+  return angle;
+}
+
+float secondAngle(uint8_t ss)
+{
+  float angle = (ss * 6.0);
+  return angle;
 }
 
 

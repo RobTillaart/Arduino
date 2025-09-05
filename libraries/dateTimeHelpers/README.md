@@ -21,7 +21,7 @@ It is primary a placeholder.
 Please report missing functions, open an issue or preferably a PR.
 
 
-#### Related libraries
+### Related libraries
 
 - https://github.com/RobTillaart/printHelpers
 - https://github.com/RobTillaart/stopWatch_RT
@@ -29,11 +29,12 @@ Please report missing functions, open an issue or preferably a PR.
 - https://github.com/RobTillaart/timing
 
 
-#### Implementation notes
+### Implementation notes
 
 - the functions share an output buffer.
 This can give problems when prints are made fast after each other as the buffer
- is not printed completely before it is filled again. (think also RTOS)
+ is not printed completely before it is filled again. (think also RTOS).
+POssible solution is to copy the buffer before printing.
 - math is straightforward, may be optimized? sprintf()?
 - code has repeating parts, may be optimized?
 
@@ -44,7 +45,7 @@ This can give problems when prints are made fast after each other as the buffer
 #include "dateTimeHelpers.h"
 ```
 
-#### Display functions
+### Display functions
 
 - **void secondsSplit(uint32_t seconds, uint16_t \* days, uint8_t \* hours, uint8_t \* minutes, uint8_t \* sec)** Splits the seconds into days, hours, minutes and seconds. 
 This is the worker for the next three. 
@@ -58,7 +59,7 @@ Note this function has no morning or afternoon indication.
 - **char \* millis2clock(uint32_t millis)** returns "00:00:00.000 .. 23:59:59.999"
 
 
-#### AM PM 
+### AM PM 
 
 **seconds2clockAMPM** has two more or less undefined moments: midnight (00:00 AM 12:00 PM) and noon (12:00 AM 12:00 PM).
 See https://www.npl.co.uk/resources/q-a/is-midnight-12am-or-12pm)
@@ -69,7 +70,7 @@ Therefore I use in this implementation:
 - noon == 12:00 PM
 
 
-### Convertors
+## Convertors
 
 Note: the following functions use float math so there might occur rounding.
 
@@ -108,11 +109,6 @@ Note: the following functions use float math so there might occur rounding.
   - atomic time
 - micros2clock()
   - mm:ss:ttt:mmm or mm:ss.ttt.mmm ?
-- hour2angle(hh.mm.ss) = angle of the hour hand
-  - 12x60x60 = 360° in 1/12th parts
-  - idem radians..
-- minute2angle(mm.ss) = angle of the minute hand (mm x 6 + ss x 0.1
-- seconds2angle(ss) = angle of the seconds hand (ss x 6)
 - "classify" ?
   - extern "C" ?
 

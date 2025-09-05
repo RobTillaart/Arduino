@@ -13,7 +13,11 @@ uint32_t start, stop, duration1;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DATETIMEHELPER_LIB_VERSION: ");
+  Serial.println(DATETIMEHELPER_LIB_VERSION);
+  Serial.println();
 
   uint32_t seconds = 12345678;
 
@@ -43,4 +47,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

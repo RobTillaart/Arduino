@@ -11,7 +11,11 @@
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DATETIMEHELPER_LIB_VERSION: ");
+  Serial.println(DATETIMEHELPER_LIB_VERSION);
+  Serial.println();
 
   for (uint32_t s = 0; s <= 24 * 3600UL;  s += 1800)
   {
@@ -26,4 +30,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -32,15 +32,19 @@ save some memory.
 
 **Warning:** Changing the resolution will reset the stopwatch 
 as start time and stop time will become meaningless.
-The stopwatch will reset even when the resolution is the current resolution.
+The stopwatch will reset even when the new resolution is the current resolution.
 
 This library is based upon millis() and micros() and therefore has the same 
 restrictions and limitations as these functions with respect to overflow and precision.
 This means minutes and seconds will overflow also after about 49 days.
 
-#### Related
 
+### Related
+
+- https://github.com/RobTillaart/printHelpers
+- https://github.com/RobTillaart/stopWatch_RT
 - https://github.com/RobTillaart/CountDown
+- https://github.com/RobTillaart/timing wrappers around millis() and microc()
 
 
 ## Interface
@@ -107,14 +111,16 @@ See examples
 
 #### Should
 
-- create getters and setters for the calibration constants so they can 
-changed runtime under program control. Must it be float + round() or uint32_t ?
+- 0.4.0: create getters and setters for the calibration constants so they can 
+changed runtime under program control. 
+  - Must it be float + round() or uint32_t ?  ==> uint32_t is used now.
+- 0.4.0: **resolution()** ==> **getResolution()**
 
 #### Could
 
 - with rising of faster processors in Arduino ecosystem, NANOS might added. 
 Be aware that these short time frames are better measured e.g. by a hardware timer.
-- **resolution()** ==> **getResolution()**
+
 
 #### Wont
 

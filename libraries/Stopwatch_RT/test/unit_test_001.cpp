@@ -141,4 +141,6 @@ unittest(test_resolution)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

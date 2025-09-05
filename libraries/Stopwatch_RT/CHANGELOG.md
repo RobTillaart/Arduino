@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 2025-09-04
+- update GitHub actions
+- minor edits
+
 ## [0.3.5] - 2023-11-22
 - update readme.md
-
 
 ## [0.3.4] - 2023-01-11
 - update GitHub actions
@@ -24,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - declare value() obsolete
 - reordered .cpp file to match .h
 
-## [0.3.2] - 2021-12-28  
+## [0.3.2] - 2021-12-28
 - update library.json
 - update readme.md
 - update license
@@ -63,7 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.02] - 2011-06-15
 - add state()
-- add #defines 
+- add #defines
 - add lib version
 
 ## [0.1.01] - 2011-01-04

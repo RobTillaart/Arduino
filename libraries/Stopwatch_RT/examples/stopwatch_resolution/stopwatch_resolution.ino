@@ -6,7 +6,7 @@
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 
 
-#include <StopWatch.h>
+#include "StopWatch.h"
 
 StopWatch MySW;
 
@@ -14,8 +14,11 @@ StopWatch MySW;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("STOPWATCH_LIB_VERSION: ");
   Serial.println(STOPWATCH_LIB_VERSION);
+  Serial.println();
 
   MySW.start();
   delay(5000);
@@ -38,7 +41,7 @@ void loop()
 
 void simple_test(StopWatch::Resolution res)
 {
-  MySW.setResolution(res);  // note: includes an automatic reset() 
+  MySW.setResolution(res);  //  note: includes an automatic reset() 
   MySW.start();
   delay(2500);
   Serial.print("TIME: ");
@@ -49,5 +52,5 @@ void simple_test(StopWatch::Resolution res)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

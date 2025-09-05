@@ -6,7 +6,7 @@
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 
 
-#include <StopWatch.h>
+#include "StopWatch.h"
 
 
 StopWatch sw_millis;    // MILLIS (default)
@@ -16,26 +16,32 @@ StopWatch sw_secs(StopWatch::SECONDS);
 
 void setup()
 {
-    Serial.begin(115200);
-    sw_millis.start();
-    sw_micros.start();
-    sw_secs.start();
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("STOPWATCH_LIB_VERSION: ");
+  Serial.println(STOPWATCH_LIB_VERSION);
+  Serial.println();
+
+  sw_millis.start();
+  sw_micros.start();
+  sw_secs.start();
 }
 
 
 void loop()
 {
-    Serial.print("sw_millis=");
-    Serial.print(sw_millis.elapsed());
-    Serial.print("\tsw_micros=");
-    Serial.print(sw_micros.elapsed());
-    Serial.print("\tsw_secs=");
-    Serial.print(sw_secs.elapsed());
-    Serial.println();
+  Serial.print("sw_millis=");
+  Serial.print(sw_millis.elapsed());
+  Serial.print("\tsw_micros=");
+  Serial.print(sw_micros.elapsed());
+  Serial.print("\tsw_secs=");
+  Serial.print(sw_secs.elapsed());
+  Serial.println();
 
-    delay(1000);
+  delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

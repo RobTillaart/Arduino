@@ -6,7 +6,7 @@
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 
 
-#include <StopWatch.h>
+#include "StopWatch.h"
 
 
 StopWatch MySW;
@@ -16,9 +16,11 @@ StopWatch SWarray[5];
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Stopwatch demo");
-  Serial.print("Version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("STOPWATCH_LIB_VERSION: ");
   Serial.println(STOPWATCH_LIB_VERSION);
+  Serial.println();
 
   SWarray[0].start();
 }
@@ -71,13 +73,13 @@ void loop()
   switch(MySW.state())
   {
     case StopWatch::RESET:
-      Serial.println("reset");  // e.g. disable stop/reset
+      Serial.println("reset");  //  e.g. disable stop/reset
       break;
     case StopWatch::RUNNING:
-      Serial.println("running"); // display laptime
+      Serial.println("running"); //  display laptime
       break;
     case StopWatch::STOPPED:
-      Serial.println("stopped"); // display finaltime
+      Serial.println("stopped"); //  display finaltime
       break;
     default:
       Serial.println("unknown");
@@ -90,5 +92,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

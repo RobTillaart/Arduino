@@ -6,7 +6,7 @@
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 
 
-#include <StopWatch.h>
+#include "StopWatch.h"
 
 StopWatch myStopwatch;
 
@@ -19,6 +19,7 @@ StopWatch myStopwatch;
 uint32_t lastDisplay = 0;
 uint32_t lastTimeDisplayed = -1;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -26,8 +27,9 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("STOPWATCH_LIB_VERSION: ");
   Serial.println(STOPWATCH_LIB_VERSION);
+  Serial.println();
 
-  pinMode(RUNPIN, OUTPUT);          // indicator stopwatch is running
+  pinMode(RUNPIN, OUTPUT);          //  indicator stopwatch is running
   digitalWrite(RUNPIN, LOW);
   pinMode(STARTPIN, INPUT_PULLUP);
   pinMode(STOPPIN, INPUT_PULLUP);
@@ -62,4 +64,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

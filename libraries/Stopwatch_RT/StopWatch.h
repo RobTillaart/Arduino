@@ -2,7 +2,7 @@
 //
 //    FILE: StopWatch.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: Arduino Library implementing a stopwatch including seconds, milliseconds microseconds
 // HISTORY: See StopWatch.cpp
 //     URL: https://github.com/RobTillaart/StopWatch_RT
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define STOPWATCH_LIB_VERSION             (F("0.3.5"))
+#define STOPWATCH_LIB_VERSION             (F("0.3.6"))
 
 
 //  NOTE: adjust divider can fix timing inaccuracies (to some extend)

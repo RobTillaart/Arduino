@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -414,15 +414,38 @@ void HX711::power_up()
 
 ///////////////////////////////////////////////////////////////
 //
+//  EXPERIMENTAL
+//  RATE PIN - works only if rate pin is exposed.
+//
+void HX711::set_rate_pin(uint8_t pin)
+{
+  pinMode(_ratePin, OUTPUT);
+  set_rate_10SPS();
+}
+
+void HX711::set_rate_10SPS()
+{
+  _rate = 10;
+  digitalWrite(_ratePin, LOW);
+}
+
+void HX711::set_rate_80SPS()
+{
+  _rate = 80;
+  digitalWrite(_ratePin, HIGH);
+}
+
+uint8_t HX711::get_rate()
+{
+  return _rate;
+}
+
+
+///////////////////////////////////////////////////////////////
+//
 //  MISC
 //
 uint32_t HX711::last_time_read()
-{
-  return _lastTimeRead;
-}
-
-//  obsolete future
-uint32_t HX711::last_read()
 {
   return _lastTimeRead;
 }
@@ -432,7 +455,6 @@ uint32_t HX711::last_read()
 //
 //  PRIVATE
 //
-
 void HX711::_insertSort(float * array, uint8_t size)
 {
   uint8_t t, z;

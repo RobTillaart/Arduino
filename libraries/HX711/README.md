@@ -16,17 +16,25 @@ Arduino library for HX711 24 bit ADC used for load cells and scales.
 
 ## Description
 
-This HX711 library has an interface which is a superset of a library by [Bogde](https://github.com/bogde/HX711).
-Some missing functions were added to get more info from the library. 
+This HX711 library has a public interface (API) which is a superset of the 
+public interface of the HX711 library, version 0.7.3, by [Bogde](https://github.com/bogde/HX711).
+The API is reused to be compatible on the basic interaction level, so credits 
+for the reused API go to Bogde.
 
-Another important difference is that this library uses floats. 
+The implementation of both libraries differ from the beginning. 
+The HX711 by Bogde is in several ways more sophisticated than this HX711 library. 
+In this HX711 library, missing functions, modes and more were added to get more 
+info from the library.
+So you can choose the library that fit your needs most.
+
+Another important difference is that this HX711 library uses floats. 
 The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well. 
-Furthermore using floats gave a smaller footprint on the Arduino UNO.
+Furthermore, using floats gave a smaller footprint on the Arduino UNO R3.
 
 Note that the 24 bits of the HX711 contains some noise so depending on setup, 
 load etc. only 16 to 20 of the bits are expected significant in practice. 
 This translates roughly to 4 or max 5 significant digits in a single measurement
-That's why multiple measurements are advised to average and reduce the noise.
+That's why it is advised to average (median) multiple measurements to reduce the noise.
 
 
 ### Breaking change 0.4.0
@@ -79,9 +87,7 @@ Connecting **RATE** to GND (LOW) gives 10 SPS.
 All breakout boards I tested have **RATE** connected to GND and offer no
 pin to control this from the outside.
 
-This library does not provide means to control the **RATE** yet.
-If there is a need (issue) I will implement this in the library.
-For now one can add an IOpin for this and use **digitalWrite()**.
+This library provide experimental means to control the **RATE**, see below.
 
 If you need more SPS you could consider using the HX71708 device.
 This is a close "relative" of the HX711 that allows to set the SPS to 
@@ -339,6 +345,22 @@ It should reset the HX711 to defaults but this is not always seen.
 See discussion issue #27 GitHub. Needs more testing.
 
 
+### Rate
+
+**Experimental**
+
+See section "10 or 80 SPS" above.
+
+Note this only works if the **RATE** pin is exposed and connected to
+the IO pin configured in set_rate_pin().
+If not configured the other functions won't work.
+
+- **void set_rate_pin(uint8_t pin)** sets the IO pin for SPS selection.
+- **void set_rate_10SPS()** sets rate to 10 SPS.
+- **void set_rate_80SPS()** sets rate to 80 SPS.
+- **uint8_t get_rate()** returns 10 d(default) or 80.
+
+
 ### Pricing
 
 Some price functions were added to make it easy to use this library
@@ -459,16 +481,16 @@ See https://github.com/RobTillaart/HX711/issues/40
 #### Must
 
 - update documentation HX711
-- keep in sync with HX711_MP
+- keep in sync with HX711_MP, HX710AB
 
 #### Should
 
-- replace last_read() with last_time_read()
 - test B channel explicitly.
 - test reset and reboot behaviours.
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?
+- test and verify the proper working of the rate functions.
 
 #### Could
 
@@ -480,13 +502,8 @@ See https://github.com/RobTillaart/HX711/issues/40
 - add examples
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
+  - example for using rate functions.
 - decide pricing keep/not => move to .cpp
-- support **rate**
-  - **void setRatePin(uint8_t pin)** sets the IO pin for rate selection.
-  See section above.
-  - **bool setRate(uint8_t sps)** rate = 10 or 80 SPS, returns false on incorrect input
-  - **uint8_t getRate()** - returns 10 or 80
-  - optional?
 
 #### Wont
 

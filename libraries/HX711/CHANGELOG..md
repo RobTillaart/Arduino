@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] - 2025-09-06
+- Fix #68, add bogde to the license, to give credit for the API
+- implement experimental rate support.
+- update keywords.txt
+- update readme.md
+- update the GitHub actions
+- minor edits
+
 ## [0.6.1] - 2025-06-19
 - fix #65, is_ready() => set dataPin to INPUT_PULLUP
 - minor edits

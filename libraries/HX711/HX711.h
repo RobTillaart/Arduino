@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.6.1"))
+#define HX711_LIB_VERSION               (F("0.6.2"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -164,9 +164,22 @@ public:
   void     power_up();
 
 
+  ///////////////////////////////////////////////////////////////
+  //
+  //  EXPERIMENTAL
+  //  RATE PIN - works only if rate pin is exposed.
+  //
+  void     set_rate_pin(uint8_t pin);
+  void     set_rate_10SPS();
+  void     set_rate_80SPS();
+  uint8_t  get_rate();
+
+
   //  TIME OF LAST READ
   uint32_t last_time_read();
-  uint32_t last_read();  //  obsolete in the future
+  //  obsolete in the future (0.7.0)
+  [[deprecated("Use last_time_read() instead.")]]
+  uint32_t last_read() { return last_time_read(); };
 
 
   //  PRICING
@@ -186,6 +199,8 @@ private:
   float    _price;
   uint8_t  _mode;
   bool     _fastProcessor;
+  uint8_t  _ratePin = 255;
+  uint8_t  _rate = 10;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();

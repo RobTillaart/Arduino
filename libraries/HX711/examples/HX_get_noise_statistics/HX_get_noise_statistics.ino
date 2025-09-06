@@ -88,7 +88,7 @@ void setup()
   //  TODO find an in-sketch solution for this calibration.
   //  use HX_calibration.ino for now
   //  load cell factor 20 KG
-  //  scale.set_scale(127.15);  // TODO you need to calibrate this yourself.
+  //  scale.set_scale(127.15);  //  TODO you need to calibrate this yourself.
   
   //  load cell factor 5 KG
   scale.set_scale(449.076354);

@@ -9,7 +9,7 @@
 #include "StopWatch.h"
 
 
-StopWatch sw_millis;    // MILLIS (default)
+StopWatch sw_millis;    //  MILLIS (default)
 StopWatch sw_micros(StopWatch::MICROS);
 StopWatch sw_secs(StopWatch::SECONDS);
 

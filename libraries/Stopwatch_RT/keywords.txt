@@ -9,6 +9,7 @@ StopWatch	KEYWORD1
 start	KEYWORD2
 stop	KEYWORD2
 reset	KEYWORD2
+restart	KEYWORD2
 
 elapsed	KEYWORD2
 getUnits	KEYWORD2
@@ -19,6 +20,7 @@ isReset	KEYWORD2
 
 state	KEYWORD2
 setResolution	KEYWORD2
+getResolution	KEYWORD2
 resolution	KEYWORD2
 
 

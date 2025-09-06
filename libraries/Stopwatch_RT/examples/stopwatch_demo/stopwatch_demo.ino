@@ -44,7 +44,7 @@ void loop()
   if (digitalRead(STOPPIN) == LOW) myStopwatch.stop();
   if (digitalRead(RESETPIN) == LOW) myStopwatch.reset();
 
-  //  HANDLE RUNNINGLED
+  //  HANDLE RUNNING LED
   digitalWrite(RUNPIN, myStopwatch.isRunning());
 
   //  HANDLE DISPLAY

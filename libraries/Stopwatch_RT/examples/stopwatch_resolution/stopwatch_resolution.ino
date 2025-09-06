@@ -25,7 +25,7 @@ void setup()
   Serial.print("TIME: ");
   Serial.println(MySW.elapsed());
   Serial.print(" RES: ");
-  Serial.println(MySW.resolution());
+  Serial.println(MySW.getResolution());
   Serial.println();
 }
 
@@ -47,7 +47,7 @@ void simple_test(StopWatch::Resolution res)
   Serial.print("TIME: ");
   Serial.println(MySW.elapsed());
   Serial.print(" RES: ");
-  Serial.println(MySW.resolution());
+  Serial.println(MySW.getResolution());
   Serial.println();
 }
 

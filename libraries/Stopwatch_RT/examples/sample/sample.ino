@@ -34,7 +34,7 @@ void loop()
   MySW.start();
   Serial.println(MySW.isRunning());
   Serial.println("START 1");
-  for(int i=0; i<5; i++)
+  for (int i = 0; i < 5; i++)
   {
     delay(10);
     Serial.println(MySW.elapsed());
@@ -43,7 +43,7 @@ void loop()
   MySW.stop();
   Serial.println(MySW.isRunning());
   Serial.println("STOP");
-  for(int i=0; i<5; i++)
+  for (int i = 0; i < 5; i++)
   {
     delay(10);
     Serial.println(MySW.elapsed());
@@ -52,7 +52,7 @@ void loop()
   MySW.start();
   Serial.println(MySW.isRunning());
   Serial.println("START 2");
-  for(int i=0; i<5; i++)
+  for (int i = 0; i < 5; i++)
   {
     delay(10);
     Serial.println(MySW.elapsed());
@@ -64,22 +64,22 @@ void loop()
   MySW.start();
   Serial.println(MySW.isRunning());
   Serial.println("START 3");
-  for(int i=0; i<5; i++)
+  for (int i = 0; i < 5; i++)
   {
     delay(10);
     Serial.println(MySW.elapsed());
   }
 
-  switch(MySW.state())
+  switch (MySW.state())
   {
     case StopWatch::RESET:
       Serial.println("reset");  //  e.g. disable stop/reset
       break;
     case StopWatch::RUNNING:
-      Serial.println("running"); //  display laptime
+      Serial.println("running"); //  display lap time
       break;
     case StopWatch::STOPPED:
-      Serial.println("stopped"); //  display finaltime
+      Serial.println("stopped"); //  display final time
       break;
     default:
       Serial.println("unknown");
@@ -87,7 +87,7 @@ void loop()
   }
 
   delay(3000);
-  Serial.print(" >>>  laptime loop() : ");
+  Serial.print(" >>>  lap time loop() : ");
   Serial.println(SWarray[0].elapsed());
 }
 

@@ -60,6 +60,7 @@ This means minutes and seconds will overflow also after about 49 days.
 - **void stop()** stop counting
 - **uint32_t elapsed()** returns the time in chosen units since last **start()**
 - **void reset()** resets the counting to 0.
+- **void restart()** resets the stopwatch to 0 and starts counting immediately.
 - **char getUnits()** returns u, s, m , M. 
 
 
@@ -71,7 +72,9 @@ This means minutes and seconds will overflow also after about 49 days.
 - **enum state()** returns RESET, RUNNING or STOPPED.
 - **void setResolution(Resolution resolution)** changes the resolution of the stopwatch and resets it. 
 Even when called with the current resolution a reset will take place. 
+- **enum getResolution()** returns MICROS, MILLIS, SECONDS or MINUTES.
 - **enum resolution()** returns MICROS, MILLIS, SECONDS or MINUTES.
+Will be obsolete in future.
 
 
 ### Printable
@@ -111,10 +114,10 @@ See examples
 
 #### Should
 
-- 0.4.0: create getters and setters for the calibration constants so they can 
+- 0.4.x: create getters and setters for the calibration constants so they can 
 changed runtime under program control. 
   - Must it be float + round() or uint32_t ?  ==> uint32_t is used now.
-- 0.4.0: **resolution()** ==> **getResolution()**
+- 0.4.x: **resolution()** ==> **getResolution()**
 
 #### Could
 

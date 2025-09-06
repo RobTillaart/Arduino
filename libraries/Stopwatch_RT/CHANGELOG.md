@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-09-06
+- add **restart()**, kudos to gwnpeter
+- add **getResolution()** to replace **resolution()** in the future.
+- update keywords.txt
+- minor edits
+
+----
+
 ## [0.3.6] - 2025-09-04
 - update GitHub actions
 - minor edits

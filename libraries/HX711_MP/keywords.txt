@@ -40,6 +40,12 @@ getCalibrateWeight	KEYWORD2
 
 power_down	KEYWORD2
 power_up	KEYWORD2
+
+set_rate_pin	KEYWORD2
+set_rate_10SPS	KEYWORD2
+set_rate_80SPS	KEYWORD2
+get_rate	KEYWORD2
+
 last_read	KEYWORD2
 
 

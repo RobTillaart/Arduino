@@ -17,6 +17,8 @@ Has a multipoint calibration (MP) to compensate for non-linear sensor readings.
 
 ## Description
 
+**Experimental**
+
 This https://github.com/RobTillaart/HX711_MP library is derived from https://github.com/RobTillaart/HX711
 version 0.3.5. Although related and partly similar interface there are not compatible.
 
@@ -34,7 +36,6 @@ interpolate beyond the calibration data points.**
 If problems occur or there are questions, please open an issue at GitHub.
 
 
-
 ### 10 or 80 SPS
 
 The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
@@ -44,9 +45,7 @@ Connecting **RATE** to GND (LOW) gives 10 SPS.
 All breakout boards I tested have **RATE** connected to GND and offer no
 pin to control this from the outside.
 
-This library does not provide means to control the **RATE** yet.
-If there is a need (issue) I will implement this in the library.
-For now one can add an IOpin for this and use **digitalWrite()**.
+This library provide experimental means to control the **RATE**, see below.
 
 If you need more SPS you could consider using the HX71708 device.
 This is a close "relative" of the HX711 that allows to set the SPS to 
@@ -255,6 +254,22 @@ It should reset the HX711 to defaults but this is not always seen.
 See discussion issue #27 GitHub. Needs more testing.
 
 
+### Rate
+
+**Experimental**
+
+See section "10 or 80 SPS" above.
+
+Note this only works if the **RATE** pin is exposed and connected to
+the IO pin configured in set_rate_pin().
+If not configured the other functions won't work.
+
+- **void set_rate_pin(uint8_t pin)** sets the IO pin for SPS selection.
+- **void set_rate_10SPS()** sets rate to 10 SPS.
+- **void set_rate_80SPS()** sets rate to 80 SPS.
+- **uint8_t get_rate()** returns 10 d(default) or 80.
+
+
 ## Notes
 
 
@@ -307,6 +322,7 @@ Points from HX711 are not repeated here
 - add performance figures
 - Calibration
   - Returns 0 is index is out of range ==> NaN ?
+- add rate example
 
 #### Could
 

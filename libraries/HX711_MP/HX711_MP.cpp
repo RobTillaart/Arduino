@@ -1,7 +1,7 @@
 //
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -393,6 +393,35 @@ void HX711_MP::power_down()
 void HX711_MP::power_up()
 {
   digitalWrite(_clockPin, LOW);
+}
+
+
+///////////////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//  RATE PIN - works only if rate pin is exposed.
+//
+void HX711_MP::set_rate_pin(uint8_t pin)
+{
+  pinMode(_ratePin, OUTPUT);
+  set_rate_10SPS();
+}
+
+void HX711_MP::set_rate_10SPS()
+{
+  _rate = 10;
+  digitalWrite(_ratePin, LOW);
+}
+
+void HX711_MP::set_rate_80SPS()
+{
+  _rate = 80;
+  digitalWrite(_ratePin, HIGH);
+}
+
+uint8_t HX711_MP::get_rate()
+{
+  return _rate;
 }
 
 

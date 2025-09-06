@@ -6,7 +6,8 @@ I2CKeyPad8x8	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
-isConnected()	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 getKey	KEYWORD2
 getLastKey	KEYWORD2

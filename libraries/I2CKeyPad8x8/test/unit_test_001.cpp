@@ -104,4 +104,4 @@ unittest(test_debounce_threshold)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

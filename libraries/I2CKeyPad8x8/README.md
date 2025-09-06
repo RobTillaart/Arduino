@@ -22,6 +22,7 @@ The I2CKeyPad8x8 library implements the reading of a 8x8 keypad by means
 of a PCF8575. Smaller keypads, meaning less columns or rows (e.g. 5x4) 
 can be read with it too.
 
+
 ### Breaking change
 
 Since 0.3.0 the library can set a debounce threshold. 
@@ -31,7 +32,7 @@ can return **I2C_KEYPAD_THRESHOLD** (255).
 
 ### Related
 
-Relates strongly to https://github.com/RobTillaart/I2CKeyPad. which is 
+Relates strongly to https://github.com/RobTillaart/I2CKeyPad which is 
 an 4x4 version using **PCF8574**.
 
 - https://github.com/RobTillaart/PCF8575
@@ -99,15 +100,17 @@ too if they are behind the multiplexer.
 #include "I2CKeyPad8x8.h"
 ```
 
-### Base
+### Constructor
 
 - **I2CKeyPad8x8(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** 
 The constructor sets the device address and optionally 
 allows to selects the I2C bus to use.
 - **bool begin()** The return value shows if the PCF8575 with the given 
-address is connected properly. 
+device address is connected properly. 
 Call wire.begin() first!
 - **bool isConnected()** returns false if the PCF8575 cannot be connected to.
+- **bool isConnected()** returns false if the device address of the PCF8574 cannot be seen on the I2C bus.
+- **uint8_t getAddress()** returns the set device address.
 
 
 ### getKey
@@ -246,7 +249,7 @@ Warning: this idea is not confirmed to work yet, feedback is welcome.
 
 - test extensively
   - interrupts
-  - keymapping
+  - key-mapping
   - performance
 - improve error handling
   - **I2C_KEYPAD_ERR_MODE**
@@ -261,7 +264,6 @@ Warning: this idea is not confirmed to work yet, feedback is welcome.
   - checking length of keymap during load.
   - default ASCII map (32..96?)
   - in PROGMEM?
-- add **uint8_t getAddress()**
 
 #### Wont
 

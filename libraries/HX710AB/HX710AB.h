@@ -2,7 +2,7 @@
 //
 //    FILE: HX710AB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for the HX710A and HX710B 24-Bit ADC.
 //    DATE: 2024-11-08
 //     URL: https://github.com/RobTillaart/HX710AB
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define HX710AB_LIB_VERSION              (F("0.2.1"))
+#define HX710AB_LIB_VERSION              (F("0.2.2"))
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -81,6 +81,7 @@ public:
   {
     return _value;
   }
+
 
   ////////////////////////////////////////////////////
   //

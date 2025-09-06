@@ -37,6 +37,9 @@ especially zero's might be an indication that something is wrong.
 The HX710 is closely related to the HX711 which has more features.
 These are not 1-to-1 replaceable devices.
 
+If problems occur or there are questions, please open an issue at GitHub.
+
+
 ### Breaking changes 0.2.0
 
 Some functions have been renamed to bring the API in line with the HX711 library.
@@ -146,9 +149,9 @@ to be stored e.g. in EEPROM for a next time e.g. after reboot.
 calculates the scale and offset from the two measurements.
 returns false if (raw1 == raw2) or (out1 == out2) as then scale and/or
 offset can not be calculated.
-- **int32_t get_offset()** returns offset from the formula to store for next time.
+- **float get_offset()** returns offset from the formula to store for next time.
 - **float get_scale()** returns scale from the formula to store for next time.
-- **void set_offset(uint32_t offset)** set offset in the formula (e.g. from EEPROM)
+- **void set_offset(float offset)** set offset in the formula (e.g. from EEPROM)
 - **bool set_scale(float scale)** set scale in the formula (e.g. from EEPROM)
 Returns false if scale is set to zero as this would make all measurements zero.
 

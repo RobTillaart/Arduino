@@ -117,7 +117,7 @@ unittest(test_debounce_threshold)
 }
 
 
-// Issues with Wire - to be investigated...
+//  Issues with Wire - to be investigated...
 //
 // unittest(test_read)
 // {
@@ -134,4 +134,6 @@ unittest(test_debounce_threshold)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

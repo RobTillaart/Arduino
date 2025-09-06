@@ -23,8 +23,8 @@ Since 0.3.2 the library allows a 5x3, 6x2 or 8x1 or smaller keypad to be connect
 
 ### Breaking change
 
-Since 0.5.0 the library can set a debounce threshold. 
-If this is set (> 0) the **getKey()** and **getChar()** functions 
+Since 0.5.0 the library can set a debounce threshold.
+If this is set (> 0) the **getKey()** and **getChar()** functions
 can return **I2C_KEYPAD_THRESHOLD** (255).
 
 
@@ -34,7 +34,7 @@ Relates strongly to https://github.com/RobTillaart/I2CKeyPad8x8. which is an 8x8
 
 - https://github.com/RobTillaart/PCF8574
 - https://github.com/RobTillaart/AnalogKeypad
-- https://github.com/RobTillaart/I2CKeyPad4x4
+- https://github.com/RobTillaart/I2CKeyPad
 - https://github.com/RobTillaart/I2CKeyPad8x8
 - https://github.com/WK-Software56/AdvKeyPad (derived work with keyboard alike interface)
 
@@ -42,7 +42,7 @@ Relates strongly to https://github.com/RobTillaart/I2CKeyPad8x8. which is an 8x8
 ## Connection
 
 The PCF8574 is connected between the processor and the (default) 4x4 keypad.
-See the conceptual schema below. 
+See the conceptual schema below.
 It might take some trying to get the correct pins connected.
 
 ```
@@ -57,7 +57,7 @@ It might take some trying to get the correct pins connected.
         |        |        |       5 |<-------->| O       |
         |        |        |       6 |<-------->| L       |
         |        |        |       7 |<-------->| S       |
-        +--------+        +---------+          +---------+ 
+        +--------+        +---------+          +---------+
 ```
 
 
@@ -100,22 +100,35 @@ too if they are behind the multiplexer.
 #include "I2CKeyPad.h"
 ```
 
-### Base
+### Constructor
 
-- **I2CKeyPad(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** 
-The constructor sets the device address and optionally 
+- **I2CKeyPad(const uint8_t deviceAddress, TwoWire \*wire = &Wire)**
+The constructor sets the device address and optionally
 allows to selects the I2C bus to use.
-- **bool begin()** The return value shows if the PCF8574 with the given address is connected properly.
+- **bool begin()** The return value shows if the PCF8574 with the given device address is connected properly.
 Call wire.begin() first!
-- **bool isConnected()** returns false if the PCF8574 cannot be connected to.
-- **uint8_t getKey()** Returns default 0..15 for regular keys, 
+- **bool isConnected()** returns false if the device address of the PCF8574 cannot be seen on the I2C bus.
+- **uint8_t getAddress()** returns the set device address.
+
+
+### getKey
+
+- **uint8_t getKey()** Returns default 0..15 for regular keys,
 Returns **I2C_KEYPAD_NOKEY** (16) if no key is pressed and **I2C_KEYPAD_FAIL**
 (17) in case of an error, e.g. multiple keys pressed.
 If a debounce delay is set, it might return **I2C_KEYPAD_THRESHOLD** if called too fast.
-- **uint8_t getLastKey()** Returns the last **valid** key pressed 0..15, 
+- **uint8_t getLastKey()** Returns the last **valid** key pressed 0..15,
 or **I2C_KEYPAD_NOKEY** (16) which is also the initial value.
-- **bool isPressed()** Returns true if one or more keys of the keyPad are pressed, 
+- **bool isPressed()** Returns true if one or more keys of the keyPad are pressed,
 however there is no check if multiple keys are pressed.
+
+
+|  getKey()  |  HEX code    |  Meaning               |  Notes  |
+|:----------:|:------------:|:-----------------------|:--------|
+|  0..15     |  0x00..0x0F  |  valid key pressed     |
+|  16        |  0x10        |  I2C_KEYPAD_NOKEY      |
+|  17        |  0x11        |  I2C_KEYPAD_FAIL       |  multi key or I2C communication error.
+|  255       |  0xFF        |  I2C_KEYPAD_THRESHOLD  |
 
 
 ### Mode functions
@@ -123,7 +136,7 @@ however there is no check if multiple keys are pressed.
 **Experimental**
 
 - **void setKeyPadMode(uint8_t mode = I2C_KEYPAD_4x4)** sets the mode, default 4x4.
-This mode can also be used for 4x3 or 4x2 or 3x3 etc. 
+This mode can also be used for 4x3 or 4x2 or 3x3 etc.
 Invalid values for mode are mapped to 4x4.
 - **uint8_t getKeyPadMode()** returns the current mode.
 
@@ -149,12 +162,12 @@ It returns **I2C_KEYPAD_THRESHOLD** if called too fast.
 - **char getLastChar()** returns the last char pressed.
 This function is not affected by the debounce threshold.
 - **bool loadKeyMap(char \* keyMap)** keyMap should point to a (global) char array of length 19.
-This array maps index 0..15 on a char and index \[16\] maps to **I2CKEYPAD_NOKEY** (typical 'N') 
+This array maps index 0..15 on a char and index \[16\] maps to **I2CKEYPAD_NOKEY** (typical 'N')
 and index \[17\] maps **I2CKEYPAD_FAIL** (typical 'F'). index 18 is the null char.
 
 **WARNING**
 
-If there is no key map loaded the user should **NOT** call **getChar()** or 
+If there is no key map loaded the user should **NOT** call **getChar()** or
 **getLastChar()** as these would return meaningless bytes.
 
 
@@ -183,7 +196,7 @@ Since version 0.5.0, the library implements an experimental debounce threshold
 which is non-blocking.
 
 If a key bounces, it can trigger multiple interrupts, while the purpose is to
-act like only one keypress. The debounce threshold results in a fast return 
+act like only one keypress. The debounce threshold results in a fast return
 of **getKey()** (with **I2C_KEYPAD_THRESHOLD**) if called too fast.
 
 The default value of the debounce threshold is zero to be backwards compatible.
@@ -210,7 +223,7 @@ Feedback welcome!
 
 ### Basic working
 
-After the **keypad.begin()** the sketch calls the **keyPad.getKey()** to read values from the keypad. 
+After the **keypad.begin()** the sketch calls the **keyPad.getKey()** to read values from the keypad.
 - If no key is pressed **I2C_KEYPAD_NOKEY** code (16) is returned.
 - If the read value is not valid, e.g. two keys pressed, **I2C_KEYPAD_FAIL** code (17) is returned.
 - If a debounce threshold is set, **I2C_KEYPAD_THRESHOLD** might be returned.
@@ -225,7 +238,7 @@ Only if a key map is loaded, the user can call **getChar()** and **getLastChar()
 
 ## Interrupts
 
-The library enables the PCF8574 to generate interrupts on the PCF8574 when a key is pressed. 
+The library enables the PCF8574 to generate interrupts on the PCF8574 when a key is pressed.
 This makes checking the keypad far more efficient as one does not need to poll the device over I2C.
 See examples.
 
@@ -241,12 +254,15 @@ See examples.
 - test extensively
   - basic working (OK)
   - interrupts
-  - keymapping
+  - key-mapping
   - performance
 - improve error handling?
   - **I2C_KEYPAD_ERR_MODE**
 
 #### Could
+
+- derived classes per X.Y keyPad?
+
 
 #### Wont
 

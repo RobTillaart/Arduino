@@ -35,6 +35,12 @@ bool I2CKeyPad::isConnected()
 }
 
 
+uint8_t I2CKeyPad::getAddress()
+{
+  return _address;
+}
+
+
 uint8_t I2CKeyPad::getKey()
 {
   uint32_t now = millis();

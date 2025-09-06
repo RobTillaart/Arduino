@@ -51,7 +51,7 @@ const uint8_t KEYPAD_ADDRESS = 0x20;
 I2CKeyPad keyPad(KEYPAD_ADDRESS);
 char keys[] = "123A456B789C*0#DNF";  //  N = NoKey, F = Fail (e.g. > 1 keys pressed)
 
-// volatile for IRQ var
+//  volatile for IRQ variable
 volatile bool keyChange = false;
 
 
@@ -64,7 +64,11 @@ void keyChanged()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("I2C_KEYPAD_LIB_VERSION: ");
+  Serial.println(I2C_KEYPAD_LIB_VERSION);
+  Serial.println();
 
 
   //  NOTE: PCF8574 will generate an interrupt on key press and release.
@@ -74,6 +78,7 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
+
   if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");

@@ -25,10 +25,15 @@ uint32_t value = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("I2C_KEYPAD_LIB_VERSION: ");
+  Serial.println(I2C_KEYPAD_LIB_VERSION);
+  Serial.println();
 
   Wire1.begin(22, 23);  //  adjust pins if needed
   Wire1.setClock(400000);
+
   if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");

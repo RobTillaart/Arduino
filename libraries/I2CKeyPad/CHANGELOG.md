@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2025-09-05
+- fix #27, update readme.md
+- update GitHub actions
+- add getAddress() convenience function
+- fix keywords.txt
+- fix potential bug **I2CKeypad_interrupts_1**
+- minor edits
+
 ## [0.5.0] - 2024-07-14
 - Fix #21, add section to readme.md
 - Fix #22, implement **debounceThreshold**

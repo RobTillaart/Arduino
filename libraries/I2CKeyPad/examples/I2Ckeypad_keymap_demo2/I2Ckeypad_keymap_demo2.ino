@@ -19,7 +19,7 @@ const uint8_t KEYPAD_ADDRESS = 0x38;
 I2CKeyPad keyPad(KEYPAD_ADDRESS);
 
 
-// two different lay out styles of a nummeric keyPad
+//  two different lay out styles of a numeric keyPad
 char phone_layout[19]      = "123A456B789C*0#DNF";  //  N = NoKey, F = Fail
 char calculator_layout[19] = "789A456B123C*0#DNF";  //  N = NoKey, F = Fail
 
@@ -27,10 +27,15 @@ char calculator_layout[19] = "789A456B123C*0#DNF";  //  N = NoKey, F = Fail
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("I2C_KEYPAD_LIB_VERSION: ");
+  Serial.println(I2C_KEYPAD_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(400000);
+
   if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");

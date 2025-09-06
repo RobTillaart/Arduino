@@ -24,10 +24,15 @@ I2CKeyPad keyPad(KEYPAD_ADDRESS);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("I2C_KEYPAD_LIB_VERSION: ");
+  Serial.println(I2C_KEYPAD_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(400000);
+
   if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");
@@ -78,12 +83,12 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
   uint8_t bufferIndex = 0;
   uint32_t start = millis();
 
-  // empty buffer
+  //  empty buffer
   buffer[bufferIndex] = 0;
 
   while (true)
   {
-    // while no key is pressed wait
+    //  while no key is pressed wait
     while (keymap[keyPad.getKey()] == 'N')
     {
       delay(1);
@@ -91,22 +96,22 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
       if (millis() - start > timeout) return -2;
     }
 
-    // get the key pressed
+    //  get the key pressed
     uint8_t raw = keyPad.getLastKey();
 
-    // process key pressed
+    //  process key pressed
     uint8_t key = keymap[raw];
 
-    // handle end conditions
+    //  handle end conditions
     if ( key == until) return 0;
     if ( key == 'F') return -1;    //  failed to read;
     if (bufferIndex == length) return -3;
 
-    // add key to buffer
+    //  add key to buffer
     buffer[bufferIndex++] = key;
     buffer[bufferIndex] = 0;
 
-    // while key is pressed wait
+    //  while key is pressed wait
     while (keymap[keyPad.getKey()] == key)
     {
       yield();

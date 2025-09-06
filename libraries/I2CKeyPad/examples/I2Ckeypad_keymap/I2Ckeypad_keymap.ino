@@ -17,16 +17,21 @@ const uint8_t KEYPAD_ADDRESS = 0x38;
 
 I2CKeyPad keyPad(KEYPAD_ADDRESS);
 
-char keymap[19] = "123A456B789C*0#DNF";  // N = NoKey, F = Fail
+char keymap[19] = "123A456B789C*0#DNF";  //  N = NoKey, F = Fail
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("I2C_KEYPAD_LIB_VERSION: ");
+  Serial.println(I2C_KEYPAD_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(400000);
+
   if (keyPad.begin() == false)
   {
     Serial.println("\nERROR: cannot communicate to keypad.\nPlease reboot.\n");
@@ -41,7 +46,7 @@ void loop()
 {
   if (keyPad.isPressed())
   {
-    char ch = keyPad.getChar();     // note we want the translated char
+    char ch = keyPad.getChar();     //  note we want the translated char
     int key = keyPad.getLastKey();
     Serial.print(key);
     Serial.print(" \t");
@@ -51,5 +56,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

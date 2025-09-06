@@ -5,16 +5,16 @@
 //     URL: https://github.com/RobTillaart/DHTINT
 
 // 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
 DHTINT kitchen(4);
 DHTINT living(5);
@@ -25,16 +25,16 @@ DHTINT ar[3] = { kitchen, living, outside };
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("dhtint_array.ino");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("DHTINT_LIB_VERSION: ");
   Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
   for (int idx = 0; idx < 3; idx++)
   {
@@ -55,7 +55,7 @@ void loop()
 
 void test(int idx)
 {
-  // READ DATA
+  //  READ DATA
   uint32_t start = micros();
   int chk = ar[idx].read();
   uint32_t stop = micros();
@@ -99,7 +99,7 @@ void test(int idx)
       break;
   }
 
-  // DISPLAY DATA
+  //  DISPLAY DATA
   Serial.print(ar[idx].getHumidity());
   Serial.print(",\t");
   Serial.print(ar[idx].getTemperature());
@@ -112,4 +112,4 @@ void test(int idx)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

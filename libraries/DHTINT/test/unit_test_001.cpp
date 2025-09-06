@@ -58,8 +58,8 @@ unittest(test_constructor)
 {
   DHTINT dht(4);
 
-  // verify default flags
-  // assertEqual(0, dht.getType());     // calls read which blocks.
+  //  verify default flags
+  //  assertEqual(0, dht.getType());     // calls read which blocks.
   assertEqual(0, dht.getHumOffset());
   assertEqual(0, dht.getTempOffset());
   #if defined(__AVR__)
@@ -140,4 +140,5 @@ unittest(test_read)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

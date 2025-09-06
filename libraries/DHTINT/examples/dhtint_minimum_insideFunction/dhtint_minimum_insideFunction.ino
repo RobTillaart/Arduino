@@ -4,26 +4,28 @@
 // PURPOSE: DHTINT library test sketch
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION  
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
 uint64_t previousMillis;
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DHTINT_LIB_VERSION: ");
+  Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 }
 
@@ -32,8 +34,8 @@ void DHTt(uint8_t pin)
 {
   DHTINT mySensor(pin);
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
   if (millis() - mySensor.lastRead() > 2000)
   {
@@ -48,10 +50,10 @@ void DHTt(uint8_t pin)
 
 void loop()
 {
-  // call function...
+  //  call function...
   DHTt(2);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

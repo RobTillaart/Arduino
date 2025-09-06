@@ -4,38 +4,40 @@
 // PURPOSE: DHTINT library debug sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
-DHTINT mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTINT mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 
 void setup()
 {
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("dhtint_debug.ino");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("DHTINT_LIB_VERSION: ");
   Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 }
 
 
 void loop()
 {
   delay(2000);
-  mySensor.read();    // put print statements in core lib (see read())
+  mySensor.read();    //  put print statements in core lib (see read())
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -13,23 +13,23 @@
 // pin 4 : GND
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
-DHTINT mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTINT mySensor(5);      //  ESP 16    UNO 5    MKR1010 5
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("dhtint_test.ino");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("DHTINT_LIB_VERSION: ");
   Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010
+  //  mySensor.setDisableIRQ(false);
 
   Serial.println("\n1. Type detection test, first run might take longer to determine type");
   Serial.println("STAT\tHUMI\tTEMP\tTIME\tTYPE");
@@ -86,7 +86,7 @@ void loop()
 
 void test()
 {
-  // READ DATA
+  //  READ DATA
   uint32_t start = micros();
   int chk = mySensor.read();
   uint32_t stop = micros();
@@ -127,7 +127,7 @@ void test()
       break;
   }
 
-  // DISPLAY DATA
+  //  DISPLAY DATA
   Serial.print(mySensor.getHumidity(), 1);
   Serial.print(",\t");
   Serial.print(mySensor.getTemperature(), 1);
@@ -140,5 +140,5 @@ void test()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -1,4 +1,4 @@
-# Change Log DHTINT
+# Change Log DHTI-T
 
 All notable changes to this project will be documented in this file.
 
@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2025-09-05
+- update GitHub actions
+- update keywords.txt
+- update readme.md
+- minor edits
+
 ## [0.1.4] - 2023-10-25
 - update readme.md
 - fix version in .cpp
 - minor edits
-
 
 ## [0.1.3] - 2022-11-02
 - add changelog.md

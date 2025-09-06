@@ -4,46 +4,46 @@
 // PURPOSE: DHTINT library test sketch
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-// run sketch without connected sensor to see effect
+//  run sketch without connected sensor to see effect
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
-DHTINT mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTINT mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 uint32_t count = 0;
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("dhtint_suppressError");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("DHTINT_LIB_VERSION: ");
   Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
-  // test flag working => prints 010
+  //  test flag working => prints 010
   Serial.print(mySensor.getSuppressError());
   mySensor.setSuppressError(true);
   Serial.print(mySensor.getSuppressError());
   mySensor.setSuppressError(false);
   Serial.print(mySensor.getSuppressError());
 
-  // change to false to see difference
+  //  change to false to see difference
   mySensor.setSuppressError(true);
   Serial.println();
 }
@@ -66,5 +66,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -4,13 +4,13 @@
 // PURPOSE: DHTINTlibrary pulse measurement tool - diagnostics
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
 #include "Arduino.h"
@@ -28,13 +28,15 @@ uint8_t   idx = 0;
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("dhtint_pulse_diag.ino");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("DHTINT_LIB_VERSION: ");
+  //  Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // default should be HIGH
+  //  default should be HIGH
   pinMode(_dataPin, OUTPUT);
   digitalWrite(_dataPin, HIGH);
 }
@@ -104,61 +106,61 @@ void dump()
 void measure()
 {
   count++;
-  // yield(); // handle pending interrupts
+  //  yield(); // handle pending interrupts
 
-  // reset measurements table
+  //  reset measurements table
   idx = 0;
   t = micros();
   for (int i = 0; i < 100; i++) times[i] = 0;
 
   times[idx++] = micros();
-  // REQUEST SAMPLE - SEND WAKEUP TO SENSOR
+  //  REQUEST SAMPLE - SEND WAKEUP TO SENSOR
   pinMode(_dataPin, OUTPUT);
   digitalWrite(_dataPin, LOW);
-  // add 10% extra for timing inaccuracies in sensor.
+  //  add 10% extra for timing inaccuracies in sensor.
   delayMicroseconds(_wakeupDelay * 1100UL);
 
   Serial.print("awake ");
 
   times[idx++] = micros();
-  // HOST GIVES CONTROL TO SENSOR
+  //  HOST GIVES CONTROL TO SENSOR
   pinMode(_dataPin, INPUT_PULLUP);
 
-  // DISABLE INTERRUPTS when clock in the bits
-  // noInterrupts();      // gives problems on AVR
+  //  DISABLE INTERRUPTS when clock in the bits
+  //  noInterrupts();      // gives problems on AVR
 
 
   times[idx++] = micros();
-  // SENSOR PULLS LOW after 20-40 us  => if stays HIGH ==> device not ready
+  //  SENSOR PULLS LOW after 20-40 us  => if stays HIGH ==> device not ready
   while (digitalRead(_dataPin) == HIGH);
 
   Serial.print("2 ");
 
   times[idx++] = micros();
-  // SENSOR STAYS LOW for ~80 us => or TIMEOUT
+  //  SENSOR STAYS LOW for ~80 us => or TIMEOUT
   while (digitalRead(_dataPin) == LOW);
 
   Serial.print("3 ");
 
 
   times[idx++] = micros();
-  // SENSOR STAYS HIGH for ~80 us => or TIMEOUT
+  //  SENSOR STAYS HIGH for ~80 us => or TIMEOUT
   while (digitalRead(_dataPin) == HIGH);
   times[idx++] = micros();
 
   Serial.print("4 ");
 
 
-  // SENSOR HAS NOW SEND ACKNOWLEDGE ON WAKEUP
-  // NOW IT SENDS THE BITS
+  //  SENSOR HAS NOW SEND ACKNOWLEDGE ON WAKEUP
+  //  NOW IT SENDS THE BITS
 
-  // READ THE OUTPUT - 40 BITS => 5 BYTES
+  //  READ THE OUTPUT - 40 BITS => 5 BYTES
   uint32_t start = micros();
   uint8_t i = 40;
   for (i = 40; i != 0; i--)
   {
     times[idx++] = micros();
-    // EACH BIT START WITH ~50 us LOW
+    //  EACH BIT START WITH ~50 us LOW
     while (digitalRead(_dataPin) == LOW)
     {
       if (micros() - start > 10000)
@@ -171,9 +173,9 @@ void measure()
     }
 
     times[idx++] = micros();
-    // DURATION OF HIGH DETERMINES 0 or 1
-    // 26-28 us ==> 0
-    //    70 us ==> 1
+    //  DURATION OF HIGH DETERMINES 0 or 1
+    //  26-28 us ==> 0
+    //     70 us ==> 1
     while (digitalRead(_dataPin) == HIGH)
     {
       if (micros() - start > 10000)
@@ -187,8 +189,8 @@ void measure()
   Serial.print("5 ");
 
   times[idx++] = micros();
-  // After 40 bits the sensor pulls the line LOW for 50 us
-  // TODO: should we wait?
+  //  After 40 bits the sensor pulls the line LOW for 50 us
+  //  TODO: should we wait?
   while (digitalRead(_dataPin) == LOW);
 
   Serial.print("6 ");
@@ -206,4 +208,4 @@ void measure()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

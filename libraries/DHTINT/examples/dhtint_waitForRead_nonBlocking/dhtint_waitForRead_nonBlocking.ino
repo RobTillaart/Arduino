@@ -4,33 +4,32 @@
 // PURPOSE: DHTINT non-blocking wait for read example sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
-DHTINT mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTINT mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("\n");
-  Serial.println("dhtint_waitForRead_nonBlocking.ino");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("DHTINT_LIB_VERSION: ");
   Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
   Serial.println("This example shows how you can use the output of the read() function to implement non-blocking waiting for read.");
   Serial.println("In this example, Arduino continuously polls the read() function and returns fresh data (or an error) only when the read delay is over.");
@@ -42,7 +41,7 @@ void setup()
 
 void loop()
 {
-  // READ DATA
+  //  READ DATA
   uint32_t start = micros();
   int chk = mySensor.read();
   uint32_t stop = micros();
@@ -81,7 +80,7 @@ void loop()
         break;
     }
 
-    // DISPLAY DATA
+    //  DISPLAY DATA
     Serial.print(mySensor.getHumidity(), 1);
     Serial.print(",\t");
     Serial.print(mySensor.getTemperature(), 1);
@@ -92,10 +91,10 @@ void loop()
     Serial.println(mySensor.getType());
   }
 
-  // do some other stuff
+  //  do some other stuff
   delay(100);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

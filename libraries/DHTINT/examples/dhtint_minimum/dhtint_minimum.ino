@@ -4,31 +4,33 @@
 // PURPOSE: DHTINT library test sketch
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PIN layout from left to right
-// =================================
-// FRONT : DESCRIPTION  
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PIN layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION  
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-#include <dhtint.h>
-// #include <dhtnew.h>
+#include "dhtint.h"
+// #include "dhtnew.h"
 
-DHTINT mySensor(5);   // ESP 16    UNO 5    MKR1010 5
+DHTINT mySensor(5);   //  ESP 16    UNO 5    MKR1010 5
 
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DHTINT_LIB_VERSION: ");
+  Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
   Serial.println("BEFORE OFFSET");
   mySensor.read();
@@ -55,4 +57,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

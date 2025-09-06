@@ -1,7 +1,7 @@
 //
 //    FILE: dhtint.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 //

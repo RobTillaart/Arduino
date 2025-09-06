@@ -4,16 +4,16 @@
 // PURPOSE: Demonstration example of endless DHT values' reporting in a function
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// DHT PINs' layout from left to right
-// =================================
-// FRONT : DESCRIPTION
-// pin 1 : VCC
-// pin 2 : DATA
-// pin 3 : Not Connected
-// pin 4 : GND
+//  DHT PINs' layout from left to right
+//  =================================
+//  FRONT : DESCRIPTION
+//  pin 1 : VCC
+//  pin 2 : DATA
+//  pin 3 : Not Connected
+//  pin 4 : GND
 
 
-#include <dhtint.h>
+#include "dhtint.h"
 
 uint64_t previousMillis;
 uint32_t count = 0;
@@ -24,16 +24,16 @@ uint32_t errors[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void setup()
 {
-  while(!Serial);        // MKR1010 needs this
-
+  while(!Serial);        //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println("dhtint_endless.ino");
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("DHTINT_LIB_VERSION: ");
   Serial.println(DHTINT_LIB_VERSION);
   Serial.println();
 
-  // MKR1010 needs this
-  // mySensor.setDisableIRQ(false);
+  //  MKR1010 needs this
+  //  mySensor.setDisableIRQ(false);
 
 }
 
@@ -46,7 +46,7 @@ void DHTt(const uint8_t pin)
     DHTINT mySensor(pin);
 
     count++;
-    // show counters for OK and errors.
+    //  show counters for OK and errors.
     if (count % 50 == 0)
     {
       Serial.println();
@@ -119,7 +119,7 @@ void DHTt(const uint8_t pin)
         errors[9]++;
         break;
     }
-    // DISPLAY DATA
+    //  DISPLAY DATA
     Serial.print(mySensor.getHumidity());
     Serial.print(",\t");
     Serial.print(mySensor.getTemperature());
@@ -133,11 +133,11 @@ void DHTt(const uint8_t pin)
 
 void loop()
 {
-  // call function
+  //  call function
   DHTt(2);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 
 

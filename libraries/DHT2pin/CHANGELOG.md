@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2025-09-05
+- update GitHub actions
+- fix default pin status
+- minor edits
+
 ## [0.2.1] - 2023-10-24
 - update readme.md
-
 
 ## [0.2.0] - 2023-01-29
 - add temperature() and humidity() as access function.
@@ -38,7 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.0.3] 
+## [0.0.3]
 - Fix issue #33
 
 ## [0.0.2]

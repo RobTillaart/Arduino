@@ -2,7 +2,7 @@
 //
 //    FILE: dht2pin.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHT2pin
 //          http://arduino.cc/playground/Main/DHTLib
@@ -11,9 +11,10 @@
 #include <Arduino.h>
 
 
-#define DHT2PIN_LIB_VERSION               (F("0.2.1"))
+#define DHT2PIN_LIB_VERSION               (F("0.2.2"))
 
 
+//  note reuse of DHTLIB constants. (Possible conflict!)
 #define DHTLIB_OK                         0
 #define DHTLIB_ERROR_CHECKSUM             -1
 #define DHTLIB_ERROR_TIMEOUT              -2
@@ -40,7 +41,7 @@
 class DHT2pin
 {
 public:
-  DHT2pin(uint8_t rpin, uint8_t wpin);
+  DHT2pin(uint8_t readPin, uint8_t writePin);
 
   void begin();
 
@@ -55,8 +56,8 @@ public:
   float temperature();
 
 private:
-  uint8_t _rpin;
-  uint8_t _wpin;
+  uint8_t _readPin;
+  uint8_t _writePin;
   uint8_t _bits[5];  //  buffer to receive data
   float   _humidity;
   float   _temperature;

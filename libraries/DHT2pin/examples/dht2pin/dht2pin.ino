@@ -8,7 +8,7 @@
 //          http://arduino.cc/playground/Main/DHTLib
 
 
-#include <DHT2pin.h>
+#include "DHT2pin.h"
 
 DHT2pin DHT(2, 3);
 
@@ -33,8 +33,9 @@ void setup()
   DHT.begin();
 
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHT2PIN_LIB_VERSION: ");
   Serial.println(DHT2PIN_LIB_VERSION);
   Serial.println();
   Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)\tTime (us)");
@@ -42,7 +43,7 @@ void setup()
 
 void loop()
 {
-  // READ DATA
+  //  READ DATA
   Serial.print("DHT22, \t");
 
   uint32_t start = micros();
@@ -81,7 +82,8 @@ void loop()
       Serial.print("Unknown error,\t");
       break;
   }
-  // DISPLAY DATA
+
+  //  DISPLAY DATA
   Serial.print(DHT.humidity(), 1);
   Serial.print(",\t");
   Serial.print(DHT.temperature(), 1);
@@ -114,4 +116,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

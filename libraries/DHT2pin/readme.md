@@ -22,17 +22,19 @@ code on a Galileo.
 
 ## Description
 
+**Experimental**
+
 **NOTE: THIS LIB IS NOT TESTED EXTENSIVELY YET SO USE WITH CARE**
 
-This library is an **experimental** version of the DHT library that uses **two** data pins.
+This library is an experimental version of the DHT library that uses **two** data pins.
 One pin for all read actions and one pin for all write actions.
 This way one does not need to switch a pin between **INPUT** and **OUTPUT**.
 
-Note:
+Note:  
 It needs a diode between the input pin of the MCU and the data pin of the DHT sensor.
 The output pin of the MCU is directly connected to the data pin of the DHT sensor.
 
-This library was made after a request which also referred to the links below.
+This library was written after a request which also referred to the links below.
 
 https://web.archive.org/web/20150912065850/https://communities.intel.com/thread/53869
 
@@ -42,18 +44,28 @@ https://web.archive.org/web/20180510215445/http://bigdinotech.com/tutorials/gali
 **NOTE: THIS LIB IS NOT TESTED EXTENSIVELY YET SO USE WITH CARE**
 
 
+### Related
+
+- https://github.com/RobTillaart/DHTLIB
+- https://github.com/RobTillaart/DHTNEW library with most active development.
+- https://github.com/RobTillaart/DHT_Simulator for testing.
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+
+
 ## interface
 
 ```cpp
 #include "DHT2pin.h"
 ```
 
-- **DHT2pin(uint8_t rpin, uint8_t wpin)** constructor.
+- **DHT2pin(uint8_t readPin, uint8_t writePin)** constructor.
 - **void begin()** set pinModes correctly, must be called before read().
-- **int read11()** read a DHT11.
-- **int read()** read a DHT22 and equivalents.
-- **float humidity()** get last humidity read.
-- **float temperature()** get last temperature read.
+- **int read11()** read a DHT11 sensor.
+- **int read()** read a DHT22 sensor or equivalents.
+- **float humidity()** get last humidity read. Multiple calls will return
+the same value until a new read() or read11() is called.
+- **float temperature()** get last temperature read. Multiple calls will return
+the same value until a new read() or read11() is called.
 
 
 ## Operation

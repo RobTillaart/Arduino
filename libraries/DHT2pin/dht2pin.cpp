@@ -1,7 +1,7 @@
 //
 //    FILE: DHT2pin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Experimental DHT _temperature & _humidiy Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHT2pin
 //          http://arduino.cc/playground/Main/DHTLib
@@ -14,10 +14,10 @@
 //
 //  PUBLIC
 //
-DHT2pin::DHT2pin(uint8_t rpin, uint8_t wpin)
+DHT2pin::DHT2pin(uint8_t readPin, uint8_t writePin)
 {
-  _rpin        = rpin;
-  _wpin        = wpin;
+  _readPin     = readPin;
+  _writePin    = writePin;
   _temperature = 0;
   _humidity    = 0;
 };
@@ -25,8 +25,9 @@ DHT2pin::DHT2pin(uint8_t rpin, uint8_t wpin)
 
 void DHT2pin::begin()
 {
-  pinMode(_rpin, INPUT);
-  pinMode(_wpin, OUTPUT);
+  pinMode(_readPin, INPUT);
+  pinMode(_writePin, OUTPUT);
+  digitalWrite(_writePin, HIGH);
 }
 
 
@@ -121,20 +122,20 @@ int DHT2pin::_readSensor(uint8_t wakeupDelay)
   for (uint8_t i = 0; i < 5; i++) _bits[i] = 0;
 
   //  REQUEST SAMPLE
-  digitalWrite(_wpin, LOW);
+  digitalWrite(_writePin, LOW);
   delay(wakeupDelay);
-  digitalWrite(_wpin, HIGH);
+  digitalWrite(_writePin, HIGH);
   delayMicroseconds(40);
 
   //  GET ACKNOWLEDGE or TIMEOUT
   uint16_t loopCnt = DHTLIB_TIMEOUT;
-  while(digitalRead(_rpin) == LOW)
+  while(digitalRead(_readPin) == LOW)
   {
       if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
   }
 
   loopCnt = DHTLIB_TIMEOUT;
-  while(digitalRead(_rpin) == HIGH)
+  while(digitalRead(_readPin) == HIGH)
   {
       if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
   }
@@ -143,7 +144,7 @@ int DHT2pin::_readSensor(uint8_t wakeupDelay)
   for (uint8_t i = 40; i != 0; i--)
   {
     loopCnt = DHTLIB_TIMEOUT;
-    while(digitalRead(_rpin) == LOW)
+    while(digitalRead(_readPin) == LOW)
     {
       if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
     }
@@ -151,7 +152,7 @@ int DHT2pin::_readSensor(uint8_t wakeupDelay)
     uint32_t t = micros();
 
     loopCnt = DHTLIB_TIMEOUT;
-    while(digitalRead(_rpin) == HIGH)
+    while(digitalRead(_readPin) == HIGH)
     {
       if (--loopCnt == 0) return DHTLIB_ERROR_TIMEOUT;
     }
@@ -167,7 +168,7 @@ int DHT2pin::_readSensor(uint8_t wakeupDelay)
       idx++;
     }
   }
-  digitalWrite(_wpin, HIGH);
+  digitalWrite(_writePin, HIGH);
 
   return DHTLIB_OK;
 }

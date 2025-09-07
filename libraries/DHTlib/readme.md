@@ -55,13 +55,12 @@ For latest version for the DHT, check https://github.com/RobTillaart/DHTNEW
 #include "dht.h"
 ```
 
-
-#### Constructor
+### Constructor
 
 - **dht()** Constructor
 
 
-#### Read functions per type
+### Read functions per type
 
 - **int8_t read11(uint8_t pin)**
 - **int8_t read(uint8_t pin)**
@@ -81,7 +80,7 @@ For latest version for the DHT, check https://github.com/RobTillaart/DHTNEW
 - **float temperature** public class variable to access last read temperature.
 
 
-#### Enable / disable interrupts
+### Enable / disable interrupts
 
 - **bool getDisableIRQ()**
 - **void setDisableIRQ(bool b )**

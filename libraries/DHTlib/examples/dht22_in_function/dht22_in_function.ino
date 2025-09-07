@@ -12,14 +12,14 @@
 #define DHTPIN 8
 
 
-void printDHT(const uint8_t pin)   // uint8_t is an 8 bit unsigned integer
+void printDHT(const uint8_t pin)
 {
-  // This command questions a DHT22 on a specific 'pin'.
-  // on success, it prints  "OK;{temperature};{humidity};"
-  // on error,   it prints  "ERR;DHTt;{errorCode};".
+  //  This command questions a DHT22 on a specific 'pin'.
+  //  on success, it prints  "OK;{temperature};{humidity};"
+  //  on error,   it prints  "ERR;DHTt;{errorCode};".
   //
-  //    param 'pin': int
-  //        The pin, where the DHT22 is connected.
+  //     param 'pin': int
+  //         The pin, where the DHT22 is connected.
 
   dht DHT;
 
@@ -62,22 +62,26 @@ void printDHT(const uint8_t pin)   // uint8_t is an 8 bit unsigned integer
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("\n");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("DHT_LIB_VERSION: ");
+  Serial.println(DHT_LIB_VERSION);
+  Serial.println();
 }
 
 
 void loop()
 {
-  static uint32_t lastTime = 0;     // holds its value after every iteration of loop
-  if (millis() - lastTime >= 2000)  // print every 2000 milliseconds
+  static uint32_t lastTime = 0;     //  holds its value after every iteration of loop
+  if (millis() - lastTime >= 2000)  //  print every 2000 milliseconds
   {
     lastTime = millis();
     printDHT(DHTPIN);
   }
 
-  // add your other code here
+  //  add your other code here
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

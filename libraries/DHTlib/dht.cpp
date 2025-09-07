@@ -1,7 +1,7 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.36
+// VERSION: 0.1.37
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino, AVR optimized
 //     URL: https://github.com/RobTillaart/DHTlib
 //          http://arduino.cc/playground/Main/DHTLib

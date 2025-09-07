@@ -23,20 +23,19 @@ uint32_t tempCycle = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("DHT TEST PROGRAM ");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("DHT_LIB_VERSION: ");
   Serial.println(DHT_LIB_VERSION);
   Serial.println();
+
   Serial.println("Type,\tstatus,\t\tHumidity (%),\tTemperatur (C),\tT_Read (us)\tT_Cycle (us)\tT_Delay (us)");
-}
 
-
-void loop()
-{
-  while(del > 0){
-    // READ DATA
+  while (del > 0)
+  {
+    //  READ DATA
     Serial.print("DHT22, \t");
-    
+
     startRead = micros();
     int chk = DHT.read22(DHT22_PIN);
     stopRead = micros();
@@ -67,6 +66,7 @@ void loop()
       Serial.print("Unknown,\t");
       break;
     }
+
     // DISPLAY DATA
     Serial.print(DHT.humidity, 1);
     Serial.print(",\t\t");
@@ -85,9 +85,15 @@ void loop()
 
     delay(del);
   }
-  while(1);
+
+  Serial.println("\nDone...");
 }
 
 
-// --  END OF FILE --
+void loop()
+{
+}
+
+
+//  --  END OF FILE --
 

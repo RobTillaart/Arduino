@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/DHTlib
 
 
-#include <dht.h>
+#include "dht.h"
 
 dht DHT;
 
@@ -27,88 +27,89 @@ struct
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.println("dht22_test.ino");
-    Serial.print("LIBRARY VERSION: ");
-    Serial.println(DHT_LIB_VERSION);
-    Serial.println();
-    Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)\tTime (us)");
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("DHT_LIB_VERSION: ");
+  Serial.println(DHT_LIB_VERSION);
+  Serial.println();
+
+  Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)\tTime (us)");
 }
 
 
 void loop()
 {
-    // READ DATA
-    Serial.print("DHT22, \t");
+  //  READ DATA
+  Serial.print("DHT22, \t");
 
-    uint32_t start = micros();
-    int chk = DHT.read22(DHT22_PIN);
-    uint32_t stop = micros();
+  uint32_t start = micros();
+  int chk = DHT.read22(DHT22_PIN);
+  uint32_t stop = micros();
 
-    stat.total++;
-    switch (chk)
-    {
-    case DHTLIB_OK:
-        stat.ok++;
-        Serial.print("OK,\t");
-        break;
-    case DHTLIB_ERROR_CHECKSUM:
-        stat.crc_error++;
-        Serial.print("Checksum error,\t");
-        break;
-    case DHTLIB_ERROR_TIMEOUT:
-        stat.time_out++;
-        Serial.print("Time out error,\t");
-        break;
-    case DHTLIB_ERROR_CONNECT:
-        stat.connect++;
-        Serial.print("Connect error,\t");
-        break;
-    case DHTLIB_ERROR_ACK_L:
-        stat.ack_l++;
-        Serial.print("Ack Low error,\t");
-        break;
-    case DHTLIB_ERROR_ACK_H:
-        stat.ack_h++;
-        Serial.print("Ack High error,\t");
-        break;
-    default:
-        stat.unknown++;
-        Serial.print("Unknown error,\t");
-        break;
-    }
-    // DISPLAY DATA
-    Serial.print(DHT.humidity, 1);
-    Serial.print(",\t");
-    Serial.print(DHT.temperature, 1);
-    Serial.print(",\t");
-    Serial.print(stop - start);
-    Serial.println();
+  stat.total++;
+  switch (chk)
+  {
+  case DHTLIB_OK:
+      stat.ok++;
+      Serial.print("OK,\t");
+      break;
+  case DHTLIB_ERROR_CHECKSUM:
+      stat.crc_error++;
+      Serial.print("Checksum error,\t");
+      break;
+  case DHTLIB_ERROR_TIMEOUT:
+      stat.time_out++;
+      Serial.print("Time out error,\t");
+      break;
+  case DHTLIB_ERROR_CONNECT:
+      stat.connect++;
+      Serial.print("Connect error,\t");
+      break;
+  case DHTLIB_ERROR_ACK_L:
+      stat.ack_l++;
+      Serial.print("Ack Low error,\t");
+      break;
+  case DHTLIB_ERROR_ACK_H:
+      stat.ack_h++;
+      Serial.print("Ack High error,\t");
+      break;
+  default:
+      stat.unknown++;
+      Serial.print("Unknown error,\t");
+      break;
+  }
 
-    if (stat.total % 20 == 0)
-    {
-        Serial.println("\nTOT\tOK\tCRC\tTO\tCON\tACK_L\tACK_H\tUNK");
-        Serial.print(stat.total);
-        Serial.print("\t");
-        Serial.print(stat.ok);
-        Serial.print("\t");
-        Serial.print(stat.crc_error);
-        Serial.print("\t");
-        Serial.print(stat.time_out);
-        Serial.print("\t");
-        Serial.print(stat.connect);
-        Serial.print("\t");
-        Serial.print(stat.ack_l);
-        Serial.print("\t");
-        Serial.print(stat.ack_h);
-        Serial.print("\t");
-        Serial.print(stat.unknown);
-        Serial.println("\n");
-    }
-    delay(2000);
+  //  DISPLAY DATA
+  Serial.print(DHT.humidity, 1);
+  Serial.print(",\t");
+  Serial.print(DHT.temperature, 1);
+  Serial.print(",\t");
+  Serial.print(stop - start);
+  Serial.println();
+
+  if (stat.total % 20 == 0)
+  {
+    Serial.println("\nTOT\tOK\tCRC\tTO\tCON\tACK_L\tACK_H\tUNK");
+    Serial.print(stat.total);
+    Serial.print("\t");
+    Serial.print(stat.ok);
+    Serial.print("\t");
+    Serial.print(stat.crc_error);
+    Serial.print("\t");
+    Serial.print(stat.time_out);
+    Serial.print("\t");
+    Serial.print(stat.connect);
+    Serial.print("\t");
+    Serial.print(stat.ack_l);
+    Serial.print("\t");
+    Serial.print(stat.ack_h);
+    Serial.print("\t");
+    Serial.print(stat.unknown);
+    Serial.println("\n");
+  }
+  delay(2000);
 }
 
 
-// -- END OF FILE --
-
-
+//  -- END OF FILE --

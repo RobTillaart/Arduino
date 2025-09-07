@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DHTlib.git"
   },
-  "version": "0.1.36",
+  "version": "0.1.37",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

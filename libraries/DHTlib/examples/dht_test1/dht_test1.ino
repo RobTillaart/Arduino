@@ -6,7 +6,7 @@
 //     URL: http://arduino.cc/playground/Main/DHTLib
 
 
-#include <dht.h>
+#include "dht.h"
 
 dht DHT;
 
@@ -18,29 +18,31 @@ dht DHT;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("DHT TEST PROGRAM ");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("DHT_LIB_VERSION: ");
   Serial.println(DHT_LIB_VERSION);
   Serial.println();
+
   Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)");
 }
 
 
 void loop()
 {
-  // READ DATA
+  //  READ DATA
   Serial.print("DHT22, \t");
   int chk = DHT.read22(DHT22_PIN);
   switch (chk)
   {
-    case DHTLIB_OK:  
-    Serial.print("OK,\t"); 
+    case DHTLIB_OK:
+    Serial.print("OK,\t");
     break;
-    case DHTLIB_ERROR_CHECKSUM: 
-    Serial.print("Checksum error,\t"); 
+    case DHTLIB_ERROR_CHECKSUM:
+    Serial.print("Checksum error,\t");
     break;
-    case DHTLIB_ERROR_TIMEOUT: 
-    Serial.print("Time out error,\t"); 
+    case DHTLIB_ERROR_TIMEOUT:
+    Serial.print("Time out error,\t");
     break;
     case DHTLIB_ERROR_CONNECT:
         Serial.print("Connect error,\t");
@@ -51,30 +53,32 @@ void loop()
     case DHTLIB_ERROR_ACK_H:
         Serial.print("Ack High error,\t");
         break;
-    default: 
-    Serial.print("Unknown error,\t"); 
+    default:
+    Serial.print("Unknown error,\t");
     break;
   }
-  // DISPLAY DATA
+
+  //  DISPLAY DATA
   Serial.print(DHT.humidity, 1);
   Serial.print(",\t");
   Serial.println(DHT.temperature, 1);
 
   delay(1000);
 
-    // READ DATA
+
+  //  READ DATA
   Serial.print("DHT21, \t");
   chk = DHT.read21(DHT21_PIN);
   switch (chk)
   {
-    case DHTLIB_OK:  
-    Serial.print("OK,\t"); 
+    case DHTLIB_OK:
+    Serial.print("OK,\t");
     break;
-    case DHTLIB_ERROR_CHECKSUM: 
-    Serial.print("Checksum error,\t"); 
+    case DHTLIB_ERROR_CHECKSUM:
+    Serial.print("Checksum error,\t");
     break;
-    case DHTLIB_ERROR_TIMEOUT: 
-    Serial.print("Time out error,\t"); 
+    case DHTLIB_ERROR_TIMEOUT:
+    Serial.print("Time out error,\t");
     break;
     case DHTLIB_ERROR_CONNECT:
         Serial.print("Connect error,\t");
@@ -85,10 +89,11 @@ void loop()
     case DHTLIB_ERROR_ACK_H:
         Serial.print("Ack High error,\t");
         break;
-    default: 
-    Serial.print("Unknown error,\t"); 
+    default:
+    Serial.print("Unknown error,\t");
     break;
   }
+
   // DISPLAY DATA
   Serial.print(DHT.humidity, 1);
   Serial.print(",\t");
@@ -96,19 +101,20 @@ void loop()
 
   delay(1000);
 
-  // READ DATA
+
+  //  READ DATA
   Serial.print("DHT11, \t");
   chk = DHT.read11(DHT11_PIN);
   switch (chk)
   {
-    case DHTLIB_OK:  
-    Serial.print("OK,\t"); 
+    case DHTLIB_OK:
+    Serial.print("OK,\t");
     break;
-    case DHTLIB_ERROR_CHECKSUM: 
-    Serial.print("Checksum error,\t"); 
+    case DHTLIB_ERROR_CHECKSUM:
+    Serial.print("Checksum error,\t");
     break;
-    case DHTLIB_ERROR_TIMEOUT: 
-    Serial.print("Time out error,\t"); 
+    case DHTLIB_ERROR_TIMEOUT:
+    Serial.print("Time out error,\t");
     break;
     case DHTLIB_ERROR_CONNECT:
         Serial.print("Connect error,\t");
@@ -119,11 +125,12 @@ void loop()
     case DHTLIB_ERROR_ACK_H:
         Serial.print("Ack High error,\t");
         break;
-    default: 
-    Serial.print("Unknown error,\t"); 
+    default:
+    Serial.print("Unknown error,\t");
     break;
   }
- // DISPLAY DATA
+
+  // DISPLAY DATA
   Serial.print(DHT.humidity,1);
   Serial.print(",\t");
   Serial.println(DHT.temperature,1);
@@ -132,4 +139,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

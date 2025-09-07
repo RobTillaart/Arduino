@@ -16,6 +16,8 @@ Arduino library for DS1821 temperature sensor (experimental).
 
 ## Description
 
+**Experimental**
+
 The DS1821 is a temperature sensor that uses the oneWire protocol.
 This library supports one sensor per pin.
 As this library is tested minimally please consider it experimental.
@@ -33,8 +35,13 @@ The interface of the library is an async interface so there are no blocking call
 
 The return value **DS1821_RESET_ERROR == -999** means that the oneWire bus failed to reset.
 
+### Constructor
+
 - **DS1821(OneWire\* ow)** initializes the library with a reference to a oneWire object.  
 See examples.
+
+### Core
+
 - **int requestTemperature()** this call will trigger a conversion of temperature,
 however it does not read the temperature. May return **DS1821_RESET_ERROR**.
 - **int requestContinuous()**
@@ -44,6 +51,8 @@ May return **DS1821_RESET_ERROR**
 - **float readTemperature()** when conversion is ready, one can fetch the temperature.  
 May return **DS1821_RESET_ERROR**
 - **int error()** read the last error.
+
+### Threshold functions
 
 The low / high functions can be used to monitor if a threshold has been exceeded
 between reads of the temperature.
@@ -68,6 +77,8 @@ is exceeded and switches OFF when the low level is reached.
 This prevents too frequent toggling which would happen if only one temperature was used.
 To configure the thermostat mode please check the example.
 
+### Mode
+
 The library provides the following functions for configuring the Thermostat mode
 
 - **int setOneWireMode(uint8_t VDD, uint8_t DQ)** 
@@ -76,6 +87,8 @@ DQ must be the same as oneWire(pin).
 VDD is the voltage controlling pin of the sensor. 
 - **int setThermostatMode()** sets the flag in the config register to start in 
 Thermostat mode next restart.
+
+### Polarity
 
 The polarity functions are also available in temperature sensor mode,
 however they have no effect in that mode.

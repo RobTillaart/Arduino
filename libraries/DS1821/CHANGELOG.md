@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2025-09-07
+- update GitHub actions
+- renamed DS1821_LIB_VERSION
+- minor edits
+
 ## [0.3.6] - 2023-10-25
 - bump version number
 

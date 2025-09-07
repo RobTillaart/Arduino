@@ -30,7 +30,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "DS1821_H_LIB_VERSION: %s\n", (char *) DS1821_H_LIB_VERSION);
+  fprintf(stderr, "DS1821_LIB_VERSION: %s\n", (char *) DS1821_LIB_VERSION);
 }
 
 

@@ -6,16 +6,16 @@
 //     URL: https://github.com/RobTillaart/DS1821
 
 
-// THERMOSTAT CONFIG
-// - be sure to  read datasheet first!
+//  THERMOSTAT CONFIG
+//  - be sure to read datasheet first!
 
 
 #include "DS1821.h"
 
-// change configuration if needed
+//  change configuration if needed
 const int VDD       = 11;
 const int DQ        = 10;
-const int polarity  = 1;    // 1 = HIGH, 0 = LOW;
+const int polarity  = 1;    //  1 = HIGH, 0 = LOW;
 const int lowTemp   = 19;
 const int highTemp  = 21;
 
@@ -27,7 +27,11 @@ DS1821 tt(&ds);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DS1821_LIB_VERSION: ");
+  Serial.println(DS1821_LIB_VERSION);
+  Serial.println();
 
   Serial.println("Set DS1821 in oneWire Mode");
   tt.setOneWireMode(VDD, DQ);
@@ -74,5 +78,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

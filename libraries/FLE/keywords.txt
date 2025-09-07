@@ -7,6 +7,7 @@ FLE	KEYWORD1
 # Methods and Functions (KEYWORD2)
 setDecimals	KEYWORD2
 setSeparator	KEYWORD2
+
 value	KEYWORD2
 error	KEYWORD2
 relError	KEYWORD2

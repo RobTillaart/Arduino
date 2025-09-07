@@ -16,11 +16,13 @@ Arduino library for Arduino library for float with error data type
 
 ## Description
 
-This **experimental** library provides basic math when have a quantity with a certain 
-error margin. E.g. when you approximate PI as 22/7 it is not exact. By doing the 
+**Experimental**
+
+This experimental library provides basic math when have a quantity with a certain
+error margin. E.g. when you approximate PI as 22/7 it is not exact. By doing the
 math with FLE's one can see how much error adds up in an calculation.
 
-Note: This library is experimental and only usable for educational purposes.
+Note: This library is only usable for educational purposes.
 There is no active development.
 
 
@@ -47,30 +49,31 @@ This allows you to print an FLE in human readable form.
 When the ± char does not print correctly, one could change the font.
 
 
-### Functions
+### Constructor
 
 - **FLE(val = 0, err = 0)** constructor, with default value and error set to 0.
-- **PrintTo(Print& p)** printable interface, define a stream to print to.  
+- **PrintTo(Print& p)** printable interface, define a stream to print to.
 Format is "value ± error" see above (plus-minus ± = char(0177))
 - **setDecimals(n)** will print the FLE both value and error with n decimals.
 - **setSeparator(char c)** overrules the standard ± char. (0177)
+
+### Functions
+
 - **value()** returns value part.
 - **error()** return error part.
-- **relError()** returns relative error, except when value == 0. 
+- **relError()** returns relative error, except when value == 0.
 Then the function returns 0. Q: should this be "NaN" ?
 - **high()** returns value + error margin (= max real value).
 - **low()** returns value - error margin (= min real value).
 
 Furthermore the basic math is implemented, "+, -, \*, /, +=, -=, \*=, /="
 
-
-#### Set like functions
+### Set like functions
 
 - **bool in(FLE y)** x.in(y) returns true if x lies completely in y  (range is a subset)
-- **FLE shared(FLE y)** returns the overlapping range. 
+- **FLE shared(FLE y)** returns the overlapping range.
 
-
-#### Weak propositions
+### Weak propositions
 
 Experimental.
 
@@ -81,7 +84,6 @@ Experimental.
 - **bool pgt(FLE &y)** possible greater than.
 - **bool pge(FLE &y)** possible greater equal.
 
-
 ## Operation
 
 - negative numbers not tested yet
@@ -90,6 +92,8 @@ See example
 
 
 ## Future
+
+only on request
 
 #### Must
 
@@ -103,7 +107,7 @@ See example
 - functions log, exp,
 - functions sqr, sqrt, pow
 - functions sin, cos, tan (+ inverse + hyp)
-- test ad infinitum 
+- test ad infinitum
 - option to set the ± char for platforms that cannot print it.
 - test negative numbers
 - test large / small numbers.

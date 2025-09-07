@@ -1,9 +1,7 @@
 //
 //    FILE: fle.demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/FLE
 
 
@@ -23,7 +21,10 @@ FLE y(7, 0.3);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("FLE_LIB_VERSION: ");
+  Serial.println(FLE_LIB_VERSION);
   Serial.println();
 
   test_printable();

@@ -85,7 +85,7 @@ unittest(test_high_low)
   assertEqualFloat(1.9, a.low(), 0.001);
   assertEqualFloat(3.5, b.high(), 0.001);
   assertEqualFloat(2.5, b.low(), 0.001);
-  
+
   FLE c(a.high(), b.low());
   assertEqualFloat(a.high(), c.value(), 0.001);
   assertEqualFloat(b.low(), c.error(), 0.001);
@@ -417,7 +417,7 @@ unittest(test_shared)
   assertEqualFloat(0.90, x.error(), 0.001);
 
   fprintf(stderr, "\nNAN test\n");
-  
+
   FLE d(5, 0.9);
   x = c.shared(d);
   assertNAN(x.value());
@@ -446,4 +446,5 @@ unittest(test_experimental)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

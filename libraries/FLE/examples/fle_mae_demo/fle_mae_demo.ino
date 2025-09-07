@@ -1,9 +1,7 @@
 //
 //    FILE: fle_mae_demo.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo
-//    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/FLE
 
 
@@ -15,10 +13,13 @@ FLE ar[20];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("FLE_LIB_VERSION: ");
+  Serial.println(FLE_LIB_VERSION);
   Serial.println();
 
-  // simulate measurement with errors
+  //  simulate measurement with errors
   for (int i = 0; i < 20; i++)
   {
     ar[i] = FLE(9.0 + random(200) * 0.01, random(100) * 0.001);
@@ -64,14 +65,16 @@ FLE meanError(FLE *, uint8_t len, uint8_t dec)
   for (uint8_t i = 0; i < len; i++)
   {
     a += ar[i].value();
-    // find highest value
+    //  find highest value
     c =  ar[i].value() + ar[i].error();
+
     if (c > h) h = c;
-    // find lowest value
+    //  find lowest value
     c =  ar[i].value() - ar[i].error();
     if (c < l) l = c;
   }
-  // average
+
+  //  average
   a /= len;
 
   // max error
@@ -85,4 +88,4 @@ FLE meanError(FLE *, uint8_t len, uint8_t dec)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

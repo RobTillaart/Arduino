@@ -5,7 +5,6 @@
 //     URL: https://github.com/RobTillaart/DHTstable
 
 
-
 #include "DHTStable.h"
 
 
@@ -19,8 +18,9 @@ DHTStable DHT_B;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHTSTABLE_LIB_VERSION: ");
   Serial.println(DHTSTABLE_LIB_VERSION);
   Serial.println();
 }
@@ -34,7 +34,6 @@ void loop()
   Serial.print(",\t");
   Serial.println(DHT_A.getTemperature());
 
-
   Serial.print("DHT B:\t");
   DHT_B.read11(DHT11_PIN_B);
   Serial.print(DHT_B.getHumidity());
@@ -45,4 +44,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

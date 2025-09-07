@@ -2,14 +2,14 @@
 //
 //    FILE: DHTStable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.1.2
+// VERSION: 1.1.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 
 
 #include "Arduino.h"
 
-#define DHTSTABLE_LIB_VERSION           (F("1.1.2 - DHTStable"))
+#define DHTSTABLE_LIB_VERSION           (F("1.1.3 - DHTStable"))
 
 
 const int DHTLIB_OK              = 0;
@@ -43,15 +43,15 @@ public:
   int read11(uint8_t pin);      //  DHT11 & DHT12
   int read(uint8_t pin);        //  DHT22
 
-  inline int read12(uint8_t pin)   { return read11(pin); };  //  ok
-  inline int read21(uint8_t pin)   { return read(pin); };    //  ok
-  inline int read22(uint8_t pin)   { return read(pin); };    //  ok
-  inline int read33(uint8_t pin)   { return read(pin); };    //  ok
-  inline int read44(uint8_t pin)   { return read(pin); };    //  ok
-  inline int read2301(uint8_t pin) { return read(pin); };    //  ok
-  inline int read2302(uint8_t pin) { return read(pin); };    //  ok
-  inline int read2320(uint8_t pin) { return read(pin); };    //  ok
-  inline int read2322(uint8_t pin) { return read(pin); };    //  ok
+  inline int read12(uint8_t pin)   { return read11(pin); };  //  OK
+  inline int read21(uint8_t pin)   { return read(pin); };    //  OK
+  inline int read22(uint8_t pin)   { return read(pin); };    //  OK
+  inline int read33(uint8_t pin)   { return read(pin); };    //  OK
+  inline int read44(uint8_t pin)   { return read(pin); };    //  OK
+  inline int read2301(uint8_t pin) { return read(pin); };    //  OK
+  inline int read2302(uint8_t pin) { return read(pin); };    //  OK
+  inline int read2320(uint8_t pin) { return read(pin); };    //  OK
+  inline int read2322(uint8_t pin) { return read(pin); };    //  OK
 
   //  read values from cache, call read() to refresh!
   float getHumidity()    { return _humidity; };

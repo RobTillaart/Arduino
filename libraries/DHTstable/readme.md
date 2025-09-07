@@ -46,14 +46,12 @@ It is advised to upgrade to the DHTNEW library if one needs the new functionalit
 #include "DHTStable.h"
 ```
 
-
-
-#### Constructor
+### Constructor
 
 - **dht()** Constructor
 
 
-#### Read functions per type
+### Read functions per type
 
 - **int read11(uint8_t pin)**
 - **int read(uint8_t pin)**
@@ -75,19 +73,17 @@ It is advised to upgrade to the DHTNEW library if one needs the new functionalit
 - **float getTemperature()**
 
 
-#### Enable / disable interrupts
+### Enable / disable interrupts
 
 - **bool getDisableIRQ()**
 - **void setDisableIRQ(bool b )**
-
-
 
 
 ## Operational
 
 See examples.
 
-#### Voltage AM2301 
+### Voltage AM2301 
 
 In a test an AM2301 had problems giving no humidity (99.9% overflow) when this
 DHTStable library was used with an ESP8266. (Reported by mail, no GH issue)
@@ -124,5 +120,4 @@ Improve the quality of the libraries by providing issues and Pull Requests, or
 donate through PayPal or GitHub sponsors.
 
 Thank you,
-
 

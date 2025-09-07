@@ -1,11 +1,9 @@
 //
 //    FILE: DHTStable.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 1.1.2
+// VERSION: 1.1.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
-//
-// HISTORY: see CHANGELOG.md
 
 
 #include "DHTStable.h"
@@ -41,7 +39,7 @@ int DHTStable::read11(uint8_t pin)
   if (_disableIRQ) interrupts();
   if (rv != DHTLIB_OK)
   {
-    _humidity    = DHTLIB_INVALID_VALUE;  //  invalid value, or is NaN prefered?
+    _humidity    = DHTLIB_INVALID_VALUE;  //  invalid value, or is NaN preferred?
     _temperature = DHTLIB_INVALID_VALUE;  //  invalid value
     return rv;
   }

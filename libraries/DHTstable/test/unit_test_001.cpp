@@ -61,7 +61,7 @@ unittest(test_read)
 
   assertEqual(0, dht.getHumidity());
   assertEqual(0, dht.getTemperature());
-  
+
   assertEqual(-2, dht.read(4));  // DHTLIB_ERROR_TIMEOUT
   assertEqual(-999, dht.getHumidity());
   assertEqual(-999, dht.getTemperature());
@@ -70,7 +70,7 @@ unittest(test_read)
   dht.reset();
   assertEqual(0, dht.getHumidity());
   assertEqual(0, dht.getTemperature());
-  
+
   assertEqual(-2, dht.read11(5));  // DHTLIB_ERROR_TIMEOUT
   assertEqual(-999, dht.getHumidity());
   assertEqual(-999, dht.getTemperature());
@@ -79,4 +79,4 @@ unittest(test_read)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

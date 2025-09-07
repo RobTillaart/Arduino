@@ -1,4 +1,4 @@
-Arduino UNO
+Arduino UNO R3
 IDE 1.8.19
 
 luhn_check_stream.ino

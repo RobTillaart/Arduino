@@ -1,0 +1,25 @@
+
+IDE:    1.8.19
+BOARD:  UNO R3
+
+luhn_isValid.ino
+LUHN_LIB_VERSION: 0.2.2
+
+VALID:	1
+TIME:	68
+
+VALID:	1
+TIME:	72
+
+VALID:	0
+TIME:	64
+
+VALID:	0
+TIME:	76
+
+VALID:	1
+TIME:	76
+
+VALID:	1
+TIME:	76
+

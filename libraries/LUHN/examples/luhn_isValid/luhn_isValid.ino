@@ -18,13 +18,17 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("LUHN_LIB_VERSION: ");
+  Serial.println(LUHN_LIB_VERSION);
+  Serial.println();
+  delay(10);
 
   //  example https://en.wikipedia.org/wiki/Luhn_algorithm
   test("79927398713");
   test("49927398716");
-  test("49927398717");       // false
+  test("49927398717");       //  false
   test("1234567812345671");
-  test("1234567812345670");  // false
+  test("1234567812345670");  //  false
   test("371449635398431");
 }
 

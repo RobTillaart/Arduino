@@ -1,0 +1,17 @@
+
+IDE:    1.8.19
+BOARD:  UNO R3
+
+luhn_check.ino
+LUHN_LIB_VERSION: 0.2.2
+
+3
+0
+give string
+
+                    ENTER "hello world"
+
+hello world
+ ==> 8
+give string
+

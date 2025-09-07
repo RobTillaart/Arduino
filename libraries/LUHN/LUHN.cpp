@@ -1,7 +1,7 @@
 //
 //    FILE: LUHN.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2022-12-24
 // PURPOSE: Arduino Library for calculating LUHN checksum.
 //     URL: https://github.com/RobTillaart/LUHN
@@ -98,8 +98,8 @@ bool LUHN::generate(char * buffer, uint8_t length, char * prefix)
 //
 char LUHN::add(char c)
 {
-  //  as we do not know the final length in advance 
-  // both parity's must be calculated.
+  //  as we do not know the final length in advance
+  //  both parity's must be calculated.
   uint8_t x = c - '0';
   //  handle even lengths
   if (_count % 2 == 0) _luhnEven += x;
@@ -109,7 +109,7 @@ char LUHN::add(char c)
   if (_count % 2 == 1) _luhnOdd += x;
   else if (x < 5)      _luhnOdd += x * 2;
   else                 _luhnOdd += (x * 2 - 10 + 1);
-  
+
   _count++;
   if (_count & 1) return '0' + (100 - _luhnOdd) % 10;
   return '0' + (100 - _luhnEven) % 10;
@@ -139,9 +139,9 @@ uint32_t LUHN::count()
 //
 ///////////////////////////////////////////////////////////////////////////
 //
-//  An example of a simple pseudo-random number generator is the 
+//  An example of a simple pseudo-random number generator is the
 //  Multiply-with-carry method invented by George Marsaglia.
-//  it has two initializers (not zero) which can be changed 
+//  it has two initializers (not zero) which can be changed
 //  to seed the generator.
 //  this is derived work.
 //

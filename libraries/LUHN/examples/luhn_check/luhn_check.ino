@@ -24,6 +24,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("LUHN_LIB_VERSION: ");
   Serial.println(LUHN_LIB_VERSION);
+  Serial.println();
+  delay(10);
 
   //  SHOULD PRINT 3
   Serial.println(checker.generateChecksum((char *)"7992739871"));
@@ -51,4 +53,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

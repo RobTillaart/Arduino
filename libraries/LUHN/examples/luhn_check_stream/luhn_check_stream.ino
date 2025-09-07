@@ -25,6 +25,8 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("LUHN_LIB_VERSION: ");
   Serial.println(LUHN_LIB_VERSION);
+  Serial.println();
+  delay(10);
 
   Serial.println("run I: add() per character");
   for (uint8_t i = 0; i < strlen(ID) - 1; i++)
@@ -96,4 +98,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

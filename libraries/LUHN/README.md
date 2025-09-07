@@ -17,7 +17,7 @@ Arduino Library for calculating LUHN checksum.
 ## Description
 
 The LUHN algorithm is a checksum (a.k.a. mod 10) invented by **Hans Peter Luhn** in 1960. 
-It is used to validate a variety of product ID's to detect typing errors an/of digit swaps.
+It is used to validate a variety of product ID's to detect typing errors and/or digit swaps.
 So it is not to secure a number but to prevent common mistakes when entering a code in a system.
 The LUHN check uses very few resources and is pretty fast. 
 
@@ -30,19 +30,21 @@ To handle this two values are maintained (for odd and even lengths) and the corr
 
 Maintaining two checksums makes the stream **add(c)** algorithm substantial slower (~4x) than 
 the normally used **generateChecksum(buffer)** or the **isValid(buffer)**. 
-However that is a small price for the new functionality.
+However it is a small price for the new functionality.
 
 The amount of data that can be added in stream mode is infinite in theory.
 However that is not tested for obvious reasons, internally a 32 bit counter exists.
 
+As always, feedback is welcome.
 
-#### Notes
+
+### Notes
 
 - some LUHN validations uses the reversed product string.
 - 0.1.x versions are obsolete due to incorrect math.
 
 
-#### Related
+### Related
 
 - https://en.wikipedia.org/wiki/Luhn_algorithm
 - https://github.com/RobTillaart/Adler
@@ -70,7 +72,7 @@ Generates a char array including LUHN number with a defined prefix of max length
 Returns false if the prefix exceeds length -1.
 
 
-#### Stream
+### Stream
 
 - **char add(char c)** add char, returns LUHN so far.
 - **char reset()** return last LUHN.
@@ -93,6 +95,9 @@ and even when it overflows one gets the correct **LUHN**.
   - common code **isValid()** and **generateChecksum()**
 
 #### Could
+
+- add(char buffer[]), to process larger chunks.
+
 
 #### Won't (unless)
 

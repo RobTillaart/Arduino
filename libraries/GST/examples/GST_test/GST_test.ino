@@ -4,7 +4,6 @@
 //     URL: https://github.com/RobTillaart/GST
 
 
-#include "Arduino.h"
 #include "GST.h"
 
 GST gst;
@@ -14,7 +13,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("GST_LIB_VERSION: ");
+  Serial.println(GST_LIB_VERSION);
+  Serial.println();
 
   gst.setTruePositive(653);
   gst.setTrueNegative(312);

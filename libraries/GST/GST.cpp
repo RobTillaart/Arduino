@@ -1,6 +1,7 @@
 //
 //    FILE: GST.cpp
-// VERSION: 0.1.4
+// VERSION: 0.1.5
+//    DATE: 2022-02-25
 // PURPOSE: Arduino library for Gold Standard Test metrics
 //     URL: https://github.com/RobTillaart/GST
 //          https://en.wikipedia.org/wiki/Sensitivity_and_specificity
@@ -201,7 +202,7 @@ float GST::FM()
 
 
 float GST::BookmakerInformedness() { return BM(); };
-float GST::BM() 
+float GST::BM()
 {
   return TPR() + TNR() - 1;
 };
@@ -209,7 +210,7 @@ float GST::BM()
 
 float GST::markedness() { return MK(); };
 float GST::deltaP() { return MK(); };
-float GST::MK() 
+float GST::MK()
 {
   return PPV() + NPV() - 1;
 };

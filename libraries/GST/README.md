@@ -16,12 +16,15 @@ Arduino library for Gold Standard Test metrics.
 
 ## Description
 
-Note: **experimental**
+**Experimental**
 
-The GST library is an implementation of the **Gold Standard Test**.
+The GST library is an experimental implementation of the **Gold Standard Test**.
+
+Usable for educational purposes.
 
 
-#### Links
+
+### Links
 
 These sites describe the functions in more detail.
 
@@ -29,7 +32,7 @@ These sites describe the functions in more detail.
 - https://en.wikipedia.org/wiki/Confusion_matrix
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
@@ -41,12 +44,13 @@ These sites describe the functions in more detail.
 - https://github.com/RobTillaart/Statistic
 
 
-#### Performance
+### Performance
 
 The math functions are from pretty straightforward to rather complex.
 
 It is possible to optimize functions with intermediate values if needed. 
 However the right way to optimize depends on the way the library is used. 
+So feel free to optimize.
 
 
 ## Interface

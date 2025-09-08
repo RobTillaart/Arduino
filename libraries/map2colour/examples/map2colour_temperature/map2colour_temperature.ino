@@ -28,6 +28,7 @@ uint32_t Tcolours[7] =
   0x00FF0000
 };
 
+
 //  humidity  around 35 is perfect
 float Hvalues[7] = { 0, 20, 30, 35, 40, 50, 100 };
 uint32_t Hcolours[7] =
@@ -41,6 +42,7 @@ uint32_t Hcolours[7] =
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -75,16 +77,16 @@ void loop()
   float temperature = analogRead(A0)/10;  //  add your sensor
   uint32_t rgb = mct.map2RGB(temperature);
   Serial.print("T: ");
-  Serial.print(rgb, HEX);                 //  replace with PWM-RGB led 
+  Serial.print(rgb, HEX);                 //  replace with PWM-RGB led
   Serial.print("\t\t");
-  
+
   float humidity = analogRead(A1)/10;     //  add your sensor
   rgb = mch.map2RGB(humidity);
   Serial.print("H: ");
-  Serial.println(rgb, HEX);               //  replace with PWM-RGB led 
+  Serial.println(rgb, HEX);               //  replace with PWM-RGB led
   delay(1000);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

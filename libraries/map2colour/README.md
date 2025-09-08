@@ -63,7 +63,7 @@ If returned false the code might behave in unexpected ways.
 Please note that the colourMap can have duplicate entries even side by side.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Kelvin2RGB
 - https://github.com/RobTillaart/map2colour
@@ -75,7 +75,7 @@ Please note that the colourMap can have duplicate entries even side by side.
 #include "map2colour.h"
 ```
 
-#### Functions
+### Constructor
 
 - **map2colour(uint8_t size = 7)** constructor, default size 7 to be backwards compatible.
 - **~map2colour()** destructor.
@@ -87,6 +87,9 @@ boundary values and the associated array of **size** colours packed in uint32_t 
 If the colour array is not given the last given (or the default) colour array is used.
 **begin()** can be called multiple times to change the mapping.
 The function returns false if the array of values is not in non-decreasing order.
+
+### Functions
+
 - **uint32_t map2RGB(float value)** returns RGB colour packed in an uint32_t **0x00RRGGBB**.  
 If the value is out of range of the original values array, the value is always mapped upon the 
 first or last colour.
@@ -153,7 +156,7 @@ uint32_t colours[5] = { M2C_BLACK, M2C_RED, M2C_YELLOW, M2C_GREEN, M2C_YELLOW, M
 More complex colour schemes are possible, up to **size** different colours.
 
 
-#### Non-decreasing array
+### Non-decreasing array
 
 (experimental in 0.1.5)
 If you create a non-decreasing array of values one can create a break in the colour gradient. 
@@ -183,7 +186,7 @@ Note: time in microseconds
 Note: UNO at 16 MHz, ESP32 at 240 MHz
 
 
-#### version 0.1.2
+### version 0.1.2
 
 |  function call           |  time UNO   |  time ESP32  |
 |:-------------------------|------------:|-------------:|
@@ -193,7 +196,7 @@ Note: UNO at 16 MHz, ESP32 at 240 MHz
 |  map2_565(value)         |  124 - 168  |   2 - 4      |
 
 
-#### version 0.1.3
+### version 0.1.3
 
 |  function call           |  time UNO   |  time ESP32  |
 |:-------------------------|------------:|-------------:|
@@ -203,7 +206,7 @@ Note: UNO at 16 MHz, ESP32 at 240 MHz
 |  map2_565(value)         |   68 - 140  |   2 - 3      |
 
 
-#### version 0.1.4
+### version 0.1.4
 
 map2colourFast.
 
@@ -215,7 +218,7 @@ map2colourFast.
 |  map2_565(value)         |   44 - 112  |   1 - 2      |
 
 
-#### optimization 0.1.4
+### optimization 0.1.4
 
 One performance optimization (trade memory for speed) is replacing the float division 
 in map2RGB by a multiplication. 
@@ -229,7 +232,7 @@ Although the **begin()** call is ~300 us longer, it only takes a dozen **map2RGB
 Note: the gain for the ESP32 is less pronounced, but can still be interesting.
 
 
-#### version 0.2.0
+### version 0.2.0
 
 map2colourFast, slightly slower compared to 0.1.4.
 Note that the larger the size the more time it takes to find the correct interval for the value.
@@ -260,7 +263,7 @@ Note that the larger the size the more time it takes to find the correct interva
   - split RGB channels for every mapping.
   - is this useful? only for smallest RAM devices.
 - remove default array and break backwards compatibility.
-- rename **map2_565()** to **map2RGB565()**
+- rename **map2_565()** to **map2RGB565()**  - mapRGB888?
 - add **map2CMYK()**
 
 
@@ -285,14 +288,14 @@ Note that the larger the size the more time it takes to find the correct interva
   - only done once so too little gain.
 - map2RGB variant that gives a colour as the delta with the previous value.
   - user can do that fairly easy => example
-- add 3rd param size to **begin()** to allow smaller arrays?
+- add 3rd parameter size to **begin()** to allow smaller arrays?
   - suppose you allocate size = 20 and want to use only 5 entries.
   - create a new object.
 - **bool adjustColour(uint8_t index, uint32_t RGB)**    
   - single colour adjustment
   - returns false if index out of range.
   - faster than calling **begin()**.
-  - divfactors need to be calculated again?
+  - division factors need to be calculated again?
   - see no real use case.
 
 

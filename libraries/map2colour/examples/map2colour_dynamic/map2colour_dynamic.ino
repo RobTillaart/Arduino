@@ -15,7 +15,7 @@ map2colour mc(12);
 //  must be in increasing order
 float values[12] = { 0, 33, 66, 100, 150, 200, 250, 300, 400, 600, 800, 1024 };
 
-//  arbitrary colors
+//  arbitrary colours
 uint32_t colmap[12] =
 {
   M2C_BLACK,  M2C_SILVER,  M2C_GRAY,
@@ -29,6 +29,7 @@ uint32_t colmap[12] =
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -54,4 +55,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

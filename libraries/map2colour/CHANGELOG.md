@@ -6,10 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.2.1] - 2023-11-05
+## [0.2.2] - 2025-09-07
+- fix bug in constructor
+- update GitHub actions.
 - update readme.md
 - minor edits
 
+## [0.2.1] - 2023-11-05
+- update readme.md
+- minor edits
 
 ## [0.2.0] - 2023-04-24
 - add dynamic size in constructor (minimum 7 for backwards)

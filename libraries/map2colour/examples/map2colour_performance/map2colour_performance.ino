@@ -4,14 +4,14 @@
 // PURPOSE: map2colour demo
 //     URL: https://github.com/RobTillaart/map2colour
 
-//  NOTE: perfomance depends on colours used (amount of interpolation!)
+//  NOTE: performance depends on colours used (amount of interpolation!)
 
 #include "Arduino.h"
 #include "map2colour.h"
 
 
 map2colour mc;
-// map2colourFast mc;
+//  map2colourFast mc;
 
 
 //  should be in increasing order; and 7 elements
@@ -28,6 +28,7 @@ uint32_t total = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -36,6 +37,8 @@ void setup()
 
   Serial.println("begin()");
   delay(10);
+
+
   //  use the default colour map.
   start = micros();
   mc.begin(values);
@@ -112,4 +115,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

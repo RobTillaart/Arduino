@@ -1,7 +1,7 @@
 //
 //    FILE: map2colour.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for mapping a float to colour spectrum
 //     URL: https://github.com/RobTillaart/map2colour
 
@@ -20,7 +20,9 @@ map2colour::map2colour(uint8_t size)
   _Green = (uint8_t *)malloc(_size);
   _Blue  = (uint8_t *)malloc(_size);
 
-  // for backwards compatibility
+  if ((_Red == NULL) || (_Green == NULL) || (_Blue == NULL)) return;
+
+  //  for backwards compatibility
   uint8_t r[7] = { 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0xFF };
   uint8_t g[7] = { 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 0xFF };
   uint8_t b[7] = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF };

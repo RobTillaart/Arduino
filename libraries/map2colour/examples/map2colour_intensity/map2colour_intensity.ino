@@ -27,6 +27,7 @@ uint32_t colours[7] =
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -50,5 +51,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -5,8 +5,10 @@
 //     URL: https://github.com/RobTillaart/map2colour
 //          https://github.com/RobTillaart/map2colour/issues/9
 
+
 #include "Arduino.h"
 #include "map2colour.h"
+
 
 map2colour mc(13);
 
@@ -22,6 +24,7 @@ uint32_t windys_colour[13] =
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -41,8 +44,10 @@ void setup()
   Serial.println();
 }
 
+
 void loop()
 {
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

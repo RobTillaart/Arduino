@@ -133,7 +133,7 @@ unittest(test_compare_RGB)
   {
     uint32_t rgb1 = mc.map2RGB(i);
     uint32_t rgb2 = mcf.map2RGB(i);
-    //  assertEqual(rgb1, rgb2);  // do not want 1024 output lines.
+    //  assertEqual(rgb1, rgb2);  //  do not want 1024 output lines.
     if (rgb1 != rgb2)
     {
       fprintf(stderr, "%d\n", i);
@@ -159,7 +159,7 @@ unittest(test_compare_RGB565)
   {
     uint16_t rgb1 = mc.map2_565(i);
     uint16_t rgb2 = mcf.map2_565(i);
-    //  assertEqual(rgb1, rgb2);  // do not want 1024 output lines.
+    //  assertEqual(rgb1, rgb2);  //  do not want 1024 output lines.
     if (rgb1 != rgb2)
     {
       fprintf(stderr, "%d\n", i);

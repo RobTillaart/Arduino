@@ -18,6 +18,7 @@ float values[7] = { 0, 32, 64, 128, 256, 512, 1024 };
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -49,4 +50,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

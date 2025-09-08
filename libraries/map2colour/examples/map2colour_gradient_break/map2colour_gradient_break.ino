@@ -18,6 +18,7 @@ uint32_t colours[7] = { M2C_BLUE, M2C_AQUA, M2C_LIME, M2C_BLUE, M2C_RED, M2C_YEL
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAP2COLOUR_LIB_VERSION: ");
   Serial.println(MAP2COLOUR_LIB_VERSION);
@@ -43,4 +44,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

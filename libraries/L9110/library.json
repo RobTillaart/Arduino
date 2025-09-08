@@ -1,0 +1,23 @@
+{
+  "name": "L9110",
+  "keywords": "motor",
+  "description": "Arduino library for L9110 motor driver.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/L9110.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "L9110.h"
+}

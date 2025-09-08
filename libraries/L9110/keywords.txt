@@ -1,0 +1,18 @@
+# Syntax Colouring Map For L9110
+
+# Data types (KEYWORD1)
+L9110	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+swapPins	KEYWORD2
+
+forward	KEYWORD2
+reverse	KEYWORD2
+stop	KEYWORD2
+status	KEYWORD2
+
+
+# Constants (LITERAL1)
+L9110_LIB_VERSION	LITERAL1

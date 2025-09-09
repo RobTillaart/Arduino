@@ -10,6 +10,7 @@
 uint8_t dataPin   = 2;
 uint8_t selectPin = 3;
 uint8_t clockPin  = 4;
+
 uint8_t count     = 1;
 
 MATRIX7219 mx(dataPin, selectPin, clockPin, count);
@@ -21,6 +22,7 @@ uint32_t lastTime = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MATRIX7219_LIB_VERSION: ");
   Serial.println(MATRIX7219_LIB_VERSION);

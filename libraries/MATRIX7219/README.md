@@ -16,31 +16,33 @@ Arduino Library for controlling one or more 8x8 LED MATRIX with a MAX7219 / MAX7
 
 ## Description
 
+**Experimental**
+
 This experimental library provides an easy control to 8x8 MATRIX boards.
-It is pretty minimalistic for now as the user still has to do bit math 
+It is pretty minimalistic for now as the user still has to do bit math
 to get the right lights on as one can only set 8 LEDS at a time.
 
-For the future two (derived) classes are planned: 
+For the future two (derived) classes are planned:
 - a class that is optimized to use for a single 8x8 matrix.
 - a class that buffers the state of the LEDS, allowing more functionality.
 
 MAX7221 derived class is identical (for now).
 
 
-#### Tests
+### Tests
 
 It is tested with an UNO and a single 8x8 matrix and a 4x 8x8 matrix-chain.
-During tests it became clear that the orientation of the matrices I used, 
-seen from the IN connector was different. These insights lead to the 
+During tests it became clear that the orientation of the matrices I used,
+seen from the IN connector was different. These insights lead to the
 implementation of the **inverse, reverse** and **swap** functions.
 
 
-#### Related
+### Related
 
 - https://embed.plnkr.co/3VUsekP3jC5xwSIQDVHx Sprite Generator by Miro Božík
 
 
-#### Tested
+### Tested
 
 Tested on Arduino UNO.
 
@@ -53,28 +55,33 @@ Tested on Arduino UNO.
 
 Not all functionality works, matrix parameter et al.
 
-- **MATRIX7219(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)** 
+### Constructor
+
+- **MATRIX7219(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)**
 Constructor, initializes IO pins and the number of 8x8 matrices on same pins.
-- **MATRIX7221(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)** 
+- **MATRIX7221(uint8_t dataPin, uint8_t selectPin, uint8_t clockPin, uint8_t matrices)**
 Constructor (derived class) idem as above.
 - **void begin()** resets the internals of the connected device.
 - **uint8_t  getMatrixCount()** returns number of matrices set in constructor.
 Convenience function.
-- **void setBrightness(uint8_t bright = 2)** set bright = 0..15 for all matrices. 
+
+### Base
+
+- **void setBrightness(uint8_t bright = 2)** set bright = 0..15 for all matrices.
 Default is a relative low intensity.
 - **void displayOff()** switches on low power mode == all LEDs off.
-Leaves all registers the same. 
+Leaves all registers the same.
 Can be used to blink the display, get attention.
-- **void displayOn()** switches display on again.  
+- **void displayOn()** switches display on again.
 - **void displayTest(bool on = false)** sets all LEDs on full brightness.
-Used to verify all LEDS still work. 
+Used to verify all LEDS still work.
 Or to implement a flashy alarm.
 Default value is false ==> normal mode.
 - **void clear()** clear all matrices.
 - **void setRow(uint8_t row, uint8_t value, uint8_t matrix)** set a value to a certain row of a certain matrix.
 
 
-#### Invert, reverse and swap.
+### Invert, reverse and swap.
 
 For adapting the layout if needed.
 
@@ -86,25 +93,25 @@ For adapting the layout if needed.
 - **bool getSwap()** get current setting.
 
 
-## Performance 
+## Performance
 
-#### 0.1.0 UNO
+### 0.1.0 UNO R3
 
-MATRIX7219_performance.ino with UNO 16 MHz
+MATRIX7219_performance.ino with UNO R3 16 MHz
 
 |  board  |  function     |  time (us)  |  notes  |
 |:-------:|:-------------:|:-----------:|:--------|
 |   UNO   | begin         |     796     |
 |   UNO   | clear         |    1572     |
 |   UNO   | count         |       4     |
-|   UNO   | setRow(255)   |     204     | setReverse has minimal influence
+|   UNO   | setRow(255)   |     204     |  setReverse has minimal influence
 |   UNO   | setRow(0)     |     200     |
 |   UNO   | setBrightness |     208     |
 
 
-#### 0.1.1 UNO
+### 0.1.1 UNO R3
 
-Optimized registers for UNO  (for AVR from FastShiftOut).
+Optimized registers for  AVR from FastShiftOut library.
 2.5 to 4.2 times faster. (price: a few bytes storage).
 
 
@@ -118,7 +125,7 @@ Optimized registers for UNO  (for AVR from FastShiftOut).
 |   UNO   | setBrightness |      56     |  3.5x
 
 
-#### 0.1.1 ESP32
+### 0.1.1 ESP32
 
 First test ESP32
 

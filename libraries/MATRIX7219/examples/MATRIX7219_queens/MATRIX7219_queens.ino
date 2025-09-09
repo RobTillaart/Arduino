@@ -9,16 +9,17 @@
 
 #include "MATRIX7219.h"
 
-//  UNO
+//  UNO R3
 //uint8_t dataPin   = 2;
 //uint8_t selectPin = 3;
 //uint8_t clockPin  = 4;
-//uint8_t count     = 1;
+
 
 //  ESP32
 uint8_t dataPin   = 21;
 uint8_t selectPin = 22;
 uint8_t clockPin  = 23;
+
 uint8_t count     = 1;
 
 MATRIX7219 mx(dataPin, selectPin, clockPin, count);
@@ -27,6 +28,7 @@ MATRIX7219 mx(dataPin, selectPin, clockPin, count);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MATRIX7219_LIB_VERSION: ");
   Serial.println(MATRIX7219_LIB_VERSION);

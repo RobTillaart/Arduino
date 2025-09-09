@@ -2,7 +2,7 @@
 //
 //    FILE: MATRIX7219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for 8x8 LED MATRIX MAX7219
 //     URL: https://github.com/RobTillaart/MATRIX7219
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MATRIX7219_LIB_VERSION        (F("0.1.2"))
+#define MATRIX7219_LIB_VERSION        (F("0.1.3"))
 
 
 class MATRIX7219

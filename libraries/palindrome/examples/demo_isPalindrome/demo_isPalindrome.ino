@@ -1,9 +1,7 @@
 //
 //    FILE: demo_isPalindrome.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: search the longest palindrome
-//    DATE: 2021-12-03
 //     URL: https://github.com/RobTillaart/
 
 
@@ -16,7 +14,12 @@ palindrome pd;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("PALINDROME_LIB_VERSION: ");
+  Serial.println(PALINDROME_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   test("");
   test("a");
@@ -24,7 +27,7 @@ void setup()
   test("aaa");
   test("aaaa");
   Serial.println();
-  
+
   test("ab");
   test("aba");
   test("abaa");

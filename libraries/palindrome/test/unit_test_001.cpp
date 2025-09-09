@@ -28,6 +28,7 @@
 
 unittest_setup()
 {
+  fprintf(stderr, "PALINDROME_LIB_VERSION: %s\n", (char *) PALINDROME_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -37,8 +38,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  fprintf(stderr, "PALINDROME_LIB_VERSION: %s\n", (char *) PALINDROME_LIB_VERSION);
-
   palindrome pd;
   int position;
   int length;
@@ -162,4 +161,4 @@ unittest(test_count)
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -19,13 +19,16 @@ Library for palindrome search
 The palindrome library can test if a string is a palindrome and is able to find 
 the longest palindrome within a character string.
 
-This library is written mainly for some educational purpose, however other
+Writing the library was triggered by a friend Reinier who was proud his name
+was a palindrome.
+
+This library is mainly for educational purpose, however other
 applications are possible. Please share your ideas.
 
 
-#### tests
+### tests
 
-The library is tested with an Arduino UNO, random string of 1600 characters.
+The library is tested with an Arduino UNO R3, random string of 1600 characters.
 
 (TODO performance compare)
 
@@ -36,7 +39,12 @@ The library is tested with an Arduino UNO, random string of 1600 characters.
 #include "palindrome.h"
 ```
 
+### Constructor
+
 - **palindrome()** constructor.
+
+### Functions
+
 - **int findPalindrome(const char \* str, int & position, int & length)** find the longest palindrome in a string. (first occurrence).
 - **int findEvenPalindrome(const char \* str, int & position, int & length)** find the longest palindrome in a string with even length. (first occurrence).
 - **int findOddPalindrome(const char \* str, int & position, int & length)** find the longest palindrome in a string with odd length. (first occurrence).
@@ -53,7 +61,7 @@ The examples show the basic working of the functions.
 
 ## Questions
 
-- is an empty string a palindrome?
+- is an empty string a palindrome? (IMHO Yes)
 
 
 ## Future

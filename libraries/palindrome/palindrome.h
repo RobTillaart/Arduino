@@ -2,7 +2,8 @@
 //
 //    FILE: palindrome.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
+//    DATE: 2021-12-02
 // PURPOSE: Arduino library to do palindrome experiments.
 //     URL: https://github.com/RobTillaart/palindrome
 //
@@ -10,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define PALINDROME_LIB_VERSION         (F("0.1.3"))
+#define PALINDROME_LIB_VERSION         (F("0.1.4"))
 
 
 class palindrome

@@ -1,9 +1,7 @@
 //
 //    FILE: develop.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: search the longest palindrome
-//    DATE: 2021-12-02
+// PURPOSE: development sketch
 //     URL: https://github.com/RobTillaart/
 
 
@@ -19,7 +17,12 @@ char str[PLEN];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  //  Serial.print("PALINDROME_LIB_VERSION: ");
+  //  Serial.println(PALINDROME_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   for (int i = 0; i < PLEN - 1; i++)
   {
@@ -110,7 +113,7 @@ int findEvenPalindrome(const char * str, int &position, int &length)
     {
       newlen = len;
       newpos = pos;
-      // printPartial(str, newpos, newlen);
+      //  printPartial(str, newpos, newlen);
     }
   }
   position = newpos;
@@ -142,7 +145,7 @@ int findOddPalindrome(const char * str, int &position, int &length)
     {
       newlen = len;
       newpos = pos;
-      // printPartial(str, newpos, newlen);
+      //  printPartial(str, newpos, newlen);
     }
   }
   position = newpos;
@@ -161,5 +164,5 @@ void printPartial(char * str, int pos, int len)
   Serial.println();
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

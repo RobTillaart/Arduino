@@ -1,9 +1,7 @@
 //
 //    FILE: demo_count.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: search the longest palindrome
-//    DATE: 2021-12-03
 //     URL: https://github.com/RobTillaart/
 
 
@@ -25,7 +23,12 @@ float percentage;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("PALINDROME_LIB_VERSION: ");
+  Serial.println(PALINDROME_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   for (int i = 0; i < PLEN - 1; i++)
   {
@@ -33,8 +36,8 @@ void setup()
   }
   str[PLEN - 1] = 0;
 
-  // Serial.println(str);
-  // delay(100);
+  //  Serial.println(str);
+  //  delay(100);
 
   start = micros();
   count = pd.palindromeCount(str);
@@ -82,4 +85,4 @@ void loop()
 
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

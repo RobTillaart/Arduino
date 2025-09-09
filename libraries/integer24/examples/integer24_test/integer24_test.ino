@@ -12,9 +12,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INTEGER24_LIB_VERSION: ");
   Serial.println(INTEGER24_LIB_VERSION);
+  Serial.println();
 
   test_uint24_t();
   test_int24_t();
@@ -90,4 +92,4 @@ void test_int24_t()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

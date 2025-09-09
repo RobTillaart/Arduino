@@ -21,9 +21,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INTEGER24_LIB_VERSION: ");
   Serial.println(INTEGER24_LIB_VERSION);
+  Serial.println();
 
   uar[99] = random(100);
   Serial.println((uint32_t)u);
@@ -43,4 +45,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

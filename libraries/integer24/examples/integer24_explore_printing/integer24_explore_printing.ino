@@ -13,9 +13,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INTEGER24_LIB_VERSION: ");
   Serial.println(INTEGER24_LIB_VERSION);
+  Serial.println();
 
   //  PRINT TEST
   //  exploring options
@@ -51,6 +53,7 @@ void loop()
 {
 }
 
+
 //  use like this:
 //    uint24 x = 100000;
 //    Serial.print(convert24(x));
@@ -79,4 +82,4 @@ char * convert24(int24_t value, uint8_t base)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

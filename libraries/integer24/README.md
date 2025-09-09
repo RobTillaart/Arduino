@@ -32,7 +32,7 @@ This library is only (limited) tested with AVR - UNO.
 So use with care.
 
 
-#### Range
+### Range
 
 |  platform  |  type      |  minimum    |  maximum   |  notes     |
 |:----------:|:----------:|:-----------:|:----------:|:-----------|
@@ -48,11 +48,23 @@ If other platforms are known to implement (3byte) int24 data types
 please let me know so I can add these.
 
 
-#### Known limitations
+### Known limitations
 
 - The AVR uint24_t and int24_t cannot be printed without casting.
   - see integer24_explore_printing.ino
 - Arduino-CI does not implement __int24 __uint24 so no tests can be done.
+
+
+### Related
+
+Somewhat related libraries
+
+https://github.com/RobTillaart/BitArray for elements of user defined size in bits (values 0 .. 2^n-1).
+https://github.com/RobTillaart/BoolArray for elements of 1 bit (values 0 .. 1).
+https://github.com/RobTillaart/nibbleArray for elements of 4 bits or smaller (values 0 .. 15).
+https://github.com/RobTillaart/float16
+https://github.com/RobTillaart/float16ext
+https://github.com/RobTillaart/fraction
 
 
 ## Interface
@@ -60,6 +72,8 @@ please let me know so I can add these.
 ```cpp
 #include "integer24.h"
 ```
+
+All math is possible with the **uint24** and **int24**
 
 
 ## Future
@@ -75,7 +89,7 @@ please let me know so I can add these.
 - implement **char \* convert24(int24_t)** and **char \* convert24(uint24_t)**
   - length = 8 + \0 = 9
   - fprintf(buf, "%d", (uint32_t)val); ?
-  - char *  itoa ( int value, char * str, int base );
+  - char \*  itoa ( int value, char \* str, int base );
   - see integer24_explore_printing.ino
 
 #### Could

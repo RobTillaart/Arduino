@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2025-09-08
+- update GitHub actions
+- minor edits
+
 ## [0.1.2] - 2023-11-07
 - update readme.md
 - minor edits
-
 
 ## [0.1.1] - 2023-06-27
 - explore printing uint24_t / int24_t

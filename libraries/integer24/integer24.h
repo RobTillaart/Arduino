@@ -2,7 +2,7 @@
 //
 //    FILE: integer24.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2023-06-22
 // PURPOSE: Arduino library for the uint24_t and int24_t
 //     URL: https://github.com/RobTillaart/integer24
@@ -11,7 +11,7 @@
 //  only tested on AVR for now
 
 
-#define INTEGER24_LIB_VERSION             (F("0.1.2"))
+#define INTEGER24_LIB_VERSION             (F("0.1.3"))
 
 
 #include "Arduino.h"
@@ -49,7 +49,7 @@ public:
   //  equalities
   bool operator == (const uint24_t& f);
   bool operator != (const uint24_t& f);
-  
+
   bool operator >  (const uint24_t& f);
   bool operator >= (const uint24_t& f);
   bool operator <  (const uint24_t& f);
@@ -63,7 +63,7 @@ public:
   uint24_t operator - (const uint24_t& f);
   uint24_t operator * (const uint24_t& f);
   uint24_t operator / (const uint24_t& f);
-  
+
   uint24_t& operator += (const uint24_t& f);
   uint24_t& operator -= (const uint24_t& f);
   uint24_t& operator *= (const uint24_t& f);

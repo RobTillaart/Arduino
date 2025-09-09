@@ -30,9 +30,10 @@ So to improve in that range too one could use a faster random function like the 
 from Marsaglia (included).
 
 Note the gains differ per platform and are more explicit on the (slow) Arduino UNO 
-platform than on a much faster ESP32. 
+platform than on a much faster ESP32.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/DEVRANDOM
 - https://github.com/RobTillaart/Prandom
@@ -45,12 +46,12 @@ platform than on a much faster ESP32.
 #include "randomHelpers.h"
 ```
 
-#### generators (sort of)
+### generators (sort of)
 
 - **uint32_t Marsaglia()** fast PRNG.
 - **bool seedMarsaglia(uint32_t a, uint32_t b)** seed the Marsaglia PRNG. a and b should not be 0. returns true on success.
 
-#### getters
+### getters
 
 - **bool getRandom1()** returns 0 or 1, false or true. 
 - **uint8_t getRandom2()** returns 0 .. 3.
@@ -66,7 +67,7 @@ platform than on a much faster ESP32.
 - **uint64_t getRandom64()** returns 0.. 2^64 - 1 (8 bytes).
 - **uint32_t getRandomBits(n)** returns 0.. 2^n - 1  This works well for 1..16 bits but above 16 it is slower than the standard way. 
 
-#### Typical wrappers.
+### Typical wrappers.
 
 - **bool flipCoin()** A wrapper around getRandom1().
 - **uint8_t throwDice()** returns 1..6.
@@ -77,12 +78,20 @@ calling **random()** for every random number.
 
 ## Performance
 
-To elaborate.
+Output from randomHelpers_test.ino (UNO R3, 1.8.19, 0.2.8)
 
+Times in micros over 10000 calls 
 
-## Operation
-
-See examples.
+|  test              |  random  |  helper  |  ratio  |  notes  |
+|:------------------:|:--------:|:--------:|:-------:|:-------:|
+|  test_getRandom1   |  912024  |   34276  |  26.61  |
+|  test_getRandom6   |  907848  |   80228  |  11.32  |
+|  test_getRandom8   |  905072  |   60992  |  14.84  |
+|  test_getRandom16  |  897320  |   92424  |   9.71  |
+|  test_getRandom24  |  889948  |  133292  |   6.68  |
+|  test_getRandom32  |  510464  |  132664  |   3.85  |
+|  test_throwDice    |  912208  |  178988  |   5.10  |
+|                    |          |          |         |
 
 
 ## Future

@@ -2,7 +2,6 @@
 //    FILE: uniform_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-11-15
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 
@@ -13,10 +12,13 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("RANDOM_HELPERS_VERSION: ");
   Serial.println(RANDOM_HELPERS_VERSION);
   Serial.println();
+  delay(100);
 
   test_throwDice();
 

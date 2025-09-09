@@ -2,7 +2,6 @@
 //    FILE: randomHelpers_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 
@@ -16,10 +15,13 @@ volatile uint32_t x;
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("RANDOM_HELPERS_VERSION: ");
   Serial.println(RANDOM_HELPERS_VERSION);
   Serial.println();
+  delay(100);
   
   test_getRandom1();
   test_getRandom6();
@@ -28,6 +30,8 @@ void setup()
   test_getRandom24();
   test_getRandom32();
   test_throwDice();
+
+  Serial.println("\ndone...");
 }
 
 
@@ -62,7 +66,7 @@ void test_getRandom1()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -92,7 +96,7 @@ void test_getRandom6()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -122,7 +126,7 @@ void test_getRandom8()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -152,7 +156,7 @@ void test_getRandom16()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -182,7 +186,7 @@ void test_getRandom24()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -212,7 +216,7 @@ void test_getRandom32()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 
@@ -242,7 +246,7 @@ void test_throwDice()
   Serial.print((1.0 * duration1) / duration2);
   Serial.println();
   Serial.println();
-  delay(10);
+  delay(100);
 }
 
 

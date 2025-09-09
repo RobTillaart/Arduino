@@ -2,14 +2,14 @@
 //
 //    FILE: randomHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 
 #include "Arduino.h"
 
-#define RANDOM_HELPERS_VERSION                (F("0.2.7"))
+#define RANDOM_HELPERS_VERSION                (F("0.2.8"))
 
 
 //  the idea is to have one buffer ( __randomBuffer) which holds 32 random bits.

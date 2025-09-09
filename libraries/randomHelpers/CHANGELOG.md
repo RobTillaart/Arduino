@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.8] - 2025-09-09
+- update GitHub actions
+- minor edits
+
 ## [0.2.7] - 2023-11-16
 - update readme.md
 - minor edits
-
 
 ## [0.2.6] - 2023-02-25
 - add **getRandom2(), getRandom3(), getRandom7()**
@@ -24,11 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add RP2040 to build-CI
 - fix license (started 2015)
 
-## [0.2.4] - 2022-04-15  
+## [0.2.4] - 2022-04-15
 - fix #4 split .h in .h and .cpp
 
 ## [0.2.3] - 2021-12-27
-- update library.json, license, 
+- update library.json, license,
 - minor edits
 
 ## [0.2.2] - 2021-11-15

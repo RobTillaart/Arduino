@@ -15,10 +15,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("RAIN_LIB_VERSION: ");
   Serial.println(RAIN_LIB_VERSION);
-  Serial.println("EXPERIMENTAL:");
+  Serial.println();
 
   RS.begin(5.000, 1023);
   Serial.println("READ\tDELTA");
@@ -35,4 +36,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

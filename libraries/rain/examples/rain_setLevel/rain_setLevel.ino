@@ -13,15 +13,16 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("RAIN_LIB_VERSION: ");
   Serial.println(RAIN_LIB_VERSION);
-  Serial.println("EXPERIMENTAL:");
+  Serial.println();
 
   RS.begin(5.000, 1023);
 
   //  set the 4 levels in milliVolts
-  //  they do not need to be equi-distant
+  //  they do not need to be equidistant
   //  level 0 == 0 volts.
   RS.setLevel(1, 0250);
   RS.setLevel(2, 2750);
@@ -40,4 +41,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

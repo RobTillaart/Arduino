@@ -27,8 +27,10 @@ The more the wires are covered by the liquid, the lower the voltage.
 The breakout (LM393 comparator) I used to test also has a digital output,
 which goes LOW if a threshold (to be set with a potentiometer on the breakout) is reached.
 
-The library is EXPERIMENTAL as it needs more testing.
+The library is experimental as it needs more testing.
 Changes of the interface are definitely possible.
+
+Feedback as always is welcome.
 
 
 ## Hardware connection
@@ -56,6 +58,8 @@ Typical connection
 #include "rain.h"
 ```
 
+### Constructor
+
 - **RAIN(uint8_t analogPort, uint8_t powerPin = 255)** constructor.
 analogPort is the internal analog port to use.
 powerPin is optional, but recommended.
@@ -63,13 +67,17 @@ The default 255 means **NO** powerPin selected.
 - **bool begin(float maxVoltage, uint16_t maxSteps)** sets the ADC parameters.
 Allows to be changed runtime, e.g. if voltage fluctuates the math can be adapted by calling **begin()** again.
 Might be a separate **setVoltage()** is more efficient.
+
+
+### Read
+
 - **float raw(uint8_t times = 1)** makes 1 or more measurements and averages them.
 returned value is the average number of ADC steps.
 - **float read(uint8_t times = 1)** makes 1 or more measurements, averages them and convert the average to a voltage.
 This voltage is returned, and also cached for **percentage()** and **getLevel()**.
 
 
-#### powerControl
+### powerControl
 
 Will only work if the **powerPin** is set in the constructor.
 
@@ -91,7 +99,7 @@ Adjust this time if you want to optimize performance, power consumption or corro
 Values can be 0 .. 255.
 
 
-#### Analysis
+### Analysis
 
 - **void setDryReference(float dryRef)** used to calibrate the voltage when the sensor is dry.
 Use **read()** to read / calibrate the voltage when the sensor is dry.
@@ -115,7 +123,7 @@ other levels you can define these.
 Note it is possible to adjust the levels runTime with **setLevel()**
 
 
-#### MultiMap
+### MultiMap
 
 For a continuous mapping one can use the **MultiMap** library.
 It allows to map the voltage to any other useful unit as it can handle

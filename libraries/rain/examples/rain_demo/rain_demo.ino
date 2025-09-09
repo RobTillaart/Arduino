@@ -13,13 +13,14 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("RAIN_LIB_VERSION: ");
   Serial.println(RAIN_LIB_VERSION);
-  Serial.println("EXPERIMENTAL:");
+  Serial.println();
 
   RS.begin(5.000, 1023);
-  
+
   //  measured in an earlier run, adjust to your calibration.
   RS.setDryReference(3.5);
 }
@@ -35,5 +36,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

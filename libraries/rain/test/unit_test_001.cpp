@@ -29,7 +29,7 @@
 
 unittest_setup()
 {
-    fprintf(stderr, "RAIN_LIB_VERSION: %s\n", (char *) RAIN_LIB_VERSION);
+  fprintf(stderr, "RAIN_LIB_VERSION: %s\n", (char *) RAIN_LIB_VERSION);
 }
 
 

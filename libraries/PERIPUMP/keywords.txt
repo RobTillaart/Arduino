@@ -14,11 +14,12 @@ backward	KEYWORD2
 setPercentage	KEYWORD2
 getPercentage	KEYWORD2
 
+setInvert	KEYWORD2
+getInvert	KEYWORD2
+
 getRunTime	KEYWORD2
 resetRunTime	KEYWORD2
 
-setInvert	KEYWORD2
-getInvert	KEYWORD2
 
 # Constants (LITERAL1)
 PERIPUMP_LIB_VERSION	LITERAL1

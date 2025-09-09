@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2025-09-09
+- update GitHub actions
+- minor edits
+
 ## [0.1.2] - 2023-11-14
 - update readme.md
 - update keywords.txt
-
 
 ## [0.1.1] - 2022-10-14
 - add parameter to begin(float percentage)

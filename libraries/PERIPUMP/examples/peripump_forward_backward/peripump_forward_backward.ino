@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PERIPUMP.git
-//
 
 
 #include "PERIPUMP.h"
@@ -17,15 +16,17 @@ const int FORWARD_PIN  = 3;
 const int BACKWARD_PIN = 4;
 
 //  prevent sudden reversal.
-int mode = 0; // 0 == stop,  1 == forward,  -1 == backward
+int mode = 0;  //  0 == stop,  1 == forward,  -1 == backward
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PERIPUMP_LIB_VERSION: ");
   Serial.println(PERIPUMP_LIB_VERSION);
+  Serial.println();
 
   pinMode(STOP_PIN, INPUT_PULLUP);
   pinMode(FORWARD_PIN, INPUT_PULLUP);
@@ -44,20 +45,20 @@ void loop()
   }
   if (digitalRead(FORWARD_PIN) == LOW)
   {
-    // prevent sudden reversal
+    //  prevent sudden reversal
     if (mode == 1) pump.forward();
     else pump.stop();
     mode = 1;
   }
   if (digitalRead(BACKWARD_PIN) == LOW)
   {
-    // prevent sudden reversal
+    //  prevent sudden reversal
     if (mode == -1) pump.backward();
     else pump.stop();
     mode = -1;
   }
 
-  //  debounce etc
+  //  debounce etc.
   delay(100);
 }
 

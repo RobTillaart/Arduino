@@ -16,7 +16,7 @@ Arduino library for peristaltic pump DFR0523 and compatibles.
 
 ## Description
 
-**VERY EXPERIMENTAL - AVR (UNO) only for now** 
+**VERY EXPERIMENTAL - AVR (UNO R3) only for now** 
 
 The DFR0523 is a peristaltic pump which can be controlled by a PWM signal. 
 This PWM (Pulse Width Modulation) is provided by the Arduino Servo library.
@@ -74,11 +74,14 @@ This implies an external power supply of 5 (or 6) volts is mandatory.
 ```
 
 
-### Base
+### Constructor
 
 - **PERIPUMP(uint8_t pumpPin)** constructor. pumpPin should be a PWM supporting pin.
 - **void begin(float percentage = 0)** initialize the internal variables.
 Default percentage = 0% == stop.
+
+### Base
+
 - **void stop()** set speed percentage to zero, effectively stop the pump.
 Also stops the run time measurement counter.
 - **void forward()** 100% forward.
@@ -90,7 +93,6 @@ Also stops the run time measurement counter.
   - Positive values set the pump in forward mode.
   - low values might not work.
 - **float getPercentage()** returns set speed: -100.0 % .. +100.0 %.
-
 
 ### Invert (experimental / test)
 

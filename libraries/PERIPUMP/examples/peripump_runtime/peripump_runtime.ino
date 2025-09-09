@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/PERIPUMP.git
-//
 
 
 #include "PERIPUMP.h"
@@ -14,9 +13,11 @@ PERIPUMP pump(5);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PERIPUMP_LIB_VERSION: ");
   Serial.println(PERIPUMP_LIB_VERSION);
+  Serial.println();
 
   pump.begin();
   pump.stop();

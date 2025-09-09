@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test for peri pump with servo library only.
 //     URL: https://github.com/RobTillaart/PERIPUMP.git
-//
 
 
 #include "Arduino.h"
@@ -14,8 +13,11 @@ Servo s;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.println("PERIPUMP SERVO ONLY TEST");
+  //  Serial.print("PERIPUMP_LIB_VERSION: ");
+  //  Serial.println(PERIPUMP_LIB_VERSION);
+  Serial.println();
 
   s.attach(5);   //  Connect to PIN 5
 

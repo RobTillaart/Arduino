@@ -2,7 +2,7 @@
 //
 //    FILE: PERIPUMP.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-10-13
 // PURPOSE: Arduino library for peristaltic pump
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 #include "Servo.h"
 
-#define PERIPUMP_LIB_VERSION                  (F("0.1.2"))
+#define PERIPUMP_LIB_VERSION                  (F("0.1.3"))
 
 
 class PERIPUMP
@@ -23,7 +23,6 @@ public:
 
   void     begin(float percentage = 0);
 
-  //////////////////////////////////////////////////////
   //
   //  RUNNING
   //
@@ -35,13 +34,15 @@ public:
   void     setPercentage(float percentage);
   float    getPercentage();
 
+
+  //
   //  EXPERIMENTAL / TEST
   //  flag to swap forward and backward in software if needed.
   //       easier than doing it hardware way
   void     setInvert(bool flag = false);
   bool     getInvert();
 
-  //////////////////////////////////////////////////////
+
   //
   //  DURATION
   //

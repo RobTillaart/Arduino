@@ -16,9 +16,12 @@ RADAR radar(10, 11);
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start radarDemo, lib version: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("RADAR_LIB_VERSION: ");
   Serial.println(RADAR_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   test1();
   test2();
@@ -42,6 +45,7 @@ void loop()
 
 void test1()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t1. home position");
   radar.setHomePosition(0, 0);
@@ -52,6 +56,7 @@ void test1()
 
 void test2()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t2. gotoPan 20");
   radar.gotoPan(20);
@@ -62,6 +67,7 @@ void test2()
 
 void test3()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t3. gotoTilt 60");
   radar.gotoTilt(60);
@@ -72,6 +78,7 @@ void test3()
 
 void test4()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t4. gotoPanTilt 60 20");
   radar.gotoPanTilt(60, 20);
@@ -82,6 +89,7 @@ void test4()
 
 void test5()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t5. home position");
   radar.gotoHomePosition();
@@ -92,6 +100,7 @@ void test5()
 
 void test6()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t6. setPosition");
   for (int i = 0; i < 10; i++)
@@ -104,6 +113,7 @@ void test6()
 
 void test7()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\t7. gotoPosition");
   for (int i = 0; i < 10; i++)
@@ -127,6 +137,7 @@ void test7()
 
 void gohome()
 {
+  Serial.println(__FUNCTION__);
   Serial.print(millis());
   Serial.println("\tgo home position");
   radar.gotoHomePosition();
@@ -155,4 +166,4 @@ void wait()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

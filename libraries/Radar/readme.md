@@ -17,20 +17,22 @@ Arduino library for a pan tilt radar based upon 2 servo's.
 ## Warning
 
 **WARNING: not extensively tested**
-There are still a lot of things to be tested.  
+There are still a lot of things to be tested.
 The example code is now working to show the concept.
 
 
 ## Description
 
+**Experimental**
+
 Radar is a concept library (not elaborated) that implements a Ping))) based Radar
-with the use of two pan and tilt servo's. 
-It was written after a question on the Arduino forum but never finished or tested it. 
-Still, it has some interesting concepts with respect to how to determine the position 
-of pan/tilt while the movements are in progress. 
+with the use of two pan and tilt servo's.
+It was written after a question on the Arduino forum but never finished or tested it.
+Still, it has some interesting concepts with respect to how to determine the position
+of pan/tilt while the movements are in progress.
 
 The idea is that one knows how fast the pan and tilt servos are working in degrees per second.
-From that number and the start moment one can determine approximately its position. 
+From that number and the start moment one can determine approximately its position.
 
 Given its position while moving is interesting for radar purposes as one can determine e.g.
 in which direction a ping is given and therefore which distance belongs to which pair of angles.

@@ -88,4 +88,4 @@ unittest(test_positions)
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

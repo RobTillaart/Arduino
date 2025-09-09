@@ -1,10 +1,9 @@
 //
 //    FILE: radar.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: Arduino library for a pan tilt radar.
 //     URL: https://github.com/RobTillaart/RADAR
-
 
 
 #include "radar.h"
@@ -140,7 +139,7 @@ void RADAR::gotoHomePosition()
 
 uint32_t RADAR::ping()
 {
-  //  TODO ping code here - playground or teckel's improved ping))) ?
+  //  TODO ping code here
   return 0;
 }
 

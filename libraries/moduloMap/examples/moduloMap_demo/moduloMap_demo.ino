@@ -14,9 +14,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MODMAP_LIB_VERSION: ");
   Serial.println(MODMAP_LIB_VERSION);
+  Serial.println();
 
   mm.begin(PI, 2 * PI);
 

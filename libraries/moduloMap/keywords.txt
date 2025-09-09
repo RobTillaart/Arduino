@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 moduloMap	KEYWORD1
+MODMAP	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

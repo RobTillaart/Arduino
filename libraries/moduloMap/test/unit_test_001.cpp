@@ -44,7 +44,7 @@ unittest(test_constants)
 
 unittest(test_map)
 {
-  // to elaborate
+  //  to elaborate
   MODMAP mm;
   mm.begin(0, 1);
 
@@ -66,4 +66,4 @@ unittest(test_begin)
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

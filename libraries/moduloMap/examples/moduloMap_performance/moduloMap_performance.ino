@@ -8,7 +8,7 @@
 #include "Arduino.h"
 #include "moduloMap.h"
 
-MODMAP  mm;
+MODMAP mm;
 
 uint32_t start, stop;
 volatile float f;
@@ -19,9 +19,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MODMAP_LIB_VERSION: ");
   Serial.println(MODMAP_LIB_VERSION);
+  Serial.println();
   delay(1000);
 
   start = micros();

@@ -2,7 +2,7 @@
 //
 //    FILE: moduloMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for modulo mapping
 //    DATE: 2022-10-15
 //     URL: https://github.com/RobTillaart/moduloMap
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MODMAP_LIB_VERSION               (F("0.1.2"))
+#define MODMAP_LIB_VERSION               (F("0.1.3"))
 
 
 class MODMAP
@@ -29,6 +29,11 @@ public:
     _range   = maximum - _minimum;
     // _factor  = 1/_range;
     return true;
+  }
+
+  bool begin(float maximum)
+  {
+    return begin(0, maximum);
   }
 
   float getMinimum()
@@ -49,6 +54,7 @@ public:
   //  AVR 36 us
   float map(float value)
   {
+    //  add cache if value is often same, need 8 bytes.
     //  add next line if most values are in range.
     //  if ((_minimum <= value) && (value < _maximum)) return value;
     float mm = fmod((value - _minimum), _range) + _minimum;
@@ -96,12 +102,26 @@ public:
 */
 
 
-private:
+protected:
 
   float _minimum = 0;
-  float _maximum = 1;  //  not needed?
+  float _maximum = 1;
   float _range   = 1;
-  //  float _factor  = 1/_range;
+  //  float _factor  = 1/_range;  //  faster rotations.
+  //  float _lastResult  = 0;  //  prep cache
+};
+
+
+///////////////////////////////////////////
+//
+//  DERIVED - just for name sake
+//
+class moduloMap : public MODMAP
+{
+public:
+  moduloMap() : MODMAP()
+  {
+  }
 };
 
 

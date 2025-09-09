@@ -2,7 +2,7 @@
 //    FILE: Interval.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for Interval data type
 //     URL: https://github.com/RobTillaart/Interval
 
@@ -22,21 +22,21 @@ Interval::Interval(float lo, float hi)
   _lo = hi;
   _hi = lo;
   }
-};
+}
 
 
 Interval::Interval(float f)
 {
   _lo = f;
   _hi = f;
-};
+}
 
 
 Interval::Interval()
 {
   _lo = 0;
   _hi = 0;
-};
+}
 
 
 float Interval::relAccuracy()
@@ -64,7 +64,7 @@ size_t Interval::printTo(Print& p) const
   n += p.print(_hi, _decimals);
   n += p.print(']');
   return n;
-};
+}
 
 
 /////////////////////////////////////////////////

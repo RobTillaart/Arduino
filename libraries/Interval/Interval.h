@@ -3,16 +3,16 @@
 //    FILE: Interval.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.4
-// PURPOSE: Arduino library for Interval datatype
+// VERSION: 0.1.5
+// PURPOSE: Arduino library for Interval data type
 //     URL: https://github.com/RobTillaart/Interval
 
 
 #include "Arduino.h"
 
-#define INTERVAL_LIB_VERSION                (F("0.1.4"))
+#define INTERVAL_LIB_VERSION                (F("0.1.5"))
 
- 
+
 class Interval: public Printable
 {
 public:
@@ -55,8 +55,8 @@ public:
   //  SET OPERATORS
   // Interval operator  &  (const Interval&);  //  common part  [1, 5] & [4, 8] => [4, 5]
   // Interval operator  |  (const Interval&);  //  superset     [1, 5] | [4, 8] => [1, 8]
-  // Interval operator  ^  (const Interval&);  // 
-  //   smaller 
+  // Interval operator  ^  (const Interval&);  //
+  //   smaller
 
 private:
   float   _lo;

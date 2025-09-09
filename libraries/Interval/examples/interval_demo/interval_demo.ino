@@ -15,7 +15,10 @@ Interval y(2, 3);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("INTERVAL_LIB_VERSION: ");
+  Serial.println(INTERVAL_LIB_VERSION);
   Serial.println();
 
   test_print();
@@ -63,5 +66,5 @@ void test_math_1()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

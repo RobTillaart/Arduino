@@ -164,15 +164,15 @@ unittest(test_comparisons)
   // assertFalse(x < x);
   // assertFalse(x < a);
   // assertFalse(x < y);
-  // 
+  //
   // assertTrue(x <= x);
   // assertTrue(x <= a);
   // assertFalse(x <= y);
-  // 
+  //
   // assertFalse(x > x);
   // assertFalse(x > a);
   // assertFalse(x > y);
-  // 
+  //
   // assertTrue(x >= x);
   // assertTrue(x >= a);
   // assertFalse(x >= y);
@@ -182,4 +182,4 @@ unittest(test_comparisons)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --

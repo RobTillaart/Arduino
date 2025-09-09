@@ -11,18 +11,21 @@
 
 # Interval
 
-Arduino library for the Interval data type. **Experimental**
+Arduino library for the Interval data type.
 
 
 ## Description
 
-This **experimental** library provides basic math when you do not know a quantity.
+**Experimental**
+
+This experimental library provides basic math when you do not know a quantity.
 The only thing you do know is the value is in a certain interval. 
 After doing some math you want to know the interval of possible outcomes.
 
 An interval exist of a pair of floats, low and high, the borders of the interval. 
 
 **footnote:**
+
 The data type Interval was created to do some experiments.
 It was inspired by the **frink** language which has an interval data type.
 Frink itself is not investigated, so semantics are not necessary similar.

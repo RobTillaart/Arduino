@@ -7,14 +7,17 @@
 
 #include "m5angle8.h"
 
-
 M5ANGLE8 MM;
+
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("M5ANGLE8_LIB_VERSION: ");
   Serial.println(M5ANGLE8_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   Wire.begin();

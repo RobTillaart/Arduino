@@ -42,7 +42,7 @@ all 8 potentiometers in one call.
 Feedback is welcome!
 
 
-#### I2C
+### I2C
 
 The address range is in theory from 0..127, however the I2C specification
 states it should be between 8 and 119 as some addresses are reserved.
@@ -58,7 +58,7 @@ The default address is **0x43** or **67**.
 See log file performance sketch.
 
 
-#### Accuracy
+### Accuracy
 
 The potentiometers in my test setup were quite stable and have little noise. 
 At 12 bit resolution I got most of the time 2 bits or less noise. 
@@ -71,7 +71,7 @@ Beyond that frequency some blocking effects occur.
 Roughly determined with led_demo.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/GAMMA
 - https://github.com/RobTillaart/map2colour
@@ -85,7 +85,7 @@ Roughly determined with led_demo.
 #include "M5ANGLE8.h"
 ```
 
-#### Constructor part
+### Constructor part
 
 - **M5ANGLE8(uint8_t address = M5ANGLE8_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Default address = 0x43, default Wire.
@@ -98,7 +98,7 @@ Default 0x43.
 - **uint8_t getVersion()** get firmware version from device.
 
 
-#### Analog part
+### Analog part
 
 - **uint16_t analogRead(uint8_t channel, uint8_t resolution = 12)**
 Read a potentiometer, resolution can be set from 1..12 bit, constrained.
@@ -108,12 +108,12 @@ Default is false == 0..n  (true == n..0) - think right turn.
 - **uint16_t selectorRead(uint8_t channel, uint8_t steps)** maps the analogRead upon 0..steps-1 steps.
 
 
-#### Input switch part
+### Input switch part
 
 - **uint8_t inputSwitch()** read status of the switch.
 
 
-#### LED part
+### LED part
 
 - **bool writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B, uint8_t brightness)**
 Set the RGB value and brightness of a specific LED.  

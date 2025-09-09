@@ -4,10 +4,10 @@
 // PURPOSE: demo (works well with build in plotter)
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 //
-//  ESP32
+//  Specific for ESP32
+
 
 #include "m5angle8.h"
-
 
 M5ANGLE8 MM(M5ANGLE8_DEFAULT_ADDRESS, &Wire1);  //  0x43
 
@@ -15,8 +15,11 @@ M5ANGLE8 MM(M5ANGLE8_DEFAULT_ADDRESS, &Wire1);  //  0x43
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("M5ANGLE8_LIB_VERSION: ");
   Serial.println(M5ANGLE8_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   Wire1.begin(22, 23);  //  adjust pins 

@@ -23,13 +23,13 @@ The nibbleArray is an array that stores 2 nibbles in a byte therefore it is
 twice as small as a normal array.
 
 The current implementation can hold 510 elements. This is due a limitation of
-the UNO which can **allocate** max 255 bytes in one **malloc()** call.
+the UNO R3 which can **allocate** max 255 bytes in one **malloc()** call.
 
 This **NIBBLEARRAY_MAXSIZE** can be defined compile time "-D NIBBLEARRAY_MAXSIZE" 
 or one can adjust it in the library if other platforms can allocate more memory.
 
 
-#### Related
+### Related
 
 The BitArray library is one from a set of three:
 
@@ -44,14 +44,14 @@ The BitArray library is one from a set of three:
 #include "nibbleArray.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **nibbleArray(uint16_t size)** constructor
 - **uint16_t size()** returns the size of the array.
 - **uint16_t memory()** returns the memory used in bytes.
 
 
-#### Base
+### Base
 
 - **uint8_t set(uint16_t index, uint8_t value)** set a value in the nibbleArray.
 Index must be in range otherwise 0xFF = NIBBLEARRAY_ERROR_INDEX will be returned.

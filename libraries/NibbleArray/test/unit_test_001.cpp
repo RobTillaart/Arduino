@@ -79,7 +79,7 @@ unittest(test_all)
     fprintf(stderr, "%d\t", i);
     assertEqual(0, na.get(i));
   }
-  
+
   na.setAll(15);
   uint32_t sum = 0;
   for (int i = 0; i < 500; i += 23)

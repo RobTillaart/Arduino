@@ -2,7 +2,6 @@
 //    FILE: nibbleArray_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo nibble array
-//    DATE: 2020-06-21
 //     URL: https://github.com/RobTillaart/nibbleArray
 
 
@@ -14,9 +13,11 @@ nibbleArray na(500);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("NIBBLEARRAY_LIB_VERSION: ");
   Serial.println(NIBBLEARRAY_LIB_VERSION);
+  Serial.println();
 
   test_1();
 
@@ -31,13 +32,13 @@ void test_1()
 
   na.clear();
 
-  // 500 throws with 3 dices (3..18 ==> 0..15)
+  //  500 throws with 3 dices (3..18 ==> 0..15)
   for (int i = 0; i < 500; i++)
   {
-    uint8_t sum = random(6);  // 0..5
+    uint8_t sum = random(6);  //  0..5
     sum += random(6);
     sum += random(6);
-    na.set(i, sum);       // diff from na.set(i, random(16));
+    na.set(i, sum);           //  diff from na.set(i, random(16));
   }
 
   for (int i = 0; i < 500; i++)
@@ -54,7 +55,7 @@ void test_1()
   {
     Serial.print(i);
     Serial.print("\t");
-    // for (int p = 0; p < ar[i]; p++) Serial.print(">");
+    //  for (int p = 0; p < ar[i]; p++) Serial.print(">");
     Serial.print(ar[i]);
     Serial.println();
   }
@@ -73,9 +74,9 @@ void test_1()
   {
     uint8_t octave   = na.get(i++);
     uint8_t note     = na.get(i++);
-    uint8_t duration = na.get(i++); // in 1/16th
+    uint8_t duration = na.get(i++);  //  in 1/16th
     play(octave, note, duration);
-    // sendMIDI(note, duration);
+    //  sendMIDI(note, duration);
   }
 }
 
@@ -83,7 +84,7 @@ void test_1()
 void play(uint8_t octave, uint8_t note, uint8_t duration)
 {
   Serial.print("Play: ");
-  // Serial.print(octave);
+  //  Serial.print(octave);
   Serial.print(" ");
   switch (note)
   {
@@ -146,5 +147,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

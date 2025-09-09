@@ -2,15 +2,15 @@
 //    FILE: nibbleArray_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo performance nibble array
-//    DATE: 2020-06-21
 //     URL: https://github.com/RobTillaart/nibbleArray
 
 
 #include "nibbleArray.h"
 
 
-// AVR UNO can handle only 510
-// ESP32 can do more but depends on RTOS limits
+//  AVR UNO can handle only 510
+//  ESP32 can do more but depends on RTOS limits
+
 
 #define NA_SIZE     500
 
@@ -23,13 +23,16 @@ volatile long x = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("NIBBLEARRAY_LIB_VERSION: ");
   Serial.println(NIBBLEARRAY_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
-  // performance tests are run first once in a loop
-  // then twice in a loop, so the difference is without
-  // the loop overhead.
+  //  performance tests are run first once in a loop
+  //  then twice in a loop, so the difference is without
+  //  the loop overhead.
   test_size();
   test_get();
   test_set();
@@ -42,6 +45,10 @@ void setup()
 
 void test_size()
 {
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  delay(10);
+
   Serial.print("Nibble array size:\t");
   Serial.println(na.size());
   Serial.print("Nibble array mem:\t");
@@ -52,8 +59,10 @@ void test_size()
 
 void test_get()
 {
-  Serial.println("\nget");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   delay(10);
+
   start = micros();
   for (uint16_t i = 0; i < na.size(); i++)
   {
@@ -85,8 +94,10 @@ void test_get()
 
 void test_set()
 {
-  Serial.println("\nset");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   delay(10);
+
   start = micros();
   for (uint16_t i = 0; i < na.size(); i++)
   {
@@ -116,8 +127,10 @@ void test_set()
 
 void test_clear()
 {
-  Serial.println("\nclear");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   delay(10);
+
   start = micros();
   na.clear();
   stop = micros();
@@ -136,6 +149,7 @@ void test_clear()
   Serial.print("DELTA:\t\t");
   Serial.println(d2 - d1);
   delay(100);
+
   for (uint16_t i = 0; i < na.size(); i++)
   {
     if (na.get(i) != 0)
@@ -149,8 +163,10 @@ void test_clear()
 
 void test_setAll()
 {
-  Serial.println("\nsetAll");
+  Serial.println();
+  Serial.println(__FUNCTION__);
   delay(10);
+
   start = micros();
   na.setAll(1);
   stop = micros();
@@ -158,6 +174,7 @@ void test_setAll()
   d1 = stop - start;
   Serial.println(d1);
   delay(100);
+
   for (uint16_t i = 0; i < na.size(); i++)
   {
     if (na.get(i) != 1)

@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2025-09-10
+- fix #3, reading T&H failed (kudos to NetForces)
+- implementing ASYNC interface (refactor private part)
+- add example **CHT832X_asynchronous.ino**
+- improve error handling
+- add **int getError()**
+- add CRC8 check for receiving data
+- add **CHT832X_ERROR_CRC**
+- add **CHT832X_READ_DELAY** as a configurable const in .h file
+- add constants for the COMMANDS in .cpp (readability)
+- add example CHT832X_crc8_check.ino (debug version).
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.1.0] - 2024-12-29
 - initial version.
 

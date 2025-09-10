@@ -20,6 +20,8 @@ Arduino library for CHT832X temperature and humidity sensor.
 
 The CHT8320 and CHT8325 are temperature and relative humidity sensors. 
 They both have the same interface, the CHT8325 is slightly more accurate.
+The CHT832X are factory calibrated and have an unique NIST number 
+(48 bit) to be globally trackable.
 
 This library implements the most important functionality of the sensor.
 This includes reading the temperature and humidity and the manufacturer-ID register.
@@ -28,9 +30,18 @@ Furthermore one can set an offset for temperature and humidity.
 The API of the library is based upon https://github.com/RobTillaart/CHT8310
 The sensors use a different protocol to communicate.
 
-The library is not tested with hardware yet.
+The library is tested to work with hardware, see issue 3.
 
 Feedback as always is welcome, please share your experiences.
+
+
+### Breaking change 0.2.0
+
+The 0.1.0 version was not working, it is now obsolete.
+
+The 0.2.0 version implements an asynchronous interface as one has to
+wait 60 ms before one can read temperature and humidity.
+This included a refactor of the low level (private) parts.
 
 
 ### Related
@@ -39,6 +50,7 @@ Feedback as always is welcome, please share your experiences.
 - https://github.com/RobTillaart/CHT8305
 - https://github.com/RobTillaart/CHT8310
 - https://github.com/RobTillaart/CHT832X
+- https://github.com/RobTillaart/SHT31 - sort of command compatible!
 
 
 ## Hardware
@@ -65,7 +77,7 @@ Pull ups are needed on SDA, SCL.
 
 I2C bus speeds is supported up to 1000 KHz (datasheet P4).
 
-An indicative table of times in micros on an XXXXXX for various I2C clock speeds.
+An indicative table of times in micros on an UNO R3 for various I2C clock speeds.
 Note that the performance gain of higher clock speeds become less and less.
 At the same time the robustness of the signal decreases (not visible in the table).
 
@@ -73,13 +85,13 @@ TODO: fill table
 
 |  Version  |  Speed   |   Read   | getManufacturer  |
 |:---------:|:--------:|:--------:|:----------------:|
-|   0.1.0   |   50000  |          |                  |
-|   0.1.0   |  100000  |          |                  |
-|   0.1.0   |  200000  |          |                  |
-|   0.1.0   |  300000  |          |                  |
-|   0.1.0   |  400000  |          |                  |
-|   0.1.0   |  600000  |          |                  |
-|   0.1.0   |  800000  |          |                  |
+|   0.2.0   |   50000  |          |                  |
+|   0.2.0   |  100000  |          |                  |
+|   0.2.0   |  200000  |          |                  |
+|   0.2.0   |  300000  |          |                  |
+|   0.2.0   |  400000  |          |                  |
+|   0.2.0   |  600000  |          |                  |
+|   0.2.0   |  800000  |          |                  |
 
 
 ### Addresses
@@ -127,13 +139,32 @@ Returns error status.
 - **uint8_t getAddress()** returns address set in constructor.
 
 
-### Core
+### Asynchronous interface
+
+- **int requestData()** triggers a new single shot conversion.
+- **bool dataReady()** checks if 60 milliseconds have passed
+since last request, indicating conversion ready
+- **int readData()** read the raw data, convert to T & H and
+store them in cache until next readData() call.
+
+The ASYNC interface will be extended when other acquisition modi
+are supported. There is continuous modes that work differently.
+
+
+### Synchronous interface
+
+Note: the read() call wraps the ASYNC interface in a blocking call
+which lasts for 60 milliseconds.
 
 - **int read()** reads both the temperature and humidity from the sensor.
 Can be called at most once per second, otherwise it will return **CHT832X_ERROR_LASTREAD**
 Return value should be tested and be **CHT832X_OK**.
 - **uint32_t lastRead()** returns lastRead in milliSeconds since start sketch.
 Useful to check when it is time to call **read()** again, or for logging.
+
+
+### Get Temperature and Humidity
+
 - **float getTemperature()** returns last temperature read.
 Will return the same value until **read()** is called again.
 - **float getHumidity()** returns last humidity read.
@@ -177,6 +208,7 @@ Note it might take some time to stabilize to "environment temperature" again.
 The status of the heater can be fetched with **getStatusRegister()**.
 see below.
 
+
 ### Status register
 
 Check datasheet for details.
@@ -203,20 +235,25 @@ Check datasheet for details.
 ### Meta data
 
 - **uint16_t getNIST(uint8_t id)** id = 0, 1, 2; returns 6 bytes of unique ID.
-Can be used as a unique identifier for a product.
+Can be used as a unique identifier for your product.
 - **uint16_t getManufacturer()** Returns 0x5959 according to the datasheet.
 Other manufacturers may return different number.
 
 
 ## Error codes
 
-|  value  |  define                  |  notes  |
+- **getError()** returns the last error status.
+Resets internal error to CHT832X_OK.
+
+
+|  value  |  define                  |  notes  |n
 |:-------:|:-------------------------|:--------|
-|     0   |  CHT832X_OK              |
+|     0   |  CHT832X_OK              |  default
 |   -10   |  CHT832X_ERROR_ADDR      |
 |   -11   |  CHT832X_ERROR_I2C       |
 |   -12   |  CHT832X_ERROR_CONNECT   |
 |   -20   |  CHT832X_ERROR_LASTREAD  |
+|   -21   |  CHT832X_ERROR_CRC       |
 
 
 ## Future
@@ -228,19 +265,19 @@ Other manufacturers may return different number.
 
 #### Should
 
-- clean up COMMANDS magic numbers.
-- derived classes for CHT8320 and CHT8325 (convenience)
+- make read-delay of 60 ms configurable uint8_t
 - investigate missing functions.
+- operational modi
+  - single shot 
+  - continuous (#samples per second)
+  - sleep?
 
 #### Could
 
+- derived classes for CHT8320 and CHT8325 (convenience)
 - TODO's in code
 - test different platforms
   - AVR, ESP32, ESP8266, STM32, RP2040, ...
-- add CRC checks?
-- improve error handling
-  - **int lastError()**
-  - forward return values
 - add examples
 
 ### Wont

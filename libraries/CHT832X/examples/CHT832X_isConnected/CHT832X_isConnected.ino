@@ -6,9 +6,10 @@
 
 //  Always check datasheet for connections
 
+
 #include "CHT832X.h"
 
-//  check all valid addresses 
+//  check all valid addresses
 //  if not connected ==> fail
 CHT832X CHT(0x44);    //  CHT832X_DEFAULT_ADDRESS
 CHT832X CHT1(0x45);
@@ -19,6 +20,7 @@ CHT832X CHT3(0x47);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT832X_LIB_VERSION: ");
   Serial.println(CHT832X_LIB_VERSION);
@@ -38,7 +40,7 @@ void setup()
   Serial.print("Manufac:\t");
   Serial.println(CHT.getManufacturer());
   delay(1000);
-  
+
   Serial.print("Connect:\t");
   Serial.println(CHT1.isConnected());
   Serial.print("Address:\t");
@@ -46,7 +48,7 @@ void setup()
   Serial.print("Manufac:\t");
   Serial.println(CHT1.getManufacturer());
   delay(1000);
-  
+
   Serial.print("Connect:\t");
   Serial.println(CHT2.isConnected());
   Serial.print("Address:\t");
@@ -54,7 +56,7 @@ void setup()
   Serial.print("Manufac:\t");
   Serial.println(CHT2.getManufacturer());
   delay(1000);
-  
+
   Serial.print("Connect:\t");
   Serial.println(CHT3.isConnected());
   Serial.print("Address:\t");

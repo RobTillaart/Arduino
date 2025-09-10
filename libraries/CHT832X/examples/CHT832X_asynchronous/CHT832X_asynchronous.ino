@@ -1,5 +1,5 @@
 //
-//    FILE: CHT832X_test_offset.ino
+//    FILE: CHT832X_asynchronous.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Demo for CHT832X I2C humidity & temperature sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -22,32 +22,29 @@ void setup()
   Serial.println();
 
   Wire.begin();
-  Wire.setClock(100000);
   CHT.begin();
 
-  //  should print 0.00 twice
-  Serial.println(CHT.getTemperatureOffset());
-  Serial.println(CHT.getHumidityOffset());
-  Serial.println();
-
-  CHT.setTemperatureOffset(+273.15);  //  adjusts temperature to Kelvin
-  CHT.setHumidityOffset(-50);         //  extreme just for demo
+  //  note no error handling
+  CHT.requestData();
+  
   delay(1000);
 }
 
 
 void loop()
 {
-  if (millis() - CHT.lastRead() >= 1000)
+  if (CHT.dataReady())
   {
-    //  READ DATA
-    CHT.read();
-
+    //  READ AND DISPLAY DATA
+    CHT.readData();
     Serial.print(millis());
     Serial.print('\t');
     Serial.print(CHT.getHumidity());
     Serial.print('\t');
     Serial.println(CHT.getTemperature());
+
+    //  and ask new data
+    CHT.requestData();
   }
 }
 

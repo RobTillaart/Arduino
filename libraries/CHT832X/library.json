@@ -1,6 +1,6 @@
 {
   "name": "CHT832X",
-  "keywords": "CHT832X, temperature, humidity",
+  "keywords": "CHT8320, CHT8325, temperature, humidity",
   "description": "Arduino library for CHT832X temperature and humidity sensor.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/CHT832X.git"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

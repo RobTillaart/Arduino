@@ -6,7 +6,9 @@
 
 //  Always check datasheet for connections
 
+
 #include "CHT832X.h"
+
 
 CHT832X CHT;
 uint32_t start, stop;
@@ -14,6 +16,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT832X_LIB_VERSION: ");
   Serial.println(CHT832X_LIB_VERSION);

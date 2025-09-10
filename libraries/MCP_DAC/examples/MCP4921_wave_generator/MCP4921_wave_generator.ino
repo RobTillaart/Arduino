@@ -41,6 +41,11 @@ uint16_t sine[361];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("MCP_DAC_LIB_VERSION: ");
+  Serial.println(MCP_DAC_LIB_VERSION);
+  Serial.println();
 
   //  fill table with sinus values for fast lookup
   for (int i = 0; i < 361; i++)
@@ -97,14 +102,14 @@ void setup()
             break;
           case 'a':
             break;
-          case 'q':
-          case 's':
-          case 'w':
-          case 't':
-          case 'r':
-          case 'z':
-          case 'm':
-          case 'h':
+          case 'q':  //  square
+          case 's':  //  sinus
+          case 'w':  //  sawtooth
+          case 't':  //  triangle
+          case 'r':  //  random
+          case 'z':  //  zero-level
+          case 'm':  //  mid-level
+          case 'h':  //  high-level
             mode = c;
             break;
           default:

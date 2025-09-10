@@ -18,7 +18,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MCP_DAC_LIB_VERSION: ");
+  Serial.println(MCP_DAC_LIB_VERSION);
+  Serial.println();
 
   Serial.print("SPI:\t");
   Serial.println(MCP.usesHWSPI());
@@ -29,10 +33,6 @@ void setup()
 
   Serial.print("SPI:\t");
   Serial.println(MCP.usesHWSPI());
-
-  Serial.print("MCP_DAC_LIB_VERSION: ");
-  Serial.println(MCP_DAC_LIB_VERSION);
-  Serial.println();
   Serial.print("CHANNELS:\t");
   Serial.println(MCP.channels());
   Serial.print("MAXVALUE:\t");
@@ -69,6 +69,7 @@ void performance_test()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
+  delay(100);
 
   start = micros();
   for (uint16_t value = 0; value < MCP.maxValue(); value++)
@@ -94,7 +95,7 @@ void performance_test()
   Serial.print(stop - start);
   Serial.print("\t");
   Serial.println((stop - start) / (MCP.maxValue() + 1.0) );
-  delay(10); 
+  delay(10);
 }
 
 

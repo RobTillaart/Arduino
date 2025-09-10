@@ -71,7 +71,6 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-
 ### 0.3.0 breaking change
 
 The version 0.3.0 has breaking changes in the interface. The essence is that the
@@ -82,6 +81,8 @@ Also it makes the library a bit simpler to maintain.
 
 ### Related
 
+- https://github.com/RobTillaart/AD7390 1 channel 12/10 bit SPI
+- https://github.com/robtillaart/AD5370 40 channel 16 bit DAC SPI.
 - https://github.com/RobTillaart/MCP_ADC
 - https://github.com/RobTillaart/DAC8550 1 channel, 16 bit
 - https://github.com/RobTillaart/DAC8551 1 channel, 16 bit

@@ -26,22 +26,23 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MCP_DAC_LIB_VERSION: ");
+  Serial.println(MCP_DAC_LIB_VERSION);
+  Serial.println();
 
   myspi->begin();
 
   MCP.begin(5);         //  5 for VSPI and 15 for HSPI
 
-  Serial.print("MCP_DAC_LIB_VERSION: ");
-  Serial.println(MCP_DAC_LIB_VERSION);
-  Serial.println();
   Serial.print("CHANNELS:\t");
   Serial.println(MCP.channels());
   Serial.print("MAXVALUE:\t");
   Serial.println(MCP.maxValue());
   delay(100);
 
-  // MCP.setSPIspeed(100000);  //  for slower scopes
+  //  MCP.setSPIspeed(100000);  //  for slower scopes
   performance_test();
 
   Serial.println("\nDone...");
@@ -77,7 +78,7 @@ void performance_test()
   Serial.print(stop - start);
   Serial.print("\t");
   Serial.println((stop - start) / (MCP.maxValue() + 1.0) );
-  delay(10); 
+  delay(10);
 }
 
 

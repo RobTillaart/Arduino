@@ -15,7 +15,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  //  Serial.print("MCP_DAC_LIB_VERSION: ");
+  //  Serial.println(MCP_DAC_LIB_VERSION);
+  Serial.println();
 
   pinMode(MCP4922_CS_PIN, OUTPUT);
   digitalWrite(MCP4922_CS_PIN, HIGH);
@@ -82,7 +86,7 @@ void performance_test()
   Serial.print("\t");
   Serial.println((stop - start) / 4096.0 );
   delay(10);
-  
+
   start = micros();
   for (uint16_t value = 0; value < 4096; value++)
   {

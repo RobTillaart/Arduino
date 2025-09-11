@@ -1,0 +1,17 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+
+...\Arduino\libraries\set\examples\timingTest\timingTest.ino
+SET_LIB_VERSION: 0.2.8
+
+timing test
+myset.clear():	12
+myset.add():	504
+myset.sub():	516
+myset.has():	520
+myset.invert(v):	492
+myset.invert():	20
+myset.count():	28
+
+done...

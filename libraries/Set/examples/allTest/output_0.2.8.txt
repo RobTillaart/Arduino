@@ -1,0 +1,121 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+..\Arduino\libraries\set\examples\allTest\allTest.ino
+SET_LIB_VERSION: 0.2.8
+
+timingTest
+100x clear():	1096
+100x add():	208
+100x sub():	180
+100x has():	188
+100x invert(v):	176
+invert():	20
+count() empty:	24
+count() full:	168
+
+100x isEmpty(): empty	1660
+100x isEmpty(): full	92
+100x isFull(): empty	100
+100x isFull(): full	1852
+
+a = b + c:	60
+a = b - c:	64
+a = b * c:	60
+a += b:	36
+a -= b:	36
+a *= b:	36
+a == b:	4
+a != b:	4
+a <= b:	8
+
+iteration 10 elements
+first:	12
+next:	16
+100x first + next until -1 :	11992
+100x  last + prev until -1 :	11892
+
+
+equalTest
+true
+false
+true
+true
+1
+equal
+true
+1
+false
+0
+
+intersectionTest
+110
+116
+51
+
+union test
+110
+116
+175
+
+diff test
+110
+116
+59
+
+intersection2Test
+110
+116
+51
+
+union2 test
+110
+116
+175
+
+diff2 test
+110
+116
+59
+
+subsetTest
+5
+5
+subset
+subset
+subset
+no subset
+no subset
+no subset
+
+iterationTest
+10x ITERATE OVER SET TEST
+10
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+42	67	77	130	167	200	216	217	241	254	
+
+32320
+
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+254	241	217	216	200	167	130	77	67	42	
+
+33152
+
+done...
+

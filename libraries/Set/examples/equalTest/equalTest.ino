@@ -15,35 +15,37 @@ volatile bool b;
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.print("Start set_demo : ");
-    Serial.println(SET_LIB_VERSION);
-    Serial.println();
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("SET_LIB_VERSION: ");
+  Serial.println(SET_LIB_VERSION);
+  Serial.println();
 
-    Serial.println("\n\nequal test");
-    randomSeed(1);
-    setA.clear();
-    setB.clear();
-    Serial.println(setA == setB?"true":"false");
-    setB.add(0);
-    Serial.println(setA == setB?"true":"false");
-    Serial.println(setA == setA?"true":"false");
+  Serial.println("\n\nequal test");
+  randomSeed(1);
+  setA.clear();
+  setB.clear();
+  Serial.println(setA == setB?"true":"false");
+  setB.add(0);
+  Serial.println(setA == setB?"true":"false");
+  Serial.println(setA == setA?"true":"false");
 
-    Set setC(setB);
-    Serial.println(setC == setB?"true":"false");
-    Serial.println(setC.count());
+  Set setC(setB);
+  Serial.println(setC == setB?"true":"false");
+  Serial.println(setC.count());
 
-    Set setD = setB;
-    Serial.println(setD != setB?"unequal":"equal");
-    Serial.println(setD == setB?"true":"false");
-    Serial.println(setD.count());
+  Set setD = setB;
+  Serial.println(setD != setB?"unequal":"equal");
+  Serial.println(setD == setB?"true":"false");
+  Serial.println(setD.count());
 
-    setD = setA;
-    Serial.println(setD == setB?"true":"false");
-    Serial.println(setD.count());
+  setD = setA;
+  Serial.println(setD == setB?"true":"false");
+  Serial.println(setD.count());
 
-    Serial.println("done...");
-    Serial.println();
+  Serial.println("done...");
+  Serial.println();
 }
 
 
@@ -52,5 +54,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

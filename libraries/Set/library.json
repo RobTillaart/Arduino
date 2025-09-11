@@ -1,7 +1,7 @@
 {
   "name": "SET",
   "keywords": "Set,add,sub,union,diff,intersection,equal,subset",
-  "description": "Library to implement SET datastructure.",
+  "description": "Library to implement SET data structure.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SET.git"
   },
-  "version": "0.2.7",
+  "version": "0.2.8",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

@@ -11,35 +11,37 @@
 
 void setup()
 {
-    Serial.begin(115200);
-    Serial.print("Start set_demo : ");
-    Serial.println(SET_LIB_VERSION);
-    Serial.println();
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("SET_LIB_VERSION: ");
+  Serial.println(SET_LIB_VERSION);
+  Serial.println();
 
-    Serial.println("\n\nSubSet test");
-    Set setE;
-    for (int i = 0; i < 5; i++) setE.add(i);
+  Serial.println("\n\nSubSet test");
+  Set setE;
+  for (int i = 0; i < 5; i++) setE.add(i);
 
-    Set setF(setE);
+  Set setF(setE);
 
-    Serial.println(setE.count());
-    Serial.println(setF.count());
+  Serial.println(setE.count());
+  Serial.println(setF.count());
 
-    Serial.println(setE <= setF?"subset":"no subset");
-    Serial.println(setF <= setE?"subset":"no subset");
+  Serial.println(setE <= setF?"subset":"no subset");
+  Serial.println(setF <= setE?"subset":"no subset");
 
-    setF.add(6);
-    Serial.println(setE <= setF?"subset":"no subset");
-    Serial.println(setF <= setE?"subset":"no subset");
+  setF.add(6);
+  Serial.println(setE <= setF?"subset":"no subset");
+  Serial.println(setF <= setE?"subset":"no subset");
 
-    setF.sub(3);
-    Serial.println(setE <= setF?"subset":"no subset");
-    Serial.println(setF <= setE?"subset":"no subset");
+  setF.sub(3);
+  Serial.println(setE <= setF?"subset":"no subset");
+  Serial.println(setF <= setE?"subset":"no subset");
 
-    Serial.println();
+  Serial.println();
 
-    Serial.println("\ndone...");
-    Serial.println();
+  Serial.println("\ndone...");
+  Serial.println();
 }
 
 
@@ -48,5 +50,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

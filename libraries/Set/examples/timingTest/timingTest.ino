@@ -21,7 +21,9 @@ volatile bool b;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start set_demo : ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("SET_LIB_VERSION: ");
   Serial.println(SET_LIB_VERSION);
   Serial.println();
 
@@ -80,5 +82,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

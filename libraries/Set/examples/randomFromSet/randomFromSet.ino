@@ -20,7 +20,11 @@ uint32_t start, stop ;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("SET_LIB_VERSION: ");
+  Serial.println(SET_LIB_VERSION);
+  Serial.println();
 }
 
 
@@ -69,5 +73,5 @@ int getRandomSong()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

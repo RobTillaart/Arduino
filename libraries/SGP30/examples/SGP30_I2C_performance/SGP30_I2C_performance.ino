@@ -13,6 +13,7 @@ SGP30 SGP;
 
 uint32_t start, stop;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -20,7 +21,7 @@ void setup()
     delay(1);
     yield();
   };
-
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SGP30_LIB_VERSION: ");
   Serial.println(SGP30_LIB_VERSION);
@@ -40,6 +41,7 @@ void setup()
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
     Wire.setClock(sp);
+    delay(10);
     start = micros();
     SGP.measure(false);
     stop = micros();
@@ -55,6 +57,7 @@ void setup()
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
     Wire.setClock(sp);
+    delay(10);
     start = micros();
     SGP.measure(true);
     stop = micros();
@@ -69,6 +72,7 @@ void setup()
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
     Wire.setClock(sp);
+    delay(10);
     start = micros();
     SGP.request();
     stop = micros();
@@ -83,6 +87,7 @@ void setup()
   for (uint32_t sp = 100000; sp <= 500000; sp += 50000)
   {
     Wire.setClock(sp);
+    delay(10);
     start = micros();
     SGP.read();
     stop = micros();

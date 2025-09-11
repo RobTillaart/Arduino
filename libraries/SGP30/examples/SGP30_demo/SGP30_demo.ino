@@ -21,14 +21,14 @@ void setup()
     delay(1);
     yield();
   };
-
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SGP30_LIB_VERSION: ");
   Serial.println(SGP30_LIB_VERSION);
   Serial.println();
 
   Wire.begin();
-  
+
   Serial.print("BEGIN:\t");
   Serial.println(SGP.begin());
   Serial.print("TEST:\t");
@@ -51,7 +51,7 @@ void setup()
 
 void loop()
 {
-  SGP.measure(true);      //  returns false if no measurement is made 
+  SGP.measure(true);      //  returns false if no measurement is made
 
   if (count == 0)
   {

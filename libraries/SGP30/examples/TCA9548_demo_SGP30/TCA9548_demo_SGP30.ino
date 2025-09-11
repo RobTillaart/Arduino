@@ -18,9 +18,11 @@ SGP30 outside;   //  channel 2
 
 uint32_t lastTime = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TCA9548_LIB_VERSION: ");
   Serial.println(TCA9548_LIB_VERSION);
@@ -60,17 +62,17 @@ void loop()
   if ((millis() - lastTime) > 5000)
   {
     lastTime = millis();
-   
+
     MP.selectChannel(0);
     living.read();
     Serial.print(living.getCO2(), 1);
     Serial.print("\t");
-    
+
     MP.selectChannel(1);
     kitchen.read();
     Serial.print(kitchen.getCO2(), 1);
     Serial.print("\t");
-  
+
     MP.selectChannel(2);
     outside.read();
     Serial.print(outside.getCO2(), 1);

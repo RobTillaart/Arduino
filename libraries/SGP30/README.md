@@ -11,12 +11,15 @@
 
 # SGP30
 
-Arduino library for SGP30 environment sensor.
-
-Warning: experimental, library is not functional complete yet.
+Arduino library for SGP30 environment sensor
 
 
 ## Description
+
+**Experimental**
+
+Warning: library is not functional complete yet.
+
 
 The SGP30 from Sensirion is an environment sensor that measures H2 and Ethanol in the air. 
 From these numbers an intern algorithm in the sensor derives an CO2 equivalent and a TVOC 
@@ -34,7 +37,7 @@ Note: the sync interface is implemented with the async interface.
 Note: versions prior to 0.2.0 are obsolete due to a bug in **setBaseline()**.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -43,15 +46,17 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Sample frequency
+### Sample frequency
 
 The CO2 and TVOC values can be read up to once per second (1 Hz). 
 Ethanol and H2, the raw data can be sampled up to 40 Hz.
 
 The first 15 seconds the sensor needs to stabilize. Thereafter one gets real data.
 
+## I2C
 
-#### I2C performance
+
+### I2C performance
 
 The SGP30 works with I2C bus at 100 KHz and 400 KHz. In a short test it worked well up to 500 KHz. 
 A faster I2C clock does not give the sync interface much (relative) gain, 
@@ -70,18 +75,27 @@ however for the async interface the relative gain is much more.
 Note the blocking of measure() takes 11 to 12 milliseconds extra.
 
 
-#### Multiple sensors.
+### I2C multiplexing
 
-The SGP30 sensor has a fixed I2C address 0x58 so only one sensor per I2C bus can be used. 
-If one needs more, one should use an I2C multiplexer or an MCU with multiple I2C buses 
-or switch the VCC as a sort of ChipSelect signal.
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-- https://github.com/RobTillaart/TCA9548  (I2C 8 channel multiplexer)
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 See **TCA9548_demo_SGP30.ino** example.
 
 
-#### Related
+### Related
 
 CO2 sensors and more. 
 
@@ -103,7 +117,7 @@ CO2 sensors and more.
 #include "SGP30.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **SGP30(TwoWire \*wire = &Wire)** Constructor with optional the Wire interface as parameter.
 - **bool begin()** initializes the library.
@@ -112,14 +126,14 @@ Returns true if the (fixed) device address 0x58 is visible on the I2C bus.
 - **void GenericReset()** WARNING resets all I2C devices on the bus that support this call!
 
 
-#### Meta
+### Meta
 
 - **bool getID()** reads the sensor ID into 12 bytes. (needs rework).
 - **uint16_t getFeatureSet()** returns 0x0022, indicates that commands used in this library are supported.
 - **bool measureTest()** verify the chip is working.
 
 
-#### Synchronous measurements
+### Synchronous measurements
 
 - **uint32_t lastMeasurement()** timestamp in milliseconds of the last sync measurement made. 
 This convenience function is useful to prevent reading the sensor too often.
@@ -129,7 +143,7 @@ Note the measurement is slow as there is an active blocking until the sensor is 
 If the last measurement is less than a second ago, no measurement is made and the function returns false.
 
 
-#### Asynchronous measurements
+### Asynchronous measurements
 
 With the async interface, the user should control that reads are at least one second apart. 
 The user should also take care not to mix up different requests. See examples.
@@ -142,7 +156,7 @@ CO2 and TVOC are read and updated. Otherwise false is returned.
 H2 and Ethanol are read and updated. Otherwise false is returned.
 
 
-#### Get the data
+### Get the data
 
 The library caches the last read values, and these are the functions to access them. 
 
@@ -152,7 +166,7 @@ The library caches the last read values, and these are the functions to access t
 - **uint16_t getEthanol_raw()** gets the raw Ethanol. Units unknown.
 
 
-#### Calibration
+### Calibration
 
 Check the datasheet for operating range, figure 7.
 
@@ -163,7 +177,7 @@ The function returns the absolute humidity.
 Concentration is in gram per cubic meter (g/m3)
 
 
-#### Baseline functions
+### Baseline functions
 
 The baseline functions give the sensor a reference value. 
 After running in a known condition e.g. outside in open air, one can get the baseline values as a sort of calibration. 
@@ -188,12 +202,12 @@ For faster accurate results for the TVOC under bad air conditions, read **Incept
 - **void setTVOCBaseline(uint16_t TVOC)** sets the TVOC start value.
 
 
-#### Miscellaneous
+### Miscellaneous
 
 - **int lastError()** returns last error. (needs rework)
 
 
-#### Experimental H2 Ethanol
+### Experimental H2 Ethanol
 
 use at own risk.
 

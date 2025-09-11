@@ -20,7 +20,7 @@ void setup()
     delay(1);
     yield();
   };
-
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SGP30_LIB_VERSION: ");
   Serial.println(SGP30_LIB_VERSION);

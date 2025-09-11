@@ -16,10 +16,14 @@ Arduino library with relativity functions.
 
 ## Description
 
+**Experimental**
+
 This experimental library implements a number of functions that give an
 indication of the time dilation etcetera due to relativistic speed.
 
 Goal: Educational purposes or when one puts a cube-sat into space :)
+
+Feedback is as always welcome.
 
 
 ## Interface

@@ -2,7 +2,6 @@
 //    FILE: gravity_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test formulas
-//    DATE: 2021-05-29
 //     URL: https://github.com/RobTillaart/relativity
 
 
@@ -14,7 +13,11 @@ relativity R;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("RELATIVITY_LIB_VERSION: ");
+  Serial.println(RELATIVITY_LIB_VERSION);
+  Serial.println();
 
   Serial.print("\nSpeed of light (m/s):\t");
   Serial.println(R.getC());
@@ -35,5 +38,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

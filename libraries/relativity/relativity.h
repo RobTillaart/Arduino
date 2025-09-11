@@ -2,7 +2,7 @@
 //
 //    FILE: relativity.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Collection relativity formulas
 //     URL: https://github.com/RobTillaart/relativity
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 
-#define RELATIVITY_LIB_VERSION        (F("0.1.5"))
+#define RELATIVITY_LIB_VERSION        (F("0.1.6"))
 
 
 class relativity

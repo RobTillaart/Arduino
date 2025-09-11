@@ -50,7 +50,7 @@ unittest(test_constructor)
 {
   relativity R;
 
-  // test constants
+  //  test constants
   assertEqualFloat(299792458.0, R.getC(), 1);
   assertEqualFloat(6.6742e-11, R.getG(), 1e-15);
   fprintf(stderr, "done...\n");
@@ -182,4 +182,4 @@ unittest(test_radiusEarth)
 unittest_main()
 
 
-// --------
+//  -- END OF FILE --

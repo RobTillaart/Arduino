@@ -14,9 +14,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("GEOMATH_LIB_VERSION: ");
   Serial.println(GEOMATH_LIB_VERSION);
+  Serial.println();
 
   sphere earth(6371.0088);
 

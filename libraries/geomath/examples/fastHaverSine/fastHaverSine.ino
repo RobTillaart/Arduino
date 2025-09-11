@@ -1,7 +1,6 @@
 //
 //    FILE: fastHaverSine.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.01
 // PURPOSE: fastHaverSine is a faster function than haversine for short distances (< 1km).
 //    DATE: 2015-07-18
 //     URL: http://forum.arduino.cc/index.php?topic=336729
@@ -24,14 +23,22 @@ float ts[NUMTESTS][4] = {
 uint32_t start;
 uint32_t stop;
 
+volatile float x = 50.0;
+volatile float y = 5.0;
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Start fastHaverSine()");
+  while (!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  //  Serial.print("GEOMATH_LIB_VERSION: ");
+  //  Serial.println(GEOMATH_LIB_VERSION);
+  Serial.println();
 
+  delay(10);
   start = micros();
-  float d = HaverSine(50, 5, 50.01, 5.01);
+  float d = HaverSine(x, y, x + 0.01, y + 0.01);
   stop = micros();
   Serial.println("HAVERSINE");
   Serial.print("TIME: ");
@@ -39,8 +46,9 @@ void setup()
   Serial.print("DIST: ");
   Serial.println(d);
 
+  delay(10);
   start = micros();
-  d = fastHaverSine(50, 5, 50.01, 5.01);
+  d = fastHaverSine(x, y, x + 0.01, y + 0.01);
   stop = micros();
   Serial.println("\nFASTHAVERSINE");
   Serial.print("TIME: ");
@@ -48,8 +56,9 @@ void setup()
   Serial.print("DIST: ");
   Serial.println(d);
 
+  delay(10);
   start = micros();
-  d = fastHaverSine2(50, 5, 50.01, 5.01);
+  d = fastHaverSine2(x, y, x + 0.01, y + 0.01);
   stop = micros();
   Serial.println("\nFASTHAVERSINE2");
   Serial.print("TIME: ");
@@ -141,6 +150,7 @@ void loop()
 {
 }
 
+
 double fastHaverSine(double lat1, double long1, double lat2, double  long2)
 {
   // assume the sphere has circumference 1 on the equator
@@ -149,8 +159,9 @@ double fastHaverSine(double lat1, double long1, double lat2, double  long2)
   double dx = lat2 - lat1;
   double dy = (long2 - long1) * cos(lat2 * (PI / 180.0));
   double dist = sqrt(dx * dx + dy * dy);
-  return dist * 111194.93;              // correct for earth sizes ;)
+  return dist * 111194.93;              //  correct for earth sizes ;)
 }
+
 
 double fastHaverSine2(double lat1, double long1, double lat2, double  long2)
 {
@@ -159,8 +170,9 @@ double fastHaverSine2(double lat1, double long1, double lat2, double  long2)
   // helps to keep precision
   double dx = lat2 - lat1;
   double dy = (long2 - long1) * cos(lat2 * (PI / 180.0));
-  return hypot(dx, dy) * 111194.93;              // correct for earth sizes ;)
+  return hypot(dx, dy) * 111194.93;              //  correct for earth sizes ;)
 }
+
 
 double HaverSine(double lat1, double lon1, double lat2, double lon2)
 {
@@ -181,3 +193,4 @@ double HaverSine(double lat1, double lon1, double lat2, double lon2)
 }
 
 
+//  -- END OF FILE --

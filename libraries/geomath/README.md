@@ -16,6 +16,8 @@ Library for geographical math functions.
 
 ## Description
 
+**Experimental**
+
 Experimental library, use with care.
 
 The geomath library is a collection of functions for doing math in a geographical context.
@@ -25,7 +27,7 @@ Wrote them long ago and share them because they might be useful e.g.
 for educational purposes.
 
 
-#### related
+### related
 
 - https://github.com/RobTillaart/AtomicWeight
 - https://github.com/RobTillaart/printHelpers (to print scientific notation)
@@ -37,7 +39,7 @@ for educational purposes.
 #include geomath.h
 ```
 
-#### Sphere class
+### Sphere class
 
 Placeholder for some math
 
@@ -48,9 +50,9 @@ constructs a sphere (planet) with a certain radius.
 given the distance. (E.g. Tokio Buenos Aires)
 
 
-#### Haversine 
+### Haversine 
 
-To calculate the distance between two points with longitude and lattitude.
+To calculate the distance between two points with longitude and latitude.
 
 - **double haverSine((double lat1, double lon1, double lat2, double lon2)**
 - **double fastHaverSine(double lat1, double lon1, double lat2, double lon2)**
@@ -63,7 +65,6 @@ To calculate the distance between two points with longitude and lattitude.
 - update documentation
 - need more math
 
-
 #### Should
 
 - add more functions
@@ -71,7 +72,6 @@ To calculate the distance between two points with longitude and lattitude.
 - escape velocity math
 - heat inside earth ?
 - find my sunset/sunrise formulas.
-
 
 #### Could
 

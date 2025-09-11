@@ -12,13 +12,15 @@ SIMON simon;
 uint32_t  count = 0;
 uint32_t start, stop;
 
+
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SIMON_LIB_VERSION:\t");
   Serial.println(SIMON_LIB_VERSION);
+  Serial.println();
 
   Serial.println("10x GENERATE");
   delay(100);
@@ -55,7 +57,6 @@ void setup()
   stop = micros();
   Serial.print("time:\t");
   Serial.println(stop - start);
-
 }
 
 
@@ -63,4 +64,4 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

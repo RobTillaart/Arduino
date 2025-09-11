@@ -21,6 +21,8 @@ SIMON is a simple library to make a "Simon says" game.
 This same class can also be used for e.g. a digital lock
 or access control. 
 
+As always feedback is welcome
+
 
 ## Interface
 
@@ -28,10 +30,9 @@ or access control.
 #include "simon.h"
 ```
 
-#### Construction
+### Construction
 
 - **SIMON()** constructor.
-
 - **bool setSequence(uint8_t \* array, uint8_t length)** set the (secret) sequence.
 Returns false if length > **SIMON_MAXSIZE** or array == **NULL**.
 - **uint8_t getSequence(uint8_t \* array)** fills the array with the set sequence.
@@ -42,7 +43,7 @@ Each value is between minimum and maximum inclusive, so ```generateSequence(5, 0
 Seed for the random function will be **micros()** for now.
 
 
-#### Core
+### Core
 
 - **void add(uint8_t value)** add next element to the answer.
 if the length of the answer becomes too large it is automatically cleared.
@@ -51,7 +52,7 @@ if the length of the answer becomes too large it is automatically cleared.
 - **bool verify(uint8_t \* array, uint8_t length)** check if array matches the sequence.
 
 
-#### Meta info
+### Meta info
 
 - **uint8_t length()** returns the length of the answer so far.
 - **uint8_t size()** returns the size of the "hidden" sequence.
@@ -68,7 +69,7 @@ and **verify()** if the the storage matches the original sequence.
 
 ## Ideas
 
-#### Game Simon says
+### Game Simon says
 
 (not implemented yet)
 
@@ -85,7 +86,7 @@ If the user fails to input the right sequence, the random sequence is shortened
 by one, or worst case "game over" and start over from 1.
 
 
-#### Lock - access control
+### Lock - access control
 
 (not implemented yet)
 

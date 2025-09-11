@@ -11,13 +11,15 @@ SIMON simon;
 
 uint32_t  count = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SIMON_LIB_VERSION:\t");
   Serial.println(SIMON_LIB_VERSION);
+  Serial.println();
 
   //  casting to (uint8_t *)  prevents warnings.
   simon.setSequence((uint8_t *)"Hello", 5);
@@ -28,7 +30,7 @@ void setup()
   simon.add('l');
   simon.add('l');
   simon.add('o');
-  Serial.println(simon.verify());  // expect 1
+  Serial.println(simon.verify());  //  expect 1
 
   simon.clear();
   simon.add('h');
@@ -36,11 +38,11 @@ void setup()
   simon.add('l');
   simon.add('l');
   simon.add('o');
-  Serial.println(simon.verify());  // expect 0
+  Serial.println(simon.verify());  //  expect 0
 
   //  casting to (uint8_t *)  prevents warnings.
-  Serial.println(simon.verify((uint8_t *)"Hello", 5));  // expect 1
-  Serial.println(simon.verify((uint8_t *)"hello", 5));  // expect 0
+  Serial.println(simon.verify((uint8_t *)"Hello", 5));  //  expect 1
+  Serial.println(simon.verify((uint8_t *)"hello", 5));  //  expect 0
 
 }
 
@@ -49,4 +51,4 @@ void loop()
 {
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

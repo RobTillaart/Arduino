@@ -3,14 +3,14 @@
 //    FILE: simon.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-05-26
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for SIMON
 //     URL: https://github.com/RobTillaart/SIMON
 
 
 #include "Arduino.h"
 
-#define SIMON_LIB_VERSION        (F("0.1.3"))
+#define SIMON_LIB_VERSION        (F("0.1.4"))
 
 
 #ifndef SIMON_MAXSIZE

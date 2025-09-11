@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2025-09-11
+- update GitHub actions
+- minor edits
+
 ## [0.1.3] - 2023-11-21
 - update readme.md
-
 
 ## [0.1.2] - 2023-02-02
 - update GitHub actions
@@ -16,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - allow define **SIMON_MAXSIZE** from command line.
 - update readme.md
 - minor edits
-
 
 ## [0.1.1] - 2022-11-24
 - Add RP2040 support to build-CI.

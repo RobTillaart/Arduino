@@ -2,7 +2,7 @@
 //
 //    FILE: SWSerialOut.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for SWSerialOut, supports only data out (TX).
 //    DATE: 2023-09-02
 //     URL: https://github.com/RobTillaart/SWSerialOut
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SWSERIALOUT_LIB_VERSION              (F("0.1.1"))
+#define SWSERIALOUT_LIB_VERSION              (F("0.1.2"))
 
 
 class SWSerialOut : public Stream
@@ -38,12 +38,12 @@ public:
   }
 
 
-  void begin(uint32_t baudRate, char * params)  //  TODO TEST
+  void begin(uint32_t baudRate, char * parameters)  //  TODO TEST
   {
     begin(baudRate);
-    _bits = constrain(params[0] - '0', 5, 8);
-    _parity = params[1];
-    _stopBits = constrain(params[2] - '0', 0, 3);
+    _bits = constrain(parameters[0] - '0', 5, 8);
+    _parity = parameters[1];
+    _stopBits = constrain(parameters[2] - '0', 0, 3);
     if (strchr("NEOSM", _parity) == NULL)  //  invalid?
     {
       _parity = 'N';
@@ -141,11 +141,11 @@ private:
   uint8_t   _TX;
 
   //  configuration
-  uint32_t  _baud     = 9600;  //  check range
-  char      _parity   = 'N';   //  None, Even, Odd
-  uint8_t   _bits     = 8;     //  5,6,7,8
-  uint8_t   _stopBits = 1;     //  0,1,2
-  bool      _inverse  = false; //  TODO
+  uint32_t  _baud     = 9600;   //  check range
+  char      _parity   = 'N';    //  None, Even, Odd
+  uint8_t   _bits     = 8;      //  5,6,7,8
+  uint8_t   _stopBits = 1;      //  0,1,2
+  bool      _inverse  = false;  //  TODO
   bool      _disableInterrupts = false;
 
   //  timing

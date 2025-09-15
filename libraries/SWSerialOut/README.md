@@ -19,9 +19,9 @@ Arduino library for SWSerialOut, supports only data out (TX).
 **Experimental**
 
 SWSerialOut is a library that only implements the transmit function.
-There are devices that do not send back information, or in some cases 
+There are devices that do not send back information, or in some cases
 you do not use the "returned" information.
-In those cases there is no need for the receive function, interrupt 
+In those cases there is no need for the receive function, interrupt
 handling, buffers etc.
 
 This is where SWSerialOut comes in, it can only transmit data and does
@@ -29,18 +29,18 @@ that by implementing the **public Stream** interface.
 So its interface is similar to any Stream like Serial or SoftwareSerial,
 as the user can use **print()** and **println()** for al the output.
 
-The input side of the Stream interface, **available()**, **peek()**, 
+The input side of the Stream interface, **available()**, **peek()**,
 and **read()** are stubs returning 0.
 
 The library does not need to buffer incoming data, and it does not buffer outgoing data either. Therefore it can be blocking.
 So use the library with care.
 
 
-#### Test 
+### Test
 
 Test are done with example sketch **SWSO_test.ino** et al which
 reads the send data back via hardware Serial.
-The serial pulses, especially baud rates above 19200, will improve 
+The serial pulses, especially baud rates above 19200, will improve
 with a proper pull up resistor e.g. 4K7.
 
 |  baud    |  UNO  |  ESP32  |  other  |
@@ -59,14 +59,14 @@ with a proper pull up resistor e.g. 4K7.
 |  100000  |   -   |    Y    |
 
 
-Note: the code is not really optimized for any platform (yet). 
+Note: the code is not really optimized for any platform (yet).
 So the library will not match the top speed of other software serial implementations.
 
 If you have tested this library with another platform, please let me know by
 opening an issue with the relevant data.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/MiniMP3 - minimal version only needs serial out.
 
@@ -77,24 +77,24 @@ opening an issue with the relevant data.
 #include "SWSerialOut.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **SWSerialOut(uint8_t TXpin)** constructor.
 - **void begin(uint32_t baudRate)** set baud rate (see table above)
-- **void begin(uint32_t baudRate, char \* params)** params implemented.
+- **void begin(uint32_t baudRate, char \* parameters)** parameters implemented.
 however not tested yet.
-The params are range checked.
+The parameters are range checked.
 
-params is e.g. "8N1" = 8 bit, None parity, 1 stop-bit
+parameters is e.g. "8N1" = 8 bit, None parity, 1 stop-bit
 
-|  param    |  value    |  default  |  notes  |
-|:---------:|:----------|:---------:|:--------|
-|   bit     |  5,6,7,8  |     8     |  to be tested
-| parity    | N,E,O,S,M |     N     |  to be tested
-| stop bits |  0,1,2,3  |     1     |  to be tested
+|  parameter  |  value    |  default  |  notes  |
+|:------------|:----------|:---------:|:--------|
+|  bit        | 5,6,7,8   |     8     |  to be tested
+|  parity     | N,E,O,S,M |     N     |  to be tested
+|  stop bits  | 0,1,2,3   |     1     |  to be tested
 
 
-#### Stream interface
+### Stream interface
 
 The SWSerialOut implements the **public Stream** interface, so
 it will support the following functions (indirect from Print):
@@ -106,15 +106,15 @@ it will support the following functions (indirect from Print):
 The input functions are stubs, just returning 0.
 
 
-#### Interrupts
+### Interrupts
 
-To have a more constant timing while sending the bits one can disable 
+To have a more constant timing while sending the bits one can disable
 interrupts during the transfer of the data.
 
 - **void disableInterrupts(bool b)** enable/disable interrupts during send.
 
 
-#### Debug
+### Debug
 
 - **void debug()** dump internal variables.
 
@@ -138,13 +138,13 @@ interrupts during the transfer of the data.
 - support inverse logic.
 - support 9 bits (low priority)
 - add RTS / CTS handshake?
-- investigate optimized transfer per platform 
+- investigate optimized transfer per platform
   - higher baud rates, especially AVR.
 
 #### Wont
 
 - read()
-- non blocking version 
+- non blocking version
 
 ## Support
 

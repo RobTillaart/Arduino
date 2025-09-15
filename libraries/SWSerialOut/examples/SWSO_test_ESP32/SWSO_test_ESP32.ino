@@ -7,6 +7,7 @@
 //  Connect pin 25 with Serial2.RX to run this program
 //  or patch code :)
 
+
 #include "SWSerialOut.h"
 
 SWSerialOut SWS(25);
@@ -15,6 +16,7 @@ SWSerialOut SWS(25);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SWSERIALOUT_LIB_VERSION: ");
   Serial.println(SWSERIALOUT_LIB_VERSION);
@@ -30,9 +32,9 @@ void setup()
   test_short(19200);
   test_short(38400);
   test_short(57600);
-  test_short(76800);  //  fails without pull up
+  test_short(76800);   //  fails without pull up
   test_short(100000);
-  test_short(125000); //  fails
+  test_short(125000);  //  fails
 
   Serial.println("\nDone...");
 }

@@ -9,12 +9,13 @@
 #include "SoftwareSerial.h"
 
 SWSerialOut SWS(7);
-// SoftwareSerial SWS(6, 7);
+//  SoftwareSerial SWS(6, 7);
 
 
 void setup()
 {
-  Serial.begin(19200);
+  Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SWSERIALOUT_LIB_VERSION: ");
   Serial.println(SWSERIALOUT_LIB_VERSION);
@@ -26,7 +27,7 @@ void setup()
     Serial.print(baud);
     Serial.print(" ");
     delay(100);
-    // SWS.debug();
+    //  SWS.debug();
 
     SWS.print("Hello world");
 

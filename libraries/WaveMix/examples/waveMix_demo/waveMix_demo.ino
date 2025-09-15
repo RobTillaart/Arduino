@@ -16,9 +16,11 @@ float n = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("WAVEMIX_LIB_VERSION: ");
   Serial.println(WAVEMIX_LIB_VERSION);
+  Serial.println();
 
   wm.setPercentage(25);
 }
@@ -32,4 +34,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

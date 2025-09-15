@@ -6,6 +6,7 @@
 //
 // needs 2x DHT22 sensors
 
+
 #include "WaveMix.h"
 #include "dhtnew.h"
 
@@ -16,13 +17,14 @@ DHTNEW kitchen(6);
 
 void setup()
 {
-  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("WAVEMIX_LIB_VERSION: ");
   Serial.println(WAVEMIX_LIB_VERSION);
+  Serial.println();
 
-  wm.setPercentage(75);   // inside counts for 75%
+  wm.setPercentage(75);   //  inside counts for 75%
 }
 
 
@@ -36,4 +38,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

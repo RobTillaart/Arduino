@@ -35,9 +35,14 @@ Differences
 #include "WaveMix.h"
 ```
 
-The main functions of the WaveMix:
+### Construnctor
 
 - **explicit WaveMix()** Constructor
+
+### Functions
+
+The main functions of the WaveMix:
+
 - **bool setWeight(float weight1, float weight2)** set the weight of the channels A and B. 
 The weights do not need to be normalized, so one can use e.g **setWeight(7, 13)** See below.
 The function returns false if the weights sum up to 0. (no changes will be made)
@@ -62,7 +67,7 @@ Signal2 is made optional to allow single signal processes e.g. modulation by **s
 See examples.
 
 
-#### Weights
+### Weights
 
 **setWeight()** typically uses positive weights, e.g. **setWeight(7, 13)**
 counts A for 7/20 part and B for 13/20 part. 
@@ -72,7 +77,7 @@ E.g. **setWeight(-1, 0)** would effectively invert signal A.
 Only restriction to the weights is that the sum of the weights may not be zero.
 
 
-#### Amplification
+### Amplification
 
 Weights cannot be used to amplify the signal in absolute sense, use **setGain()** for that.
 By constantly updating the gain (0..max) one can implement **Amplitude Modulation**.

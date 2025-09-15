@@ -7,6 +7,7 @@
 //  modulated sinus signal
 //  view with serial plotter
 
+
 #include "WaveMix.h"
 
 WaveMix wm;
@@ -17,11 +18,13 @@ float modulate = 0.30;     // square wave modulate = 1.0 - dutyCyle
 void setup()
 {
   Serial.begin(230400);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("WAVEMIX_LIB_VERSION: ");
   Serial.println(WAVEMIX_LIB_VERSION);
+  Serial.println();
 
-  wm.setWeight(95, 5);  // 5% noise add.
+  wm.setWeight(95, 5);  //  5% noise add.
   wm.setGain(100);
 }
 
@@ -40,17 +43,17 @@ void loop()
     //  mix the signals
     Serial.println(wm.mix(sin(n), random(10) * 0.1));
 
-    // stepsize determines frequency (numbers UNO)
+    //  step size determines frequency (numbers UNO)
     //  0.01 =>  ~5 Hz
     //  0.1  => ~25 Hz
     n = n + 0.1;
   }
   n = 0;
-  // modulate += 0.05;
+  //  modulate += 0.05;
   if (modulate >= 1.0) modulate = 0;
   Serial.print("\t\t\t\tMILLIS:\t");
   Serial.println(millis() - start);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

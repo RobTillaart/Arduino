@@ -1,7 +1,7 @@
 //
 //    FILE: WaveMix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library to mix two signals (A and B) with an adaptive weight.
 //     URL: https://github.com/RobTillaart/WaveMix
 
@@ -38,28 +38,28 @@ bool WaveMix::setPercentage(float percentage)
 
 
 //  do we need a value check here
-void  WaveMix::setGain(float gain) 
+void  WaveMix::setGain(float gain)
 {
   _gain = gain;
 };
 
 
 float WaveMix::getGain()
-{ 
-  return _gain; 
-};
+{
+  return _gain;
+}
 
 
 //  do we need a value check here
-void  WaveMix::setOffset(float offset) 
-{ 
-  _offset = offset; 
-};
+void  WaveMix::setOffset(float offset)
+{
+  _offset = offset;
+}
 
 
-float WaveMix::getOffset() 
-{ 
-  return _offset; 
+float WaveMix::getOffset()
+{
+  return _offset;
 };
 
 

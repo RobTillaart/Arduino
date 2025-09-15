@@ -4,7 +4,8 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/WaveMix
 //
-// to be viewed by Serial plotter 
+// to be viewed by Serial plotter
+
 
 #include "WaveMix.h"
 
@@ -13,13 +14,15 @@ WaveMix wm;
 float n = 0;
 uint8_t perc = 0;
 
+
 void setup()
 {
-  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("WAVEMIX_LIB_VERSION: ");
   Serial.println(WAVEMIX_LIB_VERSION);
+  Serial.println();
 
   wm.setPercentage(perc);
 }
@@ -40,8 +43,8 @@ void loop()
     }
     wm.setPercentage(perc);
   }
-  // delay(10);
+  //  delay(10);
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

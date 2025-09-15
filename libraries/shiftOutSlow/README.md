@@ -16,6 +16,7 @@ Arduino library for shiftOut with build-in delay - e.g. for 74HC595
 
 ## Description
 
+**Experimental**
 
 ShiftOutSlow is an experimental library that has a build in delay (in microseconds) that allows tuning the time per bit.
 This allows one to improve reliability e.g. when using longer lines.
@@ -52,11 +53,14 @@ slow the pulse train to a working level.
 #include "ShiftOutSlow.h"
 ```
 
-#### Functions
+### Constructor
+
+- **ShiftOutSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor.
+
+### Functions
 
 The interface exists of the following functions:
 
-- **ShiftOutSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor.
 - **size_t write(uint8_t data)** writes a new value. 
 Returns the bytes written.
 - **size_t write(const uint8_t \*buffer, size_t size)** writes an array of size over shift out. 
@@ -109,6 +113,7 @@ See examples.
 - delay/2 is not exact half when delay is odd.
   - no big issue.
   - del_before and del_after could prepare for duty cycle.
+  - see shiftInSlow.
 - set delay in terms of frequency - delay is 'wave length'
 - set delay in terms of max total time the read may cost.
 - get set dutyCycle(0 .. 99%)

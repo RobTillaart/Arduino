@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.6] - 2025-09-12
+- update GitHub actions
+- minor edits
+
 ## [0.1.5] - 2023-11-22
 - update readme.md
-
 
 ## [0.1.4] - 2023-02-21
 - add default **LSBFIRST** for **setBitOrder()**
@@ -29,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update license
 - minor edits
 
-## [0.1.1] - 2021-08-16  
+## [0.1.1] - 2021-08-16
 - add write(buffer, size) = print interface.
 - improve delay math
 - update readme.md

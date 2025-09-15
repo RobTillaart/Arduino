@@ -2,7 +2,7 @@
 //
 //    FILE: ShiftOutSlow.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.
 // PURPOSE: Arduino library for shiftOut with build-in delay
 //    DATE: 2021-05-11
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define SHIFTOUTSLOW_LIB_VERSION            (F("0.1.5"))
+#define SHIFTOUTSLOW_LIB_VERSION            (F("0.1.6"))
 
 
 class ShiftOutSlow : public Print

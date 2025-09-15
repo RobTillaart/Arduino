@@ -7,7 +7,6 @@
 
 #include "ShiftOutSlow.h"
 
-
 ShiftOutSlow SOS(12, 13, LSBFIRST);
 
 volatile int x = 0;
@@ -16,12 +15,15 @@ volatile int x = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("SHIFTOUTSLOW_LIB_VERSION: ");
   Serial.println(SHIFTOUTSLOW_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nwrite(byte)");
   Serial.println("delay\tus/byte");
-  delay(10);                                // extra time to flush serial buffer
+  delay(10);                                //  extra time to flush serial buffer
   for (uint16_t d = 0; d < 100; d += 10)
   {
     SOS.setDelay(d);
@@ -95,5 +97,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

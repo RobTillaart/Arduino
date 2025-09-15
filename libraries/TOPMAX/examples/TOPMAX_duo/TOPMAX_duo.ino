@@ -4,8 +4,9 @@
 // PURPOSE: TOPMAX demo
 //     URL: https://github.com/RobTillaart/TOPMAX
 
-//  demo tracking the top 20 and 
+//  demo tracking the top 20 and
 //  only from the top 3 we keep the time stamp
+
 
 #include "TOPMAX.h"
 
@@ -19,6 +20,7 @@ uint32_t cnt = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TOPMAX_LIB_VERSION: ");
   Serial.println(TOPMAX_LIB_VERSION);

@@ -15,6 +15,8 @@ Arduino library to track the top N maxima.
 
 ## Description
 
+**Experimental **
+
 This experimental library tracks the top N maxima of a series of values. 
 
 The library implements two classes:
@@ -39,7 +41,7 @@ be used more creatively e.g. 2x 16 bit numbers or even 32 booleans.
 Any mapping is possible (but not part of the library).
 
 
-#### 0.2.0 breaking change
+### 0.2.0 breaking change
 
 Since version 0.2.0 the maxima is found with **getValue(index == 0)**.
 In earlier versions the maxima was found with **index == count()**.
@@ -51,7 +53,7 @@ It also allows to have two or more TOPMAX objects of different size and use one
 index to access both.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/TOPMAX
 - https://github.com/RobTillaart/TOPMIN
@@ -65,7 +67,7 @@ index to access both.
 #include "TOPMAX.h"
 ```
 
-#### TOPMAX
+### TOPMAX
 
 - **TOPMAX(uint8_t size = 5)** Constructor, defines the number of elements it can hold.
 Default number of elements is 5. If **size** < 3 it will be set to 3.
@@ -83,7 +85,7 @@ This may or may not be a valid value, so the user should guard the **index** par
 with a single value e.g. 0. Returns true on success.
 
 
-#### TOPMAXext
+### TOPMAXext
 
 Derived from TOPMAX, extended with a tag field.
 

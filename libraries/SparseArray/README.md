@@ -16,7 +16,9 @@ Arduino library for sparse arrays of floats.
 
 ## Description
 
-SparseArray is an **experimental** library to implement a one
+**Experimental**
+
+SparseArray is an experimental library to implement a one
 dimensional sparse array of floats (a.k.a. vector) on an Arduino.
 A sparse array is an array with mostly zeros and a low percentage 
 non-zero values.
@@ -33,13 +35,13 @@ Note: 255 non-zero elements would fit in an UNO's 2K memory.
 Note: this library is derived from SparseMatrix.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/SparseMatrix
 - https://github.com/RobTillaart/distanceTable
 
 
-#### Implementation
+### Implementation
 
 The implementation is based on 2 arrays holding ```x, value``` 
 where value is float, and x is an uint16_t.
@@ -53,7 +55,7 @@ In the future other data types should be possible.
 Relates to https://github.com/RobTillaart/SET
 
 
-#### Performance
+### Performance
 
 The elements are not kept sorted or indexed so optimizations might be 
 possible but are not investigated yet.
@@ -123,7 +125,7 @@ This can be useful for printing or processing the non zero elements.
 
 - dump should be in the class?
   - or as static function...
-  - stream as param **dump(Stream str, ...)**
+  - stream as parameter **dump(Stream str, ...)**
 
 #### ideas
 

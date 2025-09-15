@@ -2,7 +2,7 @@
 //
 //    FILE: SparseArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-07-17
 // PURPOSE: Arduino library for sparse arrays of floats
 //     URL: https://github.com/RobTillaart/SparseArray
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define SPARSEARRAY_LIB_VERSION        (F("0.1.2"))
+#define SPARSEARRAY_LIB_VERSION        (F("0.1.3"))
 
 #ifndef SPARSEARRAY_MAX_SIZE
 #define SPARSEARRAY_MAX_SIZE           1000

@@ -18,9 +18,10 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-
-  Serial.println();
+  Serial.print("SPARSEARRAY_LIB_VERSION: ");
   Serial.println(SPARSEARRAY_LIB_VERSION);
+  Serial.println();
+
   Serial.println(sar.size());
   Serial.println(sar.count());
   Serial.println();

@@ -17,6 +17,9 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("SPARSEARRAY_LIB_VERSION: ");
+  Serial.println(SPARSEARRAY_LIB_VERSION);
+  Serial.println();
 
   Serial.println(sar.size());
   Serial.println(sar.count());
@@ -34,7 +37,7 @@ void setup()
 
   Serial.println();
   Serial.print("NORMAL ARRAY: ");
-  Serial.println(100 * 4);          //  sizeof float
+  Serial.println(100 * 4);          //  4 = size of float
   Serial.print("SPARSE ARRAY: ");
   Serial.println(sar.size() * 6);
 }

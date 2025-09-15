@@ -3,7 +3,7 @@
 //    FILE: NeumannCorrector.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-11-23
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for a NeumannCorrector. (randomizing streams of bits).
 //     URL: https://github.com/RobTillaart/NeumannCorrector
 
@@ -13,9 +13,11 @@
 
 #include "Arduino.h"
 
-#define NEUMANNCORRECTOR_LIB_VERSION         (F("0.1.1"))
+#define NEUMANNCORRECTOR_LIB_VERSION         (F("0.1.2"))
 
+#ifndef NEUMANNCORRECTOR_MAX_SIZE
 #define NEUMANNCORRECTOR_MAX_SIZE            32
+#endif
 
 
 class NeumannCorrector
@@ -44,40 +46,40 @@ public:
 
   void add(uint8_t in)
   {
-    static uint8_t buf = 0;
-    static uint8_t bufsize = 0;
-    int cnt = 0;
+    static uint8_t buffer = 0;
+    static uint8_t bufferSize = 0;
+    int count = 0;
     //  process 8 bits.
-    while (cnt < 8)
+    while (count < 8)
     {
-      cnt++;
-      //  add one bit to buf
-      buf <<= 1;
-      buf |= (in & 0x01);
-      buf &= 0x03;
+      count++;
+      //  add one bit to buffer
+      buffer <<= 1;
+      buffer |= (in & 0x01);
+      buffer &= 0x03;
       in >>= 1;
-      bufsize++;
+      bufferSize++;
 
-      //  if buf contains 2 bits analyze them
-      if (bufsize == 2)
+      //  if buffer contains 2 bits analyse them
+      if (bufferSize == 2)
       {
-        if (buf == 0b01)
+        if (buffer == 0b01)
         {
           _bits <<= 1;
           // _bits add 0.
-          bufsize--;
+          bufferSize--;
           _count++;
         }
-        else if (buf == 0b10)
+        else if (buffer == 0b10)
         {
           _bits <<= 1;
           _bits |= 1;
-          bufsize--;
+          bufferSize--;
           _count++;
         }
         else  //  ignore both;
         {
-          bufsize = 0;
+          bufferSize = 0;
         }
       }
     }

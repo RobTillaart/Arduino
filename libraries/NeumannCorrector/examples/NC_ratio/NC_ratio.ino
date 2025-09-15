@@ -13,9 +13,11 @@ uint32_t count = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("NEUMANNCORRECTOR_LIB_VERSION: ");
   Serial.println(NEUMANNCORRECTOR_LIB_VERSION);
+  Serial.println();
 
   for (uint32_t n = 0; n < 1000000; n++)
   {

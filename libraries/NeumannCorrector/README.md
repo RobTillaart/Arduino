@@ -16,14 +16,15 @@ NeumannCorrector is an Arduino library for a correcting a random streams of bits
 
 ## Description
 
-NeumannCorrector is an **EXPERIMENTAL** library.
+**Experimental**
 
+NeumannCorrector is an experimental library.
 The goal of a NeumannCorrector is to extract a random stream of bits from a stream
 that is unbalanced in the number of ones and zeros.
 The working is based upon the fact that in such a stream there will always be an
 equal amount of 0->1 transitions as 1->0 transitions.
 The algorithm compares pairs of bits, resulting in an often substantial lower
-bitrate at the outside. At least a factor 2 and often more.
+bitrate at the outside. At least a factor 2 and often more (= worse).
 For large number of bits the unbalance(skew/bias) is removed.
 
 The 0.1.0 version is more or less a reference implementation.
@@ -32,7 +33,7 @@ It can be used for experiments and for educational purposes.
 As always remarks are welcome.
 
 
-#### Related to 
+### Related to 
 
 - https://github.com/RobTillaart/NeumannCorrector
 - https://github.com/RobTillaart/DEVRANDOM
@@ -47,25 +48,27 @@ As always remarks are welcome.
 #include "NeumannCorrector.h"
 ```
 
-#### Core
+### Constructor + meta
 
-- **NeumannCorrector()** constructor, internal seize = 32 bits.
-- **void clear()** sets the internal buffer to 0.
+- **NeumannCorrector()** constructor, internal size == 32 bits hardcoded
+and can be command-line overruled.
+- **void clear()** sets the index of the internal buffer to 0.
 - **uint8_t available()** returns bits available in internal buffer.
-- **uint8_t size()** returns the size of the internal buffer. (32 hardcoded).
+- **uint8_t size()** returns the size of the internal buffer. 
+Size of 32 is hardcoded, and can be command-line overruled.
 
-#### Add
+### Add
 
-- **void add(uint8_t in)** adds zero or more bits of the param to the internal buffer.
+- **void add(uint8_t in)** adds zero or more bits of the parameter to the internal buffer.
 
-#### Get
+### Get
 
 - **uint8_t get()** returns 8 bits from the internal buffer,
-even if these are not available.
+even if these are not (all) available.
 - **uint16_t get16()** returns 16 bits from the internal buffer,
-even if these are not available.
+even if these are not (all) available.
 - **uint32_t get32()** returns 32 bits from the internal buffer,
-even if these are not available.
+even if these are not (all) available.
 
 
 ## Future
@@ -79,7 +82,7 @@ even if these are not available.
 
 #### Could
 
-- add xor mask in constructor, to xor every incoming value
+- add XOR mask in constructor, to XOR every incoming value
   - or a multiply add shift mask?
 - extend unit tests.
 - add16() + add32() ?

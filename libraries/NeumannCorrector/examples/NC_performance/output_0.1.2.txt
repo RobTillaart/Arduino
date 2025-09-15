@@ -1,0 +1,12 @@
+
+IDE:      1.8.19
+BOARD:    UNO R3
+
+NC_performance.ino
+NEUMANNCORRECTOR_LIB_VERSION: 0.1.2
+ADD:	11.45
+GET:	1.70
+GET16:	1.58
+GET32:	0.95
+
+done...

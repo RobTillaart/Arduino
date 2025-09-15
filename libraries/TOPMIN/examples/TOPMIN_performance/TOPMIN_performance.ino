@@ -14,6 +14,7 @@ uint32_t cnt = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TOPMIN_LIB_VERSION: ");
   Serial.println(TOPMIN_LIB_VERSION);

@@ -15,7 +15,9 @@ Arduino library to track the top N minima.
 
 ## Description
 
-This experimental library tracks the top N minima of a series of values. 
+**Experimental**
+
+This experimental library tracks the top N minima of a series of values.
 
 The library implements two classes:
 - **TOPMIN** just tracks the values. (smaller footprint).
@@ -34,23 +36,23 @@ The library can be used for different applications:
 - track top N minimum number of visitors during a day.
 
 The 32 bit tag, can be filled with a 32 bit number like a timestamp, bit can also
-be used more creatively e.g. 2x 16 bit numbers or even 32 booleans. 
+be used more creatively e.g. 2x 16 bit numbers or even 32 booleans.
 Any mapping is possible (but not part of the library).
 
 
-#### 0.2.0 breaking change
+### 0.2.0 breaking change
 
 Since version 0.2.0 the minima is found with **getValue(index == 0)**.
 In earlier versions the minima was found with **index == count()**.
 
 The advantage of this change is that independent of the size of the TOPMIN
 object the true minima will always at index == 0. So if you change your code
-and the size of the TOPMIN object, far less code needs to be changed. 
-It also allows to have two or more TOPMIN objects of different size and use one 
+and the size of the TOPMIN object, far less code needs to be changed.
+It also allows to have two or more TOPMIN objects of different size and use one
 index to access both.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/TOPMAX
 - https://github.com/RobTillaart/TOPMIN
@@ -64,13 +66,13 @@ index to access both.
 #include "TOPMIN.h"
 ```
 
-#### TOPMIN
+### TOPMIN
 
 - **TOPMIN(uint8_t size = 5)** Constructor, defines the number of elements it can hold.
 Default number of elements is 5. If **size** < 3 it will be set to 3.
 The maximum size is currently 255, or less if there is not enough memory.
 - **uint8_t count()** returns the number of elements in the internal array. 0.. size.
-- **uint8_t size()** returns the maximum number of elements in the internal array. 
+- **uint8_t size()** returns the maximum number of elements in the internal array.
 - **void reset()** reset the internal counter to 0, logical clearing of the system.
 - **bool add(float value)** add a value to the TOPMIN object if it is in the top N of minima.
 If so the largest element is removed.
@@ -78,11 +80,11 @@ Returns false if not added or if there was an allocation error.
 - **float getValue(uint8_t index)** get an element of the internal array.
 The index must be <= **count()**, if not the function currently returns **NaN**.
 This may or may not be a valid value, so the user should guard the **index** parameter carefully.
-- **bool fill(float value)** convenience function to fill the internal array 
+- **bool fill(float value)** convenience function to fill the internal array
 with a single value e.g. 0. Returns true on success.
 
 
-#### TOPMINext
+### TOPMINext
 
 Derived from TOPMIN, extended with a tag field.
 
@@ -95,7 +97,7 @@ The 32-bit **tag** is typical an index, counter or timestamp, but any semantic i
 - **uint32_t getTag(uint8_t index)** get the tag from an element of the internal array.
 The index must be <= **count()**, if not the function currently returns **0xFFFFFFFF**.
 This may or may not be a valid value, so the user should guard the **index** parameter carefully.
-- **bool fill(float value, uint32_t tag)** convenience function to fill the internal array 
+- **bool fill(float value, uint32_t tag)** convenience function to fill the internal array
 with a single value e.g. 0. (tag idem).
 
 

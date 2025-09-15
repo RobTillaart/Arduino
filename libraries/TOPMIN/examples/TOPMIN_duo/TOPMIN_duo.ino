@@ -7,6 +7,7 @@
 //  demo tracking the top 20 and 
 //  only from the top 3 we keep the time stamp
 
+
 #include "TOPMIN.h"
 
 //  saves about 60 bytes.
@@ -19,6 +20,7 @@ uint32_t cnt = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TOPMIN_LIB_VERSION: ");
   Serial.println(TOPMIN_LIB_VERSION);

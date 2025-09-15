@@ -25,12 +25,17 @@ uint32_t x   = 1;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("TIMING_LIB_VERSION: ");
+  Serial.println(TIMING_LIB_VERSION);
+  Serial.println();
+  delay(10);
   Serial.println("UNO    (16Mhz) takes ~ 30 seconds...");
   Serial.println("ESP32 (240MHz) takes ~ 10 seconds...");
 
   delay(10);
-  seconds sec;     // starts at zero
+  seconds sec;     //  starts at zero
   while (x < mx)
   {
     nextPrime();
@@ -40,7 +45,7 @@ void setup()
 
   delay(10);
   x = 1;
-  sec.set();     // starts at zero
+  sec.set();     //  starts at zero
   while (x < mx)
   {
     nextPrime();
@@ -57,7 +62,7 @@ void loop()
 }
 
 
-// sort of sieve.
+//  sort of sieve.
 int nextPrime()
 {
   bool prime = true;
@@ -74,11 +79,14 @@ int nextPrime()
       }
     }
   } while (!prime);
-  if (idx < MAXPRIMES) primes[idx++] = x;
+  if (idx < MAXPRIMES)
+  {
+    primes[idx++] = x;
+  }
 
   return x;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

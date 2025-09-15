@@ -11,10 +11,14 @@
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("TIMING_LIB_VERSION: ");
+  Serial.println(TIMING_LIB_VERSION);
+  Serial.println();
   delay(10);
 
-  milliSeconds mis;     // starts at zero
+  milliSeconds mis;  //  starts at zero
   for (uint32_t i = 0; i < 1000; i++)
   {
     Serial.print(i);
@@ -25,7 +29,7 @@ void setup()
   Serial.print("milliseconds:\t");
   Serial.println(x);
 
-  mis.set(0);     // starts at zero
+  mis.set(0);  //  starts at zero
   for (uint32_t i = 0; i < 1000; i++)
   {
     Serial.print(i);
@@ -45,5 +49,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

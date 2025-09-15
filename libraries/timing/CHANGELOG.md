@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.6] - 2025-09-15
+- update GitHub actions
+- minor edits
+
 ## [0.2.6] - 2023-11-22
 - update readme.md
-
 
 ## [0.2.5] - 2023-02-10
 - update readme.md
@@ -18,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - test on ESP32.
 - update GitHub actions
 - update license 2023
-
 
 ## [0.2.4] - 2022-11-26
 - Add RP2040 support to build-CI.

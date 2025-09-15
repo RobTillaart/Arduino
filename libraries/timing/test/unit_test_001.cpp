@@ -52,7 +52,7 @@ unittest(test_constructor)
   microSeconds mic;
   assertEqual(0, mic.getOffset());
   mic.set(100);
-  assertEqual(4294967196, mic.getOffset());  // max uint32_t - 100
+  assertEqual(4294967196, mic.getOffset());  //  max uint32_t - 100
 
   milliSeconds mil;
   assertEqual(0, mil.getOffset());

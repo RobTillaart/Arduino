@@ -35,7 +35,14 @@ overflow and accuracy. Depending on e.g. interrupts, millis() and micros() can d
 |  microSeconds  |  00 days  01:11:34.967296  |  based upon micros()  |
 
 
-#### Tests
+### Related
+
+- https://github.com/RobTillaart/dateTimeHelpers
+- https://github.com/RobTillaart/printHelpers
+- https://github.com/RobTillaart/stopWatch_RT
+
+
+### Tests
 
 Code is tested on UNO and ESP32, should work on all platforms.
 
@@ -55,11 +62,16 @@ which could be another Arduino.
 #include "timing.h"
 ```
 
-The interface of all three are very similar:
+The interface of all three classes are very similar.
+
+### Constructors
 
 - **microSeconds()** constructor, sets the offset so it starts at 0.
 - **milliSeconds()** constructor, sets the offset so it starts at 0.
 - **seconds()** constructor, sets the offset so it starts at 0.
+
+### Functions
+
 - **uint32_t now()** returns the time elapsed since its 'zero moment'.
 Ether set during construction or by a call to **set(0)**.
 - **void set(uint32_t value = 0UL)** sets the offset of the object.
@@ -72,9 +84,14 @@ So seconds for seconds, millis for millis and micros for micros.
 - **double toSeconds()** returns a float representation of the current value in seconds.
 e.g. 15678 milliseconds becomes 15.678 seconds (SI units).
 
-#### Experimental
 
-- ** char \* toClock()** converts current seconds to a clock like char array "HH:MM:SS".
+### Experimental
+
+Not implemented yet
+
+See also dateTimeHelpers library.
+ 
+- **char \* toClock()** converts current seconds to a clock like char array "HH:MM:SS".
 Only for the seconds class for now.
 
 

@@ -14,6 +14,7 @@ add	KEYWORD2
 getOffset	KEYWORD2
 toSeconds	KEYWORD2
 
+# toClock	KEYWORD2
 
 # Constants (LITERAL1)
 TIMING_LIB_VERSION	LITERAL1

@@ -54,7 +54,7 @@ unittest(test_constructor)
   Troolean t(true);
   Troolean u(-1);
   Troolean v(u);
-  
+
   // should not use these
   assertFalse(f);
   assertTrue(t);
@@ -68,8 +68,8 @@ unittest(test_constructor)
 }
 
 
-// TODO extend operators  comparison etc
+//  TODO extend operators  comparison etc
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

@@ -8,12 +8,72 @@
 #include "Troolean.h"
 
 
+////////////////////////////////////////////////////////////
+//
+//  EXPECTED OUTPUT
+//
+/*
+  .....\test1.ino
+TROOLEAN_LIB_VERSION: 0.1.1
+
+testConstructor
+false	true	unknown	unknown
+
+testEquality
+1	0	0
+0	1	0
+0	0	1
+1	1	0	0
+
+testInEquality
+0	1	1
+1	0	1
+1	1	0
+0	0	1	1
+
+testAssignment
+true	unknown	false
+
+testAND
+false	true	unknown
+false	false	false
+false	unknown	unknown
+
+testOR
+true	true	true
+false	true	unknown
+unknown	true	unknown
+
+testNOT
+true	false	unknown
+false	true	unknown
+
+testIF
+TRUE	b
+FALSE	a
+UNKNOWN	c
+BOOL()	trueb
+
+testIS
+1	0	0
+0	1	0
+0	0	1
+
+*/
+
+
+////////////////////////////////////////////////////////////
+//
+//  PROGRAM
+//
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TROOLEAN_LIB_VERSION: ");
   Serial.println(TROOLEAN_LIB_VERSION);
+  Serial.println();
 
   testConstructor();
   testEquality();
@@ -266,8 +326,8 @@ void testNOT()
 
 void testIF()
 {
-  // a troolean cannot be used directly in a if or while statement
-  // it must be compared to either boolean ot troolean.
+  //  a troolean cannot be used directly in a if or while statement
+  //  it must be compared to either boolean or troolean.
   Troolean a(false), b(true), c(unknown);
 
   Serial.println();
@@ -381,59 +441,5 @@ void testIS()
 }
 
 
-////////////////////////////////////////////////////////////
-//
-// EXPECTED OUTPUT
-//
-/*
-  .....\test1.ino
-TROOLEAN_LIB_VERSION: 0.1.1
-
-testConstructor
-false	true	unknown	unknown
-
-testEquality
-1	0	0
-0	1	0
-0	0	1
-1	1	0	0
-
-testInEquality
-0	1	1
-1	0	1
-1	1	0
-0	0	1	1
-
-testAssignment
-true	unknown	false
-
-testAND
-false	true	unknown
-false	false	false
-false	unknown	unknown
-
-testOR
-true	true	true
-false	true	unknown
-unknown	true	unknown
-
-testNOT
-true	false	unknown
-false	true	unknown
-
-testIF
-TRUE	b	
-FALSE	a	
-UNKNOWN	c	
-BOOL()	trueb	
-
-testIS
-1	0	0
-0	1	0
-0	0	1
-
-*/
-
-
-// -- END OF FILE --
+//  -- END OF FILE --
 

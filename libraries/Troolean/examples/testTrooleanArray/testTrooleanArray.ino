@@ -8,7 +8,7 @@
 #include "Troolean.h"
 
 
-// minimal array test
+//  minimal array test
 Troolean arr[10];
 Troolean brr[5] = { true, false, unknown };
 
@@ -16,9 +16,11 @@ Troolean brr[5] = { true, false, unknown };
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TROOLEAN_LIB_VERSION: ");
   Serial.println(TROOLEAN_LIB_VERSION);
+  Serial.println();
 
   for (int i = 0; i < 10; i++) arr[i] = false;
   for (int i = 0; i < 10; i++)
@@ -50,7 +52,7 @@ void setup()
     Serial.print(brr[i]);
     Serial.print(" ");
   }
-  Serial.println(); 
+  Serial.println();
 
   Serial.println("\ndone...");
 }
@@ -61,5 +63,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

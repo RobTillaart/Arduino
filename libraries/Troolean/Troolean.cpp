@@ -1,7 +1,7 @@
 //
 //    FILE: Troolean.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.8
+// VERSION: 0.1.9
 // PURPOSE: Arduino Library for a three state logic data type supporting {true false unknown}
 //     URL: https://github.com/RobTillaart/Troolean
 
@@ -41,7 +41,7 @@ size_t Troolean::printTo(Print& p) const
   else if (_value == -1) n += p.print("unknown");
   else n += p.print("true");
   return n;
-};
+}
 
 
 //////////////////////////////////////////////////

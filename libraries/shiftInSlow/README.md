@@ -16,13 +16,15 @@ Arduino library for shiftIn with build-in delay - e.g. for 74HC165.
 
 ## Description
 
+**Experimental**
+
 shiftInSlow is an experimental library that has a build in delay (in microseconds) that allows tuning the time per bit. 
 This allows one to improve reliability e.g. when using longer lines.
 
 The dataPin and clockPin are set in the constructor, the delay is configurable per byte send to be able to optimize runtime.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/FastShiftIn
 - https://github.com/RobTillaart/FastShiftOut
@@ -49,15 +51,18 @@ slow the pulse train to a working level.
 #include "ShiftInSlow.h"
 ```
 
-#### Functions
+### Constructor
 
-The interface exists of the following functions:
 - **ShiftInSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor, 
 bit order is default set to LSBFIRST.
+
+### Functions
+
 - **int read()** reads a new value.
 - **int lastRead()** returns last value read.
 - **void setDelay(uint16_t microseconds = 0)** set delay per bit from 0 .. 65535 microseconds. 
 Note that the delay is split in two parts to keep the duty cycle around 50%.
+Note that odd delays will get a truncating error.
 - **uint16_t getDelay()** returns the set delay in microseconds.
 - **bool setBitOrder(uint8_t bitOrder = LSBFIRST)** set LSBFIRST or MSBFIRST. Returns false for other values.
 - **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST.
@@ -80,6 +85,9 @@ See examples.
   - would allow SPI debugging?
 - increase max delay uint32_t ?
   - would allow pulses in "second" domain.
+  - millis() clock iso micros()
+- fix odd delays rounding error
+  - get uneven duty cycle is result.
 
 #### Could
 

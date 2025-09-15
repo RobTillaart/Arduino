@@ -2,12 +2,12 @@
 //
 //    FILE: timing.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: Arduino library with wrapper classes for seconds millis micros
 //     URL: https://github.com/RobTillaart/timing
 
 
-#define TIMING_LIB_VERSION        (F("0.2.7"))
+#define TIMING_LIB_VERSION        (F("0.2.8"))
 
 
 class microSeconds

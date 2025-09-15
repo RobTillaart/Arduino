@@ -18,9 +18,10 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-
-  Serial.println();
+  Serial.print("SPARSEMATRIX_LIB_VERSION: ");
   Serial.println(SPARSEMATRIX_LIB_VERSION);
+  Serial.println();
+
   Serial.println(sm.size());
   Serial.println(sm.count());
   Serial.println();

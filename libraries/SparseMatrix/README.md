@@ -16,12 +16,14 @@ Arduino library for sparse matrices.
 
 ## Description
 
-SparseMatrix is an **experimental** library to implement
+**Experimental**
+
+SparseMatrix is an experimental library to implement
 two dimensional sparse matrices (of floats) on an Arduino.
 A sparse matrix is a matrix with mostly zeros and a low percentage non-zero values.
-The purpose of this library is efficient storage in memory. 
+The purpose of this library is efficient storage in memory.
 
-The maximum matrix that can be represented is 255 x 255 
+The maximum matrix that can be represented is 255 x 255
 with a theoretical maximum of 65535 non-zero elements.
 In practice the library limits this to 1000 non-zero elements.
 Note: 255 elements would still fit in an UNO's 2K memory.
@@ -31,34 +33,34 @@ Note: the library does not do matrix math operations.
 Note: the library does not hold the dimensions of the matrix
 and cannot check these.
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/SparseArray
 - https://github.com/RobTillaart/distanceTable
- 
 
-#### Implementation
 
-The implementation is based on 3 arrays holding ``` x, y, value``` 
-where value is float, and x and y are uint8_t. 
-That are 6 bytes per element. 
-The number of elements that the sparse matrix object can hold are 
-given as parameter to the constructor. 
+### Implementation
+
+The implementation is based on 3 arrays holding ``` x, y, value```
+where value is float, and x and y are uint8_t.
+That are 6 bytes per element.
+The number of elements that the sparse matrix object can hold are
+given as parameter to the constructor.
 If the space cannot be allocated the size is set to zero.
 
 In the future other data types should be possible.
 
 
-#### Performance
+### Performance
 
-The elements are not kept sorted or indexed so optimizations might be 
+The elements are not kept sorted or indexed so optimizations might be
 possible but are not investigated yet.
 There is however a test sketch to monitor the performance of
 the most important functions.
 
-Accessing elements internally is done with a linear search, 
-which becomes (much) slower if the number of elements is increasing. 
-This means that although in theory there can be 65535 elements, 
+Accessing elements internally is done with a linear search,
+which becomes (much) slower if the number of elements is increasing.
+This means that although in theory there can be 65535 elements,
 in practice a few 100 can already become annoyingly slow.
 To keep performance a bit the library has a limit build in.
 Check the .h file for **SPARSEMATRIX_MAX_SIZE 1000**
@@ -72,7 +74,7 @@ Check the .h file for **SPARSEMATRIX_MAX_SIZE 1000**
 
 ### Constructor + meta
 
-- **SparseMatrix(uint16_t size)** constructor. 
+- **SparseMatrix(uint16_t size)** constructor.
 Parameter is the maximum number of elements in the sparse matrix.
 Note this number is limited to **SPARSEMATRIX_MAX_SIZE 1000**.
 If the space requested cannot be allocated size will be set to 0.
@@ -89,12 +91,12 @@ Should be between 0 and size.
 - **bool set(uint8_t x, uint8_t y, float value)** gives an element in the matrix a value.
 If the value is set to zero, it is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
-- **float get(uint8_t x, uint8_t y)** returns the value in the matrix. 
+- **float get(uint8_t x, uint8_t y)** returns the value in the matrix.
 - **bool add(uint8_t x, uint8_t y, float value)** adds value to an element in the matrix.
-If needed a new internal element is created. 
+If needed a new internal element is created.
 If the sum is zero, the element is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
-- **void  boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)** 
+- **void  boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)**
 Returns the bounding box in which all values != 0 are located.
 This can be useful for printing or processing the non zero elements.
 
@@ -111,10 +113,10 @@ This can be useful for printing or processing the non zero elements.
 
 #### Could
 
-- template version to store other data types 
+- template version to store other data types
   - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
   - struct, complex number
-  - etc
+  - etc.
 - investigate performance optimizations
   - sort
   - linked list, tree, hashing?
@@ -131,9 +133,9 @@ This can be useful for printing or processing the non zero elements.
 #### Functions
 
 - extend the add() math series.
-  - sub(uint8_t x, uint8_t y, float value);
+  - sub(uint8_t x, uint8_t y, float value);  //  add(x, y, -value)
   - mul(uint8_t x, uint8_t y, float value);
-  - div(uint8_t x, uint8_t y, float value);
+  - div(uint8_t x, uint8_t y, float value);  //  == 0 test
   - sqrt(uint8_t x, uint8_t y, float value);
   - pow(uint8_t x, uint8_t y, float value);
   - exp(uint8_t x, uint8_t y, float value);

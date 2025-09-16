@@ -2,7 +2,6 @@
 //    FILE: DS28CM00_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test DS28CM00 lib
-//    DATE: 2020-04-10
 //     URL: https://github.com/RobTillaart/DS28CM00
 
 
@@ -20,10 +19,11 @@ DS28CM00 DS28(&Wire1);
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print(F("DS28CM00 library: "));
+  Serial.print(F("DS28CM00_LIB_VERSION: "));
   Serial.println(DS28CM00_LIB_VERSION);
+  Serial.println();
 
   Wire.begin(10, 12);
   DS28.begin();
@@ -76,7 +76,7 @@ void test()
     }
 
     //  CRC GENERATION
-    //  TODO VERIFY WHICH CRC  
+    //  TODO VERIFY WHICH CRC
     //  uint8_t crc8_le(uint8_t crc, uint8_t const *buf, uint32_t len);
     //  uint8_t crc8_be(uint8_t crc, uint8_t const *buf, uint32_t len);
 

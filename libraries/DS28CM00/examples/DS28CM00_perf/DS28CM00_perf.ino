@@ -20,10 +20,11 @@ uint32_t stop;
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print(F("DS28CM00 library: "));
+  Serial.print(F("DS28CM00_LIB_VERSION: "));
   Serial.println(DS28CM00_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -51,38 +52,42 @@ void loop()
 void perf_test()
 {
   Serial.println(F("DS28CM00 performance. Times in milliseconds,"));
+  delay(100);
 
-  Serial.print(F("1000x getUID :\t"));
+
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
     DS28.getUID(uid);
   }
   stop = millis();
+  Serial.print(F("1000x getUID :\t"));
   Serial.println(stop - start);
+  delay(100);
 
 
-  Serial.print(F("1000x setI2C :\t"));
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
     DS28.setI2CMode();
   }
   stop = millis();
+  Serial.print(F("1000x setI2C :\t"));
   Serial.println(stop - start);
+  delay(100);
 
 
-  Serial.print(F("1000x setSMB :\t"));
   start = millis();
   for (int i = 0; i < 1000; i++)
   {
     DS28.setSMBusMode();
   }
   stop = millis();
+  Serial.print(F("1000x setSMB :\t"));
   Serial.println(stop - start);
+  delay(100);
 
 
-  Serial.print(F("1000x getMode:\t"));
   uint8_t mode;
   start = millis();
   for (int i = 0; i < 1000; i++)
@@ -90,7 +95,9 @@ void perf_test()
     DS28.getMode(mode);
   }
   stop = millis();
+  Serial.print(F("1000x getMode:\t"));
   Serial.println(stop - start);
+  delay(100);
 }
 
 

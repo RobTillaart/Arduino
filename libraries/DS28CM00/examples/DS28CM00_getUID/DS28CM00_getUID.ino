@@ -16,10 +16,11 @@ uint8_t uid[8];
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print(F("DS28CM00 library: "));
+  Serial.print(F("DS28CM00_LIB_VERSION: "));
   Serial.println(DS28CM00_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

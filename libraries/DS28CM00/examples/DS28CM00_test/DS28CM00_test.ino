@@ -23,10 +23,11 @@ uint8_t uid[8];
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print(F("DS28CM00 library: "));
+  Serial.print(F("DS28CM00_LIB_VERSION: "));
   Serial.println(DS28CM00_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -53,7 +54,7 @@ void test()
   }
   else
   {
-    // PRINT UID
+    //  PRINT UID
     Serial.print(F("UID:\t"));
     for (uint8_t i = 0; i < 8; i++)
     {
@@ -63,13 +64,13 @@ void test()
     }
     Serial.println();
 
-    // GET MODE
+    //  GET MODE
     uint8_t mode = 0;
     DS28.getMode(mode);
     Serial.print(F("MODE:\t"));
     Serial.println(mode);
 
-    // TOGGLE MODE
+    //  TOGGLE MODE
     if (mode == DS28CM00_I2C_MODE)
     {
       DS28.setSMBusMode();
@@ -83,8 +84,8 @@ void test()
     //  TODO VERIFY WHICH CRC
 
 #if defined(ESP32) || defined(ESP8266)
-    // uint8_t crc8_le(uint8_t crc, uint8_t const *buf, uint32_t len);
-    // uint8_t crc8_be(uint8_t crc, uint8_t const *buf, uint32_t len);
+    //  uint8_t crc8_le(uint8_t crc, uint8_t const *buf, uint32_t len);
+    //  uint8_t crc8_be(uint8_t crc, uint8_t const *buf, uint32_t len);
 
     uint8_t crc = crc8_le(0, uid, 7);
 #else

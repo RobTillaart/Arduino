@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2025-09-16
+- update GitHub actions
+- add experimental cache support
+- minor edits
+
 ## [0.4.0] - 2023-12-11
 - refactor API, begin()
 - update readme.md
@@ -51,7 +56,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.1.0] - 2017-07-15-  initial version
+## [0.1.0] - 2017-07-15
+-  initial version
 
 ## [0.1.00]
 - initial version

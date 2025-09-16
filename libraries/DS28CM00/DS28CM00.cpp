@@ -2,7 +2,8 @@
 //    FILE: DS28CM00.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS28CM00 unique identification chip.
-// VERSION: 0.4.0
+// VERSION: 0.4.1
+//    DATE: 2017-07-15
 //     URL: https://github.com/RobTillaart/DS28CM00
 
 
@@ -53,6 +54,16 @@ bool DS28CM00::getMode(uint8_t &mode)
 
 bool DS28CM00::getUID(uint8_t * buffer, uint8_t size)
 {
+#ifdef DS28CM00_CACHE
+  if (_cacheRead == true)
+  {
+    for (uint8_t i = 0; i < size; i++)
+    {
+      buffer[i] = _cache[i];
+    }
+    return true;
+  }
+#endif
   _wire->beginTransmission(DS28CM00_DEVICE_ADDRESS);
   _wire->write(DS28CM00_UID_REGISTER);
   int rv = _wire->endTransmission();
@@ -63,11 +74,16 @@ bool DS28CM00::getUID(uint8_t * buffer, uint8_t size)
   uint8_t read = _wire->requestFrom((uint8_t)DS28CM00_DEVICE_ADDRESS, size);
   if (read < size) return false;
 
-  for (uint8_t i = 0; i < size; i++) 
+  for (uint8_t i = 0; i < size; i++)
   {
     buffer[i] = _wire->read();
+#ifdef DS28CM00_CACHE
+    _cache[i] = buffer[i];
+#endif
   }
-
+#ifdef DS28CM00_CACHE
+  _cacheRead = true;
+#endif
   return true;
 }
 

@@ -16,23 +16,21 @@ Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 
 ## Description
 
-**warning** during tests I could overclock the PCF8591 chip up to 650 KHz.
-However it is only specified to run at 100 kHz. 
-After some time it was getting pretty hot and it broke down. 
-So overclocking is fun but **not recommended**.
-
-PCF8591 has one 8 bit ADC on board for 4 channels. The ADC is 8 bit and quite fast.
-At 100 KHz one gets \> 2000 reads per second for **read()** and 
-\> 2000 writes per second for **write()**.  
+PCF8591 has one 8 bit ADC on board for 4 channels. 
+The ADC is 8 bit and quite fast.
+At 100 KHz one gets more than 2000 reads per second for **read()** and 
+more than 2000 writes per second for **write()**.  
 Note that most time is probably spend on I2C communication.
 
 The auto-increment functionality is used in the **read4()** function.
 The library only supports it for the mode 0 (plain ADC, no differential). 
 The **lastRead()** function is needed to get access to the values.
-First tests shows it is 2.6 x faster than 4 individual reads.
+First tests shows it is about 2.6 x faster than 4 individual reads.
+
+Feedback as always is welcome.
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -54,7 +52,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -63,11 +61,20 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### I2C overclocking
+
+**Warning** 
+
+During tests I could overclock the PCF8591 chip up to 650 KHz.
+However it is only specified to run at 100 kHz. 
+After some time it was getting pretty hot and it broke down. 
+So overclocking is fun but **not recommended**.
+
+
+### Related
 
 - https://github.com/RobTillaart/MCP_DAC
 - https://github.com/RobTillaart/MCP_ADC
-
 
 
 ## Interface
@@ -76,7 +83,7 @@ before calling **begin()**.
 #include "PCF8591.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **PCF8591(uint8_t address = 0x48, TwoWire \*wire = &Wire)** constructor with I2C address.
 Default is 0x48, optional set the WireN I2C bus.
@@ -87,7 +94,7 @@ Returns **true** if successful.
 - **uint8_t getAddress()** returns address set in constructor.
 
 
-#### ADC channels
+### ADC channels
 
 The PCF8591 has four 8 bit ADC channels. Values = 0..255.
 
@@ -120,7 +127,7 @@ See example sketch.
 |  PCF8591_TWO_DIFFERENTIAL     |  0x03   |
 
 
-#### Comparator
+### Comparator
 
 Since 0.2.0 four direct comparator calls are added to make the code more explicit.
 These four calls are in fact wrappers around the **read()**.
@@ -137,7 +144,7 @@ Be sure to select the right channel for **lastRead()**.
 Note: these functions do never use PCF8591_MIXED (2) mode.
 
 
-#### DAC channel
+### DAC channel
 
 The PCF8591 has one 8 bit DAC. output value 0..255 == 0..Vref Volts (datasheet).
 
@@ -149,7 +156,7 @@ Note, this is a real voltage not a PWM signal like **analogWrite()** on an UNO.
 - **uint8_t lastWrite()** get last value written (from cache).
 
 
-#### Error codes
+### Error codes
 
 - **int lastError()** always check this value after a read / write to see if it was OK (== 0).
 After the read the error value is reset to OK.
@@ -179,6 +186,8 @@ See examples.
 
 #### Should
 
+- improve error handling
+  - I2C write vs request
 - add examples 
   - for comparator calls.
   - schema?

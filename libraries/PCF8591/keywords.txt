@@ -12,8 +12,8 @@ enableINCR	KEYWORD2
 disableINCR	KEYWORD2
 isINCREnabled	KEYWORD2
 
-analogRead	KEYWORD2
-analogRead4	KEYWORD2
+read	KEYWORD2
+read4	KEYWORD2
 lastRead	KEYWORD2
 
 readComparator_01	KEYWORD2
@@ -25,7 +25,7 @@ readComparator_13	KEYWORD2
 enableDAC	KEYWORD2
 disableDAC	KEYWORD2
 isDACEnabled	KEYWORD2
-analogWrite	KEYWORD2
+write	KEYWORD2
 lastWrite	KEYWORD2
 
 lastError	KEYWORD2

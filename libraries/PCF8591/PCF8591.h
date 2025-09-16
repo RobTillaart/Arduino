@@ -3,7 +3,7 @@
 //    FILE: PCF8591.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -12,8 +12,12 @@
 #include "Wire.h"
 
 
-#define PCF8591_LIB_VERSION                 (F("0.4.0"))
+#define PCF8591_LIB_VERSION                 (F("0.4.1"))
 
+
+//  ERROR CODES
+//  note there are also low level I2C errors possible
+//  these are not in this table.
 #define PCF8591_OK                          0x00
 #define PCF8591_PIN_ERROR                   0x81
 #define PCF8591_I2C_ERROR                   0x82
@@ -21,6 +25,8 @@
 #define PCF8591_CHANNEL_ERROR               0x84
 #define PCF8591_ADDRESS_ERROR               0x85
 
+
+//  MODE 
 //  datasheet figure 4 page 6
 #define PCF8591_FOUR_SINGLE_CHANNEL         0x00  //  default
 #define PCF8591_THREE_DIFFERENTIAL          0x01

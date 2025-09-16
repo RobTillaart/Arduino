@@ -2,7 +2,6 @@
 //    FILE: PCF8591_incremental_read.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-22
 //     URL: https://github.com/RobTillaart/PCF8591
 
 
@@ -16,9 +15,11 @@ uint32_t start, stop, dura1, dura2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCF8591_LIB_VERSION: ");
   Serial.println(PCF8591_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -36,7 +37,6 @@ void setup()
   Serial.println(dev.read(3));
   Serial.println();
 
-  //////////////////////////////////////////////////////
 
   Serial.println("Read 4 one by one");
   for (uint8_t i = 0; i < 4; i++)
@@ -55,7 +55,6 @@ void setup()
   dura2 = stop - start;
   Serial.println(dura2);
 
-  //////////////////////////////////////////////////////
 
   Serial.println("Read 4 with auto increment");
   start = micros();
@@ -82,5 +81,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

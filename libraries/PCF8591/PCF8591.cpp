@@ -2,7 +2,7 @@
 //    FILE: PCF8591.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -10,9 +10,12 @@
 #include "PCF8591.h"
 
 
-//  INTERNAL USE ONLY
-#define PCF8591_DAC_FLAG                0x40
-#define PCF8591_INCR_FLAG               0x04
+//  INTERNAL USE
+const uint8_t PCF8591_DAC_FLAG = 0x40;
+const uint8_t PCF8591_INCR_FLAG = 0x04;
+
+const uint8_t PCF8591_MAX_MODE = 3;
+const uint8_t PCF8591_MAX_CHANNEL = 3;
 
 
 PCF8591::PCF8591(uint8_t address, TwoWire *wire)
@@ -80,14 +83,19 @@ bool PCF8591::isINCREnabled()
 
 uint8_t PCF8591::read(uint8_t channel, uint8_t mode)
 {
-  if (mode > 3)
+  //  verify parameters
+  if (mode > PCF8591_MAX_MODE)
   {
     _error = PCF8591_MODE_ERROR;
     return 0;
   }
-  _control &= 0b01000100;         //  clear all except flags
+
+  //  clear all except flags
+  _control &= 0b01000100;
+  //  set mode bits
   _control |= (mode << 4);
 
+  //  handle error flag for all 4 channel errors at once.
   _error = PCF8591_CHANNEL_ERROR;
   switch(mode)
   {
@@ -106,7 +114,9 @@ uint8_t PCF8591::read(uint8_t channel, uint8_t mode)
     default:
       return 0;
   }
+  //  set channel bits
   _control |= channel;
+  //  reset error flag.
   _error = PCF8591_OK;
 
   //  NOTE: one must read two values to get an up to date value.
@@ -114,12 +124,17 @@ uint8_t PCF8591::read(uint8_t channel, uint8_t mode)
   _wire->beginTransmission(_address);
   _wire->write(_control);
   _error = _wire->endTransmission();  //  default == 0 == PCF8591_OK
-  if (_error != 0) return PCF8591_I2C_ERROR;
+  if (_error != 0)
+  {
+    //  mmm is return 0 better (consistent)?
+    return PCF8591_I2C_ERROR;
+  }
 
   if (_wire->requestFrom(_address, (uint8_t)2) != 2)
   {
     _error = PCF8591_I2C_ERROR;
-    return _adc[channel];          //  return last known value
+    //  return last known value
+    return _adc[channel];
   }
   _wire->read();
   _adc[channel] = _wire->read();
@@ -141,7 +156,7 @@ uint8_t PCF8591::read4()
   _error = _wire->endTransmission();  //  default == 0 == PCF8591_OK
   if (_error != 0)
   {
-    _error = PCF8591_I2C_ERROR;
+    //  _error = PCF8591_I2C_ERROR;  one wants the low level I2C error.
     disableINCR();
     return _error;
   }
@@ -165,8 +180,13 @@ uint8_t PCF8591::read4()
 
 uint8_t PCF8591::lastRead(uint8_t channel)
 {
+  if (channel > PCF8591_MAX_CHANNEL)
+  {
+    _error = PCF8591_CHANNEL_ERROR;
+    return 0;
+  }
   return _adc[channel];
-};
+}
 
 
 //  comparator calls need testing.
@@ -198,7 +218,6 @@ int PCF8591::readComparator_13()
 }
 
 
-
 //////////////////////////////////////////////////////////
 //
 //  DAC PART
@@ -206,21 +225,25 @@ int PCF8591::readComparator_13()
 void PCF8591::enableDAC()
 {
   _control |= PCF8591_DAC_FLAG;
-};
+}
 
 
 void PCF8591::disableDAC()
 {
   _control &= ~PCF8591_DAC_FLAG;
-};
+}
 
 
 bool PCF8591::isDACEnabled()
 {
   return ((_control & PCF8591_DAC_FLAG) > 0);
-};
+}
 
 
+//////////////////////////////////////////////////////////
+//
+//  WRITE
+//
 bool PCF8591::write(uint8_t value)
 {
   _wire->beginTransmission(_address);
@@ -240,7 +263,7 @@ bool PCF8591::write(uint8_t value)
 uint8_t PCF8591::lastWrite()
 {
   return _dac;
-};
+}
 
 
 //////////////////////////////////////////////////////////

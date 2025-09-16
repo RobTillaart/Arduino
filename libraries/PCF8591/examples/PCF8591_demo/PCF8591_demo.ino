@@ -2,7 +2,6 @@
 //    FILE: PCF8591_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-22
 //     URL: https://github.com/RobTillaart/PCF8591
 
 
@@ -14,9 +13,11 @@ PCF8591 dev(0x48);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCF8591_LIB_VERSION: ");
   Serial.println(PCF8591_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000UL);

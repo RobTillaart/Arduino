@@ -57,7 +57,7 @@ unittest_teardown()
 {
 }
 
-//  not testable withour proper mock-up
+//  not testable without proper mock-up
 unittest(test_constructor)
 {
   PT2314 pt2;

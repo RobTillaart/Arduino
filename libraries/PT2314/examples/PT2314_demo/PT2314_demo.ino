@@ -15,7 +15,11 @@ PT7313 pt;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("PT2314_LIB_VERSION: ");
+  Serial.println(PT2314_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   Wire.begin();
@@ -26,7 +30,7 @@ void setup()
   //  shift the balance
   pt.setAttnLeft(15);
   pt.setAttnRight(24);
-  
+
   pt.setLoudness(true);
 }
 

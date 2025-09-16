@@ -16,16 +16,18 @@ Arduino library for PT2314 i2C 4 channel audio processor.
 
 ## Description
 
+**Experimental**
+
 The PT2314 library is experimental as it is not tested with hardware.
 
-The PT2314 is a audio processor that can select from four stereo
+The **PT2314** is a audio processor that can select from four stereo
 inputs, and provides one stereo output.
 Attributes to control are volume, gain, attenuation, bass, treble,
 mute and loudness.
-The library should also work with the PT7314, a separate constructor 
-exist for it.
+The library should also work with the **PT7314**, a Separate constructor
+and functions exist for it.
 
-A separate derived class is created for the PT7313, an compatible 
+A separate derived class is created for the **PT7313**, an compatible
 audio processor with only three stereo inputs and two stereo outputs.
 It is used in automotive to control front and back speakers.
 
@@ -46,16 +48,16 @@ It is used in automotive to control front and back speakers.
 Feedback as always, is welcome.
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
+The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### I2C
+## I2C
 
 |  processor  |  MAX KHz |  tested  |
 |:-----------:|:--------:|:--------:|
@@ -64,22 +66,32 @@ before calling **begin()**.
 |    PT7313   |   400    |    N     |
 
 
-Note: Datasheet PT7314 states that the device needs at least 50 ms 
-to wake up before it can process I2C commands. 
+Note: Datasheet PT7314 states that the device needs at least 50 ms
+to wake up before it can process I2C commands.
 So one might need to give it some time to get started.
 
 
-#### Multiplexing
+### I2C multiplexing
 
-If you want to put more than one PT2314 on an I2C bus you need an 
-I2C multiplexer as the device has a fixed address.
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-See https://github.com/RobTillaart/TCA9548
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 (not tested, feedback welcome).
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4052 (multiplexer for more inputs)
 - https://github.com/RobTillaart/TCA9548 (I2C multiplexer)
@@ -91,30 +103,29 @@ See https://github.com/RobTillaart/TCA9548
 #include "PT2314.h"
 ```
 
-#### Constructors
+### Constructors
 
 - **PT2314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
-- **PT7313(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
 - **PT7314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
 - **bool begin()** initialized library.
 Returns true if device can be seen on the I2C bus.
 - **bool isConnected()** returns true if device (0x44) can be seen on I2C bus.
 
-#### Channel
+### Channel
 
 - **void setChannel(uint8_t channel = 0)** Select the input channel 0..3.
 - **uint8_t getChannel()** return selected input channel.
 
-#### Volume
+### Volume
 
-- **void setMute(bool on = true)** mute all output channels.
+- **void setMute(bool mute = true)** mute all output channels.
 - **bool getMute()** get current mute state.
-- **void setLoudness(bool on = true)** set loudness on.
+- **void setLoudness(bool loudness = true)** set loudness on.
 - **bool getLoudness()** get current loudness state.
 - **void setVolume(uint8_t volume = 0)** set the volume between 0..63.
 - **uint8_t getVolume()** get current volume.
 
-#### Bass Treble
+### Bass Treble
 
 - **void setBass(int8_t bass = 0)** bass can be set to -14..14 dB,
 will be rounded to even numbers only. So 15 levels in total.
@@ -123,9 +134,9 @@ will be rounded to even numbers only. So 15 levels in total.
 will be rounded to even numbers only. So 15 levels in total.
 - **int8_t getTreble()** get current treble level.
 
-#### Gain
+### Gain
 
-- **void setGain(uint8_t gain = 0)**  Gain can be 0..3. 
+- **void setGain(uint8_t gain = 0)**  Gain can be 0..3.
 CHeck datasheet for mapping.
 - **uint8_t getGain()**
 
@@ -137,11 +148,11 @@ CHeck datasheet for mapping.
 |    3   |   0.00 |
 
 
-#### Attenuation
+### Attenuation
 
-- **void setAttnLeft(uint8_t value = 31)** set the left attenuation from 0..31.
+- **void setAttnLeft(uint8_t attn = 31)** set the left attenuation from 0..31.
 - **uint8_t getAttnLeft()** get current left attenuation level.
-- **void setAttnRight(uint8_t value = 31)** set the right attenuation from 0..31.
+- **void setAttnRight(uint8_t attn = 31)** set the right attenuation from 0..31.
 - **uint8_t getAttnRight()** get current right attenuation level.
 - **void setAttn(uint8_t attn)** set all channels in one call.
 
@@ -159,27 +170,27 @@ Attn = value * -1.25;  //  dB  0..-37.50,  31 ==> MUTE.
 #include "PT2314.h"
 ```
 
-#### Additional
+### Additional
 
 - **PT7313(TwoWire \*wire = &Wire)** constructor.
-- **void setMute(bool on)** idem, four channel version.
+- **void setMute(bool mute)** idem, four channel version.
 - **void setChannel(uint8_t channel = 0)** idem, 0..2.
-  
-#### PT7313 attenuation
 
-- **void setAttnLeftBack(uint8_t value = 31)** idem, 0..31.
+### PT7313 attenuation
+
+- **void setAttnLeftBack(uint8_t attn = 31)** idem, 0..31.
 - **uint8_t getAttnLeftBack()** get current level.
-- **void setAttnRightBack(uint8_t value = 31)** idem, 0..31
+- **void setAttnRightBack(uint8_t attn = 31)** idem, 0..31
 - **uint8_t getAttnRightBack()** get current level.
-- **void setAttnLeftFront(uint8_t value = 31)** idem, 0..31
+- **void setAttnLeftFront(uint8_t attn = 31)** idem, 0..31
 - **uint8_t getAttnLeftFront()** get current level.
-- **void setAttnRightFront(uint8_t value = 31)** idem, 0..31
+- **void setAttnRightFront(uint8_t attn = 31)** idem, 0..31
 - **uint8_t getAttnRightFront()** get current level.
 
 
 ## Future
 
-#### Must
+### Must
 
 - test with hardware
 - improve documentation

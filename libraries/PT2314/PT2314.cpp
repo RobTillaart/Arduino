@@ -2,7 +2,7 @@
 //    FILE: PT2314.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -55,9 +55,9 @@ uint8_t PT2314::getChannel()
 //
 //  AUDIO
 //
-void PT2314::setMute(bool on)
+void PT2314::setMute(bool mute)
 {
-  _mute = on;
+  _mute = mute;
   if (_mute)
   {
     write(0xDF);  //  left
@@ -77,9 +77,9 @@ bool PT2314::getMute()
 }
 
 
-void PT2314::setLoudness(bool on)
+void PT2314::setLoudness(bool loudness)
 {
-  _loudness = on;
+  _loudness = loudness;
   updateAudioRegister();
 }
 
@@ -92,8 +92,8 @@ bool PT2314::getLoudness()
 
 void PT2314::setVolume(uint8_t volume)
 {
-  if (volume > 63) volume = 63;
   _volume = volume;
+  if (_volume > 63) _volume = 63;
   write(_volume);
 }
 
@@ -106,9 +106,9 @@ uint8_t PT2314::getVolume()
 
 void PT2314::setBass(int8_t bass)
 {
-  if (bass < -14) bass = -14;
-  if (bass >  14) bass = 14;
   _bass = bass;
+  if (_bass < -14) _bass = -14;
+  if (_bass >  14) _bass = 14;
   uint8_t value;
   if (_bass <= 0) value = 7  + (_bass / 2);
   else            value = 15 - (_bass / 2);
@@ -124,9 +124,9 @@ int8_t PT2314::getBass()
 
 void PT2314::setTreble(int8_t treble)
 {
-  if (treble < -14) treble = -14;
-  if (treble >  14) treble = 14;
   _treble = treble;
+  if (_treble < -14) _treble = -14;
+  if (_treble >  14) _treble = 14;
   uint8_t value;
   if (_treble <= 0) value = 7  + (_treble / 2);
   else              value = 15 - (_treble / 2);
@@ -142,8 +142,9 @@ int8_t PT2314::getTreble()
 
 void PT2314::setGain(uint8_t gain)
 {
-  if (gain > 3) gain = 3;
-  _gain = gain << 3;
+  _gain = gain;
+  if (_gain > 3) _gain = 3;
+  _gain <<= 3;
   updateAudioRegister();
 }
 
@@ -156,8 +157,8 @@ uint8_t PT2314::getGain()
 
 void PT2314::setAttnLeft(uint8_t attnLeft)
 {
-  if (attnLeft > 31) attnLeft = 31;
   _attnLeft = attnLeft;
+  if (_attnLeft > 31) _attnLeft = 31;
   write(0xC0 | _attnLeft);
 }
 
@@ -170,8 +171,8 @@ uint8_t PT2314::getAttnLeft()
 
 void PT2314::setAttnRight(uint8_t attnRight)
 {
-  if (attnRight > 31) attnRight = 31;
   _attnRight = attnRight;
+  if (_attnRight > 31) _attnRight = 31;
   write(0xE0 | _attnRight);
 }
 
@@ -187,8 +188,6 @@ void PT2314::setAttn(uint8_t attn)
   setAttnLeft(attn);
   setAttnRight(attn);
 }
-
-
 
 
 ///////////////////////////////////////////////////
@@ -228,9 +227,9 @@ PT7313::PT7313(TwoWire *wire) : PT2314(wire)
 }
 
 
-void PT7313::setMute(bool on)
+void PT7313::setMute(bool mute)
 {
-  _mute = on;
+  _mute = mute;
   if (_mute)
   {
     write(0xDF);  //  left  back
@@ -255,9 +254,9 @@ void PT7313::setChannel(uint8_t channel)
 }
 
 
-void PT7313::setAttnLeftBack(uint8_t value)
+void PT7313::setAttnLeftBack(uint8_t attn)
 {
-  setAttnLeft(value);
+  setAttnLeft(attn);
 }
 
 
@@ -267,9 +266,9 @@ uint8_t PT7313::getAttnLeftBack()
 }
 
 
-void PT7313::setAttnRightBack(uint8_t value)
+void PT7313::setAttnRightBack(uint8_t attn)
 {
-  setAttnRight(value);
+  setAttnRight(attn);
 }
 
 
@@ -279,10 +278,10 @@ uint8_t PT7313::getAttnRightBack()
 }
 
 
-void PT7313::setAttnLeftFront(uint8_t value)
+void PT7313::setAttnLeftFront(uint8_t attn)
 {
-   if (value > 31) value = 31;
-  _attnLeftFront = value;
+  _attnLeftFront = attn;
+  if (_attnLeftFront > 31) _attnLeftFront = 31;
   write(0x80 | _attnLeftFront);
 }
 
@@ -293,10 +292,10 @@ uint8_t PT7313::getAttnLeftFront()
 }
 
 
-void PT7313::setAttnRightFront(uint8_t value)
+void PT7313::setAttnRightFront(uint8_t attn)
 {
-   if (value > 31) value = 31;
-  _attnRightFront = value;
+  _attnRightFront = attn;
+  if (_attnRightFront > 31) _attnRightFront = 31;
   write(0xA0 | _attnRightFront);
 }
 

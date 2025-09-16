@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9549.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-12-12
 // PURPOSE: Arduino Library for PCA9549 I2C octal bus switch.
 //     URL: https://github.com/RobTillaart/PCA9549
@@ -120,13 +120,13 @@ void PCA9549::reset()
 void PCA9549::setForced(bool forced)
 {
   _forced = forced;
-};
+}
 
 
 bool PCA9549::getForced()
 {
   return _forced;
-};
+}
 
 
 int PCA9549::getError()

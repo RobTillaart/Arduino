@@ -16,7 +16,9 @@ Arduino Library for PCA9549 I2C octal bus switch.
 
 ## Description
 
-Library for the PCA9549 and compatibles.
+**Experimental**
+
+Arduino library for the PCA9549 and compatibles.
 
 The library allows you to switch on/off 8 channels uniquely or simultaneously.
 
@@ -26,15 +28,22 @@ The library is not tested yet.
 The library caches the channels enabled, and if a channel is enabled,
 it will not be enabled again (low level) to optimize performance.
 
+Feedback, as always is welcome!
 
-#### I2C 
+
+### I2C 
 
 I2C address of the device itself is 0x70 .. 0x77.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/TCA9549 - strong interface and code similarity
+- https://github.com/RobTillaart/TCA9548 (PCA9548) 
+- https://github.com/RobTillaart/HC4051  (1x8 mux)
+- https://github.com/RobTillaart/HC4052  (2x4 mux)
+- https://github.com/RobTillaart/HC4053  (3x2 mux)
+- https://github.com/RobTillaart/HC4067  (1x16 mux)
 
 
 ## Interface
@@ -43,7 +52,7 @@ I2C address of the device itself is 0x70 .. 0x77.
 #include "PCA9549.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **PCA9549(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
 deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
@@ -51,7 +60,7 @@ deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
 
 
-#### Channel functions
+### Channel functions
 
 All "channel functions" return true on success.
 
@@ -66,15 +75,12 @@ All other channels will be disabled in the same call, so not before or after.
 - **bool setChannelMask(uint8_t mask)** enables 0 or more channels simultaneously with a bit mask.
 - **uint8_t getChannelMask()** reads back the bit mask of the channels enabled.
 
-
-#### Reset
+### Reset
 
 - **void setResetPin(uint8_t resetPin)** sets the pin to reset the chip. (Not tested)
 - **void reset()** trigger the reset pin.
-- **int getError()** returns the last I2C error.
 
-
-#### Forced IO
+### Forced IO
 
 When forced IO is set all writes and read - **getChannelMask()** - will go to the device.
 If the flag is set to false it will cache the value of the channels enabled.
@@ -86,6 +92,9 @@ Note that writes are only optimized if the channels are already set.
   - forced == true == slower, robust mode.
 - **bool getForced()** returns set flag.
 
+### Error
+
+- **int getError()** returns the last I2C error.
 
 ## Error Codes
 

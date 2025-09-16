@@ -13,6 +13,7 @@ PCA9549 PCA(0x70);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9549_LIB_VERSION: ");
   Serial.println(PCA9549_LIB_VERSION);

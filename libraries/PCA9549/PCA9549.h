@@ -2,7 +2,7 @@
 //
 //    FILE: PCA9549.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2023-12-12
 // PURPOSE: Arduino Library for PCA9549 I2C octal bus switch.
 //     URL: https://github.com/RobTillaart/PCA9549
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9549_LIB_VERSION             (F("0.1.0"))
+#define PCA9549_LIB_VERSION             (F("0.1.1"))
 
 #define PCA9549_OK                       0x00
 

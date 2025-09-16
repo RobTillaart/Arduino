@@ -14,7 +14,11 @@ tinySHT2x sht;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("TINY_SHT2x_LIB_VERSION: ");
+  Serial.println(TINY_SHT2x_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   sht.begin();

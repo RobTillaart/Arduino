@@ -61,7 +61,7 @@ unittest(test_constructor)
 
   sht.begin();
   assertTrue(sht.reset());
-  //  need godmode for these
+  //  need God-mode for these
   //  assertEqualFloat(TINY_SHT2x_NO_VALUE, sht.getTemperature(), 0.01);
   //  assertEqualFloat(TINY_SHT2x_NO_VALUE, sht.getHumidity(), 0.01);
 }

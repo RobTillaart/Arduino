@@ -11,27 +11,32 @@
 
 # tinySHT2x
 
-Arduino library specific for AVR tiny processors. 
+Arduino library specific for AVR tiny processors.
 
 
 ## Description
 
-The tinySHT2x is an **Experimental** Arduino library to read the SHT2X sensor.
+**Experimental**
+
+The tinySHT2x is an experimental Arduino library to read the SHT2X sensor.
 This sensor provides temperature and humidity.
 
-The library is meant for AVR only, tiny platform, so it is minimal (not?) portable.
+The library is meant for AVR only, tiny platform, so it is minimal (== not?) portable.
 
+The tinySHT2x lib is based upon the SHT2x lib, see related section below.
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 Wire parameter has moved from **begin()** to the Constructor.
 The user has to call **Wire.begin()** before calling **begin()**.
 
 
-#### Related
+### Related
 
-- https://github.com/RobTillaart/SHT2x (based upon).
+- https://github.com/RobTillaart/SHT2x tinySHT2x lib is based upon SHT2x lib
+- https://github.com/RobTillaart/SHT31 not tested with tinyXX
+- https://github.com/RobTillaart/SHT85 not tested with tinyXX
 
 
 ## Interface
@@ -40,7 +45,7 @@ The user has to call **Wire.begin()** before calling **begin()**.
 #include "tinySHT2x.h"
 ```
 
-#### Functions
+### Constructor
 
 - **tinySHT2x(TwoWire \* wire = &Wire)** Constructor
 - **bool begin()** initializes internals. Returns true if device can be found.
@@ -48,25 +53,24 @@ The user has to call **Wire.begin()** before calling **begin()**.
 - **bool reset()** sends SOFT_RESET command to sensor.
 returns false if I2C failed to send it.
 
-
-#### Async interface
+### Async interface
 
 With the Async interface the user must watch keep track of the appropriate
-delay between the request and read. 
-For temperature this is typical around 70 millis and for humidity 30 millis().
+delay between the request and read.
+For temperature this is typical around 70 milliseconds and for humidity 30 milliseconds.
 
 - **void requestTemperature()** sends GET_TEMPERATURE command to sensor.
 - **void requestHumidity()** sends GET_HUMIDITY command to sensor.
 - **float readTemperature()** fetches data from the sensor.
 - **float readHumidity()** fetches data from the sensor.
-  
-#### Sync interface
+
+### Sync interface
 
 - **float getTemperature(uint8_t del = 70)** requests and read the temperature.
 It uses a delay of 70 milliseconds which can be tuned by the user.
 - **float getHumidity(uint8_t del = 30)**  requests and read the humidity.
 It uses a delay of30 milliseconds which can be tuned by the user.
-  
+
 - see https://github.com/RobTillaart/SHT2x
 
 
@@ -83,9 +87,9 @@ It uses a delay of30 milliseconds which can be tuned by the user.
 
 - investigate async interface
   - splitting requestHumidity() and getHumidity().
-  - idem for temperature. 
+  - idem for temperature.
 - Can a tiny have another Wire than Wire?
-- Check the status bit (temperature / humidity flag) 
+- Check the status bit (temperature / humidity flag)
   - datasheet page 8, LSB bit 1 - bit 0 not used)
   - needed?
 - Move Wire parameter to constructor?

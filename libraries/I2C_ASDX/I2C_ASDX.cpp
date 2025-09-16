@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_ASDX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for I2C ASDX pressure sensor
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 

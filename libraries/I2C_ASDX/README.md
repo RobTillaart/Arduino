@@ -19,25 +19,27 @@ Arduino library for I2C ASDX pressure sensor.
 The ASDX sensor of Honeywell exist in many variations.
 Check the datasheet of your type for all the details.
 
-The I2C_ASDX library can read the sensor and give the pressure in millibar, 
+The I2C_ASDX library can read the sensor and give the pressure in millibar,
 bar or PSI or many other units. See below.
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 Version 0.4.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
+The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/pressure conversions
+- https://github.com/RobTillaart/MS5611 (I2C) air pressure & temperature sensor
+- https://github.com/RobTillaart/MSP300 (I2) industrial digital pressure transducer
 
 
-#### Hardware connection
+### Hardware connection
 
 Always check datasheet for the exact pins.
 
@@ -61,11 +63,11 @@ Always check datasheet for the exact pins.
 ```
 
 
-#### Constructor
+### Constructor
 
-- **I2C_ASDX(uint8_taddress, uint8_t psi, TwoWire \*wire = &Wire)** Constructor, 
+- **I2C_ASDX(uint8_taddress, uint8_t psi, TwoWire \*wire = &Wire)** Constructor,
 I2C address and maximum pressure. Optional the wire interface can be defined.
-- **bool begin()** initializes internals. 
+- **bool begin()** initializes internals.
 Returns true if address can be found  on I2C bus.
 - **void reset()** resets internal variables, including pressure.
 - **bool isConnected()** tests if address can be found on I2C bus.
@@ -73,21 +75,21 @@ Returns true if address can be found  on I2C bus.
 Mainly for debug message.
 
 
-#### Read
+### Read
 
 Before any call to **getPressure()** one need to call **read()** unless one wants the last value read.
 
-- **int read()** actually reads the sensor, checks for errors, 
-calculates the pressure and set the lastRead timestamp. 
+- **int read()** actually reads the sensor, checks for errors,
+calculates the pressure and set the lastRead timestamp.
 Returns **I2C_ASDX_OK** or an error code.
 
 
-#### Units
+### Units
 
 - **int getPressure()** returns pressure in milliBar.
 (rounded integer!).
 Returns 0 after a reset() and no read() done yet.
-Calling **getPressure()** (Or any of the other pressure functions) multiple times 
+Calling **getPressure()** (Or any of the other pressure functions) multiple times
 without read() will return the same value again.
 - **float getMilliBar()** returns pressure in milliBar (float).
 - **float getBar()** returns pressure in bar.
@@ -105,7 +107,7 @@ without read() will return the same value again.
 Related library: https://github.com/RobTillaart/pressure
 
 
-#### State
+### State
 
 - **uint16_t errorCount()** total counter for the number of errors occurred.
 - **uint32_t lastRead()** time in milliseconds of last successful read of the sensor.
@@ -187,7 +189,7 @@ See examples
 
 #### Could
 
-- remove less common pressure formats from lib (0.4.0 ?)
+- remove less common pressure formats from lib (0.4.x ?)
   - are covered in pressure lib.
   - but they do no harm either.
 - move code from .h to .cpp

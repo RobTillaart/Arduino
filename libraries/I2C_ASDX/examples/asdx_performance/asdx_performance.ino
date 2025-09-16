@@ -18,9 +18,11 @@ volatile uint32_t pressure = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_ASDX_VERSION: ");
   Serial.println(I2C_ASDX_VERSION);
+  Serial.println();
 
   Wire.begin();
   if (sensor.begin() == false)

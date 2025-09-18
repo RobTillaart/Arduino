@@ -1,7 +1,7 @@
 //
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -24,6 +24,7 @@ HX711_MP::HX711_MP(uint8_t size)
   _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
+  _fastProcessor = false;
 }
 
 
@@ -32,7 +33,7 @@ HX711_MP::~HX711_MP()
 }
 
 
-void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
+void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
@@ -42,7 +43,10 @@ void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
   pinMode(_clockPin, OUTPUT);
   digitalWrite(_clockPin, LOW);
 
-  reset();
+  if (doReset)
+  {
+    reset();
+  }
 }
 
 
@@ -103,10 +107,14 @@ bool HX711_MP::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 //       digital output pin DOUT is HIGH.
 //  Serial clock input PD_SCK should be LOW.
 //  When DOUT goes to LOW, it indicates data is ready for retrieval.
+//  Blocking period can be long up to 400 ms in first read() call.
 float HX711_MP::read()
 {
   //  this BLOCKING wait takes most time...
-  while (digitalRead(_dataPin) == HIGH) yield();
+  while (digitalRead(_dataPin) == HIGH)
+  {
+    yield();
+  }
 
   union
   {
@@ -398,11 +406,11 @@ void HX711_MP::power_up()
 
 ///////////////////////////////////////////////////////////////
 //
-//  EXPERIMENTAL
 //  RATE PIN - works only if rate pin is exposed.
 //
 void HX711_MP::set_rate_pin(uint8_t pin)
 {
+  _ratePin = pin;
   pinMode(_ratePin, OUTPUT);
   set_rate_10SPS();
 }
@@ -430,12 +438,6 @@ uint8_t HX711_MP::get_rate()
 //  MISC
 //
 uint32_t HX711_MP::last_time_read()
-{
-  return _lastTimeRead;
-}
-
-//  obsolete future
-uint32_t HX711_MP::last_read()
 {
   return _lastTimeRead;
 }
@@ -508,7 +510,6 @@ float HX711_MP::_multiMap(float val)
     //  interpolate in the right segment for the rest
     return (val - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
 }
-
 
 
 //  -- END OF FILE --

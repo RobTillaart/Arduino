@@ -38,12 +38,21 @@ If problems occur or there are questions, please open an issue at GitHub.
 
 ### 10 or 80 SPS
 
-The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
+The datasheet mentions that the HX711 can run at 80 samples per second (SPS). 
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
 Connecting **RATE** to GND (LOW) gives 10 SPS.
 
+Having the RATE set to 10 or 80 SPS also changes the time to start up.
+At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
+
 All breakout boards I tested have **RATE** connected to GND and offer no
 pin to control this from the outside.
+Adafruit however has a breakout board with **RATE** exposed.
+See https://www.adafruit.com/product/5974
+There might be more.
+
+If you have the schema of your board you should be able to expose the **RATE**
+pin, e.g. by removing the pull down resistor to GND.
 
 This library provide experimental means to control the **RATE**, see below.
 
@@ -70,6 +79,9 @@ Support for the HX71708 device (close related)
 Load cells go to very high weights, this side sells them up to 200 ton.
 Never seen one and cannot tell if it will work with this library.
 - https://stekon.nl/load-cells
+
+Breakout with RATE exposed by ADAfruit
+- https://www.adafruit.com/product/5974
 
 
 ### Faulty boards
@@ -111,17 +123,23 @@ is more math involved for converting raw data to weights.
 - **HX711_MP(uint8_t size)** constructor.
 Parameter sets the size of for the calibration arrays. 
 Allowed range for size is 2..10.
-- **~HX711_MP()**
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false)** sets a fixed gain 128 for now.
-The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
-- **void reset()** set internal state to start condition.
-Reset also does a power down / up cycle.
-It does not reset the calibration data.
+- **~HX711_MP()** destructor.
+- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
+  - The parameter fastProcessor adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
+  - The parameter doReset is experimental in 0.6.3.
+  It defaults to true (== backwards compatible) causing a call to reset(), taking extra time 
+  before the device is ready to make new measurements. See reset() below. 
+  Note that not calling reset() leaves the ADC in the previous or even an undefined state, 
+  so use with care. (needs testing)
+- **void reset()** set internal state to the start condition.
+Reset() also does a power_down() / power_up() cycle. 
+This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) milliseconds.
+Reset() does not reset the calibration data.
 
 
 ### isReady
 
-Different ways to wait for a new measurement.
+There are different ways to wait for a new measurement.
 
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
@@ -131,7 +149,10 @@ Different ways to wait for a new measurement.
 
 ### Read
 
-- **float read()** raw read.
+Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
+Best practice is to check with isReady() before calling read().
+
+- **float read()** get a raw read.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
 times = 3..15 - odd numbers preferred.
@@ -253,6 +274,10 @@ This way of calibration allows:
 It should reset the HX711 to defaults but this is not always seen. 
 See discussion issue #27 GitHub. Needs more testing.
 
+Note: Having the RATE set to 10 or 80 SPS changes the time to start up.
+At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
+(See datasheet, Output settling time on page 3)
+
 
 ### Rate
 
@@ -301,34 +326,70 @@ Another way to handle this is to add a good temperature sensor
 differences in your code.
 
 
+## Multiple HX711
+
+
+### Separate lines
+
+Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
+line for every HX711 connected.
+
+
+### Multiplexer
+
+Alternative one could use a multiplexer like the https://github.com/RobTillaart/HC4052
+or possibly an https://github.com/RobTillaart/TCA9548.
+Although to control the multiplexer one need some extra lines and code.
+
+
+### Share CLOCK line
+
+See **HX_loadcell_array.ino**
+
+Another way to control multiple HX711's is to share the **CLK** line. 
+This has a few side effects which might be acceptable or not.
+
+Known side effects - page 4 and 5 datasheet.
+
+- The **CLK** is used to select channel and to select gain for the NEXT sample.
+- The **CLK** is used for power down.
+- After wake up after power down all HX711's will reset to channel A and gain 128.
+**WARNING:** if one of the objects does a **powerDown()** or **reset()** it resets its internal states.
+The other objects however won't reset their internal state, so a mismatch can occur.
+
+So in short, sharing the **CLK** line causes all HX711 modules share the same state.
+This can introduce extra complexity if one uses mixed gains or channels.
+If all HX711's use the same settings it should work, however extra care is needed for
+**powerDown()** and **reset()**.
+
+**WARNING: Sharing the data lines is NOT possible as it could cause short circuit.**
+
+See https://github.com/RobTillaart/HX711/issues/40
+
+
 ## Future
 
-Points from HX711 are not repeated here
-
+Points from HX711 are not all repeated here
 
 #### Must
 
-- keep in sync with HX711 library where relevant.
 - update documentation
+- keep in sync with HX711 library.
 
 #### Should
 
-- test a lot
-  - different load cells.
 - investigate interpolation beyond calibration range.
-- add examples
-  - runtime changing of the mapping.
 - investigate malloc/free for the mapping arrays
-- add performance figures
 - Calibration
   - Returns 0 is index is out of range ==> NaN ?
-- add rate example
 
 #### Could
 
 - add error handling?
   - HX711_INDEX_OUT_OF_RANGE
-  - ??
+- add examples
+  - runtime changing of the mapping.
+  - example for using rate functions.
 - investigate temperature compensation.
 
 #### Wont

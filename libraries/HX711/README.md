@@ -80,12 +80,21 @@ in the sensor readings.
 
 ### 10 or 80 SPS
 
-The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
+The datasheet mentions that the HX711 can run at 80 samples per second (SPS). 
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
 Connecting **RATE** to GND (LOW) gives 10 SPS.
 
+Having the RATE set to 10 or 80 SPS also changes the time to start up.
+At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
+
 All breakout boards I tested have **RATE** connected to GND and offer no
 pin to control this from the outside.
+Adafruit however has a breakout board with **RATE** exposed.
+See https://www.adafruit.com/product/5974
+There might be more.
+
+If you have the schema of your board you should be able to expose the **RATE**
+pin, e.g. by removing the pull down resistor to GND.
 
 This library provide experimental means to control the **RATE**, see below.
 
@@ -113,6 +122,9 @@ Load cells go to very high weights, this side sells them up to 200 ton.
 Never seen one and cannot tell if it will work with this library.
 - https://stekon.nl/load-cells
 
+Breakout with RATE exposed by ADAfruit
+- https://www.adafruit.com/product/5974
+
 
 ### Faulty boards
 
@@ -123,14 +135,18 @@ Never seen one and cannot tell if it will work with this library.
 
 First action is to call **begin(dataPin, clockPin)** to make connection to the **HX711**.
 
-Second step is calibration for which a number of functions exist.
-- **tare()** measures zero point.
+Second step is to check **isReady()** to wait until the device is ready for measurements.
+
+Next step is calibration for which a number of functions exist.
+- **tare()** measures the offset of the zero point.
 - **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
 - **calibrate_scale(weight, times)** determines the scale factor based upon a known weight e.g. 1 Kg.
-The weight is typical in grams, however any unit can be used.
+The weight is typical in grams, however any unit can be used, depending on the 
+load cell used.
 
 Steps to take for calibration
 1. clear the scale.
+1. wait until **isReady()** returns true.
 1. call **tare()** to determine and set the zero weight offset.
 1. put a known weight on the scale.
 1. call **calibrate_scale(float weight)**, weight typical in grams, however any unit can be used.
@@ -149,16 +165,22 @@ Note that the units used in **calibrate_scale()** will be returned by **get_unit
 ### Constructor
 
 - **HX711()** constructor.
-- **~HX711()**
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false)** sets a fixed gain 128 for now.
-The fastProcessor option adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
-- **void reset()** set internal state to start condition.
-Since 0.3.4 reset also does a power down / up cycle.
+- **~HX711()** destructor.
+- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
+  - The parameter fastProcessor adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
+  - The parameter doReset is experimental in 0.6.3.
+  It defaults to true (== backwards compatible) causing a call to reset(), taking extra time 
+  before the device is ready to make new measurements. See reset() below. 
+  Note that not calling reset() leaves the ADC in the previous or even an undefined state, 
+  so use with care. (needs testing)
+- **void reset()** set internal state to the start condition.
+Reset() also does a power_down() / power_up() cycle. 
+This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) milliseconds.
 
 
 ### isReady
 
-Different ways to wait for a new measurement.
+There are different ways to wait for a new measurement.
 
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
@@ -168,7 +190,10 @@ Different ways to wait for a new measurement.
 
 ### Read
 
-- **float read()** raw read.
+Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
+Best practice is to check with isReady() before calling read().
+
+- **float read()** get a raw read.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
 times = 3..15 - odd numbers preferred.
@@ -215,7 +240,7 @@ so the device is in a known state.
 
 Warning 2: In practice it seems harder to get the channel and gain selection as reliable
 as the datasheet states it should be. So use with care. (feedback welcome)
-See discussion #27. 
+See discussion #27 HX711. 
 
 
 ### Read mode
@@ -343,6 +368,10 @@ of the accuracy of the load cell.
 - **void power_up()** wakes up the HX711. 
 It should reset the HX711 to defaults but this is not always seen. 
 See discussion issue #27 GitHub. Needs more testing.
+
+Note: Having the RATE set to 10 or 80 SPS changes the time to start up.
+At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
+(See datasheet, Output settling time on page 3)
 
 
 ### Rate
@@ -480,29 +509,33 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 #### Must
 
-- update documentation HX711
-- keep in sync with HX711_MP, HX710AB
+- update documentation
+- keep in sync with HX711_MP, HX710AB library.
 
 #### Should
 
-- test B channel explicitly.
-- test reset and reboot behaviours.
+- test
+  - different load cells.
+  - B channel explicitly.
+  - test reset and reboot behaviours.
+  - test and verify the proper working of the rate functions.
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?
-- test and verify the proper working of the rate functions.
+- add performance figures
 
 #### Could
 
+- add error handling?
 - optimize fastProcessor code (possible better performance)
   - injecting 2 micro delays is not always needed.
   - int flag instead of bool.
-- test different load cells
 - make enum of the MODE's
 - add examples
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
   - example for using rate functions.
+- investigate temperature compensation.
 - decide pricing keep/not => move to .cpp
 
 #### Wont

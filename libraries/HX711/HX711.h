@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.2
+// VERSION: 0.6.3
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.6.2"))
+#define HX711_LIB_VERSION               (F("0.6.3"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -43,11 +43,14 @@ public:
   ~HX711();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false);
+  void     begin(uint8_t dataPin, uint8_t clockPin,
+                 bool fastProcessor = false,
+                 bool doReset = true);
 
   void     reset();
 
   //  checks if load cell is ready to read.
+  //  use this to prevent blocking reads, esp at startup, 1st read.
   bool     is_ready();
 
   //  wait until ready,
@@ -63,7 +66,8 @@ public:
   //
   //  READ
   //
-  //  raw read
+  //  raw read, is blocking until device is ready to read().
+  //  this blocking period can be long up to 400 ms in first read() call.
   float    read();
 
   //  get average of multiple raw reads
@@ -192,15 +196,15 @@ private:
   uint8_t  _dataPin;
   uint8_t  _clockPin;
 
-  uint8_t  _gain;
   int32_t  _offset;
   float    _scale;
+  uint8_t  _gain;
   uint32_t _lastTimeRead;
-  float    _price;
   uint8_t  _mode;
   bool     _fastProcessor;
   uint8_t  _ratePin = 255;
   uint8_t  _rate = 10;
+  float    _price;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();

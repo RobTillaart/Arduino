@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.2
+// VERSION: 0.6.3
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -12,13 +12,13 @@
 
 HX711::HX711()
 {
-  _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
-  _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
   _fastProcessor = false;
+  _price    = 0;
 }
 
 
@@ -27,7 +27,7 @@ HX711::~HX711()
 }
 
 
-void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
+void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
@@ -37,7 +37,10 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
   pinMode(_clockPin, OUTPUT);
   digitalWrite(_clockPin, LOW);
 
-  reset();
+  if (doReset)
+  {
+    reset();
+  }
 }
 
 
@@ -45,12 +48,12 @@ void HX711::reset()
 {
   power_down();
   power_up();
-  _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
-  _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
+  _price    = 0;
 }
 
 
@@ -101,10 +104,14 @@ bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 //       digital output pin DOUT is HIGH.
 //  Serial clock input PD_SCK should be LOW.
 //  When DOUT goes to LOW, it indicates data is ready for retrieval.
+//  Blocking period can be long up to 400 ms in first read() call.
 float HX711::read()
 {
   //  this BLOCKING wait takes most time...
-  while (digitalRead(_dataPin) == HIGH) yield();
+  while (digitalRead(_dataPin) == HIGH)
+  {
+    yield();
+  }
 
   union
   {
@@ -414,11 +421,11 @@ void HX711::power_up()
 
 ///////////////////////////////////////////////////////////////
 //
-//  EXPERIMENTAL
 //  RATE PIN - works only if rate pin is exposed.
 //
 void HX711::set_rate_pin(uint8_t pin)
 {
+  _ratePin = pin;
   pinMode(_ratePin, OUTPUT);
   set_rate_10SPS();
 }

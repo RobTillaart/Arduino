@@ -1,0 +1,24 @@
+# Syntax Colouring Map For DCT532
+
+# Data types (KEYWORD1)
+DCT532	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+readSensor	KEYWORD2
+getPressure	KEYWORD2
+getTemperature	KEYWORD2
+lastRead	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+DCT532_LIB_VERSION	LITERAL1
+
+DCT532_OK	LITERAL1
+

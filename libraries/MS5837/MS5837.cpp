@@ -1,7 +1,7 @@
 //
 //    FILE: MS5837.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -110,7 +110,6 @@ int MS5837::read(uint8_t bits)
   }
 
   uint32_t start = millis();
-
   //  while loop prevents blocking RTOS
   while (millis() - start < wait)
   {
@@ -232,15 +231,21 @@ uint32_t MS5837::lastRead()
 }
 
 
+float MS5837::getTemperature()
+{
+  return _temperature;
+}
+
+
 float MS5837::getPressure()
 {
   return _pressure;
 }
 
 
-float MS5837::getTemperature()
+float MS5837::getPressurePascal()
 {
-  return _temperature;
+  return _pressure * 100.0;
 }
 
 
@@ -249,8 +254,16 @@ float MS5837::getTemperature()
 //  https://en.wikipedia.org/wiki/Pressure_altitude
 float MS5837::getAltitude(float airPressure)
 {
+  //  _pressure is in mBar - differs from MS5611
   float ratio = _pressure / airPressure;
   return 44307.694 * (1 - pow(ratio, 0.190284));
+}
+
+
+float MS5837::getAltitudeFeet(float airPressure)
+{
+  float ratio = _pressure / airPressure;
+  return 145366.45 * (1 - pow(ratio, 0.190284));
 }
 
 
@@ -277,6 +290,13 @@ float MS5837::getDepth(float airPressure)
   //  pressure = mbar,
   //  density grams/cm3 => correction factor 0.1 (= 1/10)
   return (_pressure - airPressure)/(_density * 9.80665 * 10);
+}
+
+float MS5837::getDepthFeet(float airPressure)
+{
+  //  optimized
+  return 0.033455768 * (_pressure - airPressure)/_density;
+  //  return getDepth() * 3.2808399;
 }
 
 

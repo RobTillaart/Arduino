@@ -179,15 +179,20 @@ The call will block for 3 to 40 milliseconds, depending upon number of bits.
 - **uint32_t lastRead()** returns the timestamp of the last call to read() in 
 milliseconds since start. 
 It does not take into account if the read call is successful or not.
-- **float getPressure()** returns pressure in mBar.
-Multiple calls will return the same value until read() is called again.
 - **float getTemperature()** returns temperature in degrees Celsius.
 Multiple calls will return the same value until read() is called again.
-- **float getAltitude(float airPressure = 1013.25)** calculates the altitude,
-based upon actual pressure measured and the current pressure at sea level.
-Returns the altitude in meters.
+- **float getPressure()** returns pressure in mBar.
 Multiple calls will return the same value until read() is called again.
-One can compensate for the actual air pressure at sea level.
+- **float getPressurePascal()** returns pressure in Pascal (SI-unit).
+Multiple calls will return the same value until read() is called again.
+- **float getAltitude(float airPressure = 1013.25)** calculates the altitude,
+based upon actual pressure measured and the current pressure at sea level (parameter airPressure).
+Returns the altitude in meters (SI-unit).
+Multiple calls will return the same altitude until a new pressure is **read()**.
+- **float getAltitudeFeet(float airPressure = 1013.25)** calculates the altitude,
+based upon actual pressure measured and the current pressure at sea level (parameter airPressure).
+Returns the altitude in feet.
+Multiple calls will return the same altitude until a new pressure is **read()**.
 
 Experimental note.
 
@@ -215,7 +220,12 @@ density water 20°C = 0.99802
 - **float getDensity()** returns set liquid density.
 - **float getDepth(float airPressure = 1013.25)** calculates the depth, 
 based upon actual pressure and the pressure at sea level.
-Returns depth in meters.
+Returns depth in meters (SI-unit).
+One can compensate for the actual air pressure at sea level.
+Multiple calls will return the same value until read() is called again.
+- **float getDepthFeet(float airPressure = 1013.25)** calculates the depth, 
+based upon actual pressure and the pressure at sea level.
+Returns depth in feet.
 One can compensate for the actual air pressure at sea level.
 Multiple calls will return the same value until read() is called again.
 

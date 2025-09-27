@@ -6,9 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2025-09-27
+- sync MS5611
+- add getAltitudeFeet()
+- add getDepthFeet()
+- add getPressurePascal()
+- update GitHub actions
+- update README.md
+- minor edits
+
+----
+
 ## [0.2.0] - 2025-06-13
 - fix #4, read() error after test with hardware
-- change API to **int read()** for better debugability
+- change API to **int read()** for better debug-ability
 - improve demo sketch - add getLastError()
 - redo getAltitude() formula 
 - add sketch MS5837_performance.ino

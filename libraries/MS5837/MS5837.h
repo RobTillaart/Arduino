@@ -2,7 +2,7 @@
 //
 //    FILE: MS5837.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MS5837_LIB_VERSION        (F("0.2.0"))
+#define MS5837_LIB_VERSION        (F("0.3.0"))
 
 
 //  TYPES
@@ -55,15 +55,22 @@ public:
   int      read(uint8_t bits = 8);
   uint32_t lastRead();
 
-  //  see https://github.com/RobTillaart/pressure for conversions.
-  //  returns mBar
-  float    getPressure();
   //  see https://github.com/RobTillaart/temperature for conversions.
   //  returns Celsius
   float    getTemperature();
+  //  see https://github.com/RobTillaart/pressure for conversions.
+  //  returns mBar
+  float    getPressure();
   //       compensate for actual air pressure if needed
   //       returns meters.
+  //  pressure is in Pascal (SI-unit)
+  float    getPressurePascal();
+  //
+  //  ALTITUDE
+  //  air pressure in mBar, returns meters
   float    getAltitude(float airPressure = 1013.25);
+  //  idem, returns feet.
+  float    getAltitudeFeet(float airPressure = 1013.25);
 
 
   //////////////////////////////////////////////////////////////////////
@@ -78,9 +85,12 @@ public:
   //  density in grams / cm3  (so not in grams per liter
   void     setDensity(float density = 0.99802);
   float    getDensity();
-  //       returns meters (SI unit)
-  //       compensate for actual air pressure if needed
+  //
+  //  returns meters (SI unit)
+  //  compensate for actual air pressure if needed
   float    getDepth(float airPressure = 1013.25);
+  //  idem, returns feet.
+  float    getDepthFeet(float airPressure = 1013.25);
 
 
   //////////////////////////////////////////////////////////////////////
@@ -108,8 +118,8 @@ protected:
   uint8_t   _address = 0x76;
   TwoWire * _wire = NULL;
 
-  float     _pressure;
-  float     _temperature;
+  float     _pressure;     //  mBar
+  float     _temperature;  //  Celsius
 
   float     C[8];
   uint8_t   _type = MS5837_TYPE_UNKNOWN;

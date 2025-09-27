@@ -52,7 +52,7 @@ void setup()
     //  while (1);
   }
   Serial.println();
-  Serial.println("Celsius\tmBar\tPascal");
+  Serial.println("Celsius\tmBar\tMeter\tFeet");
 }
 
 
@@ -64,6 +64,8 @@ void loop()
   Serial.print(MS5611.getPressure(), 2);
   Serial.print('\t');
   Serial.print(MS5611.getAltitude(), 2);
+  Serial.print('\t');
+  Serial.print(MS5611.getAltitudeFeet(), 2);
   Serial.println();
   delay(1000);
 }

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2025-09-26
+- fix #44, getAltitude()
+- sync MS5611_SPI
+- add **getAltitudeFeet(float airPressure)**
+- moved code to .cpp
+- update keywords.txt
+- minor edits
+
+----
+
 ## [0.4.2] - 2025-08-31
 - fix #42, add reference to STM32 version of library
 - add **float getAltitude(float airPressure = 1013.25)**

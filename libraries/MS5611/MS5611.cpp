@@ -2,8 +2,8 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.4.2
-// PURPOSE: Arduino library for MS5611 temperature and pressure sensor
+// VERSION: 0.5.0
+// PURPOSE: Arduino library for MS5611 (I2C) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
 
@@ -64,7 +64,7 @@ bool MS5611::reset(uint8_t mathMode)
   uint32_t start = micros();
 
   //  while loop prevents blocking RTOS
-  while (micros() - start < 2800)
+  while (micros() - start < 3000)  //  increased as first ROM values were missed.
   {
     yield();
     delayMicroseconds(10);
@@ -163,6 +163,12 @@ void MS5611::setOversampling(osr_t samplingRate)
 }
 
 
+osr_t MS5611::getOversampling() const
+{
+  return (osr_t) _samplingRate;
+}
+
+
 float MS5611::getTemperature() const
 {
   if (_temperatureOffset == 0) return _temperature * 0.01;
@@ -185,6 +191,29 @@ float MS5611::getPressurePascal() const
   return _pressure + _pressureOffset * 100.0;
 }
 
+void MS5611::setPressureOffset(float offset)
+{
+  _pressureOffset = offset;
+}
+
+
+float MS5611::getPressureOffset()
+{
+  return _pressureOffset;
+}
+
+
+void MS5611::setTemperatureOffset(float offset)
+{
+  _temperatureOffset = offset;
+}
+
+
+float MS5611::getTemperatureOffset()
+{
+  return _temperatureOffset;
+}
+
 
 //  (from MS5837)
 //  https://www.mide.com/air-pressure-at-altitude-calculator
@@ -192,8 +221,46 @@ float MS5611::getPressurePascal() const
 //  https://en.wikipedia.org/wiki/Pressure_altitude
 float MS5611::getAltitude(float airPressure)
 {
-  float ratio = _pressure / airPressure;
+  //  _pressure is in Pascal (#44) and airPressure in mBar.
+  float ratio = _pressure * 0.01 / airPressure;
   return 44307.694 * (1 - pow(ratio, 0.190284));
+}
+
+
+float MS5611::getAltitudeFeet(float airPressure)
+{
+  float ratio = _pressure * 0.01 / airPressure;
+  return 145366.45 * (1 - pow(ratio, 0.190284));
+}
+
+
+int MS5611::getLastResult() const
+{
+  return _result;
+}
+
+
+uint32_t MS5611::lastRead() const
+{
+  return _lastRead;
+}
+
+
+uint32_t MS5611::getDeviceID() const
+{
+  return _deviceID;
+}
+
+
+void MS5611::setCompensation(bool flag)
+{
+  _compensation = flag;
+}
+
+
+bool MS5611::getCompensation()
+{
+  return _compensation;
 }
 
 
@@ -215,6 +282,7 @@ uint16_t MS5611::getProm(uint8_t index)
   return readProm(index);
 }
 
+//       DEVELOP
 uint16_t MS5611::getCRC()
 {
   return readProm(7) & 0x0F;
@@ -227,15 +295,15 @@ uint16_t MS5611::getCRC()
 //
 void MS5611::convert(const uint8_t addr, uint8_t bits)
 {
-  //  values from page 3 datasheet - MAX column (rounded up)
-  uint16_t del[5] = {600, 1200, 2300, 4600, 9100};
-
   uint8_t index = bits;
   if (index < 8) index = 8;
   else if (index > 12) index = 12;
   index -= 8;
   uint8_t offset = index * 2;
   command(addr + offset);
+
+  //  values from page 3 datasheet - MAX column (rounded up)
+  uint16_t del[5] = {600, 1200, 2300, 4600, 9100};
 
   uint16_t waitTime = del[index];
   uint32_t start = micros();
@@ -317,12 +385,12 @@ void MS5611::initConstants(uint8_t mathMode)
   C[5] = 256;             //  Tref     = C[5] * 2^8     |    * 2^8
   C[6] = 1.1920928955E-7; //  TEMPSENS = C[6] / 2^23    |    / 2^23
 
-  if (mathMode == 1)  //  Appnote version for pressure.
+  if (mathMode == 1)      //  Appnote version for pressure.
   {
-    C[1] = 65536L;          //  SENSt1
-    C[2] = 131072L;         //  OFFt1
-    C[3] = 7.8125E-3;       //  TCS
-    C[4] = 1.5625e-2;       //  TCO
+    C[1] = 65536L;        //  SENSt1
+    C[2] = 131072L;       //  OFFt1
+    C[3] = 7.8125E-3;     //  TCS
+    C[4] = 1.5625e-2;     //  TCO
   }
 }
 
@@ -334,7 +402,7 @@ void MS5611::initConstants(uint8_t mathMode)
 MS5607::MS5607(uint8_t deviceAddress, TwoWire *wire)
       : MS5611(deviceAddress, wire)
 {
-};
+}
 
 
 bool MS5607::begin()
@@ -343,7 +411,8 @@ bool MS5607::begin()
   if (! isConnected()) return false;
 
   return reset(1);  //  MS5607 has mathMode 1, see datasheet + initConstants.
-};
+}
+
 
 //  -- END OF FILE --
 

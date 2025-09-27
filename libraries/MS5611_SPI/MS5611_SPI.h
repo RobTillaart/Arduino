@@ -2,8 +2,8 @@
 //
 //    FILE: MS5611_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
-// PURPOSE: S5611 (SPI) Temperature & Pressure library for Arduino
+// VERSION: 0.4.0
+// PURPOSE: Arduino library for MS5611 (SPI) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
 
@@ -30,7 +30,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_SPI_LIB_VERSION                (F("0.3.1 EXPERIMENTAL"))
+#define MS5611_SPI_LIB_VERSION                (F("0.4.0 EXPERIMENTAL"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -72,7 +72,7 @@ public:
 
   //       reset command + get constants
   //       mathMode = 0 (default), 1 = factor 2 fix.
-  //       returns false if ROM constants == 0;
+  //       returns false if ROM constants are 0;
   bool     reset(uint8_t mathMode = 0);
 
   //  the actual reading of the sensor;
@@ -87,17 +87,26 @@ public:
   //  oversampling rate is in osr_t
   osr_t    getOversampling() const;
 
-  //  temperature is in ²C
+  //  temperature is in degrees C
   float    getTemperature() const;
-
   //  pressure is in mBar
   float    getPressure() const;
+  //  pressure is in Pascal (SI-unit)
+  float    getPressurePascal() const;
 
   //  OFFSET
+  //  pressure offset is in mBar.
   void     setPressureOffset(float offset = 0);
   float    getPressureOffset();
+  //  temperature offset in degrees C.
   void     setTemperatureOffset(float offset = 0);
   float    getTemperatureOffset();
+
+  //  ALTITUDE (from MS5837)
+  //  air pressure in mBar, returns meters
+  float    getAltitude(float airPressure = 1013.25);
+  //  idem, returns feet.
+  float    getAltitudeFeet(float airPressure = 1013.25);
 
   //  to check for failure
   int      getLastResult() const;
@@ -105,10 +114,19 @@ public:
   //  last time in millis() when the sensor has been read.
   uint32_t lastRead() const;
 
+  //  _deviceID is a SHIFT XOR merge of 7 PROM registers, reasonable unique
   uint32_t getDeviceID() const;
 
   void     setCompensation(bool flag = true);
   bool     getCompensation();
+
+  //       EXPERIMENTAL
+  uint16_t getManufacturer();
+  uint16_t getSerialCode();
+
+  //       DEVELOP
+  uint16_t getProm(uint8_t index);
+  uint16_t getCRC();
 
   //  develop functions.
   /*
@@ -116,10 +134,6 @@ public:
   uint8_t  getAddress() const          { return _address; };
   uint8_t  detectAddress() { todo };  // works with only one on the bus?
   */
-
-  //       EXPERIMENTAL
-  uint16_t getManufacturer();
-  uint16_t getSerialCode();
 
 
   //       speed in Hz
@@ -144,7 +158,7 @@ protected:
   float    _pressureOffset;
   float    _temperatureOffset;
   int      _result;
-  float    C[7];
+  float    C[7];   //  constants, name from datasheet
   uint32_t _lastRead;
   uint32_t _deviceID;
   bool     _compensation;
@@ -160,6 +174,14 @@ protected:
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;
 };
+
+
+
+///////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+//  class MS5607_SPI : public MS5611_SPI  ??
 
 
 //  -- END OF FILE --

@@ -1,11 +1,9 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
-// PURPOSE: MS5611 (SPI) Temperature & Pressure library for Arduino
+// VERSION: 0.4.0
+// PURPOSE: Arduino library for MS5611 (SPI) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611_SPI
-//
-//  HISTORY: see changelog.md
 
 
 #include "MS5611_SPI.h"
@@ -96,7 +94,7 @@ bool MS5611_SPI::begin()
     digitalWrite(_clock,   LOW);
   }
 
-  return reset();
+  return reset(0);  //  MS5611 has mathMode 0, see datasheet + initConstants.
 }
 
 
@@ -111,8 +109,9 @@ bool MS5611_SPI::reset(uint8_t mathMode)
 {
   command(MS5611_CMD_RESET);
   uint32_t start = micros();
+
   //  while loop prevents blocking RTOS
-  while (micros() - start < 3000)     //  increased as first ROM values were missed.
+  while (micros() - start < 3000)  //  increased as first ROM values were missed.
   {
     yield();
     delayMicroseconds(10);
@@ -130,7 +129,7 @@ bool MS5611_SPI::reset(uint8_t mathMode)
     //  C[7] == CRC - skipped.
     uint16_t tmp = readProm(reg);
     C[reg] *= tmp;
-    //  _deviceID is a simple SHIFT XOR merge of PROM data
+    //  _deviceID is a SHIFT XOR merge of 7 PROM registers, reasonable unique
     _deviceID <<= 4;
     _deviceID ^= tmp;
     //  Serial.println(readProm(reg));
@@ -147,16 +146,22 @@ int MS5611_SPI::read(uint8_t bits)
 {
   //  VARIABLES NAMES BASED ON DATASHEET
   //  ALL MAGIC NUMBERS ARE FROM DATASHEET
+
   convert(MS5611_CMD_CONVERT_D1, bits);
+  if (_result) return _result;
   //  NOTE: D1 and D2 seem reserved in MBED (NANO BLE)
   uint32_t _D1 = readADC();
+  if (_result) return _result;
+
   convert(MS5611_CMD_CONVERT_D2, bits);
+  if (_result) return _result;
   uint32_t _D2 = readADC();
+  if (_result) return _result;
 
   //  Serial.println(_D1);
   //  Serial.println(_D2);
 
-  //   TEST VALUES - comment lines above
+  //  TEST VALUES - comment lines above
   //  uint32_t _D1 = 9085466;
   //  uint32_t _D2 = 8569150;
 
@@ -218,12 +223,20 @@ float MS5611_SPI::getTemperature() const
 }
 
 
+//  milliBar
 float MS5611_SPI::getPressure() const
 {
   if (_pressureOffset == 0) return _pressure * 0.01;
   return _pressure * 0.01 + _pressureOffset;
 }
 
+
+//  Pascal SI-unit.
+float MS5611_SPI::getPressurePascal() const
+{
+  if (_pressureOffset == 0) return _pressure;
+  return _pressure + _pressureOffset * 100.0;
+}
 
 void MS5611_SPI::setPressureOffset(float offset)
 {
@@ -246,6 +259,25 @@ void MS5611_SPI::setTemperatureOffset(float offset)
 float MS5611_SPI::getTemperatureOffset()
 {
   return _temperatureOffset;
+}
+
+
+//  (from MS5837)
+//  https://www.mide.com/air-pressure-at-altitude-calculator
+//  https://community.bosch-sensortec.com/t5/Question-and-answers/How-to-calculate-the-altitude-from-the-pressure-sensor-data/qaq-p/5702 (stale link).
+//  https://en.wikipedia.org/wiki/Pressure_altitude
+float MS5611_SPI::getAltitude(float airPressure)
+{
+  //  _pressure is in Pascal (#44) and airPressure in mBar.
+  float ratio = _pressure * 0.01 / airPressure;
+  return 44307.694 * (1 - pow(ratio, 0.190284));
+}
+
+
+float MS5611_SPI::getAltitudeFeet(float airPressure)
+{
+  float ratio = _pressure * 0.01 / airPressure;
+  return 145366.45 * (1 - pow(ratio, 0.190284));
 }
 
 
@@ -291,6 +323,18 @@ uint16_t MS5611_SPI::getSerialCode()
   return readProm(7) >> 4;
 }
 
+//       DEVELOP
+uint16_t MS5611_SPI::getProm(uint8_t index)
+{
+  return readProm(index);
+}
+
+//       DEVELOP
+uint16_t MS5611_SPI::getCRC()
+{
+  return readProm(7) & 0x0F;
+}
+
 
 void MS5611_SPI::setSPIspeed(uint32_t speed)
 {
@@ -311,22 +355,21 @@ bool MS5611_SPI::usesHWSPI()
 }
 
 
-
 /////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 void MS5611_SPI::convert(const uint8_t addr, uint8_t bits)
 {
-  //  values from page 3 datasheet - MAX column (rounded up)
-  uint16_t del[5] = {600, 1200, 2300, 4600, 9100};
-
   uint8_t index = bits;
   if (index < 8) index = 8;
   else if (index > 12) index = 12;
   index -= 8;
   uint8_t offset = index * 2;
   command(addr + offset);
+
+  //  values from page 3 datasheet - MAX column (rounded up)
+  uint16_t del[5] = {600, 1200, 2300, 4600, 9100};
 
   uint16_t waitTime = del[index];
   uint32_t start = micros();
@@ -465,6 +508,13 @@ void MS5611_SPI::initConstants(uint8_t mathMode)
     C[4] = 1.5625e-2;     //  TCO
   }
 }
+
+
+///////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+//  TODO ?
 
 
 //  -- END OF FILE --

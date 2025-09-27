@@ -1,6 +1,6 @@
 {
   "name": "MS5611_SPI",
-  "keywords": "MS5611,GY-63,GY63,temperature,pressure",
+  "keywords": "MS5611,GY-63,GY63,temperature,pressure,altitude",
   "description": "Arduino library (SPI) for MS5611 temperature and pressure sensor",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/MS5611_SPI.git"
   },
-  "version": "0.3.1",
+  "version": "0.4.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

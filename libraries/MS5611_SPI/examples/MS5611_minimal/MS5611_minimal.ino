@@ -45,7 +45,7 @@ MS5611_SPI MS5611(15, 13, 12, 14);   // ESP32 SW SPI
 // SPIClass *mySPI = new SPIClass(HSPI);
 // MS5611_SPI MS5611(15, mySPI);        // ESP32 HW SPI (HSPI)
 // SPIClass *mySPI = new SPIClass(VSPI);
-// MS5611_SPI MS5611(5, mySPI);                // ESP32 HW SPI (VSPI)
+// MS5611_SPI MS5611(5, mySPI);         // ESP32 HW SPI (VSPI)
 
 
 void setup()
@@ -56,6 +56,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MS5611_SPI_LIB_VERSION: ");
   Serial.println(MS5611_SPI_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

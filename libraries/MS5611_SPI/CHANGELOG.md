@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-09-26
+- fix #14, sync MS5611
+- add **getAltitudeFeet(float airPressure)**
+- moved code to .cpp
+- update keywords.txt
+- minor edits
+
+----
+
 ## [0.3.1] - 2024-06-03
 - add support for ARDUINO_ARCH_MBED
 

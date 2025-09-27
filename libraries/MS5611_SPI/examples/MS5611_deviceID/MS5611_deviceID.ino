@@ -53,6 +53,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MS5611_SPI_LIB_VERSION: ");
   Serial.println(MS5611_SPI_LIB_VERSION);
+  Serial.println();
 
   //  pinMode(LED_BUILTIN, OUTPUT);
   SPI.begin();

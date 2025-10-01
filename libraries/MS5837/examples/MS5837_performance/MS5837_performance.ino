@@ -12,6 +12,7 @@
   |     5  |  timeout
 */
 
+
 #include "Arduino.h"
 #include "Wire.h"
 
@@ -21,10 +22,12 @@ MS5837 MS(&Wire);
 
 uint32_t start, stop;
 
+
 void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5837_LIB_VERSION: ");
   Serial.println(MS5837_LIB_VERSION);
@@ -53,9 +56,11 @@ void setup()
   test(13);
 }
 
+
 void loop()
 {
 }
+
 
 void test(uint8_t bits)
 {
@@ -73,9 +78,9 @@ void test(uint8_t bits)
   Serial.print("\tP: ");
   Serial.print(MS.getPressure(), 2);
   Serial.print("\tA: ");
-  Serial.print(MS.getAltitude(), 2);
+  Serial.print(MS.getAltitude(1023.45), 2);
   Serial.print("\tD: ");
-  Serial.print(MS.getDepth(), 2);
+  Serial.print(MS.getDepth(1023.45), 2);
   Serial.print("\tE: ");
   Serial.print(MS.getLastError());
   Serial.print("\tM: ");

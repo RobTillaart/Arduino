@@ -26,9 +26,7 @@ MS5837::MS5837(TwoWire *wire)
 bool MS5837::begin(uint8_t mathMode)
 {
   if (! isConnected()) return false;
-  reset(mathMode);
-
-  return true;
+  return reset(mathMode);
 }
 
 bool MS5837::isConnected()
@@ -158,8 +156,9 @@ int MS5837::read(uint8_t bits)
   //  determine pressure
   float offset = C[2] + dT * C[4];
   float sens   = C[1] + dT * C[3];
-  _pressure = _D1 * sens + offset;
-
+  //                         1 / 2^21                    C[7] / 100
+  _pressure = (_D1 * sens * 4.76837158203E-7 - offset) * C[7] * 0.01;
+  if (_type == MS5837_TYPE_30) _pressure *= 10;
 
   //  Second order compensation
   //  Comment to save footprint (trade accuracy)
@@ -196,7 +195,7 @@ int MS5837::read(uint8_t bits)
       if ((_temperature * 0.01) < -15)
       {
         t2 = (_temperature + 1500) * (_temperature + 1500);
-        sens2   += 2 * t2;
+        sens2 += 2 * t2;
       }
     }
     else
@@ -212,11 +211,6 @@ int MS5837::read(uint8_t bits)
     sens         -= sens2;
     _temperature -= ti;
   }
-
-
-  //                         1 / 2^21                    C[7] / 100
-  _pressure = (_D1 * sens * 4.76837158203E-7 - offset) * C[7] * 0.01;
-  if (_type == MS5837_TYPE_30) _pressure *= 10;
 
   _temperature *= 0.01;
 

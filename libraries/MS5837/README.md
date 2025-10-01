@@ -26,13 +26,13 @@ From the measured pressure one can calculate the depth or the altitude of the se
 - The MS5837_02 is meant for altitude measurements as it can as low as 300 mBar, -20°C
 - The MS5803_01 is meant for altitude measurements as it can as low as 10 mBar, -40°C
 
-The library only supports the I2C based sensors, fixed address 0x76 for the MS5837 
+The library only supports the I2C based sensors, fixed address 0x76 for the MS5837
 and address 0x76 or 0x77 for the MS5803.
 
 This library does not use the partially 64 bit integer math as described in the datasheet.
 Instead it uses float math.
 This choice reduces footprint on e.g. AVR and increases the math performance.
-This will however have an effect on the accuracy of the results, 
+This will however have an effect on the accuracy of the results,
 although this effect is expected to be relative small as the 32 bit floats have 6-7 digits accuracy.
 
 The library (.cpp) has a 2nd order compensation which is not tested.
@@ -42,7 +42,7 @@ Feedback is welcome.
 
 ### 0.2.0
 
-The library is tested with hardware, the MS5837-02 (mathMode 1) works. 
+The library is tested with hardware, the MS5837-02 (mathMode 1) works.
 This resulted in fixing several bugs in read() and the 0.2.0 version.
 So pre 0.2.0 version are obsolete.
 
@@ -71,7 +71,7 @@ See mathType notes below.
 |  MS5803-01  |    2     |  -40 to +85  |  10 to 1300     |  for altitude
 
 
-### Pressure mathType 
+### Pressure mathType
 
 There are MS5837 compatibles for which the math for the pressure is different.
 See **AN520__004: C-code example for MS56xx, MS57xx (except analog sensor), and MS58xx series pressure sensors**
@@ -112,7 +112,7 @@ before calling **MS5837.begin(mathMode)**.
 The maximum I2C speed is 400 kHz according to the datasheet.
 
 The **read()** call has two blocking delays to read two ADC values.
-THerefore the I2C speed is not a parameter to be tuned. 
+THerefore the I2C speed is not a parameter to be tuned.
 
 ### Address
 
@@ -120,7 +120,7 @@ THerefore the I2C speed is not a parameter to be tuned.
 |:-----------:|:--------------:|:--------|
 |  MS5837-02  |  0x76          |  single fixed
 |  MS5839-30  |  0x76          |  single fixed
-|  MS5803-01  |  0x76 or 0x77  |  to be set with CSB pin. 
+|  MS5803-01  |  0x76 or 0x77  |  to be set with CSB pin.
 
 The MS5837 class has a fixed address of 0x76, the MS5803 class allows
 to select address 0x77.
@@ -157,15 +157,15 @@ too if they are behind the multiplexer.
 - **bool isConnected()** returns true if device visible on I2C bus.
 - **bool reset(uint8_t mathMode)** resets the sensor and reads its configuration.
 The mathMode must match the type of sensor, see table above.
-- **uint8_t getType()** type indicates max pressure. 
+- **uint8_t getType()** type indicates max pressure.
 Returns 30 or 2 or zero if unknown.
 - **uint8_t getAddress()** returns 0x76 as this is a fixed address.
 
 
 ### Temperature and Pressure
 
-- **int read(uint8_t bits = 8)** the actual reading of the sensor. 
-The bits determines the oversampling rate (OSR), see table below. 
+- **int read(uint8_t bits = 8)** the actual reading of the sensor.
+The bits determines the oversampling rate (OSR), see table below.
 Returns 0 upon success, a negative number on failure (debug info).
 The call will block for 3 to 40 milliseconds, depending upon number of bits.
 
@@ -176,8 +176,8 @@ The call will block for 3 to 40 milliseconds, depending upon number of bits.
 |  MS5803_01  |  8..12        |          |  not tested
 
 
-- **uint32_t lastRead()** returns the timestamp of the last call to read() in 
-milliseconds since start. 
+- **uint32_t lastRead()** returns the timestamp of the last call to read() in
+milliseconds since start.
 It does not take into account if the read call is successful or not.
 - **float getTemperature()** returns temperature in degrees Celsius.
 Multiple calls will return the same value until read() is called again.
@@ -187,6 +187,7 @@ Multiple calls will return the same value until read() is called again.
 Multiple calls will return the same value until read() is called again.
 - **float getAltitude(float airPressure = 1013.25)** calculates the altitude,
 based upon actual pressure measured and the current pressure at sea level (parameter airPressure).
+If actual airPressure at sea level is not 1013.25 the altitude will be incorrect.
 Returns the altitude in meters (SI-unit).
 Multiple calls will return the same altitude until a new pressure is **read()**.
 - **float getAltitudeFeet(float airPressure = 1013.25)** calculates the altitude,
@@ -197,20 +198,20 @@ Multiple calls will return the same altitude until a new pressure is **read()**.
 Experimental note.
 
 **getAltitude()** might even work in caves below sea level, as the sensors can
-measure up to 1200/1300 hPa. See air pressure table below. 
+measure up to 1200/1300 hPa. See air pressure table below.
 This assumption is not confirmed yet.
 
 
 ### Depth
 
-For MS5837_30 only.
+**For MS5837_30 only.**
 
 Depth calculation depends on the air pressure at sea level, and the density
 of the liquid you are submerged in.
 The density might not be a constant value and may vary over time.
-It depends e.g. on the salinity (sea water) and temperature. 
+It depends e.g. on the salinity (sea water) and temperature.
 
-The pressure is in fact the sum of the air pressure and the weight of the 
+The pressure is in fact the sum of the air pressure and the weight of the
 liquid above the sensor.
 If the density of the is larger than water the maximum depth at which the
 sensor will work will decrease. Denser liquids give more pressure.
@@ -218,12 +219,12 @@ sensor will work will decrease. Denser liquids give more pressure.
 - **void setDensity(float density = 0.99802)** set liquid density.
 density water 20°C = 0.99802
 - **float getDensity()** returns set liquid density.
-- **float getDepth(float airPressure = 1013.25)** calculates the depth, 
+- **float getDepth(float airPressure = 1013.25)** calculates the depth,
 based upon actual pressure and the pressure at sea level.
 Returns depth in meters (SI-unit).
 One can compensate for the actual air pressure at sea level.
 Multiple calls will return the same value until read() is called again.
-- **float getDepthFeet(float airPressure = 1013.25)** calculates the depth, 
+- **float getDepthFeet(float airPressure = 1013.25)** calculates the depth,
 based upon actual pressure and the pressure at sea level.
 Returns depth in feet.
 One can compensate for the actual air pressure at sea level.
@@ -232,7 +233,7 @@ Multiple calls will return the same value until read() is called again.
 
 ### Error handling
 
-Experimental, 
+Experimental
 
 - **int lastError()** returns the last error code.
 Resets to 0 when called.
@@ -252,10 +253,10 @@ Resets to 0 when called.
 
 ### Meta info
 
-Experimental, 
+Experimental
 
 The PROM index zero of the MS58xx hold some device specific information.
-As these 2 bytes are relative random it can be used as device identification. 
+As these 2 bytes are relative random it can be used as device identification.
 For the **MS5837_02** the meaning of two fields of PROM(0) is known.
 For the **MS5837_30** only one field is known.
 
@@ -269,7 +270,7 @@ For the **MS5837_30** only one field is known.
 - **uint16_t getCRC()** can be used to verify the PROM codes, check not implemented.
 - **uint16_t getProduct()** see table below.
 - **uint16_t getFactorySettings()** meaning unknown.
-- **uint16_t getPromZero()** can be used as device identification. 
+- **uint16_t getPromZero()** can be used as device identification.
 
 |  Device         |  Product code  |
 |:---------------:|:--------------:|
@@ -289,12 +290,12 @@ For the **MS5837_30** only one field is known.
 
 - **MS5803(TwoWire \* wire = &Wire)** set the address to 0x76
 0x76 and optional select the I2C bus used.
-- **MS5803(uint8_t address, TwoWire \* wire = &Wire)** set the address 
+- **MS5803(uint8_t address, TwoWire \* wire = &Wire)** set the address
 0x76 or 0x77 and optional select the I2C bus used.
 
 ----
 
-## Density 
+## Density
 
 Some indicative figures about density of water and other liquids.
 Different sources give slight variations, which differ less than 0.1%.
@@ -331,11 +332,11 @@ One can linear interpolate between these points.
 From - https://en.wikipedia.org/wiki/Seawater
 
 The density of surface seawater ranges from about 1.020 to 1.029 g/cm3.
-depending on the temperature and salinity. 
+depending on the temperature and salinity.
 At a temperature of 25 °C, the salinity of 35 g/kg
 and 1 atm pressure, the density of seawater is 1023.6 kg/m3.
 
-The salinity of water can differ a lot e.g. near a river mouth sweet 
+The salinity of water can differ a lot e.g. near a river mouth sweet
 and salt water mix continuously.
 
 
@@ -363,7 +364,7 @@ In formula (spreadsheet):
 density = 1.02869 + 4.295e-6 * depth (meters)
 ```
 
-For 30 meter the device can go under water the density is about ~1.02829.  
+For 30 meter the device can go under water the density is about ~1.02829.
 For 15 meter (average density from 0..30 meter) it is about ~1.02821.
 
 
@@ -430,7 +431,7 @@ density = 0.998438 + 0.0041907 * solution;
 ```
 
 
-### Air pressure vs sea level 
+### Air pressure vs sea level
 
 From - https://www.nwflowtech.com/media/0y0aizb3/nwft-barometric-pressure-vs-altitude-table-122120-v2.pdf
 
@@ -447,7 +448,7 @@ From - https://www.nwflowtech.com/media/0y0aizb3/nwft-barometric-pressure-vs-alt
 |  0       |  0       |  1013  |  Sea level 1013.25
 |  50      |  15,2    |  1012  |
 |  100     |  30,5    |  1010  |
-|  200     |  61      |  1007  |  
+|  200     |  61      |  1007  |
 |  300     |  91,4    |  1003  |
 |  400     |  121,9   |   999  |
 |  500     |  152,4   |   996  |
@@ -501,7 +502,6 @@ From - https://www.mide.com/air-pressure-at-altitude-calculator
 
 #### Should
 
-- test **getAltitude()**
 - test **getDepth()**
 - test & verify 2nd order compensations. (Need special equipment)
 - investigate the effects of float math on accuracy / precision.
@@ -513,20 +513,15 @@ From - https://www.mide.com/air-pressure-at-altitude-calculator
 - add **float getAirPressure()** return last set value.
 - add offset functions for all measurements?
   - 3 offsets float == 12 bytes + 6 functions get/set.
-- async interface.
+- async interface possible?.
   - can we see conversion ready?
   - **void requestMeasurement()** starts conversion D1.
   - **bool ready()** checks D1 to be ready, starts D2, checks D2 to be ready
   - need multiple calls to initiate steps.
   - ==> also MS5611 ?
+- remove default airPressure from **getAltitude()**, so user is forced to fill
+  in actual P.
 
-```cpp
-uint16_t getPromZero()
-{
-  uint16_t value = C[0];  //  first convert back to uint16_t.
-  return value;
-}
-```
 
 #### Won't (unless requested)
 

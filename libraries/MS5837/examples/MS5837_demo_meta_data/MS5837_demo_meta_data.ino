@@ -12,6 +12,7 @@
   |     5  |  timeout
 */
 
+
 #include "Arduino.h"
 #include "Wire.h"
 
@@ -24,6 +25,7 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5837_LIB_VERSION: ");
   Serial.println(MS5837_LIB_VERSION);

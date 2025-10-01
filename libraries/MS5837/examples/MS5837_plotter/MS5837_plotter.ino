@@ -1,16 +1,16 @@
-//    FILE: MS5837_test_mathMode.ino
+//    FILE: MS5837_plotter.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo MS5837 library
 //     URL: https://github.com/RobTillaart/MS5837
 
 /*  AVR I2C codes
-  |     0  |  success
-  |     1  |  length to long for buffer
-  |     2  |  address send, NACK received
-  |     3  |  data send, NACK received
-  |     4  |  other twi error
-  |     5  |  timeout
-*/
+|     0  |  success
+|     1  |  length to long for buffer
+|     2  |  address send, NACK received
+|     3  |  data send, NACK received
+|     4  |  other twi error
+|     5  |  timeout
+ */
 
 
 #include "Arduino.h"
@@ -45,44 +45,27 @@ void setup()
     // while (1);
   }
   Serial.println();
+
+  //  adjust labels to need.
+  //  Serial.println("Temp\tPres\tAlt");
+  Serial.println("Temp\tAlt");
 }
 
 
 void loop()
 {
-  testMathMode(0);
-  delay(1000);
-
-  testMathMode(1);
-  delay(1000);
-
-  testMathMode(2);
-  delay(1000);
-}
-
-
-void testMathMode(uint8_t mode)
-{
-  MS.reset(mode);
-  delay(100);
   if (MS.read(8) != 0)
   {
     Serial.print("Read Error!!\t");
+    return;
   }
-
-  Serial.print("M: ");
-  Serial.print(mode);
-  Serial.print("\tT: ");
   Serial.print(MS.getTemperature(), 2);
-  Serial.print("\tP: ");
-  Serial.print(MS.getPressure(), 2);
-  Serial.print("\tA: ");
-  Serial.print(MS.getAltitude(), 2);
-  Serial.print("\tD: ");
-  Serial.print(MS.getDepth(), 2);
-  Serial.print("\tE: ");
-  Serial.print(MS.getLastError());
+  Serial.print("\t");
+  //Serial.print(MS.getPressure(), 2);
+  Serial.print("\t");
+  Serial.print(MS.getAltitude(1023.45), 2);
   Serial.println();
+  delay(1000);
 }
 
 

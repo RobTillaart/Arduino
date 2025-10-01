@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-09-29
+- fix begin()
+- remove unneeded pressure calculation.
+- update / add examples
+- update README.md
+- minor edits
+
 ## [0.3.0] - 2025-09-27
 - sync MS5611
 - add getAltitudeFeet()

@@ -1,4 +1,4 @@
-//    FILE: MS5837_demo.ino
+//    FILE: MS5837_plotter_median_avg.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo MS5837 library
 //     URL: https://github.com/RobTillaart/MS5837
@@ -12,28 +12,34 @@
 |     5  |  timeout
  */
 
+
 #include "Arduino.h"
 #include "Wire.h"
 
 #include "MS5837.h"
+#include "RunningMedian.h"
 
 MS5837 MS(&Wire);
 
+RunningMedian samples = RunningMedian(17);
 
 void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5837_LIB_VERSION: ");
   Serial.println(MS5837_LIB_VERSION);
+  Serial.print(F("RUNNING_MEDIAN_VERSION: "));
+  Serial.println(RUNNING_MEDIAN_VERSION);
   Serial.println();
 
   Wire.begin();
 
   //  MS5837_30 = 0
   //  MS5837_02 = 1
-  if (MS.begin(0) == true)
+  if (MS.begin(1) == true)
   {
     Serial.println("MS5837 found.");
   }
@@ -43,6 +49,9 @@ void setup()
     // while (1);
   }
   Serial.println();
+  Serial.println("Low\tMedian\tAvg\tHigh");
+
+  while(MS.read(8) != 0);
 }
 
 
@@ -51,19 +60,20 @@ void loop()
   if (MS.read(8) != 0)
   {
     Serial.print("Read Error!!\t");
+    return;
   }
-  Serial.print("\tT: ");
-  Serial.print(MS.getTemperature(), 2);
-  Serial.print("\tP: ");
-  Serial.print(MS.getPressure(), 2);
-  Serial.print("\tA: ");
-  Serial.print(MS.getAltitude(), 2);
-  Serial.print("\tD: ");
-  Serial.print(MS.getDepth(), 2);
-  Serial.print("\tE: ");
-  Serial.print(MS.getLastError());
+  float val = MS.getAltitude(1024);
+  samples.add(val);
+  
+  Serial.print(samples.getLowest(), 2);
+  Serial.print("\t");
+  Serial.print(samples.getMedian(), 2);
+  Serial.print("\t");
+  Serial.print(samples.getAverage(), 2);
+  Serial.print("\t");
+  Serial.print(samples.getHighest(), 2);
   Serial.println();
-  delay(1000);
+  delay(20);
 }
 
 

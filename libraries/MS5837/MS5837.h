@@ -2,7 +2,7 @@
 //
 //    FILE: MS5837.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -11,8 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-
-#define MS5837_LIB_VERSION        (F("0.3.0"))
+#define MS5837_LIB_VERSION        (F("0.3.1"))
 
 
 //  TYPES
@@ -68,6 +67,7 @@ public:
   //
   //  ALTITUDE
   //  air pressure in mBar, returns meters
+  //  be sure to fill in correct air pressure at sea level.
   float    getAltitude(float airPressure = 1013.25);
   //  idem, returns feet.
   float    getAltitudeFeet(float airPressure = 1013.25);

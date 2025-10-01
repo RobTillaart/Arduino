@@ -19,12 +19,14 @@ uint32_t start, stop;
 
 volatile float volts;
 
+
 void setup()
 {
-  while (!Serial);
+  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LTC2485_LIB_VERSION: ");
+  Serial.print(F("LTC2485_LIB_VERSION: "));
   Serial.println(LTC2485_LIB_VERSION);
   Serial.println();
 

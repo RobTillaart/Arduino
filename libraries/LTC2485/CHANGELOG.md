@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2025-09-30
+- update GitHub actions
+- update examples
+- update keywords.txt
+- minor edits
+
 ## [0.1.3] - 2025-03-04
 - add simple calibration for temperature
 - add **getLastError()** for minimal error handling

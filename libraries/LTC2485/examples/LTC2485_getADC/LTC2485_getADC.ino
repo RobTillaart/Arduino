@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2485_getADC.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal test 
+// PURPOSE: minimal test
 //     URL: https://github.com/RobTillaart/LTC2485
 
 
@@ -15,18 +15,20 @@ LTC2485 LTC(0x16);
 
 float VREF = 1.8;
 
+
 void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LTC2485_LIB_VERSION: ");
+  Serial.print(F("LTC2485_LIB_VERSION: "));
   Serial.println(LTC2485_LIB_VERSION);
   Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
-  
+
   LTC.begin(VREF);
   delay(200);
 }

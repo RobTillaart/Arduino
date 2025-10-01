@@ -28,7 +28,7 @@ setup to get accurate readings on that level.
 
 The LTC2485 has an internal voltage that is proportional to temperature.
 The library allows to read that voltage and converts it to temperature Celsius.
-The formula can be calibrated a bit at the top of the .cpp file.
+The formula can be calibrated a bit at the top of the LTC2485.cpp file.
 
 
 Read the datasheet for the details.
@@ -72,7 +72,7 @@ No data available yet.
 To be measured when hardware is available.
 
 If you have hardware and performance figures, please share them in an issue.
-Please use the output of example **LTC2485_performance.ino** and the board used.
+Please report the output of example **LTC2485_performance.ino** and the board used.
 
 
 ### Compatibles
@@ -128,7 +128,7 @@ Configuration bit masks, should be OR-ed.
 Flags LTC2485_REJECT_50HZ and LTC2485_REJECT_60HZ may **NOT** be used simultaneously.
 Use LTC2485_REJECT_50_60_HZ instead.
 
-example
+Example configure() call:
 
 ```cpp
 LTC.configure(LTC2485_SPEED_2X | LTC2485_REJECT_60HZ);

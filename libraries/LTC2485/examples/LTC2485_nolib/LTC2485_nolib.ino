@@ -3,14 +3,18 @@
 // PURPOSE: raw read the device
 //     URL: https://github.com/RobTillaart/LTC2485
 
+
 #include "Arduino.h"
 #include "Wire.h"
+
 
 void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   Wire.begin();
   delay(200);  //  for first conversion
@@ -21,11 +25,11 @@ void setup()
     Serial.print("\t");
     Wire.beginTransmission(0x16);    //  address
     Wire.write(0x00);                //  default configuration
-    int n = Wire.endTransmission();  //  send config over I2C to address
+    int n = Wire.endTransmission();  //  send configuration over I2C to address
     Serial.print(n);
 
     delay(del);
-    
+
     Serial.print("\t");
     n = Wire.requestFrom(0x16, 4);
     Serial.print(n);
@@ -42,6 +46,7 @@ void setup()
 
   Serial.println("\ndone...");
 }
+
 
 void loop()
 {

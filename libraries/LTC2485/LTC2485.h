@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2485.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2025-02-21
 // PURPOSE: Arduino library for LTC2485 I2C 24 bit ADC.
 //     URL: https://github.com/RobTillaart/LTC2485
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2485_LIB_VERSION               (F("0.1.3"))
+#define LTC2485_LIB_VERSION               (F("0.1.4"))
 
 
 //  CONFIGURATION BITS, TABLE 1

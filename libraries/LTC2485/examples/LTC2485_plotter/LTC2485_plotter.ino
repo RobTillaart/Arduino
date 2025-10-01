@@ -15,10 +15,12 @@ LTC2485 LTC(0x16);
 
 float VREF = 1.8;
 
+
 void setup()
 {
   while (!Serial);
   Serial.begin(115200);
+//  Serial.println();
 //  Serial.println(__FILE__);
 //  Serial.print("LTC2485_LIB_VERSION: ");
 //  Serial.println(LTC2485_LIB_VERSION);

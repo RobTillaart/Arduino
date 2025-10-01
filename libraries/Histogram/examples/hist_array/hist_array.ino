@@ -27,11 +27,11 @@ const uint32_t threshold = 25;  //  in milliseconds, for updating display
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("HISTOGRAM_LIB_VERSION: ");
+  Serial.print(F("HISTOGRAM_LIB_VERSION: "));
   Serial.println(HISTOGRAM_LIB_VERSION);
   Serial.println();
-
 }
 
 

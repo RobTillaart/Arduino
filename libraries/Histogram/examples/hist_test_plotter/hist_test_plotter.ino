@@ -1,10 +1,13 @@
 //
-//    FILE: hist_test_graph.ino
+//    FILE: hist_test_plotter.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2017-07-16
-// PURPOSE: test histogram library
+// PURPOSE: make a simple plot with the histogram library
 //     URL: https://github.com/RobTillaart/Histogram
 
+//  This sketch makes a simple plot on the Serial plotter
+//  Although the boundaries of the histogram are not equally distributed,
+//  the columns in the plot are
+//  There is a 0 value between the plots to get the (almost) vertical lines.
 
 #include "histogram.h"
 
@@ -16,7 +19,7 @@ Histogram hist(14, bounds);
 
 uint32_t lastTime = 0;
 const uint32_t threshold = 5000;  //  in milliseconds, for updating display
-
+const int SERIAL_PLOTTER_WIDTH = 500;
 
 void setup()
 {
@@ -40,32 +43,26 @@ void loop()
   int x = random(1024);
   hist.add(x);
 
-  //  update output
+  //  create output
   uint32_t now = millis();
   if (now - lastTime > threshold)
   {
     lastTime = now;
 
+    //  determine column width
+    int width = (SERIAL_PLOTTER_WIDTH / hist.size()) - 1;
+    //  some leading zeros to remove previous columns
+    for (uint16_t i = 0; i < hist.size(); i++) Serial.println(0);
+    //  create the columns - equally width
     for (uint16_t i = 0; i < hist.size(); i++)
     {
-      Serial.print(i);
-      Serial.print("\t");
-      Serial.print(hist.frequency(i), 2);
-      Serial.print("\t");
-
-      int n = hist.frequency(i) * 50;  //  0..50
-      Serial.print(n);
-      Serial.print("\t");
-      for (int p = 0; p < n; p++)
+      for (int w = 0; w < width; w++)
       {
-        Serial.print(']');
+        Serial.println(hist.bucket(i));
       }
-      Serial.println();
+      Serial.println(0);
     }
-    if (hist.count() > 1000000UL)
-    {
-      hist.clear();
-    }
+    hist.clear();
   }
 }
 

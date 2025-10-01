@@ -9,9 +9,9 @@
 #include "histogram.h"
 
 
-float b[] = 
+float b[] =
 {
-  0, 300, 325, 350, 375, 400, 1000 
+  0, 300, 325, 350, 375, 400, 1000
 };
 
 Histogram hist(7, b);
@@ -20,8 +20,9 @@ Histogram hist(7, b);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("HISTOGRAM_LIB_VERSION: ");
+  Serial.print(F("HISTOGRAM_LIB_VERSION: "));
   Serial.println(HISTOGRAM_LIB_VERSION);
   Serial.println();
 }

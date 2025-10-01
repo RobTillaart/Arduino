@@ -1,7 +1,6 @@
 //
 //    FILE: hist_test_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-02-21
 // PURPOSE: test histogram library
 //     URL: https://github.com/RobTillaart/Histogram
 
@@ -26,8 +25,9 @@ float y;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("HISTOGRAM_LIB_VERSION: ");
+  Serial.print(F("HISTOGRAM_LIB_VERSION: "));
   Serial.println(HISTOGRAM_LIB_VERSION);
   Serial.println();
 
@@ -64,7 +64,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
 
   start = micros();
   y = hist.VAL(0.9);
@@ -74,7 +74,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
 
   start = micros();
   x = hist.findMax();
@@ -84,7 +84,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
 
   start = micros();
   x = hist.findMax();
@@ -94,7 +94,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
 
   start = micros();
   x = hist.findMax();
@@ -104,7 +104,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
 
   start = micros();
   x = hist.countBelow(0);
@@ -114,7 +114,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
   start = micros();
   x = hist.countLevel(0);
   stop = micros();
@@ -123,7 +123,7 @@ void setup()
   Serial.print("   TIME: ");
   Serial.println(stop - start);
   delay(20);
-  
+
   start = micros();
   x = hist.countAbove(0);
   stop = micros();

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2025-09-30
+- fix **SetBucket()** overflow
+- add **get/setMinBucket()** and add to functions.
+- catch length div zero in **saturation()**
+- update GitHub actions
+- fix **HISTOGRAM_LIB_VERSION**
+- update / add examples **hist_test_plotter**
+- fix keywords.txt
+- minor edits
+
+----
+
 ## [0.3.7] - 2024-05-25
 - add examples **hist_pointer.ino** and **hist_array.ino**
 - issue #10 spin off library https://github.com/RobTillaart/Kurtosis

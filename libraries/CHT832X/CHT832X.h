@@ -2,7 +2,7 @@
 //
 //    FILE: CHT832X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2024-12-29
 // PURPOSE: Arduino library for CHT832X temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT832X_LIB_VERSION              (F("0.2.0"))
+#define CHT832X_LIB_VERSION              (F("0.3.0"))
 
 //  CONVERSION TIMING
 //  To configure compile time, datasheet states 60 ms for conversion.
@@ -96,10 +96,10 @@ public:
   int      getError();
 
 private:
-  float    _humOffset       = 0.0;
-  float    _tempOffset      = 0.0;
-  float    _humidity        = 0.0;
-  float    _temperature     = 0.0;
+  float    _humOffset       = 0.0f;
+  float    _tempOffset      = 0.0f;
+  float    _humidity        = 0.0f;
+  float    _temperature     = 0.0f;
   uint32_t _lastRead        = 0;
   uint32_t _lastRequest     = 0;
   uint32_t _heatStart       = 0;  //  TODO investigate

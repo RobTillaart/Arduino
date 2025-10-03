@@ -1,7 +1,7 @@
 //
 //    FILE: CHT832X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 //    DATE: 2024-12-29
 // PURPOSE: Arduino library for CHT832X temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -99,10 +99,11 @@ int CHT832X::readData()
 
   //  TEMPERATURE PART
   _error = CHT832X_OK;
-  int16_t tmp = (data[0] << 8 | data[1]);
-  _temperature = -45 + (175.0 / 65535) * tmp;
+  const float Tfactor = 175.0f / 65535.0f;
+  uint16_t tmp = (data[0] << 8 | data[1]);
+  _temperature = -45 + Tfactor * tmp;
   //  Handle temperature offset.
-  if (_tempOffset != 0.0)
+  if (_tempOffset != 0.0f)
   {
     _temperature += _tempOffset;
   }
@@ -114,14 +115,15 @@ int CHT832X::readData()
   }
 
   //  HUMIDITY PART
+  const float Hfactor = 100.0f / 65535.0f;
   uint16_t tmp2 = (data[3] << 8 | data[4]);
-  _humidity = (100.0 / 65535) * tmp2;
-  if (_humOffset != 0.0)
+  _humidity = Hfactor * tmp2;
+  if (_humOffset != 0.0f)
   {
     _humidity += _humOffset;
     //  handle out of range - clipping.
-    if (_humidity < 0.0)   _humidity = 0.0;
-    if (_humidity > 100.0) _humidity = 100.0;
+    if (_humidity < 0.0f)   _humidity = 0.0f;
+    if (_humidity > 100.0f) _humidity = 100.0f;
   }
   //  CHECK CRC HUMIDITY
   if (_crc8(tmp) != data[5])

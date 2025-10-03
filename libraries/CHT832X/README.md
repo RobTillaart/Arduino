@@ -35,6 +35,11 @@ The library is tested to work with hardware, see issue 3.
 Feedback as always is welcome, please share your experiences.
 
 
+### Breaking change 0.3.0
+
+Fixed temperature above 40 degrees Celsius - see #5
+
+
 ### Breaking change 0.2.0
 
 The 0.1.0 version was not working, it is now obsolete.
@@ -85,13 +90,13 @@ TODO: fill table
 
 |  Version  |  Speed   |   Read   | getManufacturer  |
 |:---------:|:--------:|:--------:|:----------------:|
-|   0.2.0   |   50000  |          |                  |
-|   0.2.0   |  100000  |          |                  |
-|   0.2.0   |  200000  |          |                  |
-|   0.2.0   |  300000  |          |                  |
-|   0.2.0   |  400000  |          |                  |
-|   0.2.0   |  600000  |          |                  |
-|   0.2.0   |  800000  |          |                  |
+|   0.3.0   |   50000  |          |                  |
+|   0.3.0   |  100000  |          |                  |
+|   0.3.0   |  200000  |          |                  |
+|   0.3.0   |  300000  |          |                  |
+|   0.3.0   |  400000  |          |                  |
+|   0.3.0   |  600000  |          |                  |
+|   0.3.0   |  800000  |          |                  |
 
 
 ### Addresses
@@ -143,7 +148,7 @@ Returns error status.
 
 - **int requestData()** triggers a new single shot conversion.
 - **bool dataReady()** checks if 60 milliseconds have passed
-since last request, indicating conversion ready
+since last request, indicating conversion ready.
 - **int readData()** read the raw data, convert to T & H and
 store them in cache until next readData() call.
 
@@ -246,7 +251,7 @@ Other manufacturers may return different number.
 Resets internal error to CHT832X_OK.
 
 
-|  value  |  define                  |  notes  |n
+|  value  |  define                  |  notes  |
 |:-------:|:-------------------------|:--------|
 |     0   |  CHT832X_OK              |  default
 |   -10   |  CHT832X_ERROR_ADDR      |

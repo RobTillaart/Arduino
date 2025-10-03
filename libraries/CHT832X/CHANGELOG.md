@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2025-10-03
+- fix #5, temperature above ~40C flipped to negative
+- made all floats explicit (0.0f iso 0.0)
+- minor edits
+
+----
+
 ## [0.2.0] - 2025-09-10
 - fix #3, reading T&H failed (kudos to NetForces)
 - implementing ASYNC interface (refactor private part)

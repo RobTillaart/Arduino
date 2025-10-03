@@ -18,7 +18,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("CHT832X_LIB_VERSION: ");
+  Serial.print(F("CHT832X_LIB_VERSION: "));
   Serial.println(CHT832X_LIB_VERSION);
   Serial.println();
 

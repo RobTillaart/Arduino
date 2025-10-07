@@ -2,7 +2,7 @@
 //    FILE: AS7331.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-08-28
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for AS7331 UV sensor
 //     URL: https://github.com/RobTillaart/AS7331
 
@@ -31,14 +31,6 @@ const uint8_t AS7331_REG_OUTCONVL = 0x05;
 const uint8_t AS7331_REG_OUTCONVH = 0x06;
 
 
-//  CONSTANTS FULL SCALE RANGE
-//  datasheet 7.4 transfer function
-const float FSR_UVA = 348160.0f;  //  figure 27, 28
-const float FSR_UVB = 387072.0f;  //  figure 29, 30
-const float FSR_UVC = 169984.0f;  //  figure 31, 32
-
-
-
 AS7331::AS7331(uint8_t address, TwoWire *wire)
 {
   _address  = address;
@@ -46,10 +38,9 @@ AS7331::AS7331(uint8_t address, TwoWire *wire)
   //  default values at startup
   _error    = AS7331_OK;
   _mode     = AS7331_MODE_MANUAL;
-  _gain     = AS7331_GAIN_2x;
+  _gain     = AS7331_GAIN_16x;
   _convTime = AS7331_CONV_064;
 }
-
 
 bool AS7331::begin()
 {
@@ -59,12 +50,14 @@ bool AS7331::begin()
   {
     return false;
   }
+  softwareReset();
+  powerUp();
+  setConfigurationMode();
   setMode(AS7331_MODE_MANUAL);
-  setGain(AS7331_GAIN_2x);
+  setGain(AS7331_GAIN_16x);
   setConversionTime(AS7331_CONV_064);
   return true;
 }
-
 
 bool AS7331::isConnected()
 {
@@ -72,10 +65,21 @@ bool AS7331::isConnected()
   return (_wire->endTransmission() == 0);
 }
 
-
 uint8_t AS7331::getAddress()
 {
   return _address;
+}
+
+void AS7331::softwareReset()
+{
+  _writeRegister8(AS7331_REG_OSR, 0x0A);
+  delay(2);
+  //  reset internals to defaults
+  _error    = AS7331_OK;
+  _mode     = AS7331_MODE_MANUAL;
+  _gain     = AS7331_GAIN_16x;
+  _convTime = AS7331_CONV_064;
+  _adjustGainTimeFactor();
 }
 
 
@@ -109,15 +113,21 @@ uint8_t AS7331::getMode()
 void AS7331::setStandByOn()
 {
   uint8_t value = _readRegister8(AS7331_REG_CREG3);
-  value |= 0x10;
+  value &= ~0x10;
   _writeRegister8(AS7331_REG_CREG3, value);
 }
 
 void AS7331::setStandByOff()
 {
   uint8_t value = _readRegister8(AS7331_REG_CREG3);
-  value &= ~0x10;
+  value |= 0x10;
   _writeRegister8(AS7331_REG_CREG3, value);
+}
+
+uint8_t AS7331::getStandByMode()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG3);
+  return (value & 0x10) > 0;
 }
 
 
@@ -130,10 +140,8 @@ bool AS7331::setGain(uint8_t gain)
   if (gain > 11) return false;
   _gain = gain;
   _adjustGainTimeFactor();
-  //  write to register
-  uint8_t value = _readRegister8(AS7331_REG_CREG1);
-  value &= 0x0F;
-  value |= (_gain << 4);
+  //  write gain and conversion time to register
+  uint8_t value = (_gain << 4) | _convTime;
   _writeRegister8(AS7331_REG_CREG1, value);
   return true;
 }
@@ -149,14 +157,12 @@ bool AS7331::setConversionTime(uint8_t convTime)
 {
   if (convTime > 15) return false;
   _convTime = convTime;
-  //  handle _convTime == 15 pragmatically for now TODO
+  //  handle _convTime == 15 pragmatically for now
   if (_convTime == 15) _convTime = 0;
 
   _adjustGainTimeFactor();
-  //  write to register
-  uint8_t value = _readRegister8(AS7331_REG_CREG1);
-  value &= 0xF0;
-  value |= (convTime << 4);
+  //  write gain and conversion time to register
+  uint8_t value = (_gain << 4) | _convTime;
   _writeRegister8(AS7331_REG_CREG1, value);
   return true;
 }
@@ -193,33 +199,24 @@ void AS7331::stopMeasurement()
 
 void AS7331::startMeasurement()
 {
-  uint8_t value = _readRegister8(AS7331_REG_OSR);
-  value |= 0x80;
-  _writeRegister8(AS7331_REG_OSR, value);
+  // uint8_t value = _readRegister8(AS7331_REG_OSR);
+  // value |= 0x80;
+  //  Force 0x83 -> might change in future
+  _writeRegister8(AS7331_REG_OSR, 0x83);
 }
 
 void AS7331::powerDown()
-{
-  uint8_t value = _readRegister8(AS7331_REG_OSR);
-  value &= ~0x40;
-  _writeRegister8(AS7331_REG_OSR, value);
-}
-
-void AS7331::powerUp()
 {
   uint8_t value = _readRegister8(AS7331_REG_OSR);
   value |= 0x40;
   _writeRegister8(AS7331_REG_OSR, value);
 }
 
-void AS7331::softwareReset()
+void AS7331::powerUp()
 {
-  _writeRegister8(AS7331_REG_OSR, 0x0A);
-  //  reset internals to defaults
-  _error    = AS7331_OK;
-  _mode     = AS7331_MODE_MANUAL;
-  _gain     = AS7331_GAIN_2x;
-  _convTime = AS7331_CONV_064;
+  uint8_t value = _readRegister8(AS7331_REG_OSR);
+  value &= ~0x40;
+  _writeRegister8(AS7331_REG_OSR, value);
 }
 
 void AS7331::setConfigurationMode()
@@ -260,7 +257,9 @@ void AS7331::setRDYPushPull()
 
 /////////////////////////////////////////////
 //
-//  READY PIN
+//  CLOCK FREQUENCY
+//
+//  Figure 33 Page 39
 //
 bool AS7331::setClockFrequency(uint8_t CCLK)
 {
@@ -284,16 +283,25 @@ uint8_t AS7331::getClockFrequency()
 //
 //  STATUS
 //
-uint8_t AS7331::readStatus()
+uint8_t AS7331::readOSR()
 {
-  uint8_t value = _readRegister8(AS7331_REG_STATUS);
+  uint8_t value = _readRegister8(AS7331_REG_OSR);
+  return value;
+}
+
+uint16_t AS7331::readStatus()
+{
+  //  LOW byte  == OSR (page 59)
+  //  HIGH byte == status
+  uint16_t value = _readRegister16(AS7331_REG_STATUS);
   return value;
 }
 
 bool AS7331::conversionReady()
 {
-  uint8_t value = _readRegister8(AS7331_REG_STATUS);
-  return value & 0x04;
+  uint16_t value = _readRegister16(AS7331_REG_STATUS);
+  if (_error != 0) return false;
+  return (value & 0x0800) > 0;
 }
 
 
@@ -301,43 +309,37 @@ bool AS7331::conversionReady()
 //
 //  READ - datasheet chapter 7
 //
-//  TODO math 7.4
-/*
-
-- calc the gain factor
-- calc the timing factor
-UVA = raw16bit
-
-
-
-
-*/
+//  Math 7.4
 //
-float AS7331::getUVA()
+float AS7331::getUVA_uW()
 {
-  uint16_t raw = _readRegister16(AS7331_REG_MRES1);
+  //  Page 32
   //  note: in table LSB_UVA = 1000/1024 * FSR_UVA, sort of.
-  float FSR_UVA = 348160.0f;
-  float LSB_UVA = FSR_UVA * _GainTimeFactor;
-  float microWatt = raw * LSB_UVA;
+  //  might be to convert to 'per second'?
+  //  FSR = Full Scale Range
+  //  LSB = Least Significant Bit = value per bit
+  //  const float FSR_UVA = 348160.0f;  //  figure 27, 28
+  const float LSB_UVA = 340000.0f;
+  uint16_t raw = _readRegister16(AS7331_REG_MRES1);
+  float microWatt = raw * LSB_UVA * _GainTimeFactor;
   return microWatt;
 }
 
-float AS7331::getUVB()
+float AS7331::getUVB_uW()
 {
+  //  const float FSR_UVB = 387072.0f;  //  figure 29, 30
+  const float LSB_UVB = 378000.0f;
   uint16_t raw = _readRegister16(AS7331_REG_MRES2);
-  float FSR_UVB = 387072.0f;
-  float LSB_UVB = FSR_UVB * _GainTimeFactor;
-  float microWatt = raw * LSB_UVB;
+  float microWatt = raw * LSB_UVB * _GainTimeFactor;
   return microWatt;
 }
 
-float AS7331::getUVC()
+float AS7331::getUVC_uW()
 {
+  //  const float FSR_UVC = 169984.0f;  //  figure 31, 32
+  const float LSB_UVC = 166000.0f;
   uint16_t raw = _readRegister16(AS7331_REG_MRES3);
-  float FSR_UVC = 169984.0f;
-  float LSB_UVC = FSR_UVC * _GainTimeFactor;
-  float microWatt = raw * LSB_UVC;
+  float microWatt = raw * LSB_UVC * _GainTimeFactor;
   return microWatt;
 }
 
@@ -346,10 +348,24 @@ float AS7331::getCelsius()
   //  datasheet 7.7
   //  validity / resolution depends on timing and gain.
   uint16_t raw = _readRegister16(AS7331_REG_TEMP);
-  float Celcius = (raw * 0.05) - 66.9;
-  return Celcius;
+  float Celsius = (raw * 0.05) - 66.9;
+  return Celsius;
 }
 
+
+///////////////////////////////////////////////////
+//
+//  BREAKTIME
+//
+void AS7331::setBreakTime(uint8_t breakTime)
+{
+  _writeRegister8(AS7331_REG_BREAK, breakTime);
+}
+
+uint8_t AS7331::getBreakTime()
+{
+  return _readRegister8(AS7331_REG_BREAK);
+}
 
 
 /////////////////////////////////////////////
@@ -364,6 +380,47 @@ int AS7331::getLastError()
 }
 
 
+
+///////////////////////////////////////////////////
+//
+//  FUTURE - CREG2
+//
+/*
+void AS7331::enableTime();
+void AS7331::disableTime();
+bool AS7331::isEnabledTime();
+
+void AS7331::enableDivider();
+void AS7331::disableDivider();
+bool AS7331::isEnabledDivider();
+
+void AS7331::setDivider(uint8_t div);
+uint8_t AS7331::getDivider();
+*/
+
+
+///////////////////////////////////////////////////
+//
+//  FUTURE - EDGES - synd
+//
+// void AS7331::setEdges(uint8_t edges)
+// {
+  // _writeRegister8(AS7331_REG_EDGES, edges);
+// }
+
+// uint8_t AS7331::getEdges()
+// {
+  // return _readRegister8(AS7331_REG_EDGES);
+// }
+
+
+///////////////////////////////////////////////////
+//
+//  FUTURE - OPTIONS, REGISTER 0x0B OPTREG
+//
+
+
+
 ///////////////////////////////////////////////
 //
 //  PRIVATE
@@ -372,7 +429,8 @@ int AS7331::getLastError()
 void AS7331::_adjustGainTimeFactor()
 {
   _GainTimeFactor = pow(0.5, (11 - _gain) + _convTime);
-  //  ref: _GainTimeFactor = pow(0.5, (11 - _gain)) * pow(0.5, _convTime);
+  //  opt: _GainTimeFactor = pow(0.5, (11 - _gain)) * pow(0.5, _convTime);
+  //  ref: _GainTimeFactor = 1.0 / pow(2, (11 - _gain)) * 1.0 / pow(2, _convTime);
 }
 
 int AS7331::_writeRegister8(uint8_t reg, uint8_t value)
@@ -388,15 +446,15 @@ uint8_t AS7331::_readRegister8(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _error = _wire->endTransmission();
+  _error = _wire->endTransmission(false);
   if (_error != 0)
   {
-    return 0;
+    return 0xFF;
   }
   if (_wire->requestFrom((uint8_t)_address, (uint8_t)1) != 1)
   {
     _error = AS7331_REQUEST_ERROR;
-    return 0;
+    return 0xFF;
   }
   uint8_t value = _wire->read();
   return value;
@@ -406,7 +464,7 @@ uint16_t AS7331::_readRegister16(uint8_t reg)
 {
   _wire->beginTransmission(_address);
   _wire->write(reg);
-  _error = _wire->endTransmission();
+  _error = _wire->endTransmission(false);
   if (_error != 0)
   {
     return 0;

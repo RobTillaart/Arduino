@@ -1,7 +1,7 @@
 {
   "name": "AS7331",
   "keywords": "UV,UVA, UVB, UVC, Celsius, environment",
-  "description": "Arduino library for the AS7331 UV sensor.",
+  "description": "Arduino library for the I2C AS7331 UV sensor.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AS7331.git"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

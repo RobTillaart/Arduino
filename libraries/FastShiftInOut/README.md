@@ -93,23 +93,24 @@ Indicative time in microseconds, Arduino UNO, IDE 1.8.19, measured over 1000 cal
 #include "FastShiftInOut.h"
 ```
 
-#### Functions
+### Constructor
 
 bitOrder = { LSBFIRST, MSBFIRST };
 
 - **FastShiftInOut(uint8_t dataIn, uint8_t dataOut, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** Constructor.
+
+### Functions
+
 - **uint8_t write(uint8_t data)** reads and writes simultaneously.
 - **uint8_t lastWritten(void)** returns last byte written.
 - **uint8_t lastRead(void)** returns last byte read.
 - **uint8_t writeLSBFIRST(uint8_t data)** lowest level function, optimized for LSB.
 - **uint8_t writeMSBFIRST(uint8_t data)** lowest level function, optimized for MSB.
 
-
 ### BitOrder
 
 - **bool setBitOrder(uint8_t bitOrder)** bitOrder must be LSBFIRST or MSBFIRST.
 - **uint8_t getBitOrder(void)** idem.
-
 
 ## Future
 

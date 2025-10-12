@@ -18,9 +18,11 @@ FastShiftInOut FSIO(8, 9, 10, LSBFIRST);
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\nFASTSHIFTINOUT_LIB_VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("FASTSHIFTINOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTINOUT_LIB_VERSION);
-
+  Serial.println();
 
   Serial.println("\nwrite");
   uint8_t recv = 0;

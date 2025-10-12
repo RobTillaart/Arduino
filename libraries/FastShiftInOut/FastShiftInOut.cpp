@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftInOut.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for (AVR) optimized shiftInOut (simultaneously)
 //     URL: https://github.com/RobTillaart/FastShiftInOut
 
@@ -60,13 +60,13 @@ uint8_t FastShiftInOut::write(uint8_t data)
 uint8_t FastShiftInOut::lastWritten(void)
 {
   return _lastValue;
-};
+}
 
 
 uint8_t FastShiftInOut::lastRead(void)
 {
   return _lastRead;
-};
+}
 
 
 bool FastShiftInOut::setBitOrder(uint8_t bitOrder)
@@ -83,7 +83,7 @@ bool FastShiftInOut::setBitOrder(uint8_t bitOrder)
 uint8_t FastShiftInOut::getBitOrder(void)
 {
   return _bitOrder;
-};
+}
 
 
 uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
@@ -186,7 +186,7 @@ uint8_t FastShiftInOut::writeLSBFIRST(uint8_t data)
   volatile uint8_t* localDataInRegister  = _dataInRegister;
   volatile uint8_t* localDataOutRegister = _dataOutRegister;
   volatile uint8_t* localClockRegister   = _clockRegister;
- 
+
   uint8_t oldSREG = SREG;
   noInterrupts();
 
@@ -252,7 +252,7 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
   volatile uint8_t* localDataInRegister  = _dataInRegister;
   volatile uint8_t* localDataOutRegister = _dataOutRegister;
   volatile uint8_t* localClockRegister   = _clockRegister;
- 
+
   uint8_t oldSREG = SREG;
   noInterrupts();
 
@@ -354,7 +354,7 @@ uint8_t FastShiftInOut::writeMSBFIRST(uint8_t data)
     //  clock pulse LOW
     *localClockRegister = r;
   }
-  
+
   //  reset interrupts flag to previous state
   SREG = oldSREG;
 

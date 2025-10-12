@@ -1,7 +1,7 @@
 //
 //    FILE: FastShiftInOut_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test sketch
+// PURPOSE: performance test sketch
 //     URL: https://github.com/RobTillaart/FastShiftInOut
 
 
@@ -15,8 +15,11 @@ uint32_t start, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\nFASTSHIFTINOUT_LIB_VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("FASTSHIFTINOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTINOUT_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nPerformance - time in us");
   test1();
@@ -36,9 +39,9 @@ void test1()
   }
   duration1 = micros() - start;
   Serial.print("        write: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -47,9 +50,9 @@ void test1()
   }
   duration2 = micros() - start;
   Serial.print("        write: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -64,9 +67,9 @@ void test2()
   }
   duration1 = micros() - start;
   Serial.print("writeLSBFIRST: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -75,9 +78,9 @@ void test2()
   }
   duration2 = micros() - start;
   Serial.print("writeLSBFIRST: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -92,9 +95,9 @@ void test3()
   }
   duration1 = micros() - start;
   Serial.print("writeMSBFIRST: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -103,9 +106,9 @@ void test3()
   }
   duration2 = micros() - start;
   Serial.print("writeMSBFIRST: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -116,4 +119,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

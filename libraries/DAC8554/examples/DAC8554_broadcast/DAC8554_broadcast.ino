@@ -16,8 +16,11 @@ DAC8554 DAC_B(11, &SPI, 1);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DAC8554_LIB_VERSION: ");
   Serial.println(DAC8554_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

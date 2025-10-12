@@ -18,17 +18,18 @@ Arduino library for DAC8554 SPI Digital Analog Convertor.
 
 The DAC8554 is a SPI based 16 bit DAC with four channels.
 
+The library supports both hardware SPI as software SPI (bit banging).
+
 **Warning** This library is not tested extensively.
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 Version 0.4.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **DAC.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
-
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -37,15 +38,16 @@ Also it makes the library a bit simpler to maintain.
 
 Note order of parameters changed.
 
+### Related
 
-#### Related
-
-- https://github.com/RobTillaart/DAC8550
-- https://github.com/RobTillaart/DAC8551
-- https://github.com/RobTillaart/DAC8552
-- https://github.com/RobTillaart/DAC8554
-- https://github.com/RobTillaart/MCP_DAC
+- https://github.com/RobTillaart/DAC8550 1 channel, 16 bit
+- https://github.com/RobTillaart/DAC8551 1 channel, 16 bit
+- https://github.com/RobTillaart/DAC8552 2 channel, 16 bit
+- https://github.com/RobTillaart/DAC8554 4 channel, 16 bit
+- https://github.com/RobTillaart/MCP_DAC 1, 2 channel, 8,10,12 bit
 - https://github.com/RobTillaart/AD5680  (18 bit DAC)
+- https://github.com/RobTillaart/MAX520 I2C, 4, 8 channel, 8 bit
+- https://github.com/RobTillaart/MCP4725 I2C, 1 channel, 12 bit
 
 
 ## Interface
@@ -54,18 +56,20 @@ Note order of parameters changed.
 #include "DAC8554.h"
 ```
 
-### Core
+### Constructor
 
 - **DAC8554(uint8_t select, SPIClassRP2040 \* spi = &SPI)** Constructor HW SPI RP2040.
 - **DAC8554(uint8_t select, SPIClass \* spi = &SPI)** Constructor HW SPI other.
 - **DAC8554(uint8_t select, uint8_t spiData, uint8_t spiClock)** Constructor SW SPI.
 - **DAC8534(...)** idem constructors for DAC8534.
 - **void begin()** initializes all pins to default state
+
+### Write DAC
+
 - **void setValue(uint8_t channel, uint16_t value)** set the value of the channel to 0 - 65535
 - **void setSingleValue(uint8_t channel, uint16_t value)** writes the value to the channel but 
 does not affect buffered ones. TODO - elaborate.
 - **uint16_t getValue(uint8_t channel)** returns the last value written.
-
 
 ### Hardware SPI
 
@@ -74,7 +78,6 @@ To be used only if one needs a specific speed.
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true if HW SPI is used.
-
 
 ### Power down
 
@@ -90,7 +93,6 @@ Check datasheet for details.
 | DAC8554_POWERDOWN_1K        |  0x40 |
 | DAC8554_POWERDOWN_100K      |  0x80 |
 | DAC8554_POWERDOWN_HIGH_IMP  |  0xC0 |
-
 
 ### Broadcast
 

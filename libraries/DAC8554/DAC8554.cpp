@@ -2,7 +2,7 @@
 //    FILE: DAC8554.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8554 SPI Digital Analog Convertor
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2017-12-19
 //     URL: https://github.com/RobTillaart/DAC8554
 
@@ -161,7 +161,7 @@ void DAC8554::setSinglePowerDown(uint8_t channel, uint8_t powerDownMode)
 
 uint8_t DAC8554::getPowerDownMode(uint8_t channel)
 {
-  return _register[channel]; //  slightly different than DAC8552 rrrrrr
+  return _register[channel];  //  slightly different than DAC8552 rrrrrr
 }
 
 
@@ -198,7 +198,7 @@ void DAC8554::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
-};
+}
 
 
 //////////////////////////////////////////////////////////////////

@@ -13,12 +13,15 @@ FastShiftIn FSI(8, 9);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FASTSHIFTIN_LIB_VERSION: ");
   Serial.println(FASTSHIFTIN_LIB_VERSION);
+  Serial.println();
 
   uint8_t x = FSI.read();
   Serial.println(x, HEX);
-  
+
   x = FSI.readLSBFIRST();
   Serial.println(x, HEX);
 
@@ -34,4 +37,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

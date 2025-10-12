@@ -16,8 +16,11 @@ uint32_t start, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FASTSHIFTIN_LIB_VERSION: ");
   Serial.println(FASTSHIFTIN_LIB_VERSION);
+  Serial.println();
 
   FSI.setBitOrder(MSBFIRST);
 
@@ -58,7 +61,7 @@ void test_read()
   }
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -69,9 +72,9 @@ void test_read()
   }
   duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("       Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -86,9 +89,9 @@ void test_read16()
   }
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -97,9 +100,9 @@ void test_read16()
   }
   duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("       Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -114,9 +117,9 @@ void test_read24()
   }
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -125,9 +128,9 @@ void test_read24()
   }
   duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("       Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -142,9 +145,9 @@ void test_read32()
   }
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -153,9 +156,9 @@ void test_read32()
   }
   duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("       Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -170,9 +173,9 @@ void test_readLSBFIRST()
   }
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -181,9 +184,9 @@ void test_readLSBFIRST()
   }
   duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("       Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -198,9 +201,9 @@ void test_readMSBFIRST()
   }
   duration1 = micros() - start;
   Serial.print("FastShiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -209,9 +212,9 @@ void test_readMSBFIRST()
   }
   duration2 = micros() - start;
   Serial.print("FastShiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("       Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -226,9 +229,9 @@ void test_reference()
   }
   duration1 = micros() - start;
   Serial.print("Standard shiftIn1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
-  
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
@@ -237,9 +240,9 @@ void test_reference()
   }
   duration2 = micros() - start;
   Serial.print("Standard shiftIn2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("            Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }

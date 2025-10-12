@@ -163,6 +163,7 @@ pull up resistors, especially if wires are exceeding 10 cm (4").
 - performance ESP32
 - example schema
 - add invert flag?
+  - value = value ^ 0xFF;
 - would it be interesting to make a fastShiftIn16() etc?
   - squeeze performance but more maintenance.?           
 

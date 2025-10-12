@@ -2,7 +2,7 @@
 //
 //    FILE: FastShiftIn.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Fast ShiftIn for 74HC165 register, AVR optimized
 //    DATE: 2013-09-29
 //     URL: https://github.com/RobTillaart/FastShiftIn
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define FASTSHIFTIN_LIB_VERSION         (F("0.4.0"))
+#define FASTSHIFTIN_LIB_VERSION         (F("0.4.1"))
 
 //  uncomment next line to get SPEED OPTIMIZED CODE
 //  #define FASTSHIFTIN_AVR_LOOP_UNROLLED    1

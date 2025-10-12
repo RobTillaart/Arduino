@@ -14,10 +14,11 @@ uint32_t start, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("FASTSHIFTOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTOUT_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nPerformance - time in us");
   test1();
@@ -42,7 +43,7 @@ void test1()
   }
   duration1 = micros() - start;
   Serial.print("        write: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -53,9 +54,9 @@ void test1()
   }
   duration2 = micros() - start;
   Serial.print("        write: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -70,7 +71,7 @@ void test2()
   }
   duration1 = micros() - start;
   Serial.print("writeLSBFIRST: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -81,9 +82,9 @@ void test2()
   }
   duration2 = micros() - start;
   Serial.print("writeLSBFIRST: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -98,7 +99,7 @@ void test3()
   }
   duration1 = micros() - start;
   Serial.print("writeMSBFIRST: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -109,9 +110,9 @@ void test3()
   }
   duration2 = micros() - start;
   Serial.print("writeMSBFIRST: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -126,7 +127,7 @@ void test4()
   }
   duration1 = micros() - start;
   Serial.print("Standard shiftOut1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -137,9 +138,9 @@ void test4()
   }
   duration2 = micros() - start;
   Serial.print("Standard shiftOut2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("             Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -154,7 +155,7 @@ void test5()
   }
   duration1 = micros() - start;
   Serial.print("      write16: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -165,9 +166,9 @@ void test5()
   }
   duration2 = micros() - start;
   Serial.print("      write16: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -182,7 +183,7 @@ void test6()
   }
   duration1 = micros() - start;
   Serial.print("      write24: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -193,9 +194,9 @@ void test6()
   }
   duration2 = micros() - start;
   Serial.print("      write24: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -210,7 +211,7 @@ void test7()
   }
   duration1 = micros() - start;
   Serial.print("      write32: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
   delay(100);
 
   start = micros();
@@ -221,9 +222,9 @@ void test7()
   }
   duration2 = micros() - start;
   Serial.print("      write32: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
   delay(100);
 }
@@ -239,7 +240,7 @@ void test8()
   }
   duration1 = micros() - start;
   Serial.print("println(\"Hello world\"): \t");
-  Serial.println(duration1 * 0.01);
+  Serial.println(duration1 * 0.01f);
   delay(100);
 
   start = micros();
@@ -249,17 +250,17 @@ void test8()
   }
   duration1 = micros() - start;
   Serial.print("println(1357): \t\t\t");
-  Serial.println(duration1 * 0.01);
+  Serial.println(duration1 * 0.01f);
   delay(100);
 
   start = micros();
   for (int i = 0; i < 100; i++)
   {
-    FSO.println(3.14159265, 4);
+    FSO.println(3.14159265f, 4);
   }
   duration1 = micros() - start;
   Serial.print("println(3.14159265, 4): \t");
-  Serial.println(duration1 * 0.01);
+  Serial.println(duration1 * 0.01f);
   Serial.println();
   delay(100);
 }
@@ -270,4 +271,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

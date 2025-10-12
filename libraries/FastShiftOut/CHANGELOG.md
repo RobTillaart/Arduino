@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2025-10-12
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.4.1] - 2024-10-31
 - fix #17, add more optimizations, kudos to nt314p
 

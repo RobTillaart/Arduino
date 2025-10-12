@@ -3,6 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test sketch for scope
 //     URL: https://github.com/RobTillaart/FastShiftOut
+//
+//  Connect scope to pins mentioned in constructor (12, 13)
 
 #include "FastShiftOut.h"
 
@@ -14,6 +16,7 @@ uint32_t start, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("FASTSHIFTOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTOUT_LIB_VERSION);

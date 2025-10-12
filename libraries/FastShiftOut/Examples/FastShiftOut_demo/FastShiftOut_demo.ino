@@ -13,10 +13,11 @@ FastShiftOut FSO(12, 13, LSBFIRST);
 void setup()
 {
   Serial.begin(115200);
-  Serial.print(__FILE__);
-
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("FASTSHIFTOUT_LIB_VERSION: ");
   Serial.println(FASTSHIFTOUT_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nPerformance - time in us");
   uint32_t start = micros();
@@ -36,9 +37,9 @@ void setup()
   }
   uint32_t duration2 = micros() - start;
   Serial.print("FastShiftOut2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("        Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
 
   start = micros();
@@ -48,7 +49,7 @@ void setup()
   }
   duration1 = micros() - start;
   Serial.print("Standard shiftOut1: ");
-  Serial.println(duration1 * 0.001);
+  Serial.println(duration1 * 0.001f);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -58,9 +59,9 @@ void setup()
   }
   duration2 = micros() - start;
   Serial.print("Standard shiftOut2: ");
-  Serial.println(duration2 * 0.001);
+  Serial.println(duration2 * 0.001f);
   Serial.print("             Delta: ");
-  Serial.println((duration2 - duration1) * 0.001);
+  Serial.println((duration2 - duration1) * 0.001f);
   Serial.println();
 
   Serial.println("\nTest print interface");
@@ -71,7 +72,7 @@ void setup()
   }
   duration1 = micros() - start;
   Serial.print("println(\"Hello world\"): \t");
-  Serial.println(duration1 * 0.01);
+  Serial.println(duration1 * 0.01f);
 
 
   start = micros();
@@ -81,17 +82,17 @@ void setup()
   }
   duration1 = micros() - start;
   Serial.print("println(1357): \t\t\t");
-  Serial.println(duration1 * 0.01);
+  Serial.println(duration1 * 0.01f);
 
 
   start = micros();
   for (int i = 0; i < 100; i++)
   {
-    FSO.println(3.14159265, 4);
+    FSO.println(3.14159265f, 4);
   }
   duration1 = micros() - start;
   Serial.print("println(3.14159265, 4): \t");
-  Serial.println(duration1 * 0.01);
+  Serial.println(duration1 * 0.01f);
 
   Serial.println("\ndone ...");
 }
@@ -102,4 +103,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

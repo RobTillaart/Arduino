@@ -17,7 +17,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("BH1750FVI_LIB_VERSION: ");
+  Serial.println(BH1750FVI_LIB_VERSION);
   Serial.println();
 
   Wire.begin();
@@ -37,7 +39,7 @@ void loop()
     {
       Serial.println("\nCNT \tLUX \tMODE \tFACTOR \tRAWLUX");
     }
-    
+
     Serial.print(count);
     Serial.print("\t");
     Serial.print(val, 1);
@@ -49,10 +51,10 @@ void loop()
     Serial.println(val / myLux.getCorrectionFactor(), 1);
 
     //  note correction factor are steps of 1/69 internally, see datasheet
-    correctionFactor += 0.05;
-    if (correctionFactor > 3.68)  //  0.45 - 3.68 = 45 steps of 0.05
+    correctionFactor += 0.05f;
+    if (correctionFactor > 3.68f)  //  0.45 - 3.68 = 45 steps of 0.05
     {
-      correctionFactor = 0.45;
+      correctionFactor = 0.45f;
       Serial.println();
     }
     myLux.setCorrectionFactor(correctionFactor);  //  0.45 .. 3.68

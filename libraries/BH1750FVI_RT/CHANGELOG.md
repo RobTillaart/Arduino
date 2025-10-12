@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+##[0.3.3] - 2025-10-11
+- update GitHub actions
+- add example BH1750FVI_two_devices.ino
+- update examples
+- minor edits
+
 ##[0.3.2] - 2024-07-23
 - Fix #24, update readme.md
 - setAngle() change parameter to float

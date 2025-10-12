@@ -2,7 +2,7 @@
 //
 //    FILE: BH1750FVI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for BH1750FVI (GY-30) lux sensor
 //     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
@@ -27,14 +27,19 @@
 #include "Arduino.h"
 
 
-#define BH1750FVI_LIB_VERSION                 (F("0.3.2"))
+#define BH1750FVI_LIB_VERSION                 (F("0.3.3"))
 
-
+//  const uint8_t?
 #define BH1750FVI_DEFAULT_ADDRESS             0x23
 #define BH1750FVI_ALT_ADDRESS                 0x5C
 
-#define BH1750FVI_REFERENCE_TIME              0x45   //  69 = default
 
+#ifndef BH1750FVI_REFERENCE_TIME
+#define BH1750FVI_REFERENCE_TIME              0x45   //  69 = default
+#endif
+
+
+//  mode enum / const int ?
 #define BH1750FVI_MODE_LOW                    0x00
 #define BH1750FVI_MODE_HIGH                   0x01
 #define BH1750FVI_MODE_HIGH2                  0x02
@@ -98,7 +103,7 @@ public:
   //  read datasheet P3 and check figure 4 and 5.
   //  setAngle is constrained to -89..+89
   //  returns the angle correction factor
-  float   setAngle(float degrees = 0);
+  float   setAngle(float degrees = 0.0f);
   float   getAngle() { return _angle; };
 
 
@@ -121,7 +126,7 @@ public:
 
 private:
   uint16_t  readData();
-  void      command(uint8_t value);
+  bool      command(uint8_t value);
 
   uint8_t   _address;
   uint16_t  _data;
@@ -130,11 +135,11 @@ private:
   uint8_t   _mode;
 
   uint32_t  _requestTime      = 0;
-  float     _angleFactor      = 1;
-  float     _angle            = 0;
-  float     _tempFactor       = 1;
+  float     _angleFactor      = 1.0f;
+  float     _angle            = 0.0f;
+  float     _tempFactor       = 1.0f;
   int       _temperature      = 20;
-  float     _waveLengthFactor = 1;
+  float     _waveLengthFactor = 1.0f;
   int       _waveLength       = 580;
 
   TwoWire*  _wire;

@@ -11,14 +11,16 @@ BH1750FVI myLux(0x23);
 
 uint32_t lastUpdate = 0;
 
-float correctionFactor = 0.45;     //  min value see datasheet
+float correctionFactor = 0.45f;     //  min value see datasheet
 
 
 void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("BH1750FVI_LIB_VERSION: ");
+  Serial.println(BH1750FVI_LIB_VERSION);
   Serial.println();
 
   Wire.begin();
@@ -44,10 +46,10 @@ void loop()
 
     //  note correctionfactor are steps of 1/69 internally, see datasheet
     myLux.setCorrectionFactor(correctionFactor);  //  0.45 .. 3.68
-    correctionFactor += 0.05;
-    if (correctionFactor > 3.68)
+    correctionFactor += 0.05f;
+    if (correctionFactor > 3.68f)
     {
-      correctionFactor = 0.45;
+      correctionFactor = 0.45f;
       Serial.println();
     }
   }

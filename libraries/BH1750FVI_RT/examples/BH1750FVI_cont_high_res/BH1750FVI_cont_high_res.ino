@@ -20,7 +20,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("BH1750FVI_LIB_VERSION: ");
+  Serial.println(BH1750FVI_LIB_VERSION);
   Serial.println();
 
   Wire.begin();

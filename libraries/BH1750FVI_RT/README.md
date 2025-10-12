@@ -175,7 +175,6 @@ See table above.
 - **void setOnceHighRes()**  single shot mode in HIGH resolution.
 - **void setOnceHigh2Res()** single shot mode in HIGH2 resolution.
 - **void setOnceLowRes()**   single shot mode in LOW resolution.
-
 - **bool isReady()** can be used to check if the sensor is ready.
 This is based on a calculated time, the sensor does not have a means to indicate ready directly.
 Needed only when one of the single shot modi is set.

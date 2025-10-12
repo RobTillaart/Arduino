@@ -1,7 +1,7 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
@@ -77,7 +77,7 @@ float BH1750FVI::getLux(void)
   //  sensitivity factor
   if (_sensitivityFactor != BH1750FVI_REFERENCE_TIME)
   {
-    lux *= (1.0 * BH1750FVI_REFERENCE_TIME) / _sensitivityFactor;
+    lux *= (1.0f * BH1750FVI_REFERENCE_TIME) / _sensitivityFactor;
   }
   //  angle compensation
   if (_angle != 0)
@@ -224,7 +224,7 @@ float BH1750FVI::setTemperature(int temp)
 
 float BH1750FVI::setAngle(float degrees)
 {
-  _angle = constrain(degrees, -89.9, 89.9);
+  _angle = constrain(degrees, -89.9f, 89.9f);
   //  Lambert's Law.
   _angleFactor = 1.0f / cos(_angle * (PI / 180.0f));
   return _angleFactor;
@@ -267,11 +267,12 @@ uint16_t BH1750FVI::readData()
 }
 
 
-void BH1750FVI::command(uint8_t value)
+bool BH1750FVI::command(uint8_t value)
 {
   _wire->beginTransmission(_address);
   _wire->write(value);
   _error = _wire->endTransmission();
+  return (_error == 0);
 }
 
 

@@ -28,14 +28,14 @@
 
 BH1750FVI myLux(0x23);
 
-float ref1 = 0;
-float ref2 = 0;
+float ref1 = 0.0f;
+float ref2 = 0.0f;
 
 
 float measure(int seconds, bool minimum = false)
 {
-  float mn = 1e8;
-  float mx = 0;
+  float mn = 1e8f;
+  float mx = 0.0f;
   uint32_t start = millis();
   while (millis() - start < (seconds * 1000UL))
   {
@@ -53,7 +53,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
+  Serial.print("BH1750FVI_LIB_VERSION: ");
+  Serial.println(BH1750FVI_LIB_VERSION);
   Serial.println();
 
   Wire.begin();
@@ -76,18 +78,18 @@ void loop()
 {
   float val = measure(1, false);
 
-  val = map(val, ref2, ref1, 0, ref1);    //  does not constrain...
+  val = map(val, ref2, ref1, 0, ref1);  //  does not constrain...
 
   //  prevent NAN
-  float f = val / ref1;    //  map to 0..1 
-  if (f > 1) f = 1;        //  constrain upper
-  if (f < -1) f = -1;      //  constrain lower
+  float f = val / ref1;      //  map to 0..1
+  if (f > 1.0f)  f =  1.0f;  //  constrain upper
+  if (f < -1.0f) f = -1.0f;  //  constrain lower
 
   Serial.print(val, 1);
   Serial.print("\t");
   Serial.print(f);
   Serial.print("\t");
-  Serial.print(acos(f) * 180 / PI);
+  Serial.print(acos(f) * 180.0f / PI);
   Serial.print("\t");
   Serial.println();
 }

@@ -2,7 +2,7 @@
 //    FILE: DAC8551.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8551 SPI Digital Analog Convertor
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //     URL: https://github.com/RobTillaart/DAC8551
 
 
@@ -144,7 +144,7 @@ DAC8501::DAC8501(uint8_t select, __SPI_CLASS__ * spi) : DAC8551(select, spi)
 DAC8501::DAC8501(uint8_t select, uint8_t spiData, uint8_t spiClock)
                 : DAC8551(select, spiData, spiClock)
 {
-} 
+}
 
 
 DAC8531::DAC8531(uint8_t select, __SPI_CLASS__ * spi) : DAC8551(select, spi)

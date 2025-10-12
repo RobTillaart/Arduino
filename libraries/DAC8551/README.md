@@ -21,6 +21,8 @@ The DAC8551 is a SPI based 16 bit DAC with one channel.
 The DAC8501, DAC8531 and DAC8550 are drop in compatible.
 They all have classes derived 1 to 1 from DAC8551.
 
+The library supports both hardware SPI as software SPI (bit banging).
+
 **Warning** this library is not tested extensively.
 
 
@@ -28,9 +30,7 @@ They all have classes derived 1 to 1 from DAC8551.
 - Fix #19, improve handling SPI dependency.
 - update examples
 
-----
-
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -39,15 +39,16 @@ Also it makes the library a bit simpler to maintain.
 
 Note order of parameters changed.
 
+### Related
 
-#### Related
-
-- https://github.com/RobTillaart/DAC8550
-- https://github.com/RobTillaart/DAC8551
-- https://github.com/RobTillaart/DAC8552
-- https://github.com/RobTillaart/DAC8554
-- https://github.com/RobTillaart/MCP_DAC
+- https://github.com/RobTillaart/DAC8550 1 channel, 16 bit
+- https://github.com/RobTillaart/DAC8551 1 channel, 16 bit
+- https://github.com/RobTillaart/DAC8552 2 channel, 16 bit
+- https://github.com/RobTillaart/DAC8554 4 channel, 16 bit
+- https://github.com/RobTillaart/MCP_DAC 1, 2 channel, 8,10,12 bit
 - https://github.com/RobTillaart/AD5680  (18 bit DAC)
+- https://github.com/RobTillaart/MAX520 I2C, 4, 8 channel, 8 bit
+- https://github.com/RobTillaart/MCP4725 I2C, 1 channel, 12 bit
 
 
 ## Interface
@@ -56,7 +57,7 @@ Note order of parameters changed.
 #include "DAC8551.h"
 ```
 
-### Core
+### Constructor
 
 - **DAC8551(uint8_t select, SPIClassRP2040 \* spi = &SPI)** Constructor HW SPI RP2040.
 - **DAC8551(uint8_t select, SPIClass \* spi = &SPI)** Constructor HW SPI other.
@@ -65,10 +66,12 @@ Note order of parameters changed.
 - **DAC8531(...)** idem constructors for DAC8531.
 - **DAC8550(...)** idem constructors for DAC8550.
 - **DAC8551(...)** idem constructors for DAC8551.
+
+### Write DAC
+
 - **void begin()** initializes all pins to default state
 - **void setValue(uint16_t value)** set the value of the channel to 0 - 65535
 - **uint16_t getValue()** returns the last value written.
-
 
 ### Hardware SPI
 
@@ -77,7 +80,6 @@ To be used only if one needs a specific speed.
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true if HW SPI is used.
-
 
 ### Power down
 
@@ -93,9 +95,7 @@ check datasheet for details.
 | DAC8551_POWERDOWN_100K     |   2   |
 | DAC8551_POWERDOWN_HIGH_IMP |   3   |
 
-
 Note: DAC8501, DAC8531 and DAC8550 uses the same constants.
-
 
 ## Operation
 
@@ -112,19 +112,16 @@ See examples
 **demo_powerdown.ino**
 - idem
 
-
 ## Future
 
 #### Must
 
 - improve documentation
 
-
 #### Should 
 
 - testing (DAC8531 is verified, see example)
 - verify replacement chips
-
 
 #### Could
 

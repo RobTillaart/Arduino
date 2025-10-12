@@ -15,9 +15,11 @@ DAC8551 mydac(10);  //  uses default
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

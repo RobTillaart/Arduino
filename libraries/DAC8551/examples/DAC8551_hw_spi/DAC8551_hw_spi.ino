@@ -17,9 +17,11 @@ DAC8551 mydac(10, &SPI);  //  explicit SPI
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8551_LIB_VERSION: ");
   Serial.println(DAC8551_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 
@@ -45,7 +47,7 @@ void loop()
   //  minimal sinus
   for (long i = 0; i < 360; i++ )
   {
-    long s = 32768 + 32768 * sin( i * (PI / 180.0));
+    long s = 32768 + 32768 * sin( i * (PI / 180.0f));
     mydac.setValue(s);
     int av = analogRead(A0);
     Serial.print(i);

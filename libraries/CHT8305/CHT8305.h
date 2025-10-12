@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.2.2"))
+#define CHT8305_LIB_VERSION              (F("0.2.3"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS
@@ -82,9 +82,9 @@ public:
 
 
   //  adding offsets works well in normal range
-  void     setHumidityOffset(float offset = 0.0);
+  void     setHumidityOffset(float offset = 0.0f);
   //  might introduce under- or overflow at the ends of the sensor range
-  void     setTemperatureOffset(float offset = 0.0);
+  void     setTemperatureOffset(float offset = 0.0f);
   float    getHumidityOffset();
   float    getTemperatureOffset();
 
@@ -171,10 +171,10 @@ public:
   int      getLastError();
 
 private:
-  float    _humOffset       = 0.0;
-  float    _tempOffset      = 0.0;
-  float    _humidity        = 0.0;
-  float    _temperature     = 0.0;
+  float    _humOffset       = 0.0f;
+  float    _tempOffset      = 0.0f;
+  float    _humidity        = 0.0f;
+  float    _temperature     = 0.0f;
   uint32_t _lastRead        = 0;
   uint8_t  _conversionDelay = 14;
 

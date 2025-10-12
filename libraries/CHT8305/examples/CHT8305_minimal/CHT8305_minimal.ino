@@ -31,6 +31,7 @@ CHT8305 CHT(0x40);   //  CHT8305_DEFAULT_ADDRESS = 0x40
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT8305_LIB_VERSION: ");
   Serial.println(CHT8305_LIB_VERSION);

@@ -1,7 +1,7 @@
 //
 //    FILE: CHT8305.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 
@@ -72,17 +72,17 @@ int CHT8305::read()
   }
 
   uint16_t tmp = (data[0] << 8) | data[1];
-  _temperature = tmp * (165.0 / 65535.0) - 40.0;
+  _temperature = tmp * (165.0f / 65535.0f) - 40.0f;
 
    tmp = (data[2] << 8) | data[3];
-  _humidity    = tmp * (1.0 / 655.35);  //  == / 65535 * 100%
+  _humidity    = tmp * (1.0f / 655.35f);  //  == / 65535 * 100%
 
-  if (_tempOffset != 0.0) _temperature += _tempOffset;
-  if (_humOffset  != 0.0)
+  if (_tempOffset != 0.0f) _temperature += _tempOffset;
+  if (_humOffset  != 0.0f)
   {
     _humidity += _humOffset;
-    if (_humidity < 0.0)   _humidity = 0.0;
-    if (_humidity > 100.0) _humidity = 100.0;
+    if (_humidity < 0.0f)   _humidity = 0.0f;
+    if (_humidity > 100.0f) _humidity = 100.0f;
   }
 
   _error = CHT8305_OK;
@@ -107,9 +107,9 @@ int CHT8305::readTemperature()
   }
 
   uint16_t tmp = (data[0] << 8) | data[1];
-  _temperature = tmp * (165.0 / 65535.0) - 40.0;
+  _temperature = tmp * (165.0f / 65535.0f) - 40.0f;
 
-  if (_tempOffset != 0.0)
+  if (_tempOffset != 0.0f)
   {
     _temperature += _tempOffset;
   }
@@ -130,19 +130,19 @@ int CHT8305::readHumidity()
   _lastRead = millis();
 
   uint8_t data[2] = {0, 0};
-  if (_readRegister(CHT8305_REG_HUMIDITY, &data[0], 4) != CHT8305_OK)
+  if (_readRegister(CHT8305_REG_HUMIDITY, &data[0], 2) != CHT8305_OK)
   {
     return _error;
   }
 
   uint16_t tmp = (data[0] << 8) | data[1];
-  _humidity    = tmp * (1.0 / 655.35);  //  == / 65535 * 100%
+  _humidity    = tmp * (1.0f / 655.35f);  //  == / 65535 * 100%
 
-  if (_humOffset  != 0.0)
+  if (_humOffset  != 0.0f)
   {
     _humidity += _humOffset;
-    if (_humidity < 0.0)   _humidity = 0.0;
-    if (_humidity > 100.0) _humidity = 100.0;
+    if (_humidity < 0.0f)   _humidity = 0.0f;
+    if (_humidity > 100.0f) _humidity = 100.0f;
   }
 
   _error = CHT8305_OK;
@@ -372,10 +372,10 @@ bool CHT8305::setAlertLevels(float temperature, float humidity)
   if ((temperature < -40 ) || (temperature > 125)) return false;
   if ((humidity < 0 )      || (humidity > 100)) return false;
 
-  uint16_t tmp  = humidity * (127.0 / 100.0);
+  uint16_t tmp  = humidity * (127.0f / 100.0f);
   uint16_t mask = tmp << 9;
 
-  tmp = (temperature + 40.0) * (511.0 / 165.0);
+  tmp = (temperature + 40.0f) * (511.0f / 165.0f);
   mask |= tmp;
   if (_writeRegister(CHT8305_REG_ALERT, (uint8_t *)&mask, 2) != CHT8305_OK)
   {
@@ -394,7 +394,7 @@ float CHT8305::getAlertLevelTemperature()
   }
   data &= 0x01FF;
   data <<= 7;
-  return data * (165.0 / 65535.0) - 40.0;
+  return data * (165.0f / 65535.0f) - 40.0f;
 }
 
 
@@ -406,7 +406,7 @@ float CHT8305::getAlertLevelHumidity()
     return CHT8305_ERROR_GENERIC;
   }
   data &= 0xFE00;
-  return data * (100.0 / 65535.0);
+  return data * (100.0f / 65535.0f);
 }
 
 
@@ -422,7 +422,7 @@ float CHT8305::getVoltage()
     return CHT8305_ERROR_GENERIC;
   }
   uint16_t tmp = (data[0] << 8) | data[1];
-  return tmp * (5.0 / 32768.0);   //  best guess
+  return tmp * (5.0f / 32768.0f);   //  best guess
 }
 
 

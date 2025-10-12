@@ -21,6 +21,8 @@ your experiences.
 
 ## Description
 
+**Experimental**
+
 The CHT8305 is a temperature and humidity sensor.
 
 |  sensor       |  range       |  accuracy\*  |  resolution  |
@@ -121,6 +123,8 @@ See - HT8305_performance.ino
 |  700000  |  14272  |   14204  |    124   |
 |  800000  |  14268  |   14196  |    120   |
 
+
+in 0.2.3 readHumidity() has become slightly faster (no measurement done yet).
 
 
 ### Addresses
@@ -305,7 +309,7 @@ The ALERT pin triggers with a falling edge (from HIGH to LOW).
 ### Supply voltage
 
 (datasheet 1.1.5)
-The chip has a feature to measure supply voltage (VCC) with 16bit output data.
+The chip has a feature to measure supply voltage (VCC) with 16 bit output data.
 VCC measurement should be enabled by means of **void setVCCenable(true)**.
 
 - **float getVoltage()** unclear what unit is used.

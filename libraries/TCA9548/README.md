@@ -35,8 +35,19 @@ The device works with 2.3 V to 5.5 V so it should work with most MCU's.
 **Warning**
 The library is not tested extensively.
 
+Feedback as always is welcome.
 
-#### I2C 
+
+### 0.2.0 Breaking change
+
+Version 0.2.0 introduced a breaking change.
+You cannot set the pins in **begin()** any more.
+This reduces the dependency of processor dependent Wire implementations.
+The user has to call **Wire.begin()** and can optionally set the Wire pins 
+before calling the TCA9548 **begin()**.
+
+
+### I2C 
 
 I2C address of the device itself is 0x70 .. 0x77.
 This address can not be used on any of the I2C channels of course.
@@ -49,16 +60,7 @@ Pull-up resistors are required on all upstream and downstream channels.
 The TCA9548 can work up to 400 KHz according to the datasheet.
 
 
-#### 0.2.0 Breaking change
-
-Version 0.2.0 introduced a breaking change.
-You cannot set the pins in **begin()** any more.
-This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
-before calling the TCA9548 **begin()**.
-
-
-#### Compatible devices
+### Compatible devices
 
 This library is expected to work for the following devices: (since 0.2.1)
 
@@ -79,7 +81,7 @@ There are however small differences, check the data sheets to see the details.
 - https://www.nxp.com/docs/en/application-note/AN262.pdf
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
@@ -93,7 +95,7 @@ There are however small differences, check the data sheets to see the details.
 #include "TCA9548.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **TCA9548(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
 deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
@@ -109,7 +111,7 @@ The derived classes PCA9548/PCA9546 have the same interface, except constructor.
 - **PCA9543(const uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor.
 
 
-#### Find device
+### Find device
 
 - **bool isConnected(uint8_t address)** returns true if arbitrary address is found on the 
 current I2C bus + selected channels.
@@ -124,7 +126,7 @@ Note that this function changes the selected and or enabled channels.
 Returns 0 when the address is not found on any channel, or one bit set per channel found.
 
 
-#### Channel functions
+### Channel functions
 
 All "channel functions" return true on success.
 
@@ -143,7 +145,7 @@ Multiple channels can also be enabled in one call with a mask.
 - **uint8_t getChannelMask()** reads back the bit mask of the channels enabled.
 
 
-#### Reset
+### Reset
 
 Optional the library can reset the device.
 
@@ -151,12 +153,12 @@ Optional the library can reset the device.
 - **void reset()** trigger the reset pin.
 
 
-#### Debug
+### Debug
 
 - **int getError()** returns the last (I2C) status / error.
 
 
-#### Forced IO
+### Forced IO
 
 When forced IO is set, all writes and read, e.g. **uint8_t getChannelMask()**, will go to the device.
 If the **forced-IO** flag is set to false, it will cache the value of the channels enabled.
@@ -170,7 +172,7 @@ Forced IO is also used to speed up **getChannelMask()**.
 - **bool getForced()** returns set flag.
 
 
-#### Interrupts
+### Interrupts
 
 (not tested)
 

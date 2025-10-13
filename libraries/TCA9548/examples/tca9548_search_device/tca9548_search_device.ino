@@ -18,6 +18,7 @@ uint8_t searchAddress = 0x38;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TCA9548_LIB_VERSION: ");
   Serial.println(TCA9548_LIB_VERSION);

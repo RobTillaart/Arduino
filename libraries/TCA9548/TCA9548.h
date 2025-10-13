@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9548.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-03-16
 // PURPOSE: Arduino Library for TCA9548 I2C multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/TCA9548
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define TCA9548_LIB_VERSION             (F("0.3.0"))
+#define TCA9548_LIB_VERSION             (F("0.3.1"))
 
 
 //  ERROR CODES (to be elaborated)
@@ -34,7 +34,7 @@ public:
   bool    isConnected(uint8_t address, uint8_t channel);  //  find address on selected channel
 
   uint8_t find(uint8_t address);  // returns a mask with channels
-  
+
   //  channel = 0..channelCount()-1
   uint8_t channelCount();
   bool    enableChannel(uint8_t channel);     //  enable this channel non exclusive

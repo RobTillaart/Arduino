@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-03-16
 // PURPOSE: Arduino Library for TCA9548 I2C multiplexer and compatibles.
 
@@ -143,13 +143,13 @@ void TCA9548::reset()
 void TCA9548::setForced(bool forced)
 {
   _forced = forced;
-};
+}
 
 
 bool TCA9548::getForced()
 {
   return _forced;
-};
+}
 
 
 int TCA9548::getError()

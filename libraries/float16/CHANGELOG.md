@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-10-13
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.3.0] - 2024-04-17
 - Fix #12, breaking change. Thanks to Andyjbm for the measurements.
 - remove Printable interface as it makes the effective footprint larger!

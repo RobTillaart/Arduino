@@ -16,13 +16,14 @@ float16 f16;
 void setup()
 {
   delay(500);
+  while (!Serial);
   Serial.begin(115200);
-  while (!Serial) delay(1);
-
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("FLOAT16_LIB_VERSION: ");
   Serial.println(FLOAT16_LIB_VERSION);
+  Serial.println();
+  delay(500);
 
   test_all();
 

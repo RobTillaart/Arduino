@@ -10,12 +10,14 @@
 
 void setup()
 {
-  while(!Serial);
+  while (!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("FLOAT16_LIB_VERSION: ");
   Serial.println(FLOAT16_LIB_VERSION);
   Serial.println();
+
 
 
   for( int i = -10; i < 2; i++)

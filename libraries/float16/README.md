@@ -15,7 +15,9 @@ Arduino library to implement float16 data type.
 
 ## Description
 
-This **experimental** library defines the float16 (2 byte) data type, including conversion
+**Experimental**
+
+This library defines the float16 (2 byte) data type, including conversion
 function to and from float32 type.
 
 The primary usage of the float16 data type is to efficiently store and transport
@@ -31,7 +33,7 @@ In pre 0.3.0 version the Printable interface was implemented, but it has been re
 as it caused excessive memory usage when declaring arrays of float16.
 
 
-#### ARM alternative half-precision
+### ARM alternative half-precision
 
 -https://en.wikipedia.org/wiki/Half-precision_floating-point_format#ARM_alternative_half-precision
 
@@ -44,7 +46,7 @@ instead, an exponent of 31 encodes normalized numbers in the range 65536 to 1310
 Implemented in https://github.com/RobTillaart/float16ext class.
 
 
-#### Difference with float16 and float16ext
+### Difference with float16 and float16ext
 
 The float16ext library has an extended range as it supports values from +- 65504 
 to +- 131008.
@@ -59,7 +61,7 @@ Although they share a lot of code float16 and float16ext should not be mixed.
 In the future these libraries might merge / derive one from the other.
 
 
-#### Breaking change 0.3.0
+### Breaking change 0.3.0
 
 Version 0.3.0 has a breaking change. The **Printable** interface is removed as 
 it causes larger than expected arrays of float 16 (See #16). On ESP8266 every
@@ -79,7 +81,7 @@ The footprint of the library is now smaller and one can now create compact array
 of float16 elements using only 2 bytes per element.
 
 
-#### Breaking change 0.2.0
+### Breaking change 0.2.0
 
 Version 0.2.0 has a breaking change as a conversion bug has been found.
 See for details in issue #10.
@@ -111,7 +113,7 @@ There is still an issue with 0 versus -0 (sign gets lost in conversion).
 ± = ALT 0177
 
 
-#### Example values
+### Example values
 
 Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
@@ -139,7 +141,7 @@ Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 ```
 
 
-#### Related
+### Related
 
 - https://wokwi.com/projects/376313228108456961  (demo of its usage)
 - https://github.com/RobTillaart/float16
@@ -154,14 +156,14 @@ Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 #include "float16.h"
 ```
 
-#### Constructors
+### Constructors
 
 - **float16(void)** defaults value to zero.
 - **float16(double f)** constructor.
 - **float16(const float16 &f)** copy constructor.
 
 
-#### Conversion
+### Conversion
 
 - **double toDouble(void)** convert value to double or float (if the same e.g. UNO).
 - **float toFloat(void)** convert value to float.
@@ -170,7 +172,7 @@ Please note that the accuracy is only 3-4 digits for the whole number so use dec
 with care.
 
 
-#### Export and store
+### Export and store
 
 To serialize the internal format e.g. to disk, two helper functions are available.
 
@@ -178,7 +180,7 @@ To serialize the internal format e.g. to disk, two helper functions are availabl
 - **void setBinary(uint16_t u)** set the 2 bytes binary representation.
 
 
-#### Compare
+### Compare
 
 The library implement the standard compare functions. 
 These are optimized, so it is fast to compare 2 float16 values.
@@ -194,7 +196,7 @@ You can improve performance by converting e.g. a threshold only once before comp
 - **bool operator <= (const float16& f)**
 
 
-#### Math (basic)
+### Math (basic)
 
 Math is done by converting to double, do the math and convert back.
 These operators are added for convenience only.

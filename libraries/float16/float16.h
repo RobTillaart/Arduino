@@ -2,7 +2,8 @@
 //
 //    FILE: float16.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
+//    DATE: 2015-03-10
 // PURPOSE: Arduino library to implement float16 data type.
 //          half-precision floating point format,
 //          used for efficient storage and transport.
@@ -11,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define FLOAT16_LIB_VERSION                 (F("0.3.0"))
+#define FLOAT16_LIB_VERSION                 (F("0.3.1"))
 
 
 class float16
@@ -25,7 +26,7 @@ public:
   //  Conversion and printing
   double   toDouble(void) const;
   float    toFloat() const;
-  String   toString(unsigned int decimals = 2) const;  //  keep esp32 happy.
+  String   toString(unsigned int decimals = 2) const;  //  keep ESP32 happy.
 
   //  access the 2 byte representation.
   uint16_t getBinary()           { return _value; };

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-10-12
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.3.0] - 2024-08-14
 - Fix for setChannel(), Thanks to C. Fraser!
 - update readme.md

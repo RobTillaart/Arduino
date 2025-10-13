@@ -36,12 +36,12 @@ The device can be enabled/disabled by the enable line **INH**
 Version 0.3.0 has a bugfix for **setChannel()** which obsolete all previous versions.
 
 
-#### Compatibles
+### Compatibles
 
 To elaborate.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
@@ -49,6 +49,7 @@ To elaborate.
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
 - https://github.com/RobTillaart/MAX14661 (2x16 mux, I2C)
 - https://tronixstuff.com/2013/08/05/part-review-74hc4067-16-channel-analog-multiplexerdemultiplexer/
+- https://www.gammon.com.au/forum/?id=11976
 
 
 ## Hardware connection
@@ -79,7 +80,7 @@ Example multiplexing analog in.
 ```
 
 
-#### Less Select lines
+### Less Select lines
 
 Note: the library does not meant for this mode, although it should work.
 The GND-ed pins should be set to 255 (not tested).
@@ -103,11 +104,14 @@ This will result in another subset of the Y pins to select from.
 #include "HC4051.h"
 ```
 
-### Core
+### Constructor
 
 - **HC4051(uint8_t A, uint8_t B, uint8_t C, uint8_t enablePin = 255)** constructor.
 Set the three select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
+
+### Channel
+
 - **bool setChannel(uint8_t channel, bool disable = true)** set the current channel.
 Valid values 0..7, this value is checked (since 0.2.1).
 Returns false if channel out of range.  

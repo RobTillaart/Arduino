@@ -15,6 +15,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HC4051 LIBRARY VERSION: ");
   Serial.println(HC4051_LIB_VERSION);
@@ -22,7 +23,7 @@ void setup()
   delay(100);
 
   mp.setChannel(10);
-  
+
   for (uint8_t ch = 0; ch < 8; ch ++)
   {
     start = micros();

@@ -35,14 +35,14 @@ The channel selection is done with two select lines **A, B** or **S0, S1**.
 The device can be enabled/disabled by the enable line **INH** or **E**.
 
 
-#### Compatibles
+### Compatibles
 
 - https://assets.nexperia.com/documents/data-sheet/74HC_HCT4052.pdf
   - 74HC4052 (CMOS level)
   - 74HCT4052 (TTL level)
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
@@ -86,11 +86,14 @@ Example multiplexing analog in.
 #include "HC4052.h"
 ```
 
-#### Core
+### Constructor
 
 - **HC4052(uint8_t A, uint8_t B, uint8_t enablePin = 255)** constructor.
 Set the two select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
+
+### Channel
+
 - **bool setChannel(uint8_t channel)** set the current channel.
 Valid values 0..3, this value is checked (since 0.2.1).
 Returns false if channel out of range.
@@ -105,7 +108,7 @@ Note the device cannot be disabled if there is no enable pin configured.
 The selected channel is also returned when the multiplexer is disabled.
 
 
-#### Enable
+### Enable
 
 These functions work only if enablePin is set in the constructor.
 

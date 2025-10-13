@@ -15,6 +15,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HC4052_LIB_VERSION: ");
   Serial.println(HC4052_LIB_VERSION);
@@ -37,7 +38,7 @@ void setup()
   Serial.print("TIME diff: ");
   Serial.print(stop - start);
   Serial.print("\t");
-  Serial.println((stop - start) / 400.0);
+  Serial.println((stop - start) / 400.0f);
   delay(100);
 
   Serial.println("400x same channel");
@@ -54,7 +55,7 @@ void setup()
   Serial.print("TIME same: ");
   Serial.print(stop - start);
   Serial.print("\t");
-  Serial.println((stop - start) / 400.0);
+  Serial.println((stop - start) / 400.0f);
   delay(100);
 }
 

@@ -13,8 +13,9 @@ HC4052 mp(4, 5, 6);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("HC4052 LIBRARY VERSION: ");
+  Serial.print("HC4052_LIB_VERSION: ");
   Serial.println(HC4052_LIB_VERSION);
   Serial.println();
 

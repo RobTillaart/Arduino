@@ -1,7 +1,7 @@
 //
 //    FILE: MCP4261.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-02-21
 // PURPOSE: Arduino library for MCP4261 SPI based digital potentiometers.
 //     URL: https://github.com/RobTillaart/MCP4261
@@ -490,7 +490,6 @@ MCP4262::MCP4262(uint8_t select, uint8_t shutdown, uint8_t dataIn, uint8_t dataO
   _pmCount = 2;
   _maxValue = MCP42XX_MAX_VALUE;
 }
-
 
 
 //  -- END OF FILE --

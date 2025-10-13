@@ -22,6 +22,7 @@ MCP4261 pot(10, 6, 7, 8, 9);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP4261_LIB_VERSION: ");
   Serial.println(MCP4261_LIB_VERSION);

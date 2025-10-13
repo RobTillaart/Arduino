@@ -51,13 +51,13 @@ Only 9 bits, so the values 0..511 are supported.
 E.g. one could use these to store 5 x 2 wiper states or something more exciting.
 
 
-#### Obsolete
+### Breaking changes 0.2.0
 
 Version 0.2.0 has many additional functions and some were fixed so 0.1.x versions 
 are obsolete.
 
 
-#### Feedback
+### Feedback
 
 The library is tested only limited with a MCP4261, so feedback, issues and 
 improvements are as always welcome. Please open an issue on GitHub.
@@ -80,7 +80,7 @@ However only the MCP4261 is tested.
 | MCP4262  | Rheostat |   2    | NV-Wiper |    256     |
 
 
-#### To investigate:
+### To investigate:
 
 MCP4131/32/51/52, MCP4231/32/51/52, these have no NV RAM so they 
 have a POR (power on reset) of the middle value (= half max value).  
@@ -101,7 +101,7 @@ Mainly other digital potentiometers / rheostats.
 - https://github.com/RobTillaart/X9C10X
 
 
-#### Registers
+### Registers
 
 Table 4.1 from datasheet (p 29)
 
@@ -146,7 +146,6 @@ setValue() function, however depends on if there was a recent write (< 5 ms ago)
 #include "MCP4261.h"
 ```
 
-
 ### Constructor
 
 - **MCP4261(uint8_t select, uint8_t shutdown, \__SPI_CLASS__ \* mySPI = &SPI)**
@@ -157,7 +156,6 @@ SW SPI Constructor. If the shutDown pin is not used, is should be set to 255.
 from the device. These values are cached.
 - **void reset(uint16_t value)** resets the device, and sets both wipers to an explicit value.
 - **uint8_t pmCount()** returns 1 or 2, depending on device type.
-
 
 ### Set Volatile Values
 
@@ -173,7 +171,6 @@ Returns false if this fails, e.g. max value reached.
 - **bool decrValue(uint8_t pm = 0)** decrements potmeter by 1 if possible. 
 Returns false if this fails, e.g. zero reached.
 
-
 ### Set NON-Volatile Values
 
 - **bool setValueNV(uint8_t pm, uint16_t value)** set the power on reset value for potmeter.
@@ -181,7 +178,6 @@ Returns false if this fails, e.g. zero reached.
 
 The NV functions do not check the status register if an EEPROM write is pending. 
 If you want to write both registers you need to pause 5-10 ms between the calls.
-
 
 ### Terminal Control register (TCON)
 
@@ -192,7 +188,6 @@ See datasheet form details.
 
 - **void setTCONMask(uint16_t mask)**
 - **uint16_t getTCONMask()**
-
 
 ### Status register
 
@@ -207,7 +202,6 @@ See datasheet form details.
 |   2   |  Wiper Lock 0         |  not supported
 |   3   |  Wiper Lock 1         |  not supported
 |   4   |  EEPROM Write Active  |
-
 
 ### EEPROM
 
@@ -229,7 +223,6 @@ So use with care.
 - **uint32_t getSPIspeed()** idem.
 - **bool usesHWSPI()** idem, depends on which constructor used.
 
-
 ### Power
 
 Uses the shutdown pin from the constructor.
@@ -237,7 +230,6 @@ Uses the shutdown pin from the constructor.
 - **void powerOn()** idem.
 - **void powerOff()** idem.
 - **bool isPowerOn()** idem.
-
 
 ## Future
 

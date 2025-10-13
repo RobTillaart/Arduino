@@ -34,12 +34,12 @@ The independent channel selection is done with three select lines **A, B, C**.
 The device can be enabled/disabled by the enable line **INH**.
 
 
-#### Compatibles
+### Compatibles
 
 To elaborate.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
@@ -88,11 +88,14 @@ Example multiplexing three times analog in.
 #include "HC4053.h"
 ```
 
-#### Core
+### Constructor
 
 - **HC4053(uint8_t A, uint8_t B, uint8_t C, uint8_t enablePin = 255)** constructor.
 Set the three select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
+
+### Channels
+
 - **bool setChannel(uint8_t channel, bool disable = true)** sets A, B and C to channel in one call.
 Think of it as a master switch.
 Valid values 0, 1, this value is checked (since 0.2.1).
@@ -114,7 +117,7 @@ Valid values 0, 1, this value is not checked, only last bit is used.
 - **uint8_t getChannelC()** get current C channel 0 or 1.
 
 
-#### Enable
+### Enable
 
 These functions work only if enablePin is set in the constructor.
 

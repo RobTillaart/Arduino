@@ -13,6 +13,7 @@ HC4053 mp(4, 5, 6);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HC4053 LIBRARY VERSION: ");
   Serial.println(HC4053_LIB_VERSION);

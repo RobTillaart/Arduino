@@ -20,6 +20,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("FLOAT16EXT_LIB_VERSION: ");
   Serial.println(FLOAT16EXT_LIB_VERSION);
+  Serial.println();
 
   print_all();
 
@@ -61,5 +62,6 @@ void print_all()
     Serial.println();
   }
 }
+
 
 //  -- END OF FILE --

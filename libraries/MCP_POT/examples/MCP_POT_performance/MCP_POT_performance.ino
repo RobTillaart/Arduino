@@ -21,6 +21,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP_POT_LIB_VERSION: ");
   Serial.println(MCP_POT_LIB_VERSION);
@@ -45,7 +46,7 @@ void setup()
     stop = micros();
     Serial.print(speed * 1000000);
     Serial.print("\t");
-    Serial.print((stop - start) * 0.001, 2);
+    Serial.print((stop - start) * 0.001f, 2);
     Serial.println(" us");
     delay(100);
   }
@@ -64,7 +65,7 @@ void setup()
     stop = micros();
     Serial.print(speed * 1000000);
     Serial.print("\t");
-    Serial.print((stop - start) * 0.001, 2);
+    Serial.print((stop - start) * 0.001f, 2);
     Serial.println(" us");
     delay(100);
   }

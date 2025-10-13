@@ -66,7 +66,7 @@ unittest(test_constructor)
   MCP42010 MCP42_1(9, 10, 11, &SPI);  //  HW SPI
   MCP42050 MCP42_2(9, 10, 11, &SPI);  //  HW SPI
   MCP42100 MCP42_3(9, 10, 11, &SPI);  //  HW SPI
-  
+
   MCP1.begin();
   MCP2.begin();
 
@@ -76,29 +76,29 @@ unittest(test_constructor)
   MCP41_1.begin();
   MCP41_2.begin();
   MCP41_3.begin();
-  
+
   MCP42_1.begin();
   MCP42_2.begin();
   MCP42_3.begin();
 
   assertEqual(2, MCP1.pmCount());
   assertEqual(2, MCP2.pmCount());
-  
+
   assertEqual(1, MCP41_1.pmCount());
   assertEqual(1, MCP41_1.pmCount());
   assertEqual(1, MCP41_1.pmCount());
-  
+
   assertEqual(2, MCP42_1.pmCount());
   assertEqual(2, MCP42_2.pmCount());
   assertEqual(2, MCP42_3.pmCount());
 
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP1.getValue());
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP2.getValue());
-  
+
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP41_1.getValue());
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP41_1.getValue());
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP41_1.getValue());
-  
+
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP42_1.getValue());
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP42_2.getValue());
   assertEqual(MCP_POT_MIDDLE_VALUE, MCP42_3.getValue());

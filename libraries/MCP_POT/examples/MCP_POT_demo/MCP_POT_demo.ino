@@ -21,7 +21,11 @@ MCP_POT pot(10, 11, 12, 8, 9);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MCP_POT_LIB_VERSION: ");
+  Serial.println(MCP_POT_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

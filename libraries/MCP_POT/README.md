@@ -40,12 +40,12 @@ Alt-234 = Ω
 The library allows manual override of the HW and SW SPI clock speed (different ways).
 
 
-#### Rheostat mode
+### Rheostat mode
 
 To use the device in rheostat mode, one should connect one of the ends to the wiper.
 
 
-#### Voltage divider
+### Voltage divider
 
 The devices can be used as an adjustable voltage divider.
 
@@ -57,7 +57,7 @@ The devices can be used as an adjustable voltage divider.
 |    2.7    |   10.59   |
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change to improve handling the SPI dependency.
 
@@ -65,7 +65,7 @@ The user has to call **SPI.begin()** or equivalent before calling **POT.begin()*
 Optional the user can provide parameters to the **SPI.begin(...)** call.
 
 
-#### Related
+### Related
 
 Mainly other digital potentiometers.
 
@@ -83,7 +83,7 @@ Mainly other digital potentiometers.
 #include "MCP_POT.h"
 ```
 
-#### Constructors
+### Constructors
 
 Base class.
 
@@ -104,8 +104,7 @@ The derived classes have same constructors with same parameters as the base clas
 - **void begin(uint8_t value = MCP_POT_MIDDLE_VALUE)**
 - **void reset(uint8_t value = MCP_POT_MIDDLE_VALUE)**
 
-
-#### Core
+### Core
 
 - **bool setValue(uint8_t value)** set all potmeters to the same value.
 For MCP41xxx this means just single potmeter, for MCP42xxx both.
@@ -114,8 +113,7 @@ For MCP41xxx this means just single potmeter, for MCP42xxx both.
 Note that the MCP41xxx only accepts pm == 0.
 - **uint8_t getValue(uint8_t pm = 0)**
 
-
-#### Experimental Ohm interface
+### Experimental Ohm interface
 
 The experimental Ohm interface is a wrapper around **setVale()** et al.
 It can be used to adjust the value in an SI unit kind of way.
@@ -146,8 +144,7 @@ Rwa = Rab * (256 - value) / 256 + Rw;
 Rwb = Rab * (256 - value) / 256 + Rw;
 ```
 
-
-#### SPI
+### SPI
 
 The default SPI speed used is 1 MHz.
 
@@ -156,16 +153,14 @@ The default SPI speed used is 1 MHz.
 - **void setSWSPIdelay(uint16_t del = 0)** adjust SW SPI clock pulse in **us**.
 - **uint16_t getSWSPIdelay()** get the current value.
 
-
-#### Miscellaneous
+### Miscellaneous
 
 - **uint8_t pmCount()** returns the number of potmeters.
 - **void powerOn()** set SHUTDOWN pin HIGH = device enabled.
 - **void powerOff()**  set SHUTDOWN pin LOW = device disabled.
 - **bool isPowerOn()** idem.
 
-
-#### Debug
+### Debug
 
 - **bool usesHWSPI()** returns true if hardware SPI is used.
 

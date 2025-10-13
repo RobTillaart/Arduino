@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_POT.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2023-12-21
 // PURPOSE: Arduino library for MCP41xxx and MCP42xxx SPI based digital potentiometers.
 //     URL: https://github.com/RobTillaart/MCP_POT
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define MCP_POT_LIB_VERSION           (F("0.2.2"))
+#define MCP_POT_LIB_VERSION           (F("0.2.3"))
 
 #ifndef MCP_POT_MIDDLE_VALUE
 #define MCP_POT_MIDDLE_VALUE          128

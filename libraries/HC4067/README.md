@@ -37,13 +37,13 @@ The device can be enabled/disabled by the enable line **E**.
 Version 0.3.0 has a bugfix for **setChannel()** which obsolete all previous versions.
 
 
-#### Compatibles
+### Compatibles
 
 Not tested, considered compatible.
 - CD74HC4067, 74HC4067, 74HCT4067
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
@@ -87,7 +87,7 @@ Example multiplexing analog in.
 ```
 
 
-#### Less Select lines
+### Less Select lines
 
 Note: the library does not meant for this mode, although it should work.
 The GND-ed pins should be set to 255 (not tested).
@@ -112,11 +112,14 @@ This will result in another subset of the Y pins to select from.
 #include "HC4067.h"
 ```
 
-#### Core
+### Constructor
 
 - **HC4067(uint8_t s0, uint8_t s1, uint8_t s2, uint8_t s3, uint8_t enablePin = 255)** constructor.
 Set the 4 select pins and optional the enable pin.
 If the enablePin == 255 it is considered not used.
+
+### Channels
+
 - **bool setChannel(uint8_t channel, bool disable = true)** set the current channel.
 Valid values 0..15, this value is checked (since 0.2.1).
 Returns false if channel out of range.  
@@ -130,8 +133,7 @@ Note the device cannot be disabled if there is no enable pin configured.
 - **uint8_t getChannel()** returns the current channel 0..15.
 The selected channel is also returned when the multiplexer is disabled.
 
-
-#### Enable
+### Enable
 
 These functions work only if enablePin is set in the constructor.
 
@@ -139,7 +141,6 @@ These functions work only if enablePin is set in the constructor.
 - **void disable()** disables the device, no channel is selected.
 - **bool isEnabled()** returns the current status of the device.
 Also returns true if the enablePin is not set in the constructor.
-
 
 ## Future
 

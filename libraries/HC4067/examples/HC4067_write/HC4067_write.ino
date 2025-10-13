@@ -13,6 +13,7 @@ HC4067 mp(4, 5, 6, 7, 3);  //  explicitly set enable pin (3)
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HC4067 LIBRARY VERSION: ");
   Serial.println(HC4067_LIB_VERSION);

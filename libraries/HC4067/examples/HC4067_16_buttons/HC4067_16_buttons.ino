@@ -17,6 +17,7 @@ uint16_t values;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HC4067 LIBRARY VERSION: ");
   Serial.println(HC4067_LIB_VERSION);

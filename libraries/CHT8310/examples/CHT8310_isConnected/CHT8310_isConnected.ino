@@ -25,7 +25,7 @@
 
 #include "CHT8310.h"
 
-//  check all valid addresses 
+//  check all valid addresses
 //  if not connected ==> fail
 CHT8310 CHT(0x40);    //  CHT8310_DEFAULT_ADDRESS = 0x40
 CHT8310 CHT1(0x44);
@@ -36,6 +36,7 @@ CHT8310 CHT3(0x4C);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT8310_LIB_VERSION: ");
   Serial.println(CHT8310_LIB_VERSION);
@@ -55,7 +56,7 @@ void setup()
   Serial.print("Manufac:\t");
   Serial.println(CHT.getManufacturer());
   delay(1000);
-  
+
   Serial.print("Connect:\t");
   Serial.println(CHT1.isConnected());
   Serial.print("Address:\t");
@@ -63,7 +64,7 @@ void setup()
   Serial.print("Manufac:\t");
   Serial.println(CHT1.getManufacturer());
   delay(1000);
-  
+
   Serial.print("Connect:\t");
   Serial.println(CHT2.isConnected());
   Serial.print("Address:\t");
@@ -71,7 +72,7 @@ void setup()
   Serial.print("Manufac:\t");
   Serial.println(CHT2.getManufacturer());
   delay(1000);
-  
+
   Serial.print("Connect:\t");
   Serial.println(CHT3.isConnected());
   Serial.print("Address:\t");

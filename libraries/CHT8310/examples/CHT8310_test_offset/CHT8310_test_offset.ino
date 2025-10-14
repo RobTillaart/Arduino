@@ -31,6 +31,7 @@ CHT8310 CHT(0x40);   //  CHT8310_DEFAULT_ADDRESS = 0x40 TODO
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT8310_LIB_VERSION: ");
   Serial.println(CHT8310_LIB_VERSION);
@@ -45,7 +46,7 @@ void setup()
   Serial.println(CHT.getHumidityOffset());
   Serial.println();
 
-  CHT.setTemperatureOffset(+273.15);  //  adjusts temperature to Kelvin 
+  CHT.setTemperatureOffset(+273.15);  //  adjusts temperature to Kelvin
   CHT.setHumidityOffset(-50);         //  extreme just for demo
   delay(1000);
 }

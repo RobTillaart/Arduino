@@ -31,6 +31,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT8310_LIB_VERSION: ");
   Serial.println(CHT8310_LIB_VERSION);
@@ -75,7 +76,7 @@ void testPerformance(uint32_t speed)
   Serial.print("READ H:\t");
   Serial.println(stop - start);
   delay(500);
-  
+
   start = micros();
   uint16_t m = CHT.getManufacturer();
   stop = micros();

@@ -16,7 +16,9 @@ Arduino library for CHT8310 temperature and humidity sensor.
 
 ## Description
 
-This library is **EXPERIMENTAL** and implements a minimal subset of the functionality of the sensor.
+**Experimental**
+
+This library is **experimental** and implements a minimal subset of the functionality of the sensor.
 Version 0.1.0 includes reading the temperature and humidity register and the manufacturer-ID register.
 Furthermore one can set an offset for temperature and humidity.
 
@@ -37,15 +39,17 @@ which is a simpler and unfortunately not an compatible sensor.
 If you are able to test this library, please share your experiences.
 
 
-#### Tests
+### Tests
 
 Many initial tests performed by YouCanNotBeSerious. Thanks.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Temperature (e.g. heatIndex)
 - https://github.com/RobTillaart/CHT8305
+- https://github.com/RobTillaart/CHT8310
+- https://github.com/RobTillaart/CHT832X
 
 
 ## Hardware
@@ -61,7 +65,7 @@ Always check datasheet for connections.
 //     SCL ----| SCL           |
 //      ?  ----| AD0           |   ? depends on address see table below.
 //             |               |
-//      x  ----| ALERT         |   x not suppported yet
+//      x  ----| ALERT         |   x not supported yet
 //             +---------------+
 //
 //  check datasheet
@@ -76,7 +80,7 @@ Pull ups are needed on SDA, SCL.
 
 ## I2C 
 
-#### performance
+### performance
 
 I2C bus speeds is supported up to 1000 KHz (datasheet P4).
 
@@ -105,7 +109,7 @@ which only use one I2C call to the device.
 needs to do conversion math.
 
 
-#### Addresses
+### Addresses
 
 The CHT8310 supports up to 4 devices on the I2C bus.
 
@@ -119,7 +123,7 @@ The CHT8310 supports up to 4 devices on the I2C bus.
 Pull ups are needed on SDA, SCL and optional to ALERT.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -143,7 +147,7 @@ too if they are behind the multiplexer.
 #include "CHT8310.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **CHT8310(const uint8_t address = CHT8310_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** Constructor 
 with default address (0x40) and I2C bus.
@@ -153,7 +157,7 @@ Returns error status.
 - **uint8_t getAddress()** returns address set in constructor.
 
 
-#### Core
+### Core
 
 - **int read()** reads both the temperature and humidity from the sensor.
 Can be called at most once per second, otherwise it will return **CHT8310_ERROR_LASTREAD**
@@ -173,7 +177,7 @@ Note: read(), readTemperature() and readHumidity() blocks each other,
 so you can call only one of them every second (see Convert Rate below).
 
 
-#### Conversion delay
+### Conversion delay
 
 Not functional for now, need investigation.
 Check datasheet for details.
@@ -183,7 +187,7 @@ Not tested what is the optimum.
 - **uint8_t getConversionDelay()** returns set value.
 
 
-#### Offset
+### Offset
 
 Adding offsets works well in the "normal range" but might introduce 
 under- or overflow at the ends of the sensor range.
@@ -200,7 +204,7 @@ consider a mapping function for temperature and humidity.
 e.g. https://github.com/RobTillaart/MultiMap
 
 
-#### Configuration
+### Configuration
 
 To be elaborated (table / functions)
 
@@ -210,7 +214,7 @@ Check datasheet for details about the bit fields.
 - **uint16_t getConfiguration()** returns current mask
 
 
-#### Convert Rate
+### Convert Rate
 
 Check datasheet for details.
 
@@ -233,7 +237,7 @@ Default value = 4 meaning
 |   7    |     125 ms    |      8 Hz   |
 
 
-#### ALERT
+### ALERT
 
 Check datasheet for details.
 
@@ -250,7 +254,7 @@ ALERT pin triggers default on both temperature and humidity.
 See also **getStatusRegister()**
 
 
-#### Status register
+### Status register
 
 Check datasheet for details.
 
@@ -265,25 +269,25 @@ Check datasheet for details.
 |   11  |  Hlow   |  humidity exceeded
 
 
-#### OneShot conversion
+### OneShot conversion
 
 Check datasheet for details.
 
 - **void oneShotConversion()** idem.
 
 
-#### SoftwareReset
+### SoftwareReset
 
 - **void softwareReset()** idem.
 
 
-#### Meta data
+### Meta data
 
 - **uint16_t getManufacturer()** Returns 0x5959 according to the datasheet,
 However in #3 a value of 8215 is seen. Seems to be an other manufacturer.
 
 
-#### Register Access
+### Register Access
 
 Temporary wrappers to access the registers.
 Check datasheet for details.

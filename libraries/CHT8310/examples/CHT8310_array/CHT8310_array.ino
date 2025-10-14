@@ -33,6 +33,7 @@ CHT8310 CHT[4] = { CHT8310(0x40), CHT8310(0x44), CHT8310(0x48), CHT8310(0x4C) };
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT8310_LIB_VERSION: ");
   Serial.println(CHT8310_LIB_VERSION);

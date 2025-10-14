@@ -1,7 +1,8 @@
 //
 //    FILE: CHT8310.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
+//    DATE: 2024-02-04
 // PURPOSE: Arduino library for CHT8310 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8310
 
@@ -23,7 +24,6 @@
 
 #define CHT8310_REG_SWRESET              0xFC
 #define CHT8310_REG_MANUFACTURER         0xFF
-
 
 
 /////////////////////////////////////////////////////
@@ -87,14 +87,14 @@ int CHT8310::read()
   int16_t tmp = (data[0] << 8 | data[1]);
   if (_resolution == 13)
   {
-    _temperature = (tmp >> 3) * 0.03125;
+    _temperature = (tmp >> 3) * 0.03125f;
   }
   else  //  _resolution == 14
   {
-    _temperature = (tmp >> 2) * 0.03125;
+    _temperature = (tmp >> 2) * 0.03125f;
   }
   //  Handle temperature offset.
-  if (_tempOffset != 0.0) _temperature += _tempOffset;
+  if (_tempOffset != 0.0f) _temperature += _tempOffset;
 
 
   //  HUMIDITY PART
@@ -107,18 +107,18 @@ int CHT8310::read()
   tmp = data[0] << 8 | data[1];
   if (tmp & 0x8000)  //  test overflow bit
   {
-    _humidity = 100.0;
+    _humidity = 100.0f;
     return CHT8310_ERROR_HUMIDITY;
   }
   tmp &= 0x7FFF;
-  _humidity = tmp * (1.0 / 327.67);  //  == / 32767 * 100%
+  _humidity = tmp * (1.0f / 327.67f);  //  == / 32767 * 100%
   //  Handle humidity offset.
-  if (_humOffset  != 0.0)
+  if (_humOffset  != 0.0f)
   {
     _humidity += _humOffset;
     //  handle out of range.
-    if (_humidity < 0.0)   _humidity = 0.0;
-    if (_humidity > 100.0) _humidity = 100.0;
+    if (_humidity < 0.0f)   _humidity = 0.0f;
+    if (_humidity > 100.0f) _humidity = 100.0f;
   }
 
   return CHT8310_OK;
@@ -133,14 +133,14 @@ int CHT8310::readTemperature()
   //  DATASHEET P13
   if (_resolution == 13)
   {
-    _temperature = (tmp >> 3) * 0.03125;
+    _temperature = (tmp >> 3) * 0.03125f;
   }
   else  //  _resolution == 14
   {
-    _temperature = (tmp >> 2) * 0.03125;
+    _temperature = (tmp >> 2) * 0.03125f;
   }
 
-  if (_tempOffset != 0.0)
+  if (_tempOffset != 0.0f)
   {
     _temperature += _tempOffset;
   }
@@ -158,18 +158,18 @@ int CHT8310::readHumidity()
   //  DATASHEET P14
   if (tmp & 0x8000)  //  test overflow bit
   {
-    _humidity = 100.0;
+    _humidity = 100.0f;
     return CHT8310_ERROR_HUMIDITY;
   }
   tmp &= 0x7FFF;
-  _humidity = tmp * (1.0 / 327.67);  //  == / 32767 * 100%
+  _humidity = tmp * (1.0f / 327.67f);  //  == / 32767 * 100%
   //  Handle humidity offset.
-  if (_humOffset  != 0.0)
+  if (_humOffset  != 0.0f)
   {
     _humidity += _humOffset;
     //  handle out of range.
-    if (_humidity < 0.0)   _humidity = 0.0;
-    if (_humidity > 100.0) _humidity = 100.0;
+    if (_humidity < 0.0f)   _humidity = 0.0f;
+    if (_humidity > 100.0f) _humidity = 100.0f;
   }
 
   return CHT8310_OK;
@@ -275,27 +275,27 @@ uint8_t CHT8310::getConvertRate()
 //
 void CHT8310::setTemperatureHighLimit(float temperature)
 {
-  int16_t tmp = round(temperature * (1.0 / 0.03125));
+  int16_t tmp = round(temperature * (1.0f / 0.03125f));
   tmp <<= 3;
   writeRegister(CHT8310_REG_TEMP_HIGH_LIMIT, tmp);
 }
 
 void CHT8310::setTemperatureLowLimit(float temperature)
 {
-  int16_t tmp = round(temperature * (1.0 / 0.03125));
+  int16_t tmp = round(temperature * (1.0f / 0.03125f));
   tmp <<= 3;
   writeRegister(CHT8310_REG_TEMP_LOW_LIMIT, tmp);
 }
 
 void CHT8310::setHumidityHighLimit(float humidity)
 {
-  int16_t hum = round(humidity * 327.67);
+  int16_t hum = round(humidity * 327.67f);
   writeRegister(CHT8310_REG_HUM_HIGH_LIMIT, hum);
 }
 
 void CHT8310::setHumidityLowLimit(float humidity)
 {
-  int16_t hum = round(humidity * 327.67);
+  int16_t hum = round(humidity * 327.67f);
   writeRegister(CHT8310_REG_HUM_LOW_LIMIT, hum);
 }
 

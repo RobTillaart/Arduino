@@ -31,6 +31,7 @@ CHT8310 CHT(0x40);   //  CHT8310_DEFAULT_ADDRESS = 0x40 TODO
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("CHT8310_LIB_VERSION: ");
   Serial.println(CHT8310_LIB_VERSION);
@@ -43,7 +44,7 @@ void setup()
   // set register to non default
   CHT.setConvertRate(7);
   Serial.println(CHT.getConvertRate());  // should print 7
-  
+
   CHT.softwareReset();
   delay(1000);
 

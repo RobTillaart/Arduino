@@ -2,7 +2,8 @@
 //
 //    FILE: CHT8310.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
+//    DATE: 2024-02-04
 // PURPOSE: Arduino library for CHT8310 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8310
 //
@@ -12,7 +13,7 @@
 #include "Wire.h"
 
 
-#define CHT8310_LIB_VERSION              (F("0.2.0"))
+#define CHT8310_LIB_VERSION              (F("0.2.1"))
 
 
 //  DEFAULT ADDRESS
@@ -105,10 +106,10 @@ public:
 
 
 private:
-  float    _humOffset       = 0.0;
-  float    _tempOffset      = 0.0;
-  float    _humidity        = 0.0;
-  float    _temperature     = 0.0;
+  float    _humOffset       = 0.0f;
+  float    _tempOffset      = 0.0f;
+  float    _humidity        = 0.0f;
+  float    _temperature     = 0.0f;
   uint32_t _lastRead        = 0;
   uint8_t  _conversionDelay = 14;  //  11  datasheet P8
 

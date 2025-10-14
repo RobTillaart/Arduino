@@ -48,6 +48,7 @@ getUVC_uW	KEYWORD2
 getUVA_mW	KEYWORD2
 getUVB_mW	KEYWORD2
 getUVC_mW	KEYWORD2
+
 getUVA_Wm2	KEYWORD2
 getUVB_Wm2	KEYWORD2
 getUVC_Wm2	KEYWORD2
@@ -55,6 +56,23 @@ getCelsius	KEYWORD2
 
 setBreakTime	KEYWORD2
 getBreakTime	KEYWORD2
+
+enableTemperature	KEYWORD2
+disableTemperature	KEYWORD2
+isEnabledTemperature	KEYWORD2
+
+enableDivider	KEYWORD2
+disableDivider	KEYWORD2
+isEnabledDivider	KEYWORD2
+
+setDivider	KEYWORD2
+getDivider	KEYWORD2
+
+setEdges	KEYWORD2
+getEdges	KEYWORD2
+
+setInitIdx	KEYWORD2
+clrInitIdx	KEYWORD2
 
 getLastError	KEYWORD2
 

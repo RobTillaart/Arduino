@@ -56,17 +56,15 @@ Note: The library is not verified against a calibrated UV source, so use with ca
 Datasheet used: v4-00, 2023-Mar-24.
 
 
-#### Disclaimer
+### Disclaimer
 
-The device has several options to configure but these are not all 
-implemented and/or tested in the 0.2.0 version of the library.
-This is especially true for the 24 bit register and the CREG-2 register.
-So not all combinations of gain and timing etc. might work as expected.
-Also the SYND mode is not implemented yet.
-In short, the library is work in progress.
+In version 0.3.0 access to the "missing" registers of the AS7331 is implemented, 
+however proper working of these registers are not tested. So use them with care.
 
-That said, the 0.2.0 version is working and useful with limitations.
-Please share your experiences and insights.
+Also the SYND mode is not tested (my choice / priority), so if you do, please 
+provide feedback about what works and what not.  
+
+In short, the library is still work in progress.
 
 
 ### Breaking change 0.2.0
@@ -112,13 +110,15 @@ Other
 This library is partially tested with hardware Arduino UNO R3.
 As there is no board specific code, it is expected to work on other boards too.
 Examples work but not all functions of the library are verified (or calibrated).
+See also disclaimer.
 
 As said before, feedback is welcome.
 
-https://www.tinytronics.nl/nl/sensoren/optisch/licht-en-kleur/as7331-uv-lichtsensor-module
-
 
 ## I2C
+
+If the library does not work with your board, you should check the INIT_IDX
+section (far) below. Check the datasheet for the details.
 
 ### I2C Performance
 
@@ -141,9 +141,9 @@ is logical as it also fetches 2 bytes (0.2.0 version).
 |   700 kHz  |     148     |
 |   800 kHz  |     140     |
 
-Conclusion, running at 400 kHz (max datasheet) is more than 2.5x faster.
+Conclusion, running at 400 kHz (max datasheet) is more than 2.5 times faster.
 Going beyond the 400 kHz could save another ~25% but it is not known how 
-this affect the quality of the readings and lifetime of the device.
+this affect the quality of the measurements and/or the lifetime of the device.
 
 
 ### I2C address
@@ -158,8 +158,9 @@ on one I2C bus.
 |   0  |   1  |    0x76   |
 |   1  |   1  |    0x77   |
 
-The sensor does not appreciate runtime changing of the address pins.
-So this trick cannot be used to "multiplex".
+In a small test it became evident that the sensor under test did not appreciate
+runtime changing of the address pins. 
+So this trick cannot be used to "multiplex" multiple devices.
 
 
 ### I2C multiplexing
@@ -446,7 +447,7 @@ The SYN pin can be used in two modi:
 
 Read the datasheet for details.
 
-#### SYNS
+### SYNS
 
 In the SYNS mode the SYN pin is used as an external trigger to start a measurement.
 This has two advantages above the start via an I2C command.
@@ -456,10 +457,49 @@ This has two advantages above the start via an I2C command.
 The pulse length to start a measurement is 3 us @ 1 MHz internal clock.
 The SYN pin should be drawn to GND, so do not forget the pull up resistor!
 
+### SYND
 
-#### SYND
+The SYND mode is not tested, needs investigation.
 
-The SYND mode is not supported yet, needs investigation.
+In the SYND mode temperature measurement is not possible.
+
+Read the datasheet for details.
+
+(page 53)
+- **void enableTemperature()** enable temperature
+- **void disableTemperature()** disable temperature
+- **bool isEnabledTemperature()** returns current status.
+
+(page 56)
+_The register EDGES becomes operative in SYND mode. After a measurement was started in SYND
+mode, it defines the necessary number of additional falling edges at input SYN until the conversion is
+terminated. The value EDGES = “0” is not allowed and results in the initial value “1”._
+
+- **void setEdges(uint8_t edges)** edges = 1..255 (0 is mapped unto 1).
+- **uint8_t getEdges()** returns set value.
+
+
+### Divider
+
+The Divider is not tested, needs investigation.
+
+Read the datasheet for details (page54).
+
+_The bit CREG2:EN_DIV enables the internal pre-scaler, which could be interesting for conversion
+times more than 16-bits (CREG1:TIME ≥ 0111b) and if SYND mode is used._
+
+- **void enableDivider()** enable divider
+- **void disableDivider()** disable divider
+- **bool isEnabledDivider()** returns current status
+
+
+### I2C-INIT_IDX
+
+Only to be used if I2C of the board does not work (esp reading)
+Read the datasheet for details (Page 58).
+
+- **void setInitIdx()** sets the INIT_IDX flag
+- **void clrInitIdx()** clears the INIT_IDX flag
 
 
 ### Debug
@@ -467,23 +507,32 @@ The SYND mode is not supported yet, needs investigation.
 - **uint8_t getLastError()** returns last error of low level communication.
 
 
+### OUTCONV
+
+OUTCONV = Time reference, result of conversion time measurement.
+
+Read the datasheet for details (see chapter 7.6).
+
+- **uint32_t getOUTCONV()** read the **OUTCONV** registers and merge them into
+a single 24 bit value.
+
+
+
 ## Future
 
 #### Must
 
 - improve documentation
+  - reorder sections
 - check calibration.
 
 #### Should
 
-- implement API for missing registers 
-  - investigate 17-24 bits reads?
-  - add + test SYND mode (uses external timing, other math needed)
-- test different configurations (gain Tconv)
-- fix TODO's in code and documentation
+- investigate 17-24 bits measurements?
+- test SYND mode (uses external timing, other math needed?)
+- test different configurations (gain + Tconv)
 - add functions around status bits
 - add return values functions (error not in right MODE?) iso void()
-- add SYN pin as part of the library, param begin().
 
 #### Could
 
@@ -494,6 +543,8 @@ The SYND mode is not supported yet, needs investigation.
 - Split status en OSR? Yes/No?
   - not clear benefit / usage / performance ?
 - extend unit tests
+- add SYN pin as part of the library, parameter begin().
+
 
 #### Wont
 

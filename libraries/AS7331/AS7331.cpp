@@ -2,7 +2,7 @@
 //    FILE: AS7331.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-08-28
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for AS7331 UV sensor
 //     URL: https://github.com/RobTillaart/AS7331
 
@@ -368,6 +368,21 @@ uint8_t AS7331::getBreakTime()
 }
 
 
+///////////////////////////////////////////////////
+//
+//  EDGES - synd
+//
+void AS7331::setEdges(uint8_t edges)
+{
+  _writeRegister8(AS7331_REG_EDGES, edges);
+}
+
+uint8_t AS7331::getEdges()
+{
+  return _readRegister8(AS7331_REG_EDGES);
+}
+
+
 /////////////////////////////////////////////
 //
 //  DEBUG
@@ -385,47 +400,99 @@ int AS7331::getLastError()
 //
 //  FUTURE - CREG2
 //
-/*
-void AS7331::enableTime();
-void AS7331::disableTime();
-bool AS7331::isEnabledTime();
 
-void AS7331::enableDivider();
-void AS7331::disableDivider();
-bool AS7331::isEnabledDivider();
+void AS7331::enableTemperature()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  value |= 0x40;
+  _writeRegister8(AS7331_REG_CREG2, value);
+}
 
-void AS7331::setDivider(uint8_t div);
-uint8_t AS7331::getDivider();
-*/
+void AS7331::disableTemperature()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  value &= ~0x40;
+  _writeRegister8(AS7331_REG_CREG2, value);
+}
+
+bool AS7331::isEnabledTemperature()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  return (value & 0x40) > 0;
+}
+
+
+void AS7331::enableDivider()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  value |= 0x08;
+  _writeRegister8(AS7331_REG_CREG2, value);
+}
+
+void AS7331::disableDivider()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  value &= ~0x08;
+  _writeRegister8(AS7331_REG_CREG2, value);
+}
+
+bool AS7331::isEnabledDivider()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  return (value & 0x08) > 0;
+}
+
+
+bool AS7331::setDivider(uint8_t div)
+{
+  if (div > 7) return false;
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  value &= ~0x07;
+  value |= div;
+  _writeRegister8(AS7331_REG_CREG2, value);
+  return true;
+}
+
+uint8_t AS7331::getDivider()
+{
+  uint8_t value = _readRegister8(AS7331_REG_CREG2);
+  return (value & 0x07);
+}
 
 
 ///////////////////////////////////////////////////
 //
-//  FUTURE - EDGES - synd
+//  OPTIONS, REGISTER 0x0B OPTREG
 //
-// void AS7331::setEdges(uint8_t edges)
-// {
-  // _writeRegister8(AS7331_REG_EDGES, edges);
-// }
+void AS7331::setInitIdx()
+{
+  _writeRegister8(AS7331_REG_OPTREG, 0x01);
+}
 
-// uint8_t AS7331::getEdges()
-// {
-  // return _readRegister8(AS7331_REG_EDGES);
-// }
+void AS7331::clrInitIdx()
+{
+  _writeRegister8(AS7331_REG_OPTREG, 0x00);
+}
 
 
 ///////////////////////////////////////////////////
 //
-//  FUTURE - OPTIONS, REGISTER 0x0B OPTREG
+//  OUTCONV, REGISTER 0x05 OUTCONV_L, 0x06 OUTCONV_H
 //
+uint32_t AS7331::getOUTCONV()
+{
+  uint32_t value = _readRegister16(AS7331_REG_OUTCONVH);
+  value <<= 16;
+  value |= _readRegister16(AS7331_REG_OUTCONVL);
+  return value;
+}
 
 
 
-///////////////////////////////////////////////
+///////////////////////////////////////////////////
 //
 //  PRIVATE
 //
-
 void AS7331::_adjustGainTimeFactor()
 {
   _GainTimeFactor = pow(0.5, (11 - _gain) + _convTime);

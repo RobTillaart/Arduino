@@ -3,7 +3,7 @@
 //    FILE: AS7331.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-08-28
-// VERSION: 0.2.0
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for AS7331 UV sensor
 //     URL: https://github.com/RobTillaart/AS7331
 //          https://www.sparkfun.com/products/23517
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define AS7331_LIB_VERSION          (F("0.2.0"))
+#define AS7331_LIB_VERSION          (F("0.3.0"))
 
 #ifndef AS7331_DEFAULT_ADDRESS
 #define AS7331_DEFAULT_ADDRESS      0x74
@@ -197,33 +197,45 @@ public:
   int      getLastError();
 
 
+  //  0.3.0 added
   ///////////////////////////////////////////////////
   //
-  //  FUTURE
-  //  TODO SYND mode - not implemented / tested
-  //
-
-  //       TODO REGISTER 0x07 CREG2
+  //       Configuration - REGISTER 0x07 CREG2
   //       for SYNS / SYND control
-  //       EN_TM (6), EN_DIV(3), DIV(2:0)
-  //  void     enableTime();
-  //  void     disableTime();
-  //  bool     isEnabledTime();
-  //  void     enableDivider();
-  //  void     disableDivider();
-  //  bool     isEnabledDivider();
-  //  void     setDivider(uint8_t div);
-  //  uint8_t  getDivider();
+  //       CREG2.EN_TM(6) - SYND Only
+  void     enableTemperature();
+  void     disableTemperature();
+  bool     isEnabledTemperature();
 
-  //       EDGES - REGISTER 0x09 EDGES
+  //       CREG2.EN_DIV(3)
+  void     enableDivider();
+  void     disableDivider();
+  bool     isEnabledDivider();
+
+  //       CREG2.DIV(2:0)
+  bool     setDivider(uint8_t div);
+  uint8_t  getDivider();
+
+
+  //       EDGES - REGISTER 0x0A EDGES
   //       used in SYND only
   //       1..255 edges (0 maps to 1)
-  //  void     setEdges(uint8_t edges);
-  //  uint8_t  getEdges();
+  void     setEdges(uint8_t edges);
+  uint8_t  getEdges();
 
-  //       TODO OPTIONS, REGISTER 0x0B OPTREG
-  //       read datasheet, low level I2C - INITT_IDX in bit 0.
 
+  //       OPTIONS, REGISTER 0x0B OPTREG
+  //       read datasheet, adjust low level I2C
+  //       OPTREG.INITT_IDX(0)
+  void     setInitIdx();
+  void     clrInitIdx();
+
+  //
+  //  OUTCONV = timing ?
+  uint32_t getOUTCONV();
+
+
+  ///////////////////////////////////////////////////
 
 private:
   int      _writeRegister8(uint8_t reg, uint8_t value);
@@ -240,7 +252,7 @@ private:
 
   //  to adjust when gain or Tconv changes.
   void     _adjustGainTimeFactor();
-  float    _GainTimeFactor =  1;
+  float    _GainTimeFactor = 1.0f;
 };
 
 

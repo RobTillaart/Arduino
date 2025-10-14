@@ -14,6 +14,15 @@
 Arduino library for the I2C LTR390 LUX / UV sensor (DF Robotics edition).
 
 
+## Warning
+
+**Always take precautions as UV radiation can cause sunburn, eye damage and other severe problems**.
+
+Do not expose yourself to the sun as UV source too long.
+
+When working with UV light, natural or artificial (TL LED laser a.o.) use appropriate shielding. Do not look right into UV light sources.
+
+
 ## Description
 
 **Experimental**
@@ -23,6 +32,7 @@ break-out board.
 
 Operating voltage range: **3.0V .. 5.0V** (tolerant).
 
+To elaborate (when time permits and hardware)
 
 ## I2C
 
@@ -56,6 +66,7 @@ too if they are behind the multiplexer.
 
 ### Related
 
+- https://github.com/RobTillaart/AS7331 UVA, UVB, UVC sensor
 - https://github.com/RobTillaart/LTR390_RT   (native LTR390)
 - https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
 

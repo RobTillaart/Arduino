@@ -2,8 +2,8 @@
 //
 //    FILE: LTR390_DFR.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.2
 //    DATE: 2024-04-29
-// VERSION: 0.1.1
 // PURPOSE: Arduino library for the I2C LTR390 UV sensor (DF Robotics edition).
 //     URL: https://github.com/RobTillaart/LTR390_DFR
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTR390_DFR_LIB_VERSION         (F("0.1.1"))
+#define LTR390_DFR_LIB_VERSION         (F("0.1.2"))
 
 //  LTR390 ERROR CODES
 #define LTR390_OK                       0x00
@@ -49,9 +49,9 @@ public:
   {
     _address = 0x1C;  //  Fixed 0x1C = 28 = DF_ROBOTICS
     _wire = wire;
-    _gain = 3.0;  //  default
-    _time = 0.1;  //  default 18 bit, 100 ms.
-    _UVsensitivity = 1.0;
+    _gain = 3.0f;  //  default
+    _time = 0.1f;  //  default 18 bit, 100 ms.
+    _UVsensitivity = 1.0f;
   }
 
   bool begin()
@@ -128,7 +128,7 @@ public:
   //  page 22 datasheet
   float getLux(float wfac = 1)
   {
-    float lux = 0.6 * getALSData() /( _gain * _time);
+    float lux = 0.6f * getALSData() /( _gain * _time);
     if (wfac > 1) lux *= wfac;
     return lux;
   }
@@ -141,10 +141,10 @@ public:
   }
 
   //  page 22 datasheet
-  float getUVI(float wfac = 1)
+  float getUVI(float wfac = 1.0f)
   {
     float uvi = getUVSData() / _UVsensitivity;
-    if (wfac > 1) uvi *= wfac;
+    if (wfac > 1.0f) uvi *= wfac;
     return uvi;
   }
 
@@ -183,12 +183,12 @@ public:
     writeRegister(LTR390_ALS_UVS_MEAS_RATE, value);
 
     _time = 2.000;  // time = 6 0r 7
-    if (time == 0) _time = 0.025;
-    if (time == 1) _time = 0.050;
-    if (time == 2) _time = 0.100;
-    if (time == 3) _time = 0.200;
-    if (time == 4) _time = 0.500;
-    if (time == 5) _time = 1.000;
+    if (time == 0) _time = 0.025f;
+    if (time == 1) _time = 0.050f;
+    if (time == 2) _time = 0.100f;
+    if (time == 3) _time = 0.200f;
+    if (time == 4) _time = 0.500f;
+    if (time == 5) _time = 1.000f;
     return true;
   }
 
@@ -206,7 +206,7 @@ public:
 
   bool setUVsensitivity(float s)
   {
-    if ((s <= 0.0) || (s > 1.0))return false;
+    if ((s <= 0.0f) || (s > 1.0f))return false;
     _UVsensitivity = s;
     return true;
   }

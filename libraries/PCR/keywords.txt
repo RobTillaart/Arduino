@@ -40,6 +40,10 @@ setHeatPulseLength	KEYWORD2
 getHeatPulseLength	KEYWORD2
 
 timeLeft	KEYWORD2
+getPCRState	KEYWORD2
+
+setSignalLength	KEYWORD2
+getSignalLength	KEYWORD2
 
 
 # Constants (LITERAL1)

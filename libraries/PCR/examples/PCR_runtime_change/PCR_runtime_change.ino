@@ -26,20 +26,23 @@ void setup()
   Serial.println(PCR_LIB_VERSION);
   Serial.println();
 
-  //  configure all phases
-  pcr.setInitial(98, 10);      //  temp, seconds
-  pcr.setDenature(94.5, 5);    //  temp, seconds
-  pcr.setAnnealing(54.2, 2);   //  temp, seconds
-  pcr.setExtension(75.0, 3);   //  temp, seconds
-  pcr.setElongation(75.0, 3);  //  temp, seconds
-  pcr.setHold(8.0);            //  temp only
+
+  //  configure PCR process
+  //  adjust timing and temperature to your needs.
+  pcr.setInitial(98, 10);      //  temperature, seconds
+  pcr.setDenature(94.5, 5);    //  temperature, seconds
+  pcr.setAnnealing(54.2, 2);   //  temperature, seconds
+  pcr.setExtension(75.0, 3);   //  temperature, seconds
+  pcr.setElongation(75.0, 3);  //  temperature, seconds
+  pcr.setHold(8.0);            //  temperature only
 
   pcr.reset(10);  //  iterations.
   Serial.print("Estimated time (seconds): ");
   Serial.println(pcr.timeLeft());
 
+  //  run the PCR process.
   bool flagFive = false;
-  while (pcr.iterationsLeft() > 0)
+  while (pcr.getPCRState() != PCR_STATE_HOLD)
   {
     float temp = getTemperature();
     pcr.process(temp);
@@ -48,20 +51,25 @@ void setup()
     if ((pcr.iterationsLeft() == 5) && (flagFive == false))
     {
       flagFive = true;
-      pcr.setDenature(94.5, 7.5);     //  temp, seconds
-      pcr.setAnnealing(54.2, 4.25);   //  temp, seconds
-      pcr.setExtension(75.0, 5.75);   //  temp, seconds
+      pcr.setDenature(94.5, 7.5);     //  temperature, seconds
+      pcr.setAnnealing(54.2, 4.25);   //  temperature, seconds
+      pcr.setExtension(75.0, 5.75);   //  temperature, seconds
       Serial.print("Estimated time (seconds): ");
       Serial.println(pcr.timeLeft());
     }
   }
 
-  Serial.println("done");
+  Serial.println("PCR done");
 }
 
 
 void loop()
 {
+  // One needs to call next two lines to ensure temperature in HOLD state
+  float temp = getTemperature();
+  pcr.process(temp);
+
+  delay(1000);
 }
 
 

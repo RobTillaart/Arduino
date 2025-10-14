@@ -25,9 +25,11 @@ void setup()
   Serial.println(PCR_LIB_VERSION);
   Serial.println();
 
-  pcr.setDenature(94.5, 1);   //  temp, seconds
-  pcr.setAnnealing(54.2, 2);  //  temp, seconds
-  pcr.setExtension(75.0, 3);  //  temp, seconds
+  //  configure PCR process
+  //  adjust timing and temperature to your needs.
+  pcr.setDenature(94.5, 1);   //  temperature, seconds
+  pcr.setAnnealing(54.2, 2);  //  temperature, seconds
+  pcr.setExtension(75.0, 3);  //  temperature, seconds
 
   pcr.reset(5);  //  iterations.
 
@@ -37,7 +39,7 @@ void setup()
     float temp = getTemperature();
     pcr.process(temp);
 
-    if (pcr.iterationsLeft() == 0)
+    if (pcr.getPCRState() == PCR_STATE_HOLD)
     {
       //  optional break out of loop or stay in HOLD state;
       //  display end state reached, ring a bell etc.
@@ -49,6 +51,11 @@ void setup()
 
 void loop()
 {
+  // One needs to call next two lines to ensure temperature in HOLD state
+  float temp = getTemperature();
+  pcr.process(temp);
+
+  delay(1000);
 }
 
 

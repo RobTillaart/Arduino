@@ -57,23 +57,23 @@ unittest(test_constructor_parameters)
   pcr.setInitial(94, 50);
   assertEqualFloat(94, pcr.getInitialTemp(), 0.01);
   assertEqualFloat(50, pcr.getInitialTime(), 0.01);
-  
+
   pcr.setDenature(93, 30);
   assertEqualFloat(93, pcr.getDenatureTemp(), 0.01);
   assertEqualFloat(30, pcr.getDenatureTime(), 0.01);
-  
+
   pcr.setAnnealing(54, 40);
   assertEqualFloat(54, pcr.getAnnealingTemp(), 0.01);
   assertEqualFloat(40, pcr.getAnnealingTime(), 0.01);
-  
+
   pcr.setExtension(75, 60);
   assertEqualFloat(75, pcr.getExtensionTemp(), 0.01);
   assertEqualFloat(60, pcr.getExtensionTime(), 0.01);
-  
+
   pcr.setElongation(74, 90);
   assertEqualFloat(74, pcr.getElongationTemp(), 0.01);
   assertEqualFloat(90, pcr.getElongationTime(), 0.01);
-  
+
   pcr.setHold(17);
   assertEqualFloat(17, pcr.getHoldTemp(), 0.01);
 }

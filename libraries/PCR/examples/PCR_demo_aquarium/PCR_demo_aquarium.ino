@@ -28,9 +28,9 @@ void setup()
   Serial.println();
 
   //  split 86400 seconds over three temperature levels
-  pcr.setDenature(32, 23200);   //  temp, seconds
-  pcr.setAnnealing(29, 43200);  //  temp, seconds
-  pcr.setExtension(27, 20000);  //  temp, seconds
+  pcr.setDenature(32, 23200);   //  temperature, seconds
+  pcr.setAnnealing(29, 43200);  //  temperature, seconds
+  pcr.setExtension(27, 20000);  //  temperature, seconds
 
   //  just one cycle a day.
   pcr.reset(1);
@@ -43,6 +43,7 @@ void loop()
   {
     float temp = getTemperature();
     pcr.process(temp);
+
     //  break after a full cycle / day.
     if (pcr.iterationsLeft() == 0) break;
   }

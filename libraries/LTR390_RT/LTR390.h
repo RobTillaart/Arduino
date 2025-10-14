@@ -3,7 +3,7 @@
 //    FILE: LTR390.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-04-29
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for the I2C LTR390 UV sensor.
 //     URL: https://github.com/RobTillaart/LTR390_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTR390_LIB_VERSION         (F("0.1.2"))
+#define LTR390_LIB_VERSION         (F("0.1.3"))
 
 //  LTR390 ERROR CODES
 //  TODO
@@ -119,7 +119,7 @@ public:
   //
   //  MEASUREMENT CONFIGURATION
   //
-  void setResolution(uint8_t resolution)  //  res = 0..5 (2 default)
+  void setResolution(uint8_t resolution)  //  resolution = 0..5 (2 default)
   {
     if (resolution > 5) resolution = 5;
     _resolution = resolution;
@@ -138,7 +138,7 @@ public:
   float getIntegrationTime()
   {
     const uint16_t intTime[6] = { 800, 400, 200, 100, 50, 25 };
-    return intTime[_resolution] * 0.5;
+    return intTime[_resolution] * 0.5f;
   }
 
   //////////////////////////////////////////////
@@ -244,17 +244,17 @@ public:
     return value;
   }
 
-  float getLUX(float windowsFactor = 1.0)
+  float getLUX(float windowsFactor = 1.0f)
   {
-    float lux = (100 * 0.6) * getALSData();
+    float lux = (100 * 0.6f) * getALSData();
     lux /= (getGainFactor() * getIntegrationTime());
-    if (windowsFactor > 1.0) lux *= windowsFactor;
+    if (windowsFactor > 1.0f) lux *= windowsFactor;
     return lux;
   }
 
   float getUVIndex(float windowsFactor = 1.0)
   {
-    float reciprokeSensitivity = (18 * 400) / 2300.0;
+    float reciprokeSensitivity = (18 * 400) / 2300.0f;
     reciprokeSensitivity /= (getGainFactor() * getIntegrationTime());
     uint32_t uvi = getUVSData() * reciprokeSensitivity;
     if (windowsFactor > 1.0) uvi *= windowsFactor;

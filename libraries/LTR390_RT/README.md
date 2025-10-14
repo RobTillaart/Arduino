@@ -14,6 +14,15 @@
 Arduino library for the I2C LTR390 UV sensor.
 
 
+## Warning
+
+**Always take precautions as UV radiation can cause sunburn, eye damage and other severe problems**.
+
+Do not expose yourself to the sun as UV source too long.
+
+When working with UV light, natural or artificial (TL LED laser a.o.) use appropriate shielding. Do not look right into UV light sources.
+
+
 ## Description
 
 **Experimental**
@@ -32,14 +41,14 @@ So the LTR390 will not work on directly 5V boards.
 
 The LTR390 has a fixed address of 0x53 == 83 decimal according to datasheet.
 
-#### I2C Speed
+### I2C Speed
 
 The device should work on 100 kHz and 400 kHz I2C bus.
 
 To be tested.
 
 
-#### I2C Multiplexing
+### I2C Multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -59,9 +68,19 @@ too if they are behind the multiplexer.
 
 ### Related
 
-- https://github.com/RobTillaart/LTR390_RT   (native LTR390)
-- https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
+UV related
 
+- https://en.wikipedia.org/wiki/Ultraviolet
+- https://en.wikipedia.org/wiki/Ultraviolet_index
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/AS7331 - profi UVA, UVB, UVC sensor.
+- https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
+- https://github.com/RobTillaart/LTR390_RT   (native LTR390)
+- https://github.com/RobTillaart/ML8511
+
+Other
+
+- https://github.com/RobTillaart/map2colour - for a continuous colour scale
 
 ## Interface
 

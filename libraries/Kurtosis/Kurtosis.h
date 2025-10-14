@@ -3,7 +3,7 @@
 //    FILE: Kurtosis.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-05-21
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for calculating skewness and kurtosis of a dataset.
 //     URL: https://github.com/RobTillaart/Kurtosis
 //
@@ -13,7 +13,7 @@
 //  Experimental
 
 
-#define KURTOSIS_LIB_VERSION        "0.1.2"
+#define KURTOSIS_LIB_VERSION        (F("0.1.3"))
 
 
 class Kurtosis
@@ -22,13 +22,13 @@ class Kurtosis
     Kurtosis()
     {
       reset();
-    };
+    }
 
     void reset()
     {
       _count = 0;
       M1 = M2 = M3 = M4 = 0.0;
-    };
+    }
 
     void add(double x)
     {
@@ -51,17 +51,17 @@ class Kurtosis
       M4 += delta_n2 * (term1 * (_count * (_count - 3) + 3) + F3M2 * 2) - 4 * delta_n1 * M3;
       M3 += delta_n1 * (term1 * (_count - 2) - F3M2);
       M2 += term1;
-    };
+    }
 
     uint32_t count()
     {
       return _count;
-    };
+    }
 
     double mean()
     {
       return M1;
-    };
+    }
 
     double variance()
     {
@@ -73,23 +73,23 @@ class Kurtosis
         _variance = M2 / (_count - 1.0);
       }
       return _variance;
-    };
+    }
 
     double stddev()
     {
       return sqrt( variance() );
-    };
+    }
 
     double skewness()
     {
       //  optimized: replaced a DIV by a MUL
       return sqrt(double(_count)) * M3 * pow(M2, -1.5);
-    };
+    }
 
     double kurtosis()
     {
       return double(_count) * M4 / (M2 * M2) - 3.0;
-    };
+    }
 
 
     //////////////////////////////////////////////////////////////

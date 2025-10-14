@@ -1,7 +1,6 @@
 //
 //    FILE: kurtosis_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-05-21
 // PURPOSE: performance measurement skewness and kurtosis
 //     URL: https://github.com/RobTillaart/Kurtosis
 
@@ -12,9 +11,11 @@ Kurtosis K;
 
 volatile float x = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("KURTOSIS_LIB_VERSION: ");
   Serial.println(KURTOSIS_LIB_VERSION);

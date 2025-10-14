@@ -1,7 +1,6 @@
 //
 //    FILE: kurtosis_histogram.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-05-21
 // PURPOSE: determine skewness and kurtosis of a simple histogram
 //     URL: https://github.com/RobTillaart/Kurtosis
 //
@@ -21,6 +20,7 @@ uint16_t hist[100];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("KURTOSIS_LIB_VERSION: ");
   Serial.println(KURTOSIS_LIB_VERSION);

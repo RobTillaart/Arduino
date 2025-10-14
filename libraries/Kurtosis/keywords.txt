@@ -9,6 +9,7 @@ reset	KEYWORD2
 
 add	KEYWORD2
 count	KEYWORD2
+
 mean	KEYWORD2
 variance	KEYWORD2
 stddev	KEYWORD2

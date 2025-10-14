@@ -43,7 +43,7 @@ Links to other information are welcome.
 The code is not well tested or verified so use with care.
 
 
-#### Interpretation of Kurtosis metric.
+### Interpretation of Kurtosis metric.
 
 - https://en.wiktionary.org/wiki/mesokurtosis et al.
 
@@ -58,7 +58,7 @@ There are three levels of kurtosis.
 - Leptokurtosis: A positive excess kurtosis. Leptokurtic distributions have a "thick tail", they have many outliers.
 
 
-#### Interpretation of Skewness metric.
+### Interpretation of Skewness metric.
 
 First order interpretation.
 
@@ -68,7 +68,7 @@ First order interpretation.
 - Skewness larger than 1.0 => right skewed distribution
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Histogram
 - https://github.com/RobTillaart/Kurtosis
@@ -99,12 +99,12 @@ Time in us, platform UNO,
 #include "Kurtosis.h"
 ```
 
-#### Base
+### Constructor
 
 - **Kurtosis()** create the Kurtosis object.
 - **void reset()** resets the internal variables.
 
-#### Core
+### Core
 
 - **void add(double x)** add new value to the internal variables.
 - **uint32_t count()** returns the amount of values added.
@@ -119,14 +119,14 @@ positive values indicate right skew. See Wikipedia for details.
 - **double kurtosis()** returns the kurtosis, "tailedness" is used e.g. to detect outliers.
 See Wikipedia for details.
 
-#### Operators
+### Operators
 
 For adding distributions.
 
 - **operator +** add two Kurtosis objects together.
 - **operator +=** add a Kurtosis objects to this one.
 
-#### debug / development
+### debug / development
 
 - **void dump()** dumps the internal variables to Serial.
 

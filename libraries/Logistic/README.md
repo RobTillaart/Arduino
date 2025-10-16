@@ -16,30 +16,37 @@ Arduino library to explore the logistic formula. (chaos, bifurcation)
 
 ## Description
 
-The logistic function is a function known from the chaos theories.
-It represents a model of e.g. how fast a rabbits reproduce and other processes.
+The logistic library is written for educational purposes.
 
-The basic function is pretty simple 
+The logistic function is a function known from the chaos theories.
+It represents a model of e.g. how fast rabbits reproduce and other processes.
+
+The basic function is pretty simple
 ```cpp
 //  reproductionRate R = 0.0 - 4.0
 //  in == 0.0 - 1.0  (think percentage of some maximum population)
 out = reproductionRate * in * (1 - in);
 ```
 
-For values of reproductionRate R 
-- below 1 the function stabilizes goes to 0
+For values of reproductionRate R
+- below 1 the function stabilizes and goes to 0
 - between 1 and 3 the function stabilizes after a few dozen iterations.
-- between 3 and ~3.57 the stabilization jumps between 2, 4, 8 values (called bifucation)
+- between 3 and ~3.57 the stabilization jumps between 2, 4, 8 values (called bifurcation)
   - see around R == { 3, 3.45, 3.54, 3.56, 3.57}
-- above 3.57 the function turns to chaos with some stability zones. At least visually.
+- above 3.57 the function turns to chaos with some stability zones, at least visually.
 
 There are a lot of (mathematical) interesting aspects to be found in the functions behaviour.
 
 If you have ideas (or links) to that should be in this library, please open an issue.
 
 
+### Breaking change 0.2.0
 
-#### Related
+All floats are replaced by double to increase precision.
+This affects performance and can relative easy be undone by a global replace.
+
+
+### Related
 
 - https://en.wikipedia.org/wiki/Logistic_map
 - https://en.wikipedia.org/wiki/Feigenbaum_constants
@@ -52,29 +59,42 @@ If you have ideas (or links) to that should be in this library, please open an i
 #include "Logistic.h"
 ```
 
-- **Logistic(float rate = 2.0, float in = 0.5)** Constructor  
+### Constructor
+
+- **Logistic(double rate = 2.0, double in = 0.5)** Constructor
   - rate = reproduction rate = 0.0 - 4.0
   - in   = input population = 0.0 - 1.0
-- **void setRate(float rate)** set / change the reproduction rate.
-- **float getRate()** get the current rate.
-- **float iterate(float in)** make one iteration given a start value.
-- **float iterate()** make an iteration with the last calculated value.
+
+### Core
+
+- **void setRate(double rate)** set / change the reproduction rate.
+Note this can be changed run-time.
+- **double getRate()** get the current rate.
+- **double iterate(double in)** make one iteration given a (new) start value.
+- **double iterate()** make an iteration with the last calculated value.
+
+### Meta
+
+- **void setCount(uint32_t count = 0)** reset iteration counter to start value.
+Default this is zero.
+- **uint32_t getCount()** returns iteration counter.
+- **double getDelta()** returns the delta between last and previous value.
+- **double getPrevious()** returns the previous value.
+- **bool isStable(double epsilon = 0.0)** returns true if last delta is smaller
+than epsilon.
+
 
 ## Future
 
 #### Must
 
 - improve documentation.
-  - related links (youtube?)
+  - related links (YouTube?)
 - add examples
 
 #### Should
 
 - Look for other "logistic functions"
-- elaborate the library
-  - **stable()** checks delta between previous and current value.
-  - **period()** tries to find a repeating period in the values?
-  - **count()** iteration counter.
 
 #### Could
 
@@ -83,6 +103,8 @@ If you have ideas (or links) to that should be in this library, please open an i
 
 #### Wont
 
+- add **period()** tries to find a repeating period in the values?
+  - can take too long, especially as double => user task
 
 ## Support
 

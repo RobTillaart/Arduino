@@ -10,6 +10,13 @@ getRate	KEYWORD2
 
 iterate	KEYWORD2
 
+setCount	KEYWORD2
+getCount	KEYWORD2
+
+getDelta	KEYWORD2
+getPrevious	KEYWORD2
+isStable	KEYWORD2
+
 
 # Constants (LITERAL1)
 LOGISTIC_LIB_VERSION	LITERAL1

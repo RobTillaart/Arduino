@@ -17,6 +17,7 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  //  Serial.println();
   //  Serial.println(__FILE__);
   //  Serial.print("LOGISTIC_LIB_VERSION: ");
   //  Serial.println(LOGISTIC_LIB_VERSION);
@@ -31,20 +32,22 @@ void setup()
     x = L.iterate(0.5);
 
     //  make many iterations
-    //  for (int i = 0; i < 100 + random(2); i++)  //  the random(2) gives something of a range
+    //  the random(2) gives something of a range
+    //  for (int i = 0; i < 100 + random(2); i++)
     for (int i = 0; i < 100; i++)
     {
       x = L.iterate();
     }
 
     //  display some values.
-    Serial.println(x * 100, 6);  //  * 100 improves plotter range
+    //  * 100 improves plotter range
+    Serial.println(x * 100, 6);
     //    x = L.iterate();
-    //    Serial.println(x * 100, 6);  //  * 100 improves plotter range
+    //    Serial.println(x * 100, 6);
     //    x = L.iterate();
-    //    Serial.println(x * 100, 6);  //  * 100 improves plotter range
+    //    Serial.println(x * 100, 6);
     //    x = L.iterate();
-    //    Serial.println(x * 100, 6);  //  * 100 improves plotter range
+    //    Serial.println(x * 100, 6);
   }
 }
 

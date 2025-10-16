@@ -37,14 +37,13 @@ Reasons are memory and performance, see also Future section below.
 
 The library implements the constant **one** as this value is often used in the code.
 
-
 ## Note
 
 The library has a big footprint so it fills up the memory of an UNO quite fast,
 especially if all functionality is used.
 
 
-#### Known problem
+### Known problem
 
 Issue found in version 0.1.9 - https://github.com/RobTillaart/Arduino/issues/90
 Class does not compile for DUE and TEENSY
@@ -54,8 +53,9 @@ Apparently the name "Complex" is already in use (reserved) by some non-AVR compi
 so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
 
 
-#### Solution
+### Solution
 
+- first question, do you need this complex lib if there already exists one?
 - Make a copy of the Complex Library and rename the folder to CComplex
 - Rename Complex.h to CComplex.h
 - Rename Complex.cpp to CComplex.cpp
@@ -68,6 +68,7 @@ so it won't include the Complex.h file. Problem seen on Due and Teensy3.5
 #### Must
 
 - improve documentation
+  - tables with groups of functions?
 
 #### Should
 

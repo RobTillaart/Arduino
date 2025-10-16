@@ -13,9 +13,11 @@ Complex samples[100];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("\n  Complex numbers array example: ");
+  Serial.print("COMPLEX_LIB_VERSION: ");
   Serial.println(COMPLEX_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\n1. Read into array");
   for (int i = 0; i < 100; i++)

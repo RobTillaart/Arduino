@@ -12,9 +12,11 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.print(__FILE__);
-  Serial.print("\n  COMPLEX_LIB_VERSION: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("COMPLEX_LIB_VERSION: ");
   Serial.println(COMPLEX_LIB_VERSION);
+  Serial.println();
 
   const Complex unity(1, 0);
   Complex a(1,1);

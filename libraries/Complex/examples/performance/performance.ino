@@ -17,9 +17,13 @@ double re, im, m, p;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\n  Complex numbers performance test for Arduino: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("COMPLEX_LIB_VERSION: ");
   Serial.println(COMPLEX_LIB_VERSION);
   Serial.println();
+  Serial.print("  Complex numbers performance test for Arduino: ");
+  delay(100);
 
   start = micros();
   Complex c1(10.0, -2.0);
@@ -31,6 +35,7 @@ void setup()
   Serial.print("5 constructors\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c3.set(0,0);
@@ -38,6 +43,7 @@ void setup()
   Serial.print("set(0,0)\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 + 1;
@@ -45,6 +51,7 @@ void setup()
   Serial.print("c1 + 1  \t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 + c2;
@@ -52,6 +59,7 @@ void setup()
   Serial.print("c1 + c2\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 += c2;
@@ -59,6 +67,7 @@ void setup()
   Serial.print("+= c2\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = -c1;
@@ -66,6 +75,7 @@ void setup()
   Serial.print("c5 = -c1\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 - 3;
@@ -73,6 +83,7 @@ void setup()
   Serial.print("c1 - 3\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 - c2;
@@ -80,6 +91,7 @@ void setup()
   Serial.print("c1 - c2\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 -= c2;
@@ -87,6 +99,7 @@ void setup()
   Serial.print("c5 -= c2\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 * 3;
@@ -94,6 +107,7 @@ void setup()
   Serial.print("c1 * 3\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 * c2;
@@ -101,6 +115,7 @@ void setup()
   Serial.print("c1 * c2\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 *= c2;
@@ -108,6 +123,7 @@ void setup()
   Serial.print("c5 *= c2\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 / 3;
@@ -115,6 +131,7 @@ void setup()
   Serial.print("c1 / 3\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1 / c2;
@@ -122,6 +139,7 @@ void setup()
   Serial.print("c1 / c2\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 /= c2;
@@ -129,8 +147,10 @@ void setup()
   Serial.print("c5 /= c2\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   Serial.println();
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) re = c1.real();
@@ -138,6 +158,7 @@ void setup()
   Serial.print("real()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) im = c1.imag();
@@ -145,6 +166,7 @@ void setup()
   Serial.print("imag()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) m = c1.modulus();
@@ -152,6 +174,7 @@ void setup()
   Serial.print("modulus()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) p = c1.phase();
@@ -159,6 +182,7 @@ void setup()
   Serial.print("phase\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5.polar(m, p);
@@ -166,6 +190,7 @@ void setup()
   Serial.print("polar()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.conjugate();
@@ -173,6 +198,7 @@ void setup()
   Serial.print("conjugate()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.reciprocal();
@@ -182,6 +208,7 @@ void setup()
   total += (stop - start);
 
   Serial.println();
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_sqr();
@@ -189,6 +216,7 @@ void setup()
   Serial.print("c_sqr()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_exp();
@@ -196,6 +224,7 @@ void setup()
   Serial.print("c_exp()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_log();
@@ -203,6 +232,7 @@ void setup()
   Serial.print("c_log()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_pow(2);
@@ -210,6 +240,7 @@ void setup()
   Serial.print("c_pow(2)\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_sqrt();
@@ -217,6 +248,7 @@ void setup()
   Serial.print("c_sqrt()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_logn(c4);
@@ -224,6 +256,7 @@ void setup()
   Serial.print("c_logn(c4)\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c4.c_pow(c5);
@@ -231,6 +264,7 @@ void setup()
   Serial.print("c_pow(c5)\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_log10();
@@ -238,9 +272,11 @@ void setup()
   Serial.print("c_log10()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   Serial.println();
   c1.set(0.5, 0.5);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_sin();
@@ -248,12 +284,14 @@ void setup()
   Serial.print("c_sin()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_asin();
   stop = micros();
   Serial.print("c_asin()\t");
   Serial.println(stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_cos();
@@ -261,6 +299,7 @@ void setup()
   Serial.print("c_cos()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_acos();
@@ -268,6 +307,7 @@ void setup()
   Serial.print("c_acos()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_tan();
@@ -275,6 +315,7 @@ void setup()
   Serial.print("c_tan()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_atan();
@@ -282,9 +323,11 @@ void setup()
   Serial.print("c_atan()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   Serial.println();
   c1.set(0.5, 0.5);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_csc();
@@ -292,6 +335,7 @@ void setup()
   Serial.print("c_csc()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_acsc();
@@ -299,6 +343,7 @@ void setup()
   Serial.print("c_acsc()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_sec();
@@ -306,6 +351,7 @@ void setup()
   Serial.print("c_sec()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_asec();
@@ -313,6 +359,7 @@ void setup()
   Serial.print("c_asec()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_cot();
@@ -320,6 +367,7 @@ void setup()
   Serial.print("c_cot()\t\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_acot();
@@ -327,9 +375,11 @@ void setup()
   Serial.print("c_acot()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   Serial.println();
   c1.set(0.5, 0.5);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_sinh();
@@ -337,6 +387,7 @@ void setup()
   Serial.print("c_sinh()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_asinh();
@@ -344,6 +395,7 @@ void setup()
   Serial.print("c_asinh()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_cosh();
@@ -351,6 +403,7 @@ void setup()
   Serial.print("c_cosh()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_acosh();
@@ -358,6 +411,7 @@ void setup()
   Serial.print("c_acosh()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_tanh();
@@ -365,6 +419,7 @@ void setup()
   Serial.print("c_tanh()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_atanh();
@@ -372,9 +427,11 @@ void setup()
   Serial.print("c_atanh()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   Serial.println();
   c1.set(0.5, 0.5);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_csch();
@@ -382,6 +439,7 @@ void setup()
   Serial.print("c_csch()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_acsch();
@@ -389,6 +447,7 @@ void setup()
   Serial.print("c_acsch()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_sech();
@@ -396,6 +455,7 @@ void setup()
   Serial.print("c_sech()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_asech();
@@ -403,6 +463,7 @@ void setup()
   Serial.print("c_asech()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c1.c_coth();
@@ -410,6 +471,7 @@ void setup()
   Serial.print("c_coth()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   start = micros();
   for(uint8_t i=0; i< 100; i++) c5 = c5.c_acoth();
@@ -417,6 +479,7 @@ void setup()
   Serial.print("c_acoth()\t");
   Serial.println(stop - start);
   total += (stop - start);
+  delay(10);
 
   Serial.println();
   Serial.println(total);

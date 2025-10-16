@@ -14,8 +14,12 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("\n  Complex numbers test for Arduino: ");
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("COMPLEX_LIB_VERSION: ");
   Serial.println(COMPLEX_LIB_VERSION);
+  Serial.println();
+
   Serial.println("\n1. Print Complex, set, real, imag");
 
   Complex c1(10.0, -2.0);

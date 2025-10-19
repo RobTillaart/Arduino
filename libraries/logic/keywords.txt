@@ -1,0 +1,17 @@
+# Syntax Colouring Map For logic
+
+# Data types (KEYWORD1)
+logic	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+setTable	KEYWORD2
+getTable	KEYWORD2
+
+eval	KEYWORD2
+neval	KEYWORD2
+index	KEYWORD2
+
+# Constants (LITERAL1)
+LOGIC_LIB_VERSION	LITERAL1
+

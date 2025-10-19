@@ -1,0 +1,23 @@
+{
+  "name": "logic",
+  "keywords": "AND NAND OR NOR XOR XNOR TRUE FALSE",
+  "description": "Arduino library for evaluation of larger logic conditions.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/logic.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "logic.h"
+}

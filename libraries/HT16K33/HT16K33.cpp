@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -62,6 +62,9 @@ static const uint8_t charmap[] = {  //  TODO PROGMEM = slower?
   0x40,   //  minus
   0x61,   //  TOP_C
   0x63,   //  degree °
+  0x73,   //  P = Pascal / Pressure
+  0x0E,   //  J = Joule
+  0x76,   //  H = Humidity
 };
 
 

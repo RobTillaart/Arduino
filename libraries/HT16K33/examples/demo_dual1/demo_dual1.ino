@@ -17,9 +17,11 @@ uint32_t counter = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -48,9 +50,9 @@ void display_ulong(uint32_t value)
   uint16_t lval = value / 10000;
   uint16_t rval = value % 10000;
 
-  // left show no digit if not needed
+  //  left show no digit if not needed
   left.setDigits(0);
-  // right show at least 1 digit if value < 10000, otherwise leading zero's needed
+  //  right show at least 1 digit if value < 10000, otherwise leading zero's needed
   right.setDigits(lval > 0 ? 4 : 0);
 
   left.displayInt(lval);
@@ -58,5 +60,5 @@ void display_ulong(uint32_t value)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

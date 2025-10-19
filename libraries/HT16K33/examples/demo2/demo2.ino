@@ -17,9 +17,11 @@ uint32_t stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -131,7 +133,7 @@ void loop()
   }
   stop = millis();
   Serial.println(stop - start);
-  
+
   Serial.print("SUPRESS ZERO TEST:\t");
   for (uint8_t nlz = 0; nlz < 5; nlz++)
   {

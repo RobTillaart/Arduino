@@ -8,15 +8,17 @@
 
 #include "HT16K33.h"
 
-HT16K33 seg(0x70);
+HT16K33 seg(0x71);
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -82,5 +84,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

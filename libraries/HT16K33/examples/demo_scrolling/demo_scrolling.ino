@@ -12,7 +12,7 @@ HT16K33 display(0x70);
 
 uint32_t start = 0;
 
-void display_scrolling_press_start(uint32_t idle_start_time_ms) 
+void display_scrolling_press_start(uint32_t idle_start_time_ms)
 {
   const int msg_len = 14;
   int offset = ((millis() - idle_start_time_ms) / 500) % (msg_len);
@@ -48,9 +48,11 @@ void display_scrolling_press_start(uint32_t idle_start_time_ms)
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

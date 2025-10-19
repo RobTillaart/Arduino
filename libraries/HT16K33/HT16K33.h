@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.4.1"))
+#define HT16K33_LIB_VERSION         (F("0.4.2"))
 
 
 //  Supported characters
@@ -37,10 +37,13 @@
 #define HT16K33_MINUS            17
 #define HT16K33_TOP_C            18     //  c
 #define HT16K33_DEGREE           19     //  °
+#define HT16K33_P                20
+#define HT16K33_J                21
+#define HT16K33_H                22
 #define HT16K33_NONE             99
 
 
-//  Raw segments, See #28
+//  Raw 7 segment display, See #28
 //
 //  HEX codes 7 segment
 //
@@ -50,6 +53,7 @@
 //  E     C        0x10    0x04
 //     D    dp         0x08      0x80
 //
+
 const uint8_t SEG_NONE = 0x00;
 const uint8_t SEG_A    = 0x01;
 const uint8_t SEG_B    = 0x02;
@@ -61,6 +65,7 @@ const uint8_t SEG_G    = 0x40;
 const uint8_t SEG_DP   = 0x80;
 
 
+
 class HT16K33
 {
 public:
@@ -69,6 +74,7 @@ public:
   bool    begin();
   void    reset();
   bool    isConnected();
+  uint8_t getAddress();
 
   //  default _cache is true as it is ~3x faster but if one has noise
   //  on the I2C and wants to force refresh one can disable caching
@@ -133,7 +139,6 @@ public:
   void    dumpSerial(uint8_t *array, uint8_t point);
   //  display cache in HEX format
   void    dumpSerial();
-  uint8_t getAddress();
 
 
   //  EXPERIMENTAL
@@ -148,11 +153,13 @@ public:
 
 
   //  OBSOLETE 0.4.x
+  [[deprecated("Use setBrightness() instead.")]]
   void    brightness(uint8_t value) { setBrightness(value); };
+  [[deprecated("Use setBlink() instead.")]]
   void    blink(uint8_t value)      { setBlink(value); };
 
 
-private:
+protected:
   void    _refresh();
   void    writeCmd(uint8_t cmd);
   void    writePos(uint8_t pos, uint8_t mask);

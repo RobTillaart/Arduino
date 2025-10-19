@@ -16,9 +16,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

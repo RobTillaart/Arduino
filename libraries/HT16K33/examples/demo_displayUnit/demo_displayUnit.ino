@@ -14,9 +14,11 @@ HT16K33 seg(0x70);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -51,12 +53,12 @@ void setup()
   seg.displayUnit(12.3, 1, HT16K33_TOP_C);
   seg.displayUnit(12.3, 2, HT16K33_TOP_C);
   Serial.println();
-  
+
   seg.displayUnit(12.3, 0, HT16K33_DEGREE);   //  °
   seg.displayUnit(12.3, 1, HT16K33_DEGREE);
   seg.displayUnit(12.3, 2, HT16K33_DEGREE);
   Serial.println();
-  
+
   Serial.println("done");
 
 }
@@ -67,4 +69,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

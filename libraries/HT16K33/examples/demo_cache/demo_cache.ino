@@ -16,9 +16,11 @@ uint32_t start, stop, d1, d2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -33,8 +35,8 @@ void setup()
 
 void loop()
 {
-  // Note: UNO fails for speed above 850K
-  //       UNO 750K and 800K are using same clock divider
+  //  Note: UNO fails for speed above 850K
+  //        UNO 750K and 800K are using same clock divider
   Serial.println("\nSPEED \tNOCACHE \tms/call \tCACHE\t\tms/call \tRATIO");
   for (uint32_t sp = 100000; sp < 900000; sp += 50000)
   {
@@ -78,5 +80,5 @@ void test_cache(uint32_t speed)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

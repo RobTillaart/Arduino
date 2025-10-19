@@ -18,9 +18,11 @@ uint8_t  ar[4];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("HT16K33_LIB_VERSION: ");
   Serial.println(HT16K33_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);
@@ -76,8 +78,8 @@ void test_VUStereo()
 {
   for (uint8_t run = 0; run < 50; run++)
   {
-    // uint8_t left = analogRead(A0) / 240;   // 0..4
-    // uint8_t right = analogRead(A1) / 240;  // 0..4
+    //  uint8_t left = analogRead(A0) / 240;   // 0..4
+    //  uint8_t right = analogRead(A1) / 240;  // 0..4
     uint8_t left = random(5);
     uint8_t right = random(5);
     displayVUStereo(left, right);
@@ -138,12 +140,12 @@ void displayVUStereo(uint8_t left, uint8_t right)
   }
   seg.displayRaw(ar);
 
-  // sort of heartbeat
+  //  sort of heartbeat
   static bool hb = false;
   seg.displayColon(hb);
   hb = !hb;
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

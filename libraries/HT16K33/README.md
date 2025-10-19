@@ -25,7 +25,7 @@ it is faster for writing on average. The actual gain depends on the
 application and of course the values. 
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 Version 0.4.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -65,27 +65,47 @@ With dual display it is important to **setDigits()** for the displays correctly 
 get leading/trailing zero's correctly.
 
 
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 ## Interface
 
 ```cpp
 #include "HT16K33.h"
 ```
 
-#### Setup behaviour
+### Constructor
 
-- **HT16K33(const uint8_t address)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default.
+- **HT16K33(const uint8_t address, TwoWire \*wire = \&Wire)** address is 0x70..0x77 depending on the jumpers A0..A2. **0x70** is default.
+Optional set the I2C bus.
 - **bool begin()** initialize library and calls **reset()**.
 Returns false if address not seen on I2C bus.
 - **bool isConnected()** Returns false if address not seen on I2C bus.
+- **uint8_t getAddress()** returns address set in constructor.
 - **void reset()** resets display.
 
-#### Cache
+### Cache
 
 - **void clearCache()** forced clearing of the cache, to be used to switch the cache off just for one write.
 - **void cacheOn()** enable caching, this is default behaviour.
 - **void cacheOff()** disable caching, will force writing to every position.
 
-#### Display
+### Display
 
 - **void displayOn()** enable display.
 - **void displayOff()** disable display, fast way to darken display e.g. for energy consumption.
@@ -95,7 +115,7 @@ Returns false if address not seen on I2C bus.
 - **void getBlink(uint8_t value)** values 0..3   0 = off.
 - **void setDigits(uint8_t value)** values 0..4, minimal number of digits shown, mandatory for large numbers on dual display.
 
-#### Data types
+### Data types
 
 The bool return value indicates that the value displayed is in range.
 
@@ -120,19 +140,19 @@ The unitChar is a postFix character like C or F for temperature H for humidity.
 The unitChar must be one of the chars supported like HT16K33_C, HT16K33_TOP_C or HT16K33_DEGREE (see below).
 So **displayUnit(25.6, 1, HT16K33_DEGREE)** will display **23.5°**.
 
-#### Fixed point
+### Fixed point
 
 - **bool displayFixedPoint0(float f)** displays values -999  .. 9999 without decimals.
 - **bool displayFixedPoint1(float f)** displays values -99.9 .. 999.9 with 1 decimals.
 - **bool displayFixedPoint2(float f)** displays values -9.99 .. 99.99 with 2 decimals.
 - **bool displayFixedPoint3(float f)** displays values 0.000 .. 9.999 with 3 decimals.
 
-#### Special VU meters
+### Special VU meters
 
 - **bool displayVULeft(uint8_t value)** display used as sort VU meter, values 0..8  Vales > 8 are treated as 8 (but return false).
 - **bool displayVURight(uint8_t value)** display used as sort VU meter, values 0..8 Vales > 8 are treated as 8 (but return false).
 
-#### Lower level workers
+### Lower level workers
 
 - **void display(uint8_t \* array)** array of 4 bytes to control one 7seg display.
 - **void display(uint8_t \* array, uint8_t point)** idem + point = position of the digit with point (0..3).
@@ -146,10 +166,10 @@ one can use the individual segments SEG_A..SEG_G and SEG_DP.
 
 ![layout](https://upload.wikimedia.org/wikipedia/commons/0/02/7_segment_display_labeled.svg "").
 
-_Image courtesey wikimedia_
+_Image courtesy wikimedia_
 
 
-#### Extra LEDs table
+### Extra LEDs table
 
 |  mask  |  description  |
 |:------:|:--------------|
@@ -162,16 +182,16 @@ _Image courtesey wikimedia_
 ( based upon issue #21 )
 
 
-#### Debugging
+### Debugging
 
 - **void displayTest(uint8_t del)** debugging / test function.
 - **void dumpSerial(uint8_t \* array, uint8_t point)** debugging equivalent of the display.
 Prints to Serial.
 - **void dumpSerial()** print HEX codes equivalent of the display to Serial.
-- **uint8_t getAddress()** idem.
 
 
-#### Obsolete soon
+
+### Obsolete soon
 
 - brightness() use setBrightness()
 - blink() use setBlink()
@@ -202,6 +222,9 @@ from .h file, elaborate
 #define HT16K33_MINUS            17
 #define HT16K33_TOP_C            18     //  c
 #define HT16K33_DEGREE           19     //  °
+#define HT16K33_P                20
+#define HT16K33_J                21
+#define HT16K33_H                22
 #define HT16K33_NONE             99
 ```
 
@@ -231,16 +254,16 @@ Mainly for a 0.4.x
 - VU metering using halve bars allows two VU from 0..8   **new**
 - VU metering using halve bars allows one VU from 0..17. extension of current VUleft/right
 - optimize math if possible - performance and footprint. + float + int division
-- low level I2C error detection
+- error handling
+  - low level I2C error detection
+  - **int getLastError()**
 - write single position - **writePos(uint8_t pos, uint8_t mask)**
+- add example car battery monitor (e.g. voltage divider & analogRead)
+  - 00.0 - 13.6 Volt (or even up to 99.9V)
+  - leaves one position for (_ = OK, A = Alarm, E = error, F = Fail)
+  - need a write single position
   - [status] dd.d
-- add examples
-  - car battery monitor (voltage divider & analogRead)
-- add more "special chars"?
-  - #define HT16K33_P  Pascal / Pressure   0x73
-  - #define HT16K33_J  joule               0x0E
-  - #define HT16K33_H  humidity            0x76
-
+  - **displayVoltage(float volts, uint8_t status, uin16_t code)** _13.6 or E_05
 
 #### Wont (unless sponsored)
 

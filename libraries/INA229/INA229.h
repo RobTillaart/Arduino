@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA229.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define INA229_LIB_VERSION          (F("0.5.0"))
+#define INA229_LIB_VERSION          (F("0.6.0"))
 
 
 #ifndef __SPI_CLASS__
@@ -77,7 +77,6 @@ enum ina229_timing_enum {
 
 
 //  for diagnose/alert() bit fields.
-//  TODO bit masks?
 enum ina229_diag_enum {
   INA229_DIAG_MEMORY_STATUS      = 0,
   INA229_DIAG_CONVERT_COMPLETE   = 1,
@@ -231,8 +230,6 @@ public:
   //
   //  THRESHOLD AND LIMIT REGISTERS 12-17
   //  read datasheet for details, section 7.3.7, page 16++
-  //
-  //  TODO - design and implement better API?
   //
   void     setShuntOvervoltageTH(uint16_t threshold);
   uint16_t getShuntOvervoltageTH();

@@ -453,7 +453,6 @@ Currently it are just wrappers around the registers.
 
 - update documentation.
 - test with hardware
-- verify SPI mode 1 == right
 
 #### Should
 
@@ -462,6 +461,14 @@ Currently it are just wrappers around the registers.
 
 #### Could
 
+- replace ina229_diag_enum with bit masks iso bits?
+- design and implement better API for THRESHOLD AND LIMIT REGISTERS
+- investigate / solve dependency on ADC register -  THRESHOLD AND LIMIT REGISTERS
+  - e.g. setShuntOvervoltageTH
+- implement error enum / defines
+  - INA229_OK = 0
+  - INA229_ERR_SHUNT_TOO_LOW = -2
+  - 
 
 #### Won't
 

@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.6.0
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -386,7 +386,10 @@ uint8_t INA229::getAverage()
 int INA229::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
   //  Shunt can be really small
-  if (shunt < 0.0001) return -2;   //  TODO error code
+  if (shunt < 0.0001)
+  {
+    return -2;  //  TODO error code
+  }
   _maxCurrent = maxCurrent;
   _shunt = shunt;
   _current_LSB = _maxCurrent * 1.9073486328125e-6;  //  pow(2, -19);
@@ -602,7 +605,7 @@ uint16_t INA229::getRevision()
 void INA229::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 }
 
 

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2025-10-19
+- fix #15, setSPISpeed()
+- minor edits
+
+----
+
 ## [0.5.0] - 2025-08-20
 - Fix getKiloWattHOur() - from INA228
 - update GitHub actions
@@ -40,6 +46,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edits
 
 ## [0.1.0] - 2025-01-22
-- initial version, 
+- initial version,
   - based upon INA228 (API) + INA239 (SPI)
 

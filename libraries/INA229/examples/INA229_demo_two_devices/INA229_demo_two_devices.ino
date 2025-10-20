@@ -15,8 +15,8 @@ INA229 INA2(9, &SPI);
 
 void setup() {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("INA229_LIB_VERSION: ");
   Serial.println(INA229_LIB_VERSION);
   Serial.println();

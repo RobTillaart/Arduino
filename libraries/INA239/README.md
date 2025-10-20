@@ -385,7 +385,6 @@ Currently it are just wrappers around the registers.
   - remove INA228 sections, 
   - page number references
 - test with hardware
-- verify SPI mode 1 == right
 
 
 #### Should
@@ -394,7 +393,7 @@ Currently it are just wrappers around the registers.
 - redo API threshold and limit registers 12-17 (check verify)
 - add error handling.
   - codes
-- keep in sync with INA228 where possible
+- keep in sync with INA228 / INA229 where possible
 - add examples 
   - to show the effect of the ADC configuration.
 

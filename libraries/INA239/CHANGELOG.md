@@ -6,8 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2025-10-19
+- fix #10, setSPISpeed()
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.2.1] - 2025-07-22
-- Sync INA228, setADCRange() calls setMaxCurrentShunt();
+- sync INA228, setADCRange() calls setMaxCurrentShunt();
 - update readme.md
 - update INA_comparison_table.md
 - minor edits.

@@ -2,13 +2,13 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2023-12-16
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.2.4"))
+#define I2C_LCD_LIB_VERSION     (F("0.2.5"))
 
 
 #include "Arduino.h"
@@ -16,6 +16,11 @@
 
 const uint8_t POSITIVE = 1;
 const uint8_t NEGATIVE = 0;
+
+//  Error handling / diagnostics
+const int I2C_LCD_OK = 0x00;
+const int I2C_LCD_ERR_ADDRESS = 0x80;
+const int I2C_LCD_ERR_COLUMN_ROW = 0x81;
 
 
 class I2C_LCD : public Print
@@ -25,7 +30,7 @@ public:
   explicit  I2C_LCD(uint8_t address, TwoWire * wire = &Wire);
 
   //  adjust pins
-  void      config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect,
+  int      config(uint8_t address, uint8_t enable, uint8_t readWrite, uint8_t registerSelect,
                    uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7,
                    uint8_t backLight, uint8_t polarity);
 
@@ -51,7 +56,7 @@ public:
 
   //  POSITIONING & CURSOR
   void      clear();      //  clears whole screen
-  void      clearEOL();   //  clears line from current pos.
+  void      clearEOL();   //  clears line from current position.
   void      home();
   bool      setCursor(uint8_t col, uint8_t row);
 
@@ -87,10 +92,11 @@ public:
   size_t    repeat(uint8_t c, uint8_t times);
 
 
-  //  DEBUG  development
-  uint8_t   getColumn() { return _pos; };  //  works.
-  uint8_t   getRow()    { return _row; };  //  works.
-  uint32_t  getWriteCount()  { return _count; };  // works
+  //  DIAGNOSTICS
+  uint8_t   getColumn() { return _position; };
+  uint8_t   getRow()    { return _row; };
+  uint32_t  getWriteCount()  { return _count; };
+  int       getLastError();
 
 
   //  OBSOLETE 3.0
@@ -123,17 +129,19 @@ private:
   uint8_t   _backLightPol   = 1;
   uint8_t   _backLight      = 1;
 
-  uint8_t   _cols = 20;
+  uint8_t   _columns = 20;
   uint8_t   _rows = 4;
 
   //  DISPLAYCONTROL bit always on, set in constructor.
   uint8_t   _displayControl = 0;
 
   //  overflow protection
-  uint8_t   _pos = 0;
+  uint8_t   _position = 0;
   uint8_t   _row = 0;
 
   uint32_t  _count = 0;
+
+  int       _error = I2C_LCD_OK;
 };
 
 

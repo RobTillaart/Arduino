@@ -14,6 +14,7 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_LCD_LIB_VERSION: ");
   Serial.println(I2C_LCD_LIB_VERSION);

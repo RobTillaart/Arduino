@@ -1,8 +1,12 @@
-//    FILE: I2C_LCD_demo_spectrum_row.ino
+//    FILE: I2C_LCD_demo_special_intensity.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo I2C_LCD library a.k.a skyline demo
+// PURPOSE: demo I2C_LCD library
 //     URL: https://github.com/RobTillaart/I2C_LCD
-
+//
+//  This is a spectrum that has 10 gradations of intensity per position
+//  0    = empty
+//  1..8 = partial
+//  9    = full
 
 #include "I2C_LCD.h"
 #include "I2C_LCD_spectrum_chars.h"
@@ -36,38 +40,39 @@ void setup()
 
   Wire.begin();
   Wire.setClock(100000);
+
+  Serial.print("CONNECT: ");
+  Serial.println(lcd.isConnected());
   lcd.begin(20, 4);
 
   lcd.display();
   lcd.clear();
   lcd.setCursor(0, 0);
 
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 8; i++)
   {
-    //  lcd.createChar(i, rowL2RWide[i]);
-    lcd.createChar(i, rowL2RMedium[i]);
-    //  lcd.createChar(i, rowL2RSmall[i]);
-    //  lcd.createChar(i, rowLeftToRight[i]);
+    lcd.createChar(i, intensity[i]);
   }
   delay(10);
   lcd.clear();
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 8; i++)
   {
     lcd.special(i);
   }
   lcd.clear();
-  delay(100);
+  delay(2000);
 
   uint32_t start = millis();
-  for (int i = 0; i <= 80; i += 1)
+  for (int i = 0; i <= 144; i += 1)
   {
     spectrumRow(1, i);
     // delay(100);  //  uncomment to see it happen.
   }
-  for (int i = 0; i <= 80; i += 1)
+  delay(100);
+  for (int i = 0; i <= 144; i += 1)
   {
-    spectrumRow(1, 80 - i);
-    //  delay(100);
+    spectrumRow(1, 144 - i);
+    // delay(100);
   }
   uint32_t stop = millis();
   Serial.println(stop - start);
@@ -76,14 +81,15 @@ void setup()
   delay(100);
 
   start = millis();
-  for (int i = 0; i <= 80; i += 1)
+  for (int i = 0; i <= 144; i += 1)
   {
     spectrumRow2(2, i);
     //  delay(100);
   }
-  for (int i = 0; i <= 80; i += 1)
+  delay(100);
+  for (int i = 0; i <= 144; i += 1)
   {
-    spectrumRow2(2, 80 - i);
+    spectrumRow2(2, 144 - i);
     //  delay(100);
   }
   stop = millis();
@@ -103,17 +109,17 @@ void loop()
 //  smallest footprint.
 void spectrumRow(uint8_t row, int value)
 {
-  value = constrain(value, 0, 80);
+  value = constrain(value, 0, 144);
   lcd.setCursor(0, row);
   lcd.print(value);
   lcd.print(' ');
   lcd.setCursor(4, row);
   for (uint8_t col = 4; col < 20; col++)
   {
-    if (value <= 0)      lcd.print(' ');
-    else if (value >= 5) lcd.special(4);
+    if (value <= 0)      lcd.print(' ');   //  replace with _
+    else if (value >= 9) lcd.special(255);
     else                 lcd.special(value - 1);
-    value -= 5;
+    value -= 9;
   }
 }
 
@@ -126,7 +132,7 @@ void spectrumRow2(uint8_t row, int value)
   uint8_t start = 0;
   uint8_t end = 16;
 
-  value = constrain(value, 0, 80);
+  value = constrain(value, 0, 144);
   if (last[row] != value)
   {
     lcd.setCursor(0, row);
@@ -140,19 +146,19 @@ void spectrumRow2(uint8_t row, int value)
     }
     else
     {
-      start = min(last[row] / 5, value / 5);
-      end = max(last[row] / 5, value / 5) + 1;
+      start = min(last[row] / 9, value / 9);
+      end = max(last[row] / 9, value / 9) + 1;
     }
     lcd.setCursor(start + 4, row);
     last[row] = value;
-    value -= (start * 5);
+    value -= (start * 9);
 
     for (uint8_t col = start + 4; col < end + 4; col++)
     {
       if (value <= 0)      lcd.print(' ');     //  replace with _
-      else if (value >= 5) lcd.special(4);
+      else if (value >= 9) lcd.special(255);
       else                 lcd.special(value - 1);
-      value -= 5;
+      value -= 9;
     }
   }
 

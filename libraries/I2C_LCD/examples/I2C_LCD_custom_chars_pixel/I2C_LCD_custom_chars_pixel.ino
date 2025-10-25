@@ -7,7 +7,7 @@
 
 #include "I2C_LCD.h"
 
-uint8_t pixel_char[8]
+uint8_t pixel_char[8] =
 { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 int x = 0, y = 0;
@@ -20,6 +20,7 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("I2C_LCD_LIB_VERSION: ");
   Serial.println(I2C_LCD_LIB_VERSION);

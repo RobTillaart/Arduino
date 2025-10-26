@@ -1,0 +1,33 @@
+# Syntax Colouring Map For logicAnalyzer
+
+# Data types (KEYWORD1)
+logicAnalyzer	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+configPins	KEYWORD2
+configClock	KEYWORD2
+
+setChannels	KEYWORD2
+getChannels	KEYWORD2
+
+sample	KEYWORD2
+inject	KEYWORD2
+plot	KEYWORD2
+plotRaw	KEYWORD2
+
+clockChanged	KEYWORD2
+clockFalling	KEYWORD2
+clockRising	KEYWORD2
+clockHIGH	KEYWORD2
+clockLOW	KEYWORD2
+
+getCount	KEYWORD2
+setCount	KEYWORD2
+
+
+# Constants (LITERAL1)
+logicAnalyzer_LIB_VERSION	LITERAL1
+
+LOGICANALYZER_OK	LITERAL1
+

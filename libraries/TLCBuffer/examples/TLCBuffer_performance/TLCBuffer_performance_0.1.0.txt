@@ -1,0 +1,20 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+
+TLCBuffer_performance\TLCBuffer_performance.ino
+TLCBUFFER_LIB_VERSION: 0.1.0
+
+TLCBuffer(20) elements
+BEGIN:  	72
+WRITE1: 	16
+WRITE2: 	20
+READ 1: 	4
+READ 2: 	4
+DURATION: 	4
+
+123
+345
+120
+
+done...

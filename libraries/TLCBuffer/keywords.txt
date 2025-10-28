@@ -1,0 +1,29 @@
+# Syntax Colouring Map For TLCBuffer
+
+# Data types (KEYWORD1)
+TLCBuffer	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+writeData	KEYWORD2
+readData	KEYWORD2
+readDuration	KEYWORD2
+
+size	KEYWORD2
+count	KEYWORD2
+index	KEYWORD2
+empty	KEYWORD2
+full	KEYWORD2
+available	KEYWORD2
+
+getTimeUnit	KEYWORD2
+
+
+# Constants (LITERAL1)
+TLCBUFFER_LIB_VERSION	LITERAL1
+
+TLCBUFFER_OK	LITERAL1
+TLCBUFFER_ERR_ALLOC	LITERAL1
+TLCBUFFER_ERR_TIMEUNIT	LITERAL1

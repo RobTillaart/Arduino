@@ -1,0 +1,20 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+
+RLCBuffer_performance\RLCBuffer_performance.ino
+RLCBUFFER_LIB_VERSION: 0.1.0
+
+RLCBuffer(20) elements
+BEGIN:  	72
+WRITE1: 	8
+WRITE2: 	12
+READ 1: 	4
+READ 2: 	4
+COUNT:   	4
+
+123
+345
+2
+
+done...

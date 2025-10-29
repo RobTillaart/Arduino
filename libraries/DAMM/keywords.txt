@@ -1,0 +1,19 @@
+# Syntax Colouring Map For DAMM
+
+# Data types (KEYWORD1)
+DAMM	KEYWORD1
+DAMM_small	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+isValid	KEYWORD2
+generateChecksum	KEYWORD2
+
+reset	KEYWORD2
+add	KEYWORD2
+count	KEYWORD2
+
+
+# Constants (LITERAL1)
+DAMM_LIB_VERSION	LITERAL1
+

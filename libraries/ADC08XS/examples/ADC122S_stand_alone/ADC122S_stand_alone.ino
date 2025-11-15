@@ -1,8 +1,9 @@
+//
 //    FILE: ADC122S_stand_alone.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-09-25
 // PURPOSE: test
 //     URL: https://github.com/RobTillaart/ADC08XS
+
 
 #include "Arduino.h"
 #include "SPI.h"
@@ -20,7 +21,6 @@ int readADC(uint8_t channel)
 
   digitalWrite(selectPin, LOW);
   SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
-  //  uint16_t data = SPI.transfer(chan);
   uint16_t data = SPI.transfer(chan);
   data <<= 8;
   data += SPI.transfer(0);

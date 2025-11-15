@@ -31,30 +31,32 @@ This library does not support the single channel versions.
 - See https://github.com/RobTillaart/ADC081S
 
 The library does not support the I2C versions of these devices.
-These can be recognized from the C as ADCxxxC
+These devices can be recognized from the final C as in "ADCxxxC".
+The SPI versions have a final S as in "ADCxxxS".
 
-The library can put the device in **lowPower()** and needs a call to
-**wakeUp()** to wake up. Alternative way to wake up the device is to
-do a dummy **read()**.
+The library can put the device in **lowPower()** mode and needs a call to
+**wakeUp()** to wake up the device. 
+Alternative way to wake up the device is to execute a dummy **read()**.
 
 The library is not tested with hardware yet.
 
 Feedback is as always welcome.
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **ADC.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### Performance
+### Performance
 
-Although the ADC08XS is rated at 200 KSPS and higher, an Arduino UNO will not
+Although the ADC08XS is rated at 200 KSPS and higher, an Arduino UNO R3 will not
 be able to fetch that much samples from the device. 
 The reason is that an UNO cannot fetch the bits fast enough from the device.
-At maximum SPI speed of 8 MHz one will get at most 50 KSPS. 
+At maximum SPI speed of 8 MHz one will get at most 50 KSPS.
+Furthermore the UNO has only 2KB RAM so it would fill up quite fast.
 
 For the faster ones, see below, at 1 MSPS one need a clock of at least 16 MHz
 + time to process the incoming data. 
@@ -62,15 +64,15 @@ A faster processor like an ESP32 or Teensy might do the job.
 
 Investigations should be made for a sort of continuous mode.
 This would have the CS line constantly LOW and be able to read from the same
-address over and over.
+address over and over. Note this is not in the library!
 
 To be tested, feedback welcome.
 
 
-#### Compatibles
+### Compatibles
 
-There are 18 (multi channel) device types in this series, which can be used
-with the six classes of this library.
+There are 18 (multi channel) device types in this series (all SPI based), 
+which can be used with the six classes of this library.
 
 |  device name  |  channels  |  bits  |  KSPS  |  Class    |  Notes  |
 |:--------------|:----------:|:------:|:------:|:---------:|:-------:|
@@ -94,11 +96,11 @@ with the six classes of this library.
 |  ADC124S101   |     4      |   12   |  1000  |  ADC124S  |
 
 Type = ADC(bits)(channel)(protocol)(speed)1 
-e.g ADC082S021 = 8 bits 2 channel SPI 200000
-S == SPI.C == I2C.
+e.g ADC082S021 = (08) bits (2) channel (S)SPI (02) 200000   
+protocol: S == SPI, C == I2C.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/ADC081S  single channel version of this series.
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
@@ -107,55 +109,65 @@ S == SPI.C == I2C.
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
 - https://github.com/RobTillaart/MCP_DAC
 
+- https://www.mikroe.com/adc-19-click
+
 
 ## Interface
 
 ```cpp
-#include "ADC08XS_MC.h"
+#include "ADC08XS.h"
 ```
 
-#### Constructors
+### Constructors
 
 All six classes have identical interfaces as the ADC082S.
 
-- **ADC082S_MC(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
-- **ADC082S_MC(SPIClass \* mySPI = &SPI)** hardware constructor other
-- **ADC082S_MC(uint8_t dataIn, uint8_t dataOut, uint8_t clock)**
-- **void begin(uint8_t select)** set SELECT or CS pin.
+- **ADC082S(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
+- **ADC082S(SPIClass \* mySPI = &SPI)** hardware constructor other
+- **ADC082S(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** SW-SPI constructor.
+- **void begin(uint8_t select)** set the SELECT or CS pin.
 - **int16_t maxValue()** returns maxReading of ADC, => 255, 1023, 4095
 depending on number of bits of the actual ADC.
 - **uint8_t maxChannel()** returns 2 or 4 depending on the class.
 
 
-#### Base
+### Read
 
-- **uint16_t read(uint8_t channel)** reads the value of the device.
+- **uint16_t read(uint8_t channel)** reads a value of the device.
 The parameter channel must be 0,1,2,3, depending on device.
-Invalid channels will always return zero 0.
-- **int deltaRead(uint8_t chanA, uint8_t chanB)** read channel A and B 
-and return the difference.
-Note that the value can be negative if read(B) > read(A) or zero.
-if chanA == chanB there will be two reads of the same channel just
-a few microseconds apart, most often returning 0. 
-The function does not check if both channels are the same.
+Invalid channel numbers will return zero 0.
+- **int deltaRead(uint8_t channelA, uint8_t channelB)** read channel A and B 
+and return the difference "A - B".
+
+Note that the value will be negative if read(B) > read(A) or can be zero.
+If channelA and/or channelB is invalid, a comparison with zero will be made.
+
+if channelA == channelB there will be two reads of the same channel just
+a few microseconds apart. 
+This will most often return a zero 0 or a small value, positive or negative. 
+An application for using the same channels, is to get an indication of
+the actual noise level.
+
+
+### SPI
+
 - **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, 
 please read datasheet of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** returns current speed in **Hz**.
+- **bool usesHWSPI()** returns true if hardware SPI is used.
 
 
-#### Low power
+### Low power
 
 - **void lowPower()** put device in low power mode.
 - **void wakeUp()** put device in normal power mode.
 - **bool isLowPower()** returns true if in low power mode, so wakeUp needed().
 
-Alternative way to wake up the device is to
-do a dummy **read()**.
+Alternative way to wake up the device is to do a dummy **read()** call.
 
 
-#### Debug
+### Debug
 
-- **bool usesHWSPI()** returns true if hardware SPI is used.
 - **uint32_t count()** returns number of reads since start.
 
 
@@ -178,7 +190,8 @@ do a dummy **read()**.
 #### Could
 
 - unit tests possible?
-
+- error codes? e.g. ADC_ERR_CHANNEL_OUT_OF_RANGE
+- a function to read all channels ? read(ch1, ch2, ch3, ch4)
 
 #### Wont
 

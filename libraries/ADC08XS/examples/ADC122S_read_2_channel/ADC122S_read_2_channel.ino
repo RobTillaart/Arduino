@@ -13,7 +13,7 @@ const int datain = 12;
 const int clockPin = 13;
 
 ADC122S adc;  //  use HWSPI
-// ADC122S adc(datain, dataout, clockPin); //  use SWSPI
+// ADC122S adc(datain, dataout, clockPin);  //  use SWSPI
 
 uint16_t val;
 
@@ -21,7 +21,11 @@ uint16_t val;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("ADC08XS_LIB_VERSION: ");
+  Serial.println(ADC08XS_LIB_VERSION);
+  Serial.println();
 
   if (adc.usesHWSPI())
   {
@@ -61,3 +65,6 @@ void loop()
 
   delay(1000);
 }
+
+
+//  -- END OF FILE --

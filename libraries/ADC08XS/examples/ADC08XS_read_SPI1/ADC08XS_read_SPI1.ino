@@ -17,9 +17,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADC08XS_LIB_VERSION: ");
   Serial.println(ADC08XS_LIB_VERSION);
+  Serial.println();
 
   SPI1.begin();
 

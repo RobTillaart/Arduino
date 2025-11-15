@@ -16,9 +16,11 @@ ADC084S adc01;        //  use HWSPI
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADC08XS_LIB_VERSION: ");
   Serial.println(ADC08XS_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
   adc01.begin(10);
@@ -32,7 +34,7 @@ void loop()
   delay(15000);
 
   Serial.println("wake up for 15 seconds.");
-  if (adc01.isLowPower()) 
+  if (adc01.isLowPower())
   {
     adc01.wakeUp();
   }

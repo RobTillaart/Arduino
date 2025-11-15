@@ -2,7 +2,7 @@
 //
 //    FILE: ADC08XS.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-01-13
 // PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S,
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define ADC08XS_LIB_VERSION       (F("0.3.0"))
+#define ADC08XS_LIB_VERSION       (F("0.3.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -35,7 +35,7 @@ public:
   //       HARDWARE SPI
   ADC08XS(__SPI_CLASS__ * mySPI = &SPI);
   //       SOFTWARE SPI
-  //       datain = MISO, dataout is MOSI
+  //       dataIn == MISO, dataOut == MOSI
   ADC08XS(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
 
   void     begin(uint8_t select);
@@ -44,15 +44,16 @@ public:
   uint8_t  maxChannel();
   uint8_t  lastChannel();
 
+  //       channel = 0, 1 ... maxChannel
   uint16_t read(uint8_t channel);
-  int      deltaRead(uint8_t chanA, uint8_t chanB);
+  int      deltaRead(uint8_t channelA, uint8_t channelB);
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed();
+  bool     usesHWSPI();
 
   //       debugging
-  bool     usesHWSPI();
   uint32_t count();  //  number of channels read.
 
   void     lowPower();

@@ -194,6 +194,7 @@ Returns false if ROM could not be read.
   - mathMode = 0 follows the datasheet math (default).
   - mathMode = 1 will adjust for a factor 2 in the pressure math.
 
+
 ### Read
 
 - **int read(uint8_t bits)** does the actual reading of the sensor. 
@@ -253,6 +254,10 @@ based upon actual pressure measured and the current pressure at sea level (param
 Returns the altitude in meters.
 Multiple calls will return the same altitude until a new pressure is **read()**.
 - **float getAltitudeFeet(float airPressure)** idem but returns altitude in feet.
+- **float getSeaLevelPressure(float pressure, float altitude)** inverse function of **getAltitude()**.
+This function can be used to determine a reference air pressure for the getAltitude() function when
+you are at a defined altitude and you measured the local pressure with **getPressure()**.
+So think of it as calibration-tool for the reference pressure in getAltitude().
 
 
 ### Misc

@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library for MS5611 (I2C) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -31,7 +31,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_LIB_VERSION                    (F("0.5.0"))
+#define MS5611_LIB_VERSION                    (F("0.5.1"))
 
 #ifndef MS5611_DEFAULT_ADDRESS
 #define MS5611_DEFAULT_ADDRESS                0x77
@@ -67,17 +67,19 @@ public:
   //       returns false if ROM constants are 0;
   bool     reset(uint8_t mathMode = 0);
 
+
   //  the actual reading of the sensor;
   //  returns MS5611_READ_OK upon success
   int      read(uint8_t bits);
   //  wrapper, uses the preset oversampling rate.
   inline int read() { return read( (uint8_t) _samplingRate); };
 
+
   //  sets oversampling to a value between 8 and 12
   void     setOversampling(osr_t samplingRate);
-
   //  oversampling rate is in osr_t
   osr_t    getOversampling() const;
+
 
   //  temperature is in degrees C
   float    getTemperature() const;
@@ -85,6 +87,7 @@ public:
   float    getPressure() const;
   //  pressure is in Pascal (SI-unit)
   float    getPressurePascal() const;
+
 
   //  OFFSET
   //  pressure offset is in mBar.
@@ -94,11 +97,19 @@ public:
   void     setTemperatureOffset(float offset = 0);
   float    getTemperatureOffset();
 
+
   //  ALTITUDE (from MS5837)
-  //  air pressure in mBar, returns meters
+  //  airPressure is in mBar,
+  //  returns meters
   float    getAltitude(float airPressure = 1013.25);
-  //  idem, returns feet.
+  //  airPressure is in mBar,
+  //  returns feet.
   float    getAltitudeFeet(float airPressure = 1013.25);
+  //  pressure is in mBar (pressure @ altitude)
+  //  altitude is in meter
+  //  returns mBar (@ sea level)
+  float    getSeaLevelPressure(float pressure, float altitude);
+
 
   //  to check for failure
   int      getLastResult() const;

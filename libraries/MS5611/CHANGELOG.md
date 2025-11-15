@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2025-11-08
+- add **float getSeaLevelPressure(float pressure, float altitude)**
+- update keywords.txt
+- minor edits
+
 ## [0.5.0] - 2025-09-26
 - fix #44, getAltitude()
 - sync MS5611_SPI

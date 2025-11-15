@@ -16,7 +16,10 @@ ellipse el(1, 1);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("ELLIPSE_LIB_VERSION: ");
+  Serial.println(ELLIPSE_LIB_VERSION);
   Serial.println();
 
   for (int  a = 1; a <= 500; a++)

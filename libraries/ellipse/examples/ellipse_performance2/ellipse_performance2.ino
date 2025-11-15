@@ -1,8 +1,7 @@
 //
-//    FILE: ellipse_performance.ino
+//    FILE: ellipse_performance2.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: performance and accuracy test
-//    DATE: 2021-10-31
 //     URL: https://github.com/RobTillaart/ellipse
 
 
@@ -17,10 +16,13 @@ volatile float f;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("ELLIPSE_LIB_VERSION: ");
+  Serial.println(ELLIPSE_LIB_VERSION);
   Serial.println();
 
-  Serial.println("  A      B      t  ECC       t  circum     t  Ramanu    t  Keppler    t  Parker");
+  Serial.println("  A      B      t  ECC       t  circum     t  Ramanu    t  Kepler    t  Parker");
   Serial.println("================================================================================");
 
   float A = 10;
@@ -54,7 +56,7 @@ void setup()
     delay(100);
 
     start = micros();
-    f = E.perimeter_ref();
+    f = E.perimeter_reference();
     stop = micros();
     Serial.print(stop - start);
     Serial.print(", ");
@@ -63,7 +65,7 @@ void setup()
     delay(100);
 
     start = micros();
-    f = E.perimeter_Keppler();
+    f = E.perimeter_Kepler();
     stop = micros();
     Serial.print(stop - start);
     Serial.print(", ");

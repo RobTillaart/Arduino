@@ -1,9 +1,11 @@
 //
-//    FILE: ellipse_investigate.ino
+//    FILE: ellipse_table.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: generate table for spreadsheet analysis
 //     URL: https://github.com/RobTillaart/ellipse
-
+//
+//  Q: what is the relation between ratio (B / A) and the perimeter factor
+//  perimeter factor = (perimeter / A)
 
 #include "ellipse.h"
 
@@ -20,21 +22,19 @@ void setup()
   Serial.println(ELLIPSE_LIB_VERSION);
   Serial.println();
 
-  for (uint32_t r = 10; r <= 1000000000; r *= 2)
+  for (float b = 1.0; b >= 0; b = b - 0.02)
   {
-    float a = r * 0.1;
-    el.setA(a);
-    Serial.print(el.getB(), 2);
-    Serial.print('\t');
+    el.setB(b);
     Serial.print(el.getA(), 2);
     Serial.print('\t');
-    Serial.print(el.perimeter_reference(), 3);
-    Serial.print("\t\t");
-
-    // calculate PI back from circumference and Keplers formula inverted.
-    float C = el.perimeter_reference();
-    float P = C / (a + 1);   // b == 1
-    Serial.print(P, 8);
+    Serial.print(el.getB(), 2);
+    Serial.print('\t');
+    Serial.print(el.eccentricity(), 6);
+    Serial.print('\t');
+    Serial.print(el.perimeter_reference(), 6);
+    Serial.print('\t');
+    Serial.print(el.perimeter_polynome(), 6);
+    Serial.print("\t");
     Serial.print('\n');
   }
 

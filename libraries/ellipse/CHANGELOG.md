@@ -6,13 +6,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2025-11-09
+- renamed **perimeter_Kepler()** Kepler with one p is correct.
+- renamed **perimeter_reference()** for readability.
+- add **float perimeter_Parker_fast()** for completeness.
+- add **float perimeter_polynome()** quadratic polynome approximation.
+- add **float perimeter_binomial()** binomial approximation.
+- add **float getH()** extra attribute.
+- add **float ratio()** extra attribute.
+- update GitHub actions
+- update / add examples
+- update readme.md (a.o performance table)
+- update unit tests
+- minor edits
+
+----
+
 ## [0.1.4] - 2024-05-06
 - add **float perimeter_Parker()**
 - update **ellipse_performance.ino**
 - add **ellipse_performance2.ino** (table form)
 - update keywords.txt
 - minor edits
-
 
 ## [0.1.3] - 2023-10-25
 - update readme.md
@@ -25,7 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - refactor code
 - add getLongRadius() and getShortRadius()
 
-## [0.1.1] - 2022-07-24  
+## [0.1.1] - 2022-07-24
 - add angle() + example
 - add isCircle(), isFlat()
 - update readme.md

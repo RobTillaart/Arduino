@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.4
+// VERSION: 0.6.5
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -404,16 +404,58 @@ uint8_t INA226::getMode()
 //
 bool INA226::setAlertRegister(uint16_t mask)
 {
-  uint16_t result = _writeRegister(INA226_MASK_ENABLE, (mask & 0xFC00));
-  //  Serial.println(result);
+  uint16_t result = _writeRegister(INA226_MASK_ENABLE, mask);
   if (result != 0) return false;
   return true;
 }
 
 
+uint16_t INA226::getAlertRegister()
+{
+  return _readRegister(INA226_MASK_ENABLE);
+}
+
+
+//  OBSOLETE
 uint16_t INA226::getAlertFlag()
 {
   return _readRegister(INA226_MASK_ENABLE) & 0x001F;
+}
+
+
+bool INA226::setAlertLatchEnable(bool latch)
+{
+  uint16_t mask = _readRegister(INA226_MASK_ENABLE);
+  if (latch) mask |= INA226_ALERT_LATCH_ENABLE_FLAG;
+  else       mask &= ~INA226_ALERT_LATCH_ENABLE_FLAG;
+  uint16_t result = _writeRegister(INA226_MASK_ENABLE, mask);
+  if (result != 0) return false;
+  return true;
+}
+
+
+bool INA226::getAlertLatchEnable()
+{
+  uint16_t mask = _readRegister(INA226_MASK_ENABLE);
+  return mask & INA226_ALERT_LATCH_ENABLE_FLAG;
+}
+
+
+bool INA226::setAlertPolarity(bool inverted)
+{
+  uint16_t mask = _readRegister(INA226_MASK_ENABLE);
+  if (inverted) mask |= INA226_ALERT_POLARITY_FLAG;
+  else          mask &= ~INA226_ALERT_POLARITY_FLAG;
+  uint16_t result = _writeRegister(INA226_MASK_ENABLE, mask);
+  if (result != 0) return false;
+  return true;
+}
+
+
+bool INA226::getAlertPolarity()
+{
+  uint16_t mask = _readRegister(INA226_MASK_ENABLE);
+  return mask & INA226_ALERT_POLARITY_FLAG;
 }
 
 

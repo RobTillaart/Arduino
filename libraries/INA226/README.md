@@ -13,10 +13,11 @@
 
 Arduino library for the INA226 power sensor.
 
-
 ## Description
 
-**Experimental** library for the INA226 power sensor.
+**Experimental** 
+
+Experimental library for the INA226 power sensor.
 Not all functionality is tested / investigated.
 
 Read datasheet for details.
@@ -59,6 +60,7 @@ before calling **begin()**.
 - https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
@@ -332,38 +334,61 @@ Descriptive mode functions (convenience wrappers).
 
 ### Alert functions
 
-See datasheet, not tested yet.
+See datasheet 7.1.7 Mask/Enable Register (06h), not tested yet.
 
 - **bool setAlertRegister(uint16_t mask)** by setting the mask 
 one of five types of over- or underflow can be detected. 
 Another feature that can be set is the conversion ready flag.
-Returns true if write to register successful.
-- **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**.
+Returns true if write to register is successful.
+- **uint16_t getAlertRegister()** returns the mask set by **setAlertRegister()**.
+- **bool setAlertLatchEnable(bool latch = false)** idem.
+Returns true if write to register is successful.
+- **bool getAlertLatchEnable()** return current status.
+- **bool setAlertPolarity(bool inverted = false)** idem.
+Returns true if write to register is successful.
+- **bool getAlertPolarity()** return current status.
+
+
+|  description alert register  |  mask   |  short  |
+|:-----------------------------|:--------:|--------:|
+|  INA226_SHUNT_OVER_VOLTAGE   |  0x8000  |    SOL  |
+|  INA226_SHUNT_UNDER_VOLTAGE  |  0x4000  |    SUL  |
+|  INA226_BUS_OVER_VOLTAGE     |  0x2000  |    BOL  |
+|  INA226_BUS_UNDER_VOLTAGE    |  0x1000  |    BUL  |
+|  INA226_POWER_OVER_LIMIT     |  0x0800  |    POL  |
+|  INA226_CONVERSION_READY     |  0x0400  |   CNVR  |
+
+
+|  description alert flags         |  mask   |  short  |
+|:---------------------------------|:--------:|--------:|
+|  INA226_ALERT_FUNCTION_FLAG      |  0x0010  |    AFF  |
+|  INA226_CONVERSION_READY_FLAG    |  0x0008  |   CVRF  |
+|  INA226_MATH_OVERFLOW_FLAG       |  0x0004  |    OVF  |
+
+
+|  description alert configuration |  mask   |  short  |
+|:---------------------------------|:--------:|--------:|
+|  INA226_ALERT_POLARITY_FLAG      |  0x0002  |   APOL  |
+|  INA226_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |    LEN  |
+
+
+The **ALERT** pin changes when alert is reached.
+Falling or rising depends on polarity set.
+
+
+#### Deprecated
+
+**uint16_t getAlertFlag()** returns the mask set by setAlertRegister(). 
+Deprecated, is replaced by **getAlertRegister()**.
+
+
+### Alert Limits
+
+See datasheet, not tested yet.
+
 - **bool setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag.
 Returns true if write to register successful.
 - **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**.
-
-
-|  description alert register  |  value   | a.k.a.  |
-|:-----------------------------|:--------:| -------:|
-|  INA226_SHUNT_OVER_VOLTAGE   |  0x8000  |  SOL    |
-|  INA226_SHUNT_UNDER_VOLTAGE  |  0x4000  |  SUL    |
-|  INA226_BUS_OVER_VOLTAGE     |  0x2000  |  BOL    |
-|  INA226_BUS_UNDER_VOLTAGE    |  0x1000  |  BUL    |
-|  INA226_POWER_OVER_LIMIT     |  0x0800  |  POL    |
-|  INA226_CONVERSION_READY     |  0x0400  |         |
-
-
-|  description alert flags         |  value   |
-|:---------------------------------|:--------:|
-|  INA226_ALERT_FUNCTION_FLAG      |  0x0010  |
-|  INA226_CONVERSION_READY_FLAG    |  0x0008  |
-|  INA226_MATH_OVERFLOW_FLAG       |  0x0004  |
-|  INA226_ALERT_POLARITY_FLAG      |  0x0002  |
-|  INA226_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |
-
-
-The alert line falls when alert is reached.
 
 
 ### Meta information
@@ -385,13 +410,16 @@ The alert line falls when alert is reached.
 ## Adjusting the range of the INA226
 
 **use at own risk**
+
 In issue #26 a hack is made to scale the INA226 to 300A by using a very small shunt.
 The library has a minimal limit for the shunt of 0.001 ohm.
 This limit can be overruled to support other ranges like the one discussed in #26.
-Overruling can be done by patching the following value in the INA226.h file.
+Overruling can be done by changing the value in the INA226.h file.
 
 ```cpp
-#define INA226_MINIMAL_SHUNT             (0.001)
+#ifndef INA226_MINIMAL_SHUNT_OHM
+#define INA226_MINIMAL_SHUNT_OHM             (0.001)
+#endif
 ```
 
 Be aware that
@@ -408,13 +436,22 @@ Be aware that
 #### Must
 
 - update documentation.
-- keep in sync with INA219 where possible.
+  - check doc layout INA236
+- keep in sync with other INA2xx where possible.
 
 #### Should
 
 - test different loads (low edge).
 - test examples.
-- investigate alert functions / interface.
+- investigate Alert register functions / interface.
+  - add separate functions per flag / bit
+  - remove obsolete getAlertFlag() => getAlertRegister();
+  - rename the alert configuration flags?
+- investigate Alert LIMIT functions / interface.
+  - what is a reasonable limit?
+  - which units to define a limit per mask ?
+    same as voltage registers ?
+  - how to test
 - disconnected load.
   - can it be recognized? => current drop?
 

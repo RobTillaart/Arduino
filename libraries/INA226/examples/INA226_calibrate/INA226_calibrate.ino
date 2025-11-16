@@ -15,9 +15,11 @@ void setup()
 {
   Serial.begin(115200);
   delay(100);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INA226_LIB_VERSION: ");
   Serial.println(INA226_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   if (!INA.begin() )

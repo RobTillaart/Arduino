@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.4
+// VERSION: 0.6.5
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION                (F("0.6.4"))
+#define INA226_LIB_VERSION                (F("0.6.5"))
 
 
 //  set by setAlertRegister
@@ -41,7 +41,9 @@
 #define INA226_ERR_NORMALIZE_FAILED       0x8003
 
 //  See issue #26
+#ifndef INA226_MINIMAL_SHUNT_OHM
 #define INA226_MINIMAL_SHUNT_OHM          0.001
+#endif
 
 #define INA226_MAX_WAIT_MS                600   //  millis
 
@@ -71,6 +73,20 @@ enum ina226_timing_enum {
     INA226_2100_us = 5,
     INA226_4200_us = 6,
     INA226_8300_us = 7
+};
+
+
+//  ALERT Pin Polarity definition
+enum ina226_alert_pin_polarity_enum {
+    INA226_ACTIVE_LOW  = 0,
+    INA226_ACTIVE_HIGH = 1
+};
+
+
+//  ALERT Pin Latch definition
+enum ina226_alert_latch_enum {
+    INA226_LATCH_TRANSPARENT = 0,
+    INA226_LATCH_ENABLED     = 1
 };
 
 
@@ -149,14 +165,17 @@ public:
   bool     setModeShuntBusContinuous() { return setMode(7); };  //  default.
 
 
-  //  Alert
-  //  - separate functions per flag?
-  //  - what is a reasonable limit?
-  //  - which units to define a limit per mask ?
-  //    same as voltage registers ?
-  //  - how to test
+  //  ALERT REGISTER
+  //  (not tested)
   bool     setAlertRegister(uint16_t mask);
-  uint16_t getAlertFlag();
+  uint16_t getAlertRegister();
+  bool     setAlertLatchEnable(bool latch = false);
+  bool     getAlertLatchEnable();
+  bool     setAlertPolarity(bool inverted = false);
+  bool     getAlertPolarity();
+
+  //  ALERT LIMIT
+  //  (not tested)
   bool     setAlertLimit(uint16_t limit);
   uint16_t getAlertLimit();
 
@@ -169,12 +188,18 @@ public:
 
 
   //  DEBUG
-  uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
+  uint16_t getRegister(uint8_t reg) { return _readRegister(reg); };
 
   //
   //  ERROR HANDLING
   //
   int      getLastError();
+
+
+  //  OBSOLETE
+  [[deprecated("Use getAlertRegister()")]]
+  uint16_t getAlertFlag();
+
 
 private:
 

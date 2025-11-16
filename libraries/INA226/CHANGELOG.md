@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.5] - 2025-11-11
+- fix #61, improvements on ALERT register functions
+- removed FC00 mask in **bool setAlertRegister()**
+- add **uint16_t getAlertRegister()** to get all register bits.
+  - obsoletes getAlertFlag().
+- add **void setAlertLatchEnable(bool latch = false)**
+- add **void setAlertPolarity(bool inverted = false)**
+- add **void getAlertLatchEnable()**
+- add **void getAlertPolarity()**
+- add **INA226_pointer.ino** examples
+- make **INA226_MINIMAL_SHUNT_OHM** command line option
+- update GitHub actions
+- update readme.md
+- minor edits
+
+
 ## [0.6.4] - 2025-03-05
 - add **getLastError()** low level (I2C) error handling
 

@@ -58,7 +58,12 @@ setModeBusContinuous	KEYWORD2
 setModeShuntBusContinuous	KEYWORD2
 
 setAlertRegister	KEYWORD2
-getAlertFlag	KEYWORD2
+getAlertRegister	KEYWORD2
+setAlertLatchEnable	KEYWORD2
+getAlertLatchEnable	KEYWORD2
+setAlertPolarity	KEYWORD2
+getAlertPolarity	KEYWORD2
+
 setAlertLimit	KEYWORD2
 getAlertLimit	KEYWORD2
 
@@ -88,7 +93,7 @@ INA226_ERR_SHUNTVOLTAGE_HIGH	LITERAL1
 INA226_ERR_MAXCURRENT_LOW	LITERAL1
 INA226_ERR_SHUNT_LOW	LITERAL1
 
-INA226_MINIMAL_SHUNT	LITERAL1
+INA226_MINIMAL_SHUNT_OHM	LITERAL1
 
 
 # setAverage() enum

@@ -291,31 +291,56 @@ See datasheet, not tested yet.
 - **bool setAlertRegister(uint16_t mask)** by setting the mask 
 one of five types of over- or underflow can be detected. 
 Another feature that can be set is the conversion ready flag.
-Returns true if write to register successful.
-- **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**.
+Returns true if write to register is successful.
+- **uint16_t getAlertRegister()** returns the mask set by **setAlertRegister()**.
+- **bool setAlertLatchEnable(bool latch = false)** idem.
+Returns true if write to register is successful.
+- **bool getAlertLatchEnable()** return current status.
+- **bool setAlertPolarity(bool inverted = false)** idem.
+Returns true if write to register is successful.
+- **bool getAlertPolarity()** return current status.
+
+
+|  description alert register  |   mask   |  short  |
+|:-----------------------------|:--------:|--------:|
+|  INA260_SHUNT_OVER_VOLTAGE   |  0x8000  |    SOL  |
+|  INA260_SHUNT_UNDER_VOLTAGE  |  0x4000  |    SUL  |
+|  INA260_BUS_OVER_VOLTAGE     |  0x2000  |    BOL  |
+|  INA260_BUS_UNDER_VOLTAGE    |  0x1000  |    BUL  |
+|  INA260_POWER_OVER_LIMIT     |  0x0800  |    POL  |
+|  INA260_CONVERSION_READY     |  0x0400  |   CNVR  |
+
+
+|  description alert flags         |   mask   |  short  |
+|:---------------------------------|:--------:|--------:|
+|  INA260_ALERT_FUNCTION_FLAG      |  0x0010  |    AFF  |
+|  INA260_CONVERSION_READY_FLAG    |  0x0008  |   CVRF  |
+|  INA260_MATH_OVERFLOW_FLAG       |  0x0004  |    OVF  |
+
+
+|  description alert configuration |   mask   |  short  |
+|:---------------------------------|:--------:|--------:|
+|  INA260_ALERT_POLARITY_FLAG      |  0x0002  |   APOL  |
+|  INA260_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |    LEN  |
+
+
+The **ALERT** pin changes when alert is reached.
+Falling or rising depends on polarity set.
+
+
+#### Deprecated
+
+**uint16_t getAlertFlag()** returns the mask set by setAlertRegister(). 
+Deprecated, is replaced by **getAlertRegister()**.
+
+
+### Alert Limits
+
+See datasheet, not tested yet.
+
 - **bool setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag.
 Returns true if write to register successful.
 - **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**.
-
-
-|  description alert register  |  value   | a.k.a.  |
-|:-----------------------------|:--------:| -------:|
-|  INA260_SHUNT_OVER_VOLTAGE   |  0x8000  |  SOL    |
-|  INA260_SHUNT_UNDER_VOLTAGE  |  0x4000  |  SUL    |
-|  INA260_BUS_OVER_VOLTAGE     |  0x2000  |  BOL    |
-|  INA260_BUS_UNDER_VOLTAGE    |  0x1000  |  BUL    |
-|  INA260_POWER_OVER_LIMIT     |  0x0800  |  POL    |
-|  INA260_CONVERSION_READY     |  0x0400  |         |
-
-
-|  description alert flags         |  value   |
-|:---------------------------------|:--------:|
-|  INA260_ALERT_FUNCTION_FLAG      |  0x0010  |
-|  INA260_CONVERSION_READY_FLAG    |  0x0008  |
-|  INA260_MATH_OVERFLOW_FLAG       |  0x0004  |
-|  INA260_ALERT_POLARITY_FLAG      |  0x0002  |
-|  INA260_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |
-
 
 The alert line falls when alert is reached.
 

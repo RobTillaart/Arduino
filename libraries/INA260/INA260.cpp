@@ -1,6 +1,6 @@
 //    FILE: INA260.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-02-18
 // PURPOSE: Arduino library for INA260 power sensor
 //     URL: https://github.com/RobTillaart/INA260
@@ -70,7 +70,8 @@ uint8_t INA260::getAddress()
 float INA260::getBusVoltage()
 {
   uint16_t val = _readRegister(INA260_BUS_VOLTAGE);
-  return val * 1.25e-3;       //  1.25 mV
+  float voltage = val * 1.25e-3;
+  return voltage;
 }
 
 
@@ -231,16 +232,60 @@ uint8_t INA260::getMode()
 //  8.6.5
 bool INA260::setAlertRegister(uint16_t mask)
 {
-  uint16_t result = _writeRegister(INA260_MASK_ENABLE, (mask & 0xFC00));
+  uint16_t result = _writeRegister(INA260_MASK_ENABLE, mask);
   //  Serial.println(result);
   if (result != 0) return false;
   return true;
 }
 
+
+uint16_t INA260::getAlertRegister()
+{
+  return _readRegister(INA260_MASK_ENABLE);
+}
+
+
+//  OBSOLETE
 //  8.6.5
 uint16_t INA260::getAlertFlag()
 {
   return _readRegister(INA260_MASK_ENABLE) & 0x001F;
+}
+
+
+bool INA260::setAlertLatchEnable(bool latch)
+{
+  uint16_t mask = _readRegister(INA260_MASK_ENABLE);
+  if (latch) mask |= INA260_ALERT_LATCH_ENABLE_FLAG;
+  else       mask &= ~INA260_ALERT_LATCH_ENABLE_FLAG;
+  uint16_t result = _writeRegister(INA260_MASK_ENABLE, mask);
+  if (result != 0) return false;
+  return true;
+}
+
+
+bool INA260::getAlertLatchEnable()
+{
+  uint16_t mask = _readRegister(INA260_MASK_ENABLE);
+  return mask & INA260_ALERT_LATCH_ENABLE_FLAG;
+}
+
+
+bool INA260::setAlertPolarity(bool inverted)
+{
+  uint16_t mask = _readRegister(INA260_MASK_ENABLE);
+  if (inverted) mask |= INA260_ALERT_POLARITY_FLAG;
+  else          mask &= ~INA260_ALERT_POLARITY_FLAG;
+  uint16_t result = _writeRegister(INA260_MASK_ENABLE, mask);
+  if (result != 0) return false;
+  return true;
+}
+
+
+bool INA260::getAlertPolarity()
+{
+  uint16_t mask = _readRegister(INA260_MASK_ENABLE);
+  return mask & INA260_ALERT_POLARITY_FLAG;
 }
 
 
@@ -297,6 +342,7 @@ int INA260::getLastError()
 //
 uint16_t INA260::_readRegister(uint8_t reg)
 {
+  _error = 0;
   _wire->beginTransmission(_address);
   _wire->write(reg);
   int n = _wire->endTransmission();
@@ -324,6 +370,7 @@ uint16_t INA260::_readRegister(uint8_t reg)
 
 uint16_t INA260::_writeRegister(uint8_t reg, uint16_t value)
 {
+  _error = 0;
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value >> 8);

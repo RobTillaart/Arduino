@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA260.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-02-18
 // PURPOSE: Arduino library for INA260 power sensor
 //     URL: https://github.com/RobTillaart/INA260
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA260_LIB_VERSION                (F("0.1.1"))
+#define INA260_LIB_VERSION                (F("0.1.2"))
 
 
 //  set by setAlertRegister
@@ -25,7 +25,7 @@
 #define INA260_CONVERSION_READY           0x0400
 
 
-//  returned by getAlertFlag
+//  returned by getAlertRegister
 #define INA260_ALERT_FUNCTION_FLAG        0x0010
 #define INA260_CONVERSION_READY_FLAG      0x0008
 #define INA260_MATH_OVERFLOW_FLAG         0x0004
@@ -67,6 +67,20 @@ enum INA260_timing_enum {
     INA260_2100_us = 5,
     INA260_4200_us = 6,
     INA260_8300_us = 7
+};
+
+
+//  ALERT Pin Polarity definition
+enum ina260_alert_pin_polarity_enum {
+    INA226_ACTIVE_LOW  = 0,
+    INA226_ACTIVE_HIGH = 1
+};
+
+
+//  ALERT Pin Latch definition
+enum ina260_alert_latch_enum {
+    INA226_LATCH_TRANSPARENT = 0,
+    INA226_LATCH_ENABLED     = 1
 };
 
 
@@ -135,30 +149,40 @@ public:
   bool     setModeShuntBusContinuous() { return setMode(7); };  //  default.
 
 
-  //  Alert
-  //  - separate functions per flag?
-  //  - what is a reasonable limit?
-  //  - which units to define a limit per mask ?
-  //    same as voltage registers ?
-  //  - how to test
+  //  ALERT REGISTER
+  //  (not tested)
   bool     setAlertRegister(uint16_t mask);
-  uint16_t getAlertFlag();
+  uint16_t getAlertRegister();
+  bool     setAlertLatchEnable(bool latch = false);
+  bool     getAlertLatchEnable();
+  bool     setAlertPolarity(bool inverted = false);
+  bool     getAlertPolarity();
+
+  //  ALERT LIMIT
+  //  (not tested)
   bool     setAlertLimit(uint16_t limit);
   uint16_t getAlertLimit();
 
 
   //  Meta information
-  uint16_t getManufacturerID();   //  should return 0x5449
-  uint16_t getDieID();            //  should return 0x2270
+  //
+  //                               typical value
+  uint16_t getManufacturerID();  //  0x5449
+  uint16_t getDieID();           //  0x2270
 
 
   //  DEBUG
-  uint16_t getRegister(uint8_t reg)  { return _readRegister(reg); };
+  uint16_t getRegister(uint8_t reg) { return _readRegister(reg); };
 
   //
   //  ERROR HANDLING
   //
   int      getLastError();
+
+
+  //  OBSOLETE
+  [[deprecated("Use getAlertRegister()")]]
+  uint16_t getAlertFlag();
 
 
 private:

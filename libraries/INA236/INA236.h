@@ -2,7 +2,7 @@
 //    FILE: INA236.h
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA236_LIB_VERSION                (F("0.1.4"))
+#define INA236_LIB_VERSION                (F("0.1.5"))
 
 
 //  set by setAlertRegister
@@ -165,21 +165,26 @@ public:
   bool     setModeShuntBusContinuous() { return setMode(7); };  //  default.
 
 
-  //  Alert
-  //  - separate functions per flag?
-  //  - what is a reasonable limit?
-  //  - which units to define a limit per mask ?
-  //    same as voltage registers ?
-  //  - how to test
+  //  ALERT REGISTER
+  //  (not tested)
   bool     setAlertRegister(uint16_t mask);
-  uint16_t getAlertFlag();
+  uint16_t getAlertRegister();
+  bool     setAlertLatchEnable(bool latch = false);
+  bool     getAlertLatchEnable();
+  bool     setAlertPolarity(bool inverted = false);
+  bool     getAlertPolarity();
+
+  //  ALERT LIMIT
+  //  (not tested)
   bool     setAlertLimit(uint16_t limit);
   uint16_t getAlertLimit();
 
 
   //  Meta information
-  uint16_t getManufacturerID();   //  should return 0x5449
-  uint16_t getDieID();            //  should return 0xA080
+  //
+  //                               typical value
+  uint16_t getManufacturerID();  //  0x5449
+  uint16_t getDieID();           //  0xA080
 
 
   //  DEBUG
@@ -190,10 +195,17 @@ public:
   //
   int      getLastError();
 
+
+  //  OBSOLETE
+  [[deprecated("Use getAlertRegister()")]]
+  uint16_t getAlertFlag();
+
+
 private:
 
   uint16_t _readRegister(uint8_t reg);
   uint16_t _writeRegister(uint8_t reg, uint16_t value);
+
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;

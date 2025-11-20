@@ -8,7 +8,7 @@ Comparison of my INA2xx libraries
 |:------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 |  bits             |  12   |  16   |  20   |  20   |  16   |  16   |  16   |  16   |  13   |
 |  Max Voltage      |  26   |  36   |  85   |  85   |  48   |  85   |  85   |  36   |  26   |
-|  Communication    |  I2C  |  I2C  |  I2C  |  SPI  |  I2C  |  SPI  |  SPI  |  I2C  |  I2C  |
+|  Communication    |  I2C  |  I2C  |  I2C  |  SPI  |  I2C  |  I2C  |  SPI  |  I2C  |  I2C  |
 |  Channels         |   1   |   1   |   1   |   1   |   1   |   1   |   1   |   1   |   3   |
 |                   |       |       |       |       |       |       |       |       |       |
 |  getBusVoltage    |   Y   |   Y   |   Y   |   Y   |   Y   |   Y   |   Y   |   Y   |   Y   |

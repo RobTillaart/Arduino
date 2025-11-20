@@ -129,7 +129,6 @@ Also see INA226 issue 30 for another typical deviation problem.
 #include "INA236.h"
 ```
 
-
 ### Constructor
 
 - **INA236(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
@@ -346,38 +345,61 @@ See datasheet, not tested yet.
 - **bool setAlertRegister(uint16_t mask)** by setting the mask 
 one of five types of over- or underflow can be detected. 
 Another feature that can be set is the conversion ready flag.
-Returns true if write to register successful.
-- **uint16_t getAlertFlag()** returns the mask set by **setAlertRegister()**.
+Returns true if write to register is successful.
+- **uint16_t getAlertRegister()** returns the mask set by **setAlertRegister()**.
+- **bool setAlertLatchEnable(bool latch = false)** idem.
+Returns true if write to register is successful.
+- **bool getAlertLatchEnable()** return current status.
+- **bool setAlertPolarity(bool inverted = false)** idem.
+Returns true if write to register is successful.
+- **bool getAlertPolarity()** return current status.
+
+
+|  description alert register  |   mask   |  short  |
+|:-----------------------------|:--------:|--------:|
+|  INA236_SHUNT_OVER_VOLTAGE   |  0x8000  |    SOL  |
+|  INA236_SHUNT_UNDER_VOLTAGE  |  0x4000  |    SUL  |
+|  INA236_BUS_OVER_VOLTAGE     |  0x2000  |    BOL  |
+|  INA236_BUS_UNDER_VOLTAGE    |  0x1000  |    BUL  |
+|  INA236_POWER_OVER_LIMIT     |  0x0800  |    POL  |
+|  INA236_CONVERSION_READY     |  0x0400  |   CNVR  |
+
+
+|  description alert flags         |   mask   |  short  |
+|:---------------------------------|:--------:|--------:|
+|  INA236_ALERT_FUNCTION_FLAG      |  0x0010  |    AFF  |
+|  INA236_CONVERSION_READY_FLAG    |  0x0008  |   CVRF  |
+|  INA236_MATH_OVERFLOW_FLAG       |  0x0004  |    OVF  |
+
+
+|  description alert configuration |   mask   |  short  |
+|:---------------------------------|:--------:|--------:|
+|  INA236_ALERT_POLARITY_FLAG      |  0x0002  |   APOL  |
+|  INA236_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |    LEN  |
+
+
+The **ALERT** pin changes when alert is reached.
+Falling or rising depends on polarity set.
+
+
+#### Deprecated
+
+**uint16_t getAlertFlag()** returns the mask set by setAlertRegister(). 
+Deprecated, is replaced by **getAlertRegister()**.
+
+
+### Alert Limits
+
+See datasheet, not tested yet.
+
 - **bool setAlertLimit(uint16_t limit)** sets the limit that belongs to the chosen Alert Flag.
 Returns true if write to register successful.
 - **uint16_t getAlertLimit()** returns the limit set by **setAlertLimit()**.
 
 
-|  description alert register  |  value   | a.k.a.  |
-|:-----------------------------|:--------:| -------:|
-|  INA236_SHUNT_OVER_VOLTAGE   |  0x8000  |  SOL    |
-|  INA236_SHUNT_UNDER_VOLTAGE  |  0x4000  |  SUL    |
-|  INA236_BUS_OVER_VOLTAGE     |  0x2000  |  BOL    |
-|  INA236_BUS_UNDER_VOLTAGE    |  0x1000  |  BUL    |
-|  INA236_POWER_OVER_LIMIT     |  0x0800  |  POL    |
-|  INA236_CONVERSION_READY     |  0x0400  |         |
-
-
-|  description alert flags         |  value   |
-|:---------------------------------|:--------:|
-|  INA236_ALERT_FUNCTION_FLAG      |  0x0010  |
-|  INA236_CONVERSION_READY_FLAG    |  0x0008  |
-|  INA236_MATH_OVERFLOW_FLAG       |  0x0004  |
-|  INA236_ALERT_POLARITY_FLAG      |  0x0002  |
-|  INA236_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |
-
-
-The alert line falls when alert is reached.
-
-
 ### Meta information
 
-- **uint16_t getManufacturerID()** should return 0x5449.
+- **uint16_t getManufacturerID()** should return 0x5449
 - **uint16_t getDieID()** should return 0xA080.
 
 
@@ -406,7 +428,7 @@ or by defining INA236_MINIMAL_SHUNT on the command line.
 
 ```cpp
 #ifndef INA236_MINIMAL_SHUNT
-#define INA236_MINIMAL_SHUNT              0.001
+#define INA236_MINIMAL_SHUNT             (0.001)
 #endif
 ```
 

@@ -67,7 +67,12 @@ setModeBusContinuous	KEYWORD2
 setModeShuntBusContinuous	KEYWORD2
 
 setAlertRegister	KEYWORD2
-getAlertFlag	KEYWORD2
+getAlertRegister	KEYWORD2
+setAlertLatchEnable	KEYWORD2
+getAlertLatchEnable	KEYWORD2
+setAlertPolarity	KEYWORD2
+getAlertPolarity	KEYWORD2
+
 setAlertLimit	KEYWORD2
 getAlertLimit	KEYWORD2
 

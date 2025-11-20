@@ -8,7 +8,7 @@
 #include  "SparseMatrix.h"
 
 
-SparseMatrix sm(255);  // max 255 elements.
+SparseMatrix sm(255);  //  max 255 elements.
 
 uint32_t start, stop;
 uint32_t duration;

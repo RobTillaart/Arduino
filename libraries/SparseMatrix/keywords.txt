@@ -13,6 +13,13 @@ get	KEYWORD2
 set	KEYWORD2
 add	KEYWORD2
 boundingBox	KEYWORD2
+boundingBoxX	KEYWORD2
+boundingBoxY	KEYWORD2
+
+first	KEYWORD2
+next	KEYWORD2
+prev	KEYWORD2
+last	KEYWORD2
 
 
 # Constants (LITERAL1)

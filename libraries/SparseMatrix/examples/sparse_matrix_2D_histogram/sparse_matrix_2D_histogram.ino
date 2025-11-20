@@ -4,17 +4,19 @@
 // PURPOSE: demo 2D histogram temperature versus humidity
 //     URL: https://github.com/RobTillaart/SparseMatrix
 //
-// TOPVIEW SHT85  (check datasheet)
-//            +-------+
-// +-----\    | SDA 4 -----
-// | +-+  ----+ GND 3 -----
-// | +-+  ----+ +5V 2 -----
-// +-----/    | SCL 1 -----
-//            +-------+
+//
+//  TOPVIEW SHT85  (check datasheet)
+//             +-------+
+//  +-----\    | SDA 4 -----
+//  | +-+  ----+ GND 3 -----
+//  | +-+  ----+ +5V 2 -----
+//  +-----/    | SCL 1 -----
+//             +-------+
 
 
 #include "SparseMatrix.h"
 #include "SHT85.h"
+
 
 #define SHT85_ADDRESS         0x44
 
@@ -22,6 +24,7 @@ SHT85 sht(SHT85_ADDRESS);
 
 SparseMatrix sm(40);
 uint32_t lastTime = 0;
+
 
 void setup()
 {

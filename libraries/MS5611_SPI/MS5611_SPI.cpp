@@ -1,7 +1,7 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for MS5611 (SPI) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
@@ -268,7 +268,7 @@ float MS5611_SPI::getTemperatureOffset()
 //  https://en.wikipedia.org/wiki/Pressure_altitude
 float MS5611_SPI::getAltitude(float airPressure)
 {
-  //  _pressure is in Pascal (#44) and airPressure in mBar.
+  //  NOTE: _pressure is in Pascal (#44) and airPressure is in mBar.
   float ratio = _pressure * 0.01 / airPressure;
   return 44307.694 * (1 - pow(ratio, 0.190284));
 }
@@ -278,6 +278,16 @@ float MS5611_SPI::getAltitudeFeet(float airPressure)
 {
   float ratio = _pressure * 0.01 / airPressure;
   return 145366.45 * (1 - pow(ratio, 0.190284));
+}
+
+
+//  returns mBar; pressure == mBar; altitude == meter
+float MS5611_SPI::getSeaLevelPressure(float pressure, float altitude)
+{
+  float x = 1 - altitude * 2.256944358E-5;  //  == altitude / 44307.694
+  float ratio = pow(x, 5.2553026);          //  == (1.0 / 0.190284));
+  float seaLevelPressure = pressure / ratio;
+  return seaLevelPressure;
 }
 
 

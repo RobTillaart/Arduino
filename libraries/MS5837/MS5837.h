@@ -2,7 +2,7 @@
 //
 //    FILE: MS5837.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define MS5837_LIB_VERSION        (F("0.3.1"))
+#define MS5837_LIB_VERSION        (F("0.3.2"))
 
 
 //  TYPES
@@ -64,13 +64,20 @@ public:
   //       returns meters.
   //  pressure is in Pascal (SI-unit)
   float    getPressurePascal();
-  //
+
+
   //  ALTITUDE
-  //  air pressure in mBar, returns meters
+  //  airPressure in mBar,
+  //  returns meters
   //  be sure to fill in correct air pressure at sea level.
   float    getAltitude(float airPressure = 1013.25);
-  //  idem, returns feet.
+  //  airPressure is in mBar,
+  //  returns feet.
   float    getAltitudeFeet(float airPressure = 1013.25);
+  //  pressure is in mBar (pressure @ altitude)
+  //  altitude is in meter
+  //  returns mBar (@ sea level)
+  float    getSeaLevelPressure(float pressure, float altitude);
 
 
   //////////////////////////////////////////////////////////////////////
@@ -110,33 +117,34 @@ public:
   uint16_t getPromZero();
 
 protected:
-  int        command(uint8_t cmd);
-  void       initConstants(uint8_t mathMode);
-  uint32_t   readADC();
+  uint32_t readADC();
+  int      command(const uint8_t command);
+  void     initConstants(uint8_t mathMode);
 
+  uint8_t  _address = 0x76;
 
-  uint8_t   _address = 0x76;
-  TwoWire * _wire = NULL;
-
-  float     _pressure;     //  mBar
-  float     _temperature;  //  Celsius
+  float    _temperature;  //  Celsius
+  float    _pressure;     //  mBar
 
   float     C[8];
   uint8_t   _type = MS5837_TYPE_UNKNOWN;
 
   float     _density = 0.99802;  //  water at 20 °C
   //  prepare error handling.
-  int       _error = MS5837_OK;
-  uint32_t  _lastRead;
+  int      _error = MS5837_OK;
+  uint32_t _lastRead;
+
+  TwoWire * _wire = NULL;
 };
 
 
-//////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////
 //
 //  DERIVED CLASSES
 //
 
-//////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 //
 //  MS5803
 //

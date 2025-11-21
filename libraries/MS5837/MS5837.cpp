@@ -1,7 +1,7 @@
 //
 //    FILE: MS5837.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.2
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -261,6 +261,16 @@ float MS5837::getAltitudeFeet(float airPressure)
 }
 
 
+//  returns mBar; pressure == mBar; altitude == meter
+float MS5837::getSeaLevelPressure(float pressure, float altitude)
+{
+  float x = 1 - altitude * 2.256944358E-5;  //  == altitude / 44307.694
+  float ratio = pow(x, 5.2553026);          //  == (1.0 / 0.190284));
+  float seaLevelPressure = pressure / ratio;
+  return seaLevelPressure;
+}
+
+
 //////////////////////////////////////////////////////////////////////
 //
 //  DENSITY for depth
@@ -336,15 +346,15 @@ uint16_t MS5837::getPromZero()
 }
 
 
-//////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 //
 //  PROTECTED
 //
-int MS5837::command(uint8_t cmd)
+int MS5837::command(uint8_t command)
 {
   yield();
   _wire->beginTransmission(_address);
-  _wire->write(cmd);
+  _wire->write(command);
   _error = _wire->endTransmission();
   return _error;
 }
@@ -355,9 +365,9 @@ void MS5837::initConstants(uint8_t mathMode)
   //  Constants that were multiplied in read() - datasheet page 8
   //  do this once and you save CPU cycles.
   //
-  //  datasheet MS5837_30  page 7
+  //                               datasheet MS5837_30  page 7
   //
-  //                          mathMode         = 0    |   = 1    |   = 2    |
+  //                                mode = 0;         |  = 1     |   = 2    |
   C[0] = 1;               //  manufacturer
   C[1] = 32768L;          //  SENSt1   = C[1] * 2^15  |  * 2^16  |  * 2^15  |
   C[2] = 65536L;          //  OFFt1    = C[2] * 2^16  |  * 2^17  |  * 2^16  |
@@ -428,7 +438,7 @@ uint32_t MS5837::readADC()
 }
 
 
-//////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 //
 //  DERIVED CLASSES
 //

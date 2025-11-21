@@ -11,7 +11,7 @@
 
 # MS5837
 
-Library for the MS5837 temperature and pressure sensor and compatibles.
+Arduino library for the MS5837 temperature and pressure sensor and compatibles.
 
 
 ## Description
@@ -47,17 +47,6 @@ This resulted in fixing several bugs in read() and the 0.2.0 version.
 So pre 0.2.0 version are obsolete.
 
 Feedback as always is welcome.
-
-
-### Related
-
-- https://github.com/RobTillaart/pressure Conversions
-- https://github.com/RobTillaart/Temperature Conversions + weather math
-- https://github.com/RobTillaart/MS5611 temperature and pressure sensor
-- https://www.usgs.gov/special-topics/water-science-school/science/water-density
-- https://www.mide.com/air-pressure-at-altitude-calculator
-
-See also .h file
 
 
 ### Compatibles
@@ -144,6 +133,22 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
+### Related libraries
+
+- https://github.com/RobTillaart/pressure - pressure conversions
+- https://github.com/RobTillaart/Temperature - temperature conversions 
+- https://github.com/RobTillaart/MS5837 - temperature pressure sensor 
+- https://github.com/RobTillaart/MS5611
+- https://github.com/RobTillaart/MS5611_SPI
+- https://github.com/RobTillaart/MSP300 - industrial pressure transducer
+- https://swharden.com/blog/2017-04-29-precision-pressure-meter-project/
+- https://github.com/Zakrzewiaczek/ms5611-stm32 - derived library for STM32 boards.
+- https://www.usgs.gov/special-topics/water-science-school/science/water-density
+- https://www.mide.com/air-pressure-at-altitude-calculator
+
+See also .h file
+
+
 ## Interface MS5837
 
 ```cpp
@@ -185,15 +190,23 @@ Multiple calls will return the same value until read() is called again.
 Multiple calls will return the same value until read() is called again.
 - **float getPressurePascal()** returns pressure in Pascal (SI-unit).
 Multiple calls will return the same value until read() is called again.
+
+
+### Altitude
+
 - **float getAltitude(float airPressure = 1013.25)** calculates the altitude,
 based upon actual pressure measured and the current pressure at sea level (parameter airPressure).
-If actual airPressure at sea level is not 1013.25 the altitude will be incorrect.
 Returns the altitude in meters (SI-unit).
 Multiple calls will return the same altitude until a new pressure is **read()**.
 - **float getAltitudeFeet(float airPressure = 1013.25)** calculates the altitude,
 based upon actual pressure measured and the current pressure at sea level (parameter airPressure).
 Returns the altitude in feet.
 Multiple calls will return the same altitude until a new pressure is **read()**.
+- **float getSeaLevelPressure(float pressure, float altitude)** inverse function of **getAltitude()**.
+This function can be used to determine a reference air pressure for the getAltitude() function when
+you are at a defined altitude and you measured the local pressure with **getPressure()**.
+So think of it as calibration-tool for the reference pressure in getAltitude().
+
 
 Experimental note.
 

@@ -19,6 +19,7 @@ getPressure	KEYWORD2
 getPressurePascal	KEYWORD2
 getAltitude	KEYWORD2
 getAltitudeFeet	KEYWORD2
+getSeaLevelPressure	KEYWORD2
 
 setDensity	KEYWORD2
 getDensity	KEYWORD2

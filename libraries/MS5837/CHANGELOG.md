@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2025-11-20
+- add **float getSeaLevelPressure(float pressure, float altitude)**
+- update keywords.txt
+- minor edits
+
 ## [0.3.1] - 2025-09-29
 - fix begin()
 - remove unneeded pressure calculation.
@@ -28,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix #4, read() error after test with hardware
 - change API to **int read()** for better debug-ability
 - improve demo sketch - add getLastError()
-- redo getAltitude() formula 
+- redo getAltitude() formula
 - add sketch MS5837_performance.ino
 - redo 2nd order compensation
 - improve error handling

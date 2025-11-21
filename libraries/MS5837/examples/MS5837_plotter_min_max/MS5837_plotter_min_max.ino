@@ -65,7 +65,7 @@ void loop()
   if (val < minair) minair = val;
   else if (val > maxair) maxair = val;
 
-  
+
 //  Serial.print(++count);
 //  Serial.print("\t");
   Serial.print(minair, 2);

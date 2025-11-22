@@ -1,7 +1,7 @@
 //
-//    FILE: bitHelpers_demo2.ino
+//    FILE: bitHelpersPerformance64.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo performance 64 bit functions
 //     URL: https://github.com/RobTillaart/bitHelpers
 
 
@@ -15,6 +15,11 @@ uint64_t x = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("BITHELPER_LIB_VERSION: ");
+  Serial.println(BITHELPER_LIB_VERSION);
+  Serial.println();
 
   Serial.println("BITSET");
   start = micros();

@@ -38,7 +38,7 @@ New bit functions can be added or investigated, please file an issue on GitHub.
 #include "bitHelpers.h"
 ```
 
-#### BitCount
+### BitCount
 
 several implementations to compare performance.
 
@@ -56,7 +56,7 @@ BitCount - fastest version, SWAG algorithm
 - **uint8_t  bitCount(uint64_t value)**
 
 
-#### Reverse
+### Reverse
 
 T = uint8_t .. uint64_t
 
@@ -65,14 +65,14 @@ T = uint8_t .. uint64_t
 - **T byteReverse(T value)** reverses bytes (8 bit) in a uint16_t .. uint64_t.
 - **T wordReverse(T value)** reverses words (16 bit) in uint32_t and uint64_t.
 
-#### Swap 
+### Swap 
 
 swap upper and lower half: uint8_t .. uint64_t. Is like rotate 50%
 
 - **T swap(T value)** 0x12345678 ==> 0x56781234.
 
 
-#### BitRotate
+### BitRotate
 
 Rotate Left / Right: uint8_t .. uint64_t
 if position larger than # bits original value is returned.
@@ -81,7 +81,7 @@ if position larger than # bits original value is returned.
 - **T bitRotateRight(T value, uint8_t position)** 
 
 
-#### BitFlip
+### BitFlip
 
 BitFlip: uint8_t .. uint64_t  a.k.a toggle
 if position larger than # bits original value is returned.
@@ -89,7 +89,7 @@ if position larger than # bits original value is returned.
 - **T bitFlip(T value, uint8_t position)** flips a single bit at position
 
 
-#### BitRot
+### BitRot
 
 BitRot: uint8_t .. uint64_t
 
@@ -101,7 +101,7 @@ The times parameter allows to apply this n times.
 *Note: a chance of 50% for 2 uint8_t is not equal to 50% chance for 1 uint16_t.*
 
 
-#### BitsNeeded
+### BitsNeeded
 
 How many bits are needed to store / transmit a number?
 
@@ -109,7 +109,7 @@ How many bits are needed to store / transmit a number?
 - **bitsNeeded(n)** A 'recursive strategy' for uint8_t .. uint64_t provides a fast answer. 
 
 
-#### BitSet64 et al.
+### BitSet64 et al.
 
 The following functions are made as the normal **bitset()** etcetera do not work for 64 bit.
 These functions are optimized for speed for **AVR**, **ESP32** and **ESP8266**. 
@@ -169,7 +169,7 @@ or with minimal # toggles?
 
 ## ideas
 
-#### BitReverse n bit number
+### BitReverse n bit number
 
 Trick to reverse a number of n bits  ( 0 < n < 32 ).
 Could also be done similar with 64 bit and or byte / nibble reverse.

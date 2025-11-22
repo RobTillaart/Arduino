@@ -15,6 +15,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("BITHELPER_LIB_VERSION: ");
+  Serial.println(BITHELPER_LIB_VERSION);
   Serial.println();
 
   test_32_bit();
@@ -101,7 +103,6 @@ void printHex32(uint32_t x)
   if (x < 0x10)   Serial.print('0');
   Serial.println(x, HEX);
 }
-
 
 
 //  -- END OF FILE --

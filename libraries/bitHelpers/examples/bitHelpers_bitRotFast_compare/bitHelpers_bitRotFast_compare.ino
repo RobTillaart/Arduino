@@ -12,8 +12,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("BITHELPER_LIB_VERSION: ");
+  Serial.println(BITHELPER_LIB_VERSION);
+  Serial.println();
 
   test8();
   test16();
@@ -138,5 +141,6 @@ void test64()
 void loop()
 {
 }
+
 
 //  -- END OF FILE --

@@ -1,7 +1,7 @@
 //
-//    FILE: bitHelpers_demo.ino
+//    FILE: bitHelpersPerformance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo test performance
 //     URL: https://github.com/RobTillaart/bitHelpers
 
 
@@ -15,6 +15,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("BITHELPER_LIB_VERSION: ");
+  Serial.println(BITHELPER_LIB_VERSION);
   Serial.println();
 
   test_bitCount1_32_bits_variations();

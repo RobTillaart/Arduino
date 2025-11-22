@@ -1,0 +1,29 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+Not identical per run.
+
+bitHelpers_bitRotFast_compare.ino
+BITHELPER_LIB_VERSION: 0.2.0
+
+
+96604
+E6
+141584
+74
+
+97416
+CA92
+142992
+E52D
+
+99372
+4595
+145212
+128FE2F9
+
+101632
+FFFFADE6
+145112
+1880F721
+8A3422D8

@@ -1,0 +1,116 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+D:\Rob\WORK\Arduin X:	FFFFFFFF
+    X:	FFFFBBFD
+ Time:	96.320
+
+
+bitHelpersPerformance.ino
+BITHELPER_LIB_VERSION: 0.2.0
+
+
+test_bitCount1_32_bits_variations
+32	27.980	bitCountReference
+32	39.556	bitCountKR
+32	34.836	bitCountArray
+32	6.924	bitCountF1
+32	11.132	bitCountF2
+
+
+test_bitCount2
+8	1.596	bitCount 8 bit
+16	3.716	bitCount 16 bit
+32	7.172	bitCount 32 bit
+64	33.196	bitCount 64 bit
+
+
+test_bitReverse
+E8
+17
+ACE8
+1735
+1E6A2C48
+12345678
+    X:	12345678
+ Time:	11.508
+
+
+test_nybbleReverse
+71
+17
+5371
+1735
+87654321
+12345678
+    X:	12345678
+ Time:	6.196
+
+
+test_byteReverse
+3517
+1735
+78563412
+12345678
+    X:	12345678
+ Time:	1.532
+
+
+test_swap
+71
+17
+3517
+1735
+56781234
+12345678
+   X:	12345678
+ Time:	0.488
+
+
+test_bitFlip
+    X:	FFFFFFFF
+ Time:	7.916
+
+
+test_bitRotateLeft
+23456781
+34567812
+45678123
+56781234
+67812345
+78123456
+81234567
+12345678
+    X:	12345678
+ Time:	16.398
+
+
+test_bitRotateRight
+81234567
+78123456
+67812345
+56781234
+45678123
+34567812
+23456781
+12345678
+    X:	12345678
+ Time:	15.392
+
+
+test_bitRot
+12345678
+12345678
+12345678
+12345678
+1234567C
+1234577C
+1234577C
+1234577C
+    X:	FFFFFFFF
+    X:	FFFFBBFD
+ Time:	96.320
+
+
+Done...

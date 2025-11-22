@@ -2,7 +2,7 @@
 //
 //    FILE: CHT832X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-12-29
 // PURPOSE: Arduino library for CHT832X temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT832X_LIB_VERSION              (F("0.3.0"))
+#define CHT832X_LIB_VERSION              (F("0.3.1"))
 
 //  CONVERSION TIMING
 //  To configure compile time, datasheet states 60 ms for conversion.
@@ -52,7 +52,7 @@ public:
   int      read();             //  read T and H from device; blocks 60 ms.
   uint32_t lastRead();         //  milliSeconds since start sketch
 
-  //  ACCESS last read TEMP + HUM
+  //  ACCESS last read TEMPERATURE + HUMIDITY
   float    getTemperature();   //  get cached value
   float    getHumidity();      //  get cached value
 
@@ -89,20 +89,21 @@ public:
   void     softwareReset();
 
   //  META DATA
-  uint16_t getNIST(uint8_t id);  //  id = 0,1,2
+  //  getNIST() is possibly not unique, see readme.md.
+  uint16_t getNIST(uint8_t id);  //  id = 0, 1, 2
   uint16_t getManufacturer();    //  expect 0x5959
 
   //  ERROR
   int      getError();
 
-private:
+protected:
   float    _humOffset       = 0.0f;
   float    _tempOffset      = 0.0f;
   float    _humidity        = 0.0f;
   float    _temperature     = 0.0f;
   uint32_t _lastRead        = 0;
   uint32_t _lastRequest     = 0;
-  uint32_t _heatStart       = 0;  //  TODO investigate
+  uint32_t _heatStart       = 0;
   int      _error           = CHT832X_OK;
 
   TwoWire* _wire;
@@ -114,6 +115,23 @@ private:
 
 
   uint8_t  _crc8(uint16_t data);
+};
+
+
+//////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+class CHT8320 : public CHT832X
+{
+public:
+  CHT8320(const uint8_t address = CHT832X_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
+};
+
+class CHT8325 : public CHT832X
+{
+public:
+  CHT8325(const uint8_t address = CHT832X_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 };
 
 

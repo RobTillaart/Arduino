@@ -1,7 +1,7 @@
 //
 //    FILE: CHT832X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-12-29
 // PURPOSE: Arduino library for CHT832X temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -58,7 +58,9 @@ int CHT832X::begin()
 bool CHT832X::isConnected()
 {
   _wire->beginTransmission(_address);
-  return (_wire->endTransmission() == 0);
+  int rv = _wire->endTransmission();
+  //  Serial.println(rv);
+  return (rv == 0);
 }
 
 
@@ -400,6 +402,24 @@ uint8_t CHT832X::_crc8(uint16_t data)
   }
   return _crc;
 }
+
+
+//////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+CHT8320::CHT8320(const uint8_t address, TwoWire *wire)
+        :CHT832X(address, wire)
+{
+  //  type?
+}
+
+CHT8325::CHT8325(const uint8_t address, TwoWire *wire)
+        :CHT832X(address, wire)
+{
+}
+
+
 
 //  -- END OF FILE --
 

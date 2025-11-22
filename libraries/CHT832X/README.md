@@ -16,7 +16,7 @@ Arduino library for CHT832X temperature and humidity sensor.
 
 ## Description
 
-**EXPERIMENTAL**
+**Experimental**
 
 The CHT8320 and CHT8325 are temperature and relative humidity sensors. 
 They both have the same interface, the CHT8325 is slightly more accurate.
@@ -153,19 +153,20 @@ since last request, indicating conversion ready.
 store them in cache until next readData() call.
 
 The ASYNC interface will be extended when other acquisition modi
-are supported. There is continuous modes that work differently.
+are supported. There are continuous modes that work differently.
 
 
 ### Synchronous interface
 
-Note: the read() call wraps the ASYNC interface in a blocking call
-which lasts for 60 milliseconds.
+Note: the read() call wraps the ASYNC interface in a **blocking** call
+which lasts for **60 milliseconds**.
 
 - **int read()** reads both the temperature and humidity from the sensor.
 Can be called at most once per second, otherwise it will return **CHT832X_ERROR_LASTREAD**
 Return value should be tested and be **CHT832X_OK**.
 - **uint32_t lastRead()** returns lastRead in milliSeconds since start sketch.
 Useful to check when it is time to call **read()** again, or for logging.
+LastRead is updated only when **read()** is successful.
 
 
 ### Get Temperature and Humidity
@@ -239,8 +240,15 @@ Check datasheet for details.
 
 ### Meta data
 
-- **uint16_t getNIST(uint8_t id)** id = 0, 1, 2; returns 6 bytes of unique ID.
-Can be used as a unique identifier for your product.
+In issue https://github.com/RobTillaart/CHT832X/issues/7 it is reported that 
+the CHT8320 does not have an unique NIST identifier (any more).
+At the moment it is unknown if this is for one manufacturer or for all.
+Feedback on this topic is welcome.
+
+In short, the getNIST() function is probably not usable to identify your product.
+
+- **uint16_t getNIST(uint8_t id)** id = 0, 1, 2; returns 2 x 3 = 6 bytes of 
+the device ID. As said above, not guaranteed unique.
 - **uint16_t getManufacturer()** Returns 0x5959 according to the datasheet.
 Other manufacturers may return different number.
 
@@ -270,20 +278,20 @@ Resets internal error to CHT832X_OK.
 
 #### Should
 
-- make read-delay of 60 ms configurable uint8_t
-- investigate missing functions.
+- make read-delay of 60 ms configurable uint8_t (0.4.0 ?)
+- test heater functions.
+- test softwareReset().
 - operational modi
-  - single shot 
+  - single shot (supported)
   - continuous (#samples per second)
   - sleep?
+- investigate missing functions.
 
 #### Could
 
-- derived classes for CHT8320 and CHT8325 (convenience)
-- TODO's in code
 - test different platforms
   - AVR, ESP32, ESP8266, STM32, RP2040, ...
-- add examples
+- add examples (which functions?)
 
 ### Wont
 

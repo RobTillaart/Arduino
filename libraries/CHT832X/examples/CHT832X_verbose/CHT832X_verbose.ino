@@ -9,7 +9,7 @@
 
 #include "CHT832X.h"
 
-CHT832X CHT;
+CHT8320 CHT;
 
 
 void setup()
@@ -81,3 +81,6 @@ void loop()
   //  Add a delay to prevent spamming the serial monitor
   delay(1000);
 }
+
+
+//  -- END OF FILE --

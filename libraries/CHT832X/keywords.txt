@@ -2,6 +2,8 @@
 
 # Data types (KEYWORD1)
 CHT832X	KEYWORD1
+CHT8320	KEYWORD1
+CHT8325	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)

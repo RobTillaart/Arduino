@@ -1,7 +1,7 @@
 //
 //    FILE: MAX471.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-01-30
 // PURPOSE: Arduino library for MAX471 current sensor.
 //     URL: https://github.com/RobTillaart/MAX471_RT
@@ -37,7 +37,9 @@ MAX471::MAX471(uint8_t currentPin, uint8_t voltagePin, uint8_t signPin)
 
 void MAX471::begin(float maxVoltage, uint16_t maxSteps)
 {
-  _units = maxVoltage / maxSteps;
+  //  catch values 0 and 1.
+  if (maxSteps > 1) _units = maxVoltage / maxSteps;
+  else _units = maxVoltage;
 }
 
 
@@ -51,11 +53,11 @@ float MAX471::readCurrent(uint8_t times)
     sum += analogRead(_currentPin) ;
   }
   _current = sum * _units / times;
-  if (_signPin != 255) 
+  if (_signPin != 255)
   {
     if (digitalRead(_signPin) == HIGH)
     {
-      _current *= -1;
+      _current = -_current;
     }
   }
   return _current;
@@ -88,6 +90,18 @@ float MAX471::readVoltageMilliVolts(uint8_t times)
 }
 
 
+float MAX471::getLastCurrent()
+{
+  return _current;
+}
+
+
+float MAX471::getLastVoltage()
+{
+  return _voltage;
+}
+
+
 float MAX471::calcPower()
 {
   return _current * _voltage;
@@ -97,6 +111,27 @@ float MAX471::calcPower()
 float MAX471::calcPowerMilliWatt()
 {
   return _current * _voltage * 1000;
+}
+
+
+void MAX471::setFixedVoltage(float volts)
+{
+  _voltage = volts;
+}
+
+
+//////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASSES
+//
+MAX472::MAX472(uint8_t currentPin, uint8_t voltagePin)
+       :MAX471(currentPin, voltagePin)
+{
+}
+
+MAX472::MAX472(uint8_t currentPin, uint8_t voltagePin, uint8_t signPin)
+       :MAX471(currentPin, voltagePin, signPin)
+{
 }
 
 

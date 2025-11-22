@@ -11,6 +11,7 @@ MAX471 mx(A0, A1);
 
 uint32_t lastTime = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -18,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX471_LIB_VERSION: ");
   Serial.println(MAX471_LIB_VERSION);
+  Serial.println();
 
   mx.begin(5.0, 1023);
 }

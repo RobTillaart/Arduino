@@ -16,6 +16,7 @@ void setup()
   //  Serial.println(__FILE__);
   //  Serial.print("MAX471_LIB_VERSION: ");
   //  Serial.println(MAX471_LIB_VERSION);
+  //  Serial.println();
 
   mx.begin(5.0, 1023);
 

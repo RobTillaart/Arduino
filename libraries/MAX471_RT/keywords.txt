@@ -2,6 +2,7 @@
 
 # Data types (KEYWORD1)
 MAX471	KEYWORD1
+MAX472	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
@@ -14,6 +15,9 @@ readVoltageMilliVolts	KEYWORD2
 calcPower	KEYWORD2
 calcPowerMilliWatt	KEYWORD2
 
+getLastCurrent	KEYWORD2
+getLastVoltage	KEYWORD2
+setFixedVoltage	KEYWORD2
 
 # Constants (LITERAL1)
 MAX471_LIB_VERSION	LITERAL1

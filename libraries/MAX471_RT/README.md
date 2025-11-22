@@ -16,26 +16,28 @@ Arduino library for MAX471 current sensor.
 
 ## Description
 
+**Experimental**
+
 The MAX471 is an older current sensor which can handle up to 50 Watt, 
 with a maximum of 25 Volts or a current of 3 Amperes.
-It is officially not supported anymore however there are still many
+It is officially not supported any more however there are still many
 for sale.
 The MAX471 is also in the market as the GY-471.
 
 The MAX472 seems to be compatible with this library but it uses 
 has some different wiring. Details see datasheet.
 
-The library is **experimental** and needs testing.
+The library needs more testing.
 
 Feedback, issues and improvements are welcome, 
 Please open an issue on GitHub.
 
 
-#### Limits
+### Limits
 
 **Warning** Use a voltage divider if you measure voltages above the
 range that is supported by your processor! 
-Always include some safety margin (10%) in such voltage divider so
+Always include a safety margin (>= 10%) in such voltage divider so
 the peak is about 90% of the ADC range.
 
 |  unit     |  limits    |  notes    |
@@ -45,14 +47,16 @@ the peak is about 90% of the ADC range.
 |  Current  |  3 Ampere  |  at 16 V
 
 
-#### Related
+### Related
 
 - https://wolles-elektronikkiste.de/en/max471-current-sensor (excellent explanation)
+- https://github.com/RobTillaart/ACS712
+- https://github.com/RobTillaart/INA226
 
 
 ## Connection
 
-There are two breakout board variants, a purple board and a red board.
+There are at least two breakout board variants, I have seen a purple board and a red board.
 The main difference is that the purple board has a sign pin. 
 This pin indicate the direction of the current.
 
@@ -65,19 +69,24 @@ The library has two constructors, one with and one without the signPin parameter
 #include "MAX471.h"
 ```
 
-#### Constructor
+### Constructor
 
-The MAX471 needs two ADC pins. Current version does not support sharing 
-the same pin for both current and voltage. 
+The MAX471 needs two ADC pins. Current version of the library does not support 
+sharing the same pin for both current and voltage. 
 An external multiplexer could handle this.
 
 - **MAX471(uint8_t currentPin, uint8_t voltagePin)** red + purple board
 - **MAX471(uint8_t currentPin, uint8_t voltagePin, uint8_t signPin)** purple board.
 
+MAX472 is just a wrapper for now
 
-#### Configure
+- **MAX472(uint8_t currentPin, uint8_t voltagePin)** red + purple board
+- **MAX472(uint8_t currentPin, uint8_t voltagePin, uint8_t signPin)** purple board.
 
-- **void begin(float maxVoltage = 5, uint16_t maxSteps = 1023)**
+
+### Configure
+
+- **void begin(float maxVoltage = 5.0, uint16_t maxSteps = 1023)**
 Sets the parameters voltage and maxSteps of the internal ADC.
 Note this allows to update the voltage runtime.
 Steps must be larger than zero of course, typical 255 (8 bit), 1023 (10 bit), 
@@ -87,13 +96,42 @@ Steps must be larger than zero of course, typical 255 (8 bit), 1023 (10 bit),
 Think of setting the analog reference (AREF) to 1V1.
 
 
-#### Read
+### Read
+
+Multiple reads averages over time, this stabilizes the measurements 
+and might result a slightly higher resolution. Typical values are 2..16.
+Drawback of multiple reads is that you do not get a "single point in time" measurement. 
+So be aware if you want to measure fast changing currents.
+Another drawback of multiple reads is it will block your code longer.
 
 - **float readCurrent(uint8_t times = 1)** returns Ampere
-- **float readCurrentMA(uint8_t times = 1)** wrapper, returns milliAmpere
+- **float readCurrentMilliAmpere(uint8_t times = 1)** returns milliAmpere
 - **float readVoltage(uint8_t times = 1)** returns Volts
-- **float calcPower()** returns Watt, but only after current and voltage 
-has been read as it uses the cached values.
+- **float readVoltageMilliVolts(uint8_t times = 1)** returns milliVolts.
+
+Read cached values
+
+- **float getLastCurrent()** returns the last read current in Ampere
+- **float getLastVoltage()** returns the last read voltage in Volts.
+
+
+### Power
+
+Not a feature of the MAX471 directly, however if both current and voltage are
+measured, one can calculate the power = current x voltage easily.
+If voltage is stable in your project it might be sufficient to only update 
+the current measurement to calculate the power.
+
+- **float calcPower()** returns power in Watt.
+- **float calcPowerMilliWatt()** returns power in milliWatt.
+
+### Experimental
+
+By setting a fixed voltage one does not need to call **readVoltage()**.
+Use getLastVoltage() to read back the value set..
+
+- **void setFixedVoltage(float volts)** sets the internal voltage variable.
+
 
 
 ## Future

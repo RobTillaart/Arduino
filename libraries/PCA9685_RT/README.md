@@ -112,7 +112,7 @@ Obsolete in near future, use functions above as those are less error prone.
 
 ### Constants for mode registers
 
-|  Name                     |  Value  |  Description                         |
+|  MODE1 names              |  Value  |  Description                         |
 |:--------------------------|:-------:|:-------------------------------------|
 |  PCA9685_MODE1_RESTART    |  0x80   |  0 = disable       1 = enable        |
 |  PCA9685_MODE1_EXTCLK     |  0x40   |  0 = internal      1 = external      |
@@ -123,7 +123,10 @@ Obsolete in near future, use functions above as those are less error prone.
 |  PCA9685_MODE1_SUB3       |  0x02   |  0 = disable       1 = enable        |
 |  PCA9685_MODE1_ALLCALL    |  0x01   |  0 = disable       1 = enable        |
 |  PCA9685_MODE1_NONE       |  0x00   |                                      |
-|  ----                     |         |                                      |
+
+
+|  MODE2  names             |  Value  |  Description                         |
+|:--------------------------|:-------:|:-------------------------------------|
 |  PCA9685_MODE2_INVERT     |  0x10   |  0 = normal        1 = inverted      |
 |  PCA9685_MODE2_STOP       |  0x08   |  0 = on STOP       1 = on ACK        |
 |  PCA9685_MODE2_TOTEMPOLE  |  0x04   |  0 = open drain    1 = totem-pole    |
@@ -157,16 +160,22 @@ The signal is divided in 4096 steps, 0..4095.
 The pulse can begin **onTime** on any step and it can stop on any step **offTime**.
 This allows e.g. to distribute the power over the 16 channels, e.g. the
 channels do not need to start at the same moment with HIGH.
+The values 4096 allows to set the FULL_ON or FULL OFF bit.
 - **uint8_t setPWM(uint8_t channel, offTime)** simple PWM that always start on **onTime = 0**.
 - **uint8_t getPWM(uint8_t channel, uint16_t \* onTime, uint16_t \* offTime)** 
 read back the configuration of the channel.
+Note the values may include the FULL ON / FULL OFF bit (0x1000).
 - **uint8_t allOFF()** switches all PWM channels OFF. **Experimental** in 0.3.0.
 To "undo" the allOFF one can call the **reset()** function and set all 
 PWM channels again.
-- **uint8_t write1(channel, mode)** mode = HIGH or LOW, just use the PCA9685 as 
-a digital pin, write 1 bit.
-This single function replaces the setON() and setOFF() that will become
+- **uint8_t write1(uint8_t channel, uint8_t mode)** mode = HIGH or LOW, just use the PCA9685 as 
+a digital pin, write 1 bit. Returns PCA9685_OK or error code.
+This single write1() function replaces the setON() and setOFF() that will become
 obsolete in the future.
+
+**fix #29 experimental**
+- **uint8_t read1(uint8_t channel)** reads the status of the digital pin.
+Can return { LOW = 0, HIGH = 1, other = 2 } or an error code.
 
 
 ### Frequency 
@@ -185,7 +194,7 @@ After changing the frequency, one must set all channels (again),
 so one should set the frequency in **setup()**
 
 The parameter offset can be used to tune the **preScaler** to get a frequency
-closer to the requested value. See **PCA9685_setFrequency_offset** example. 
+closer to the requested value. See **PCA9685_setFrequency_offset.ino** example. 
 Default the offset = 0. As the **preScaler** is smaller at higher frequencies 
 higher frequencies are less accurate.
 Making offset too large can result in very incorrect frequencies.
@@ -204,6 +213,8 @@ When using offset, the **getFrequency(false)** will return the adjusted **preSca
 |  PCA9685_ERR_CHANNEL |   0xFE  |  Channel out of range
 |  PCA9685_ERR_MODE    |   0xFD  |  Invalid mode
 |  PCA9685_ERR_I2C     |   0xFC  |  I2C communication error
+
+Be sure to check **lastError()** for possible errors if you want robustness.
 
 
 ## SUB CALL and ALL CALL
@@ -233,11 +244,15 @@ Typically there is only one such group but one can configure more of them by app
 
 The functions to enable all/sub-addresses are straightforward:
 
+SubCall functions:
+
 - **bool enableSubCall(uint8_t nr)** nr = 1,2,3
 - **bool disableSubCall(uint8_t nr)** nr = 1,2,3
 - **bool isEnabledSubCall(uint8_t nr)** nr = 1,2,3
 - **bool setSubCallAddress(uint8_t nr, uint8_t address)**
 - **uint8_t getSubCallAddress(uint8_t nr)**
+
+AllCall functions:
 
 - **bool enableAllCall()**
 - **bool disableAllCall()**
@@ -310,7 +325,8 @@ For further details of the development, see - #10 (PCA9634 repo)
 - improve error handling
   - return values etc.
   - documentation.
-- #defines ==> const int?
+- #defines ==> const uint16_t ? (not possible for all defines)
+
 
 #### Could
 
@@ -318,6 +334,7 @@ For further details of the development, see - #10 (PCA9634 repo)
 - unit tests
 - investigate int vs uint16_t ?
   - **setFrequency(), getFrequency(), \_freq**
+- need for an **allON()** function?
 
 #### Wont
 

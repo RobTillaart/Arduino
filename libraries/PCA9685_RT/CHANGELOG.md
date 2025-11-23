@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.3] - 2025-11-13
+- fix #29, add read1()
+- fix mask in setPWM()
+- refactored getPWM()
+- update GitHub actions
+- made some functions explicit deprecated.
+- update examples
+- update readme.md
+- update keywords.txt
+- minor edits
+
+
 ## [0.7.2] - 2025-05-08
 - fix #30, Sync with PCA9634
 - fix OutputEnable pin code

@@ -14,6 +14,7 @@ PCA9685 ledArray(0x40);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9685_LIB_VERSION: ");
   Serial.println(PCA9685_LIB_VERSION);
@@ -28,6 +29,7 @@ void setup()
   testFrequency();
   delay(2000);
   testWrite1(LOW);
+  testRead1();
 
   Serial.print(millis());
   Serial.print("\t");
@@ -45,6 +47,32 @@ void testWrite1(uint8_t mode)
     ledArray.write1(channel, mode);
     delay(100);
   }
+}
+
+
+void testRead1()
+{
+  Serial.print(millis());
+  Serial.print("\t");
+  Serial.println(__FUNCTION__);
+
+  //  5 cases to test, expect 1,0,1,0,2
+  //  FULL ON
+  ledArray.setPWM(0, 4096, 0);
+  Serial.print(ledArray.read1(0));  //  HIGH
+  //  FULL OFF
+  ledArray.setPWM(0, 0, 4096);
+  Serial.print(ledArray.read1(0));  //  LOW
+  //  DUTY = 100%
+  ledArray.setPWM(0, 0, 4095);
+  Serial.print(ledArray.read1(0));  //  HIGH
+  //  DUTY = 0%
+  ledArray.setPWM(0, 0, 0);
+  Serial.print(ledArray.read1(0));  //  LOW
+  //  DUTY = 50%
+  ledArray.setPWM(0, 0, 2047);
+  Serial.print(ledArray.read1(0));  //  2
+  Serial.println();
 }
 
 
@@ -124,4 +152,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

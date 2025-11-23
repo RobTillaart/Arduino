@@ -3,7 +3,7 @@
 //    FILE: PCA9685.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 24-apr-2016
-// VERSION: 0.7.2
+// VERSION: 0.7.3
 // PURPOSE: Arduino library for PCA9685 I2C LED driver, 16 channel PWM, 12 bit.
 //     URL: https://github.com/RobTillaart/PCA9685_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9685_LIB_VERSION         (F("0.7.2"))
+#define PCA9685_LIB_VERSION         (F("0.7.3"))
 
 // ERROR CODES
 #define PCA9685_OK                  0x00
@@ -111,6 +111,7 @@ public:
   //  onTime = 0..4095, offTime = 0..4095
   //  allows shifted PWM's e.g. 2 servo's that do not start at same time.
   //         this will distribute the (peak) load
+  //  a value of 4096 sets the FULL_ON or FULL_OFF bit.
   uint8_t  setPWM(uint8_t channel, uint16_t onTime, uint16_t offTime);
   uint8_t  getPWM(uint8_t channel, uint16_t* onTime, uint16_t* offTime);
 
@@ -123,6 +124,8 @@ public:
   //  note: as the frequency is converted to an 8 bit pre-scaler
   //       the frequency set will seldom be exact, but best effort.
   uint8_t  setFrequency(uint16_t freq, int offset = 0);
+  //  cache == false returns the actual used frequency (with offset).
+  //  cache == true returns the set frequency without offset.
   uint16_t getFrequency(bool cache = true);
 
 
@@ -130,12 +133,12 @@ public:
   //
   //  WRITE
   //
-  //  set channel  HIGH or LOW (effectively no PWM)
+  //  set channel  mode == HIGH or LOW (effectively no PWM)
   uint8_t  write1(uint8_t channel, uint8_t mode);
-
-  //  for backwards compatibility; will be removed in future
-  uint8_t  setON(uint8_t channel)   { return write1(channel, HIGH); };
-  uint8_t  setOFF(uint8_t channel)  { return write1(channel, LOW); };
+  //  returns {HIGH, LOW, 2},
+  //           2 => PWM value set; use getPWM() if needed.
+  //  check getError() to see if an I2C error occurred.
+  uint8_t  read1(uint8_t channel);
 
   uint8_t  allOFF();
 
@@ -192,7 +195,14 @@ public:
   //
   [[deprecated("use setMode1(value) or setMode2(value) instead")]]
   uint8_t  writeMode(uint8_t reg, uint8_t value);
+  [[deprecated("use getMode1() or getMode2() instead")]]
   uint8_t  readMode(uint8_t reg);
+
+  //  for backwards compatibility; will be removed in future
+  [[deprecated("use write1(uint8_t channel, uint8_t mode) instead")]]
+  uint8_t  setON(uint8_t channel)   { return write1(channel, HIGH); };
+  [[deprecated("use write1(uint8_t channel, uint8_t mode) instead")]]
+  uint8_t  setOFF(uint8_t channel)  { return write1(channel, LOW); };
 
 
 private:
@@ -200,6 +210,7 @@ private:
   uint8_t  writeRegister(uint8_t reg, uint8_t value);
   uint8_t  writeRegister2(uint8_t reg, uint16_t a, uint16_t b);
   uint8_t  readRegister(uint8_t reg);
+  int      readRegister2(uint8_t reg, uint16_t * v1, uint16_t * v2);
 
   uint8_t  _address;
   TwoWire * _wire;

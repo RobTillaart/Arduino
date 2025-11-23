@@ -32,6 +32,7 @@ int lines = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9685_LIB_VERSION: ");
   Serial.println(PCA9685_LIB_VERSION);

@@ -1,7 +1,7 @@
 //
 //    FILE: BitArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 //          http://forum.arduino.cc/index.php?topic=361167

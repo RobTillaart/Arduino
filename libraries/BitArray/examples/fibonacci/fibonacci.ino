@@ -1,6 +1,6 @@
 //    FILE: Fibonacci.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: Generate Fibonacci numbers with bit array
+// PURPOSE: Generate first 1000 Fibonacci numbers with bitArray
 //     URL: https://github.com/RobTillaart/BitArray
 //     URL: https://forum.arduino.cc/index.php?topic=532760.0
 
@@ -8,7 +8,8 @@
 #include "BitArray.h"
 
 
-#define NR 70
+//  length of the 1000th Fibonacci number.
+#define NR 70  
 
 BitArray a;
 BitArray b;
@@ -17,6 +18,12 @@ BitArray b;
 void setup()
 {
   Serial.begin(230400);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("BITARRAY_LIB_VERSION: ");
+  Serial.println(BITARRAY_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   //  10 bit can hold 3 digits 000..999 (1000 with overflow)
   //  10 bits give effective use of 1000/1024 = 97%

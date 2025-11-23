@@ -14,10 +14,12 @@ BitArray b;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LIB VERSION:\t");
+  Serial.print("BITARRAY_LIB_VERSION: ");
   Serial.println(BITARRAY_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   //  shows reclaiming memory
   test(10, 1000);  //  1024 steps

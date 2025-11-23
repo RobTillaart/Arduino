@@ -1,7 +1,7 @@
 //
-//    FILE: bitArray_toggle.ino
+//    FILE: bitArrayToggle.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo performance toggle bitarray
+// PURPOSE: demo performance toggle bitArray
 //     URL: https://github.com/RobTillaart/BitArray
 //     URL: https://forum.arduino.cc/index.php?topic=361167.0
 
@@ -19,10 +19,11 @@ volatile int32_t x = 0;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LIB VERSION:\t");
+  Serial.print("BITARRAY_LIB_VERSION: ");
   Serial.println(BITARRAY_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   b.begin(5, 1000);

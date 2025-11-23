@@ -26,7 +26,7 @@ into multiple bytes, and byte borders. Depending where an element is located wri
 can take more time. You need to check if your application needs more performance than
 this library can deliver. 
 
-#### Related
+### Related
 
 The BitArray library is one from a set of three:
 
@@ -35,14 +35,15 @@ The BitArray library is one from a set of three:
 - https://github.com/RobTillaart/nibbleArray for elements of 4 bits or smaller (values 0 .. 15).
 
 
-#### Notes
+### Notes
 
 The BitArray class allocates dynamic memory, so called BA_SEGMENTS, 
 each of 200 bytes.
 As the memory size of different processors differ the maximum amount of SEGMENTS 
 depends on architecture.
 
-The library is tested on AVR architecture only.
+The library is tested on AVR architecture only. On other processors e.g. ESP32 and RPI pico
+one might use a different implementation as continuous memory is possible.
 
 
 ## Interface
@@ -52,27 +53,41 @@ The library is tested on AVR architecture only.
 
 ```
 
-#### Constructor
+### Constructor
 
-- **BitArray()** Constructor
-- **~BitArray()** Destructor, frees dynamic memory
-- **uint8_t begin(const uint8_t bits, const uint16_t size)** Frees memory used and allocates the memory requested. 
+- **BitArray()** Constructor.
+- **~BitArray()** Destructor, frees dynamic memory.
+- **uint8_t begin(const uint8_t bits, const uint16_t size)**
+Frees memory used and allocates the memory requested. 
 The maximum number of elements is 65535 if memory allows, 
 the maximum element size is 32.
+Returns an error-code or **BA_OK**.
 
-Better names could be **bits == elementSize** and **size == elementCount**.
+Better names could be **bits ==> elementSize** and **size ==> elementCount**.
 
 
-#### Admin
+### Administrative
 
 - **uint16_t capacity()** idem.
 - **uint16_t memory()** idem.
 - **uint16_t bits()** idem.
 - **uint16_t segments()** idem.
+
+### Error
+
 - **uint8_t  getError()** idem.
 
+|  Error                |  value       |  Notes  |
+|:----------------------|:------------:|:--------|
+|  BA_ERR               |  0xFFFFFFFF  |
+|  BA_OK                |  0x00        |
+|  BA_NO_MEMORY_ERR     |  0x01        |
+|  BA_IDX_RANGE_ERR     |  0x02        |
+|  BA_ELEMENT_SIZE_ERR  |  0x03        |
+|  BA_SIZE_ERR          |  0x04        |
 
-#### base functions
+
+### base functions
 
 - **void clear()** sets all elements to 0.
 - **uint32_t get(const uint16_t index)** gets the value of the element at index.
@@ -97,13 +112,13 @@ Return value is maxValue (debug info).
 - return value **toggle()** could be new value? (0.3.0)
   - code prep is working (commented for now)
 - naming parameters ** begin()** (0.3.0)
-
+  - elementSize, elementCount
 
 #### Could
 
 - functional examples.
 - investigate element size of 64 (for doubles) and beyond.
-- move code to .cpp (0.3.0)
+- move code to .cpp (0.3.0), needed?
 
 
 #### Wont

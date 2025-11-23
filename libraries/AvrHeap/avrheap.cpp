@@ -1,7 +1,7 @@
 //
 //    FILE: avrheap.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 //    DATE: 2015-10-25
 // PURPOSE: Experimental Arduino library to investigate the AVR heap Arduino UNO
 //     URL: https://github.com/RobTillaart/avrheap

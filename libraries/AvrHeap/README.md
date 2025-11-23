@@ -11,7 +11,9 @@
 
 # AVRheap
 
-Arduino library to investigate the heap of an avr processor, e.g. UNO (AVR328).
+**Experimental**
+
+Arduino library to investigate the heap of an AVR processor, e.g. UNO (AVR328).
 
 **Note**: this is an **experimental** library and very specific, not for beginners.
 
@@ -22,7 +24,7 @@ This library can analyse runtime the structure of the heap.
 This can be useful for debugging memory allocation.
 
 
-#### Related
+### Related
 
 - http://forum.arduino.cc/index.php?topic=27536.15
 - http://forum.arduino.cc/index.php?topic=355660

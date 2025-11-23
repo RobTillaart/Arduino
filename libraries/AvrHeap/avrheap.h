@@ -2,7 +2,7 @@
 //
 //    FILE: avrheap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 //    DATE: 2015-10-25
 // PURPOSE: Experimental Arduino library to investigate the AVR heap Arduino UNO
 
@@ -16,7 +16,7 @@
 #include "Printable.h"
 
 
-#define AVRHEAP_LIB_VERSION                   (F("0.2.7"))
+#define AVRHEAP_LIB_VERSION                   (F("0.2.8"))
 
 
 class Avrheap : public Printable

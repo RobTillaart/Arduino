@@ -11,6 +11,14 @@
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.print(F(__FILE__));
+  Serial.print(F("AVRHEAP_LIB_VERSION: "));
+  Serial.println(AVRHEAP_LIB_VERSION);
+  Serial.println();
+
+  Serial.println("AVR only");
 }
 
 
@@ -30,14 +38,17 @@ int *par[10];
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.print(F(__FILE__));
+  Serial.print(F("AVRHEAP_LIB_VERSION: "));
+  Serial.println(AVRHEAP_LIB_VERSION);
+  Serial.println();
+
   int seed = analogRead(A0) + analogRead(A3) + analogRead(A2);
   seed ^= (int)micros();
   randomSeed(seed);
-  Serial.begin(115200);
-  Serial.print(F("Start "));
-  Serial.print(F(__FILE__));
-  Serial.print(F("\nLibVersion "));
-  Serial.println(AVRHEAP_LIB_VERSION);
+
 
   Serial.println();
   Serial.print(F("HEAP ADDR: "));

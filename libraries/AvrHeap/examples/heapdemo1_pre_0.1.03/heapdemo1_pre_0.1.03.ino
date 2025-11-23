@@ -16,9 +16,12 @@ int *par[10];
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
-  Serial.println(__FILE__);
+  Serial.println();
+  Serial.print(F(__FILE__));
+  Serial.print(F("AVRHEAP_LIB_VERSION: "));
   Serial.println(AVRHEAP_LIB_VERSION);
+  Serial.println();
+
 
   Serial.println();
   Serial.print("HEAP ADDR:\t");

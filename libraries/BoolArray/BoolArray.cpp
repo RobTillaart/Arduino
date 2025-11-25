@@ -1,7 +1,7 @@
 //
 //  FILE: BoolArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2015-12-06
 // PURPOSE: BoolArray library for Arduino
 //     URL: https://github.com/RobTillaart/BoolArray
@@ -19,6 +19,7 @@ BoolArray::BoolArray()
 {
   _array = NULL;
   _size = 0;
+  _bytes = 0;
 }
 
 
@@ -35,12 +36,12 @@ uint8_t BoolArray::begin(const uint16_t size)
   {
     return BOOLARRAY_SIZE_ERROR;
   }
-  // do we need to re-allocate?
+  //  do we need to re-allocate?
   if (_size != size)
   {
     _size  = size;
     _bytes = (_size + 7) / 8;
-    if (_array) 
+    if (_array)
     {
       free(_array);
     }
@@ -73,7 +74,7 @@ uint8_t BoolArray::setAll(const uint8_t value)
   if (_array == NULL) return BOOLARRAY_INIT_ERROR;
   uint8_t *p = _array;
   uint8_t t = _bytes;
-  if (value == 0) 
+  if (value == 0)
   {
     while(t--) *p++ = 0;
   }
@@ -133,6 +134,7 @@ BoolArray32::BoolArray32()
 {
   _array = NULL;
   _size = 0;
+  _bytes = 0;
 }
 
 

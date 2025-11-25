@@ -11,23 +11,23 @@
 
 # BoolArray
 
-Arduino library for compact array of booleans of max size 2000 (UNO).
+Arduino library for compact array of booleans of max size 10000 (UNO R3).
 
 
 ## Description
 
 The BoolArray class allows the user to instantiate an array of booleans, allocating only one bit per element. 
 For example one could create an array of 1000 throws with a coin. Normally this would take 1000 bytes,
-but BoolArray can store one throw in 1 bit, so 1000 throws in approx 125 bytes.
+but BoolArray can store one throw in 1 bit, so store the 1000 throws in approx 125 bytes.
 
 The class is optimized for storage by packing 8 elements of the array in one byte.
 You need to check if your application needs more performance than this library can deliver. 
 
-#### Notes
+### Notes
 
 The BoolArray class allocates dynamic memory.
 The **BOOLARRAY_MAXSIZE** is set to 10000 (booleans). 
-This number is chosen as it is about the maximum one can allocate in one call on an UNO. 
+This number is chosen as it is about the maximum one can allocate in one call on an UNO R3. 
 
 If one want to allocate more booleans, adjust the **BOOLARRAY_MAXSIZE**. 
 This can be done as a command line option.
@@ -35,7 +35,7 @@ This can be done as a command line option.
 The library is tested on AVR architecture only.
 
 
-#### BoolArray32
+### BoolArray32
 
 Since 0.3.0 a **BoolArray32** class is added - **experimental** for now.
 
@@ -49,7 +49,7 @@ that are native 32 bit (not verified yet).
 On an Arduino UNO the **BoolArray32** class is slower.(verified).
 
 
-#### Related
+### Related
 
 The BitArray library is one from a set of three:
 
@@ -62,29 +62,31 @@ BoolArray is faster than BitArray as it only supports single bits and does not n
 of different bytes to read/write a value. However BoolArray currently only supports 2000 bits while
 BitArray can support more.
 
+
 ## Performance
 
-See **boolArrayDemo0.ino**
+Run **boolArrayDemo0.ino** to get your boards figures.
 
 Indicative performance figures.
 
 |  class        |  function   |  UNO    |  ESP32   |  Notes   |
 |:--------------|:-----------:|:-------:|:--------:|:--------:|
-|  BoolArray    |  set(0)     |  10.37  |          |  
-|  BoolArray    |  set(1)     |  10.25  |          |
-|  BoolArray    |  get(i)     |  16.03  |          |
-|  BoolArray    |  setAll(0)  |    96   |          |  per 2000
-|  BoolArray    |  setAll(1)  |   100   |          |  per 2000
+|  BoolArray    |  set(0)     |  10.37  |   0.58   |  
+|  BoolArray    |  set(1)     |  10.25  |   0.56   |
+|  BoolArray    |  get(i)     |  16.03  |   0.61   |
+|  BoolArray    |  setAll(0)  |    96   |   17     |  per 2000
+|  BoolArray    |  setAll(1)  |   100   |   10     |  per 2000
 |               |             |         |          |
-|  BoolArray32  |  set(0)     |  15.97  |          |
-|  BoolArray32  |  set(1)     |  15.84  |          |
-|  BoolArray32  |  get(i)     |  24.20  |          |
-|  BoolArray32  |  setAll(0)  |   148   |          |  per 2000
-|  BoolArray32  |  setAll(1)  |   144   |          |  per 2000
+|  BoolArray32  |  set(0)     |  15.97  |   0.56   |
+|  BoolArray32  |  set(1)     |  15.84  |   0.54   |
+|  BoolArray32  |  get(i)     |  24.20  |   0.59   |
+|  BoolArray32  |  setAll(0)  |   148   |   12     |  per 2000
+|  BoolArray32  |  setAll(1)  |   144   |    8     |  per 2000
 
-- UNO 16 MHz, ESP32 240 MHz.
+- UNO 16 MHz    (version 0.3.0)
+- ESP32 240 MHz (version 0.3.1)
 - toggle() is expected to be similar to set()
-- clear() is a wrapper around setAll(0) so similar.
+- clear() is a wrapper around setAll(0) so identical.
 
 
 ## Interface
@@ -93,19 +95,21 @@ Indicative performance figures.
 #include "BoolArray.h"
 ```
 
-#### Constructor
+BoolArray32 is similar, uses uint32_t where BoolArray uses uint16_t.
+
+### Constructor
 
 - **BoolArray()** Constructor
 - **~BoolArray()** Destructor
-- **uint8_t begin(uint32_t size)** dynamically allocates size elements (8 booleans in one byte). 
+- **uint8_t begin(uint16_t size)** dynamically allocates size elements (8 booleans in one byte). 
 Returns **BOOLARRAY_OK** on success.
 
-#### Meta
+### Meta
 
 - **uint16_t size()** returns number of boolean elements.
 - **uint16_t memory()** returns number of bytes used.
 
-#### Base
+### Base
 
 The following functions return **BOOLARRAY_OK** on success.
 
@@ -117,30 +121,38 @@ So one need to check these carefully.
 - **uint8_t toggle(uint16_t index)** Toggles element at index. 
 
 
+## Error codes
+
+|  code                  |  value   |  meaning  |
+|:----------------------:|:--------:|:----------|
+|  BOOLARRAY_OK          |   0x00   |
+|  BOOLARRAY_ERROR       |   0xFF   |
+|  BOOLARRAY_SIZE_ERROR  |   0xFE   |  index out of range
+|  BOOLARRAY_INIT_ERROR  |   0xFD   |  allocation error  |
+
+
 ## Future
 
 #### Must
 
 - improve documentation
-  - add performance figures (UNO + ESP32)
 
 #### Should
 
-- performance test on ESP32
-- performance for **clear()** dedicated loop vs **setAll(0)** call
 - investigate template class 
-  - improve allocation (see PrintCharArray)
 
 #### Could
 
-- update examples.
+- add examples.
 - investigate **uint32_t array[N]** for BoolArray32 (ESP32?)
   - adjust math 
 
 #### Wont
 
 - performance intern 16 bit instead of 8 bit is NOT faster on UNO
-
+- strip tests in the functions for performance.
+- performance for **clear()** dedicated loop vs **setAll(0)** call
+  - not faster.
 
 ## Support
 

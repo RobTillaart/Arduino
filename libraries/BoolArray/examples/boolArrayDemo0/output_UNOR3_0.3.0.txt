@@ -1,3 +1,7 @@
+BOARD:   UNO R3
+IDE:     1.8.19
+
+
 BOOLARRAY_LIB_VERSION:	0.3.0
 SIZE bits:	2000
 MEM bytes:	250

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-11-25
+- update GitHub actions
+- update readme.md (performance ESP32)
+- update examples
+- minor edits
+
 ## [0.3.0] - 2024-04-10
 - made BOOLARRAY_MAXSIZE a -D command line define option
 - increased default BOOLARRAY_MAXSIZE to 1250 x 8 = 10000 booleans

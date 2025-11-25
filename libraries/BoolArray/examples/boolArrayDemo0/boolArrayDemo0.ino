@@ -8,7 +8,7 @@
 #include "BoolArray.h"
 
 
-BoolArray b;
+BoolArray32 b;
 
 uint32_t start;
 uint32_t stop;
@@ -20,9 +20,11 @@ uint32_t duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("BOOLARRAY_LIB_VERSION:\t");
   Serial.println(BOOLARRAY_LIB_VERSION);
+  Serial.println();
 
   int rv = b.begin(2000);
   Serial.print("SIZE bits:\t");
@@ -55,7 +57,7 @@ void loop()
 void test0()
 {
   Serial.println();
-  Serial.println("TEST SET(1)");
+  Serial.println("TEST SET(true)");
   delay(10);
 
   start = micros();
@@ -87,7 +89,7 @@ void test0()
 void test1()
 {
   Serial.println();
-  Serial.println("TEST SET(0)");
+  Serial.println("TEST SET(false)");
   delay(10);
 
   start = micros();
@@ -159,14 +161,14 @@ void test3()
     b.set(i, 0);
   }
   duration1 = micros() - start;
-  Serial.print("TEST SET(0):\t");
+  Serial.print("TEST SET(false):\t");
   Serial.println(duration1);
   delay(10);
 
   start = micros();
   b.setAll(0);
   duration2 = micros() - start;
-  Serial.print("TEST SETALL(0):\t");
+  Serial.print("TEST SETALL(false):\t");
   Serial.println(duration2);
   Serial.print("FACTOR:\t\t");
   Serial.println(1.0 * duration1 / duration2);
@@ -179,14 +181,14 @@ void test3()
     b.set(i, 1);
   }
   duration1 = micros() - start;
-  Serial.print("TEST SET(1):\t");
+  Serial.print("TEST SET(true):\t");
   Serial.println(duration1);
   delay(10);
 
   start = micros();
   b.setAll(1);
   duration2 = micros() - start;
-  Serial.print("TEST SETALL(1):\t");
+  Serial.print("TEST SETALL(true):\t");
   Serial.println(duration2);
   Serial.print("FACTOR:\t\t");
   Serial.println(1.0 * duration1 / duration2);

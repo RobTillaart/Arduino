@@ -1,0 +1,68 @@
+BOARD:  ESP32 (240MHz)
+IDE:    1.8.19
+
+
+BOOLARRAY_LIB_VERSION:	0.3.1
+
+SIZE bits:	2000
+MEM bytes:	250
+freeMemory:	0
+
+TEST SET(true)
+DURATION:	1461
+DURATION:	2618
+		1157	0.58
+
+TEST SET(false)
+DURATION:	1414
+DURATION:	2535
+		1121	0.56
+
+TEST GET(i)
+DURATION:	1649
+DURATION:	2878
+		1229	0.61
+
+TEST SET(false):	1372
+TEST SETALL(false):	17
+FACTOR:		80.71
+
+TEST SET(true):	1371
+TEST SETALL(true):	10
+FACTOR:		137.10
+Done...
+
+
+/////////////////////////////////////////
+//
+//  BoolArray32 (slightly faster on ESP32)
+//
+BOOLARRAY_LIB_VERSION:	0.3.1
+
+SIZE bits:	2000
+MEM bytes:	250
+freeMemory:	0
+
+TEST SET(true)
+DURATION:	1418
+DURATION:	2534
+		1116	0.56
+
+TEST SET(false)
+DURATION:	1372
+DURATION:	2451
+		1079	0.54
+
+TEST GET(i)
+DURATION:	1608
+DURATION:	2794
+		1186	0.59
+
+TEST SET(false):	1331
+TEST SETALL(false):	12
+FACTOR:		110.92
+
+TEST SET(true):	1329
+TEST SETALL(true):	8
+FACTOR:		166.12
+Done...

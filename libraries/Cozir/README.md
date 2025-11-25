@@ -16,7 +16,9 @@ Arduino library for COZIR range CO2 sensors.
 
 ## Description
 
-The COZIR library is **experimental** as not all functionality is tested.
+**Experimental**
+
+The COZIR library is experimental as not all functionality is tested.
 The polling mode as used in the examples is tested in the past by DirtGambit.
 **CO2meter.com** sponsored a **COZIR GC0034** to start hands on testing (2022-02).
 This sensor does not support all commands, but as the pattern of the commands 
@@ -31,7 +33,7 @@ See COZIRParser below.
 The COZIR class is focussed on polling and sending commands.
 
 
-#### Notes
+### Notes
 
 - Read the datasheet before using this library. 
 It helps to understand the working of the COZIR sensor.
@@ -44,7 +46,7 @@ It needs to be set to **CZR_POLLING** mode.
 - Not all COZIR devices support all calls of this library.
 
 
-#### Related
+### Related
 
 - https://emariete.com/en/sensor-co2-mh-z19b/
 - https://emariete.com/en/sensor-co2-low-consumption-mh-z1311a-winsen/
@@ -242,9 +244,10 @@ See examples.
 
 #### Must
 
+- improve documentation
+
 #### Should
 
-- improve documentation
 - COZIR Parser
   - separate readme.md
   - separate .h and .cpp
@@ -276,7 +279,7 @@ Class to parse the output of a COZIR sensor in stream mode.
 
 ## Description
 
-(added in 0.3.4, experimental)
+**Experimental** (added in 0.3.4)
 
 The COZIRparser object has a main function called **nextChar(c)**
 It needs to be called with all incoming characters from the sensor.

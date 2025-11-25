@@ -20,6 +20,8 @@ uint32_t lastRead = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("COZIR_LIB_VERSION: ");
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();

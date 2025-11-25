@@ -7,7 +7,7 @@
 //    NOTE: this sketch needs a MEGA or a Teensy that supports a second
 //          Serial port named Serial1
 //  The sketch updates the polling interval depending on the level of CO2
-//  when higher the interval wil be shorter.
+//  when higher the interval will be shorter.
 
 
 #include "cozir.h"
@@ -26,6 +26,8 @@ void setup()
   czr.init();
 
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("COZIR_LIB_VERSION: ");
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();

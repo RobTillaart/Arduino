@@ -22,11 +22,13 @@ void setup()
   czr.init();
 
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("COZIR_LIB_VERSION: ");
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();
 
-  // set to polling explicitly.
+  //  set to polling explicitly.
   czr.setOperatingMode(CZR_POLLING);
   delay(1000);
 }

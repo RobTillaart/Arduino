@@ -23,6 +23,8 @@ void setup()
   czr.init();
 
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("COZIR_LIB_VERSION: ");
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();
@@ -43,7 +45,7 @@ void loop()
       count++;
       Serial.print(count);
       Serial.print('\t');
-      Serial.print(filter);   //  or print czr.getDigiFilter() 
+      Serial.print(filter);   //  or print czr.getDigiFilter()
       Serial.print('\t');
       if (count >= 10)
       {

@@ -10,7 +10,7 @@
 #include "KT0803.h"
 
 
-KT0803K FM_SEND;
+KT0803L FM_SEND;
 
 //  hardcoded presets adjust to your need.
 //  note: presets by channel would take half the memory
@@ -24,7 +24,12 @@ float preset[10] =
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while(!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("KT0803_LIB_VERSION: ");
+  Serial.println(KT0803_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

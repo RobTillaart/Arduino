@@ -1,7 +1,7 @@
 //
 //    FILE: KT0803.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino Library for KT0803 and KT0803K FM transmitter.
 //     URL: https://github.com/RobTillaart/KT0803
 
@@ -223,7 +223,7 @@ int KT0803::readData(uint8_t reg)
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//  DERIVED CLASSES
+//  DERIVED CLASS KT0803K
 //
 KT0803K::KT0803K(TwoWire * wire) : KT0803(wire)
 {
@@ -325,6 +325,24 @@ bool KT0803K::silenceDetected()
 {
   uint8_t register0F = readData(0x0F);
   return (register0F & (1 << 2)) > 0;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS KT0803L
+//
+KT0803L::KT0803L(TwoWire * wire) : KT0803K(wire)
+{
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS KT0803M
+//
+KT0803M::KT0803M(TwoWire * wire) : KT0803K(wire)
+{
 }
 
 

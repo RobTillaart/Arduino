@@ -2,7 +2,7 @@
 //
 //    FILE: KT0803.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino Library for KT0803 and KT0803K FM transmitter
 //     URL: https://github.com/RobTillaart/KT0803
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define KT0803_LIB_VERSION          (F("0.3.0"))
+#define KT0803_LIB_VERSION          (F("0.3.1"))
 
 
 class KT0803
@@ -108,6 +108,20 @@ public:
 
   bool     powerOK();
   bool     silenceDetected();
+};
+
+
+class KT0803M : public KT0803K
+{
+public:
+  KT0803M(TwoWire * wire = &Wire);
+};
+
+
+class KT0803L : public KT0803K
+{
+public:
+  KT0803L(TwoWire * wire = &Wire);
 };
 
 

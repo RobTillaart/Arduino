@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-11-26
+- update GitHub actions
+- add derived classes KT0803L and KT0803M (wrappers for now)
+- update readme.md
+- minor edits
+
 ## [0.3.0] - 2024-03-27
 - fix #5, getChannel()
 - fix KT0803K setChannel()

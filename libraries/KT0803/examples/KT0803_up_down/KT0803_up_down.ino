@@ -23,7 +23,12 @@ float newFreq = 100.0;
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while(!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("KT0803_LIB_VERSION: ");
+  Serial.println(KT0803_LIB_VERSION);
+  Serial.println();
 
   pinMode(UP_PIN, INPUT_PULLUP);
   pinMode(DOWN_PIN, INPUT_PULLUP);

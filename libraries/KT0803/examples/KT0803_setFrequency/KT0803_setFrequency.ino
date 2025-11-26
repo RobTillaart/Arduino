@@ -17,6 +17,11 @@ void setup()
 {
   Serial.begin(115200);
   while(!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("KT0803_LIB_VERSION: ");
+  Serial.println(KT0803_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

@@ -25,11 +25,14 @@ device like the KT0803 in your projects, either hobby, commercial or otherwise.
 
 ## Description
 
-This **experimental** library allows basic control of the KT0803 and / or the KT0803K 
+**Experimental**
+
+This experimental library allows basic control of the KT0803 and / or the KT0803K 
 FM transmitter device.
 It is primary written to understand the possibilities and the interface of the device.
 
 The library is not tested by me with hardware yet. See future below.
+However it is verified to work by others.
 
 There are newer, more capable, follow up devices like model K, L and M.
 From these only the KT0803K is supported as a derived class.
@@ -44,7 +47,7 @@ For ATTinyX5 series there exists the TinyKT0803 class which is derived from this
 It uses a different I2C implementation. See - https://github.com/RobTillaart/TinyKT0803
 
 
-#### Hardware
+### Hardware
 
 Read datasheet for details.
 
@@ -68,7 +71,7 @@ The KT0803 is an 3.3 Volt device and cannot be connected directly to 5V MCU's.
 ```
 
 
-#### Frequency range
+### Frequency range
 
 The frequency range stated on the front page of the datasheet ==> 70 MHz - 108 MHz.
 The frequency range stated in table 2 ==> 76 MHz - 108 MHz.
@@ -78,7 +81,7 @@ Keep in mind that the frequency range allowed differs per country.
 The library does not provide this filtering, explicit responsibility of the user.
 
 
-#### Differences
+### Differences
 
 The KT0803K device has far more options, which are not all implemented.
 There is one important, the resolution or step-size of the frequency.
@@ -93,7 +96,7 @@ According to the datasheet code for the KT0803 should work for the KT0803K.
 Code with the KT0803K class will probably not work on a KT0803.
 
 
-#### Transmit frequency
+### Transmit frequency
 
 The transmit frequency can be set with **setFrequency(MHz)** or by **setChannel(channel)**.
 Note that the channel and frequency math of the KT0803 and the KT0803K is aligned 
@@ -117,7 +120,7 @@ Some examples:
 |  108.00 MHz  |   2160    |
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/KT0803
 - https://github.com/RobTillaart/TinyKT0803
@@ -133,11 +136,15 @@ Some examples:
 #include "KT0803.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **KT0803(TwoWire \*wire = &Wire)** constructor, 
 optional Wire interface.
 - **KT0803K(TwoWire \*wire = &Wire)** constructor, 
+optional Wire interface.
+- **KT0803L(TwoWire \*wire = &Wire)** constructor, 
+optional Wire interface.
+- **KT0803M(TwoWire \*wire = &Wire)** constructor, 
 optional Wire interface.
 - **bool begin(float freq = 90.0, bool mute = true)** initializes the library.
 Furthermore it checks if the deviceAddress is available on the I2C bus.
@@ -146,7 +153,7 @@ Returns true if deviceAddress is found on the bus, false otherwise.
 - **bool isConnected()** test to see if deviceAddress is found on the I2C-bus.
 
 
-#### Frequency
+### Frequency
 
 - **bool setFrequency(float MHz)** converts the frequency in MHz to 
 call **setChannel(channel)**. The value of channel is rounded off depending 
@@ -161,7 +168,7 @@ This involves two or three writes to different device registers.
 returns it.
 
 
-#### PGA
+### PGA
 
 Read Datasheet.
 
@@ -185,7 +192,7 @@ Returns false if pga is out of range (0..7).
 |  011  |  -12dB  |
 
 
-#### RFGain
+### RFGain
 
 Read Datasheet.
 
@@ -218,7 +225,7 @@ Returns false if rfgain is out of range (0..15).
 |   1111   |  108.0 dBuV  |  112.5 dBuV  |  default
 
 
-#### Region selection
+### Region selection
 
 Read datasheet for details.
 
@@ -241,7 +248,7 @@ a wrapper for it.
 |    1      |  50 μs  |  Europe, Australia
 
 
-#### PilotToneAdjust
+### PilotToneAdjust
 
 Read datasheet.
 
@@ -249,7 +256,7 @@ Read datasheet.
 - **uint8_t getPilotToneAdjust()**
 
 
-#### Mute
+### Mute
 
 Default the device is not muted, but **begin()** will default mute it.
 See interface section above.
@@ -271,32 +278,31 @@ A minimal hardcoded preset sketch is in the examples.
 
 ## Derived classes
 
-A derived class KT0803K class is created, with some extended
-functions.
+Three derived classes are made:
 
-The KT0803L will work as it is backwards compatible with KT0803K. 
-It has far more registers in use than the KT0803/K.
+- KT0803K has some extended functions.
+- KT0803L is backwards compatible with KT0803K. 
+It has far more registers in use than the KT0803/KT0803K.
+For now it is a wrapper around KT0803K.
+- KT0803M is identical to the KT0803K (no new registers).
 
-The KT0803M is identical to the KT0803K (no new registers), so
-a derived class is straightforward.
 
-
-## Interface KT0803K
+## Interface KT0803K / KT0803L / KT0803M
 
 Added functions in 0.3.0 (not tested), check datasheet.
 
-#### Mono Stereo
+### Mono Stereo
 
 - **bool setMono()** idem
 - **bool setStereo()** idem
 - **bool isStereo()** idem
 
-#### Bass
+### Bass
 
 - **bool setBass(uint8_t bass);  //  0..3 = 0, 5, 11, 17 dB
 - **uint8_t getBass()** idem
 
-#### Misc
+### Misc
 
 - **bool powerOK()** idem
 - **bool silenceDetected()** idem
@@ -313,21 +319,17 @@ Added functions in 0.3.0 (not tested), check datasheet.
 
 #### Should
 
-- update readme.md 
-  - KT0803K specific functions.
 - add examples for KT0803K specific functions.
-
-
-#### Could
-
+- investigate KT0803L
 - RESET pin as optional parameter in constructor?
 - SW pin (ON/OFF) as optional parameter in constructor?
   - add functions for sw on/off, 
   - what is impact on settings? 
   - call begin () again? => default
   - explain well doc.
-- derived class KT0803M  == KT0803K
-- derived class KT0803L  >= KT0803K (compatible)
+
+#### Could
+
 - improve error handling
 - unit tests possible?
 - extend settings upon request **bold** are interesting, see table
@@ -353,7 +355,7 @@ Added functions in 0.3.0 (not tested), check datasheet.
 
 #### Wont (for now)
 
-- investigate tea5767 FM receiver (Out of scope for this lib).
+- investigate tea5767 FM receiver (Out of scope for this library).
 - investigate efficiency of register access.
   - caching all (allowed) registers in **begin()**
     -  3 bytes for KT0803

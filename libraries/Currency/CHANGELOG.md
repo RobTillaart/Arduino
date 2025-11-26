@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2025-11-25
+- fix derived functions (symbols).
+- add "acronym"-wrappers e.g. USD(value) and USD64(value)
+- deprecated the float/double API
+- renamed CURRENCY_LIB_VERSION
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.1.9] - 2024-04-11
 - update GitHub actions
 - minor edits
@@ -32,7 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edits.
 
 ## [0.1.2] - 2021-10-20
-- update build-CI + badges 
+- update build-CI + badges
 - adde pound
 - rename roubles
 ## [0.1.1] - 2021-05-27

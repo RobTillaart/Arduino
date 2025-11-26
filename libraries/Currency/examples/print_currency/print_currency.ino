@@ -12,8 +12,12 @@
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("CURRENCY_LIB_VERSION: ");
+  Serial.println(CURRENCY_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   Serial.println( currency(10000000, 0, '.', ',', '$') );
   Serial.println( currency(10000000, 1, '.', ',', 'E') );

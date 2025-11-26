@@ -1,0 +1,16 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+currency_performance.ino
+CURRENCY_LIB_VERSION: 0.2.0
+
+6
+TIME: 452
+$ 10,000,000
+
+TIME: 2332
+$-9,999,999,999,999.99
+
+done...
+

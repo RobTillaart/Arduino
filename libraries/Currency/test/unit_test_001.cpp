@@ -38,7 +38,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "CURRENCY_VERSION: %s\n", (char *) CURRENCY_VERSION);
+  fprintf(stderr, "CURRENCY_LIB_VERSION: %s\n", (char *) CURRENCY_LIB_VERSION);
 }
 
 
@@ -137,20 +137,21 @@ unittest(wrappers64)
 
 unittest(wrappersdouble)
 {
-  assertEqual(0, strcmp("$ 0.00",     dollarf(0) ) );
-  assertEqual(0, strcmp("$ 9,999.99", dollarf(9999.99) ) );
-  assertEqual(0, strcmp("$-9,999.99", dollarf(-9999.99) ) );
-  assertEqual(0, strcmp("E 9.999,99", eurof(9999.99) ) );
-  assertEqual(0, strcmp("E-9.999,99", eurof(-9999.99) ) );
-  // rounding !!
-  fprintf(stderr, "%s\n", bitcoinf(9999.99) );
-  fprintf(stderr, "%s\n", bitcoinf(-9999.99) );
+  //  DEPRECATED
+  // assertEqual(0, strcmp("$ 0.00",     dollarf(0) ) );
+  // assertEqual(0, strcmp("$ 9,999.99", dollarf(9999.99) ) );
+  // assertEqual(0, strcmp("$-9,999.99", dollarf(-9999.99) ) );
+  // assertEqual(0, strcmp("E 9.999,99", eurof(9999.99) ) );
+  // assertEqual(0, strcmp("E-9.999,99", eurof(-9999.99) ) );
+  // // rounding !!
+  // fprintf(stderr, "%s\n", bitcoinf(9999.99) );
+  // fprintf(stderr, "%s\n", bitcoinf(-9999.99) );
 
-  assertEqual(0, strcmp("B 9,999.990000", bitcoinf(9999.99) ) );
-  assertEqual(0, strcmp("B-9,999.990000", bitcoinf(-9999.99) ) );
+  // assertEqual(0, strcmp("B 9,999.990000", bitcoinf(9999.99) ) );
+  // assertEqual(0, strcmp("B-9,999.990000", bitcoinf(-9999.99) ) );
 }
 
 
 unittest_main()
 
-// --------
+//  -- END OF FILE --

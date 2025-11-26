@@ -2,7 +2,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.2.0
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -10,13 +10,13 @@
 #include "Arduino.h"
 
 
-#define CURRENCY_VERSION                        (F("0.1.9"))
+#define CURRENCY_LIB_VERSION              (F("0.2.0"))
 
 
-//  TODO 
-//  optimize this 99% same code currency - currency64  
+//  TODO
+//  optimize this 99% same code currency - currency64
 //  print to string and "merge" with formatters?
-//  
+//
 //  ALT-0165 = ¥
 //  ALT-0128 = €
 //  U+20BF   = Bitcoin
@@ -45,13 +45,36 @@ char * roubles64(int64_t value);
 char * yen64(int64_t value);
 char * yuan64(int64_t value);
 
-char * bitcoinf(double value);
-char * dollarf(double value);
-char * eurof(double value);
-char * poundf(double value);
-char * roublesf(double value);
-char * yenf(double value);
-char * yuanf(double value);
+
+//  DEPRECATED 
+//  not reliable (useful) due to limited float precision
+//  char * bitcoinf(double value);
+//  char * dollarf(double value);
+//  char * eurof(double value);
+//  char * poundf(double value);
+//  char * roublesf(double value);
+//  char * yenf(double value);
+//  char * yuanf(double value);
+
+
+//
+//  TLA - Three Letter Acronyms - needs more testing
+//
+char * BTC(int32_t value);
+char * USD(int32_t value);
+char * EUR(int32_t value);
+char * GBP(int32_t value);
+char * RUB(int32_t value);
+char * JPY(int32_t value);
+char * CNY(int32_t value);
+
+char * BTC64(int64_t value);
+char * USD64(int64_t value);
+char * EUR64(int64_t value);
+char * GBP64(int64_t value);
+char * RUB64(int64_t value);
+char * JPY64(int64_t value);
+char * CNY64(int64_t value);
 
 
 //  -- END OF FILE --

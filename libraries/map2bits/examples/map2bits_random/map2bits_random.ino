@@ -1,5 +1,5 @@
 //
-//    FILE: map2bits_demo.ino
+//    FILE: map2bits_random.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: map2bits demo
 //     URL: https://github.com/RobTillaart/map2bits
@@ -19,27 +19,17 @@ void setup()
   Serial.println(MAP2BITS_LIB_VERSION);
   Serial.println();
 
-  mb.init(100, 200, 10);
-  for (int i = 0; i < 300; i += 10)
+  if (mb.init(0, 1000, 32) == false)
   {
-    Serial.println(mb.map(i), BIN);
+    Serial.println("init failed.");
   }
-  Serial.println();
-
-  mb.init(100, 1000, 32);
-  for (int i = 0; i <= 1000; i += 1)
-  {
-    Serial.println(mb.map(i), BIN);
-  }
-  Serial.println();
-
-  Serial.println("Done...");
 }
 
 
 void loop()
 {
-
+  Serial.println(mb.map32(random(1000)), BIN);
+  delay(25);
 }
 
 

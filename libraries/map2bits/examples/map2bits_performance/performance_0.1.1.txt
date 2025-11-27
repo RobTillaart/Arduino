@@ -1,0 +1,68 @@
+
+Arduino UNO R3 16 MHz
+IDE 1.8.19
+
+libraries\map2bits\examples\map2bits_performance\map2bits_performance.ino
+MAP2BITS_LIB_VERSION: 0.1.1
+
+
+1000 x map16 (full)
+US: 45224	45.22
+X:  1023
+
+3 x 100 x map16 (constrained)
+US: 6624	22.08
+X:  1023
+
+1000 x map32 (full)
+US: 46284	46.28
+X:  1023
+
+3 x 100 x map32 (constrained)
+US: 6748	22.49
+X:  1023
+
+1000 x map64 (full)
+US: 49004	49.00
+Y:  1023
+
+3 x 100 x map64 (constrained)
+US: 7084	23.61
+Y:  1023
+
+
+Done...
+
+---------------------------------------------
+
+Arduino ESP32 240 MHz
+
+libraries\map2bits\examples\map2bits_performance\map2bits_performance.ino
+MAP2BITS_LIB_VERSION: 0.1.1
+
+1000 x map16 (full)
+US: 416	0.42
+X:  1023
+
+3 x 100 x map16 (constrained)
+US: 71	0.24
+X:  1023
+
+1000 x map32 (full)
+US: 407	0.41
+X:  1023
+
+3 x 100 x map32 (constrained)
+US: 70	0.23
+X:  1023
+
+1000 x map64 (full)
+US: 522	0.52
+Y:  1023
+
+3 x 100 x map64 (constrained)
+US: 99	0.33
+Y:  1023
+
+
+Done...

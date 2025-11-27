@@ -16,8 +16,10 @@ Arduino library for mapping a float to a number of bits.
 
 ## Description
 
-Map2bits is an **experimental** library which can be used to map a float 
-value to a number of HIGH bits in an 32 bits integer..
+**Experimental**
+
+Map2bits is an experimental library which can be used to map a float 
+value to a number of HIGH bits in an 32 bits integer.
 The float value can be the result of a calculation or measurement from a 
 sensor, e.g. temperature, humidity, light, distance, direction or pressure. 
 
@@ -36,7 +38,7 @@ In short many devices to drive or applications to think of.
 As always, feedback is welcome.
 
 
-#### Related
+### Related
 
 Other mapping libraries
 
@@ -54,15 +56,25 @@ Other mapping libraries
 #include "map2bits.h"
 ```
 
-#### Functions
+### Constructor
 
 - **map2bits()** Constructor, defines a default mapping of (0..100 => 10)
 - **uint8_t init(float in_min, float in_max, uint32_t bits)** defines the mapping
 input range and how many bits output should be generated.
+
+### Mapping
+
+The output of the **map()** functions is a bit mask and can be used to drive e.g. a led bar etc.
+
 - **uint32_t map(float value)** maps value to an uint32_t with the appropriate 
 number of bits set. These are constrained by the number of bits set in **init()**.
-
-The output of **map()** is a bit mask and can be used to drive e.g. a led bar etc.
+- **uint16_t map16(float value)** maps value to an uint16_t with the appropriate 
+number of bits set. These are constrained by the number of bits set in **init()**.
+Slightly faster (~2.5%).
+- **uint32_t map32(float value)** equals map().
+- **uint64_t map64(float value)** maps value to an uint64_t with the appropriate 
+number of bits set. These are constrained by the number of bits set in **init()**.
+Typical only used if one wants more than 32 bits.
 
 
 ## Operation
@@ -85,15 +97,33 @@ See examples.
 
 Indicative performance measured with the **map2bits_performance.ino** example.
 Performance depends on input chosen, platform support of float, and if
-values are constrained (out range) or interpolated (in range)
+values are constrained (out range) or interpolated (in range).
+Run tests on your own board to get the numbers.
 
-Note: time in microseconds per call
-Note: UNO at 16 MHz, ESP32 at 240 MHz
+Note: times in microseconds per call  
+Note: UNO at 16 MHz, ESP32 at 240 MHz  
+Note: out of range == 33% in range, 66% out range  
+Note: map() == map32()
 
-|  board  |  map - in range |  map - out range  |  notes  |
-|:-------:|:---------------:|:-----------------:|:--------|
-|  UNO    |  45.35 us       |  22.20 us         |  33% in range, 66% out range
-|  ESP32  |                 |                   |  to do
+|  board   |  function  |  in range  |  out range  |  notes  |
+|:--------:|:----------:|:----------:|:-----------:|:--------|
+|  UNO R3  |    map16   |    45.22   |     22.08   |
+|  UNO R3  |    map32   |    46.28   |     22.49   |
+|  UNO R3  |    map64   |    49.00   |     23.60   |  for > 32 bits
+|          |            |            |             |
+|   ESP32  |    map16   |     0.42   |      0.24   |
+|   ESP32  |    map32   |     0.41   |      0.23   |
+|   ESP32  |    map64   |     0.52   |      0.33   |  for > 32 bits
+
+
+## Polarity
+
+The user can swap polarity by inverting with ~ 
+
+```cpp
+x = ~mb.map(42);            //   x = 0xFFFFFFF0  => 
+x = ~mb.map(42) & 0xFFFF    //   x = 0x0000FFF0 optional mask.
+```
 
 
 ## Future
@@ -105,29 +135,25 @@ Note: UNO at 16 MHz, ESP32 at 240 MHz
 
 #### Should
 
-- extend the idea to applications
-- add examples
-- optimize
+- add examples / applications
+- investigate optimize
+  - do we need map16() => optimizer does clean up.
 
 #### Could
 
-- test other boards
-- **map2bits64(value)** uint64_t for 33 - 64 bits output
-  - might need printHelpers
-- **map2bitsDouble(value)** Double version (input range + precision)
-- **map2bitsDouble64(value)** Double version (33 - 64 bits output)
-- uint32_t input version
+- map logarithmic  (map exponent)
+- MSB/LSB   00000011 <> 0000110000 ?  (SIZE = 6)
+  - reverse from CRC library
+
+#### Wont
+
 - map2DAC? 
   - maps a range to analogWrite()..
   - separate class. 
 - polarity  0001 <> 1110 ?
   - ~operator
-- MSB/LSB   0001 <> 1000 ?
-  - reverse from CRC library
-
-
-#### Wont
-
+- map16(uint32_t) map32(uint32_t) map64(uint32_t) => accuracy float is sufficient
+- map2bitsDouble(value), map2bitsDouble64(value) Double version (input range + precision)
 
 ## Support
 

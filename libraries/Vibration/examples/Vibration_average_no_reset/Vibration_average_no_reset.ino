@@ -11,6 +11,7 @@
 
 VibrationSensor VBS(A0);
 
+
 void setup()
 {
   Serial.begin(115200);

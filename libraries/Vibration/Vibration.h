@@ -2,7 +2,7 @@
 //
 //    FILE: Vibration.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-04-24
 // PURPOSE: Arduino library for a vibration / tilt sensor e.g. SW-420, SW-18010P.
 //     URL: https://github.com/RobTillaart/Vibration
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define VIBRATION_LIB_VERSION                 (F("0.2.0"))
+#define VIBRATION_LIB_VERSION                 (F("0.2.1"))
 
 
 class VibrationSensor
@@ -29,7 +29,7 @@ public:
 
   bool begin()
   {
-    // what to do here?
+    //  what to do here?
     return true;
   }
 

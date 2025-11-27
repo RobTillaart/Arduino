@@ -38,6 +38,8 @@ This allows measuring a first order (relative) magnitude of a vibration.
 The different functions of the library might fit more (or less) to your needs.
 If functionality is missing, please open an issue.
 
+As always, feedback is welcome.
+
 
 ### Schema
 

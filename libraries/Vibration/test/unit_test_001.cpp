@@ -61,7 +61,7 @@ unittest(test_noiseLevel)
     assertEqual(i, vib.getNoiseLevel());
   }
 
-  // default parameter
+  //  default parameter
   vib.setNoiseLevel();
   assertEqual(10, vib.getNoiseLevel());
 }

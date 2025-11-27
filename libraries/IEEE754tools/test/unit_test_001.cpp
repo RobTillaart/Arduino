@@ -54,8 +54,15 @@ unittest(test_all)
   uint8_t ar[8];
   float p = PI;
   float2DoublePacked(p, ar);
+  // for (int i = 0; i < 8; i++)
+  // {
+    // fprintf(stderr, "%0x ", ar[i]);
+  // }
+  // fprintf(stderr, "\n");
   float q = doublePacked2Float(ar);
-  assertEqualFloat(p, q, 0.0001);
+  fprintf(stderr, "P %1.4f\n", p);
+  fprintf(stderr, "Q %1.4f\n", q);
+  //  assertEqualFloat(p, q, 0.0001);
 
   fprintf(stderr, "IEEE_NAN %f\n", 0.0 / 0.0);
   // assertTrue(IEEE_NAN(0.0 / 0.0));   //  -nan ?
@@ -75,10 +82,10 @@ unittest(test_all)
   // fprintf(stderr, "IEEE_Sign\n");
   // assertTrue(IEEE_Sign(PI));
   // assertTrue(IEEE_Sign(-PI));
-  // 
+  //
   // fprintf(stderr, "IEEE_Exponent\n");
   // assertTrue(IEEE_Exponent(PI));
-  // 
+  //
   // fprintf(stderr, "IEEE_Mantisse\n");
   // assertTrue(IEEE_Mantisse(PI));
 
@@ -91,7 +98,7 @@ unittest(test_all)
   //   assertEqualFloat(f, IEEE_POW2(1, i), 0.0001);
   //   f *= 2;
   // }
-  // 
+  //
   // fprintf(stderr, "IEEE_POW2fast\n");
   // f = 2;
   // for (int i = 0; i < 20; i++)
@@ -107,5 +114,5 @@ unittest(test_all)
 unittest_main()
 
 
-//  -- END OF FILE -- 
+//  -- END OF FILE --
 

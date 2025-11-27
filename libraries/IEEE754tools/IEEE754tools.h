@@ -2,7 +2,7 @@
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 // PURPOSE: manipulate IEEE754 float numbers fast
 //     URL: https://github.com/RobTillaart/IEEE754tools
 //
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define IEEE754_LIB_VERSION                 (F("0.2.6"))
+#define IEEE754_LIB_VERSION                 (F("0.2.7"))
 
 
 //  (un)comment lines to configure functionality / size
@@ -38,7 +38,7 @@ struct IEEEdouble
 
 
 //  Arduino UNO double layout:
-//  the UNO has no 64 bit double, it is only able to map 23 bits of the mantisse
+//  the UNO has no 64 bit double, it is only able to map 23 bits of the mantissa
 //  a filler is added for the remaining bits. These might be useful in future?
 struct _DBL
 {
@@ -167,13 +167,13 @@ float doublePacked2Float(byte* bar, int byteOrder = LSBFIRST)
     }
 #endif
 
-    int e = dbl.p.e - 1023 + 127;  // e xponent adjust
+    int e = dbl.p.e - 1023 + 127;  //  exponent adjust
     //  TODO check exponent overflow.
     if (e >=0 || e <= 255)
     {
         fl.p.s = dbl.p.s;
         fl.p.e = e;
-        fl.p.m = dbl.p.m;  // note this one clips the mantisse
+        fl.p.m = dbl.p.m;  // note this one clips the mantissa
         return fl.f;
     }
     return NAN;  //  OR +-INF?
@@ -343,12 +343,12 @@ void doublePacked2Float2(byte* bar, int byteOrder, float* value, float* error)
     {
         fl.p.s = dbl.p.s;
         fl.p.e = e;
-        fl.p.m = dbl.p.m;       //  note this one clips the mantisse
+        fl.p.m = dbl.p.m;       //  note this one clips the mantissa
         *value = fl.f;
 
         fl.p.s = dbl.p.s;
-        fl.p.e = e-23;
-        fl.p.m = dbl.p.filler;  //  note this one clips the mantisse
+        fl.p.e = e - 23;
+        fl.p.m = dbl.p.filler;  //  note this one clips the mantissa
         *error = fl.f;
     }
     *value = (dbl.p.s) ? -INFINITY : INFINITY;

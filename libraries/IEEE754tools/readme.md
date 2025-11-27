@@ -16,12 +16,14 @@ Arduino library to manipulate IEEE754 float numbers fast.
 
 ## Description
 
+**Experimental**
+
 IEEE754tools.h contains a collection of experimental bit-hacks to speed up 
 a number of operations on floating point numbers on the **Arduino UNO**.
 These bit-hacks started in 2010 (oldest code found), maybe even earlier.
 
 
-#### Related 
+### Related 
 
 - http://en.wikipedia.org/wiki/Double_precision
 - http://en.wikipedia.org/wiki/Single-precision_floating-point_format

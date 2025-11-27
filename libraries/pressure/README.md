@@ -31,10 +31,17 @@ than in a single conversion step as there are two multiplications involved.
 
 Note: constants need to be verified.
 
+As always, feedback is welcome.
+
 
 ### Related
 
-- https://github.com/RobTillaart/temperature (a bit)
+- https://github.com/RobTillaart/pressure - pressure conversions
+- https://github.com/RobTillaart/Temperature - temperature conversions 
+- https://github.com/RobTillaart/MS5837 - temperature pressure sensor  (incl pressure to altitude)
+- https://github.com/RobTillaart/MS5611 - temperature pressure sensor  (incl pressure to altitude)
+- https://github.com/RobTillaart/MSP300 - industrial pressure transducer
+- https://swharden.com/blog/2017-04-29-precision-pressure-meter-project/
 
 
 ## Interface
@@ -62,7 +69,7 @@ Note: constants need to be verified.
 - **void setCmHg(float value)** sets pressure in centimetre mercury.
 - **void setCmH2O(float value)** sets pressure in centimetre water.
 - **void setMSW(float value)** sets pressure in Meters of Sea Water. (under water pressure unit).
-
+- **void setKGCM2(float value)** sets pressure in Kg per square cm.
 
 ### Getters
 
@@ -78,7 +85,7 @@ Note: constants need to be verified.
 - **float getCmHg()** returns pressure in centimetre mercury.
 - **float getCmH2O()** returns pressure in centimetre water.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
-
+- **float getKGCM2()** returns pressure in Kg per square cm.
 
 ### Gas law, applied
 

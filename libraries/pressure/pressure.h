@@ -2,13 +2,13 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
 
 
 
-#define PRESSURE_LIB_VERSION        (F("0.3.2"))
+#define PRESSURE_LIB_VERSION        (F("0.3.3"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED
@@ -26,6 +26,7 @@
 #define CMHG2MILLIBAR          13.3322368
 #define CMH2O2MILLIBAR         0.980665
 #define MSW2MILLIBAR           0.01
+#define KGCM22MILLIBAR         980.4
 
 //  CONSTANTS GETTERS
 #define MILLIBAR2BAR           (1.0 / BAR2MILLIBAR)
@@ -39,6 +40,7 @@
 #define MILLIBAR2CMHG          (1.0 / CMHG2MILLIBAR)
 #define MILLIBAR2CMH2O         (1.0 / CMH2O2MILLIBAR)
 #define MILLIBAR2MSW           (1.0 / MSW2MILLIBAR)
+#define MILLIBAR2KGCM2         (1.0 / KGCM22MILLIBAR)
 
 /*
 //  was
@@ -53,6 +55,7 @@
 #define MILLIBAR2CMHG          0.0750061683
 #define MILLIBAR2CMH2O         1.0197162129779
 #define MILLIBAR2MSW           100
+#define MILLIBAR2KGCM2         1.012E-3
 */
 
 
@@ -76,6 +79,7 @@ public:
   void  setCmHg(float value)      { _pressure = value * CMHG2MILLIBAR; }
   void  setCmH2O(float value)     { _pressure = value * CMH2O2MILLIBAR; }
   void  setMSW(float value)       { _pressure = value * MSW2MILLIBAR; }
+  void  setKGCM2(float value)     { _pressure = value * KGCM22MILLIBAR; }
 
 
   float getMilliBar()  { return _pressure; };
@@ -90,6 +94,8 @@ public:
   float getCmHg()      { return _pressure * MILLIBAR2CMHG; }
   float getCmH2O()     { return _pressure * MILLIBAR2CMH2O; }
   float getMSW()       { return _pressure * MILLIBAR2MSW; }
+  float getKGCM2()     { return _pressure * MILLIBAR2KGCM2; }
+
 
   ////////////////////////////////////////////////////////////
   //

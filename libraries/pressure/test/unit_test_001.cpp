@@ -64,6 +64,7 @@ unittest(test_constructor)
   assertEqualFloat(0.0, P.getCmHg(), 1e-4);
   assertEqualFloat(0.0, P.getCmH2O(), 1e-4);
   assertEqualFloat(0.0, P.getMSW(), 1e-4);
+  assertEqualFloat(0.0, P.getKGCM2(), 1e-4);
 }
 
 
@@ -82,6 +83,7 @@ unittest(test_constants_setter)
   assertEqualFloat(13.3322368,    CMHG2MILLIBAR,   1e-5);
   assertEqualFloat(0.980665,      CMH2O2MILLIBAR,  1e-5);
   assertEqualFloat(0.01,          MSW2MILLIBAR,    1e-3);
+  assertEqualFloat(980.4,         KGCM22MILLIBAR,  1e-3);
 }
 
 
@@ -100,6 +102,7 @@ unittest(test_constants_getter)
   assertEqualFloat(0.0750061683,  MILLIBAR2CMHG,   1e-6);
   assertEqualFloat(1.0197162129,  MILLIBAR2CMH2O,  1e-5);
   assertEqualFloat(100,           MILLIBAR2MSW,    1);
+  assertEqualFloat(1.02e-3,       MILLIBAR2KGCM2,  1e-7);
 }
 
 
@@ -118,6 +121,7 @@ unittest(test_constants_3)
   assertEqualFloat(1.0, CMHG2MILLIBAR   * MILLIBAR2CMHG,   1e-5);
   assertEqualFloat(1.0, CMH2O2MILLIBAR  * MILLIBAR2CMH2O,  1e-5);
   assertEqualFloat(1.0, MSW2MILLIBAR    * MILLIBAR2MSW,    1e-5);
+  assertEqualFloat(1.0, KGCM22MILLIBAR  * MILLIBAR2KGCM2,  1e-5);
 }
 
 
@@ -152,6 +156,9 @@ unittest(test_get_set)
   assertEqualFloat(2.0, P.getCmH2O(), 1e-4);
   P.setMSW(2);
   assertEqualFloat(2.0, P.getMSW(), 1e-4);
+
+  P.setKGCM2(2);
+  assertEqualFloat(2.0, P.getKGCM2(), 1e-4);
 }
 
 

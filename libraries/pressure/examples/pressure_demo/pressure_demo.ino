@@ -14,9 +14,11 @@ pressure P;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRESSURE_LIB_VERSION: ");
   Serial.println(PRESSURE_LIB_VERSION);
+  Serial.println();
 
   // convert one pressure to 12 output units.
   P.setMilliBar(1019.1);
@@ -33,6 +35,7 @@ void setup()
   Serial.print("CmHg: \t");    Serial.println(P.getCmHg(),3);
   Serial.print("CMH20: \t");   Serial.println(P.getCmH2O(),3);
   Serial.print("MSW: \t");     Serial.println(P.getMSW(),3);
+  Serial.print("KGCM2: \t");   Serial.println(P.getKGCM2(),3);
 }
 
 void loop()
@@ -40,4 +43,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

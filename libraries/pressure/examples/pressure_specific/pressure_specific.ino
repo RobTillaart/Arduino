@@ -19,9 +19,11 @@ volatile float value = 1.234;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRESSURE_LIB_VERSION: ");
   Serial.println(PRESSURE_LIB_VERSION);
+  Serial.println();
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -39,7 +41,7 @@ void setup()
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    x = PSI2MSW(value);
+    x = psi2msw(value);
   }
   stop = micros();
   Serial.print("TIME:\t");
@@ -66,11 +68,14 @@ void loop()
 {
 }
 
-inline float PSI2MSW(float value)
+//
+//  dedicated conversion
+#define PSI2MSW (PSI2MILLIBAR * MILLIBAR2MSW)
+
+inline float psi2msw(float value)
 {
-  return value * (PSI2MILLIBAR * MILLIBAR2MSW);
+  return value * PSI2MSW;
 }
 
 
-// -- END OF FILE --
-
+//  -- END OF FILE --

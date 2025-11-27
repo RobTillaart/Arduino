@@ -15,6 +15,7 @@ float pressure = 1019.1;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRESSURE_LIB_VERSION: ");
   Serial.println(PRESSURE_LIB_VERSION);
@@ -28,6 +29,8 @@ void setup()
     Serial.print("\t");
     Serial.println(1019.1 * P.factorTemperatureKelvin(25, t), 3);
   }
+  
+  Serial.println("\ndone...");
 
 }
 

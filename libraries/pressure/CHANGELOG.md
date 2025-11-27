@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2025-11-26
+- add setKGCM2() + getKGCM2()
+- update GitHub actions
+- minor edits
+
 ## [0.3.2] - 2024-10-27
 - fix #7, improve gas law functions
 - add conversion factor functions

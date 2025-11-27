@@ -14,6 +14,7 @@ pressure P;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PRESSURE_LIB_VERSION: ");
   Serial.println(PRESSURE_LIB_VERSION);
@@ -64,4 +65,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

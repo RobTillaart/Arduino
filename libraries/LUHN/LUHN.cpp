@@ -1,7 +1,7 @@
 //
 //    FILE: LUHN.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2022-12-24
 // PURPOSE: Arduino Library for calculating LUHN checksum.
 //     URL: https://github.com/RobTillaart/LUHN
@@ -18,6 +18,10 @@ LUHN::LUHN()
 }
 
 
+//////////////////////////////////////////////////////////////
+//
+//  NORMAL INTERFACE
+//
 bool LUHN::isValid(const char * buffer)
 {
   return isValid((char*)buffer);

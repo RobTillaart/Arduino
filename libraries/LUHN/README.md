@@ -21,7 +21,7 @@ It is used to validate a variety of product ID's to detect typing errors and/or 
 So it is not to secure a number but to prevent common mistakes when entering a code in a system.
 The LUHN check uses very few resources and is pretty fast. 
 
-Basic idea is to put all digits-1 through the formula and the output should equal the last digit.
+Basic idea is to put all digits (minus last one) through the 'formula' and the output should equal the last digit.
 
 This LUHN library also includes a "stream" based LUHN calculation, in which digits can be add 
 one at a time (from a stream) and it will return the LUHN checksum so far.
@@ -46,11 +46,17 @@ As always, feedback is welcome.
 
 ### Related
 
-- https://en.wikipedia.org/wiki/Luhn_algorithm
 - https://github.com/RobTillaart/Adler
 - https://github.com/RobTillaart/CRC
+- https://github.com/RobTillaart/DAMM
 - https://github.com/RobTillaart/Fletcher
 - https://github.com/RobTillaart/LUHN
+
+Backgrounders
+
+- https://en.wikipedia.org/wiki/Luhn_algorithm
+- https://en.wikipedia.org/wiki/Verhoeff_algorithm (no Arduino code known)
+- https://en.wikipedia.org/wiki/Damm_algorithm
 
 
 ## Interface
@@ -59,7 +65,12 @@ As always, feedback is welcome.
 #include "LUHN.h"
 ```
 
+### Constructor
+
 - **LUHN()** constructor
+
+### Normal mode
+
 - **bool isValid(char \* buffer )** validates the code in the parameter buffer. 
 The parameter buffer is a '\0' terminated char array. Length should be less than 254.
 - **bool isValid(const char \* buffer )** idem.
@@ -72,10 +83,10 @@ Generates a char array including LUHN number with a defined prefix of max length
 Returns false if the prefix exceeds length -1.
 
 
-### Stream
+### Stream mode
 
 - **char add(char c)** add char, returns LUHN so far.
-- **char reset()** return last LUHN.
+- **char reset()** returns last LUHN.
 - **uint32_t count()** return internal counter.
 If this value is zero, a new LUHN can be calculated, otherwise call **reset()** first.
 

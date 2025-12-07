@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MS4525DO_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MS4525DO_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MS4525DO_RT/releases)
-[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MS4525DO.svg)](https://registry.platformio.org/libraries/RobTillaart/MS4525DO_RT)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MS4525DO_RT.svg)](https://registry.platformio.org/libraries/RobTillaart/MS4525DO_RT)
 
 
 # MS4525DO
@@ -186,7 +186,8 @@ TODO:
 - improve state code after reset() and before read() ?
   - MS4525DO_NO_READ or MS4525DO_RESET?
 - MS4525DO_OVF_ERROR should bits just be masked?
-- begin(float psi) to allow calibration or even arbitrary units.
+- int begin(float psi) to allow calibration or even arbitrary units.
+  - return state?
 - pressure in N/m2 => pitot formula. `v = sqrt(2 * pressure / rho);`
   - rho is specific weight in kg/m3, depends on humidity temperature and height.
 

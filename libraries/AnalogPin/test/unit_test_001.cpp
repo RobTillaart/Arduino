@@ -54,11 +54,19 @@ unittest(test_prescaler)
 {
   AnalogPin AP(0); 
 
-  // 0 and 1 are not allowed.
+#if defined(ARDUINO_ARCH_AVR)
+  // 0 and 1 are not allowed for AVR
   AP.setPrescaler(0);
   assertNotEqual(0, AP.getPrescaler());
   AP.setPrescaler(1);
   assertNotEqual(1, AP.getPrescaler());
+#else
+  // 0 and 1 are allowed for others (for now)
+  AP.setPrescaler(0);
+  assertEqual(0, AP.getPrescaler());
+  AP.setPrescaler(1);
+  assertEqual(1, AP.getPrescaler());
+#endif
 
   for (int i = 2; i < 8; i++)
   {
@@ -107,4 +115,5 @@ unittest(test_read)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --

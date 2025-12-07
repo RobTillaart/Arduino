@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogPin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 0.2.10
 //    DATE: 2013-09-09
 // PURPOSE: wrapper for analogRead with smoothing and noise filtering
 
@@ -23,16 +23,22 @@ AnalogPin::AnalogPin(const uint8_t pin)
 void AnalogPin::setPrescaler(const uint8_t prescaler)
 {
   _prescaler = prescaler;
+
+#if defined(ARDUINO_ARCH_AVR)
+  //  constrain for AVR
   if (_prescaler < 2)      _prescaler = 2;
   else if (_prescaler > 7) _prescaler = 7;
-};
+#else
+
+#endif
+}
 
 
 void AnalogPin::setSmoothWeight(const uint8_t alpha)
 {
   _alpha = alpha;
   if (_alpha > 31) _alpha = 31;
-};
+}
 
 
 int AnalogPin::read(const bool twice)

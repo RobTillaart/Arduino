@@ -1,0 +1,32 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+AnalogPin_performance.ino
+ANALOGPIN_LIB_VERSION: 0.2.10
+
+time in msec
+
+INA.read()
+TIME:	 112
+VALUE:	 306
+
+INA.read()  noise filtering
+TIME:	 112
+VALUE:	 160
+
+INA.readSmoothed()  alpha = 16/32
+TIME:	 120
+VALUE:	 49
+
+INB.read() - prescale = 5
+TIME:	 34
+VALUE:	 81
+
+258	258	257
+299	299	298
+317	317	316
+327	327	326
+326	326	330
+330	330	334
+334	334	337
+337	337	339

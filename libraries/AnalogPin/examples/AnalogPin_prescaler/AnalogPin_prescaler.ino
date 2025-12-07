@@ -1,8 +1,10 @@
 //
 //    FILE: AnalogPin_prescaler.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: example sketch
+// PURPOSE: example sketch use of prescaler on AVR
 //     URL: https://github.com/RobTillaart/AnalogPin
+//
+//  prescaler works only on AVR
 
 
 #include "AnalogPin.h"
@@ -17,6 +19,7 @@ uint32_t val;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ANALOGPIN_LIB_VERSION: ");
   Serial.println(ANALOGPIN_LIB_VERSION);
@@ -54,5 +57,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

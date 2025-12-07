@@ -1,5 +1,5 @@
 //
-//    FILE: AnalogPin.ino
+//    FILE: AnalogPin_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: example sketch performance
 //     URL: https://github.com/RobTillaart/AnalogPin

@@ -2,7 +2,7 @@
 //
 //    FILE: AnalogPin.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 0.2.10
 //    DATE: 2013-09-09
 // PURPOSE: wrapper for analogRead with smoothing and noise filtering
 //     URL: https://github.com/RobTillaart/AnalogPin
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANALOGPIN_LIB_VERSION       (F("0.2.9"))
+#define ANALOGPIN_LIB_VERSION       (F("0.2.10"))
 
 
 class AnalogPin
@@ -19,9 +19,10 @@ public:
 
   explicit AnalogPin(const uint8_t pin);
 
-  //  pre-scale = { 2..7 }, 2 is bad, 3 is pretty noisy, 4 and 5 are acceptable, 
+  //  note AVR specific
+  //  pre-scale = { 2..7 }, 2 is bad, 3 is pretty noisy, 4 and 5 are acceptable,
   //                        6 and 7 are good. Depends on project!!!
-  //  time indication per analogRead for different pre-scale values on UNO
+  //  time indication per analogRead for different pre-scale values on UNO R3
   //  2 => 14 uSec     5 => 38 uSec
   //  3 => 18 uSec     6 => 63 uSec
   //  4 => 24 uSec     7 => 120 uSec (default/normal)

@@ -30,7 +30,7 @@ void setup()
 
   Wire1.begin(12, 13);    //  ESP32 default pins 21 22
   Wire1.setClock(400000);
-  
+
   DHT.begin();
 
   delay(2000);

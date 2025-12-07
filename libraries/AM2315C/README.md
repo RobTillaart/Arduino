@@ -11,12 +11,12 @@
 
 # AM2315C
 
-Arduino library for I2C AM2315C temperature and humidity sensor.
+Arduino library for the I2C AM2315C temperature and humidity sensor.
 
 
 ## Description
 
-The AM2315C is a humidity and temperature sensor. 
+The AM2315C is a humidity and temperature sensor.
 
 Warning: this sensor is not compatible with the AM2315.
 
@@ -36,8 +36,10 @@ This library is based upon the DHT20 library which is leading in development.
 The DHT20 also provides a bit more documentation and issues from the past.
 - https://github.com/RobTillaart/DHT20
 
+Feedback as always is welcome.
 
-#### 0.2.0 Breaking change
+
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -48,11 +50,11 @@ before calling **begin()**.
 
 ## I2C
 
-The sensor has a fixed address of **0x38**.
+The AM2315C has a fixed address of **0x38** (56).
 It is not known if the address can be changed.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -70,7 +72,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### Connection
+### Connection
 
 Always check datasheet!
 
@@ -84,6 +86,12 @@ Front view
                     +-----------------+
 ```
 
+### Related
+
+- https://github.com/RobTillaart/DHT20
+- https://github.com/RobTillaart/AM2315  (not compatible)
+- https://github.com/RobTillaart/AM2315C
+
 
 ## Interface
 
@@ -91,7 +99,7 @@ Front view
 #include "AM2315C.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **AM2315C(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
 - **bool begin()** initializer. Returns true if connected.
@@ -99,27 +107,27 @@ The user must call **Wire.begin()** before calling this function.
 - **bool isConnected()** returns true if the address of the AM2315C can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
 
-#### Core
+### Core
 
 - **int8_t read()** read the sensor and store the values internally. 
 Returns the status of the read which should be 0 == **AM2315C_OK**.
-- **float getHumidity()** returns last Humidity read.
+- **float getHumidity()** returns last read humidity + optional offset.
 Multiple calls will return same value until a new **read()** is made.
-- **float getTemperature()** returns last Temperature read.
+- **float getTemperature()** returns last read temperature + optional offset.
 Multiple calls will return same value until a new **read()** is made.
 
 
-#### Offset
+### Offset
 
-- **void setHumOffset(float offset = 0)** set an offset to calibrate the sensor (1st order).
-Default offset is 0.
+- **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
+Default offset == 0, so no parameter will reset the offset.
 - **float getHumOffset()** return current humidity offset, default 0.
-- **void setTempOffset(float offset = 0)** set an offset to calibrate the sensor (1st order).
-Default offset is 0.
+- **void setTempOffset(float offset = 0)** set an offset for temperature to calibrate (1st order) the sensor.
+Default offset == 0, so no parameter will reset the offset.
 - **float getTempOffset()** return current temperature offset, default 0.
 
 
-#### Asynchronous interface
+### Asynchronous interface
 
 There are two timings that need to be considered (from datasheet):
 - time between requests = 1000 ms.
@@ -143,7 +151,7 @@ Note there must be at least 1000 milliseconds between requests!
 See the example **AM2315C_async.ino**
 
 
-#### Status
+### Status
 
 - **uint8_t readStatus()** forced read of the status only.
 This function blocks a few milliseconds to optimize communication.
@@ -160,7 +168,7 @@ This function blocks a few milliseconds to optimize communication.
 |  2 - 0       |  unknown                   |
 
 
-#### Experimental resetSensor
+### Experimental resetSensor
 
 Use with care!
 
@@ -174,13 +182,13 @@ The call is needed to get the **read()** working well so it has been embedded in
 the read calls. (0.2.0)
 
 
-#### Timing
+### Timing
 
 - **uint32_t lastRead()** last time the sensor is read in milliseconds since start.
 - **uint32_t lastRequest()** last time a request is made to make a measurement.
 
 
-#### Return codes
+### Error codes
 
 |  name                          |  value  |  notes  |
 |:-------------------------------|:-------:|:--------|

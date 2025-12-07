@@ -2,7 +2,7 @@
 //    FILE: TM1637.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -26,9 +26,17 @@
 #define TM1637_CMD_DISPLAY         0x88
 
 //  Special chars
-#define TM1637_SPACE      16
-#define TM1637_MINUS      17
-#define TM1637_DEGREE     18
+#define TM1637_SPACE               16
+#define TM1637_MINUS               17
+#define TM1637_DEGREE              18
+#define TM1637_CELSIUS             12   //  C
+#define TM1637_FAHRENHEIT          15   //  F
+
+//  not used
+#define TM1637_AMPERE              10   //  A
+#define TM1637_HUMIDITY            00   //  H  0x76
+#define TM1637_UNDERSCORE          00   //  _  0x08
+#define TM1637_UPPERSCORE          00   //     0x01
 
 
 /***************
@@ -269,8 +277,8 @@ void TM1637::displayCelsius(int temp, bool colon)
 {
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
-  _data[0] = 12;             //  C
-  _data[1] = TM1637_DEGREE;  //  ° degree sign
+  _data[0] = TM1637_CELSIUS;  //  C
+  _data[1] = TM1637_DEGREE;   //  ° degree sign
 
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
@@ -292,8 +300,8 @@ void TM1637::displayFahrenheit(int temp, bool colon)
 {
   if (_digits != 4) return;
   for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
-  _data[0] = 15;             //  F
-  _data[1] = TM1637_DEGREE;  //  ° degree sign
+  _data[0] = TM1637_FAHRENHEIT;  //  F
+  _data[1] = TM1637_DEGREE;      //  ° degree sign
 
   if (temp < -9) temp = -9;
   if (temp > 99) temp = 99;
@@ -309,6 +317,56 @@ void TM1637::displayFahrenheit(int temp, bool colon)
   }
   displayRaw(_data, colon ? 2 : -1);
 }
+
+
+/*
+//  note: very similar code...
+//  FULL RANGE no degree symbol
+void TM1637::displayCelsius(int temp, bool colon)
+{
+  if (_digits != 4) return;
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+  _data[0] = TM1637_CELSIUS;
+
+  if (temp < 0)
+  {
+    _data[3] = TM1637_MINUS;
+    _data[2] = (-temp) / 10;
+    _data[1] = (-temp) % 10;
+  }
+  else
+  {
+    _data[3] = temp / 100;
+    int t = temp % 100;
+    _data[2] = t / 10;
+    _data[1] = t % 10;
+  }
+  displayRaw(_data, colon ? 2 : -1);
+}
+
+//  FULL RANGE no degree symbol
+void TM1637::displayFahrenheit(int temp, bool colon)
+{
+  if (_digits != 4) return;
+  for (int i = 0; i < 8; i++) _data[i] = TM1637_SPACE;  //  16
+  _data[0] = TM1637_CELSIUS;
+
+  if (temp < 0)
+  {
+    _data[3] = TM1637_MINUS;
+    _data[2] = (-temp) / 10;
+    _data[1] = (-temp) % 10;
+  }
+  else
+  {
+    _data[3] = temp / 100;
+    int t = temp % 100;
+    _data[2] = t / 10;
+    _data[1] = t % 10;
+  }
+  displayRaw(_data, colon ? 2 : -1);
+}
+*/
 
 
 void TM1637::displayClear()
@@ -577,11 +635,13 @@ uint8_t TM1637::keyScan(void)
 
 //  nanoDelay() makes it possible to go into the sub micron delays.
 //  It is used to lengthen pulses to be minimal 400 ns but not much longer.
-//  See datasheet.
+//  See datasheet and issue #5 and #35.
+//  effectively an empty loop to "burn clock cycles".
 void TM1637::nanoDelay(uint16_t n)
 {
   volatile uint16_t i = n;
-  while (i--);
+  uint16_t local_i = i;
+  while(local_i-- > 0) {};  //  alternative asm("NOP");
 }
 
 

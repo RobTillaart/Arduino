@@ -25,9 +25,11 @@ It is therefore not possible to scan a "standard" 3x4 or 4x4 matrix keypad.
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
 
 
-#### Related
+### Related
 
 - https://docs.wokwi.com/parts/wokwi-tm1637-7segment#simulator-examples
+  - https://wokwi.com/projects/339227323398095442 (counter demo)
+  - https://wokwi.com/projects/356661328560439297 (three display demo)
 - https://github.com/SteveMicroCode/PIC-TM1637-Library-Code
   - includes interesting hardware notes.
 - https://github.com/RobTillaart/HT16K33
@@ -37,7 +39,7 @@ ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull
 - https://github.com/RobTillaart/I2C_LCD
 
 
-#### Hardware connection and performance
+### Hardware connection and performance
 
 From tests of SteveMicroCode (See #29) it became clear that the proposed hardware in the
 datasheet is very robust but slow. See page 8 datasheet.
@@ -68,7 +70,7 @@ Note: Ω = ALT-234
 #include "TM1637.h"
 ```
 
-#### Core
+### Constructor
 
 - **TM1637()** constructor
 - **void begin(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)**
@@ -77,7 +79,7 @@ As the display was tested with a 6 digit display first,
 this is used as the default of the digits parameter.
 
 
-#### Display functions I
+### Display functions I
 
 - **void displayClear()** writes spaces to all positions, effectively clearing the display.
 - **void displayRefresh()** refreshes last written data on display.
@@ -86,7 +88,7 @@ To be used e.g. after a **hideSegment()** call.
 - **void hideMultiSegment(uint8_t mask)** writes spaces to 0 or more segments depending on the mask.
 
 
-#### Display functions II
+### Display functions II
 
 - **void displayPChar(char \*buff)** display the buffer. 
 Experimental - Tested on STM32 and Arduino Nano.
@@ -120,7 +122,7 @@ Applications include:
   - any pair of integers (-9 .. 99) side by side.
 
 
-#### Display functions III
+### Display functions III
 
 - **void displayCelsius(int temp, bool colon = false)** print temperature in **Celsius** format.
 The function allows a range from -9 .. 99 + °C.
@@ -152,19 +154,19 @@ Question is how to API should change, new function of new behaviour?
 See future.
 
 
-#### Brightness
+### Brightness
 
 - **void setBrightness(uint8_t brightness = 3)** brightness = 0 .. 7 default = 3.
 - **uint8_t getBrightness()** returns value set.
 
 
-#### KeyScan
+### KeyScan
 
 - **uint8_t keyScan(void)** scans the keyboard once and return result. 
 The keyScan() function cannot detect multiple keys.
 
 
-#### DisplayRaw explained
+### DisplayRaw explained
 
 **displayRaw()** can display multiple decimal points, by setting the high bit (0x80) 
 in each character for which you wish to have a decimal point lit.  
@@ -178,7 +180,7 @@ Or you can use the pointPos argument to light just one decimal at that position.
 So "hello " is coded as 0x13, 0x0e, 0x17, 0x17, 0x1a, 0x10
 
 
-#### displayPChar explained
+### displayPChar explained
 
 **void displayPChar(char \* buff)** Attempts to display every ASCII character 0x30 to 0x5F. 
 See example TM1637_custom.ino to insert your own 7 segment patterns.
@@ -190,7 +192,7 @@ It presents a more convenient interface for displaying text messages on the disp
 Routine **button_poll()** in the same example shows one way of polling and de-bouncing button presses.
 
 
-#### hideSegment() explained
+### hideSegment() explained
 
 - **void hideSegment(uint8_t idx)** hides a single segment until any other call to display.
 - **void hideMultiSegment(uint8_t mask)** hides 0 or more segments depending on the mask.
@@ -215,12 +217,12 @@ Note: **hideMultiSegment()** and **hideMultiSegment()** do not affect the "displ
 where **displayClear()** fills the "display cache" with spaces.
 
 
-#### Obsolete (0.4.0)
+### Obsolete (0.4.0)
 
 - **void init(uint8_t clockPin, uint8_t dataPin, uint8_t digits = 6)** replaced by begin().
 
 
-#### Display support
+### Display support
 
 The library is tested with a 6 (=2x3) digit - decimal point - display and a 4 (=1x4) digit - clock - display. 
 At low level these displays differ in the order the digits have to be clocked in.
@@ -232,7 +234,7 @@ If you have a (7 segment) display that is not supported by the library,
 please open an issue on GitHub so it can be build in.
 
 
-#### Tuning function
+### Tuning function
 
 **setBitDelay()** is used to tune the timing of writing bytes. 
 An UNO can gain up to 100 micros per call by setting the bit delay to 0.
@@ -243,11 +245,12 @@ Do not forget to use a pull up resistor on the clock and data line.
 - **uint8_t getBitDelay()**
 
 
-#### Tuning minimum pulse length
+### Tuning minimum pulse length
 
-The class has a conditional code part in writeSync to guarantee the length of pulses
-when the library is used with an ESP32. The function called there **nanoDelay(n)**
-needs manual adjustment depending upon processor frequency and time needed for a digitalWrite.
+The class has a conditional code part in **writeSync()** to guarantee the length of pulses
+when the library is used with an ESP32. 
+The function called there **void nanoDelay(uint16_t n)** needs manual adjustment depending 
+upon processor frequency and time needed for a digitalWrite.
 Feel free to file an issue to get your processor supported.
 
 ----
@@ -366,15 +369,15 @@ See examples
 #### Should
 
 - testing other platforms.
-- remove degree sign from **displayCelsius()**
-  - would allow one extra digit.
-  - **displayFahrenheit()** idem.
-  - could be optional when needed e.g. below -9 or above 99
-  - code complexity?
+- remove degree sign from **displayCelsius()** and **displayFahrenheit()**
+  - code == commented in .cpp file, needs testing.
+  - allows one extra digit.
+
 
 #### Could
 
-- add parameter for **hideSegment(idx, character == SPACE)** to overrule hide char.
+- add parameter for **hideSegment(idx, character == TM1637_SPACE)** 
+  - to overrule hide char.
   - space underscore or - are possible.
 - add **TM1637_UNDERSCORE** to char set. ```seg[19] == 0x08```
 - add **TM1637_UPPERSCORE** to char set. ```seg[20] == 0x01```

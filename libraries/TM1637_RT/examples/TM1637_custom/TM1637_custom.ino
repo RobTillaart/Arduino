@@ -72,6 +72,7 @@ void setup()
   while(!Serial);
   Serial.begin(115200);
   delay(1000);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TM1637_LIB_VERSION: ");
   Serial.println(TM1637_LIB_VERSION);

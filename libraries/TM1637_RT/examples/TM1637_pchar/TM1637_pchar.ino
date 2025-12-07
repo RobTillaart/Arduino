@@ -22,6 +22,7 @@ void setup()
   while(!Serial);
   Serial.begin(115200);
   delay(1000);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TM1637_LIB_VERSION: ");
   Serial.println(TM1637_LIB_VERSION);
@@ -32,7 +33,6 @@ void setup()
   TM.begin( 14, 15 , DISPLAY_DIGITS_6 );  //  clock pin, data pin, and digits
 
   TM.setBrightness(2);
-  
 }
 
 

@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -20,7 +20,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.4.1"))
+#define TM1637_LIB_VERSION      (F("0.4.2"))
 
 
 class TM1637
@@ -55,12 +55,13 @@ public:
   void displayRefresh();
   //  EXPERIMENTAL 0.3.8
   void hideSegment(uint8_t idx);
-  void hideMultiSegment(uint8_t mask);  //  0 bit = show  1 bit = hide
+  //  mask:  0 bit = show  1 bit = hide
+  void hideMultiSegment(uint8_t mask);
 
 
   //  BRIGHTNESS
-  //  brightness = 0..7
-  void    setBrightness(uint8_t brightness = 3);  //  default 3
+  //  brightness = 0..7,  default 3
+  void    setBrightness(uint8_t brightness = 3);
   uint8_t getBrightness();
 
 

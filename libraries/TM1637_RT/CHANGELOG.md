@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2025-11-24
+- fix #35, warning on volatile variable
+- update GitHub actions
+- fix keywords.txt
+- minor edits
+
 ## [0.4.1] - 2025-02-20
 - fix #33, update URL's in examples
 - add print library version in examples

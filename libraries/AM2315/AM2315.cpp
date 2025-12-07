@@ -1,8 +1,9 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
+//    DATE: 2022-01-05
 //     URL: https://github.com/RobTillaart/AM2315
 
 
@@ -105,7 +106,7 @@ float AM2315::getTemperature()
 //    AM2315_TEMPERATURE_OUT_OF_RANGE
 int AM2315::_read()
 {
-  // READ VALUES
+  //  READ VALUES
   int rv = _readSensor();
 
   if (rv != AM2315_OK)
@@ -123,7 +124,7 @@ int AM2315::_read()
   int16_t t = ((_bits[4] & 0x7F) * 256 + _bits[5]);
   if (t == 0)
   {
-    _temperature = 0.0;     // prevent -0.0;
+    _temperature = 0.0;     //  prevent -0.0;
   }
   else
   {
@@ -160,7 +161,7 @@ int AM2315::_readSensor()
   //  HANDLE PENDING IRQ etc.
   yield();
 
-  // WAKE UP the sensor
+  //  WAKE UP the sensor
   if (! isConnected() ) return AM2315_ERROR_CONNECT;
 
   //  SEND COMMAND
@@ -196,7 +197,7 @@ int AM2315::_readSensor()
 uint16_t AM2315::_crc16(uint8_t *ptr, uint8_t len)
 {
   uint16_t crc = 0xFFFF;
-  while(len--)
+  while (len--)
   {
     crc ^= *ptr++;
     for (uint8_t i = 0; i < 8; i++)

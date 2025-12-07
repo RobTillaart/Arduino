@@ -11,23 +11,27 @@
 
 # AM2315
 
-Arduino library for an AM2315 I2C temperature and humidity sensor.
+Arduino library for the I2C AM2315 temperature and humidity sensor.
 
 
 ## Description
 
-The AM2315 is a sensor similar to the DHT12 with an I2C interface.
+The AM2315 is a humidity and temperature sensor similar to the DHT12 with an I2C interface.
 
-Although in theory this could enable multiple sensors on one bus
-the AM2315 has a fixed address **0x5C** so one need to implement a 
-multiplexing strategy to have multiple sensors in practice. 
-See multiplexing below.
+Warning: this sensor is not compatible with the AM2315C.
+
+Although in theory this I2C interface can enable multiple sensors on one bus
+the AM2315 has a fixed address **0x5C**.
+Therefore one need to implement a multiplexing strategy to have multiple sensors in practice. 
+See multiplexing section below.
 
 The AM2315 can also be read with the https://github.com/RobTillaart/AM232X library as it uses the same protocol. 
 The AM232X library allows to read some internal registers.
 
+As always feedback is welcome.
 
-#### 0.2.0 Breaking change
+
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -36,14 +40,22 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### AM2315C
+### Related
+
+- https://github.com/RobTillaart/AM2315
+- https://github.com/RobTillaart/AM2315C (not compatible)
+- https://github.com/RobTillaart/AM232X 
+- https://github.com/RobTillaart/DHT12
+
+
+### AM2315C
 
 The AM2315C ( note the C ) is a different sensor with a different protocol.
 Check - https://github.com/RobTillaart/AM2315C
 The C-version has a fixed address of **0x38** so easy to detect.
 
 
-#### Typical parameters
+### Typical parameters
 
 |             |  range     | accuracy | repeatability |
 |:------------|:----------:|:--------:|:-------------:|
@@ -52,7 +64,7 @@ The C-version has a fixed address of **0x38** so easy to detect.
 | Sample time | 2 seconds  |          |               |
 
 
-#### Hardware connection
+### Hardware connection
 
 ```
 //  AM232X PIN layout             AM2315 COLOR
@@ -68,12 +80,15 @@ The C-version has a fixed address of **0x38** so easy to detect.
 // do not forget pull up resistors between SDA, SCL and VDD.
 ```
 
+Note: always check the datasheet!
+
+
 ## I2C
 
-The AM2315 has a fixed address **0x5C** (92).
+The AM2315 has a fixed address of **0x5C** (92).
 
 
-#### Multiplexing 
+### Multiplexing 
 
 Multiplexing the **AM2315** can be done in several ways.
 This is not a complete list or tutorial but should get you started.
@@ -101,7 +116,7 @@ too if they are behind the multiplexer.
 Which method fit your application depends on your requirements and constraints.
 
 
-#### I2C clock speed
+### I2C clock speed
 
 The datasheet states the AM2315 should be used on 100 KHz I2C only. 
 When overclocking I got good readings up to 190 KHz in a test with 
@@ -134,41 +149,43 @@ If performance is mandatory do not go beyond 170 KHz.
 ```
 
 
-#### Constructor
+### Constructor
 
 - **AM2315(TwoWire \*wire = &Wire)** constructor, default using Wire (I2C bus), optionally set to Wire0 .. WireN.
-- **bool begin()** initializer.
-Returns true if device address 0x5C is connected.
-Note the user has to call Wire.begin() before **AM.begin()**.
+- **bool begin()** initializer. Returns true if connected.
+Returns true if the device address 0x5C is connected.
+The user must call **Wire.begin()** before calling this function.
 - **bool isConnected(uint16_t timeout = 3000)** returns true if the device address 0x5C is found on I2C bus.
 As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
 minimum = 800 us and maximum = 3000 us according to datasheet.
 
 
-#### Core
+### Core
 
 - **int8_t read()** read the sensor and store the values internally.
-It returns the status of the read which should be **AM2315_OK** == 0.
+Returns the status of the read which should be 0 == **AM2315_OK**.
 - **float getHumidity()** returns last read humidity + optional offset, 
 or **AM2315_INVALID_VALUE** == -999 in case of error. 
 This error can be suppressed, see below.
+Multiple calls will return same value until a new **read()** is made.
 - **float getTemperature()** returns last read temperature + optional offset,
 or **AM2315_INVALID_VALUE** == -999 in case of error. 
 This error can be suppressed, see below.
+Multiple calls will return same value until a new **read()** is made.
 - **uint32_t lastRead()** returns the timestamp in milliseconds since startup of the last successful read.
 
 
-#### Offset
+### Offset
 
 - **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
-Default offset = 0, so no parameter will reset the offset.
+Default offset == 0, so no parameter will reset the offset.
 - **float getHumOffset()** return current humidity offset, default 0.
 - **void setTempOffset(float offset = 0)** set an offset for temperature to calibrate (1st order) the sensor.
-Default offset = 0, so no parameter will reset the offset.
+Default offset == 0, so no parameter will reset the offset.
 - **float getTempOffset()** return current temperature offset, default 0.
 
 
-#### Control
+### Control
 
 Functions to adjust the communication with the sensor.
 
@@ -182,7 +199,7 @@ This can be used to keep spikes out of your graphs / logs.
 - **bool getSuppressError()**  returns the above setting.
 
 
-#### Error codes
+### Error codes
 
 | name                              | value | notes       |
 |:----------------------------------|------:|:------------|
@@ -225,10 +242,8 @@ so one might need to call **wakeUp()** before the **read()**.
 - keep in sync with AM232X class
   - merge in a far future.
 
-
 #### Could
 
-- move code from .h to .cpp
 
 #### Wont
 
@@ -236,7 +251,8 @@ so one might need to call **wakeUp()** before the **read()**.
   - 0x07 status register
   - 0x08-0x0B user register HIGH LOW HIGH2 LOW2
   (use AM232x library to access those)
-
+- move code from .h to .cpp
+  - performance wise, some compilers can auto inline the simple .h functions.
 
 ## Support
 

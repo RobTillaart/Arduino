@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/MS4525DO_RT/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/MS4525DO_RT.svg?maxAge=3600)](https://github.com/RobTillaart/MS4525DO_RT/releases)
-[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MS4525DO_RT.svg)](https://registry.platformio.org/libraries/RobTillaart/MS4525DO_RT)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MS4525DO.svg)](https://registry.platformio.org/libraries/RobTillaart/MS4525DO)
 
 
 # MS4525DO

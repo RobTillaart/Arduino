@@ -2,7 +2,7 @@
 //
 //    FILE: MS4525DO.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-12-06
 // PURPOSE: Arduino library for the I2C MS4525DO pressure and temperature sensor.
 //     URL: https://github.com/RobTillaart/MS4525DO_RT
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define MS4525DO_LIB_VERSION              (F("0.1.1"))
+#define MS4525DO_LIB_VERSION              (F("0.1.2"))
 
 #define PSI2MILLIBAR                      (68.9475729)
 #define MILLIBAR2PSI                      (0.01450377377)

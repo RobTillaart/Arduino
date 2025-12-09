@@ -1,7 +1,7 @@
 //
 //    FILE: PulsePattern.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.2.0
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //          sends a pulse pattern to a digital pin (continuously)
@@ -11,7 +11,7 @@
 #include "PulsePattern.h"
 
 
-//  Predefined generator (singleton)
+//  Predefined generator (= singleton - NB one HW timer on AVR)
 PulsePattern PPGenerator;
 
 
@@ -104,7 +104,7 @@ void PulsePattern::worker()
   _cnt++;
   if (_cnt >= _size)
   {
-    _cnt = 0;  // reset pattern
+    _cnt = 0;  //  reset pattern
     switch(_times)
     {
       case PP_CONTINUOUS:
@@ -125,7 +125,7 @@ void PulsePattern::worker()
 //  TIMER code based upon - http://www.gammon.com.au/forum/?id=11504
 void PulsePattern::stopTimer()
 {
-  TCCR1A = 0;        //  reset timer 1
+  TCCR1A = 0;  //  reset timer 1
   TCCR1B = 0;
 }
 

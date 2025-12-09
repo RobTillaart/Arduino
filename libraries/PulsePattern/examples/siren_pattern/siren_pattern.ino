@@ -1,15 +1,15 @@
 //
 //    FILE: siren_pattern.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-11-23
 // PURPOSE: demo of the PulsePattern Library
-//          uses timer1
+//          uses timer1 on AVR
 //     URL: https://github.com/RobTillaart/PulsePattern
 
 
 #include "PulsePattern.h"
 
 //  a pattern consists of durations of LOW and HIGH periods
+//
 //  NOTE max period = 4095.
 //       min period = about 12
 uint16_t pattern[] =

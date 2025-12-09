@@ -1,9 +1,8 @@
 //
 //    FILE: random_pattern.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-07-04
 // PURPOSE: demo of the PulsePattern Library
-//          uses timer1
+//          uses timer1 on AVR
 //     URL: https://github.com/RobTillaart/PulsePattern
 
 
@@ -12,11 +11,12 @@
 
 //  a pattern constants of durations of LOW and HIGH periods
 //  so the first line of the SOSpattern
-
-//  500 units LOW, 500 units HIGH etc.
-//  for a duty cycle of 50% LOW and HIGH should have equal periods
+//
+//  500 units LOW, 500 units HIGH etc
+//  for a dutycycle of 50% LOW and HIGH should have equal periods
+//
 //  NOTE max period = 4095.
-//  min period = about 12
+//       min period = about 12
 uint16_t random_pattern[] = { 500, 500 };
 uint8_t patternSize = 2;
 uint8_t startLevel = LOW;
@@ -31,8 +31,8 @@ void setup()
   Serial.println(PULSEPATTERN_LIB_VERSION);
   Serial.println();
 
-  //  as the prescaler = 1024 the periods of the pattern are a
-  //  few percent less than a millisecond
+  //  as the prescaler = 1024 the periods of the pattern
+  //  are a few percent less than a millisecond
   PPGenerator.init(13, random_pattern, patternSize, startLevel, PRESCALE_1024);
   PPGenerator.start();
 }

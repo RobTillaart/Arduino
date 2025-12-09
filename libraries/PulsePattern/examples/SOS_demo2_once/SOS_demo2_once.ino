@@ -1,9 +1,8 @@
 //
 //    FILE: SOS_demo2_once.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-03-10
 // PURPOSE: demo of the PulsePattern Library
-//          uses timer1
+//          uses timer1 on AVR
 //     URL: https://github.com/RobTillaart/PulsePattern
 
 
@@ -19,8 +18,8 @@
 //       min period = about 12
 uint16_t SOSpattern[] =
 {
-  500,500,500,500,500,1500,      //  SOS in Morse-code
-  1500,500,1500,500,1500,1500,
+  500,500,500,500,500, 500,      //  SOS in morse is one sequence!
+  1500,500,1500,500,1500,500,
   500,500,500,500,500,1500
 };
 
@@ -38,8 +37,8 @@ void setup()
   Serial.println(PULSEPATTERN_LIB_VERSION);
   Serial.println();
 
-  //  as the prescaler = 1024 the periods of the pattern are a
-  //  few percent less than a millisecond
+  //  as the prescaler = 1024 the periods of the pattern
+  //  are a few percent less than a millisecond
   PPGenerator.init(13, SOSpattern, patternSize, startLevel, PRESCALE_1024);
   PPGenerator.start(1);
 }

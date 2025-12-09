@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.8] - 2025-08-21
+## [0.2.0] - 2025-12-08
+- fix #17, SOS
+- remove history (see changelog.md)
+- minor edits
+
+----
+
+## [0.1.9] - 2025-08-21
 - update github actions
 - minor edits
 

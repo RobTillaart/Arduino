@@ -18,8 +18,8 @@ Arduino Library to generate repeating pulse patterns **AVR ONLY**.
 
 **Experimental**
 
-This is an experimental library to generate pulse patterns by means of an Arduino UNO.
-As the library uses **AVR hardware timers** it is definitely **NOT** working for ESP
+This is an experimental library to generate pulse patterns by means of an Arduino UNO R3.
+As the library uses **AVR hardware timers** it is **NOT** working for ESP
 or other non-AVR processors.
 
 The library uses timer1 for the timing of the pulses.
@@ -35,7 +35,7 @@ Use with care.
 
 Note: there is no active development.
 
-As always, feedback is welcome.
+Feedback as always is welcome.
 
 
 ### Related
@@ -55,14 +55,14 @@ As always, feedback is welcome.
 - **PulsePattern()** constructor
 - **void init(uint8_t pin, uint16_t\*ar, uint8_t size, uint8_t level, uint8_t prescaler)** initializer of the Timer1
    - pin that outputs the pattern
-   - array of durations
+   - array of durations (at least size length)
    - size (or part) of the array to be used
    - starting level HIGH/LOW
    - pre-scaler, one of the 5 defines from .h file (table below)
 
 ### Calibrate timing
 
-- **void setFactor(float perc)** percentage = factor to correct timing (relative).
+- **void setFactor(float percentage)** percentage = factor to correct timing (relative).
 - **float getFactor()** get the internal used factor. Due to rounding it can be slightly different.
 
 ### Control
@@ -73,7 +73,7 @@ Default in the continuous mode to be backwards compatible.
 **PP_CONTINUOUS** == 0xFFFFFFFF, so times should be less than 4294967295. 
 For convenience there is a **PP_ONCE** == 1 defined.
 - **void cont()** continue the pattern generator from the last stopped place (approx).
-- **bool isRunning()** status indicator
+- **bool isRunning()** status indicator.
 - **void worker()** must be public otherwise the ISR cannot call it.
 
 There is some bad understood __vector_11() error when worker() is private.
@@ -83,7 +83,7 @@ There is some bad understood __vector_11() error when worker() is private.
 
 |  Value  |  Prescaler       |  Timer1      |  Notes       |
 |:-------:|:-----------------|:-------------|:------------:|
-|    0    |  NO_CLOCK        |  timer off   |              |
+|    0    |  NO_CLOCK        |  timer off   |
 |    1    |  PRESCALE_1      |  clk / 1     |
 |    2    |  PRESCALE_8      |  clk / 8     |
 |    3    |  PRESCALE_64     |  clk / 64    |
@@ -95,7 +95,7 @@ There is some bad understood __vector_11() error when worker() is private.
 
 ## Future
 
-On request only
+there is no active development.
 
 #### Must
 

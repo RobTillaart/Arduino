@@ -1,9 +1,8 @@
 //
 //    FILE: pulse_sender.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-08-08
 // PURPOSE: for calibrating the pulse length
-//          uses timer1
+//          uses timer1 on AVR
 //     URL: https://github.com/RobTillaart/PulsePattern
 //
 //  This sketch sends a test pattern of 1000 ms LOW and 1000 ms HIGH ==> Duty Cycle = 50%
@@ -22,8 +21,8 @@
 
 #include "PulsePattern.h"
 
-// uint16_t test_pattern[] = { 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000};
-// uint8_t patternSize = 30;
+//  uint16_t test_pattern[] = { 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000};
+//  uint8_t patternSize = 30;
 
 uint16_t test_pattern[] = { 1000, 1000 };  //  0.5 Hz 50% duty cycle
 uint8_t patternSize = 2;
@@ -39,8 +38,8 @@ void setup()
   Serial.println(PULSEPATTERN_LIB_VERSION);
   Serial.println();
 
-  //  as the prescaler = 1024 the periods of the pattern are a
-  //  few percent less than a millisecond
+  //  as the prescaler = 1024 the periods of the pattern
+  //  are a few percent less than a millisecond
 
   // -0.0278 = - 2.78%       Saleae logic analyser
   // -0.0246 = - 2.46%       ESP32

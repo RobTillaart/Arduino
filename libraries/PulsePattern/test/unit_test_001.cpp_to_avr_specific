@@ -58,17 +58,17 @@ unittest_teardown()
 unittest(test_constants)
 {
   fprintf(stderr, "status\n");
-  assertEqual(NOTINIT, -1);  
+  assertEqual(NOTINIT, -1);
   assertEqual(STOPPED, 0);
   assertEqual(RUNNING, 1);
 
   fprintf(stderr, "\nprescaler\n");
   assertEqual(NO_CLOCK      , 0);
-  assertEqual(PRESCALE_1    , 1);  
+  assertEqual(PRESCALE_1    , 1);
   assertEqual(PRESCALE_8    , 2);
   assertEqual(PRESCALE_64   , 3);
   assertEqual(PRESCALE_256  , 4);
-  assertEqual(PRESCALE_1024 , 5);  
+  assertEqual(PRESCALE_1024 , 5);
   assertEqual(EXT_T1_FALLING, 6);
   assertEqual(EXT_T2_RISING , 7);
 }
@@ -79,16 +79,16 @@ unittest(test_constructor)
   PPGenerator.init(13, pattern, patternSize, startLevel, PRESCALE_1024);
 
   assertFalse(PPGenerator.isRunning());
-  
+
   PPGenerator.start();
   assertTrue(PPGenerator.isRunning());
-  
+
   PPGenerator.stop();
   assertFalse(PPGenerator.isRunning());
-  
+
   PPGenerator.cont();
   assertTrue(PPGenerator.isRunning());
-  
+
   PPGenerator.stop();
   assertFalse(PPGenerator.isRunning());
 
@@ -101,10 +101,10 @@ unittest(test_setFactor)
 
   PPGenerator.setFactor(42.42);
   assertEqualFloat(42.42, PPGenerator.getFactor(), 0.0001);
-  
+
   PPGenerator.setFactor(0);
   assertEqualFloat(0, PPGenerator.getFactor(), 0.0001);
-  
+
   PPGenerator.setFactor(100);
   assertEqualFloat(100, PPGenerator.getFactor(), 0.0001);
 }
@@ -112,4 +112,6 @@ unittest(test_setFactor)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

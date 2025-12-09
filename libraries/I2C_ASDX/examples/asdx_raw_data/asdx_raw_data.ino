@@ -1,7 +1,7 @@
 //
-//    FILE: asdx_minimal.ino
+//    FILE: asdx_raw_data.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo raw counters
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 
 
@@ -23,7 +23,8 @@ void setup()
 
   Wire.begin();
   sensor.begin();
-  //  optimistic no error check
+
+  Serial.println("Pres");
 }
 
 
@@ -32,13 +33,7 @@ void loop()
   int state = sensor.read();
   if (state == I2C_ASDX_OK)
   {
-    Serial.print("mBar:\t");
-    Serial.println(sensor.getMilliBar());
-    Serial.print(" Bar:\t");
-    Serial.println(sensor.getBar());
-    Serial.print(" PSI:\t");
-    Serial.println(sensor.getPSI());
-    Serial.println();
+    Serial.println(sensor.rawPressureCount());
   }
   else
   {

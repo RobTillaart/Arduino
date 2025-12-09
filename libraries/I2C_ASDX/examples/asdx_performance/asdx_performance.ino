@@ -12,7 +12,7 @@
 I2C_ASDX sensor(0x58, 100);
 
 uint32_t start, stop;
-volatile uint32_t pressure = 0;
+volatile float pressure = 0;
 
 
 void setup()
@@ -29,6 +29,8 @@ void setup()
   {
     Serial.print("Cannot find sensor:\t");
     Serial.print(sensor.getAddress());
+    Serial.print(" - state: ");
+    Serial.println(sensor.state());
     Serial.println("Check wires or try another address.");
     while(1);
   }
@@ -40,10 +42,10 @@ void setup()
   for (int i = 0; i < 1000; i++)
   {
     sensor.read();                    //  note no error handling
-    pressure = sensor.getPressure();  //  milliBar
+    pressure = sensor.getMilliBar();  //  milliBar
   }
   stop = millis();
-  Serial.print("1000 x read() + getPressure() :  ");
+  Serial.print("1000 x read() + getMilliBar() :  ");
   Serial.println(stop - start);
   Serial.print("                   ErrorCount :  ");
   Serial.println(sensor.errorCount());
@@ -60,4 +62,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

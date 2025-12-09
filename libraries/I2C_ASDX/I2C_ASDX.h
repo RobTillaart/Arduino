@@ -2,7 +2,8 @@
 //
 //    FILE: I2C_ASDX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
+//    DATE: 2013-11-14
 // PURPOSE: Arduino library for I2C ASDX pressure sensor.
 //     URL: https://github.com/RobTillaart/I2C_ASDX
 
@@ -25,7 +26,9 @@
 #include "Arduino.h"
 
 
-#define I2C_ASDX_VERSION                  (F("0.4.1"))
+#define I2C_ASDX_VERSION                  (F("0.4.2"))
+//  TODO replace 0.5.0
+#define I2C_ASDX_LIB_VERSION              (F("0.4.2"))
 
 
 //  factors to convert PSI to mBar and back
@@ -58,7 +61,7 @@
 class I2C_ASDX
 {
 public:
-  //      psi: 100, 60, 30, 15, 5 or 1
+  //       psi: 100, 60, 30, 15, 5, 1
   I2C_ASDX(uint8_t address, uint8_t psi, TwoWire *wire = &Wire);
 
   bool     begin();
@@ -67,7 +70,7 @@ public:
   uint8_t  getAddress();
 
 
-  //  returns status OK (0) or ERROR ( not 0 )
+  //  returns status I2C_ASDX_OK (1) or ERROR ( other )
   int      read();
 
 
@@ -89,23 +92,27 @@ public:
   float    getMSW()       { return _pressure * MILLIBAR2MSW; }
 
 
-  //  # errors since last good read
-  uint16_t errorCount()   { return _errorCount; };
+  //  # errors since last reset
+  uint16_t errorCount() { return _errorCount; };
   //  timestamp of last good read
-  uint32_t lastRead()     { return _lastRead; };
+  uint32_t lastRead()   { return _lastRead; };
   //  get the last state
-  int      state()        { return _state; };
+  int      state()      { return _state; };
+
+  //  debugging / own conversion.
+  int      rawPressureCount()    { return _rpc; };
 
 
 private:
   uint8_t  _address;
   TwoWire*  _wire;
 
-  float    _maxPressure;
-  float    _pressure;
+  float    _maxPressure;  //  mBar
+  float    _pressure;     //  mBar
+  int      _rpc;          //  raw counter for debugging.
 
   uint8_t  _state;
-  uint32_t _errorCount;
+  uint16_t _errorCount;
   uint32_t _lastRead;
 };
 

@@ -30,6 +30,8 @@ void setup()
   {
     Serial.print("Cannot find sensor:\t");
     Serial.print(sensor.getAddress());
+    Serial.print(" - state: ");
+    Serial.println(sensor.state());
     Serial.println("Check wires or try another address.");
     while(1);
   }
@@ -49,7 +51,7 @@ void loop()
     {
       case I2C_ASDX_OK:
         Serial.print("mBar:\t");
-        Serial.println(sensor.getPressure());
+        Serial.println(sensor.getMilliBar());
         break;
       case I2C_ASDX_INIT:
         Serial.println("S:\tINIT");
@@ -72,4 +74,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

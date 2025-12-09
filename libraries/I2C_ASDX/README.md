@@ -22,6 +22,10 @@ Check the datasheet of your type for all the details.
 The I2C_ASDX library can read the sensor and give the pressure in millibar,
 bar or PSI or many other units. See below.
 
+Pressure is measured in 14 bit = 16384 "steps", from which 80% is actually used. 
+
+Feedback, as always, is welcome.
+
 
 ### 0.4.0 Breaking change
 
@@ -30,13 +34,6 @@ You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
 The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
-
-
-### Related
-
-- https://github.com/RobTillaart/pressure conversions
-- https://github.com/RobTillaart/MS5611 (I2C) air pressure & temperature sensor
-- https://github.com/RobTillaart/MSP300 (I2) industrial digital pressure transducer
 
 
 ### Hardware connection
@@ -54,6 +51,18 @@ Always check datasheet for the exact pins.
     |          |        |          |
     +----------+        +----------+
 ```
+
+
+### Related
+
+- https://github.com/RobTillaart/pressure - pressure conversions
+- https://github.com/RobTillaart/Temperature - temperature conversions 
+- https://github.com/RobTillaart/I2C_ASDX - (I2C) pressure + conversions 
+- https://github.com/RobTillaart/MS4525DO - (I2C) temperature pressure sensor 
+- https://github.com/RobTillaart/MS5837 - (I2C) temperature pressure sensor  (incl pressure to altitude)
+- https://github.com/RobTillaart/MS5611 - (I2C) temperature pressure sensor  (incl pressure to altitude)
+- https://github.com/RobTillaart/MSP300 - (I2C) industrial pressure transducer
+- https://swharden.com/blog/2017-04-29-precision-pressure-meter-project/
 
 
 ## Interface
@@ -104,12 +113,13 @@ without read() will return the same value again.
 - **float getCmH2O()** returns pressure in centimetre water.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
 
-Related library: https://github.com/RobTillaart/pressure
+Related library: https://github.com/RobTillaart/pressure additional conversions.
 
 
 ### State
 
 - **uint16_t errorCount()** total counter for the number of errors occurred.
+Internal counter wraps after 65535.
 - **uint32_t lastRead()** time in milliseconds of last successful read of the sensor.
 - **int state()** last known state of read, also returned by **read()**
 
@@ -120,6 +130,13 @@ Related library: https://github.com/RobTillaart/pressure
 |  I2C_ASDX_READ_ERROR     |  I2C error           |
 |  I2C_ASDX_C000_ERROR     |  sensor error        |
 |  I2C_ASDX_CONNECT_ERROR  |  I2C error           |
+
+
+### Debugging
+
+Raw counter API, for debugging or your own conversion.
+
+- **int rawPressureCount()** idem.
 
 
 ## Testing
@@ -180,23 +197,29 @@ See examples
 #### Must
 
 - update documentation.
+- keep in sync with MS4525DO_RT
 
 #### Should
+
+- int begin(float psi) to allow calibration or even arbitrary units.
+  - return state?
+
+#### Could
 
 - add real life examples if possible.
 - add error/state code for after reset() and before read()
   - I2C_ASDX_NO_READ or I2C_ASDX_RESET
+  - I2C_ASDX_NOT_INIT if begin() not called?
+- C000 error => OVF ERROR (like MS4525?)
 
-#### Could
+#### Wont
 
+- pressure in N/m2 => pitot formula. `v = sqrt(2 * pressure / rho);`
+  - rho is specific weight in kg/m3, depends on humidity temperature and height.
 - remove less common pressure formats from lib (0.4.x ?)
   - are covered in pressure lib.
   - but they do no harm either.
 - move code from .h to .cpp
-
-
-#### Wont
-
 
 ## Support
 

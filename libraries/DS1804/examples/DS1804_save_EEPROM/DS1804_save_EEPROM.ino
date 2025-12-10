@@ -18,9 +18,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DS1804_LIB_VERSION: ");
   Serial.println(DS1804_LIB_VERSION);
+  Serial.println();
 
   ds.begin();
   delay(1000);

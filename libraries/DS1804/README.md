@@ -21,29 +21,42 @@ Arduino library for DS1804 Nonvolatile Trimmer Potentiometer.
 The library implements a class for the DS1804 potentiometer.
 These devices come in 10K, 50K and 100K and allows control in 100 steps.
 
-The DS1804 has a simple pulse interface and cannot be read back
-so the library cannot provide the current position of the wiper.
+The DS1804 has a simple pulse interface and can **not** be read back
+so the library can not provide the current position of the wiper.
 
 The DS1804 has an EEPROM to save the current position (writeable for 50000 times)
-and uses that as start position at power up.
+and uses that value as start position at power up.
+
+Feedback as always is welcome.
+
 
 ### Power up / down
 
 (from datasheet)  
-On power-up, wiper position will be loaded within a maximum time
-period of 500µs once the power-supply is stable. 
-Additionally, the three-terminal interface port will be active after 50 ms. 
+On **power-up**, wiper position will be loaded within a maximum time
+period of **500 Âµs** once the power-supply is stable.
+Additionally, the three-terminal interface port will be active after **50 ms**. 
 
-On power-down, the wiper position register data will be **lost**. 
+On **power-down**, the wiper position register data will be **lost**. 
 On the next device power-up, the value of
 EEPROM memory will be loaded into the wiper position register.
 
 There is no defined factory default, expect the value to be random.
+As the device has no feedback, one must send 100 pulses to move the trimmer to the begin or end point.
 
+
+### Alternative use
+
+One could use the UP/ DOWN pins of the device to read signals from an 
+external system. The microprocessor could monitor the state by means of an
+ADC measurement (and optional act upon it).
+
+This is not implemented in the library, just worth to mention.
+ 
 
 ### Related
 
-Other digipots
+Other digipots (not all)
 
 - https://github.com/RobTillaart/AD520x
 - https://github.com/RobTillaart/AD524X
@@ -67,13 +80,18 @@ Other digipots
 - **void begin(bool b = false)** initializes pins, 
 default the device is not selected.
 
+
 ### Base
 
 - **void select(bool b)** enable / disable device.
-- **void moveUp(uint8_t n = 1)** if enabled move position n steps up (n is clipped to 0..100)
-- **void moveDown(uint8_t n = 1)** if enabled move position n steps down (n is clipped to 0..100)
+- **bool selected()** returns current status (csPin).
+- **void moveUp(uint8_t steps = 1)** if enabled move position n steps up (steps is clipped to 0..100)
+- **void moveDown(uint8_t steps = 1)** if enabled move position n steps down (steps is clipped to 0..100)
 
-Duration of moveUp/Down depends linearly on n, expect less than half a millisecond.
+Duration of moveUp/Down depends linearly on the parameter steps, expect less than half a millisecond.
+
+Note: One must send 100 pulses to move the trimmer to the begin or end point. (no feedback).
+
 
 ### EEPROM power up value
 
@@ -95,8 +113,6 @@ See **DS1804_save_EEPROM.ino**
 
 #### Should
 
-- array example  (sharing UD, INC pins, unique CS)
-- stereo example, (sharing all pins).
 
 #### Could
 
@@ -104,6 +120,7 @@ See **DS1804_save_EEPROM.ino**
 
 #### Wont
 
+- void mute();  (depends on 3 pins if up or down is mute)
 
 ## Support
 

@@ -2,14 +2,15 @@
 //
 //    FILE: DS1804.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
+//    DATE: 24-11-11
 // PURPOSE: Arduino library for DS1804 Nonvolatile Trimmer Potentiometer.
 //     URL: https://github.com/RobTillaart/DS1804
 
 
 #include "Arduino.h"
 
-#define DS1804_LIB_VERSION               (F("0.1.0"))
+#define DS1804_LIB_VERSION               (F("0.1.1"))
 
 
 class DS1804
@@ -39,6 +40,12 @@ public:
   {
     //  inactive = LOW
     digitalWrite(_csPin, b ? LOW : HIGH);
+  };
+
+
+  inline bool selected()
+  {
+    return (digitalRead(_csPin) != LOW);
   };
 
 

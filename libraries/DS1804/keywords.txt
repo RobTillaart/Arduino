@@ -8,10 +8,11 @@ DS1804	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 select	KEYWORD2
+selected	KEYWORD2
+
 moveUp	KEYWORD2
 moveDown	KEYWORD2
 saveEEPROM	KEYWORD2
-
 
 # Instances (KEYWORD2)
 

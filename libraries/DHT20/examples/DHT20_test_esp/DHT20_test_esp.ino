@@ -22,6 +22,7 @@ DHT20 DHT(&Wire1);  //  2nd I2C interface
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DHT20 LIBRARY VERSION: ");
   Serial.println(DHT20_LIB_VERSION);
@@ -77,4 +78,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

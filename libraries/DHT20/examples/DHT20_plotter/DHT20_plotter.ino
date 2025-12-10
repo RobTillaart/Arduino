@@ -21,10 +21,16 @@ DHT20 DHT(&Wire);
 
 void setup()
 {
+  Serial.begin(115200);
+  // Serial.println();
+  // Serial.println(__FILE__);
+  // Serial.print("DHT20 LIBRARY VERSION: ");
+  // Serial.println(DHT20_LIB_VERSION);
+  // Serial.println();
+
   Wire.begin();
   DHT.begin();  //  ESP32 default pins 21 22
 
-  Serial.begin(115200);
   Serial.println("Humidity, Temperature");
 }
 

@@ -11,12 +11,12 @@
 
 # DHT20
 
-Arduino library for I2C DHT20 temperature and humidity sensor.
+Arduino library for the I2C DHT20 temperature and humidity sensor.
 
 
 ## Description
 
-The DHT20 is a humidity and temperature sensor. 
+The DHT20 is a humidity and temperature sensor.
 
 The sensor has a fixed address of **0x38**.
 It is not known if the address can be changed.
@@ -33,6 +33,7 @@ so the library also has a asynchronous interface. See below.
 Since 0.1.3 and 0.1.4 the performance of **read()** has been optimized, 
 still blocking but less long for about 45 milliseconds.
 
+Feedback as always is welcome.
 
 ### 0.2.0
 
@@ -72,13 +73,13 @@ Please let me know if other platforms work (or not).
 
 ## I2C
 
-#### Address
+### Address
 
-The sensor has a fixed address of **0x38**.
+The sensor has a fixed address of **0x38** (56).
 It is not known if the address can be changed.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -96,7 +97,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### Connection
+### Connection
 
 Always check datasheet!
 
@@ -110,7 +111,7 @@ Front view
           +--------------+
 ```
 
-#### Performance
+### Performance
 
 The datasheet states 400 KHz as the maximum speed.
 Below the results of a small test that works well up to 800 KHz.
@@ -160,13 +161,20 @@ Going beyond 400 KHz (datasheet max) does not save much extra time,
 and should only be used if you are in a need for speed.
 
 
+### Related
+
+- https://github.com/RobTillaart/DHT20
+- https://github.com/RobTillaart/AM2315  (not compatible)
+- https://github.com/RobTillaart/AM2315C
+
+
 ## Interface
 
 ```cpp
 #include "DHT20.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **DHT20(TwoWire \*wire = &Wire)** constructor, using a specific Wire (I2C bus).
 - **bool begin()** initializer. Returns true if connected.
@@ -174,27 +182,27 @@ The user must call **Wire.begin()** before calling this function.
 - **bool isConnected()** returns true if the address of the DHT20 can be seen on the I2C bus.
 - **uint8_t getAddress()** returns the (fixed) address - convenience.
 
-#### Core
+### Core
 
 - **int8_t read()** read the sensor and store the values internally. 
 Returns the status of the read which should be 0 == **DHT20_OK**.
-- **float getHumidity()** returns last Humidity read.
+- **float getHumidity()** returns last read humidity + optional offset.
 Multiple calls will return same value until a new **read()** is made.
-- **float getTemperature()** returns last Temperature read.
+- **float getTemperature()** returns last read temperature + optional offset.
 Multiple calls will return same value until a new **read()** is made.
 
 
-#### Offset
+### Offset
 
-- **void setHumOffset(float offset = 0)** set an offset to calibrate the sensor (1st order).
-Default offset is 0.
+- **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
+Default offset == 0, so no parameter will reset the offset.
 - **float getHumOffset()** return current humidity offset, default 0.
-- **void setTempOffset(float offset = 0)** set an offset to calibrate the sensor (1st order).
-Default offset is 0.
+- **void setTempOffset(float offset = 0)** set an offset for temperature to calibrate (1st order) the sensor.
+Default offset == 0, so no parameter will reset the offset.
 - **float getTempOffset()** return current temperature offset, default 0.
 
 
-#### Asynchronous interface
+### Asynchronous interface
 
 There are two timings that need to be considered (from datasheet):
 - time between requests = 1000 ms.
@@ -218,7 +226,7 @@ Note there must be at least 1000 milliseconds between requests!
 See the example **DHT20_async.ino**
 
 
-#### Status
+### Status
 
 - **uint8_t readStatus()** forced read of the status only.
 This function blocks a few milliseconds to optimize communication.
@@ -235,7 +243,7 @@ This function blocks a few milliseconds to optimize communication.
 |  2 - 0       |  unknown                   |
 
 
-#### Experimental 0.1.4 resetSensor
+### Experimental resetSensor
 
 Use with care!
 
@@ -249,13 +257,13 @@ The call is needed to get the **read()** working well so it has been embedded in
 the read calls. (0.2.0)
 
 
-#### Timing
+### Timing
 
 - **uint32_t lastRead()** last time the sensor is read in milliseconds since start.
 - **uint32_t lastRequest()** last time a request is made to make a measurement.
 
 
-#### Return codes
+### Error codes
 
 |  name                        |  value  |  notes  |
 |:-----------------------------|:-------:|:--------|
@@ -273,8 +281,7 @@ the read calls. (0.2.0)
 #### Must
 
 - improve documentation.
-- sync AM2315C developments
-  - see https://github.com/RobTillaart/AM2315C
+- sync https://github.com/RobTillaart/AM2315C
 - investigate the bug from #8 further
   (is done in 0.2.1 see issue #8)
 

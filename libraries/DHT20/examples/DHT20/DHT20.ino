@@ -24,6 +24,7 @@ uint8_t count = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DHT20 LIBRARY VERSION: ");
   Serial.println(DHT20_LIB_VERSION);

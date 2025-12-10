@@ -1,7 +1,8 @@
 //
 //    FILE: DHT20.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
+//    DATE: 2022-01-11
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
 
 
@@ -81,7 +82,7 @@ int DHT20::read()
 
   int status = requestData();
   if (status < 0) return status;
-  //  wait for measurement ready
+  //  wait for measurement ready or timeout
   uint32_t start = millis();
   while (isMeasuring())
   {
@@ -90,6 +91,7 @@ int DHT20::read()
       return DHT20_ERROR_READ_TIMEOUT;
     }
     yield();
+    //  delay(1)
   }
   //  read the measurement
   status = readData();
@@ -106,6 +108,7 @@ int DHT20::requestData()
   resetSensor();
 
   //  GET CONNECTION
+  //  datasheet
   _wire->beginTransmission(DHT20_ADDRESS);
   _wire->write(0xAC);
   _wire->write(0x33);
@@ -326,5 +329,5 @@ bool DHT20::_resetRegister(uint8_t reg)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

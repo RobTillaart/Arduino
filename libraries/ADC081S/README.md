@@ -29,37 +29,42 @@ This library only supports the single channel versions.
 The library does not support the I2C versions of these devices.
 These can be recognized from the C as ADCxxxC
 
-The library can put the device in **lowPower()** and needs a call to
-**wakeUp()** to wake up. Alternative way to wake up the device is to
-do a dummy **read()**.
+The library can put the device in **lowPower()** mode and needs a call to
+**wakeUp()** to wake up the device. 
+Alternative way to wake up the device is to execute a dummy **read()**.
 
 The library is not tested with hardware yet.
 
 Feedback is as always welcome.
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **ADC.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### Performance
+### Performance
 
 Although the ADC081S021 is rated at 200 KSPS, an Arduino UNO will not
 be able to fetch that much samples from the device. 
 The reason is that an UNO cannot fetch the bits fast enough from the device.
-At maximum SPI speed of 8 MHz one will get at most 50 KSPS. 
+At maximum SPI speed of 8 MHz one will get at most 50 KSPS.
+Furthermore the UNO has only 2KB RAM so it would fill up quite fast.
 
 For the faster ones, see below, at 1 MSPS one need a clock of at least 16 MHz
 + time to process the incoming data. 
 A faster processor like an ESP32 or Teensy might do the job.
 
+Investigations should be made for a sort of continuous mode.
+This would have the CS line constantly LOW and be able to read from the same
+address over and over. Note this is not in the library!
+
 To be tested, feedback welcome.
 
 
-#### Compatibles
+### Compatibles
 
 Texas instruments has 9 devices in this series, which can be used with the
 three classes of this library.
@@ -81,14 +86,16 @@ e.g ADC081S021 = 8 bits 1 channel SPI 200000
 S == SPI.C == I2C.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/ADC08XS  2 + 4 channel library
+- https://github.com/RobTillaart/ADC081S  single channel version of this series.
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/MCP_ADC
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
 - https://github.com/RobTillaart/MCP_DAC
+- https://www.mikroe.com/adc-19-click
 
 
 ## Interface
@@ -97,7 +104,7 @@ S == SPI.C == I2C.
 #include "ADC081S.h"
 ```
 
-#### Constructors
+### Constructors
 
 The ADC101S and ADC121S have an identical interface as the ADC081S.
 
@@ -109,27 +116,30 @@ The ADC101S and ADC121S have an identical interface as the ADC081S.
 depending on number of bits of the actual ADC.
 
 
-#### Base
+### Read
 
-- **uint16_t read()** reads the value of the device.
+- **uint16_t read()** reads a value from the device.
+
+
+### SPI
+
 - **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, 
 please read datasheet of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** returns current speed in **Hz**.
+- **bool usesHWSPI()** returns true if hardware SPI is used.
 
 
-#### Low power
+### Low power
 
 - **void lowPower()** put device in low power mode.
 - **void wakeUp()** put device in normal power mode.
 - **bool isLowPower()** returns true if in low power mode, so wakeUp needed().
 
-Alternative way to wake up the device is to
-do a dummy **read()**.
+Alternative way to wake up the device is to do a dummy **read()** call.
 
 
-#### Debug
+### Debug
 
-- **bool usesHWSPI()** returns true if hardware SPI is used.
 - **uint32_t count()** returns number of reads since start.
 
 
@@ -139,7 +149,7 @@ do a dummy **read()**.
 
 - improve documentation
 - get hardware to test / verify working
-- align with ADC08XS where possible
+- align with ADC081S/ADC08XS where possible
 
 #### Should
 

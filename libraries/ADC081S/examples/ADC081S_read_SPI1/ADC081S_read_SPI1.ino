@@ -2,7 +2,7 @@
 //    FILE: ADC081S_read_SPI1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//     URL: https://github.com/RobTillaart/ADC08XS
+//     URL: https://github.com/RobTillaart/ADC081S
 
 
 #include "ADC081S.h"
@@ -17,9 +17,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADC081S_LIB_VERSION: ");
   Serial.println(ADC081S_LIB_VERSION);
+  Serial.println();
 
   SPI1.begin();
 

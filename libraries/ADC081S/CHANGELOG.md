@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2025-12-09
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.3.0] - 2024-11-06
 - fix #9, sync with ADC08XS
 - redo low level SPI_MODE3

@@ -19,6 +19,7 @@ uint32_t start, stop, read_time;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADC081S_LIB_VERSION: ");
   Serial.println(ADC081S_LIB_VERSION);

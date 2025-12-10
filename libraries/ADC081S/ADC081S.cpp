@@ -1,7 +1,7 @@
 //
 //    FILE: ADC081S.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -74,7 +74,7 @@ uint32_t ADC081S::count()
 
 uint16_t ADC081S::read()
 {
-  return readADC() >> 4;  //  remove 4 trailing zero's
+  return readADC() >> 4;  //  remove 4 trailing zero bits
 }
 
 
@@ -197,7 +197,7 @@ ADC101S::ADC101S(uint8_t data, uint8_t clock) : ADC081S(data, clock)
 
 uint16_t ADC101S::read()
 {
-  return readADC() >> 2;  //  remove 2 trailing zero's
+  return readADC() >> 2;  //  remove 2 trailing zero bits
 }
 
 

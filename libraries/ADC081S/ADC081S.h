@@ -2,7 +2,7 @@
 //
 //    FILE: ADC081S.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-01-10
 // PURPOSE: Arduino library for ADC081S 8 bit ADC (SPI)
 //     URL: https://github.com/RobTillaart/ADC081S
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define ADC081S_LIB_VERSION       (F("0.3.0"))
+#define ADC081S_LIB_VERSION       (F("0.3.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -45,9 +45,9 @@ public:
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed();
+  bool     usesHWSPI();
 
   //       debugging
-  bool     usesHWSPI();
   uint32_t count();  //  number of channels read.
 
   void     lowPower();

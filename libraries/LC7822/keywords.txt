@@ -1,0 +1,25 @@
+# Syntax Colouring Map For LC7822
+
+# Data types (KEYWORD1)
+LC7821	KEYWORD1
+LC7822	KEYWORD1
+LC7823	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+reset	KEYWORD2
+getADdress	KEYWORD2
+
+setAll	KEYWORD2
+getAll	KEYWORD2
+setSwitch	KEYWORD2
+getSwitch	KEYWORD2
+
+setMicroDelay	KEYWORD2
+getMicroDelay	KEYWORD2
+
+
+# Constants (LITERAL1)
+LC7822_LIB_VERSION	LITERAL1
+

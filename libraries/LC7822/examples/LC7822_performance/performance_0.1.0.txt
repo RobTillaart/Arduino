@@ -1,0 +1,63 @@
+
+Board:  UNO R3
+IDE:    1.8.19
+
+LC7822_performance\LC7822_performance.ino
+LC7822_LIB_VERSION: 0.1.0
+
+
+delay:	0
+8x ON:	1484
+8x OFF:	1488
+setAll:	184
+
+delay:	1
+8x ON:	1648
+8x OFF:	1644
+setAll:	204
+
+delay:	2
+8x ON:	1856
+8x OFF:	1852
+setAll:	228
+
+delay:	3
+8x ON:	2064
+8x OFF:	2060
+setAll:	260
+
+delay:	4
+8x ON:	2272
+8x OFF:	2268
+setAll:	284
+
+delay:	5
+8x ON:	2484
+8x OFF:	2484
+setAll:	312
+
+delay:	6
+8x ON:	2688
+8x OFF:	2692
+setAll:	336
+
+delay:	7
+8x ON:	2900
+8x OFF:	2896
+setAll:	360
+
+delay:	8
+8x ON:	3112
+8x OFF:	3104
+setAll:	388
+
+delay:	9
+8x ON:	3316
+8x OFF:	3312
+setAll:	412
+
+delay:	10
+8x ON:	3532
+8x OFF:	3524
+setAll:	440
+Done...

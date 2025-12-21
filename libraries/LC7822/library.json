@@ -1,0 +1,23 @@
+{
+  "name": "LC7822",
+  "keywords": "LC7821,LC7823",
+  "description": "Arduino library for the LC7822 8 channel analogue switch.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/LC7822.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "LC7822.h"
+}

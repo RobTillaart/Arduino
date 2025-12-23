@@ -1,6 +1,7 @@
 # Syntax Colouring Map For LC7822
 
 # Data types (KEYWORD1)
+LC782X	KEYWORD1
 LC7821	KEYWORD1
 LC7822	KEYWORD1
 LC7823	KEYWORD1
@@ -9,7 +10,7 @@ LC7823	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 reset	KEYWORD2
-getADdress	KEYWORD2
+getAddress	KEYWORD2
 
 setAll	KEYWORD2
 getAll	KEYWORD2

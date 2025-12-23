@@ -1,5 +1,5 @@
 //
-//    FILE: LC7822_getAddress.ino
+//    FILE: LC7822_fixed_address.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour
 //     URL: https://github.com/RobTillaart/LC7822
@@ -8,9 +8,9 @@
 #include "LC7822.h"
 
 //  LC7822(dataPin, clockPin, cePin, sPin, resetPin);
-LC7821 LC21(4, 5, 6, 7);  //  no reset Pin
-LC7822 LC22(4, 5, 6, 7);  //  no reset Pin
-LC7823 LC23(4, 5, 6, 7);  //  no reset Pin
+LC7821 LC1(4, 5, 6);  //  no sPin and no resetPin.
+LC7822 LC2(4, 5, 6);  //  no sPin and no resetPin.
+LC7823 LC3(4, 5, 6);  //  no sPin and no resetPin.
 
 
 void setup()
@@ -22,17 +22,18 @@ void setup()
   Serial.println(LC7822_LIB_VERSION);
   Serial.println();
 
-  LC21.begin();  //  use default address
-  LC22.begin();  //  use default address
-  LC23.begin();  //  use default address
-  Serial.println(LC21.getAddress());
-  Serial.println(LC22.getAddress());
-  Serial.println(LC23.getAddress());
+  LC1.begin(0x0A);
+  Serial.println(LC1.getAddress());
+  LC2.begin(0x0C);
+  Serial.println(LC2.getAddress());
+  LC3.begin(0x0E);
+  Serial.println(LC3.getAddress());
 }
 
 
 void loop()
 {
+
 }
 
 

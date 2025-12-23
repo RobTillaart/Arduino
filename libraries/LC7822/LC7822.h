@@ -3,23 +3,24 @@
 //    FILE: LC7822.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-12-20
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for the LC7822 8 channel analogue switch.
 //     URL: https://github.com/RobTillaart/LC7822
 
 
 #include "Arduino.h"
 
-#define LC7822_LIB_VERSION                (F("0.1.0"))
+#define LC7822_LIB_VERSION                (F("0.2.0"))
 
 
-class LC7822
+//  base class
+class LC782X
 {
 public:
-  LC7822(uint8_t dataPin, uint8_t clockPin, uint8_t cePin,
-          uint8_t sPin, uint8_t resetPin = 255);
+  LC782X(uint8_t dataPin, uint8_t clockPin, uint8_t cePin,
+          uint8_t sPin = 255, uint8_t resetPin = 255);
 
-  bool    begin();
+  bool    begin(uint8_t address);
   bool    reset();
   uint8_t getAddress() { return _address; };
 
@@ -53,19 +54,30 @@ protected:
 //
 //  DERIVED
 //
-class LC7821 : public LC7822
+class LC7821 : public LC782X
 {
 public:
   LC7821(uint8_t dataPin, uint8_t clockPin, uint8_t cePin,
-          uint8_t sPin, uint8_t resetPin = 255);
+          uint8_t sPin = 255, uint8_t resetPin = 255);
+  bool begin(uint8_t address = 0x0B);
 };
 
 
-class LC7823 : public LC7822
+class LC7822 : public LC782X
+{
+public:
+  LC7822(uint8_t dataPin, uint8_t clockPin, uint8_t cePin,
+          uint8_t sPin = 255, uint8_t resetPin = 255);
+  bool begin(uint8_t address = 0x0D);
+};
+
+
+class LC7823 : public LC782X
 {
 public:
   LC7823(uint8_t dataPin, uint8_t clockPin, uint8_t cePin,
-          uint8_t sPin, uint8_t resetPin = 255);
+          uint8_t sPin = 255, uint8_t resetPin = 255);
+  bool begin(uint8_t address = 0x0F);
 };
 
 

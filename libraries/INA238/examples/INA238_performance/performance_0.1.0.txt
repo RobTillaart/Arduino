@@ -1,0 +1,7 @@
+BOARD:  Arduino UNO
+IDE:    1.8.19
+
+
+INA238_performance\INA238_performance.ino
+
+PLACEHOLDER (TODO HW TEST)

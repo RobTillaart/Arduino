@@ -1,0 +1,94 @@
+# Syntax Colouring Map For INA238
+
+
+# Data types (KEYWORD1)
+INA237	KEYWORD1
+INA238	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+getBusVoltage	KEYWORD2
+getBusVolt	KEYWORD2
+getBusMilliVolt	KEYWORD2
+getBusMicroVolt	KEYWORD2
+
+getShuntVoltage	KEYWORD2
+getShuntVolt	KEYWORD2
+getShuntMilliVolt	KEYWORD2
+getShuntMicroVolt	KEYWORD2
+
+getCurrent	KEYWORD2
+getAmpere	KEYWORD2
+getMilliAmpere	KEYWORD2
+getMicroAmpere	KEYWORD2
+
+getPower	KEYWORD2
+getWatt	KEYWORD2
+getMilliWatt	KEYWORD2
+getMicroWatt	KEYWORD2
+getKiloWatt	KEYWORD2
+
+getTemperature	KEYWORD2
+
+#########################
+
+reset	KEYWORD2
+setConversionDelay	KEYWORD2
+getConversionDelay	KEYWORD2
+setADCRange	KEYWORD2
+getADCRange	KEYWORD2
+
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+setBusVoltageConversionTime	KEYWORD2
+getBusVoltageConversionTime	KEYWORD2
+setShuntVoltageConversionTime	KEYWORD2
+getShuntVoltageConversionTime	KEYWORD2
+setTemperatureConversionTime	KEYWORD2
+getTemperatureConversionTime	KEYWORD2
+setAverage	KEYWORD2
+getAverage	KEYWORD2
+
+
+setMaxCurrentShunt	KEYWORD2
+isCalibrated	KEYWORD2
+getMaxCurrent	KEYWORD2
+getShunt	KEYWORD2
+getCurrentLSB	KEYWORD2
+
+
+setDiagnoseAlert	KEYWORD2
+getDiagnoseAlert	KEYWORD2
+setDiagnoseAlertBit	KEYWORD2
+clearDiagnoseAlertBit	KEYWORD2
+getDiagnoseAlertBit	KEYWORD2
+
+
+setShuntOvervoltageTH	KEYWORD2
+getShuntOvervoltageTH	KEYWORD2
+setShuntUndervoltageTH	KEYWORD2
+getShuntUndervoltageTH	KEYWORD2
+setBusOvervoltageTH	KEYWORD2
+getBusOvervoltageTH	KEYWORD2
+setBusUndervoltageTH	KEYWORD2
+getBusUndervoltageTH	KEYWORD2
+setTemperatureOverLimitTH	KEYWORD2
+getTemperatureOverLimitTH	KEYWORD2
+setPowerOverLimitTH	KEYWORD2
+getPowerOverLimitTH	KEYWORD2
+
+
+getManufacturer	KEYWORD2
+getDieID	KEYWORD2
+getRevision	KEYWORD2
+
+getLastError	KEYWORD2
+
+# Constants (LITERAL1)
+INA238_LIB_VERSION	LITERAL1
+

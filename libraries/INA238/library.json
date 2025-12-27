@@ -1,0 +1,23 @@
+{
+  "name": "INA238",
+  "keywords": "power,ampere,voltage,volts,current, INA237",
+  "description": "Arduino library for the INA238, I2C, 16 bit, voltage, current and power sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA238.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "INA238.h"
+}

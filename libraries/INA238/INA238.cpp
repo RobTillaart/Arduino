@@ -1,6 +1,6 @@
 //    FILE: INA238.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-06-11
 // PURPOSE: Arduino library for the INA238, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA238
@@ -95,7 +95,7 @@ float INA238::getBusVoltage()
 {
   //  always positive, remove reserved bits.
   int16_t value = _readRegister(INA238_BUS_VOLTAGE, 2);
-  float bus_LSB = 3.125;  //  3.125 mV
+  float bus_LSB = 3.125e-3;  //  3.125 mV
   float voltage = value * bus_LSB;
   return voltage;
 }
@@ -282,8 +282,8 @@ uint8_t INA238::getAverage()
 int INA238::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
   //  Shunt can be really small
-  if (shunt < 0.0001)   return -2;  //  TODO error code
-  if (maxCurrent < 0.0) return -3;  //  TODO error code
+  if (shunt < 0.0001)   return -2;
+  if (maxCurrent < 0.0) return -3;
   _maxCurrent = maxCurrent;
   _shunt = shunt;
   _current_LSB = _maxCurrent * 3.0517578125e-5;  //  pow(2, -15);
@@ -368,13 +368,13 @@ uint16_t INA238::getDiagnoseAlertBit(uint8_t bit)
 //  THRESHOLD AND LIMIT REGISTERS 12-17
 //  section 7.3.6, 7.6.1.10
 //
-//  TODO  (sync INA228)
+//  (sync INA228 whenever fixed)
 //  - API
-//  - return bool for setters
+//  - return bool for setters?
 //  - float voltage interface instead of uint16_t?  breaking!
 void INA238::setShuntOvervoltageTH(uint16_t threshold)
 {
-  //  TODO ADCRANGE DEPENDENT
+  //  ADCRANGE DEPENDENT
   //  Conversion Factor: 5 μV/LSB when ADCRANGE = 0
   //  1.25 μV/LSB when ADCRANGE = 1.
   //  float LSB = 5.0e-6;
@@ -384,7 +384,7 @@ void INA238::setShuntOvervoltageTH(uint16_t threshold)
 
 uint16_t INA238::getShuntOvervoltageTH()
 {
-  //  TODO ADCRANGE DEPENDENT
+  //  ADCRANGE DEPENDENT
   //  float LSB = 5.0e-6;
   //  if (_ADCRange == 1) LSB = 1.25e-6;
   return _readRegister(INA238_SOVL, 2);
@@ -392,7 +392,7 @@ uint16_t INA238::getShuntOvervoltageTH()
 
 void INA238::setShuntUndervoltageTH(uint16_t threshold)
 {
-  //  TODO ADCRANGE DEPENDENT
+  //  ADCRANGE DEPENDENT
   //  float LSB = 5.0e-6;
   //  if (_ADCRange == 1) LSB = 1.25e-6;
   _writeRegister(INA238_SUVL, threshold);
@@ -400,7 +400,7 @@ void INA238::setShuntUndervoltageTH(uint16_t threshold)
 
 uint16_t INA238::getShuntUndervoltageTH()
 {
-  //  TODO ADCRANGE DEPENDENT
+  //  ADCRANGE DEPENDENT
   //  float LSB = 5.0e-6;
   //  if (_ADCRange == 1) LSB = 1.25e-6;
   return _readRegister(INA238_SUVL, 2);

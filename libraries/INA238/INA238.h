@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA238.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-06-11
 // PURPOSE: Arduino library for the INA238, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA238
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA238_LIB_VERSION          (F("0.1.0"))
+#define INA238_LIB_VERSION          (F("0.1.1"))
 
 
 //  for setMode() and getMode()
@@ -66,7 +66,6 @@ enum INA238_timing_enum {
 
 
 //  for diagnose/alert() bit fields.
-//  TODO bit masks?
 enum INA238_diag_enum {
   INA238_DIAG_MEMORY_STATUS      = 0,
   INA238_DIAG_CONVERT_COMPLETE   = 1,
@@ -189,8 +188,6 @@ public:
   //  THRESHOLD AND LIMIT REGISTERS 12-17
   //  read datasheet for details, section 7.3.6, page 16++
   //                              section 7.6.1.10, page 26++
-  //
-  //  TODO - design and implement better API?
   //
   void     setShuntOvervoltageTH(uint16_t threshold);
   uint16_t getShuntOvervoltageTH();

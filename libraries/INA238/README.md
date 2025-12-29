@@ -113,7 +113,7 @@ TODO Test
 
 ```
 
-TODO Test
+_Tested - see #2_
 
 
 ### Special characters
@@ -169,26 +169,23 @@ Note this might differ per breakout board.
 
 ### Performance
 
-TODO run tests and fill performance figures.
-
-Run **INA238_performance.ino** sketch to get a first indication.
-Numbers below are based upon tests with TODO.
+Run **INA238_performance.ino** sketch to get a first indication of your
+board used.
+Numbers below are based upon tests with RP2040 (see issue #2).
 
 Time in micros, I2C speed in kHz.
 
 |  I2C  |  function         |  time  |  notes  |
 |:-----:|:------------------|:------:|:-------:|
-|  100  |  getBusVoltage    |    |  100%
-|  100  |  getShuntVoltage  |    |
-|  100  |  getCurrent       |    |
-|  100  |  getPower         |    |
-|  100  |  getTemperature   |    |
-|  100  |  getEnergy        |    |
-|  100  |  getCharge        |    |
-|       |                   |    |  other functions similar gain.
-|  200  |  getBusVoltage    |    |
-|  400  |  getBusVoltage    |    |
-|  800  |  getBusVoltage    |    |
+|  100  |  getBusVoltage    |   620  |  100%
+|  100  |  getShuntVoltage  |   590  |   95%
+|  100  |  getCurrent       |   583  |   94%
+|  100  |  getPower         |   728  |  117%
+|  100  |  getTemperature   |   601  |   97%
+|       |                   |        |  other functions similar gain.
+|  200  |  getBusVoltage    |   350  |   56%
+|  400  |  getBusVoltage    |   237  |   38%
+|  800  |  getBusVoltage    |   167  |   27%
 
 
 Most non core functions are as fast as **getTemperature()**
@@ -278,8 +275,6 @@ Read datasheet for details, section 7.6.1.2, page 21++
 - **uint8_t getConversionDelay()** return set value.
 - **void setADCRange(bool flag)** flag = false => ~163.84 mV, true => ~40.96 mV
 - **bool getADCRange()** return set value.
-
-TODO: examples to show the effect of the ADC configuration.
 
 
 ### ADC mode
@@ -386,7 +381,7 @@ Read datasheet for details, section 7.3.6, page 16++
 
 Note: the implementation of this part is rather minimalistic and
 might be changed / extended in the future.
-Idem INA228 library.
+Idem see my INA228 library.
 
 #### Shunt
 
@@ -428,17 +423,22 @@ Idem INA228 library.
 - update documentation.
 - test and verify with hardware
 - keep sync INA228 where possible.
+- fix TODO's in code + readme.md
 
 #### Should
 
-- TODO's in code and docs.
-- add error handling.
 - how to detect nothing connected?
   - vshunt >  maxVShunt (new variable)
   - current > maxCurrent
+- examples
+  - example to show the effect of the ADC configuration.
+- improve error handling (INA228)
+  - constants/enum
 
 #### Could
 
+- improve API thresholds and limits (INA228)
+- improve API use bitmasks for diagnostics (INA228)
 - write examples, (please share yours).
 - improve unit tests
 - clean up magic numbers in the code?

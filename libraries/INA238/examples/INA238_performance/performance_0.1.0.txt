@@ -1,7 +1,41 @@
-BOARD:  Arduino UNO
-IDE:    1.8.19
-
+BOARD:  RP2040
+IDE:    MSDEV
+See issue #2
 
 INA238_performance\INA238_performance.ino
 
-PLACEHOLDER (TODO HW TEST)
+INA238_LIB_VERSION: 0.1.0
+
+========================================================
+Speed: 100000
+getBusVoltage:    620
+getShuntVoltage:  590
+getCurrent:       583
+getPower:         728
+getTemperature:   601
+
+========================================================
+Speed: 200000
+getBusVoltage:    350
+getShuntVoltage:  334
+getCurrent:       344
+getPower:         396
+getTemperature:   336
+
+========================================================
+Speed: 400000
+getBusVoltage:    237
+getShuntVoltage:  202
+getCurrent:       208
+getPower:         252
+getTemperature:   213
+
+========================================================
+Speed: 800000
+getBusVoltage:    167
+getShuntVoltage:  152
+getCurrent:       164
+getPower:         187
+getTemperature:   161
+
+Done

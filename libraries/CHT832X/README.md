@@ -18,9 +18,9 @@ Arduino library for CHT832X temperature and humidity sensor.
 
 **Experimental**
 
-The CHT8320 and CHT8325 are temperature and relative humidity sensors. 
+The CHT8320 and CHT8325 are temperature and relative humidity sensors.
 They both have the same interface, the CHT8325 is slightly more accurate.
-The CHT832X are factory calibrated and have an unique NIST number 
+The CHT832X are factory calibrated and have an unique NIST number
 (48 bit) to be globally trackable.
 
 This library implements the most important functionality of the sensor.
@@ -33,6 +33,11 @@ The sensors use a different protocol to communicate.
 The library is tested to work with hardware, see issue 3.
 
 Feedback as always is welcome, please share your experiences.
+
+
+### Breaking change 0.4.0
+
+Fixed CRC for humidity - see #9
 
 
 ### Breaking change 0.3.0
@@ -76,7 +81,7 @@ Always check datasheet for connections.
 Pull ups are needed on SDA, SCL.
 
 
-## I2C 
+## I2C
 
 ### Performance
 
@@ -90,18 +95,18 @@ TODO: fill table
 
 |  Version  |  Speed   |   Read   | getManufacturer  |
 |:---------:|:--------:|:--------:|:----------------:|
-|   0.3.0   |   50000  |          |                  |
-|   0.3.0   |  100000  |          |                  |
-|   0.3.0   |  200000  |          |                  |
-|   0.3.0   |  300000  |          |                  |
-|   0.3.0   |  400000  |          |                  |
-|   0.3.0   |  600000  |          |                  |
-|   0.3.0   |  800000  |          |                  |
+|   0.4.0   |   50000  |          |                  |
+|   0.4.0   |  100000  |          |                  |
+|   0.4.0   |  200000  |          |                  |
+|   0.4.0   |  300000  |          |                  |
+|   0.4.0   |  400000  |          |                  |
+|   0.4.0   |  600000  |          |                  |
+|   0.4.0   |  800000  |          |                  |
 
 
 ### Addresses
 
-The CHT8320 supports one fixed address, however one can order different 
+The CHT8320 supports one fixed address, however one can order different
 versions with different addresses. Max 4 sensors per bus.
 
 CHT8320-A-DNR .. CHT8320-D-DNR == 0x44 ..0x47  
@@ -114,15 +119,15 @@ Pull ups are needed on SDA and SCL.
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
-This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
-to eight channels (think of it as I2C subnets) which can use the complete 
-address range of the device. 
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-Drawback of using a multiplexer is that it takes more administration in 
-your code e.g. which device is on which channel. 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
 This will slow down the access, which must be taken into account when
 deciding which devices are on which channel.
-Also note that switching between channels will slow down other devices 
+Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
@@ -136,7 +141,7 @@ too if they are behind the multiplexer.
 
 ### Constructor
 
-- **CHT832X(const uint8_t address = CHT832X_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** Constructor 
+- **CHT832X(const uint8_t address = CHT832X_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** Constructor
 with default address (0x44) and I2C bus.
 - **int begin()** initializes internals.
 Returns error status.
@@ -179,17 +184,17 @@ Will return the same value until **read()** is called again.
 
 ### Offset
 
-Adding offsets works well in the "normal range" but might introduce 
+Adding offsets works well in the "normal range" but might introduce
 under- or overflow at the ends of the sensor range.
 These are not handled for temperature by the library, humidity is constrained.
-  
+
 - **void setHumidityOffset(float offset)** idem.
 - **void setTemperatureOffset(float offset)** idem.
 This function can be used to set return temperature in Kelvin, with offset = 273.15
 - **float getHumidityOffset()** idem.
 - **float getTemperatureOffset()** idem.
 
-If the offset is not the same over the operational range, 
+If the offset is not the same over the operational range,
 consider a mapping function for temperature and/or humidity.
 e.g. https://github.com/RobTillaart/MultiMap
 
@@ -201,8 +206,8 @@ Check datasheet for details.
 The heater can be used to remove condense from the sensor - think humidity.
 It is unclear how long the sensor may be heated. (feedback welcome).
 
-The heater must be disabled when making measurements as the heating 
-affects both the temperature and humidity. 
+The heater must be disabled when making measurements as the heating
+affects both the temperature and humidity.
 Note it might take some time to stabilize to "environment temperature" again.
 
 - **void enableHeater()** switch on.
@@ -226,7 +231,7 @@ Check datasheet for details.
 |:-----:|:----------------:|:--------------|
 |   13  |  heater status   |  0 = Heater disabled, 1 = heater enabled
 |    4  |  reset detected  |  0 = no reset, 1 reset since last clearStatus
-|    1  |  command status  |  0 = executed, 1 = not executed 
+|    1  |  command status  |  0 = executed, 1 = not executed
 |    0  |  checksum        |  0 = pass, 1 = fail
 | other |  reserved        |
 
@@ -240,14 +245,14 @@ Check datasheet for details.
 
 ### Meta data
 
-In issue https://github.com/RobTillaart/CHT832X/issues/7 it is reported that 
+In issue https://github.com/RobTillaart/CHT832X/issues/7 it is reported that
 the CHT8320 does not have an unique NIST identifier (any more).
 At the moment it is unknown if this is for one manufacturer or for all.
 Feedback on this topic is welcome.
 
 In short, the getNIST() function is probably not usable to identify your product.
 
-- **uint16_t getNIST(uint8_t id)** id = 0, 1, 2; returns 2 x 3 = 6 bytes of 
+- **uint16_t getNIST(uint8_t id)** id = 0, 1, 2; returns 2 x 3 = 6 bytes of
 the device ID. As said above, not guaranteed unique.
 - **uint16_t getManufacturer()** Returns 0x5959 according to the datasheet.
 Other manufacturers may return different number.
@@ -269,16 +274,26 @@ Resets internal error to CHT832X_OK.
 |   -21   |  CHT832X_ERROR_CRC       |
 
 
+## ReadDelay
+
+The datasheet states 60 milliseonds is needed for conversion,
+but some devices might be just slightly faster.
+So this function allows to gain a few milliseconds.
+Use with care!
+
+- **void setReadDelay(uint8_t rdel = 60)** set conversion delay.
+- **uint8_t getReadDelay()** returns set value.
+
+
 ## Future
 
 #### Must
 
 - elaborate documentation.
-- test with hardware if all works.
+- buy and test with hardware if all works.
 
 #### Should
 
-- make read-delay of 60 ms configurable uint8_t (0.4.0 ?)
 - test heater functions.
 - test softwareReset().
 - operational modi

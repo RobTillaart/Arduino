@@ -38,7 +38,7 @@ void setup()
     Serial.println("CHT832X initialization failed!");
   }
 
-  // Test isConnected() and print the result
+  //  Test isConnected() and print the result
   if (CHT.isConnected())
   {
     Serial.println("CHT832X is connected.");

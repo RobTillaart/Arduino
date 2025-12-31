@@ -1,7 +1,7 @@
 //
 //    FILE: CHT832X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2024-12-29
 // PURPOSE: Arduino library for CHT832X temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -84,7 +84,7 @@ int CHT832X::requestData()
 
 bool CHT832X::dataReady()
 {
-  return ((millis() - _lastRequest) > CHT832X_READ_DELAY);
+  return ((millis() - _lastRequest) > _readDelay);
 }
 
 
@@ -102,15 +102,15 @@ int CHT832X::readData()
   //  TEMPERATURE PART
   _error = CHT832X_OK;
   const float Tfactor = 175.0f / 65535.0f;
-  uint16_t tmp = (data[0] << 8 | data[1]);
-  _temperature = -45 + Tfactor * tmp;
+  uint16_t rawtmp = (data[0] << 8 | data[1]);
+  _temperature = -45 + Tfactor * rawtmp;
   //  Handle temperature offset.
   if (_tempOffset != 0.0f)
   {
     _temperature += _tempOffset;
   }
   //  CHECK CRC TEMPERATURE
-  if (_crc8(tmp) != data[2])
+  if (_crc8(rawtmp) != data[2])
   {
     _error = CHT832X_ERROR_CRC;
     //  fall through as value might be correct.
@@ -118,8 +118,8 @@ int CHT832X::readData()
 
   //  HUMIDITY PART
   const float Hfactor = 100.0f / 65535.0f;
-  uint16_t tmp2 = (data[3] << 8 | data[4]);
-  _humidity = Hfactor * tmp2;
+  uint16_t rawhum = (data[3] << 8 | data[4]);
+  _humidity = Hfactor * rawhum;
   if (_humOffset != 0.0f)
   {
     _humidity += _humOffset;
@@ -128,7 +128,7 @@ int CHT832X::readData()
     if (_humidity > 100.0f) _humidity = 100.0f;
   }
   //  CHECK CRC HUMIDITY
-  if (_crc8(tmp) != data[5])
+  if (_crc8(rawhum) != data[5])
   {
     _error = CHT832X_ERROR_CRC;
     //  fall through as value might be correct.
@@ -332,6 +332,16 @@ int CHT832X::getError()
   int e = _error;
   _error = CHT832X_OK;
   return e;
+}
+
+void  CHT832X::setReadDelay(uint8_t rdel)
+{
+  _readDelay = rdel;
+}
+
+uint8_t CHT832X::getReadDelay()
+{
+  return _readDelay;
 }
 
 

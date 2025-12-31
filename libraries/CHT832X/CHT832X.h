@@ -2,7 +2,7 @@
 //
 //    FILE: CHT832X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2024-12-29
 // PURPOSE: Arduino library for CHT832X temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT832X
@@ -12,11 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT832X_LIB_VERSION              (F("0.3.1"))
-
-//  CONVERSION TIMING
-//  To configure compile time, datasheet states 60 ms for conversion.
-const uint8_t CHT832X_READ_DELAY = 60;
+#define CHT832X_LIB_VERSION              (F("0.4.0"))
 
 
 //  DEFAULT ADDRESS
@@ -96,6 +92,13 @@ public:
   //  ERROR
   int      getError();
 
+  //  READ DELAY CONVERSION TIME
+  //  datasheet states 60 ms for conversion. use with care.
+  //  allows to gain a few ms.
+  void    setReadDelay(uint8_t rdel = 60);
+  uint8_t getReadDelay();
+
+
 protected:
   float    _humOffset       = 0.0f;
   float    _tempOffset      = 0.0f;
@@ -105,6 +108,7 @@ protected:
   uint32_t _lastRequest     = 0;
   uint32_t _heatStart       = 0;
   int      _error           = CHT832X_OK;
+  uint8_t  _readDelay       = 60;
 
   TwoWire* _wire;
   uint8_t  _address         = CHT832X_DEFAULT_ADDRESS;

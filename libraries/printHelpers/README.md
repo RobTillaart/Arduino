@@ -21,7 +21,7 @@ data in a way not supported in the standard print library of the Arduino.
 
 - **char \* print64()** returns a string for **uint64_t** and **int64_t**.
 - **char \* sci()** returns a string in scientific format - exponent has step 1.
-- **char \* eng()** returns a string in engineering format - exponent has step 3.
+- **char \* eng()** returns a string in engineering format - exponent has step 3. Optional right aligned.
 - **char \* scieng()** returns a string in exponential format - exponent has step 1 to 9.
 - **char \* toBytes()** returns a string in KB MB GB etc.
 - **char \* hex()** returns hexadecimal output with **leading zeros** up to **uint64_t**.
@@ -31,6 +31,8 @@ data in a way not supported in the standard print library of the Arduino.
 - **char \* printFeet(float feet)** returns a string e.g. 7"4'
 - **char \* csi()** returns a comma separated integer for readability e.g. 3,254,152.
 - **char \* fraction()** returns a fraction representation of a double/float e.g. 355/113.
+- **char \* units()** returns an decimal point aligned float with units
+instead of exponents.
 
 For the details, see sections below.
 
@@ -67,7 +69,7 @@ In practice a size of 22 will work for most applications.
 |:---------------:|:--------------:|:------------:|:----------|
 |     66          |    02 - 36     |    0 - 50    | (default) |
 |     34          |    04 - 36     |    0 - 20    |
-|     24          |    08 - 36     |    0 - 14    |
+|     24          |    08 - 36     |    0 - 14    | (Ideal?)
 |     22          |    10 - 36     |    0 - 12    |
 |     18          |    16 - 36     |    0 - 07    |
 
@@ -77,12 +79,12 @@ When functions are added, the recommended minimum size might increase.
 ### 0.5.0 Thread safe
 
 As stated above, the functions share the same internal char array / buffer.
-So **printHelpers.h** is definitely **not** thread safe.
+So **printHelpers.h** is definitely **NOT** thread safe.
 Therefore one should copy / print the data (returned pointer) as fast as possible,
 or at least before another function from this library is called.
 
 Since 0.5.0 a thread-safe version of this library is under development.
-To use the threadsafe version one need to include **printHelpersMT.h**.
+To use the thread-safe version one need to include **printHelpersMT.h**.
 The implementation is quite different but the core code is identical.
 More details see sections below and in the code.
 
@@ -91,11 +93,13 @@ The thread safe version is minimally tested, feedback is welcome.
 
 ### Related
 
+- https://github.com/RobTillaart/Currency formats currency layout 
 - https://github.com/RobTillaart/Fraction
 - https://github.com/RobTillaart/lineFormatter for tabular formatting.
 - https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
 - https://github.com/RobTillaart/PrintSize counts length of a number of print commands. (right alignment)
 - https://github.com/RobTillaart/PrintString captures data in a String.
+- https://en.wikipedia.org/wiki/Metric_prefix
 
 
 ## Interface printHelpers.h
@@ -141,13 +145,15 @@ Values printed with **sci()** do look often pretty in column output.
 - **size_t sci(Stream &str, double value, uint8_t decimals)** as above.
 Prints directly to a stream, returning bytes printed.
 
-- **char \* eng(double value, uint8_t decimals)** converts a float or double to a
+- **char \* eng(double value, uint8_t decimals, bool rightAlign = false)** converts a float or double to a
 char array.
 E.g. print(eng(f, 4)) ==> results in "6.7407E+21".
 Note the exponent created by **eng()** is always a multiple of 3.
 Values printed with **eng()** do not always look pretty in column output.
 This is due to the exponent power of 3. However its output translates easy to
 thousands, millions, billions, and millis, micros, nano etc. which are powers of 3.
+When the flag **rightAlign** is set to true, one or two spaces are added if needed.
+This results in decimal point aligned columns (experimental since 0.5.1)
 
 - **char \* scieng(double value, uint8_t decimals, uint8_t exponentMultiple)** converts a
 float or double to a char array.
@@ -220,9 +226,9 @@ previous letter of the alphabet ZYXWVUtsrqponml
 ### hex() bin()
 
 The default print() function of Arduino does not have leading zero's
-for **HEX** and **BIN**.
+when using **HEX** and **BIN**.
 This often causes a "broken" layout especially if one wants to print
-the output in columns.
+the output aligned in columns.
 
 To solve this the following functions are added that will generate a
 constant length char array.
@@ -231,19 +237,21 @@ constant length char array.
 - **char \* hex(uint32_t value, uint8_t digits = 8)**
 - **char \* hex(uint16_t value, uint8_t digits = 4)**
 - **char \* hex(uint8_t value, uint8_t digits = 2)**
+
+Note: **hex()** does not print hex indicator like "0x" or "H".
+
+
 - **char \* bin(uint64_t value, uint8_t digits = 64)**
 - **char \* bin(uint32_t value, uint8_t digits = 32)**
 - **char \* bin(uint16_t value, uint8_t digits = 16)**
 - **char \* bin(uint8_t value, uint8_t digits = 8)**
 
+Note: **bin()** does not print bin indicator like "0b" or "B".
+
 Note: Data types not supported, must be cast to an supported type.
 
 Note: There is overlap between **hex(value)** and **print64(value, HEX)**.
 The latter does not produce the leading zero's or fixed length output.
-
-Note: **hex()** does not print hex indicator like "0x" or "H".
-
-Note: **bin()** does not print bin indicator like "0b" or "B".
 
 
 ### toRoman()
@@ -287,7 +295,7 @@ Deviations from the standard:
   The reason for IIII in a clock face is that it is opposite of VIII giving a visual balance.
 - Since 0.4.6 negative numbers will have a - sign in front.
 
-There is no **roman2intger()** function (yet).
+There is no **roman2integer()** function (yet).
 
 
 ### Distance feet inch
@@ -307,13 +315,14 @@ The parameter step must be a power of 2 == 2, 4, 8, 16, 32, 64 .. 32768.
 
 Experimental 0.4.3
 
-When you are working with large numbers, more than lets say 6 digits, readability becomes an issue.
+When you are working with large numbers, more than lets say 6 digits, readability can become an issue.
 With these numbers it is often difficult to see if it is 2 million something or 20 million something.
 A proven way to solve this is to print those large numbers in (fixed) groups of 3 digits separated by comma's.
 This improves the readability a lot, and yes, the price is more room needed on a display.
 
 The comma is chosen as default thousands separator, however since 0.5.0 
-one can set the separator to any character e.g. to underscore or a point.
+one can set the separator to any character e.g. to an underscore, a space,
+a star or a point.
 
 This function can work with both signed and unsigned up to 64 bit numbers.
 Like all printHelper functions it uses the shared print buffer.
@@ -331,6 +340,8 @@ unsigned:
 - **char \* csi(uint32_t value, char separator = ',')**
 - **char \* csi(uint16_t value, char separator = ',')**
 - **char \* csi(uint8_t value, char separator = ',')**
+
+Note: there is no similar function for floats (yet).
 
 
 ### Fraction
@@ -354,6 +365,30 @@ Note it will be reduced if possible e.g. 6/8 => 3/4
 
 If you have a faster or more accurate algorithm or both please let me know
 and open an issue.
+
+
+### Units()
+
+Experimental 0.5.1
+
+The **units()** function allows to represent a value with a user defined 
+units string e.g. "V, A, Hz, etc".
+The function uses the **eng()**, see above, to convert a float value into
+engineering format which has an exponent that is always a multiple of 3.
+
+The **units()** function replaces this exponent part with common SI
+prefixes like M(ega), k(ilo), m(milli) u(micro) etc.
+The supported prefixes are "EPTGMK munpfa" replacing E+18..E-18.
+If a value has an exponent that is not supported it is not replaced.
+Finally the user defined unit string is attached.
+
+- **units(float value, uint8_t decimals, const char \* units)**
+
+Note: not all units use these kind of prefixes, so use when appropriate.
+
+Note: function is not performance optimized.
+
+https://en.wikipedia.org/wiki/Metric_prefix
 
 ----
 
@@ -427,6 +462,11 @@ This version needs more testing / verification e.g. in RTOS.
 - **fraction(double value)**
 - **fraction(double value, uint32_t denominator)**
 
+### Units()
+
+- **units(float value, uint8_t decimals, const char \* units)**
+
+
 ----
 
 ## Future
@@ -443,24 +483,26 @@ This version needs more testing / verification e.g. in RTOS.
   - rewrite of current needed
 - improve readability of the code
   - em ==> exponentFactor?
+- fraction has a static buffer => use shared PRINTBUFFER??
+
 
 #### Could
 
+- investigate **dec(value, digits)** to have leading spaces.
 - investigate **bin(float)** to dump floats?
   - "sign, mantissa, exponent bits"
   - like this "s0 m0111010 e100010" (right length)
 - investigate separators in **hex()**
   - space per 8, 4 or 2
 - optimize **char \* hex(uint8_t / uint16_t ...)**
-- base64 representation
+- **base64** representation
   - base64(float)
   - base64(double)
   - base64(any type) 
   - type debase64(type, string);
   - needs investigation
-- rename sci() to **scientific()** for readability?
-- rename eng() to **engineering()** for readability?
-- implement **roman2intger()**?
+- implement **roman2integer()**?
+
 
 #### Wont
 
@@ -476,12 +518,16 @@ This version needs more testing / verification e.g. in RTOS.
 - investigate separators in **bin()**
   - point or space, per 8 or 4 or 2
   - ==> printBuffer too small for bin(64) ==> need 75-100 bytes.
+  - small values only?
 - Investigate performance and accuracy
   - **sci()** and **eng()**.
   - investigate sci() version based upon use of log()
   - done => see examples.
 - investigate group size in csi() ?
   - not or very very rarely needed
+- rename sci() to **scientific()** for readability?
+- rename eng() to **engineering()** for readability?
+
 
 ## Support
 

@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -13,7 +13,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.0"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.1"))
 #endif
 
 
@@ -38,7 +38,6 @@
 //  buffer size 34 will work for base 4 -36
 //  buffer size 24 will work for base 8 -36
 //  buffer size 22 will work for base 10 - 36
-
 char * print64(int64_t value, uint8_t base = 10);
 
 char * print64(uint64_t value, uint8_t base = 10);
@@ -53,9 +52,13 @@ char * print64(uint64_t value, uint8_t base = 10);
 //  em = exponentMultiple.
 char * scieng(double value, uint8_t decimals, uint8_t em);
 
-char * eng(double value, uint8_t decimals);  //  em == 3
+//  Engineering notation
+//  exponent is always a multiple of 3 (0,3,6,9,..., -3,-6,-9,...)
+char * eng(double value, uint8_t decimals, bool rightAlign = false);
 
-char * sci(double value, uint8_t decimals);  //  em == 1
+//  Scientific notation
+//  always 1 digit before decimal point  x.xxxE-eee   em == 1
+char * sci(double value, uint8_t decimals);
 
 size_t sci(Stream &str, double value, uint8_t decimals);
 
@@ -90,7 +93,7 @@ char * hex(uint8_t value, uint8_t digits = 2);
 
 ////////////////////////////////////////////////////////////
 //
-//  BIN
+//  bin()
 //
 //  always leading zero's - no prefix - no separators
 //  cast if needed.
@@ -127,11 +130,11 @@ char * printFeet(float feet);
 char * csi(int64_t value, char separator = ',');
 char * csi(int32_t value, char separator = ',');
 char * csi(int16_t value, char separator = ',');
-char * csi(int8_t value, char separator = ',');
+char * csi(int8_t  value, char separator = ',');
 char * csi(uint64_t value, char separator = ',');
 char * csi(uint32_t value, char separator = ',');
 char * csi(uint16_t value, char separator = ',');
-char * csi(uint8_t value, char separator = ',');
+char * csi(uint8_t  value, char separator = ',');
 
 
 ////////////////////////////////////////////////////////////
@@ -142,6 +145,16 @@ char * csi(uint8_t value, char separator = ',');
 //
 char * fraction(double value);
 char * fraction(double value, uint32_t denom);
+
+
+////////////////////////////////////////////////////////////
+//
+//  Units
+//  Experimental
+//  adds unit postfix instead of e+xx numbers
+//  uses scieng() under the hood
+//
+char * units(float value, uint8_t decimals, const char * units);
 
 
 //  -- END OF FILE --

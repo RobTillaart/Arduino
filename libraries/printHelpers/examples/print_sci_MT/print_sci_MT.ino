@@ -48,22 +48,29 @@ void setup()
   Serial.println("Limited to 7 decimals\n");
 #endif
 
-
+  Serial.println("scientific");
   Serial.print("    sci print:\t");
   Serial.println(sci(E, 4));
   Serial.print("    sci print:\t");
   Serial.println(sci(E, 16));
   Serial.println("limited only by precision float\n");
 
-
+  Serial.println("engineering unaligned");
   Serial.print("    eng print:\t");
   Serial.println(eng(E, 4));
   Serial.print("    eng print:\t");
   Serial.println(eng(E, 16));
   Serial.println("limited only by precision float\n");
 
+  Serial.println("engineering aligned");
+  Serial.print("    eng print:\t");
+  Serial.println(eng(E, 4, true));
+  Serial.print("    eng print:\t");
+  Serial.println(eng(E, 16, true));
+  Serial.println("limited only by precision float\n");
 
-  E /= 100; // more interesting effect
+
+  E /= 100;  //  more interesting effect
   Serial.println("scieng() is not meant to use directly");
   Serial.println("it works well up exponent multiple of 1..9");
   Serial.println("some values for em have their esthetics too.\n");
@@ -75,9 +82,20 @@ void setup()
   }
   Serial.println();
 
+
+  E /= 100;  //  more interesting effect
+  Serial.println("eng() aligned");
+  for (int i = 1; i < 10; i++)
+  {
+    Serial.println(eng(E, 8, true));
+    E /= 10;
+  }
+  Serial.println();
+
+
   if (sizeof(double) == 8)
   {
-    while (E < 1e308)
+    while (E < 1e308)  //  might give a warning
     {
       E *= 1e5;
       Serial.println(sci(E, 16));

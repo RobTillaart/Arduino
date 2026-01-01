@@ -1,0 +1,141 @@
+
+
+printHelpers\examples\print_units\print_units_MT.ino
+PRINTHELPERS_LIB_VERSION: 0.5.1
+
+Engineering rightAlign = true
+  3.1E-06
+ 20.7E-06
+136.8E-06
+902.7E-06
+  6.0E-03
+ 39.3E-03
+259.5E-03
+  1.7E+00
+ 11.3E+00
+ 74.6E+00
+492.5E+00
+  3.3E+03
+ 21.5E+03
+141.6E+03
+934.4E+03
+  6.2E+06
+
+Volts
+  3.1 uVolts
+ 20.7 uVolts
+136.8 uVolts
+902.7 uVolts
+  6.0 mVolts
+ 39.3 mVolts
+259.5 mVolts
+  1.7  Volts
+ 11.3  Volts
+ 74.6  Volts
+492.5  Volts
+  3.3 KVolts
+ 21.5 KVolts
+141.6 KVolts
+934.4 KVolts
+  6.2 MVolts
+
+Capacity
+  1 pF
+ 10 pF
+100 pF
+  1 nF
+ 10 nF
+100 nF
+  1 uF
+ 10 uF
+100 uF
+  1 mF
+ 10 mF
+100 mF
+  1  F
+
+Current
+123.00 uA
+386.42 uA
+  1.21 mA
+  3.81 mA
+ 11.98 mA
+ 37.64 mA
+118.25 mA
+371.50 mA
+  1.17  A
+  3.67  A
+
+Resistance
+ 12.0  Ohm
+ 32.6  Ohm
+ 88.7  Ohm
+241.0  Ohm
+655.2  Ohm
+  1.8 KOhm
+  4.8 KOhm
+ 13.2 KOhm
+ 35.8 KOhm
+ 97.2 KOhm
+264.3 KOhm
+718.5 KOhm
+  2.0 MOhm
+  5.3 MOhm
+
+Pressure
+123.00 mP
+  2.94  P
+ 70.26  P
+  1.68 KP
+ 40.13 KP
+959.17 KP
+ 22.92 MP
+547.89 MP
+ 13.09 GP
+312.96 GP
+
+scalar I
+357.00 u
+  8.53 m
+203.92 m
+  4.87  
+116.48  
+  2.78 K
+ 66.54 K
+  1.59 M
+ 38.01 M
+908.34 M
+ 21.71 G
+518.85 G
+
+scalar II
+357.00 u units
+  8.53 m units
+203.92 m units
+  4.87   units
+116.48   units
+  2.78 K units
+ 66.54 K units
+  1.59 M units
+ 38.01 M units
+908.34 M units
+ 21.71 G units
+518.85 G units
+
+Temperature
+259.0 uK
+  5.7 mK
+124.2 mK
+  2.7  K
+ 59.6  K
+  1.3 KK
+ 28.6 KK
+625.8 KK
+ 13.7 MK
+300.1 MK
+  6.6 GK
+143.9 GK
+
+246.00E+15K
+
+done...

@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.0"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.1"))
 #endif
 
 
@@ -260,8 +260,22 @@ class scieng
 class eng : public scieng
 {
   public:
-    eng(double value, uint8_t decimals) : scieng(value, decimals, 3)
-    {}
+    eng(double value, uint8_t decimals, bool rightAlign = false) 
+       : scieng(value, decimals, 3)
+    {
+      if (rightAlign == false) return;
+      //  right align, adding 0,1 or 2 spaces
+      uint8_t len = strlen(buffer);
+      //  spaces = length - len;
+      uint8_t spaces = 7 - len;
+      if (decimals > 0) spaces += (decimals + 1);
+      if (spaces)
+      {
+        memmove(buffer + spaces, buffer, len + 1);
+        memcpy(buffer, "  ", spaces);
+        len += spaces;
+      }
+    }
 };
 
 
@@ -426,7 +440,7 @@ class hex
 
 ////////////////////////////////////////////////////////////
 //
-//  BIN
+//  bin()
 //
 //  always leading zero's - no prefix - no separators
 //  cast if needed.
@@ -988,6 +1002,57 @@ class fraction
       return buffer;
     }
 };
+
+
+
+////////////////////////////////////////////////////////////
+//
+//  Units
+//  Experimental
+//  adds unit postfix instead of e+xx numbers
+//  uses scieng() under the hood
+//  https://en.wikipedia.org/wiki/Metric_prefix
+class units : public eng
+{
+  public:
+    units(float value, uint8_t decimals, const char * units)
+        : eng(value, decimals, true)
+    {
+      char * buf = buffer;
+      eng(value, decimals, true);
+
+      uint8_t len = strlen(buf);  //  optimize spot to replace
+      if (strstr(buf, "E+"))
+      {
+        //  add prefix = "EPTGMK munpfa";
+        if (strstr(buf, "E+18")) strcpy(&buf[len - 4], " E");
+        else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");
+        else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");
+        else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");
+        else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");
+        else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");
+        else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");
+        else strcat(buf, " ");
+      }
+      else if (strstr(buf, "E-"))
+      {
+        if (strstr(buf, "E-00")) strcpy(&buf[len - 4], "  ");
+        else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");
+        else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");
+        else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");
+        else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");
+        else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");
+        else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");
+        else strcat(buf, " ");
+      }
+      strcat(buf, units);
+    }
+
+    inline operator char *() __attribute__((always_inline)) {
+      return buffer;
+    }
+};
+
 
 
 //  -- END OF FILE --

@@ -75,9 +75,20 @@ void setup()
   }
   Serial.println();
 
+
+  E /= 100;  //  more interesting effect
+  Serial.println("eng() aligned");
+  for (int i = 1; i < 10; i++)
+  {
+    Serial.println(eng(E, 8, true));
+    E /= 10;
+  }
+  Serial.println();
+
+
   if (sizeof(double) == 8)
   {
-    while (E < 1e308)
+    while (E < 1e308)  //  might give a warning
     {
       E *= 1e5;
       Serial.println(sci(E, 16));

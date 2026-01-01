@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -20,7 +20,7 @@ char __printbuffer[PRINTBUFFERSIZE];
 
 ////////////////////////////////////////////////////////////
 //
-//  PRINT 64 BIT
+//  print64()
 //
 //  print64 note
 //  buffer size 66 will work for base 2 -36
@@ -254,9 +254,25 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 }
 
 
-char * eng(double value, uint8_t decimals)
+char * eng(double value, uint8_t decimals, bool rightAlign)
 {
-  return scieng(value, decimals, 3);
+  char * buf = scieng(value, decimals, 3);
+  if (rightAlign == false)
+  {
+    return buf;
+  }
+  //  right align, adding 0,1 or 2 spaces
+  uint8_t len = strlen(buf);
+  //  spaces = length - len;
+  uint8_t spaces = 7 - len;
+  if (decimals > 0) spaces += (decimals + 1);
+  if (spaces)
+  {
+    memmove(buf + spaces, buf, len + 1);
+    memcpy(buf, "  ", spaces);
+    len += spaces;
+  }
+  return buf;
 }
 
 
@@ -391,7 +407,7 @@ char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits
 
 ////////////////////////////////////////////////////////////
 //
-//  BIN
+//  bin()
 //
 //  always leading zero's - no prefix - no separators
 char * bin(uint64_t value, uint8_t digits)
@@ -891,6 +907,48 @@ char * fraction(double value, uint32_t denominator)
     #endif
   }
   return buffer;
+}
+
+
+////////////////////////////////////////////////////////////
+//
+//  Units
+//  Experimental
+//  adds unit postfix instead of e+xx numbers
+//  uses scieng() under the hood, minimal optimized.
+//  https://en.wikipedia.org/wiki/Metric_prefix
+//
+char * units(float value, uint8_t decimals, const char * units)
+{
+  char * buf = __printbuffer;
+  eng(value, decimals, true);
+
+  uint8_t len = strlen(buf);  //  optimize spot to replace
+  if (strstr(buf, "E+"))
+  {
+    //  add prefix = "EPTGMK munpfa";
+    if (strstr(buf, "E+18")) strcpy(&buf[len - 4], " E");
+    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");
+    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");
+    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");
+    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");
+    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");
+    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");
+    else strcat(buf, " ");
+  }
+  else if (strstr(buf, "E-"))
+  {
+    if (strstr(buf, "E-00")) strcpy(&buf[len - 4], "  ");
+    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");
+    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");
+    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");
+    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");
+    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");
+    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");
+    else strcat(buf, " ");
+  }
+  strcat(buf, units);
+  return buf;
 }
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat_array.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo array of different heartbeats
 //     URL: https://github.com/RobTillaart/HeartBeat
 
 

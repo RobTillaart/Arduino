@@ -28,3 +28,4 @@ compile:
   libraries:
     - "SRF05"
     - "ACS712"
+    - "DHTNEW"

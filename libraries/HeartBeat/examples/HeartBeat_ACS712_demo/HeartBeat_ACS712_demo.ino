@@ -1,8 +1,7 @@
 //
 //    FILE: HeartBeat_ACS712_demo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo distance sensor
-//
+// PURPOSE: demo current sensor
 //     URL: https://github.com/RobTillaart/HeartBeat
 //          https://github.com/RobTillaart/ACS712
 

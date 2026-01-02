@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2026-01-01
+- fix #18/#20, add call back (kudos to AcuarioCat)
+- add examples
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.3.7] - 2025-08-20
 - update github actions
 - update examples

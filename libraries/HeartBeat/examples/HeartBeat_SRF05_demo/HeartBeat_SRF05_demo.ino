@@ -4,6 +4,9 @@
 // PURPOSE: demo distance sensor
 //     URL: https://github.com/RobTillaart/HeartBeat
 //          https://github.com/RobTillaart/SRF05
+//
+//  frequency of the heartbeat depends on the measured
+//  distance of the SRF sensor.
 
 
 //  HEARTBEAT

@@ -1,7 +1,7 @@
 //
 //    FILE: HeartBeat.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.7
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for HeartBeat with frequency and dutyCycle
 //    DATE: 2019-06-12
 //     URL: https://github.com/RobTillaart/HeartBeat
@@ -12,6 +12,7 @@
 
 HeartBeat::HeartBeat()
 {
+  _lastNotifiedState = _state;
 }
 
 
@@ -46,31 +47,27 @@ void HeartBeat::setDutyCycle(float dutyCycle)
 float HeartBeat::getFrequency()
 {
   return _frequency;
-};
-
+}
 
 float HeartBeat::getDutyCycle()
 {
   return _dutyCycle;
-};
-
+}
 
 void HeartBeat::enable()
 {
   _running = true;
-};
-
+}
 
 void HeartBeat::disable()
 {
   _running = false;
-};
-
+}
 
 bool HeartBeat::isEnabled()
 {
   return _running;
-};
+}
 
 
 void HeartBeat::beat()
@@ -88,13 +85,19 @@ void HeartBeat::beat()
     _state = !_state;
   }
   digitalWrite(_pin, _state);
+  _notifyStateChange();
 }
 
 
 uint8_t HeartBeat::getState()
 {
   return _state;
-};
+}
+
+void HeartBeat::onStateChange(HeartBeatCallback callback)
+{
+  _callback = callback;
+}
 
 
 /////////////////////////////////
@@ -109,11 +112,20 @@ void HeartBeat::_setFreqDuty()
 }
 
 
+void HeartBeat::_notifyStateChange()
+{
+  if (_callback && (_state != _lastNotifiedState))
+  {
+    _lastNotifiedState = _state;
+    _callback(_state);
+  }
+}
+
 /////////////////////////////////////////////////////////////////////////////
 //
 //  HEARTBEATDIAG
 //
-HeartBeatDiag::HeartBeatDiag():HeartBeat()
+HeartBeatDiag::HeartBeatDiag() : HeartBeat()
 {
 }
 
@@ -139,7 +151,10 @@ void HeartBeatDiag::beat()
   {
     uint32_t period = (_dutyCycleLow + _dutyCycleHigh) / 2;
     uint32_t now = micros();
-    if ((now - _lastHeartBeat) < period) return;
+    if ((now - _lastHeartBeat) < period)
+    {
+      return;
+    }
     _lastHeartBeat = now;
     if (_state == LOW)
     {
@@ -147,7 +162,10 @@ void HeartBeatDiag::beat()
       {
         _codeMask /= 10;
       }
-      if (_codeMask == 0) return;
+      if (_codeMask == 0)
+      {
+        return;
+      }
       _pulseLength = _code / _codeMask;
       _code -= ( _pulseLength * _codeMask );
       _state = HIGH;
@@ -162,6 +180,7 @@ void HeartBeatDiag::beat()
     }
   }
   digitalWrite(_pin, _state);
+  _notifyStateChange();
 }
 
 
@@ -202,7 +221,7 @@ bool HeartBeatDiag::codeCompleted()
 #define HEARTBEATSL_LONG      3
 
 
-HeartBeatSL::HeartBeatSL():HeartBeat()
+HeartBeatSL::HeartBeatSL() : HeartBeat()
 {
 }
 
@@ -228,7 +247,10 @@ void HeartBeatSL::beat()
   {
     uint32_t period = (_dutyCycleLow + _dutyCycleHigh) / 2;
     uint32_t now = micros();
-    if ((now - _lastHeartBeat) < period) return;
+    if ((now - _lastHeartBeat) < period)
+    {
+      return;
+    }
     _lastHeartBeat = now;
     if (_state == LOW)
     {
@@ -250,6 +272,7 @@ void HeartBeatSL::beat()
     }
   }
   digitalWrite(_pin, _state);
+  _notifyStateChange();
 }
 
 

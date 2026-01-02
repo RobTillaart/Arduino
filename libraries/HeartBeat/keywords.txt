@@ -19,10 +19,14 @@ disable	KEYWORD2
 beat	KEYWORD2
 getState	KEYWORD2
 
+onStateChange	KEYWORD2
+
+
 # Methods from derived class
 code	KEYWORD2
 codeOff	KEYWORD2
 codeCompleted	KEYWORD2
+
 
 # Constants (LITERAL1)
 HEARTBEAT_LIB_VERSION	LITERAL1

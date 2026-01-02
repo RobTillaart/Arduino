@@ -15,7 +15,11 @@ CRC8 crc(0x1D, 0xFF, 0xFF, false, false);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("CRC_LIB_VERSION: ");
+  // Serial.println(CRC_LIB_VERSION);
+  Serial.println();
 
   crc.add((uint8_t*)arr, 7);
   Serial.println(crc.calc(), HEX);

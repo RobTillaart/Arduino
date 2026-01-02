@@ -39,10 +39,11 @@ The class name is always (full) UPPER case.
 So **CRC8** is a class and **calcCRC8()** is the function.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Adler
 - https://github.com/RobTillaart/CRC
+- https://github.com/RobTillaart/DAMM
 - https://github.com/RobTillaart/Fletcher
 - https://github.com/RobTillaart/LUHN
 - https://github.com/RobTillaart/PrintHelpers (for CRC64)
@@ -64,7 +65,7 @@ and many other websites.
 #include "CRC8.h"
 ```
 
-#### Base
+### Base
 
 The interfaces are very similar for CRC8, CRC12, CRC16, CRC32 and CRC64 class.
 The difference is the data type for polynome, start- and end-mask,
@@ -72,7 +73,7 @@ and the returned CRC.
 The start mask is named ```initial``` and end-mask is named ```XOR-out```.
 
 
-#### Base
+### Base
 
 Use **\#include "CRC8.h"**
 
@@ -94,7 +95,7 @@ can take serious time (in milliseconds), the classes call **yield()** after ever
 The call allows to add values with **yield()** to get optimal performance. 
 The risk is missing context switching to handle interrupts etc. So use at own risk.
 
-#### Parameters
+### Parameters
 
 These functions allows to set individual parameters of the CRC at runtime.
 The parameters do not have defaults so the user must set them explicitly.
@@ -179,13 +180,11 @@ If standard polynomes are missing, please open an issue and report, with referen
 - extended performance measurements 1.x.x version
   - both class and functions.
 
-
 #### Should
 
 - add examples.
   - example showing multiple packages of data linked by their CRC.
     sort of "blockchain"
-
 
 #### Could
 
@@ -194,7 +193,6 @@ If standard polynomes are missing, please open an issue and report, with referen
 - **setCRC(value)** to be able to pick up where one left ?
   - can be done with **setInitial()**
   - needs **getRawCRC()**  without reverse and end mask
-
 
 #### Exotic CRC's ?
 
@@ -206,9 +204,9 @@ If standard polynomes are missing, please open an issue and report, with referen
   - performance penalty
 - One CRC() template class?
 
-
 #### Won't
 
+- Changelog history pre 0.2.0
 - add a dump(Stream = Serial) to see all the settings at once.
   user can access parameters, so no need.
 

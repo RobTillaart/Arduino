@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.0.4] - 2026-01-02
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [1.0.3] - 2024-04-11
 - update GitHub actions
 - add URL to examples
@@ -59,10 +64,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.2.3] - 2022-04-13
 - replace #pragma once with #ifndef Header guards  #21
 
-## [0.2.2]
+## [0.2.2] - 2022-02-08
 - fix #19 enable/disable yield call
 
-## [0.2.1]
+## [0.2.1] - 2022-02-07
 - fix #17 yield() count in **add(array, length)**
   (kudo's to dlsloan)
 - added defaults for CRC64 static function.
@@ -71,7 +76,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - added conditional yield().
 - added CRC_polynomes.h
 
-## [0.2.0]
+## [0.2.0] - 2022-01-28
 - added getters for parameters 
 - made yield conditional in **add(array, length)**
 - improved examples
@@ -79,12 +84,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.1.6]
+## [0.1.6] - 2022-01-26
 - add CRC12 function
 - add CRC12 class
 
-## [0.1.5]
+## [0.1.5] - 2021-12-30
 - TODO (just as older versions)
+
+## [0.1.4] - 2021-12-14
+
+
+## [0.1.3] - 2021-10-20
+
+
+## [0.1.2] - 2021-04-01
+
+
+## [0.1.1] - 2021-01-20
+
+
+## [0.1.0] - 2021-01-20
+
 
 That's all folks!
 

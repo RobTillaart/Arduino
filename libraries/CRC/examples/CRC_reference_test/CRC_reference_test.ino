@@ -14,7 +14,11 @@ char str[24] =  "123456789";
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("CRC_LIB_VERSION: ");
+  Serial.println(CRC_LIB_VERSION);
+  Serial.println();
 
   uint8_t * data = (uint8_t *) &str[0];
 

@@ -16,7 +16,11 @@ CRC16 crc(CRC16_MODBUS_POLYNOME,
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("CRC_LIB_VERSION: ");
+  //  Serial.println(CRC_LIB_VERSION);
+  Serial.println();
 
   //  uint8_t arr[12] = { 0xFE, 0x03, 0x14, 0x00, 0x01, 0x00, 0x55, 0xA5 };
   uint8_t arr[12] = { 0xFE, 0x10, 0x04, 0x00, 0x01, 0x00, 0x01, 0x60, 0x00, 0x42, 0x58 };

@@ -14,7 +14,11 @@ char str[24] =  "123456789";
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("CRC_LIB_VERSION: ");
+  Serial.println(CRC_LIB_VERSION);
+  Serial.println();
 
   uint8_t * data = (uint8_t *) &str[0];
 
@@ -31,7 +35,7 @@ void setup()
 //  Serial.print("*CRC64:\t");
 //  uint64_t t = crc64(data, 9, 0x814141AB, 0x00000000, 0x00000000, false, false);
 //  Serial.println(print64(t, HEX));
-  
+
   Serial.println("\n\nDone...");
 }
 

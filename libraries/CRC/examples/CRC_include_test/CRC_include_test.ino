@@ -13,7 +13,9 @@ void setup()
 {
   Serial.begin(115200);
   while(!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   int x = reverse8bits(0xAA);
   Serial.println(x, HEX);

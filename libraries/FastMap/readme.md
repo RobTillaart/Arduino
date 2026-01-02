@@ -46,7 +46,9 @@ This is to prevent NaN errors and **init()** will return false if such range is 
 
 If the **init()** function is not called a 1 to 1 mapping is used.
 
-#### Related
+Feedback as always is welcome.
+
+### Related
 
 Other mapping libraries
 
@@ -55,6 +57,9 @@ Other mapping libraries
 - https://github.com/RobTillaart/map2colour
 - https://github.com/RobTillaart/moduloMap
 - https://github.com/RobTillaart/MultiMap
+
+Additional fast mapping investigated by brewmanz can be found here:
+- https://github.com/RobTillaart/FastMap/pull/9  
 
 
 ## Performance notes
@@ -92,7 +97,7 @@ Furthermore using double might imply a performance penalty on some platforms.
 #include "FastMap.h"
 ```
 
-#### Base
+### Base
 
 - **FastMap()** Constructor
 - **bool init(float in_min, float in_max, float out_min, float out_max)** defines the linear mapping parameters. 
@@ -106,7 +111,7 @@ If **init()** is not called the default is 1 to 1 mapping.
 - **float back(float value)** does the inverse mapping.
 
 
-#### Constrains
+### Constrains
 
 FastMap supports three versions of constraining the map function, based upon the parameters of **init()**.
 
@@ -130,7 +135,7 @@ Note that on most embedded platforms the performance of doubles is less than flo
 See below.
 
 
-#### boards supporting double
+### boards supporting double
 
 |  board         |  float  |  double  |
 |:---------------|:-------:|:--------:|
@@ -198,6 +203,9 @@ FM.init(in_min, in_max, 0.0, 100.0);
 
 #### Should
 
+- investigate exponential mapping: ```x -> alpha * beta^x```??
+  - gamma mapping, some curve from A->B
+
 
 #### Could
 
@@ -205,7 +213,6 @@ FM.init(in_min, in_max, 0.0, 100.0);
 - investigate map function for complex numbers? / coordinates?
   - what does linear interpolation mean, map an input area upon an output area?
 - Template class?
-- investigate exponential mapping: ```x -> alpha * beta^x```??
 - do we need **constrainedBack()**? in three versions?
 
 #### Wont

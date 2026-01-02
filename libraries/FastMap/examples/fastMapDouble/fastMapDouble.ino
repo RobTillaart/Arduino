@@ -21,6 +21,7 @@ FastMapDouble mapper;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("FASTMAP_LIB_VERSION: ");
   Serial.println(FASTMAP_LIB_VERSION);

@@ -2,14 +2,14 @@
 //
 //    FILE: FastMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PURPOSE: class with fast map function - library for Arduino
 //     URL: https://github.com/RobTillaart/FastMap
 
 
 #include "Arduino.h"
 
-#define FASTMAP_LIB_VERSION           (F("0.4.2"))
+#define FASTMAP_LIB_VERSION           (F("0.4.3"))
 
 
 class FastMap

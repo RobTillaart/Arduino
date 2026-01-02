@@ -19,9 +19,11 @@ uint32_t  uid;  //  4 bytes
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DS2401_LIB_VERSION: ");
   Serial.println(DS2401_LIB_VERSION);
+  Serial.println();
 
   ds24.begin();  //  read UID
   Serial.print("\ngetUID4:\t ");

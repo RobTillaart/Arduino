@@ -3,7 +3,7 @@
 //    FILE: DS2401.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS2401 1-wire unique identification chip.
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //     URL: https://github.com/RobTillaart/DS2401
 
 
@@ -11,7 +11,7 @@
 #include "OneWire.h"
 
 
-#define DS2401_LIB_VERSION            (F("0.1.2"))
+#define DS2401_LIB_VERSION            (F("0.1.3"))
 
 
 class DS2401
@@ -33,7 +33,7 @@ public:
     _oneWire->reset();
     _oneWire->reset_search();
     _oneWire->search(_address);
-    //  ds2401 has an family ID of 0x01 but this way 
+    //  ds2401 has an family ID of 0x01 but this way
     //  all one-wire devices can be used as UID.
     return (_address[0] != 0x00) && (_oneWire->crc8(_address, 7) == _address[7]);
   }

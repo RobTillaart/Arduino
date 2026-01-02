@@ -51,8 +51,10 @@ Known family bytes, there are many other 1-Wire devices with unknown family.
 |  0x3B  |  MAX31850  |  thermometer
 |  0x42  |  DS28EA00  |  thermometer
 
+Feedback as always is welcome.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/DS2401
 - https://github.com/RobTillaart/DS28CM00    (I2C)
@@ -68,7 +70,7 @@ Known family bytes, there are many other 1-Wire devices with unknown family.
 #include "DS2401.h"
 ```
 
-#### Constructor
+### Constructor
 
 This DS2401 library supports only one device per pin, and no parasite mode.
 The class supports getting an UID and compare an UID.
@@ -79,7 +81,7 @@ Returns true if address / UID of the device is found.
 Must be called to read the UID.
 
 
-#### 8 bytes UID
+### 8 bytes UID
 
 - **void getUID(uint8_t \* buffer)** copies the found UID (64 bits) in 
 **begin()** to a buffer which should be at least 8 bytes.
@@ -87,7 +89,7 @@ Must be called to read the UID.
 with the internal UID. Returns true if they are identical.
 
 
-#### 6 bytes UID
+### 6 bytes UID
 
 The 6 bytes interface does not use the family byte and the CRC byte in the UID.
 The reason is that these are either constant or can be calculated from the other
@@ -100,7 +102,7 @@ with 6 bytes of the internal UID.
 Returns true if they are identical.
 
 
-#### 4 bytes UID
+### 4 bytes UID
 
 The 4 bytes interface only uses 4 bytes of the unique part of the address.
 These functions are added as it allows to copy the number directly into a
@@ -140,7 +142,6 @@ When the wires are longer this resistor needs to be smaller.
 - Improve documentation.
 - test with different hardware.
 - verify UID4 interface with hardware
-
 
 #### Should
 

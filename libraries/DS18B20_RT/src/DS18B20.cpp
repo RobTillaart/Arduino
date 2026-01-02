@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -73,6 +73,19 @@ bool DS18B20::isConnected(uint8_t retries)
 }
 
 
+bool DS18B20::getAddress(uint8_t * buf)
+{
+  if (_addressFound)
+  {
+    for (uint8_t i = 0; i < 8; i++)
+    {
+      buf[i] = _deviceAddress[i];
+    }
+  }
+  return _addressFound;
+}
+
+
 void DS18B20::requestTemperatures(void)
 {
   _oneWire->reset();
@@ -134,19 +147,6 @@ void DS18B20::setOffset(float offset)
 float DS18B20::getOffset()
 {
   return _offset;
-}
-
-
-bool DS18B20::getAddress(uint8_t* buf)
-{
-  if (_addressFound)
-  {
-    for (uint8_t i = 0; i < 8; i++)
-    {
-      buf[i] = _deviceAddress[i];
-    }
-  }
-  return _addressFound;
 }
 
 

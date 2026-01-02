@@ -15,6 +15,7 @@ getAddress	KEYWORD2
 requestTemperatures	KEYWORD2
 isConversionComplete	KEYWORD2
 getTempC	KEYWORD2
+getTempF	KEYWORD2
 
 setOffset	KEYWORD2
 getOffset	KEYWORD2

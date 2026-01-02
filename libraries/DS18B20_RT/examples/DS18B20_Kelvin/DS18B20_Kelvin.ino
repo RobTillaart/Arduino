@@ -22,6 +22,7 @@ void setup(void)
   Serial.print("DS18B20_LIB_VERSION: ");
   Serial.println(DS18B20_LIB_VERSION);
   Serial.println();
+  delay(10);
 
   sensor.begin();
   sensor.setResolution(12);

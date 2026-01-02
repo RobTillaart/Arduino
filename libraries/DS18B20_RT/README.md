@@ -11,7 +11,7 @@
 
 # DS18B20
 
-Arduino library for the DS18B20 sensor - restricted to one sensor per pin.
+Arduino library for the DS18B20 temperature sensor - restricted to one sensor per pin.
 
 
 ## Arduino Temperature Control Library (ATCL)
@@ -33,6 +33,8 @@ few problems when you need more functionality like multiple sensors on one pin.
 Finally this library will probably make it easier to use a DS18B20 with processing 
 boards or IC's with small memory footprint.
 
+Feedback, as always, is welcome.
+
 
 ### Footprint OneWire
 
@@ -46,13 +48,38 @@ So if you are in need to save some more bytes, you might try [OneWireNG]
 (https://github.com/pstolarz/OneWireNg).
 
 
+### Compatibles
+
+|  device      |  tested  |   power   |  bits  |  notes  |
+|:-------------|:--------:|:---------:|:------:|:--------|
+|  DS18B20     |    yes   |   3-5 V   |  9-12  |  the reference
+|  DS18S20     |     n    |   3-5 V   |  9     |
+|  DS1822      |     n    |   3-5 V   |  9-12  |
+|  DS1820      |     n    |   5 V     |  9     |
+|  MAX31820    |     n    |   3 V     |  9-12  |
+
+Not all tested, but expected to work. If there are missing devices or you have
+tested one, please let me know. 
+
+
 ### Related
 
 This library is related to
-- https://github.com/RobTillaart/DS18B20_INT
-- https://github.com/RobTillaart/DS18B20_RT
+
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DHTStable DHT11/22 etc
+- https://github.com/RobTillaart/DHT_Simulator
+- https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B21 OneWire temperature sensor (8 bit)
 - https://github.com/milesburton/Arduino-Temperature-Control-Library
 - https://github.com/milesburton/Arduino-Temperature-Control-Library/issues/244#event-9253126638
+- https://github.com/RobTillaart/PCT2075 11 bit I2C temperature sensor with thermal watchdog.
+- https://github.com/RobTillaart/SHT31 Sensirion humidity / temperature sensor
+- https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
+- https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+
 
 Dependency
 - https://github.com/PaulStoffregen/OneWire
@@ -79,8 +106,8 @@ There will be a number of retries to connect, default 3.
 - **bool isConnected(uint8_t retries = 3)** resets oneWire checks if a device can be found.  
 Returns true if a device is found.
 There will be a number of retries to connect, default 3.
-- **bool getAddress(uint8_t \* buf)** returns true if the sensor is configured (available).
-Buf must be a byte array of at least 8 bytes.
+- **bool getAddress(uint8_t \* buffer)** returns true if the sensor is configured (available).
+Buffer must be a byte array of at least 8 bytes.
 
 
 ### Request Temperature

@@ -1,7 +1,6 @@
 //
 //    FILE: DS18B20_minimum.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.1
 // PURPOSE: most minimal sketch
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 //
@@ -22,10 +21,12 @@ DS18B20 sensor(&oneWire);
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DS18B20_LIB_VERSION: ");
   Serial.println(DS18B20_LIB_VERSION);
   Serial.println();
+  delay(10);
 
   sensor.begin();
 }

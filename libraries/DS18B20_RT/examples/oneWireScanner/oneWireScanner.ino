@@ -93,7 +93,9 @@ uint8_t findDevices(int pin)
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   for (uint8_t pin = startPin; pin < endPin; pin++)
   {

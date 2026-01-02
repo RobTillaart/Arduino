@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.5] - 2026-01-02
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.2.4] - 2024-10-08
 - Fix #34, add setOffset() and getOffset()
 - add conversion simple wrapper for **getTempF()** for Fahrenheit.

@@ -1,7 +1,7 @@
 //
 //    FILE: DS2438.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for DS2438 battery monitor
 //     URL: https://github.com/RobTillaart/DS2438
@@ -22,7 +22,7 @@
 
 #define DS2438_CONVERSION_DELAY     10
 
-//  bits configuration register 
+//  bits configuration register
 #define DS2438_CFG_IAD              0
 #define DS2438_CFG_CA               1
 #define DS2438_CFG_EE               2
@@ -159,7 +159,7 @@ void DS2438::setResistor(float resistor)
 
 void DS2438::enableCurrentMeasurement()
 {
-  //  The DS2438 will only perform current A/D measurements 
+  //  The DS2438 will only perform current A/D measurements
   //  if the IAD bit is set to “1” in the status/Configuration Register.
   //  The current A/D measures at a rate of 36.41 times per second, or once every 27.46 ms.
   readScratchPad(0);
@@ -405,7 +405,7 @@ void DS2438::readScratchPad(uint8_t page)
 {
   if (page > 7) return;
   _oneWire->reset();
-  _oneWire->select(_address);  
+  _oneWire->select(_address);
   _oneWire->write(DS2438_RECALL_SCRATCH, 0);
   _oneWire->write(page, 0);
   _oneWire->reset();

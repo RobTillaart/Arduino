@@ -16,6 +16,8 @@ Arduino Library for the DS2438 1-wire battery monitor.
 
 ## Description
 
+**Experimental**
+
 The DS2438 is a **very experimental** library for the DS2438 battery management sensor.
 
 The library is not tested yet as I have no hardware (breakout board).
@@ -33,7 +35,7 @@ This library supports only one DS2438 per Arduino / MCU pin.
 As always, feedback is welcome.
 
 
-#### Hardware pins
+### Hardware pins
 
 Need to find a breakout.
 
@@ -64,7 +66,7 @@ See datasheet for details
 |  NC      |  No connect                         |  -           |
                                                                 |
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/DS2438
 - https://github.com/RobTillaart/Temperature  (conversions)
@@ -76,7 +78,7 @@ See datasheet for details
 #include "DS2438.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **DS2438(OneWire \* ow)** constructor needs a reference to OneWire object.
 - **bool begin(uint8_t retries = 3)** resets oneWire.
@@ -86,7 +88,7 @@ There will be a number of retries to connect, default 3.
 There will be a number of retries to connect, default 3.
 
 
-#### Temperature and voltage
+### Temperature and voltage
 
 - **float readTemperature()** read temperature from device. Units = Celsius.
 - **float getTemperature()** get the last read temperature.
@@ -96,7 +98,7 @@ There will be a number of retries to connect, default 3.
 - **float getVAD()** get the last read voltage VAD.
 
 
-#### Current
+### Current
 
 See datasheet for details. 
 Choice of the resistor determines the working range / accuracy.
@@ -115,7 +117,7 @@ Stops the background measurement of the current.
 - **int readCurrentOffset()**
 
 
-#### ICA 
+### ICA 
 
 See datasheet for details.
 
@@ -135,7 +137,7 @@ Only 4 values possible.
 |  0xC0   |  ±8 LSB          |
 
 
-#### Time
+### Time
 
 From datasheet:
 
@@ -150,7 +152,7 @@ For example, 12:00 A.M., January 1, 1970 could be used as a reference point.
 - **uint32_t readEndOfChargeTime()** returns last end of charging timestamp.
 
 
-#### EEPROM
+### EEPROM
 
 Valid addresses are 0..35 if CCA/DCA is enabled, 0..39 otherwise.
 
@@ -158,7 +160,7 @@ Valid addresses are 0..35 if CCA/DCA is enabled, 0..39 otherwise.
 - **uint8_t readEEPROM(uint8_t address)** read the byte from EEPROM address.
 
 
-#### CCA DCA
+### CCA DCA
 
 See datasheet for details.
 
@@ -172,7 +174,7 @@ See datasheet for details.
 - **float readDCA()** Does not check if enabled.
 
 
-#### Configuration register
+### Configuration register
 
 See datasheet for details.
 
@@ -180,16 +182,16 @@ See datasheet for details.
 - **void clearConfigBit(uint8_t bit)** bit = 0..3
 - **uint8_t getConfigRegister()** returns configuration and status bits.
 
-|  bit  |  name  |  def   |  description  |
-|:-----:|:------:|:------:|:--------------|
-|   0   |  IAD   |   1    |  Current A/D Control bit.
-|   1   |   CA   |   1    |  Current Accumulator Configuration bit.
-|   2   |   EE   |   1    |  Current Accumulator Shadow Selector bit.
-|   3   |   AD   |   1    |  Voltage A/D Input Select bit. 1 = VDD,  0 = VAD.
-|   4   |   TB   |   0    |  Temperature Busy Flag.
-|   5   |  NVB   |   0    |  Non Volatile Memory Busy Flag.
-|   6   |  ADB   |   0    |  A/D Converter Busy Flag.
-|   7   |   x    |   x    |  don't care.
+|  bit  |  name  |  def  |  description  |
+|:-----:|:------:|:-----:|:--------------|
+|   0   |  IAD   |   1   |  Current A/D Control bit.
+|   1   |   CA   |   1   |  Current Accumulator Configuration bit.
+|   2   |   EE   |   1   |  Current Accumulator Shadow Selector bit.
+|   3   |   AD   |   1   |  Voltage A/D Input Select bit. 1 = VDD,  0 = VAD.
+|   4   |   TB   |   0   |  Temperature Busy Flag.
+|   5   |  NVB   |   0   |  Non Volatile Memory Busy Flag.
+|   6   |  ADB   |   0   |  A/D Converter Busy Flag.
+|   7   |   x    |   x   |  don't care.
 
 
 ## Operation
@@ -205,11 +207,9 @@ This library supports only one DS2438 per Arduino / MCU pin.
 - test with hardware or simulator?.
 - examples for testing.
 
-
 #### Should
 
 - implement CRC
-
 
 #### Could
 
@@ -230,7 +230,6 @@ only after testing and code works.
 - error handling.
 - copy snapshot to EEPROM(page)
   - copies page 0 to EEPROM page 0..4
-
 
 #### Wont
 

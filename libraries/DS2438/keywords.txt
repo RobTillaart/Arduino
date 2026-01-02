@@ -19,9 +19,9 @@ getVAD	KEYWORD2
 setResistor	KEYWORD2
 enableCurrentMeasurement	KEYWORD2
 disableCurrentMeasurement	KEYWORD2
+
 readCurrent	KEYWORD2
 getCurrent	KEYWORD2
-
 writeCurrentOffset	KEYWORD2
 readCurrentOffset	KEYWORD2
 

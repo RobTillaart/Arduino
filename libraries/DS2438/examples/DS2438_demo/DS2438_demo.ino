@@ -17,6 +17,7 @@ DS2438    bm(&oneWire);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DS2438_LIB_VERSION: ");
   Serial.println(DS2438_LIB_VERSION);

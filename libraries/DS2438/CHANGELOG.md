@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-01-02
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.1.1] - 2024-01-27
 - add **float readVAD()** and **float getVAD()**
 - add **uint32_t readDisconnectTime()**
@@ -17,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - implement some optimizations
 - minor edits
-
 
 ## [0.1.0] - 2024-01-26
 - initial release (experimental, not tested with hardware)

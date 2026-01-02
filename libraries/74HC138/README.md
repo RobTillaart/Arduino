@@ -21,7 +21,7 @@ With 3 IO lines one can select one of 8 output lines.
 
 Note: **setLine(line)** changes the 3 pins not simultaneously.
 So there is a very short time that non selected output can be enabled.
-In extremis all three pins change, e.g. from line 0 to line 7, 
+In extremis all three pins change, e.g. from line 0 to line 7,
 one goes from 0 -> 1 -> 3 -> 7
 To prevent this behaviour one need to use **disable()** and **enable()**.
 
@@ -31,6 +31,10 @@ selector.disable();
 selector.setLine(line);
 selector.enable();
 ```
+
+Datasheet: Nexperia 74HC138 Rev. 9 — 13 August 2021
+
+Feedback as always is welcome.
 
 
 ### Related
@@ -77,6 +81,18 @@ These functions only work if the **pinEnable** line is set in constructor.
 - **bool isEnabled()** checks if line is enabled.
 
 
+### Enable pins
+
+Some 74HC138 devices / data-sheets use other Enable pin names.
+The ENABLED combination is same.
+
+|  enabled  |  NXP  |   TI  |
+|:---------:|:-----:|:-----:|
+|    LOW    |   E1  |  G2A  |
+|    LOW    |   E2  |  G2B  |
+|    HIGH   |   E3  |   G1  |
+
+
 ## Future
 
 #### Must
@@ -86,7 +102,6 @@ These functions only work if the **pinEnable** line is set in constructor.
 
 #### Should
 
-- add example with enable line.
 
 #### Could
 

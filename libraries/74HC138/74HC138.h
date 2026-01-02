@@ -3,14 +3,14 @@
 //    FILE: 74HC138.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-02-22
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for the 74HC138 3-to-8 line decoder/demultiplexer.
 //     URL: https://github.com/RobTillaart/74HC138
 
 
 #include "Arduino.h"
 
-#define LIB_74HC138_VERSION         (F("0.1.1"))
+#define LIB_74HC138_VERSION         (F("0.1.2"))
 
 
 

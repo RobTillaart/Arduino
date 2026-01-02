@@ -2,7 +2,7 @@
 //    FILE: AD523X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-21
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI AD5231 and AD5235 10 bit digital potentiometers.
 //     URL: https://github.com/RobTillaart/AD523X
 

@@ -13,13 +13,14 @@
 
 Arduino library for SPI AD5231 and AD5235 10 bit digital potentiometers.
 
+
 ## Description
 
 **Experimental**
 
 The library is experimental as the functionality is not tested with hardware yet.
 
-The **AD5231** is a single channel, 10 bit = 1024 step, SPI based potentiometer, 
+The **AD5231** is a single channel, 10 bit = 1024 step, SPI based potentiometer,
 the **AD5235** is a dual channel version.
 
 There are 10 kΩ, 50 kΩ, and 100 kΩ versions.
@@ -30,7 +31,7 @@ When used as a voltage divider one could set 5V in steps of 5 mV which is great.
 The interface is straightforward, one can set a value per channels between 0..1023
 or by means of a percentage. This value can be fetched from cache.
 
-Furthermore the power on reset start value can be set in EEMEM (EEPROM), either by 
+Furthermore the power on reset start value can be set in EEMEM (EEPROM), either by
 copying the current position or by writing an explicit value to the EEMEM address.
 
 Finally there are 14 or so free addresses in EEMEM to store some 16 bit values.
@@ -41,9 +42,9 @@ This might change in the future.
 The library does not implement the increment/decrement interface yet.
 This might change in the future.
 
-Feedback is as always welcome! please open an issue on GitHub.
+Feedback as always is welcome! please open an issue on GitHub.
 
-#### Related
+### Related
 
 Mostly digipots:
 
@@ -74,28 +75,30 @@ Mostly digipots:
 - **AD5235(uint8_t select, uint8_t reset, SPIClass \* mySPI = &SPI)** constructor HW SPI
 - **AD5235(uint8_t select, uint8_t reset, uint8_t dataIn, uint8_t dataOut, uint8_t clock)** constructor SW SPI
 
-Note: 
+Note:
 - hardware SPI is about 10+ times faster on an UNO as software SPI.
 - software SPI on ESP32 is about equally fast as hardware SPI.
+
 
 ### Base
 
 - **void begin(uint8_t value = AD523X_MIDDLE_VALUE)** value is the initial value of all potentiometer.
-- **void reset(uint8_t value = AD523X_MIDDLE_VALUE)** resets the device and sets all potentiometers 
+- **void reset(uint8_t value = AD523X_MIDDLE_VALUE)** resets the device and sets all potentiometers
 to value, default is 512.
-- **void resetDevice()** execute a power on reset.  
+- **void resetDevice()** execute a power on reset.
 WARNING: This will probably corrupt the internal cache for getValue.
 - **uint8_t pmCount()** returns the number of internal potentiometers.
+
 
 ### Value
 
 - **bool setValue(uint8_t value)** set a potentiometer to a value.
 Returns true if successful, false if not.
-- **bool setValue(uint8_t pm, uint8_t value)** set a potentiometer to a value. 
+- **bool setValue(uint8_t pm, uint8_t value)** set a potentiometer to a value.
 Returns true if successful, false if not.
 - **uint8_t getValue(uint8_t pm)** returns the last set value of a specific potentiometer
 from cache. This will probably change in the future.
-- **void setAll(uint8_t value)** set all potentiometers to the same value 
+- **void setAll(uint8_t value)** set all potentiometers to the same value
 e.g. 0 or max or middle value.
 Can typically be used for **mute** or stereo setting.
 
@@ -107,13 +110,14 @@ In the future **getValue()** might be reading from the device instead of from ca
 
 ### Percentage
 
-- **bool setPercentage(uint8_t pm, float percentage)** similar to setValue, 
+- **bool setPercentage(uint8_t pm, float percentage)** similar to setValue,
 percentage from 0..100%.
 Returns true when successful, false if not.
-- **bool setPercentageAll(float percentage)** similar to setValue, 
-percentage from 0..100%, 
+- **bool setPercentageAll(float percentage)** similar to setValue,
+percentage from 0..100%,
 Returns true when successful, false if not.
 - **float getPercentage(uint8_t pm)** return the value of potentiometer pm as percentage.
+
 
 ### Increment / decrement
 
@@ -137,18 +141,20 @@ Returns normally the last command.
   - store address 1 from value to write O1, O2    (AD5231) Page 8, datasheet
 
 Note: address should be 0..15 (code does not check).
-Note: the WP pin allows to write protect EEMEM  
-Note: Writing to EEMEM can block up to **25 milliseconds**.  
+Note: the WP pin allows to write protect EEMEM
+Note: Writing to EEMEM can block up to **25 milliseconds**.
 More see page 14 datasheet.
+
 
 ### Hardware SPI
 
-To be used only if one needs a specific speed for hardware SPI.  
+To be used only if one needs a specific speed for hardware SPI.
 Has no effect on software SPI.
 
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true / false depending on constructor.
+
 
 ### AD5231 specific
 
@@ -162,6 +168,7 @@ storeEEMEM(1, 3);  //  01 = 1,  02 = 1
 ```
 
 To be verified with hardware.
+
 
 ### AD5235 specific
 
@@ -177,7 +184,7 @@ To be verified with hardware.
 
 #### Should
 
-- TODO's in code and documentation.
+- add increment / decrement interface
 - fix the getValue() => remove cache?
 - move specific functions to AD5231/5 classes.
 - redo class hierarchy.

@@ -3,7 +3,7 @@
 //    FILE: AD523X.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-21
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for SPI AD5231 and AD5235 10 bit digital potentiometers.
 //     URL: https://github.com/RobTillaart/AD523X
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD523X_LIB_VERSION              (F("0.1.0"))
+#define AD523X_LIB_VERSION              (F("0.1.1"))
 
 #define AD523X_MIDDLE_VALUE             512
 #define AD523X_MAX_VALUE                1023

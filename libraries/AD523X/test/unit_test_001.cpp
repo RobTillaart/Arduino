@@ -1,7 +1,6 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 //    DATE: 2024-11-22
 // PURPOSE: unit tests for the AD523X digital potentiometers
 //          https://github.com/RobTillaart/AD523X

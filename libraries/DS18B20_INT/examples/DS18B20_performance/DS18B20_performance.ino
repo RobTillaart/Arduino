@@ -22,9 +22,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DS18B20_INT_LIB_VERSION: ");
   Serial.println(DS18B20_INT_LIB_VERSION);
+  Serial.println();
   delay(10);
 
   start = micros();

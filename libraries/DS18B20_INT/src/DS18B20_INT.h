@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2017-07-25
 // PURPOSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -25,7 +25,7 @@
 #include "OneWire.h"
 
 
-#define DS18B20_INT_LIB_VERSION       (F("0.3.3"))
+#define DS18B20_INT_LIB_VERSION       (F("0.3.4"))
 
 //  Error Code
 #define DEVICE_DISCONNECTED           -127
@@ -40,11 +40,11 @@ public:
   explicit  DS18B20_INT(OneWire * ow);
   bool      begin(uint8_t retries = 3);
   bool      isConnected(uint8_t retries = 3);
+  bool      getAddress(uint8_t * buf);
 
   void      requestTemperatures(void);
   int16_t   getTempC(bool connectCheck = true);
   bool      isConversionComplete(void);
-  bool      getAddress(uint8_t* buf);
 
   bool      setResolution(uint8_t resolution = 9);
   uint8_t   getResolution();  //  returns cached value

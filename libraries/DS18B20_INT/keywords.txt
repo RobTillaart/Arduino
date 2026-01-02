@@ -6,10 +6,12 @@ DS18B20_INT	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin KEYWORD2
-getTempC	KEYWORD2
-requestTemperatures	KEYWORD2
-isConversionComplete	KEYWORD2
+isConnected	KEYWORD2
 getAddress	KEYWORD2
+
+requestTemperatures	KEYWORD2
+getTempC	KEYWORD2
+isConversionComplete	KEYWORD2
 
 setResolution	KEYWORD2
 getResolution	KEYWORD2

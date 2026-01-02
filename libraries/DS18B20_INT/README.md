@@ -11,13 +11,14 @@
 
 # DS18B20_INT
 
-Minimalistic library for the DS18B20 temperature sensor - restricted to one sensor per pin.
+Arduino library for the DS18B20 temperature sensor - restricted to one sensor per pin.
 
 
 ## Arduino Temperature Control Library (ATCL)
 
-This DS18B20 library is a minimalistic library for a DS18B20 sensor.
-It will give only temperatures in whole degrees C.
+This DS18B20 library is not a full featured library for the DS18B20 family.
+This library supports only one DS18B20 per Arduino/ MCU pin.
+Furthermore this library will give only temperatures in whole degrees C.
 Goal is to minimize footprint.
 
 If you need more functions or control over the DS18B20 family I refer to the library
@@ -27,13 +28,64 @@ I'm a great fan of the above library however some time ago I needed to strip it 
 to save a few dozen bytes. I reworked that minimalistic version into a library and I 
 added a number of Arduino examples to help you get started.
 
+Effort has been taken to keep the code, variables and function names compatible with 
+ATCL library mentioned above. This way you can step over to that one with relatively
+few problems when you need more functionality like multiple sensors on one pin.
 
-#### Related
+Finally this library will probably make it easier to use a DS18B20 with processing 
+boards or IC's with small memory footprint.
 
-This library is related to 
-- https://github.com/RobTillaart/DS18B20_INT
-- https://github.com/RobTillaart/DS18B20_RT
+Feedback, as always, is welcome.
+
+
+### Footprint OneWire
+
+This library depends (is build) upon the **OneWire** library of Paul Stoffregen.
+- https://github.com/PaulStoffregen/OneWire - the reference imho.
+
+In issue [#31](https://github.com/RobTillaart/DS18B20_RT/issues/31) the footprint of 
+the OneWireNG seems to be smaller when build on platformIO.
+
+So if you are in need to save some more bytes, you might try [OneWireNG]
+(https://github.com/pstolarz/OneWireNg).
+
+
+### Compatibles
+
+|  device      |  tested  |   power   |  bits  |  notes  |
+|:-------------|:--------:|:---------:|:------:|:--------|
+|  DS18B20     |    yes   |   3-5 V   |  9-12  |  the reference
+|  DS18S20     |     n    |   3-5 V   |  9     |
+|  DS1822      |     n    |   3-5 V   |  9-12  |
+|  DS1820      |     n    |   5 V     |  9     |
+|  MAX31820    |     n    |   3 V     |  9-12  |
+
+Not all tested, but expected to work. If there are missing devices or you have
+tested one, please let me know. 
+
+
+### Related
+
+This library is related to
+
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DHTStable DHT11/22 etc
+- https://github.com/RobTillaart/DHT_Simulator
+- https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B21 OneWire temperature sensor (8 bit)
 - https://github.com/milesburton/Arduino-Temperature-Control-Library
+- https://github.com/milesburton/Arduino-Temperature-Control-Library/issues/244#event-9253126638
+- https://github.com/RobTillaart/PCT2075 11 bit I2C temperature sensor with thermal watchdog.
+- https://github.com/RobTillaart/SHT31 Sensirion humidity / temperature sensor
+- https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
+- https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+
+
+Dependency
+- https://github.com/PaulStoffregen/OneWire
+- https://github.com/pstolarz/OneWireNg (alternative)
 
 
 ## Interface
@@ -43,7 +95,7 @@ This library is related to
 ```
 
 
-#### Core
+### Constructor
 
 This DS18B20_INT library supports only the DS18B20, only one sensor per pin, no parasite 
 mode, no Fahrenheit and no alarm functions. The only feature the class supports is 
@@ -55,6 +107,11 @@ Returns true if address / device is found and all is OK.
 There will be a number of retries to connect, default 3.
 - **bool isConnected(uint8_t retries = 3)** Returns true if address / device is found.
 There will be a number of retries to connect, default 3.
+- **bool getAddress(uint8_t \* buffer)** returns true if the sensor is configured (available).
+Buffer must be a byte array of at least 8 bytes.
+
+### Core
+
 - **void requestTemperatures()** trigger temperature conversion.
 - **bool isConversionComplete()** check if conversion is complete.
 - **int16_t getTempC(bool connectCheck = true)** returns temperature in whole degrees only. 
@@ -63,7 +120,7 @@ Is faster when connectCheck is set to false. Default true = backwards compatible
 - **bool getAddress()** returns true if the sensor is configured (available).
 
 
-#### CentiC part
+### CentiC part
 
 The following functions are experimental since 0.2.0 and not tested a lot by me.
 They allow to use a higher resolution while **not using floats**. 
@@ -83,7 +140,7 @@ Note one might need to set the resolution to get more "decimals".
 
 ## Operation
 
-This library supports only one DS18B20 per Arduino/ MCU pin.
+This library supports only **one** DS18B20 per Arduino/ MCU pin.
 
 ```
     //  BOTTOM VIEW
@@ -101,7 +158,7 @@ Connect a pull-up resistor 4.7 KOhm between pin3 and pin2.
 When the wires are longer this resistor needs to be smaller.
 
 
-#### -127 and 85
+### -127 and 85
 
 Two specific return values from reading the sensor:
 
@@ -110,7 +167,7 @@ Two specific return values from reading the sensor:
 If you get this unexpected it may indicate a power problem
 
 
-#### Pull up resistor
+### Pull up resistor
 
 An **indicative** table for pull up resistors, (E12 series), to get started.
 
@@ -156,6 +213,7 @@ and all people who contributed to that library.
 
 #### Must
 
+- improve documentation
 - elaborate performance connected state.
 
 #### Should

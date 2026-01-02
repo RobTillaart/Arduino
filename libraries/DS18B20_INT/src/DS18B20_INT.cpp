@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -58,6 +58,19 @@ bool DS18B20_INT::isConnected(uint8_t retries)
 }
 
 
+bool DS18B20_INT::getAddress(uint8_t * buf)
+{
+  if (_addressFound)
+  {
+    for (uint8_t i = 0; i < 8; i++)
+    {
+      buf[i] = _deviceAddress[i];
+    }
+  }
+  return _addressFound;
+}
+
+
 void DS18B20_INT::requestTemperatures(void)
 {
   _oneWire->reset();
@@ -88,19 +101,6 @@ int16_t DS18B20_INT::getTempC(bool connectCheck)
     return DEVICE_DISCONNECTED;
   }
   return rawTemperature;
-}
-
-
-bool DS18B20_INT::getAddress(uint8_t * buf)
-{
-  if (_addressFound)
-  {
-    for (uint8_t i = 0; i < 8; i++)
-    {
-      buf[i] = _deviceAddress[i];
-    }
-  }
-  return _addressFound;
 }
 
 

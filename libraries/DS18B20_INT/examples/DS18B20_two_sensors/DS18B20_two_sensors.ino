@@ -21,9 +21,12 @@ DS18B20_INT outside(&oneWire3);
 void setup(void)
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DS18B20_INT_LIB_VERSION: ");
   Serial.println(DS18B20_INT_LIB_VERSION);
+  Serial.println();
+  delay(10);
 
   inside.begin();
   outside.begin();

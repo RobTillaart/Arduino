@@ -26,9 +26,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
 
   //  select simulated signal
   ACS.setADC(signal, 5, 1024);

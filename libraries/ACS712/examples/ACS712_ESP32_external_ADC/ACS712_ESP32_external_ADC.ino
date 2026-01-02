@@ -39,10 +39,11 @@ uint16_t readADS1015(uint8_t pin)
 
 ///////////////////////////////////////////////////////////////
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);

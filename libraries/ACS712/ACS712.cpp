@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712.cpp
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.3.10
+// VERSION: 0.4.0
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712

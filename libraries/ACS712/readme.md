@@ -414,7 +414,6 @@ for this "voltage divider effect".
 
 ### Examples:
 
-
 For a 5 A type sensor, 185 mV/A would be the normal value.
 After using a voltage divider one need to adjust the mVperAmp.
 
@@ -423,7 +422,7 @@ After using a voltage divider one need to adjust the mVperAmp.
 |  10200   |  4745     |  4745 / (10200 + 4745) = 0.3175 | 185 \* 0.3175 =  31.75  |
 |  4745    |  10200    | 10200 / (10200 + 4745) = 0.6825 | 185 \* 0.6825 =  68.25  |
 |  10200   |  9800     |  9800 / (10200 + 9800) = 0.4900 | 185 \* 0.4900 =  49.00  |
-|  1000    |  2200     |  2200 / (1000 + 2200)  = 0.6875 | 185 \* 0.6875 = 127.19  | 5V -> 3V3 ADC
+|  1000    |  2200     |  2200 / (1000 + 2200)  = 0.6875 | 185 \* 0.6875 = 127.19  |  5V -> 3V3 ADC
 |  300     |  75       |  75   / (300 + 75)     = 0.2000 | 185 \* 0.2000 =  37.00  |  5V -> 1V ADC
 
 
@@ -523,7 +522,7 @@ The examples show the basic working of the functions.
   - need to buy extra hardware
 
 
-#### Should - 0.3.x
+#### Should
 
 - investigate **estimateMidPoint(confidence)** See issue #35
   - is less blocking by spreading the sampling over many calls.
@@ -539,7 +538,7 @@ The examples show the basic working of the functions.
 
 #### Could
 
-- merge **mA_AC()** and **mA_AC_sampling()** into one. (0.4.0)
+- merge **mA_AC()** and **mA_AC_sampling()** into one
   - or remove - depreciate - the worst one
 - add range check to (all) set functions?
 - add unit test for **autoMidPointDC()** (needed?)

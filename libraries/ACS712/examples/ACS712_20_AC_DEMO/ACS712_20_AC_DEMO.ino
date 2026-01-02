@@ -1,7 +1,7 @@
 //
 //    FILE: ACS712_20_AC_DEMO.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo to set the mVperAmpere and Form FActor.
+// PURPOSE: demo to set the mVperAmpere and Form Factor.
 //     URL: https://github.com/RobTillaart/ACS712
 
 
@@ -23,9 +23,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
 
   ACS.autoMidPoint();
 }

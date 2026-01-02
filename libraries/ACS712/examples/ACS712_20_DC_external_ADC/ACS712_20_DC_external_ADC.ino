@@ -7,6 +7,7 @@
 //  see also ACS712_ESP32_external_ADC.ino
 //  use with Arduino Serial Plotter
 
+
 #include "ACS712.h"
 
 
@@ -25,12 +26,14 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
 
   ACS.setADC(testADC, 10, 1023);
-  
+
   //  ACS.autoMidPoint();
   //  Serial.println(ACS.getMidPoint());
 }

@@ -1,6 +1,5 @@
 //    FILE: RMS_by_sampling.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-08-15
 // PURPOSE: demo RMS by sampling for AC current
 //     URL: https://github.com/RobTillaart/ACS712
 //
@@ -15,7 +14,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  //  Serial.print("ACS712_LIB_VERSION: ");
+  //  Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
 }
 
 

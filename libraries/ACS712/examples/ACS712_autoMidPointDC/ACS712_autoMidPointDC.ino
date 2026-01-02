@@ -25,9 +25,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
   delay(10);
 
   //  might be different 1 cycle or 100.
@@ -39,7 +41,7 @@ void setup()
   Serial.println(stop - start);
   Serial.print("MP 1:\t");
   Serial.println(midPoint);
-  
+
   midPoint = ACS.autoMidPointDC(100);
   Serial.print("MP 100:\t");
   Serial.println(midPoint);

@@ -14,9 +14,9 @@
 //  ACS712 30A uses  66 mV per A
 
 
-ACS712  ACS(A0, 5.0, 1023, 100);
+//  ACS712  ACS(A0, 5.0, 1023, 100);
 //  ESP 32 example (might requires resistors to step down the logic voltage)
-//  ACS712  ACS(25, 3.3, 4095, 185);
+ACS712  ACS(25, 3.3, 4095, 185);
 
 
 uint32_t start, stop;
@@ -26,9 +26,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
 
 
   //  use simulation
@@ -67,4 +69,3 @@ uint16_t signal(uint8_t p)
 
 
 //  -- END OF FILE --
-

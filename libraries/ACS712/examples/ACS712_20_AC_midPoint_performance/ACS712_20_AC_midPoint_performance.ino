@@ -27,10 +27,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("ACS712_LIB_VERSION: ");
   Serial.println(ACS712_LIB_VERSION);
+  Serial.println();
 
   Serial.println("Compare different midPoint methods.\n");
 

@@ -34,6 +34,8 @@ Command structure
     \r       end command
 ```
 
+Feedback as always is welcome.
+
 
 ## Interface
 
@@ -43,18 +45,22 @@ Command structure
 
 The following functions are implemented:
 
+### Constructor
+
 - **Optoma(HardwareSerial\* stream = &Serial)** constructor, default uses Serial, 
 other HW or SW Serial are possible.
 - **void init(int ID, uint32_t baudRate = 9600)** default baud rate = 9600.  
 The ID is used to address a specific beamer.
 In theory one could have multiple beamers on one RS232 port (never seen or tested).
 - **uint32_t getBaudrate()** return set baud rate.
+
+### Control
+
 - **void switchOn()** idem.
 - **void switchOff()** idem.
 - **bool isOn()** idem.
 - **void increaseVKS()** VKS - Vertical KeyStone. check datasheet.
 - **void decreaseVKS()** VKS - Vertical KeyStone. check datasheet.
-
 
 ## Future
 
@@ -70,6 +76,7 @@ More functionality will be added on a need to basis.
 
 - Create examples.
 - investigate SoftWare Serial support
+  => does not work (yet)
 
 #### Wont
 

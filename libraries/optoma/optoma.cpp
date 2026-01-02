@@ -1,7 +1,7 @@
 //
 //    FILE: optoma.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2017-11-27
 // PURPOSE: Arduino library to control Optoma W305ST beamer over RS232.
 //     URL: https://github.com/RobTillaart/optoma
@@ -29,7 +29,7 @@ void Optoma::init(int ID, uint32_t baudRate)
 }
 
 
-uint32_t Optoma::getBaudrate() 
+uint32_t Optoma::getBaudrate()
 {
   return _baudrate;
 };

@@ -1,8 +1,7 @@
 //
 //    FILE: AD5204_setPercentage.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
-//    DATE: 2021-10-16
+// PURPOSE: demo percentage API
 //     URL: https://github.com/RobTillaart/AD520X
 
 
@@ -19,7 +18,11 @@ AD5204 pot = AD5204(10, 12, 13);     //  HW SPI by default
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AD520X_LIB_VERSION: ");
+  Serial.println(AD520X_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
   pot.begin(4);

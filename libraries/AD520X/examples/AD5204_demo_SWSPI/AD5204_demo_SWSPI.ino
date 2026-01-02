@@ -1,9 +1,7 @@
 //
 //    FILE: AD5204_demo_SWSPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
 // PURPOSE: demo
-//    DATE: 2021-08-19
 //     URL: https://github.com/RobTillaart/AD520X
 
 
@@ -22,9 +20,11 @@ AD5204 pot(10, 255, 255, 8, 9);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("AD520X_LIB_VERSION:\t");
+  Serial.print("AD520X_LIB_VERSION: ");
   Serial.println(AD520X_LIB_VERSION);
+  Serial.println();
 
   pot.begin(4);
 

@@ -2,7 +2,6 @@
 //    FILE: AD5204_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-24
 //     URL: https://github.com/RobTillaart/AD520X
 
 
@@ -12,16 +11,20 @@ uint32_t start, stop;
 
 
 //  select, reset, shutdown, data, clock == SOFTWARE SPI
-//  AD5206 pot(10, 255, 255, 8, 9);
+AD5206 pot(10, 255, 255, 8, 9);
 
 //  select, reset, shutdown, &SPI === HW SPI UNO clock = 13, data = 11
-AD5206 pot = AD5206(5, 6, 7, &SPI);
+//  AD5206 pot = AD5206(5, 6, 7, &SPI);
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("AD520X_LIB_VERSION: ");
+  Serial.println(AD520X_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
   pot.begin(4);
@@ -29,7 +32,7 @@ void setup()
   //  test_extremes();
   //  test_sinus();
   //  test_sawtooth();
-  test_timing();
+  //  test_timing();
 
   Serial.println("\nDone...");
 }
@@ -37,6 +40,8 @@ void setup()
 
 void loop()
 {
+  pot.setValue(0, 42);
+  delay(1000);
 }
 
 void test_extremes()

@@ -37,14 +37,14 @@ The library is not yet confirmed to work for **AD8402** (2 channels).
 This device has  a very similar interface (datasheet comparison) so it should work. If you can confirm the AD8402 works, please let me know.
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **AD520X.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.4.0 breaking change
+### 0.4.0 breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -52,7 +52,7 @@ This makes it possible to support the ESP32-S3 and other processors in the futur
 Also it makes the library a bit simpler to maintain.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/AD520x
 - https://github.com/RobTillaart/AD524X
@@ -156,7 +156,7 @@ Has no effect on software SPI.
 - extend unit tests
 - extent examples
 
-#### Could (only if requested.)
+#### Could
 
 - **AD520X_MIDDLE_VALUE** 127 ?   (0.4.0?)
 - **setSWSPIdelay(uint8_t del = 0)** to tune software SPI?

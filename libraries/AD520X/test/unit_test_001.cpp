@@ -99,7 +99,7 @@ unittest(test_reset)
   AD5204 pot = AD5204(10, 12, 13);  //  HW SPI by default
   pot.begin();
   assertEqual(128, pot.getValue(0));
-  
+
   pot.reset(35);
   for (int i = 0; i < pot.pmCount(); i++)
   {

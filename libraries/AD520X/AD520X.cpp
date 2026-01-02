@@ -2,7 +2,7 @@
 //    FILE: AD520X.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-24
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library for AD5204 and AD5206 digital potentiometers
 //          (+ AD8400, AD8402, AD8403)
 //     URL: https://github.com/RobTillaart/AD520X
@@ -211,7 +211,7 @@ void AD520X::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
-};
+}
 
 
 uint32_t AD520X::getSPIspeed()
@@ -223,7 +223,7 @@ uint32_t AD520X::getSPIspeed()
 bool AD520X::usesHWSPI()
 {
   return _hwSPI;
-};
+}
 
 
 /////////////////////////////////////////////////////////////////////////////

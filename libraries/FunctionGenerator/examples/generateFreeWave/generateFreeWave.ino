@@ -5,11 +5,16 @@
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 
 
+#include "functionGenerator.h"
+
+
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FUNCTIONGENERATOR_LIB_VERSION: ");
+  Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
   Serial.println();
 
   Serial.println("int16_t arr[101] =\n{");

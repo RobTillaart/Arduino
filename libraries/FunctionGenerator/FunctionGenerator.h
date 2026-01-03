@@ -2,14 +2,15 @@
 //
 //    FILE: functionGenerator.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
+//    DATE: 2015-01-01
 // PURPOSE: wave form generating functions (use with care)
 //     URL: https://github.com/RobTillaart/FunctionGenerator
 
 
 #include "Arduino.h"
 
-#define FUNCTIONGENERATOR_LIB_VERSION           (F("0.3.0"))
+#define FUNCTIONGENERATOR_LIB_VERSION           (F("0.3.1"))
 
 
 class funcgen

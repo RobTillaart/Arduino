@@ -88,6 +88,7 @@ It is advised to reset **t** after a number (e.g. 100) full periods
 
 Needs further investigations.
 
+
 ### Related
 
 - https://github.com/RobTillaart/AD9833 hardware waveform generator.
@@ -209,6 +210,7 @@ The rising and falling edges stay same.
 - **float heartBeat(float t)** The duty cycle determines the part of the period
 that the signal ~zero.
 
+
 ### No duty cycle
 
 The other functions need to be investigated what duty cycle means.
@@ -223,6 +225,7 @@ Think of it as the halve of the triangle wave.
 - **float sinusDiode(float t)**
 - **float sinusRectified(float t)**
 - **float freeWave(float t, int16_t arr, int16_t N)**
+
 
 ## Future
 
@@ -240,6 +243,7 @@ Think of it as the halve of the triangle wave.
 - stand-alone functions in separate .h
 - clean up code
 
+
 #### Could
 
 - ASDR wave 
@@ -254,6 +258,7 @@ Think of it as the halve of the triangle wave.
   - improve performance sin() lookup table.
   - add float variable for ```_perDC = _period * _dutyCycle```
   - do we need **freq4** ? not since DC.
+  - check **FastTrig** library for faster sinus (interpolated lookup).
 - heartBeat
   - small noise/variation parameter on amplitude and frequency.
   - reduce footprint ==> wrapper around freeWave()
@@ -266,15 +271,16 @@ Think of it as the halve of the triangle wave.
 - create an example program to sample an arbitrary wave form
   - output in the right format.
   - slow sampling vs real time.
-
+- functionGenerator as (derived?) class name
 
 #### Examples
 
-  - Amplitude modulation ?
-  - heartbeat curve?
-  - example ESP32 version as separate task.
-  - example with DAC. 8 12 16 bit.
-  - example with potentiometers for 4 parameters
+- Amplitude modulation ?
+- heartbeat curve?
+- example ESP32 version as separate task.
+- example with DAC. 8 12 16 bit.
+- example with potentiometers for 4 parameters
+
 
 #### Wont
 

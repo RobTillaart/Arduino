@@ -67,8 +67,9 @@ int16_t arr_two_sin[101] =
 void setup()
 {
   Serial.begin(115200);
+  //  Serial.println();
   //  Serial.println(__FILE__);
-  //  Serial.print("FUNCTIONGENERATOR_LIB_VERSION: ");
+  //  Serial.println("FUNCTIONGENERATOR_LIB_VERSION: ");
   //  Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
   //  Serial.println();
 

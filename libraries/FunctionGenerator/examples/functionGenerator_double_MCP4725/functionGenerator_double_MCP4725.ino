@@ -31,6 +31,8 @@ void setup()
   Serial.begin(230400);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FUNCTIONGENERATOR_LIB_VERSION: ");
+  Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
   Serial.println();
 
   Wire.begin();

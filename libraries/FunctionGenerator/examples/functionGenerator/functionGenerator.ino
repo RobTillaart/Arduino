@@ -18,7 +18,11 @@ char choice = '0';
 void setup()
 {
   Serial.begin(500000);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("FUNCTIONGENERATOR_LIB_VERSION: ");
+  Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
+  Serial.println();
   Serial.println("Start ");
 
   gen.setFrequency(4);

@@ -17,18 +17,19 @@ funcgen gen2;
 void setup()
 {
   Serial.begin(115200);
+  //  Serial.println();
   //  Serial.println(__FILE__);
   //  Serial.print("FUNCTIONGENERATOR_LIB_VERSION: ");
   //  Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
   //  Serial.println();
 
   gen.setAmplitude(80);
-  gen.setFrequency(65.0 / 60.0); //  HB = BPM/60.0
+  gen.setFrequency(65.0 / 60.0);  //  HB = BPM/60.0
   gen.setDutyCycle(40);
   gen2.setYShift(+20);
 
   gen2.setAmplitude(80);
-  gen2.setFrequency(120.0 / 60.0); //  HB = BPM/60.0
+  gen2.setFrequency(120.0 / 60.0);  //  HB = BPM/60.0
   gen2.setDutyCycle(80);
   gen2.setYShift(-80);
 }

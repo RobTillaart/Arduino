@@ -8,6 +8,8 @@
 //  depending on the platform, the range of "smooth" sinus is limited.
 //  other signals are less difficult so have a slightly larger range.
 //  see readme.md for mac frequency table.
+//
+//  uses an MCP4725 as output device
 
 
 #include "functionGenerator.h"
@@ -37,6 +39,12 @@ uint32_t lastTime = 0;
 void setup()
 {
   Serial.begin(230400);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println("FUNCTIONGENERATOR_LIB_VERSION: ");
+  Serial.println(FUNCTIONGENERATOR_LIB_VERSION);
+  Serial.println();
+
   gen.setAmplitude(1);
   gen.setYShift(1);
   gen.setFrequency(frequency);

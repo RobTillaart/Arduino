@@ -24,17 +24,17 @@ It needs to be tested a lot more.
 See changelog.md for latest updates.
 
 
-#### 0.6.1
+### 0.6.1
 
 Improved **calibrate()** to support any angle.
 
 
-#### 0.6.0
+### 0.6.0
 
 Fixed a bug in calibration function, making previous versions obsolete.
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -43,7 +43,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Examples
+### Examples
 
 - **GY521_angle** read angleX, angleY, angleZ.
 - **GY521_performance_calibrate.ino** determine calibration performance.
@@ -58,7 +58,7 @@ for analysis e.g. in a spreadsheet.
 - **GY521_two_sensors** demo for two sensors.
 
 
-#### Related
+### Related
 
 - https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf
 - https://cdn.sparkfun.com/datasheets/Sensors/Accelerometers/RM-MPU-6000A.pdf  register map.
@@ -82,7 +82,7 @@ From left to right
 |   7   |    INT    |  interrupt        |
 
 
-#### Address
+### Address
 
 AD0 connected to GND => 0x68 
 AD0 connected to VCC => 0x69
@@ -102,7 +102,7 @@ sensor can be calibrated in any angle.
 **bool calibrate(times, angleX = 0, angleY = 0, inverted = false)**
 
 
-#### Manual calibration
+### Manual calibration
 
 1. load and run calibration example  
    it shows a header containing 6 numbers and 10 lines of 8 numbers
@@ -209,7 +209,7 @@ One must explicitly call **read()** to get new values.
 
 #### Experimental Pitch Roll and Yaw
 
-Pitch Roll and Yaw is work in progress and should not be used for projects yet.
+Pitch Roll and Yaw is **work in progress** and should not be used for projects yet.
 
 - **float getPitch()** idem. May return any number.
 If **setNormalize(true)** return value will be 0-359.999
@@ -250,7 +250,7 @@ Read the register PDF for the specific value and meaning of registers.
 - check details registers - MPU-6000-Register-Map1.pdf
 
 
-#### Error codes
+### Error codes
 
 |  Error code                 |  value  |  notes  |
 |:----------------------------|:-------:|:-------:|
@@ -261,7 +261,7 @@ Read the register PDF for the specific value and meaning of registers.
 |  GY521_ERROR_NOT_CONNECTED  |   -3    |
 
 
-#### Sensitivity Acceleration
+### Sensitivity Acceleration
 
 The strength of Earth's gravity varies with latitude (equator = 0°, poles = 90°).
 The standard value for gravity (gn) is 9.80665 m/s^2 (often 9.81 m/s^2)
@@ -278,7 +278,7 @@ The library provides the constant GRAVITY = 9.80655
 |    3    |     16 g      |  156.9048  |
 
 
-#### Sensitivity Gyroscope
+### Sensitivity Gyroscope
 
 unit dps = degrees per second.
 
@@ -302,12 +302,11 @@ However if one specific is needed, please open an issue.
 
 #### Must
 
-- time
-- improve documentation
 - investigate Pitch Roll and Yaw math in detail.
   - investigate math needed.
   - implementation.
   - when?
+- improve documentation
 - test test and test ...(ESP too)
 
 #### Should

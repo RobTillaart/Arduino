@@ -1,7 +1,7 @@
 //
 //    FILE: GY521_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: minimal demo
+// PURPOSE: performance measurements
 //     URL: https://github.com/RobTillaart/GY521
 
 #include "GY521.h"
@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GY521_LIB_VERSION: ");
   Serial.println(GY521_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 
@@ -36,12 +37,12 @@ void loop()
   uint32_t start = micros();
   int16_t x = sensor.read();
   uint32_t duration = micros() - start;
-  
+
   Serial.print(x);
   Serial.print('\t');
   Serial.print(duration);
   Serial.println();
-  
+
   delay(1000);
 }
 

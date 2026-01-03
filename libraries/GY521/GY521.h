@@ -2,7 +2,7 @@
 //
 //    FILE: GY521.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Arduino library for I2C GY521 accelerometer-gyroscope sensor
 //     URL: https://github.com/RobTillaart/GY521
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define GY521_LIB_VERSION           (F("0.6.1"))
+#define GY521_LIB_VERSION           (F("0.6.2"))
 
 const float GRAVITY = 9.80655;
 
@@ -32,10 +32,10 @@ const float GRAVITY = 9.80655;
 
 
 //  CONVERSION CONSTANTS
-#define GY521_RAD2DEGREES          (180.0 / PI)
-#define GY521_DEGREES2RAD          (PI / 180.0)
-#define GY521_RAW2DPS              (1.0 / 131.0)
-#define GY521_RAW2G                (1.0 / 16384.0)
+#define GY521_RAD2DEGREES           (180.0 / PI)
+#define GY521_DEGREES2RAD           (PI / 180.0)
+#define GY521_RAW2DPS               (1.0 / 131.0)
+#define GY521_RAW2G                 (1.0 / 16384.0)
 
 
 class GY521

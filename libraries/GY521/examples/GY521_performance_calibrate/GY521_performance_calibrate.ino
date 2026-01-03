@@ -1,7 +1,7 @@
 //
 //    FILE: GY521_performance_calibrate.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: read angleX, angleY, angleZ
+// PURPOSE: measure calibration performance
 //     URL: https://github.com/RobTillaart/GY521
 
 
@@ -17,6 +17,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GY521_LIB_VERSION: ");
   Serial.println(GY521_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

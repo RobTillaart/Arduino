@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] - 2026-01-03
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.6.1] - 2024-07-25
 Co-authored-by: Maik Menz 
 - redo of **calibrate()** function, Kudos to Maik Menz.
@@ -16,7 +21,6 @@ Co-authored-by: Maik Menz
 - add **readRaw()** to improve calibrate()
 - update readme.md 
 - improve initialization
-
 
 ## [0.6.0] - 2024-06-22
 - fix #54, calibrate() function, Kudos to jens-kuerten and MArimont3

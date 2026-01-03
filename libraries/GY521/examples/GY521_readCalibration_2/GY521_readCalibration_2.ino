@@ -22,6 +22,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GY521_LIB_VERSION: ");
   Serial.println(GY521_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   delay(100);
@@ -77,7 +78,7 @@ void loop()
     Serial.print("sensor.aze = ");
     Serial.print(sensor.aze, 7);
     Serial.print(";\n");
-    
+
     Serial.print("sensor.gxe = ");
     Serial.print(sensor.gxe, 7);
     Serial.print(";\n");

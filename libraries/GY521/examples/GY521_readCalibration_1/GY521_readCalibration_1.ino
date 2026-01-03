@@ -23,6 +23,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GY521_LIB_VERSION: ");
   Serial.println(GY521_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   delay(100);

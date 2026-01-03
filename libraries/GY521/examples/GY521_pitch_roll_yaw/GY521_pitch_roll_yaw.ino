@@ -3,7 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo pitch roll yaw
 //     URL: https://github.com/RobTillaart/GY521
-
+//
+//  WORK IN PROGRESS - not working well
 
 #include "GY521.h"
 
@@ -19,7 +20,9 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("GY521_LIB_VERSION: ");
   Serial.println(GY521_LIB_VERSION);
+  Serial.println();
   Serial.println("warning: Pitch roll yaw is work in progress.");
+  Serial.println();
 
   Wire.begin();
 

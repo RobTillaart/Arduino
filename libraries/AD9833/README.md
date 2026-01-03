@@ -16,7 +16,9 @@ Arduino library for AD9833 function generator.
 
 ## Description
 
-Experimental library for the AD9833 function (waveform) generator (12.5 MHz)
+**Experimental**
+
+Arduino library for the AD9833 function (waveform) generator (12.5 MHz)
 The library supports both hardware SPI and software SPI.
 
 The AD9833 is a signal generator that has two channels for frequency and
@@ -27,15 +29,44 @@ The AD9833 can generate three waveforms: sine, square (2x) and triangle.
 The frequency of the waves cover a range from 0 to 12.5 MHz.
 The step size for frequency is ~0.1 Hz (using 25 MHz reference clock).
 
-The library also can set the phase of each wave from 0� to 360�.
-The step size for phase is ~0.1�.
+The library also can set the phase of each wave from 0° to 360°.
+The step size for phase is ~0.1°.
 
 |   type   |  freq max  |  freq step  |  phase   | phase step  |  Notes  |
 |:--------:|:----------:|:-----------:|:--------:|:-----------:|:--------|
-|  AD9833  |  12.5 MHz  |  0.1 Hz     |  0..360  |     0.1�    |
+|  AD9833  |  12.5 MHz  |  0.1 Hz     |  0..360  |     0.1°    |
 
-Note: With an external 1 MHz clock smaller frequency steps 0.004 Hz. can be made.
+Note: With an external 1 MHz clock smaller frequency steps down to 0.004 Hz. can be made.
 This is not tested yet.
+
+Feedback as always is welcome.
+
+
+### Volume control 
+
+The AD9833 does not have volume (amplitude) control of the waveform generated.
+Switching off the output of the selected waveform by setting its frequency to 
+zero can / does generate a **popping sound** / artefact.
+
+In issue #23 this popping sound is investigated (thanks to 0x3B29 for testing).
+The solution found so far is to use a digital potentiometer, in this case a 
+SPI based MCP 4151-104E/P, which is 10 kΩ in 256 steps (0..255).
+This digital potentiometer is used to lower the volume in multiple steps to zero,
+or in multiple steps to the maximum volume.
+
+One problem is that the fade down of the potentiometer affected the ability of the 
+AD9833 library to set the frequency immediately after.
+It looks like an interference between the settings of the SPI bus, as the two devices 
+uses a different SPI-mode.
+The root cause is not found at the moment of writing.
+However a workaround exists by setting the frequency twice with a millisecond delay.
+That allowed to control the volume without a noticeable popping sound.
+
+Further investigation is needed (although not part of this library sec).
+
+Detailed discussion see - https://github.com/RobTillaart/AD9833/issues/23 
+
+Note: Ω = Alt-234 (UTF-8)
 
 
 ### Compatibles ?
@@ -44,7 +75,7 @@ List of (partially) compatibles in the series, that might work (partially) with 
 
 |   type   |  freq max  |  freq step  |  wave forms          |  Notes  |
 |:--------:|:----------:|:-----------:|:--------------------:|:--------|
-|  AD9832  |  12.5 MHz  |             | SINE                 |
+|  AD9832  |  12.5 MHz  |   ?         | SINE                 |
 |  AD9833  |  12.5 MHz  |   0.1  Hz   | SINE TRANGLE SQUARE  |  for reference
 |  AD9834  |  37.5 MHz  |   0.28 Hz   | SINE TRANGLE         |  has extra HW lines.
 |  AD9835  |  50.0 MHz  |   0.01 Hz   |   ??                 |  looks not compatible
@@ -52,11 +83,11 @@ List of (partially) compatibles in the series, that might work (partially) with 
 |  AD9837  |   8.0 MHz  |   0.06 Hz   | SINE TRANGLE         |
 
 
-TODO: Investigations needed, verify table below (hardware needed).
+TODO: Investigations needed, verify table above (hardware and time needed).
 
 If you have experience with one of the above "compatibles" and this library, 
 please let me know by opening an issue. 
-Probably they need a dedicated library based on this one.
+Probably these devices need dedicated libraries, possibly based on this one.
 
 
 ### 0.4.0 Breaking change
@@ -82,6 +113,9 @@ Note: the order of the parameters of the software SPI constructor has changed in
 - https://github.com/RobTillaart/AD985X
 - https://github.com/RobTillaart/functionGenerator  software waveform generator
 - https://pages.mtu.edu/~suits/notefreqs.html  frequency table for notes.
+
+STM32 specific library
+- https://github.com/gianni-carbone/STM32ad9833
 
 
 ## Connection
@@ -113,7 +147,7 @@ Schema AD9833 chip, breakout will have different pins.
 |  A-GND        |  Analog Ground       |
 |  VOUT         |  Analog Out          |
 
-Read datasheet for detailed description of the pins.
+Read the datasheet for detailed description of the pins.
 
 
 ## Interface
@@ -127,7 +161,6 @@ Read datasheet for detailed description of the pins.
 If the selectPin is set to 255, external FSYNC is used. 
 See section below.
 
-
 - **AD9833(uint8_t selectPin, SPIClassRP2040 \* mySPI = &SPI)** Constructor HW SPI.
 - **AD9833(uint8_t selectPin,SPIClass \* mySPI = &SPI )** Constructor HW SPI
 - **AD9833(uint8_t selectPin, uint8_t dataPin, uint8_t clockPin)** Constructor SW SPI.
@@ -135,18 +168,23 @@ See section below.
 - **void reset()** does a **hardwareReset()**, 
 and sets the control register to B28 for the **setFrequency()**
 - **void hardwareReset()** resets all registers to 0.
+
+### PowerMode
+
 - **bool setPowerMode(uint8_t mode = 0)** set the powerMode.
 Default is 0, wake up. So use ```setPowerMode(0)``` to wake up the device.
 Returns false if mode is out of range.
 Details see datasheet.
 - **uint8_t getPowerMode()** returns current powerMode bits.
 
-|  powerMode  |  meaning                      |
-|:-----------:|:------------------------------|
-|     0       |  no power saving              |
-|     1       |  powers down the on-chip DAC  |
-|     2       |  disable internal MCLK clock  |
-|     3       |  combination of mode 1 & 2    |
+(table 14 datasheet)
+
+|  define name               |  powerMode  |  meaning                      |
+|:--------------------------:|:-----------:|:------------------------------|
+|  AD9833_PWR_ON             |     0       |  no power saving              |
+|  AD9833_PWR_DISABLE_DAC    |     1       |  disable the on-chip DAC      |
+|  AD9833_PWR_DISABLE_CLOCK  |     2       |  disable internal MCLK clock  |
+|  AD9833_PWR_DISABLE_ALL    |     3       |  combination of mode 1 & 2    |
 
 
 ### Waveform
@@ -165,7 +203,7 @@ Details see datasheet.
 
 ### UseRounding
 
-Experimental => use with care!
+**Experimental** => use with care!
 
 The **setFrequency()** and **setPhase()** use rounding to maximize the accuracy
 of these functions. This is however not always what one needs e.g. if one wants 
@@ -184,7 +222,7 @@ Note: **reset()** does not affect this flag.
 
 ### Frequency
 
-Default channel is 0, which makes the function calls simpler 
+The default channel is set to 0, which makes the function calls simpler 
 when only using one channel.
 
 - **float setFrequency(float freq, uint8_t channel = 0)**
@@ -204,8 +242,8 @@ Default channel is 0, which makes the function calls simpler
 when only using one channel.
 
 - **float setPhase(float phase, uint8_t channel = 0)**
-setPhase sets the phase and **normalizes** the phase to 0� - 360�.
-So for example 405� becomes 45� and -23� becomes 337�.
+setPhase sets the phase and **normalizes** the phase to 0° - 360°.
+So for example 405° becomes 45° and -23° becomes 337°.
 Returns the phase set in degrees.
 - **float getPhase(uint8_t channel = 0)** returns the phase set in degrees.
 - **float getMaxPhase()** returns the maximum phase to set (convenience).
@@ -222,7 +260,7 @@ Returns the phase set in radians.
 ### Hardware SPI
 
 To be used only if one needs a specific speed.
-Has no effect when using SW SPI.
+Has no effect when using software SPI.
 
 - **void setSPIspeed(uint32_t speed)** set SPI transfer rate.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
@@ -320,12 +358,18 @@ As this implementation is experimental, the interface might change in the future
 #### Should
 
 - investigate external clock
-- test on ESP32 (3V3)
+- test with different boards
+  - test on ESP32 (3V3)
+- error handling  
+  - prepare error constants
+  - functions need to return int iso void?
+  - add getLastError()  
 
 #### Could
 
 - **setFrequency()** if cache value equals new frequency?
   - ```if (_freq[channel] == frequency) return frequency;```
+  - can fail if multiple objects manipulate device + startup POA.
 - **setPhase()** if cache value equals new phase?
   - ```if (_phase[channel] == phase) return phase;```
   - make phase array 16 bit "register value"?
@@ -335,15 +379,15 @@ As this implementation is experimental, the interface might change in the future
   - separate function **getFrequencyFromRegister()** !
 - **getPhase()** calculate phase back from set register value?
   - idem.
+- investigate **setPhase()** 
+  - if (> max) => fmod() instead of while loop
 - extend unit tests
 - add examples
   - for ESP32 HWSPI interface
 - solve MAGIC numbers (defaults)
 - extend performance measurements
-- add defines AD9833_POWERMODE_xxxx ?
 - investigate compatibility AD9834 a.o.
-  - need time / HW for this.
-
+  - need time / hardware for this.
 
 #### Wont
 

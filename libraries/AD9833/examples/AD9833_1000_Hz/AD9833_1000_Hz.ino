@@ -9,13 +9,14 @@
 
 
 AD9833 AD(10, 11, 13);  //  SW SPI over the HW SPI pins (UNO);
-//  AD(10);      //  HW SPI 
+//  AD(10);      //  HW SPI
 
 
 void setup()
 {
   Serial.begin(115200);
   while(!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);

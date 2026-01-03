@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
 //    DATE: 2023-08-25
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.4.3"))
+#define AD9833_LIB_VERSION     (F("0.4.4"))
 
 
 #ifndef __SPI_CLASS__
@@ -27,16 +27,32 @@
 #endif
 
 
-#define AD9833_MAX_FREQ       (12500000UL)  //  12.5 MHz.
-#define AD9833_MAX_PHASE      (360.0)
+#define AD9833_MAX_FREQ             (12500000UL)  //  12.5 MHz.
+#define AD9833_MAX_PHASE            (360.0)
 
 
 //  MODE OPERANDI
-#define AD9833_OFF            0
-#define AD9833_SINE           1
-#define AD9833_SQUARE1        2
-#define AD9833_SQUARE2        3
-#define AD9833_TRIANGLE       4
+#define AD9833_OFF                  0
+#define AD9833_SINE                 1
+#define AD9833_SQUARE1              2
+#define AD9833_SQUARE2              3
+#define AD9833_TRIANGLE             4
+
+
+//  POWER CONSTANTS
+#define AD9833_PWR_ON               0
+#define AD9833_PWR_DISABLE_DAC      1
+#define AD9833_PWR_DISABLE_CLOCK    2
+#define AD9833_PWR_DISABLE_ALL      3
+
+
+//  ERROR CODES  (TODO to be implemented ?)
+#define AD9833_OK                   0
+#define AD9833_ERR_CHANNEL          -1
+#define AD9833_ERR_WAVE             -2
+#define AD9833_ERR_FREQUENCY        -3
+#define AD9833_ERR_PHASE            -4
+#define AD9833_ERR_GENERIC          -99
 
 
 class AD9833
@@ -52,7 +68,8 @@ public:
 
   void     reset();
   void     hardwareReset();
-  //       mode = 0..3 (datasheet)
+  //       mode = 0..3 (datasheet table 14)
+  //       see AD9833_PWR_xxx above
   bool     setPowerMode(uint8_t mode = 0);
   uint8_t  getPowerMode();
 
@@ -102,6 +119,10 @@ public:
   //  EXPERIMENTAL HLB MODE (14 bit)
   void     writeFrequencyRegisterLSB(uint8_t channel, uint16_t LSB);
   void     writeFrequencyRegisterMSB(uint8_t channel, uint16_t MSB);
+
+
+  //  ERROR (prep)
+  //  int getLastError();
 
 
 private:

@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
 //    DATE: 2023-08-25
-// VERSION: 0.4.3
+// VERSION: 0.4.4
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -121,7 +121,7 @@ uint8_t AD9833::getPowerMode()
 
 void AD9833::setWave(uint8_t waveform)
 {
-  if (waveform > AD9833_TRIANGLE) return;
+  if (waveform > AD9833_TRIANGLE) return;  //  AD9833_ERR_WAVE
 
   //  store waveform
   _waveform = waveform;
@@ -171,7 +171,7 @@ bool AD9833::getUseRounding()
 
 float AD9833::setFrequency(float frequency, uint8_t channel)
 {
-  if (channel > 1) return -1;
+  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   //  if (_freq[channel] == frequency) return frequency;
   //  local variable is faster.
   float newFrequency = frequency;
@@ -197,6 +197,7 @@ float AD9833::setFrequency(float frequency, uint8_t channel)
 
 float AD9833::getFrequency(uint8_t channel)
 {
+  //  AD9833_ERR_CHANNEL
   //  return round(_freq[channel] * _crystalFreqFactor) / _crystalFreqFactor;
   return _freq[channel];
 }
@@ -210,7 +211,7 @@ float AD9833::getMaxFrequency()
 
 void  AD9833::setFrequencyChannel(uint8_t channel)
 {
-  if (channel > 1) return;
+  if (channel > 1) return;  //  AD9833_ERR_CHANNEL
 
   if (channel == 0) _control &= ~AD9833_FSELECT;
   if (channel == 1) _control |= AD9833_FSELECT;
@@ -220,10 +221,12 @@ void  AD9833::setFrequencyChannel(uint8_t channel)
 
 float AD9833::setPhase(float phase, uint8_t channel)
 {
-  if (channel > 1) return -1;
+  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   //  local variable is faster.
   float newPhase = phase;
-  //  get phase within normalized range.
+  //  get phase within normalized range => might need many iterations
+  //  so time is indetermined => fmod as alternative
+  //  alternative is phase out of range error  AD9833_ERR_PHASE_RANGE
   while (newPhase >= AD9833_MAX_PHASE) newPhase -= AD9833_MAX_PHASE;
   while (newPhase <  0) newPhase += AD9833_MAX_PHASE;
 
@@ -242,6 +245,7 @@ float AD9833::setPhase(float phase, uint8_t channel)
 
 float AD9833::getPhase(uint8_t channel)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   //  more precise => more math;
   //  return round(_phase[channel] * (4095.0 / 360.0)) / (4095.0 / 360.0);
   return _phase[channel];
@@ -252,12 +256,14 @@ float AD9833::getPhase(uint8_t channel)
 //  [0 .. 2 PI>
 float AD9833::setPhaseRadians(float phase, uint8_t channel)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   return setPhase(phase * RAD_TO_DEG, channel) * DEG_TO_RAD;
 }
 
 
 float AD9833::getPhaseRadians(uint8_t channel)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   return getPhase(channel) * DEG_TO_RAD;
 }
 
@@ -270,6 +276,7 @@ float AD9833::getMaxPhase()
 
 void  AD9833::setPhaseChannel(uint8_t channel)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   if (channel > 1) return;
 
   if (channel == 0) _control &= ~AD9833_PSELECT;
@@ -310,6 +317,7 @@ void AD9833::writeControlRegister(uint16_t value)
 
 void AD9833:: writeFrequencyRegister(uint8_t channel, uint32_t freq)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   uint16_t LSB = 0;
   uint16_t MSB = 0;
   if (channel > 1) return;
@@ -337,6 +345,7 @@ void AD9833:: writeFrequencyRegister(uint8_t channel, uint32_t freq)
 
 void AD9833::writePhaseRegister(uint8_t channel, uint16_t value)
 {
+    //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   uint16_t data = 0;
   if (channel > 1) return;
   if (channel == 0) data = 0xC000;  //  bit 15 and 14 and 13   110
@@ -369,6 +378,7 @@ float AD9833::getCrystalFrequency()
 //
 void AD9833::writeFrequencyRegisterLSB(uint8_t channel, uint16_t LSB)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   if (channel > 1) return;
   //  force 14 bit
   LSB &= 0x3FFF;
@@ -387,6 +397,7 @@ void AD9833::writeFrequencyRegisterLSB(uint8_t channel, uint16_t LSB)
 
 void AD9833::writeFrequencyRegisterMSB(uint8_t channel, uint16_t MSB)
 {
+  //  if (channel > 1) return -1;  //  AD9833_ERR_CHANNEL
   if (channel > 1) return;
   //  force 14 bit
   MSB &= 0x3FFF;

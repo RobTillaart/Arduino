@@ -17,6 +17,7 @@ void setup()
 {
   Serial.begin(115200);
   while(!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);
@@ -29,8 +30,8 @@ void setup()
   AD.setWave(AD9833_SINE);
   AD.setFrequency(440, 0);    //  A0
   AD.setPhase(0, 0);
-  AD.setPhase(90, 1); 
-  AD.setPhaseChannel(channel);   
+  AD.setPhase(90, 1);
+  AD.setPhaseChannel(channel);
 
   AD.setWave(AD9833_SQUARE1);
   Serial.println(AD.getWave());
@@ -46,7 +47,7 @@ void loop()
     //  toggle channel.
     if (channel == 0) channel = 1;
     else channel = 0;
-    AD.setPhaseChannel(channel); 
+    AD.setPhaseChannel(channel);
   }
 }
 

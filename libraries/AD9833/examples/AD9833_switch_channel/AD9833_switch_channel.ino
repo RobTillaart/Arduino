@@ -18,6 +18,7 @@ void setup()
 {
   Serial.begin(115200);
   while(!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);
@@ -30,7 +31,7 @@ void setup()
   AD.setWave(AD9833_SINE);
   AD.setFrequency(440, 0);    //  A0
   AD.setFrequency(880, 1);    //  one octave higher.
-  AD.setFrequencyChannel(channel);   
+  AD.setFrequencyChannel(channel);
 
   AD.setWave(AD9833_SQUARE1);
   Serial.println(AD.getWave());
@@ -46,7 +47,7 @@ void loop()
     //  toggle channel.
     if (channel == 0) channel = 1;
     else channel = 0;
-    AD.setFrequencyChannel(channel); 
+    AD.setFrequencyChannel(channel);
   }
 }
 

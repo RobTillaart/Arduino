@@ -15,6 +15,7 @@ void setup()
 {
   Serial.begin(115200);
   while(!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AD9833_LIB_VERSION: ");
   Serial.println(AD9833_LIB_VERSION);

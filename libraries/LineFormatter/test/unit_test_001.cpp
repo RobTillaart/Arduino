@@ -187,7 +187,7 @@ unittest(test_setTabs_getTabs)
   uint8_t tt[5];
   uint8_t size = Line.getTabs(tt);
   assertEqual(5, size);
-  
+
   for (int i = 0 ; i < size; i++)
   {
     assertEqual(tt[i], tabs[i]);

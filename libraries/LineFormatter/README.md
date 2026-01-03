@@ -11,10 +11,10 @@
 
 # LineFormatter
 
-Arduino library to enhance the layout of tabular data on serial output,
+Arduino library to enhance the layout of tabular data on serial output.
 
 
-# Description
+## Description
 
 LineFormatter is a wrapper class for Serial (and other streams) to enhance 
 layout of tabular data.
@@ -56,8 +56,10 @@ Setting the value to 0 results in no maximum line length.
 Note: the maximum line length is 255 as all internal positions are 8 bit.
 A 16 bit lineFormatter is planned for future (on request).
 
+Feedback, as always is welcome.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/ANSI
 - https://github.com/RobTillaart/PrintSize  helper for right alignment
@@ -70,14 +72,14 @@ A 16 bit lineFormatter is planned for future (on request).
 #include "LineFormatter.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **LineFormatter(Print\* stream = &Serial)** constructor.
 Connects to a stream, default Serial.
 - **reset()** reset internal variables to restart from default again.
 
 
-#### Printing
+### Printing
 
 - **size_t write(uint8_t ch)** implements printing per character.
 - **uint8_t gotoPos(uint8_t position)** if position is smaller than position, move to the right.
@@ -97,7 +99,7 @@ As the library implements the **Print** interface, all data types can be printed
 LF.print(3.1425);
 ```
 
-#### Tab configuration
+### Tab configuration
 
 - **bool addTab(uint8_t n)** Add a tab at an **absolute** position. 
 Returns true on success.
@@ -139,7 +141,7 @@ setTabs(arr, size);
 ```
 
 
-#### Line configuration
+### Line configuration
 
 - **void setMaxLength(uint8_t maxPos)** set the maximum line length - bold cut off.
 Will be disabled when set to 0.
@@ -149,7 +151,7 @@ Note: maximum line length == 255 (uint8_t range)
 - **uint8_t getAutoNewLine()** returns number of newlines set before.
 
 
-#### Miscellaneous
+### Miscellaneous
 
 For debugging and other purposes there are the following functions:
 

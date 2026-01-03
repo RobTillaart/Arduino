@@ -2,7 +2,7 @@
 //
 //    FILE: LineFormatter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Simple positioning wrapper class for Serial / Stream
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
@@ -15,7 +15,7 @@
 #define MAX_TAB_STOPS                       12
 #endif
 
-#define LINEFORMATTER_LIB_VERSION           (F("0.3.0"))
+#define LINEFORMATTER_LIB_VERSION           (F("0.3.1"))
 
 
 class LineFormatter: public Print
@@ -48,7 +48,7 @@ public:
   uint8_t   getAutoNewLine();
 
 
-  //  Set the internal array of tabs at once, easy bulk config, 
+  //  Set the internal array of tabs at once, easy bulk config,
   //  positions is an increasing array.
   bool      setTabs(uint8_t * positions, uint8_t size);
   //  get array with positions.

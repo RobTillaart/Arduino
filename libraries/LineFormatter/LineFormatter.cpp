@@ -1,7 +1,7 @@
 //
 //    FILE: LineFormatter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Simple positioning wrapper class for Serial
 //    DATE: 2020-05-14
 //     URL: https://github.com/RobTillaart/LineFormatter
@@ -14,7 +14,7 @@ LineFormatter::LineFormatter(Print* stream)
 {
   _stream      = stream;
   reset();
-};
+}
 
 
 void LineFormatter::reset()
@@ -122,7 +122,7 @@ void LineFormatter::setAutoNewLine(uint8_t n)
 {
   _autoNewLine = n;
   _anl = 0;
-};
+}
 
 
 uint8_t LineFormatter::getAutoNewLine()
@@ -189,7 +189,7 @@ void LineFormatter::clearTabs()
   {
     _tabStop[i] = 0;
   }
-};
+}
 
 
 bool LineFormatter::removeTab(uint8_t position)

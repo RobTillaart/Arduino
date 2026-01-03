@@ -28,7 +28,7 @@ void setup()
   L.println();
   L.print("shift 4 places to right");
   L.println();
-  
+
   for (int i = 0; i < size; i++) myTabs[i] += 4;
   L.setTabs(myTabs, 10);
   print_table();

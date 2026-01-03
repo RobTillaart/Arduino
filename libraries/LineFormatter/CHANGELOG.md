@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2026-01-03
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.3.0] - 2024-02-19
 - add **bool setTabs(uint8_t \* arr, uint8_t size)** to add multiple tabs in one call.
 - add **uint8_t getTabs(uint8_t \* arr)** get the internal array in one call. Returns size.

@@ -65,11 +65,11 @@ void test_table_1()
   //  SET TABS ALL AT ONCE
   uint8_t myTabs[9] = {3, 10, 20, 30, 36, 42, 52, 58, 64};
   L.setTabs(myTabs, 9);
-  
+
   //  HEADER
   L.println("\tIdx\tTime\tValue\tA0\tA1\tA2\tA3\tA4\tA5");
   L.repeat(8, "----+----|", 1);
-  
+
   //  add empty line every 5 lines
   L.setAutoNewLine(5);
 
@@ -80,7 +80,7 @@ void test_table_1()
     if (i == 10)
     {
       L.println("switch to normal tab behaviour");
-      L.clearTabs();   // just to show diff
+      L.clearTabs();   //  just to show diff
     }
 
     L.tab();

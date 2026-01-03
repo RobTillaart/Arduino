@@ -37,6 +37,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("RS485_LIB_VERSION: ");
   Serial.println(RS485_LIB_VERSION);
+  Serial.println();
 
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);

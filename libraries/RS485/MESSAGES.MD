@@ -7,27 +7,27 @@ Examples of command/answer protocols over RS485.
 This is part of the RS485 class - https://github.com/RobTillaart/RS485
 
 
-#### Guidelines
+### Guidelines
 
 Designing a protocol is most often not trivial and might need more
-than one iteration. 
+than one iteration.
 
 - Keep protocols as simple as possible.
 - Make sure that baud rates match between the nodes in the network.
 - Software Serial can work when time between requests is long enough.
-  It depends on how much processing is needed. 
+  It depends on how much processing is needed.
 - Be aware of implications of future expansion.
   Design your protocol with room for additional commands.
   Or even add a version number in it.
 - In designing a protocol be aware of ambiguities.
-  An request or answer may contain bytes (sequences) 
+  An request or answer may contain bytes (sequences)
   that might trigger other nodes.
-- If you request data from a node, it might happen 
+- If you request data from a node, it might happen
   that it won't answer or that the answer fails to
   arrive in correct state (missing bytes, flipped bits etc.)
 
 
-#### ASCII codes
+### ASCII codes
 
 Possible useful char codes.
 
@@ -56,7 +56,7 @@ answer  = (0x00 | 7 bits answer)*
 All command are coded in a single byte with 0x80 bit set.
 All answers bytes 0 or more (sender knows how many to expect, or a specific end char.
 
-requirement: 
+requirement:
 - All devices listen to a (possibly) disjunct command set.
 
 
@@ -84,7 +84,7 @@ answer :=
 
 ##  example 3 - PRO I
 
-Command and answer have same layout. 
+Command and answer have same layout.
 Uses device ID's to address specific device.
 
 {
@@ -130,7 +130,7 @@ In fact this is an elaborated variation on previous example.
 
 ##  example 5 - PING still alive
 
-Maybe most simple protocol, just send an ID, 
+Maybe most simple protocol, just send an ID,
 and if the slave is alive it responds with its ID.
 Think of it as the **PING** command
 
@@ -149,17 +149,17 @@ A **PING** command could be embedded in other protocols too,
 
 ##  example 6 - Get value
 
-Reading a simple slave could be done with a one byte command. 
+Reading a simple slave could be done with a one byte command.
 
 command = ID
-answer  = returns value. //  this should never contain an ID of another device.  
+answer  = returns value. //  this should never contain an ID of another device.
 
 An example is remote reading a sensor or an analog port.
 
 To improve the reliability the answer can be a "packet".
 
 command = ID
-answer  = { ASCII_SOH, IDmaster, IDslave, length, value } 
+answer  = { ASCII_SOH, IDmaster, IDslave, length, value }
 
 
 

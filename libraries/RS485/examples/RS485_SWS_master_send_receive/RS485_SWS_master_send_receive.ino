@@ -12,7 +12,7 @@
 //  slave 1 is requested for humidity
 //
 //  Note that Serial is used for debugging messages, so better use
-//  a 2nd Serial for the RS485 bus. 
+//  a 2nd Serial for the RS485 bus.
 //  otherwise some binary messages will show up in the Serial monitor.
 
 
@@ -49,6 +49,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("RS485_LIB_VERSION: ");
   Serial.println(RS485_LIB_VERSION);
+  Serial.println();
 
   SWS.begin(38400);
 }

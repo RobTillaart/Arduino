@@ -1,6 +1,7 @@
 # Syntax Colouring Map For SHT31_SW temperature and humidity sensor
 #
-# same as SHT31
+# same as SHT31 
+# as there is dependency of SHT31 no need to repeat them.
 
 # Data types (KEYWORD1)
 SHT31_SW	KEYWORD1

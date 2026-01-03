@@ -16,7 +16,9 @@ Arduino library for the SHT31 temperature and humidity sensor - using **SoftWire
 
 ## Description
 
-This **experimental** library features the class SHT31_SW derived from - https://github.com/RobTillaart/SHT31.
+**Experimental**
+
+This library features the class SHT31_SW derived from - https://github.com/RobTillaart/SHT31.
 It has the same interface as the SHT31 class so please use that documentation 
 as it will be the "leading class".
 
@@ -30,7 +32,7 @@ An important reason to use this version is when you want more than two
 devices on one Arduino.
 
 
-#### SoftWire vs SoftwareWire
+### SoftWire vs SoftwareWire
 
 The **SoftWire** library is portable, however it could not read (on AVR)
 the SHT85 sensor which is command compatible with the SHT3x.
@@ -45,7 +47,7 @@ The **SoftwareWire** library is an AVR specific and worked for the SHT85.
 See https://github.com/RobTillaart/SHT31_SW/issues/5
 
 
-#### SHT3x SHT85 sensors
+### SHT3x SHT85 sensors
 
 The SHT3x family of sensors should work up to 1 MHz I2C although not tested above 400 MHz.
 
@@ -61,13 +63,13 @@ Test on UNO
 |  SHT85   |  ~0.2         |  1.5       |  no            |  See SHT31_SWW
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change in constructor and begin().
 Parameters have moved from begin() to the constructor.
 
 
-#### Related
+### Related
 
 These libraries need to be installed to get SHT31_SW working:
 
@@ -88,17 +90,17 @@ Related
 Note: The interface is mostly inherited from SHT31 but presented here for completeness.
 
 
-#### Base interface
+### Constructor
 
 - **SHT31_SW()** constructor.
 - **bool begin(uint8_t address, SoftWire \*wire = &Wire)** for platforms with multiple I2C buses.
 - **bool begin(SoftWire \*wire = &Wire)** same as above. With default SHT_DEFAULT_ADDRESS.
+- **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
+
+### Core
+
 - **bool read(bool fast = true)** blocks 4 (fast) or 15 (slow) milliseconds + actual read + math.
 Does read both the temperature and humidity.
-- **bool isConnected()** check sensor is reachable over I2C. Returns false if not connected.
-- **uint16_t readStatus()** details see datasheet and **Status fields** below.
-- **uint32_t lastRead()** in milliSeconds since start of program.
-- **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if it fails.
 - **float getHumidity()** computes the relative humidity in % based on the latest raw reading, and returns it.
 - **float getTemperature()** computes the temperature in °C based on the latest raw reading, and returns it.
 - **float getFahrenheit()** computes the temperature in °F based on the latest raw reading, and returns it.
@@ -109,8 +111,37 @@ Note that the temperature and humidity values are recalculated on every call to 
 If you're worried about the extra cycles, you should make sure to cache these values or only request them after 
 you've performed a new reading.
 
+### Status
 
-#### Error interface
+- **uint16_t readStatus()** details see datasheet and **Status fields** below.
+- **uint32_t lastRead()** in milliSeconds since start of program.
+- **bool reset(bool hard = false)** resets the sensor, soft reset by default. Returns false if it fails.
+
+Status fields
+
+|  BIT  |  Description                 |  value  |  notes  |
+|:------|:-----------------------------|:-------:|:--------|
+|  15   |  Alert pending status        |    0    | no pending alerts
+|       |                              |    1    | at least one pending alert - default
+|  14   |  Reserved                    |    0    |
+|  13   |  Heater status               |    0    | Heater OFF - default
+|       |                              |    1    | Heater ON 
+|  12   |  Reserved                    |    0    |
+|  11   |  Humidity tracking alert     |    0    | no alert - default
+|       |                              |    1    | alert
+|  10   |  Temperature tracking alert  |    0    | no alert - default
+|       |                              |    1    | alert
+|  9-5  |  Reserved                    |  00000  |
+|   4   |  System reset detected       |    0    | no reset since last ‘clear status register’ command
+|       |                              |    1    | reset detected (hard or soft reset command or supply fail) - default
+|  3-2  |  Reserved                    |    00   |
+|   1   |  Command status              |    0    | last command executed successfully
+|       |                              |    1    | last command not processed. Invalid or failed checksum
+|   0   |  Write data checksum status  |    0    | checksum of last write correct
+|       |                              |    1    | checksum of last write transfer failed
+
+
+### Error
 
 - **int getError()** returns last set error flag and clear it. 
 Be sure to clear the error flag by calling **getError()** before calling 
@@ -130,7 +161,7 @@ any command as the error flag could be from a previous command.
 |  0x88   |  SHT31_ERR_HEATER_ON        |  Could not switch on heater   |
 
 
-#### Heater interface
+### Heater interface
 
 **WARNING:** Do not use heater for long periods. 
 
@@ -156,7 +187,7 @@ Will switch the heater off if max heating time has passed.
 - **bool heatUp()** will be obsolete in the future. replaced by **isHeaterOn()**
 
 
-#### Async interface
+### Async interface
 
 See async example for usage
 
@@ -164,30 +195,6 @@ See async example for usage
 - **bool dataReady()** checks if enough time has passed to read the data. (15 milliseconds)
 - **bool readData(bool fast = true)** fast = true skips the CRC check. 
 Returns false if reading fails or in case of a CRC failure. 
-
-
-## Status fields
-
-|  BIT  |  Description                 |  value  |  notes  |
-|:------|:-----------------------------|:--------|:--------|
-|  15   |  Alert pending status        |  0      | no pending alerts
-|       |                              |  1      | at least one pending alert - default
-|  14   |  Reserved                    |  0      |
-|  13   |  Heater status               |  0      | Heater OFF - default
-|       |                              |  1      | Heater ON 
-|  12   |  Reserved                    |  0      |
-|  11   |  Humidity tracking alert     |  0      | no alert - default
-|       |                              |  1      | alert
-|  10   |  Temperature tracking alert  |  0      | no alert - default
-|       |                              |  1      | alert
-|  9-5  |  Reserved                    |  00000  |
-|   4   |  System reset detected       |  0      | no reset since last ‘clear status register’ command
-|       |                              |  1      | reset detected (hard or soft reset command or supply fail) - default
-|  3-2  |  Reserved                    |  00     |
-|   1   |  Command status              |  0      | last command executed successfully
-|       |                              |  1      | last command not processed. Invalid or failed checksum
-|   0   |  Write data checksum status  |  0      | checksum of last write correct
-|       |                              |  1      | checksum of last write transfer failed
 
 
 ## Future

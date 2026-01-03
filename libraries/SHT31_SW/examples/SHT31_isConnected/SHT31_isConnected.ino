@@ -25,9 +25,11 @@ SHT31_SW sht(SHT31_ADDRESS, &sw);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT31_SW_LIB_VERSION: \t");
   Serial.println(SHT31_SW_LIB_VERSION);
+  Serial.println();
 
   sw.begin();
   sw.setClock(100000);

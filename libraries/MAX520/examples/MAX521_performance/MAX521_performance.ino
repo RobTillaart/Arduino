@@ -16,6 +16,7 @@ MAX521 mx(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX520_LIB_VERSION:\t");
   Serial.println(MAX520_LIB_VERSION);

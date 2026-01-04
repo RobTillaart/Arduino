@@ -58,7 +58,7 @@ See datasheet for details.
 As always feedback about the library or device behaviour is welcome.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/MAX520
 - https://github.com/RobTillaart/MCP_DAC
@@ -69,10 +69,9 @@ As always feedback about the library or device behaviour is welcome.
 - https://github.com/RobTillaart/DAC8554
 
 
-
 ## I2C
 
-#### I2C addresses
+### I2C addresses
 
 |  Device  |  Address pins  |  Address range   |
 |:--------:|:--------------:|:----------------:|
@@ -80,7 +79,7 @@ As always feedback about the library or device behaviour is welcome.
 |  MAX521  |     2          |    0x20..0x23    |
 
 
-#### I2C Performance
+### I2C Performance
 
 The devices are rated up to 400 KHz. Given that setting a DAC takes 3 bytes
 and some ACK bits a maximum update speed is theoretical in the order of 
@@ -103,7 +102,7 @@ TODO: No hardware test is done yet to measure performance.
 |  400000  |               |  max datasheet
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -128,7 +127,7 @@ too if they are behind the multiplexer.
 ```
 
 
-#### Constructor
+### Constructor
 
 - **MAX520(uint8_t deviceAddress = 0x20, TwoWire \*wire = &Wire)** Constructor with optional address, default 0x20, 
 and the optional Wire interface as parameter.
@@ -144,15 +143,16 @@ so one might need to call **write()** again. Returns true if address can be foun
 - **uint8_t getChannels()** Returns the number of channels (4 or 8).
 
 
-#### Read and Write
+### Read and Write
 
 - **int write(uint8_t channel, uint8_t value)** writes a value 0..255 to the chosen DAC.
 - **int write(uint8_t \* values)** writes to all DACs. 
 The user must take care that the array is large enough to hold 4 or 8 values.
+- **int writeAll(uint8_t value)** write a single value to all channels. E.g. to set all to zero.
 - **int read(uint8_t channel)** returns the last written value to chosen DAC. (from cache).
 
 
-#### Reset and power down
+### Reset and power down
 
 - **int reset()** resets the values to 0V. Also clears the cache.
 - **int powerDown()** sets device in a low current mode.
@@ -163,7 +163,7 @@ What effect does it have and are the cached values still actual / correct?
 
 Feedback welcome.
 
-#### Miscellaneous
+### Miscellaneous
 
 - **int lastError()** returns the last error from the lib. (see .h file).
 
@@ -185,18 +185,13 @@ Feedback welcome.
 - test with hardware
   - verify behaviour of powerDown() / wakeup()
 
-
 #### Should
 
 - measure actual performance (I2C)
 
-
 #### Could
 
-- add **wakeUp(values)** ?  
-- add **powerDown(values)** ?
 - error handling
-- add **writeAll(value)** ?
 
 
 #### Wont

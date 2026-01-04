@@ -2,7 +2,7 @@
 //    FILE: MAX520.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-03-06
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MAX520 and MAX521 4/8 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/MAX520
 
@@ -86,6 +86,20 @@ int MAX520::write(uint8_t * values)
   for (int i = 0; i < _channels; i++)
   {
     uint8_t rv = write(i, values[i]);
+    if (rv != MAX520_OK)
+    {
+      return rv;
+    }
+  }
+  return MAX520_OK;
+}
+
+
+int MAX520::writeAll(uint8_t value)
+{
+  for (int i = 0; i < _channels; i++)
+  {
+    uint8_t rv = write(i, value);
     if (rv != MAX520_OK)
     {
       return rv;

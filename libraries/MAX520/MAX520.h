@@ -3,7 +3,7 @@
 //    FILE: MAX520.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-03-06
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MAX520 and MAX521 4/8 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/MAX520
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MAX520_LIB_VERSION         (F("0.1.1"))
+#define MAX520_LIB_VERSION         (F("0.1.2"))
 
 #define MAX520_OK                  0x00
 #define MAX520_CHANNEL_ERROR       0x81
@@ -37,6 +37,7 @@ public:
 
   int     write(uint8_t channel, uint8_t value);
   int     write(uint8_t * values);  //  write 4/8 values at once.
+  int     writeAll(uint8_t value);  //  write single value to all
   int     read(uint8_t channel);
 
   int     reset();

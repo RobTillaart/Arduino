@@ -18,6 +18,7 @@ uint8_t values[4] = { 0, 85, 170, 255 };
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX520_LIB_VERSION:\t");
   Serial.println(MAX520_LIB_VERSION);

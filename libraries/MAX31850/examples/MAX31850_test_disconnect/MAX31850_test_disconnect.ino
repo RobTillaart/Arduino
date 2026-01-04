@@ -26,6 +26,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("MAX31850_LIB_VERSION: ");
   Serial.println(MAX31850_LIB_VERSION);
+  Serial.println();
 
   //  wait until address found
   if (sensor.begin() == false)

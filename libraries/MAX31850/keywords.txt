@@ -6,11 +6,13 @@ MAX31850	KEYWORD1
 MAX31851	KEYWORD1
 OneWire	KEYWORD1
 DeviceAddress	KEYWORD1
+ScratchPad	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 begin KEYWORD2
 getAddress	KEYWORD2
+getAddressPins	KEYWORD2
 
 requestTemperatures	KEYWORD2
 isConversionComplete	KEYWORD2
@@ -19,11 +21,10 @@ read	KEYWORD2
 getTempTC	KEYWORD2
 getTempInternal	KEYWORD2
 
-getErrorCode	KEYWORD2
-getAddressPins	KEYWORD2
 setTypeTC	KEYWORD2
 getTypeTC	KEYWORD2
 
+getErrorCode	KEYWORD2
 
 # Constants (LITERAL1)
 MAX31850_LIB_VERSION	LITERAL1

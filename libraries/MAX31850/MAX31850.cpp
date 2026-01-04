@@ -1,7 +1,7 @@
 //
 //    FILE: MAX31850.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-06-03
 // PURPOSE: Arduino library for the MAX31850 thermocouple temperature sensor.
 //     URL: https://github.com/RobTillaart/MAX31850
@@ -79,6 +79,12 @@ bool MAX31850::getAddress(uint8_t* buffer)
 }
 
 
+uint8_t MAX31850::getAddressPins()
+{
+  return _addrBits;
+}
+
+
 void MAX31850::requestTemperatures(void)
 {
   _oneWire->reset();
@@ -131,12 +137,6 @@ uint8_t MAX31850::getErrorCode()
 {
   return _errorBits;
 }
-
-
-uint8_t MAX31850::getAddressPins()
-{
-  return _addrBits;
-};
 
 
 bool MAX31850::setTypeTC(char typeTC)

@@ -19,7 +19,7 @@ Arduino library for the MAX31850 / MAX31851 thermocouple sensor.
 **WARNING EXPERIMENTAL** needs more testing (no hardware yet).
 (feedback welcome)
 
-his MAX31850 library is not a full featured library for the MAX31850 family.
+This MAX31850 library is not a full featured library for the MAX31850 family.
 
 The MAX31850/1 is a Cold-Junction Compensated, 1-Wire Thermocouple-to-Digital Converter.
 
@@ -37,12 +37,16 @@ boards or IC's with small memory footprint.
 
 The MAX31851 is (for now) functional identical to MAX31850.
 
+Feedback as always is welcome.
 
-#### Related
 
+### Related
+
+- https://github.com/RobTillaart/DS18B20_RT
 - https://github.com/RobTillaart/MAX6675
 - https://github.com/RobTillaart/MAX31850
 - https://github.com/RobTillaart/MAX31855_RT
+- https://github.com/RobTillaart/Temperature
 
 
 ## Hardware connection
@@ -62,7 +66,7 @@ The MAX31851 is (for now) functional identical to MAX31850.
 This library supports only one MAX31850 per Arduino/ MCU IO pin.
 
 
-#### Pull up resistor
+### Pull up resistor
 
 Connect a pull-up resistor 4.7 KOhm between DATA (pin 3) and VCC (pin 2).
 When the wires are longer this resistor needs to be smaller.
@@ -90,39 +94,42 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 #include "MAX31850.h"
 ```
 
-
-#### Constructor
+### Constructor
 
 - **explicit MAX31850(OneWire \* oneWire)** constructor.
 - **bool begin(uint8_t retries = 3)** initialize the library.
 Returns true if addresses are found.
 Nr of retries can be adjusted if needed, default 3.
 - **bool getAddress(uint8_t \* buffer)** get the address if found.
+- **uint8_t getAddressPins()** binary form of the 4 address bits. 0x00..0x0F.
+(not implemented yet).
 
 
-#### Read the sensor
+### Asynchronous read
 
 - **void requestTemperatures(void)** Asynchronous request to start conversion.
-- **bool isConversionComplete(void)** CHeck if requested conversion is done.
+- **bool isConversionComplete(void)** Check if requested conversion is done.
 - **float read(void)** read the data from the sensor.
 Returns the temperature of the thermoCouple as this is most often needed.
 - **float getTempTC(void)** returns temperature of the ThermoCouple from cache.
-One must call **read()** again to get new measurements.
+One must call **read()** again to get new measurements otherwise
+it will return the same (cached) value.
 - **float getTempInternal(void)** returns internal temperature from cache.
-One must call **read()** again to get new measurements.
+One must call **read()** again to get new measurements otherwise
+it will return the same (cached) value.
 
 
-#### Other
+### Type ThermoCouple
 
-- **uint8_t getAddressPins()** binary form of the 4 address bits. 0x00..0x0F.
-- **uint8_t getErrorCode()** get the internal error code. See below.
-- **bool setTypeTC(char typeTC)** typeTC is one char from E J K N R S T
-- **uint8_t getTypeTC()** returns the current TC type.
+- **bool setTypeTC(char typeTC = 'K')** typeTC is one char from E J K N R S T.
+Thype K is default.
+- **uint8_t getTypeTC()** returns the current thermocouple (TC) type.
 
 
-## Types of thermocouples
+#### Types of thermocouples
 
-The MAX31850 comes in MAX31850E.. MAX31850T types reflecting the version of TC to use.
+The MAX31850 comes in MAX31850E.. MAX31850T types reflecting the version of 
+thermocouple (TC) to use.
 
 
 |  Sensor type  |  SC in µV/°C  |  Temp Range in °C  |  Material                   |  notes      |
@@ -138,7 +145,10 @@ The MAX31850 comes in MAX31850E.. MAX31850T types reflecting the version of TC t
 (MAX31851 idem)
 
 
-## Error codes
+### Error codes
+
+- **uint8_t getErrorCode()** get the internal error code. See below.
+
 
 |  name                     |  value  |
 |:--------------------------|:-------:|
@@ -156,13 +166,12 @@ The MAX31850 comes in MAX31850E.. MAX31850T types reflecting the version of TC t
 - get hardware to test (sponsors welcome)
 - test on different platforms
 
-
 #### Should
 
+- implement **getAddressPins()**
 - investigate different thermocouples
 - test with different platforms
-- has the MAX31851 special features to implement?
-
+- has the MAX31851 device special features to implement?
 
 #### could
 
@@ -174,7 +183,6 @@ The MAX31850 comes in MAX31850E.. MAX31850T types reflecting the version of TC t
   - need lower upper range = int16_t will do.
 - add CRC check
   - + error code
-
 
 #### Wont
 

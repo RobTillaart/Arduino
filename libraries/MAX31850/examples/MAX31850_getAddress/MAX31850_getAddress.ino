@@ -22,13 +22,15 @@ DeviceAddress da;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31850_LIB_VERSION: ");
   Serial.println(MAX31850_LIB_VERSION);
+  Serial.println();
 
   Serial.print("\ngetAddress: ");
   Serial.println(sensor.getAddress(da));
-  
+
   sensor.begin();
 
   Serial.print("\ngetAddress: ");

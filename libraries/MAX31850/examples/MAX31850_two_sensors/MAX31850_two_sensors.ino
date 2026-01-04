@@ -34,6 +34,7 @@ void setup(void)
   Serial.println(__FILE__);
   Serial.print("MAX31850_LIB_VERSION: ");
   Serial.println(MAX31850_LIB_VERSION);
+  Serial.println();
 
   inside.begin();
   outside.begin();

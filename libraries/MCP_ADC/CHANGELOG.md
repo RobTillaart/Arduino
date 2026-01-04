@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2026-01-04
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.5.1] - 2024-06-05
 - add support for ARDUINO_ARCH_MBED
 
@@ -39,7 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update keywords.txt
 
 ## [0.2.0] - 2023-08-15
-- add analogReadMultiple(channels\[], numChannels, readings\[]) 
+- add analogReadMultiple(channels\[], numChannels, readings\[])
   - Kudo's to Alex Uta.
 - add performance example
   - add performance output files.

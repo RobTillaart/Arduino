@@ -14,9 +14,11 @@ MCP3004 mcp2(6, 7, 8);  //  use SWSPI
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

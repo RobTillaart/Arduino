@@ -29,9 +29,11 @@ MCP3008 mcp1(mySPI);           //  use HWSPI on ESP32 (apparently VSPI)
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

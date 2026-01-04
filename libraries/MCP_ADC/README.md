@@ -44,15 +44,17 @@ If the **IN+** is equal or below **IN-** the ADC will return 0.
 Build into the library is a delta mode which is a software enhanced differential mode.
 This delta mode can return negative values too. 
 
+Feedback as always is welcome.
 
-#### 0.5.0 Breaking change
+
+### 0.5.0 Breaking change
 
 Version 0.5.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **MCP.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.4.0 Breaking change
+### 0.4.0 Breaking change
 
 The version 0.4.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -71,7 +73,7 @@ The following library functions have been renamed:
 |  analogReadMultiple() |  readMultiple()  |  for consistency.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -79,12 +81,13 @@ This makes it possible to support the ESP32-S3 and other processors in the futur
 Also it makes the library a bit simpler to maintain.
 
 
-#### Related
+### Related
 
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
+- https://github.com/RobTillaart/MCP_ADC  this library
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
-- https://github.com/RobTillaart/MCP_DAC
+- https://github.com/RobTillaart/MCP_DAC  SPI based DAC
 
 
 ## Interface
@@ -93,7 +96,7 @@ Also it makes the library a bit simpler to maintain.
 #include "MCP_ADC.h"
 ```
 
-#### Constructors
+### Constructors
 
 - **MCP_ADC(SPIClassRP2040 \* mySPI = &SPI)** hardware constructor RP2040
 - **MCP_ADC(SPIClass \* mySPI = &SPI)** hardware constructor other
@@ -114,7 +117,7 @@ The derived classes have both constructors with same parameters.
 This makes it easy to calculate relative measurements.
 
 
-#### Base
+### Base
 
 - **int16_t read(uint8_t channel)** reads the value of a single channel.
 - **void readMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[])**
@@ -129,7 +132,7 @@ of the ADC first to get optimal speed.
 - **uint32_t getSPIspeed()** gets current speed in **Hz**.
 
 
-### Differential channel table:
+#### Differential channel table:
 
 | Channel | diff IN+ | diff IN- | 3x02 | 3x04 | 3x08 |
 |:-------:|:--------:|:--------:|:----:|:----:|:----:|
@@ -218,7 +221,7 @@ Feedback is as always welcome.
 #### Should
 
 - improve SWSPI for AVR 
-  (code is under test for MCP23S17)
+  (See MCP23S17)
 
 
 #### Could

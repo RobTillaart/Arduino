@@ -28,9 +28,11 @@ MCP3008 mcp1(23, 19, 21);      //  ESP32 use SWSPI  dataIn, dataOut, Clock
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MCP_ADC_LIB_VERSION: ");
   Serial.println(MCP_ADC_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

@@ -2,7 +2,6 @@
 //    FILE: ML8511_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo UV sensor
-//    DATE: 2020-02-17
 //     URL: https://github.com/RobTillaart/ML8511
 //
 //        BREAKOUT
@@ -21,7 +20,7 @@
 
 #define ANALOGPIN     A0
 
-// Connect EN to 3V3 to explicitly 
+// Connect EN to 3V3 to explicitly
 // enable the sensor continuously
 ML8511 light(ANALOGPIN);
 
@@ -29,7 +28,11 @@ ML8511 light(ANALOGPIN);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("ML8511_LIB_VERSION:");
+  Serial.println(ML8511_LIB_VERSION);
+  Serial.println();
   Serial.println("UV UltraViolet ML8511");
 }
 

@@ -20,7 +20,8 @@ Arduino library for the ML8511 UV sensor.
 
 Do not expose yourself to the sun as UV source too long.
 
-When using artificial UV light (TL LED laser a.o.) use appropriate shielding.
+When working with UV light, natural or artificial (TL LED laser a.o.) use appropriate shielding. 
+Do not look right into UV light sources.
 
 
 ## Description
@@ -32,6 +33,8 @@ ML8511 - UV sensor - library for Arduino UNO.
 
 
 Use of an external ADC see below.
+
+Feedback as always is welcome.
 
 
 ### Related

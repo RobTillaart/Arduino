@@ -35,6 +35,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.println("ML8511_LIB_VERSION:");
+  Serial.println(ML8511_LIB_VERSION);
   Serial.println();
   Serial.println("UV ML8511 - cumulative joule/cm2");
 

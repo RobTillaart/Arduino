@@ -1,7 +1,7 @@
 //
 //    FILE: ML8511.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2020-02-03
 // PURPOSE: ML8511 - UV sensor - library for Arduino
 //     URL: https://github.com/RobTillaart/ML8511
@@ -30,7 +30,7 @@ ML8511::ML8511(uint8_t analogPin, uint8_t enablePin)
     _enabled = true;
   }
   reset();
-};
+}
 
 
 void ML8511::reset()

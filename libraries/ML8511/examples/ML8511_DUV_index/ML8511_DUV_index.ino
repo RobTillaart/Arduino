@@ -2,7 +2,6 @@
 //    FILE: ML8511_DUV_index.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo UV sensor
-//    DATE: 2020-06-21
 //     URL: https://github.com/RobTillaart/ML8511
 //
 //        BREAKOUT
@@ -29,7 +28,11 @@ ML8511 light(ANALOGPIN, ENABLEPIN);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("ML8511_LIB_VERSION:");
+  Serial.println(ML8511_LIB_VERSION);
+  Serial.println();
   Serial.println("UV UltraViolet ML8511");
 
   // manually enable / disable the sensor.

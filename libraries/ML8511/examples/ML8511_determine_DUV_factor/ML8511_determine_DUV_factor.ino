@@ -2,7 +2,6 @@
 //    FILE: ML8511_determine_DUV_factor.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo ML8511 UV sensor - to determine DUV factor
-//    DATE: 2021-06-19
 //     URL: https://github.com/RobTillaart/ML8511
 //
 //        BREAKOUT
@@ -33,7 +32,11 @@ uint32_t count = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("ML8511_LIB_VERSION:");
+  Serial.println(ML8511_LIB_VERSION);
+  Serial.println();
   Serial.println("UV UltraViolet ML8511");
 
   // manually enable / disable the sensor.

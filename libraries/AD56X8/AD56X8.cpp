@@ -1,7 +1,7 @@
 //
 //    FILE: AD56X8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2022-07-28
 // PURPOSE: Arduino library for AD56X8, SPI 8 channel Digital Analog Convertor.
 
@@ -216,7 +216,7 @@ void AD56X8::setSPIspeed(uint32_t speed)
 uint32_t AD56X8::getSPIspeed()
 {
   return _SPIspeed;
-};
+}
 
 
 bool AD56X8::usesHWSPI()
@@ -229,7 +229,6 @@ bool AD56X8::usesHWSPI()
 //
 //  PRIVATE
 //
-
 void AD56X8::updateDevice(uint8_t cmd, uint8_t channel, uint16_t value)
 {
   uint16_t val = value;
@@ -306,7 +305,6 @@ void AD5668_3::reset()
   for (int i = 0; i < 8; i++) _value[i] = 32768;  //  MIDSCALE
 }
 
-
 AD5668::AD5668(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
 {
   _type = 16;
@@ -317,7 +315,6 @@ AD5668::AD5668(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
 {
   _type = 16;
 }
-
 
 AD5648::AD5648(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
 {
@@ -330,12 +327,10 @@ AD5648::AD5648(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
   _type = 14;
 }
 
-
 AD5628::AD5628(uint8_t slaveSelect, __SPI_CLASS__ * mySPI) : AD56X8(slaveSelect, mySPI)
 {
   _type = 12;
 }
-
 
 AD5628::AD5628(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)
                 : AD56X8(slaveSelect, spiData, spiClock)

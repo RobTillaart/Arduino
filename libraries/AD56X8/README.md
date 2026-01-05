@@ -44,14 +44,14 @@ At least it lacks support for:
 - other points mentioned in future section below.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.2.0 breaking change
+### 0.2.0 breaking change
 
 The version 0.2.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -87,7 +87,7 @@ This allows value range checking.
 #include "AD56X8.h"
 ```
 
-#### Base class
+### Base class
 
 Should not be used to instantiate a device as the derived types have correct number of bits. 
 
@@ -102,7 +102,7 @@ Sets internal values to zero.
 - **uint8_t getType()** returns bit depth (see below).
 
 
-#### Derived classes (preferred use)
+### Derived classes (preferred use)
 
 The parameters for the specific constructors are identical to the base class.
 One should use these, as these set the bit resolution!
@@ -113,7 +113,7 @@ One should use these, as these set the bit resolution!
 - **AD5668_3(uint8_t slaveSelect, ..)** constructor, 16 bit.
 
 
-#### Set DAC
+### Set DAC
 
 - **bool setValue(uint8_t channel, uint16_t value)** set value to the output immediately, 
 effectively a prepare + update in one call.
@@ -135,7 +135,7 @@ by applying a SW latch pulse (LDAC).
 Note: the valid range of **value** is not checked by the library. 
 
 
-#### LDAC
+### LDAC
 
 The AD56X8 has an LDAC register with one bit per channel. 
 This is to configure which channels are updated simultaneously.
@@ -159,7 +159,7 @@ set a new value on all devices simultaneously.
 - void **triggerLDAC()** give a pulse over the LDAC line.
 
 
-#### Powermode
+### Powermode
 
 - **bool setPowerMode(uint8_t powerDownMode, uint8_t mask = 0x00)** powerDownMode = 0..3. 
 Default is setting the channels to **PWR_NORMAL**.
@@ -173,7 +173,7 @@ Returns false if powerDownMode is out of range.
 |  0x03  | AD56X8_PWR_TRI     |
 
 
-#### Misc
+### Misc
 
 - **void reset()** software reset.
 - **bool setClearCode(uint8_t CCmode)** Set the startup value.
@@ -188,7 +188,7 @@ Returns false if mode out of range.
 |  0x03  |  AD56X8_CC_NOP     | do not use => Read datasheet.
 
 
-#### SPI 
+### SPI 
 
 - **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**, please read datasheet
 of the ADC first to get optimal speed.
@@ -196,7 +196,7 @@ of the ADC first to get optimal speed.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
-#### SPI ESP32 specific
+### SPI ESP32 specific
 
 Note: earlier experiments shows that on a ESP32 SW-SPI is equally fast as 
 HW-SPI and in fact a bit more stable. 

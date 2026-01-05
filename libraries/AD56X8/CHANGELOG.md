@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2026-01-05
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.3.1] - 2024-05-24
 - add support for ARDUINO_ARCH_MBED
 
@@ -29,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
 ## [0.1.4] - 2023-09-19
-- add hardware LDAC support 
+- add hardware LDAC support
   - **void setLDACPin(ldac)** and **bool triggerLDAC()**
 - update README.md
 - minor edits

@@ -28,8 +28,10 @@ To be used to set to defined mid-point.
 
 (Library is based on datasheet Rev.F )
 
+Feedback as always is welcome.
 
-#### Related
+
+### Related
 
 This library is related to
 
@@ -43,7 +45,7 @@ This library is related to
 - https://www.analog.com/media/en/technical-documentation/data-sheets/ad5263.pdf
 
 
-#### Compatibles
+### Compatibles
 
 None known so far.
 
@@ -80,7 +82,7 @@ Please read datasheet for all details!
 |  24   |       B2  |  Resistor Terminal B2.                 |
 
 
-#### VLOGIC
+### VLOGIC
 
 The logic supply voltage should always be less than or equal to VDD.
 In addition, logic levels must be limited to the logic supply voltage regardless of VDD.
@@ -88,7 +90,7 @@ In addition, logic levels must be limited to the logic supply voltage regardless
 
 ## I2C
 
-#### Address
+### Address
 
 The AD5263 has two address lines to configure the I2C address. 0x2C - 0x2F
 
@@ -102,7 +104,25 @@ The AD5263 has two address lines to configure the I2C address. 0x2C - 0x2F
 Note the AD5263 uses the same range as the AD524X devices.
 
 
-#### Performance
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
+### Performance
 
 Timing in microseconds, writing a new value to device.
 
@@ -135,7 +155,7 @@ The library has a number of functions which are all quite straightforward.
 One can get / set the value of (both) the potentiometer(s), and the O1 and O2 output lines.
 
 
-#### Constructors
+### Constructors
 
 - **AD5263(uint8_t address, TwoWire \*wire = &Wire)** constructor,
 creates an instance with 4 potentiometer.
@@ -145,7 +165,7 @@ otherwise returns false.
 - **uint8_t getAddress()** Returns address set in the constructor.
 
 
-#### Basic IO
+### Basic IO
 
 - **uint8_t write(uint8_t rdac, uint8_t value)** set channel rdac 0..3 to value 0..255.
 - **uint8_t write(uint8_t rdac, uint8_t value, uint8_t O1, uint8_t O2)** idem + set output lines O1 and O2 too.
@@ -157,7 +177,7 @@ rdac should be 0..3.
 - **uint8_t getO2()** read back O2 line.
 
 
-#### Misc
+### Misc
 
 - **uint8_t zeroAll()** sets potentiometer's to 0 and I/O to LOW.
 - **uint8_t reset()** sets potentiometer's to midpoint == 128 and O1 and O2 to LOW. (startup default)
@@ -166,7 +186,7 @@ rdac should be 0..3.
 - **uint8_t readBackRegister()** read register back, for debugging.
 
 
-#### Experimental
+### Experimental
 
 - **uint8_t shutDown()** check datasheet, not tested, use at own risk.
 

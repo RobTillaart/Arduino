@@ -1,7 +1,7 @@
 //
 //    FILE: AD5263.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for I2C digital potentiometer AD5263 and compatibles.
 //    DATE: 2023-10-09
 //     URL: https://github.com/RobTillaart/AD5263

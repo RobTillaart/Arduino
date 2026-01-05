@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2026-01-05
+- update GitHub actions
+- minor edits
+
 ## [0.1.3] - 2024-03-16
 - add **uint8_t getAddress()** convenience
 - update GitHub actions

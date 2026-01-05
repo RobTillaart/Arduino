@@ -1,7 +1,7 @@
 //
 //    FILE: MINMAX.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-10-14
 // PURPOSE: MINMAX library - simple peak finder
 //     URL: https://github.com/RobTillaart/MINMAX

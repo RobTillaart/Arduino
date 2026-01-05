@@ -2,7 +2,7 @@
 //
 //    FILE: MINMAX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-10-14
 // PURPOSE: MINMAX library - simple peak finder
 //     URL: https://github.com/RobTillaart/MINMAX
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define MINMAX_LIB_VERSION                  (F("0.3.0"))
+#define MINMAX_LIB_VERSION                  (F("0.3.1"))
 
 #define MINMAX_NO_CHANGE                    0X00
 #define MINMAX_MIN_CHANGED                  0X01

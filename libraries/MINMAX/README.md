@@ -32,6 +32,8 @@ The library has the option to auto-reset after a predefined number of **add()** 
 
 Finally the library keeps track when the last peaks occurred.
 
+Feedback as always is welcome.
+
 
 ## Interface
 
@@ -146,7 +148,7 @@ Replaced by **void setAutoResetCount(uint32_t count)**
 
 #### Must
 
-- documentation
+- improve documentation
 
 #### Should
 

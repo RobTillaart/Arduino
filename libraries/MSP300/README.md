@@ -39,11 +39,11 @@ Issues, remarks, experience and improvements are welcome,
 please open an issue on https://github.com/RobTillaart/MSP300.
 
 
-#### 0.3.0 Bug fix
+### 0.3.0 Bug fix
 
 A read bug has been fixed and this makes all previous versions obsolete.
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -52,7 +52,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Available pressure ranges
+### Available pressure ranges
 
 Again: be aware to buy the right sensor: PSI/BAR, SPI/I2C/analog and I2C address as these are hardcoded.
 (OK pressure output can be converted)
@@ -61,7 +61,7 @@ Again: be aware to buy the right sensor: PSI/BAR, SPI/I2C/analog and I2C address
 - BAR := 7, 10, 20, 35, 70, 200, 350, 700, 1000
 
 
-#### I2C connection
+### I2C connection
 
 |  colour  |  description  |
 |:--------:|:-------------:|
@@ -72,7 +72,7 @@ Again: be aware to buy the right sensor: PSI/BAR, SPI/I2C/analog and I2C address
 |  YELLOW  |  NC           |
 
 
-#### Analog version
+### Analog version
 
 For Arduino analog output version 3 is also interesting.
 It provide 0.5-4.5 volt output which matches many ADC ranges.
@@ -82,7 +82,7 @@ White wire is the output (page 4 datasheet).
 The analog version is not supported in the library.
 
 
-#### Related libraries
+### Related libraries
 
 This library is related to:
 - https://github.com/RobTillaart/I2C_ASDX Honeywell pressure sensors
@@ -93,7 +93,7 @@ This library is related to:
 
 ## I2C
 
-#### I2C Address
+### I2C Address
 
 The MSP300 has a fixed address, however there a five different supported.
 So without a multiplexer you can have up to 5 transducers on one I2C bus.
@@ -108,7 +108,7 @@ The address is in the product number of the sensor you buy. (check datasheet Pag
 |    4   |   0x51    |   81    |
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -126,7 +126,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### I2C Speed
+### I2C Speed
 
 The sensor is specified to work at 100 - 400 KHz I2C.
 An example performance sketch can be used to see the duration of
@@ -158,7 +158,7 @@ readings and/or shorten lifetime. This is unknown territory.
 #include "MSP300.h"
 ```
 
-#### Constructor
+### Constructor
 
 The library has a number of functions which are all quite straightforward.
 
@@ -172,7 +172,7 @@ e.g. when the address is unknown at compile time.
 - **uint8_t getAddress()** returns address set.
 
 
-#### Read
+### Read
 
 - **uint32_t readP()** read status and pressure.
 Does not update the temperature.
@@ -191,7 +191,7 @@ Multiple calls will return the same (cached) temperature.
 Call readPT() to update.
 
 
-#### Calibration
+### Calibration
 
 Pressure calibration
 
@@ -201,7 +201,7 @@ Use with care. Check datasheet for details.
 - **int getPmax()** return current value.
 
 
-#### Error handling
+### Error handling
 
 - **int lastError()** returns the last error set. Note: will reset the error!
 

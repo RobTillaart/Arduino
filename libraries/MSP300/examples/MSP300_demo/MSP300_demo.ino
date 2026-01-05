@@ -17,7 +17,6 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
   Serial.println("MSP300_LIB_VERSION: ");
   Serial.println(MSP300_LIB_VERSION);
   Serial.println();

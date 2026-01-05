@@ -17,7 +17,6 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println();
   Serial.println("MSP300_LIB_VERSION: ");
   Serial.println(MSP300_LIB_VERSION);
   Serial.println();
@@ -44,7 +43,7 @@ void setup()
     Serial.print(" | ");
     Serial.print(stop - start);
    delay(100);
-    
+
     start = micros();
     x = MSP.readPT();
     stop = micros();

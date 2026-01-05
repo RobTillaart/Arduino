@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-01-05
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.1.1] - 2024-11-27
 - fix #2, version number
 - add **float readLUX(uint8_t times, float angleDegrees)**

@@ -62,11 +62,13 @@ This is the internal resistor, one can calibrate the device to some extend.
 - **float readLUX(uint8_t times, float angleDegrees)** returns the average of N reads, 
 converted to LUX, compensated for the angle in degrees (0..90).
 
+### Angle compensation
+
 The angle correction is based upon figure 4 of the datasheet.
 Zero or 0 degrees is right above the sensor, maximum light.
 Returns -1 if angle < 0 or angle >= 89 degrees as it cannot be calculated realistically.
 Above 89 degrees the angle compensation factor "explodes" beyond 50.
-IN practice angles above 85 compensates with a factor 10 or more, 
+In practice angles above 85 compensates with a factor 10 or more, 
 so they are affecting accuracy a lot.
 
 
@@ -89,6 +91,8 @@ so they are affecting accuracy a lot.
 - add correction factor for wavelength (figure 5).
   - mapFloat(360-570, 0.1-1.0) + mapFloat(570-960, 1.0-0.1)
   - or example?
+- angle compensation, allow negative angles too?
+  - from {-89..89} ?
 
 #### Wont
 

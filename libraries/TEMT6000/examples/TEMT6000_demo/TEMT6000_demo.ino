@@ -2,7 +2,6 @@
 //    FILE: TEMT6000_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2024-11-26
 //     URL: https://github.com/RobTillaart/TEMT6000
 
 

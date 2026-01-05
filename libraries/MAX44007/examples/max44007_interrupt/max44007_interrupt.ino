@@ -16,6 +16,7 @@ uint32_t lastDisplay = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX44007_LIB_VERSION: ");
   Serial.println(MAX44007_LIB_VERSION);
@@ -57,11 +58,11 @@ void loop()
     {
       Serial.print("lux:\t");
       Serial.print(lux);
-      if (status == 1) 
+      if (status == 1)
       {
         Serial.println("\tIRQ occurred");
       }
-      else 
+      else
       {
         Serial.println();
       }

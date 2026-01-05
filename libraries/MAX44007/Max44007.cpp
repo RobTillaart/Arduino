@@ -1,7 +1,7 @@
 //
 //    FILE: Max44007.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2022-01-04
 // PURPOSE: library for Max44007 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44007

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2026-01-05
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.2.1] - 2024-05-17
 - add **getCurrentDivisorRatio()**
 - add **getAddress()** convenience

@@ -25,18 +25,31 @@ is not tested yet. If you do, please share the results (open an issue on GitHub)
 
 Note: version 0.2.0 simplified the constructor interface and removed **configure()**.
 
+Feedback as always is welcome.
 
-#### Related
 
+### Related
+
+- https://en.wikipedia.org/wiki/Lux
+- https://github.com/RobTillaart/BH1750FVI_RT  (GY-30) 16 bit I2C Lux sensor
 - https://github.com/RobTillaart/Max44007  (range 0.025 lux to 104,448 lux)
 - https://github.com/RobTillaart/Max44009  (range 0.045 lux to 188,000 lux)
+- https://github.com/RobTillaart/TSL235R  pulse based irradiance variant.
+
+UV sensors
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/ML8511
+
+IR sensor
+- https://github.com/RobTillaart/TSL260R  analog IR irradiance variant.
+
 
 
 ## Schema breakout Max44007
 
 
 ```cpp
-//      breakout Max44007
+//      breakout MAX44007
 //
 //          +--------+
 //      VCC |o       |
@@ -59,17 +72,17 @@ Note: version 0.2.0 simplified the constructor interface and removed **configure
 
 ## I2C
 
-#### Address
+### Address
 
-The MAX44009 can have 2 addresses:
+The MAX44007 can have 2 addresses:
 
-- 0x5A = **MAX44009_DEFAULT_ADDRESS**
-- 0x5B = **MAX44009_ALT_ADDRESS**
+- 0x5A = **MAX44007_DEFAULT_ADDRESS**
+- 0x5B = **MAX44007_ALT_ADDRESS**
 
 See schema above.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -87,7 +100,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### I2C Performance
+### I2C Performance
 
 Performance of the getLux function in microseconds.
 
@@ -112,7 +125,7 @@ TODO fill table.
 ### Constructor
 
 - **Max44007(const uint8_t address = MAX44007_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** Constructor.
-Optional address and optional I2C interface.\
+Optional address and optional I2C interface.
 - **bool isConnected()** returns true if the device address configured is available on I2C bus.
 - **uint8_t getAddress()** returns device address. Convenience function.
 
@@ -121,7 +134,8 @@ NOTE: The user must call **Wire.begin()** or **Wire.begin(SDA, SCL)** in **setup
 
 ### Basic
 
-- **float getLux()** read the sensor and return the value in LUX. If the value is negative, an error has occurred.
+- **float getLux()** read the sensor and return the value in LUX. 
+SIf the value is negative, an error has occurred.
 - **int getError()** returns last error.
 
 ```cpp
@@ -136,7 +150,7 @@ NOTE: The user must call **Wire.begin()** or **Wire.begin(SDA, SCL)** in **setup
 
 ### Configure thresholds
 
-check datasheet for details
+Check datasheet for details
 
 - **bool setHighThreshold(float value)** sets the upper threshold for the interrupt
 generation (INT pulls LOW). Works only if INTE bit is set by **enableInterrupt()**.
@@ -153,7 +167,7 @@ defined in steps of 100ms. 2 seems to be a practical minimum.
 
 ### Configure interrupts
 
-check datasheet for details
+Check datasheet for details
 
 - **void enableInterrupt()** enables the upper and lower threshold interrupts.
 - **void disableInterrupt()** disables the threshold interrupts.
@@ -163,7 +177,7 @@ check datasheet for details
 
 ### Configure flags
 
-check datasheet for details
+Check datasheet for details
 
 - **void setConfiguration(uint8_t)** writes directly to configuration register.
 **warning** Use with care.

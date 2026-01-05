@@ -2,7 +2,7 @@
 
 //    FILE: Max44007.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2022-01-04
 // PURPOSE: library for Max44007 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44007
@@ -33,7 +33,7 @@
 #include "Arduino.h"
 
 
-#define MAX44007_LIB_VERSION                  (F("0.2.1"))
+#define MAX44007_LIB_VERSION                  (F("0.2.2"))
 
 #define MAX44007_DEFAULT_ADDRESS              0x5A
 #define MAX44007_ALT_ADDRESS                  0x5B

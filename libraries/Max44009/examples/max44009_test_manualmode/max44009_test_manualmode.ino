@@ -21,6 +21,7 @@ uint8_t TIM = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX44009_LIB_VERSION: ");
   Serial.println(MAX44009_LIB_VERSION);
@@ -68,11 +69,11 @@ void loop()
     Serial.print("CDR:\t");
     Serial.print((int)CDR);
     Serial.print("\t");
-    Serial.print(myLux.getCurrentDivisorRatio());  //  read from config
+    Serial.print(myLux.getCurrentDivisorRatio());  //  read from configuration
     Serial.print("\tTIM:\t");
     Serial.print((int)TIM);
     Serial.print("\t");
-    Serial.print(myLux.getIntegrationTime());  //  read from config
+    Serial.print(myLux.getIntegrationTime());  //  read from configuration
     Serial.print(" ms\n");
   }
 }

@@ -8,7 +8,7 @@
 //    NOTE: To select the alternative I2C address on the GY-49 breakout board,
 //          the A0 pin has to be set to 3V3. It is soldered to GND by default.
 //          See switch S1 / jp1 in the schematics.
-//          Made for ESP specific; does not work on UNO; 
+//          Made for ESP specific; does not work on UNO;
 
 
 #include "Wire.h"
@@ -27,6 +27,7 @@ uint32_t lastDisplay = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX44009_LIB_VERSION: ");
   Serial.println(MAX44009_LIB_VERSION);

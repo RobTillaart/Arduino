@@ -2,7 +2,7 @@
 
 //    FILE: Max44009.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 //    DATE: 2010-??-??
 // PURPOSE: library for MAX44009 lux sensor Arduino
 //     URL: https://github.com/RobTillaart/MAX44009
@@ -33,7 +33,7 @@
 #include "Arduino.h"
 
 
-#define MAX44009_LIB_VERSION                  (F("0.6.1"))
+#define MAX44009_LIB_VERSION                  (F("0.6.2"))
 
 #define MAX44009_DEFAULT_ADDRESS              0x4A
 #define MAX44009_ALT_ADDRESS                  0x4B

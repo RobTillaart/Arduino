@@ -9,7 +9,7 @@
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/MAX44009.svg)](https://registry.platformio.org/libraries/robtillaart/MAX44009)
 
 
-# MAX44009 I2C LUX sensor
+# MAX44009
 
 Library for MAX44009 / GY-49 I2C lux sensor.
 
@@ -21,17 +21,30 @@ a.k.a. GY-49
 The MAX44009 ambient light sensor is an I2C sensor, that has a 22 bit
 dynamic range from 0.045 lux to 188,000 lux.
 
+Feedback as always is welcome.
 
-#### MAX44007
+
+### MAX44007
 
 The MAX44007 is an almost identical sensor that uses a step size of 0.025.
 This implies that this library is not useable 1 to 1 for the MAX44007, however some parts will work.
 
 
-#### Related
+### Related
 
+- https://en.wikipedia.org/wiki/Lux
+- https://github.com/RobTillaart/BH1750FVI_RT  (GY-30) 16 bit I2C Lux sensor
 - https://github.com/RobTillaart/Max44007  (range 0.025 lux to 104,448 lux)
 - https://github.com/RobTillaart/Max44009  (range 0.045 lux to 188,000 lux)
+- https://github.com/RobTillaart/TSL235R  pulse based irradiance variant.
+
+UV sensors
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/ML8511
+
+IR sensor
+- https://github.com/RobTillaart/TSL260R  analog IR irradiance variant.
+
 
 
 ## Schema breakout max44009 / GY-49
@@ -61,7 +74,7 @@ This implies that this library is not useable 1 to 1 for the MAX44007, however s
 
 ## I2C
 
-#### Address
+### Address
 
 The MAX44009 can have 2 addresses:
 
@@ -71,7 +84,7 @@ The MAX44009 can have 2 addresses:
 See schema above.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
@@ -89,7 +102,7 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-#### I2C Performance
+### I2C Performance
 
 Performance of the getLux function in microseconds.
 

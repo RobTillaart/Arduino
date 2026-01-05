@@ -21,7 +21,7 @@
 // HWSPI   4000000   ~72  us      ~23 us
 // HWSPI   1000000   ~100 us      ~51 us
 // HWSPI    500000   ~128 us      ~89 us
-// SWSPI  bitbang    ~500 us      ~17 us
+// SWSPI  bit bang   ~500 us      ~17 us
 
 
 // | HW SPI   |  UNO  |  ESP32  |  ESP32  |
@@ -46,6 +46,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);

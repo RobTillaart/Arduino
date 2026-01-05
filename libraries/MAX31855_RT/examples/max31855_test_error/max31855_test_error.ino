@@ -1,9 +1,7 @@
 //
 //    FILE: max31855_test_error.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
 // PURPOSE: thermocouple lib inline tests
-//    DATE: 2019-07-31
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
@@ -17,9 +15,10 @@ const int clockPin  = 5;
 MAX31855 thermoCouple(selectPin, dataPin, clockPin);
 
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);
@@ -32,7 +31,7 @@ void setup()
 }
 
 
-void loop() 
+void loop()
 {
   int status = thermoCouple.read();
   Serial.print("stat:\t\t");

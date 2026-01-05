@@ -41,15 +41,17 @@ Library tested with breakout board.
 
 ```
 
+Feedback as always is welcome.
 
-#### 0.6.0 Breaking change
+
+### 0.6.0 Breaking change
 
 Version 0.6.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **MX.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.5.0 Breaking change
+### 0.5.0 Breaking change
 
 The version 0.5.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -59,11 +61,12 @@ Also it makes the library a bit simpler to maintain.
 Note the order of the parameters of the software SPI constructor has changed in 0.5.0.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/MAX6675
 - https://github.com/RobTillaart/MAX31850
 - https://github.com/RobTillaart/MAX31855_RT
+- https://github.com/RobTillaart/Temperature
 
 
 ## Hardware SPI vs software SPI
@@ -96,7 +99,7 @@ Performance read() function, timing in us.  (ESP32 @240MHz)
 #include "MAX31855.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **MAX31855(uint8_t select, SPIClassRP2040 \* mySPI)** hardware SPI R2040
 - **MAX31855(uint8_t select, SPIClass \* mySPI)** hardware SPI other
@@ -104,7 +107,7 @@ Performance read() function, timing in us.  (ESP32 @240MHz)
 - **void begin()** initialize internals
 
 
-#### Hardware SPI
+### Hardware SPI
 
 To be used only if one needs a specific speed.
 
@@ -114,7 +117,7 @@ To be used only if one needs a specific speed.
 - **uint16_t getSWSPIdelay()** get set value in micros.
 
 
-#### Reading
+### Reading
 
 To make a temperature reading call **read()**.
 It returns the status of the read which is a value between 0..7
@@ -152,7 +155,7 @@ the value of **getTemperature()** can become incorrect. So it is important to ch
 the return value of **read()**.
 
 
-#### Offset
+### Offset
 
 The library supports a fixed offset to calibrate the thermocouple.
 For this the functions **float getOffset()** and **void setOffset(float offset)** are available.
@@ -164,7 +167,7 @@ Notes
 A typical usage is to call **setOffset(273.15)** to get ° Kelvin.
 
 
-#### Delta analysis
+### Delta analysis
 
 As the **tc** object holds its last known temperature it is easy to determine the delta 
 with the last known temperature, e.g. for trend analysis.
@@ -181,7 +184,7 @@ with the last known temperature, e.g. for trend analysis.
 ```
 
 
-#### Last time read
+### Last time read
 
 The **tc** object keeps track of the last time **read()** is called in the function **uint32_t lastRead()**.
 The time is tracked in **millis()**. This makes it easy to read the sensor at certain intervals.
@@ -203,7 +206,7 @@ if (millis() - tc.lastRead() >= interval)
 ```
 
 
-#### GetRawData 
+### GetRawData 
 
 The function **uint32_t getRawData()** allows you to get all the 32 bits raw data from the board, 
 after the standard **uint8_t tc.read()** call.
@@ -308,7 +311,9 @@ as one does not set the Seebeck Coefficient it will use the K_TC as default.
 
 #### Should
 
-- investigate other TC's 
+- investigate other TC's
+- rename MAX31855_LIB_VERSION
+
 
 #### Could
 

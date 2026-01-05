@@ -1,9 +1,7 @@
 //
 //    FILE: max31855_hw_SPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
 // PURPOSE: thermocouple lib demo application
-//    DATE: 2020-08-30
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
@@ -16,7 +14,7 @@
 // HWSPI   4000000   ~72  us      ~23 us
 // HWSPI   1000000   ~100 us      ~51 us
 // HWSPI    500000   ~128 us      ~89 us
-// SWSPI  bitbang    ~500 us      ~17 us
+// SWSPI  bit bang   ~500 us      ~17 us
 
 
 //
@@ -42,6 +40,7 @@ MAX31855 thermoCouple(selectPin, &SPI);  //  HW SPI
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);

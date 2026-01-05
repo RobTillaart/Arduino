@@ -2,7 +2,6 @@
 //    FILE: Demo_getRawData.ino
 //  AUTHOR: FabioBrondo
 // PURPOSE: thermocouple lib demo application
-//    DATE: 2020-08-24
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 
 
@@ -19,6 +18,7 @@ MAX31855 thermoCouple(selectPin, dataPin, clockPin);
 void setup ()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);
@@ -39,12 +39,12 @@ void loop ()
     Serial.println("NO COMMUNICATION");
   }
 
-  uint32_t value = thermoCouple.getRawData();  // Read the raw Data value from the module
+  uint32_t value = thermoCouple.getRawData();  //  Read the raw Data value from the module
   Serial.print("RAW:\t");
 
   // Display the raw data value in BIN format
-  uint32_t mask = 0x80000000; 
-  for (int i = 0; i < 32; i++) 
+  uint32_t mask = 0x80000000;
+  for (int i = 0; i < 32; i++)
   {
     if ((i > 0)  && (i % 4 == 0)) Serial.print("-");
     Serial.print((value & mask) ? 1 : 0);

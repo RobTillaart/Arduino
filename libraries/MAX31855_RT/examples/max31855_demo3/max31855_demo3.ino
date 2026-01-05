@@ -2,7 +2,6 @@
 //    FILE: max31855_demo3.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: thermocouple lib demo application
-//    DATE: 2014-01-02
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
@@ -16,9 +15,10 @@ const int clockPin  = 5;
 MAX31855 thermoCouple(selectPin, dataPin, clockPin);
 
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);
@@ -54,7 +54,7 @@ void setup()
 }
 
 
-void loop() 
+void loop()
 {
   //  this loop returns multiples of about 73mSec (counter multiples of ~143)
   //  so the # measurements per second is about 14?

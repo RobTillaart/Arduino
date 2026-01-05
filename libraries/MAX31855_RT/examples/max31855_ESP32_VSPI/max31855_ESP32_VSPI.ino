@@ -1,9 +1,7 @@
 //
 //    FILE: max31855_ESP32_VSPI.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: thermocouple lib demo application
-//    DATE: 2021-08-11
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 
@@ -17,7 +15,7 @@
 // HWSPI   4000000   ~72  us      ~23 us
 // HWSPI   1000000   ~100 us      ~51 us
 // HWSPI    500000   ~128 us      ~89 us
-// SWSPI  bitbang    ~500 us      ~17 us
+// SWSPI  bit bang   ~500 us      ~17 us
 
 
 //
@@ -43,6 +41,7 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);

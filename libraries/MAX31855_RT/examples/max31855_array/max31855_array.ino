@@ -2,7 +2,6 @@
 //    FILE: max31855_array.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of array of thermocouples
-//    DATE: 2020-08-26
 //     URL: https://github.com/RobTillaart/MAX31855_RT
 //
 // kudos to FabioBrondo for the idea.
@@ -28,6 +27,7 @@ const uint8_t sensorCount = sizeof(sensors) / sizeof(MAX31855);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX31855_VERSION : ");
   Serial.println(MAX31855_VERSION);

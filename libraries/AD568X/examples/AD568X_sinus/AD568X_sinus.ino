@@ -22,6 +22,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD568X_LIB_VERSION: ");
   Serial.println(AD568X_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
   AD16_HW.begin();

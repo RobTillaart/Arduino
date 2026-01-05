@@ -45,14 +45,14 @@ Feedback, issues, improvements are welcome.
 Please file an issue on GitHub.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change to improve handling the SPI dependency.
 The user has to call **SPI.begin()** or equivalent before calling **AD.begin()**.
 Optionally the user can provide parameters to the **SPI.begin(...)**
 
 
-#### 0.2.0 breaking change
+### 0.2.0 breaking change
 
 The version 0.2.0 has breaking changes in the interface. 
 The essence is removal of ESP32 specific code from the library. 
@@ -89,7 +89,7 @@ Sets internal values to zero.
 - **begin()** initializes the SPI and sets internal state.
 - **uint8_t getType()** returns bit depth (see below).
 
-#### Derived classes (preferred use)
+### Derived classes (preferred use)
 
 The parameters for the specific constructors are identical to the base class.
 One should use these, as these set the bit resolution!
@@ -173,7 +173,7 @@ Power down modi: (see datasheet)
 |  0x03  |  AD568X_PWR_TRI     |
 
 
-#### SPI 
+### SPI 
 
 - **void setSPIspeed(uint32_t speed)** sets SPI clock in **Hz**,
 please read datasheet of the ADC first to get optimal speed.
@@ -181,7 +181,7 @@ please read datasheet of the ADC first to get optimal speed.
 - **bool usesHWSPI()** returns true if HW SPI is used.
 
 
-#### SPI ESP32 specific
+### SPI ESP32 specific
 
 Note: earlier experiments shows that on a ESP32 SW-SPI is equally fast as 
 HW-SPI and in fact a bit more stable. 

@@ -27,6 +27,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD568X_LIB_VERSION: ");
   Serial.println(AD568X_LIB_VERSION);
+  Serial.println();
 
   myspi->begin();
   AD16_HW.begin();
@@ -51,7 +52,7 @@ void loop()
   Serial.print(duration);
   Serial.print("\t");
   Serial.println(1e9 / duration);
-  
+
   delay(1000);
 }
 

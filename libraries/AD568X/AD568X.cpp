@@ -1,7 +1,7 @@
 //
 //    FILE: AD568X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2023-09-18
 // PURPOSE: Arduino library for AD568X series Digital Analog Convertor.
 //     URL: https://github.com/RobTillaart/AD568X
@@ -213,13 +213,13 @@ void AD568X::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
-};
+}
 
 
 uint32_t AD568X::getSPIspeed()
 {
   return _SPIspeed;
-};
+}
 
 
 bool AD568X::usesHWSPI()

@@ -292,9 +292,9 @@ void test6()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
-  Serial.print(F("\nPININGROUP_LIB_VERSION: "));
+  Serial.print("PININGROUP_LIB_VERSION: ");
   Serial.println(PININGROUP_LIB_VERSION);
   Serial.println();
 

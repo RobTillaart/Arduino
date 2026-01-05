@@ -14,22 +14,25 @@
 Arduino library to read a group of up to 16 input pins in one command.
 
 
-# Description
+## Description
 
 A PinInGroup holds a number of input pins that can be read by means of a single **read()** command.
 The PinInGroup makes it easier to work with a number of inputs that act as a logical unit.
 Think of reading a parallel bus or read 4 lines from a matrix keyboard, or an array of switches.
 
-One of the interesting possibilities of the pinInGroup is to add a single pin multiple times.
+One of the interesting possibilities of the pinInGroup is to **add a single pin multiple times**.
 That allows one to read a pin e.g. in a burst of 8.
 
 Another application of adding a pin twice could be reading a pin as first and as last of a group.
-This allows you to check that state of e.g. a parallel bus has not changed during read (or changed an even number :).
+This allows you to check that state of e.g. a parallel bus has not changed during read 
+(or changed an even number :).
 
 Default **PININGROUP_MAXSIZE** = 16.
 
+Feedback as always is welcome.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/PinOutGroup
 
@@ -49,7 +52,6 @@ This is platform, group size and pin state dependent.
 ```cpp
 #include "PinInGroup.h"
 ```
-
 
 ### Constructor
 
@@ -84,7 +86,7 @@ Reads the single pin at index from the group.
 Returns 0 or 1 if OK and 0xFFFF when index >= size.
 
 
-#### Error codes
+### Error codes
 
 PININGROUP_ERROR_PIN = 0xFF = 255.
 
@@ -96,7 +98,7 @@ See examples.
 
 ## Future
 
-These ideas will be explored when time permits or needs arise.
+Ideas will be explored when time permits or needs arise.
 
 #### Must
 

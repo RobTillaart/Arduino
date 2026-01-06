@@ -33,6 +33,7 @@ TLC5917 tlc(DEVICES, CLOCK, DATA, LATCH, ENABLE);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TLC5917_LIB_VERSION: \t");
   Serial.println(TLC5917_LIB_VERSION);

@@ -2,13 +2,13 @@
 //
 //    FILE: TLC5917.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-03-17
 // PURPOSE: Arduino library for TLC5917 8-Channel Constant-Current LED Sink Drivers.
 //     URL: https://github.com/RobTillaart/TLC5917
 
 
-#define TLC5917_LIB_VERSION             (F("0.2.1"))
+#define TLC5917_LIB_VERSION             (F("0.2.2"))
 
 
 #include "Arduino.h"

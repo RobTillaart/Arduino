@@ -2,13 +2,13 @@
 //
 //    FILE: TLC5947.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2023-06-17
 // PURPOSE: Arduino library for the TLC5947 24 channel PWM device
 //     URL: https://github.com/RobTillaart/TLC5947
 
 
-#define TLC5947_LIB_VERSION             (F("0.3.0"))
+#define TLC5947_LIB_VERSION             (F("0.3.1"))
 
 
 #include "Arduino.h"

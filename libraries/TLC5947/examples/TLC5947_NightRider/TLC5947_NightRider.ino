@@ -19,9 +19,11 @@ TLC5947 tlc(DEVICES, CLOCK, DATA, LATCH, BLANK);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TLC5947_LIB_VERSION: \t");
   Serial.println(TLC5947_LIB_VERSION);
+  Serial.println();
 
   tlc.begin();
   tlc.enable();
@@ -44,7 +46,7 @@ void loop()
   if (pos > 1) tlc.setPWM(pos - 2, 400);
   if (pos > 0) tlc.setPWM(pos - 1, 1200);
   tlc.setPWM(pos, 4095);
-  Serial.println(pos);  
+  Serial.println(pos);
   if (pos < 22) tlc.setPWM(pos + 1, 1200);
   if (pos < 23) tlc.setPWM(pos + 2, 400);
   tlc.write();

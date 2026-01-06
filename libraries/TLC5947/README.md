@@ -35,7 +35,7 @@ The library is **experimental** and needs more testing, so please share your exp
 (changes of the interface are definitely possible).
 
 
-#### Daisy chaining
+### Daisy chaining
 
 Since the version 0.3.0 this library supports daisy chaining.
 A new constructor takes the number of devices as parameter and 
@@ -43,14 +43,15 @@ an internal buffer is allocated (24 elements per device).
 This internal buffer is clocked into the devices with **write()**.
 
 
-#### Compatible devices
+### Compatible devices
 
 To be investigated.
 
 
-#### Related
+### Related
 
 - https://www.adafruit.com/product/1429
+- https://github.com/RobTillaart/TLC5917
 - https://github.com/RobTillaart/TLC5947
 - https://github.com/RobTillaart/PCA9634  (I2C)
 - https://github.com/RobTillaart/PCA9635  (I2C)
@@ -63,7 +64,7 @@ To be investigated.
 #include TLC5947.h
 ```
 
-#### Constructor
+### Constructor
 
 - **TLC5947(uint8_t clock, uint8_t data, uint8_t latch, uint8_t blank)** constructor.
 Single device constructor.
@@ -75,7 +76,7 @@ Defines the pins used for uploading / writing the PWM data to the module.
 The blank pin is explained in more detail below. 
 - **~TLC5947()** destructor
 
-#### Base
+### Base
 
 - **bool begin()** set the pinModes of the pins and their initial values.
 The TLC is disabled by default, as the device has random values in its grey-scale register. 
@@ -106,7 +107,7 @@ This function might have side effects or special applications.
 If so please let me know.
 
 
-#### Percentage wrappers
+### Percentage wrappers
 
 These are wrapper functions to set the device in percentages. 
 The accuracy of these functions is about 1/4095 = ~0.025%.
@@ -122,7 +123,7 @@ percentage = 0.0 .. 100.0 (will be constrained)
 Note: the error code TLC5947_CHANNEL_ERROR = 0xFFFF will return as 1600%.
 
 
-#### Blank line
+### Blank line
 
 The blank pin (line) is used to set all channels on or off.
 This allows to "preload" the registers with values and enable them all at once
@@ -141,7 +142,7 @@ a separate **enable()** per device you might need to connect the devices
 The blank parameter in the constructor should be set to -1 (out of range value).
 
 
-#### RGB interface
+### RGB interface
 
 (since 0.2.0)
 
@@ -217,7 +218,6 @@ TODO: Performance 0.3.0 (depends on number of devices, similar to 0.2.0, scales 
   - max CLOCK speed 15 MHz when chained (50% DutyCycle)
   - what is clock in practice (e.g. an ESP32 240 MHz)
 
-
 #### Could
 
 - add examples
@@ -226,7 +226,6 @@ TODO: Performance 0.3.0 (depends on number of devices, similar to 0.2.0, scales 
   - would speed up unneeded **write()** too.
 - derived class 8 bits / channel
   - saves RAM.
-
 
 #### Wont
 

@@ -5,9 +5,11 @@
 //       URL: https://github.com/RobTillaart/TLC5947
 
 //  Every output is one hour
-//  The intensity is the nr of minutes
+//  The intensity is the number of minutes
+
 
 #include "TLC5947.h"
+
 
 int DEVICES = 1;
 const int CLOCK = 13;
@@ -16,6 +18,7 @@ const int LATCH = 11;
 const int BLANK = 10;
 
 TLC5947 tlc(DEVICES, CLOCK, DATA, LATCH, BLANK);
+
 
 //  should of course be read from an RTC
 int hour = 12;
@@ -28,9 +31,11 @@ uint32_t lastTime = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TLC5947_LIB_VERSION: \t");
   Serial.println(TLC5947_LIB_VERSION);
+  Serial.println();
 
   tlc.begin();
   tlc.enable();

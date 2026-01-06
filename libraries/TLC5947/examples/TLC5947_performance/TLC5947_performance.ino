@@ -22,9 +22,11 @@ uint32_t start, stop;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TLC5947_LIB_VERSION: \t");
   Serial.println(TLC5947_LIB_VERSION);
+  Serial.println();
 
   if (tlc.begin() == false)
   {

@@ -13,7 +13,7 @@ int DEVICES = 1;                          //  set Amount of TLC5947 Boards
 int led = 24 * DEVICES;                   //  this set Amount of LEDs per Board
 
 int wait = 100;                           //  set time between channel control
-  
+
 
 const int CLOCK = 13;
 const int DATA  = 12;
@@ -29,9 +29,11 @@ int a = MAX_B;                            //  current brightness
 void setup()
 {
   Serial.begin(115200);                   //  initialize Serial Output
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TLC5947_LIB_VERSION: \t");
   Serial.println(TLC5947_LIB_VERSION);
+  Serial.println();
 
   tlc.begin();                            //  initialize TLC5947 library
   tlc.enable();

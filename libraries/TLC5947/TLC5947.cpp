@@ -1,7 +1,7 @@
 //
 //    FILE: TLC5947.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2023-06-17
 // PURPOSE: Arduino library for the TLC5947 24 channel PWM device
 //     URL: https://github.com/RobTillaart/TLC5947
@@ -123,7 +123,7 @@ void TLC5947::write()
 void TLC5947::write(int chan)
 {
   if (chan > _channels) chan = _channels;
-  if (chan < 0) return; 
+  if (chan < 0) return;
 
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
 

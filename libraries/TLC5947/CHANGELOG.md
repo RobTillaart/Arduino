@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2026-01-06
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.3.0] - 2024-02-09
 - add daisy chaining support
 - add deviceCount parameter in constructor

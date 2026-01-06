@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.1] - 2024-01-05
+## [0.3.2] - 2026-01-06
+- update GitHub actions
 - minor edits
 
+## [0.3.1] - 2024-01-05
+- minor edits
 
 ## [0.3.0] - 2023-12-27
 - Fix #4, support for Arduino ESP32 S3 - breaking change

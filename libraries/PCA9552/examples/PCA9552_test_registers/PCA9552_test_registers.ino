@@ -86,6 +86,7 @@ void test_source()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9552_LIB_VERSION: ");
   Serial.println(PCA9552_LIB_VERSION);
@@ -102,7 +103,7 @@ void setup()
   Serial.println(leds.getAddress(), HEX);
   Serial.println(leds.outputCount());
   Serial.println();
-  
+
   test_GPIO();
   test_prescaler();
   test_PWM();

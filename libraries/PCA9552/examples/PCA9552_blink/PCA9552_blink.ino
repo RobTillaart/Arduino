@@ -1,7 +1,6 @@
 //
 //    FILE: PCA9552_blink.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-07-18
 // PURPOSE: test PCA9552 library
 //     URL: https://github.com/RobTillaart/PCA9552
 //
@@ -18,6 +17,7 @@ PCA9552 leds(0x62);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9552_LIB_VERSION: ");
   Serial.println(PCA9552_LIB_VERSION);

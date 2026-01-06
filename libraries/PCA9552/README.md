@@ -16,14 +16,11 @@ Arduino library for PCA9552 I2C 8 bit PWM LED driver, 16 channel.
 
 ## Description
 
-This experimental library is to control the I2C PCA9552 PWM extender.
+**Experimental**
+
+This Arduino library is to control the I2C PCA9552 PWM extender.
 
 It is derived from the PCA9553 library and kept in sync if possible.
-
-This device has two possible hardcoded I2C addresses 0x62 and 0x63, 
-see table below.
-If you need to connect more PCA9552 devices to a single I2C bus you 
-need a I2C multiplexer like https://github.com/RobTillaart/TCA9548.
 
 The device has two PWM "generators", 0 and 1, and one can set the 
 duty cycle and the frequency by means of a pre-scaler. 
@@ -34,8 +31,10 @@ connected, or if it is set to ON or OFF.
 The output channels can also be used as generic GPIO, however that
 is not implemented in the first release.
 
+Feedback as always is welcome.
 
-#### From datasheet
+
+### From datasheet
 
 Maximum output sink current is 25 mA per bit and 100 mA per package.
 
@@ -43,7 +42,7 @@ Power-On Reset (POR) initializes the registers to their default state,
 all zeroes, causing the bits to be set HIGH (LED off).
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -65,7 +64,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -74,7 +73,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/PCA9551  (8 channel)
 - https://github.com/RobTillaart/PCA9552  (16 channel)
@@ -86,6 +85,32 @@ Follow up series
 - https://github.com/RobTillaart/PCA9685_RT  (16 channel)
 
 
+## I2C
+
+### Address
+
+This device has two possible hardcoded I2C addresses 0x62 and 0x63, 
+by means of 1 address line.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 ## Interface
 
 ```cpp
@@ -93,7 +118,7 @@ Follow up series
 ```
 
 
-#### Constructor
+### Constructor
 
 - **PCA9552(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,  Address = 0x62 or 0x63.
 and optional the Wire interface as parameter.
@@ -105,7 +130,7 @@ Returns true if device address is available on I2C bus.
 - **uint8_t reset()** idem.
 
 
-#### GPIO
+### GPIO
 
 - **uint16_t getInput()** read all current output levels.
 - **void pinMode1(uint8_t pin, uint8_t mode)** set output pin to INPUT or OUTPUT.
@@ -113,7 +138,7 @@ Returns true if device address is available on I2C bus.
 - **uint8_t read1(uint8_t pin)** read current state of output pin.
 
 
-#### Prescaler Frequency
+### Prescaler Frequency
 
 Get and set the pre-scaler of the PWM generator.
 
@@ -128,7 +153,7 @@ This gives the output a blink range of 0.172 Hz to 44 Hz.
 
 Some "magic" pre-scalers.  (to be confirmed).
 
-|  psc  |  Period  |  Frequency  |
+|  PSC  |  Period  |  Frequency  |
 |:-----:|:--------:|:-----------:|
 |    0  |  0.0227  |  44.00 Hz   |
 |    1  |  0.0455  |  22.00 Hz   |
@@ -143,7 +168,7 @@ Some "magic" pre-scalers.  (to be confirmed).
 |  255  |  5.818   |  0.172 Hz   |
 
 
-#### PWM
+### PWM
 
 Get and set the duty cycle of the PWM generator.
 
@@ -155,7 +180,7 @@ gen = 0 or 1
 
 The duty cycle of ```BLINK = (256 - PWM) / 256```
 
-|  pwm  |  Duty Cycle  |
+|  PWM  |  Duty Cycle  |
 |:-----:|:------------:|
 |    0  |     0%       |
 |   64  |    25%       |
@@ -166,7 +191,7 @@ The duty cycle of ```BLINK = (256 - PWM) / 256```
 Note: one might need a Gamma brightness correction - https://github.com/RobTillaart/GAMMA
 
 
-#### Output Mode
+### Output Mode
 
 - **uint8_t setOutputMode(uint8_t pin, uint8_t mode)** set the mode for 
 the selected output pin to one of 4 modi operandi.
@@ -187,7 +212,7 @@ See table below.
 |  PCA9552_MODE_PWM1  |    3    |  blinks at PWM1 rate
 
 
-#### Power On Reset
+### Power On Reset
 
 The PCA9552 will keep its settings as long as it is powered on. 
 This means it can start with an previous configuration when uploading 
@@ -197,7 +222,7 @@ To handle this the library has a **reset()** function which sets
 the device in the Power On state.
 
 
-#### Error codes
+### Error codes
 
 These are kept similar to PCA9635 et al error codes.
 

@@ -29,7 +29,10 @@ Applications
   - use to prevent "display line overflow" (e.g. floats).
   - use to right align output (see examples).
 
-#### Template class 
+Feedback as always is welcome.
+
+
+### Template class 
 
 Since 0.4.0 the library has a template class too - Thanks to me21.
 See also issue #7.
@@ -48,8 +51,9 @@ printCharArray4_template.ino = 2840 bytes. global var use 627 bytes.
 This template version needs more testing, so labelled **experimental** for now.
 
 
-#### Related
+### Related
 
+- https://github.com/RobTillaart/lineFormatter for tabular formatting.
 - https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
 - https://github.com/RobTillaart/PrintSize counts length of a number of print commands.
 - https://github.com/RobTillaart/PrintString captures data in a String.
@@ -89,7 +93,7 @@ See examples.
 
 #### Must
 
-- documentation
+- improve documentation
 
 #### Should
 
@@ -99,7 +103,7 @@ See examples.
 
 #### Could
 
-- examples
+- add examples
   - inject spaces in "middle align" example? possible?
   - rename size() => length()
   - rename bufSize() => size() ? ambiguous renaming.

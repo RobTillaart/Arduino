@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2026-01-06
+- update GitHub actions
+- update examples
+- minor edits
+
 ## [0.4.0] - 2024-04-11
 - add template class version - thanks to me21
 - update readme.md
@@ -36,7 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ----
 
-## [0.2.1] - 2020-06-19  
+## [0.2.1] - 2020-06-19
 - fix library.json
 
 ## [0.2.0] - 2020-04-30

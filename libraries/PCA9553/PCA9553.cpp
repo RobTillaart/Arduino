@@ -2,7 +2,7 @@
 //    FILE: PCA9553.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for for I2C PCA9553 4 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9553
 
@@ -179,7 +179,6 @@ uint8_t PCA9553::getLastError()
   _error = PCA9553_OK;
   return e;
 }
-
 
 
 /////////////////////////////////////////////////////

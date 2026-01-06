@@ -1,7 +1,6 @@
 //
 //    FILE: PCA9553_PWM.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-07-18
 // PURPOSE: test PCA9553 library
 //     URL: https://github.com/RobTillaart/PCA9553
 //
@@ -18,6 +17,7 @@ PCA9553 leds(0x62);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9553_LIB_VERSION: ");
   Serial.println(PCA9553_LIB_VERSION);

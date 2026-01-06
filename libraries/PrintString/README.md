@@ -25,9 +25,12 @@ This String can be requested to process later.
   use to prevent "display line overflow"
   (e.g. floats)
 
+Feedback as always is welcome.
 
-#### Related
 
+### Related
+
+- https://github.com/RobTillaart/lineFormatter for tabular formatting.
 - https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
 - https://github.com/RobTillaart/PrintSize counts length of a number of print commands.
 - https://github.com/RobTillaart/PrintString captures data in a String.
@@ -56,15 +59,14 @@ See examples.
 
 #### Must
 
-- documentation
+- improve documentation
 
 #### Should
 
 - keep in sync with PrintCharArray class
 - testing
-- examples
-  - add new ones
-  - rename examples
+- add examples
+- rename examples
 - add functions like **repeat(char c)** to inject e.g. 7 spaces etc.
 - add error flag
 

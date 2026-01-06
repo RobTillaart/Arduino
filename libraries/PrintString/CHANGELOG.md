@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.6] - 2026-01-06
+- update GitHub actions
+- minor edits
+
 ## [0.2.5] - 2024-04-11
 - update GitHub actions
 - minor edits
@@ -17,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add changelog.md
 - add RP2040 to build-CI
 
-## [0.2.2] - 2021-12-24  
+## [0.2.2] - 2021-12-24
 - update library.json
 - update license
 - minor edits

@@ -15,7 +15,11 @@ XMLWriter XML(&ps);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println("PRINTSTRING_VERSION: ");
+  Serial.println(PRINTSTRING_VERSION);
+  Serial.println();
 
   ps.println("Hello World");
   ps.println(3.14159265, 4);

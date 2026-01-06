@@ -1,7 +1,6 @@
 //
 //    FILE: PCA9551_test01.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-07-16
 // PURPOSE: test PCA9551 library
 //     URL: https://github.com/RobTillaart/PCA9551
 
@@ -15,6 +14,7 @@ PCA9551 leds(0x62);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9551_LIB_VERSION: ");
   Serial.println(PCA9551_LIB_VERSION);

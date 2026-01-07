@@ -33,6 +33,7 @@ They work up to 36 V, think of industrial or automotive systems.
 
 The library supports positive temperatures only.
 
+Feedback as always is welcome.
 
 ### Performance
 
@@ -158,7 +159,7 @@ Note that the library will still not measure below zero °C.
 Read datasheet for details.
 
 In the setPoint mode the **OUT** voltage will drop to -Vcc if the temperature
-drops below the setpoint voltage which is connected to the **SENSE** pin
+drops below the setPoint voltage which is connected to the **SENSE** pin
 
 This setPoint mode allows the AD849x to guard a defined temperature level. 
 Be aware that the accuracy is still about +-2 degrees Celsius.

@@ -2,7 +2,7 @@
 //
 //    FILE: AD8495.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-11-07
 // PURPOSE: Arduino library for AD8495 Thermocouple
 //     URL: https://github.com/RobTillaart/AD8495
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define AD8495_LIB_VERSION       (F("0.1.1"))
+#define AD8495_LIB_VERSION       (F("0.1.2"))
 
 
 ////////////////////////////////////////////////
@@ -110,7 +110,7 @@ protected:
 class AD8494 : public AD849x
 {
 public:
-  AD8494(int analogPin, int steps, float maxVoltage) 
+  AD8494(int analogPin, int steps, float maxVoltage)
         : AD849x(analogPin, steps, maxVoltage)
   {
   };
@@ -119,7 +119,7 @@ public:
 class AD8495 : public AD849x
 {
 public:
-  AD8495(int analogPin, int steps, float maxVoltage) 
+  AD8495(int analogPin, int steps, float maxVoltage)
         : AD849x(analogPin, steps, maxVoltage)
   {
   };
@@ -128,7 +128,7 @@ public:
 class AD8496 : public AD849x
 {
 public:
-  AD8496(int analogPin, int steps, float maxVoltage) 
+  AD8496(int analogPin, int steps, float maxVoltage)
         : AD849x(analogPin, steps, maxVoltage)
   {
   };
@@ -137,7 +137,7 @@ public:
 class AD8497 : public AD849x
 {
 public:
-  AD8497(int analogPin, int steps, float maxVoltage) 
+  AD8497(int analogPin, int steps, float maxVoltage)
         : AD849x(analogPin, steps, maxVoltage)
   {
   };

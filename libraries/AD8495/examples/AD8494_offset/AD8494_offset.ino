@@ -18,6 +18,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD8495_LIB_VERSION: ");
   Serial.println(AD8495_LIB_VERSION);
+  Serial.println();
 
   Serial.println("\nPREC:\t");
   Serial.println(mySensor.getPrecision());

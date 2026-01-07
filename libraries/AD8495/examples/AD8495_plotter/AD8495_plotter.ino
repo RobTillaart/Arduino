@@ -6,7 +6,9 @@
 //
 //  show the effect of averaging 7 readings in plotter.
 
+
 #include "AD8495.h"
+
 
 //  Arduino UNO analog port
 AD8494 mySensor(A0, 1023, 5.0);
@@ -19,6 +21,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD8495_LIB_VERSION: ");
   Serial.println(AD8495_LIB_VERSION);
+  Serial.println();
 
   Serial.println("TC(1)\tTC(7)");
 }

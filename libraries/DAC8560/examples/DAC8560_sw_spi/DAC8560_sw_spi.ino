@@ -15,9 +15,11 @@ DAC8560 mydac(4, 5, 6);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8560_LIB_VERSION: ");
   Serial.println(DAC8560_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 
@@ -39,7 +41,7 @@ void loop()
 	if (val % 300 == 0) Serial.println();
   }
   Serial.println();
-  
+
   //  minimal sinus
   for (long i = 0; i < 360; i++ )
   {

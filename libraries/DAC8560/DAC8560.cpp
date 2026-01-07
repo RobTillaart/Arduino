@@ -2,7 +2,8 @@
 //    FILE: DAC8560.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8560 SPI Digital Analog Convertor
-// VERSION: 0.1.1
+// VERSION: 0.1.2
+//    DATE: 2024-10-26
 //     URL: https://github.com/RobTillaart/DAC8560
 
 
@@ -113,7 +114,7 @@ void DAC8560::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
-};
+}
 
 
 //////////////////////////////////////////////////////////////////

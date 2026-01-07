@@ -15,9 +15,11 @@ DAC8560 mydac(8, 11, 13);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8560_LIB_VERSION: ");
   Serial.println(DAC8560_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

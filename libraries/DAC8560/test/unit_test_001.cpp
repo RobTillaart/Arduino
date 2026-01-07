@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-10-26
 // PURPOSE: unit tests for the DAC8560
-//          https://github.com/RobTillaart/
+//          https://github.com/RobTillaart/DAC8560
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -79,7 +79,7 @@ unittest(test_SW_constructor)
 {
   DAC8560 myDAC(4, 5, 6);
   myDAC.begin();
-  
+
   for (uint16_t val = 0; val < 65500; val += 30)
   {
     myDAC.setValue(val);
@@ -97,16 +97,16 @@ unittest(test_powerDown)
 {
   DAC8560 myDAC(4, 5, 6);
   myDAC.begin();
-  
+
   myDAC.setPowerDownMode(DAC8560_POWERDOWN_NORMAL);
   assertEqual(DAC8560_POWERDOWN_NORMAL, myDAC.getPowerDownMode());
-  
+
   myDAC.setPowerDownMode(DAC8560_POWERDOWN_1K);
   assertEqual(DAC8560_POWERDOWN_1K, myDAC.getPowerDownMode());
-  
+
   myDAC.setPowerDownMode(DAC8560_POWERDOWN_100K);
   assertEqual(DAC8560_POWERDOWN_100K, myDAC.getPowerDownMode());
-  
+
   myDAC.setPowerDownMode(DAC8560_POWERDOWN_HIGH_IMP);
   assertEqual(DAC8560_POWERDOWN_HIGH_IMP, myDAC.getPowerDownMode());
 }

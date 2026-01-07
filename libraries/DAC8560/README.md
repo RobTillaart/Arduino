@@ -23,10 +23,10 @@ The DAC8560 is a SPI based 16 bit DAC with one channel.
 This library is not tested yet, so use with care.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/DAC8550
-- https://github.com/RobTillaart/DAC8561
+- https://github.com/RobTillaart/DAC8551
 - https://github.com/RobTillaart/DAC8552
 - https://github.com/RobTillaart/DAC8554
 - https://github.com/RobTillaart/DAC8560

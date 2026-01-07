@@ -4,8 +4,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8560 SPI Digital Analog Convertor
 //          could work with DAC8550, not tested
-// VERSION: 0.1.1
-// HISTORY: See DAC8560.cpp
+// VERSION: 0.1.2
+//    DATE: 2024-10-26
 //     URL: https://github.com/RobTillaart/DAC8560
 //
 
@@ -14,7 +14,7 @@
 #include "SPI.h"
 
 
-#define DAC8560_LIB_VERSION            (F("0.1.1"))
+#define DAC8560_LIB_VERSION            (F("0.1.2"))
 
 
 #define DAC8560_POWERDOWN_NORMAL       0

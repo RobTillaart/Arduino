@@ -1,8 +1,8 @@
 //
-//    FILE: DAC8552.cpp 
+//    FILE: DAC8552.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8552 SPI Digital Analog Convertor
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 //    DATE: 2017-12-14
 //     URL: https://github.com/RobTillaart/DAC8552
 
@@ -112,7 +112,7 @@ void DAC8552::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
-};
+}
 
 
 //////////////////////////////////////////////////////////////////

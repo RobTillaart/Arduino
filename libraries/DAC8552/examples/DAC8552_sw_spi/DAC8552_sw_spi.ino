@@ -2,7 +2,6 @@
 //    FILE: DAC8552_sw_spi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8552 library Arduino with software SPI
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/DAC8552
 //
 
@@ -17,9 +16,11 @@ DAC8552 mydac(4, 5, 6);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8552_LIB_VERSION: ");
   Serial.println(DAC8552_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

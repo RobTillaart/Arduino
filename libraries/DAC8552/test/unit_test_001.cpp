@@ -73,7 +73,7 @@ unittest(test_SW_constructor)
 {
   DAC8552 mydac(4, 5, 6);
   mydac.begin();
-  
+
   for (uint8_t channel = 0; channel < 2; channel++)
   {
     fprintf(stderr, "CHANNEL %d\n", channel);
@@ -95,7 +95,7 @@ unittest(test_powerDown)
 {
   DAC8552 mydac(4, 5, 6);
   mydac.begin();
-  
+
   for (uint8_t channel = 0; channel < 2; channel++)
   {
     fprintf(stderr, "CHANNEL %d\n", channel);

@@ -2,8 +2,8 @@
 //
 //    FILE: DAC8571.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.3
 //    DATE: 2024-04-16
-// VERSION: 0.1.2
 // PURPOSE: Arduino library for DAC8571 I2C 16 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC8571
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DAC8571_LIB_VERSION         (F("0.1.2"))
+#define DAC8571_LIB_VERSION         (F("0.1.3"))
 
 //  ERROR CODES
 #define DAC8571_OK                  0x00

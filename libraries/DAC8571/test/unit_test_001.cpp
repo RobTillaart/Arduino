@@ -51,7 +51,7 @@ unittest(test_constants)
   assertEqual(DAC8571_OK           , 0x00);
   assertEqual(DAC8571_I2C_ERROR    , 0x81);
   assertEqual(DAC8571_ADDRESS_ERROR, 0x82);
-  
+
   assertEqual(DAC8571_MODE_STORE_CACHE, 0x00);
   assertEqual(DAC8571_MODE_NORMAL     , 0x01);
   assertEqual(DAC8571_MODE_WRITE_CACHE, 0x02);

@@ -58,7 +58,6 @@ therefore, the update rate is limited by the I2C interface.
 
 The DAC8571 support 2 addresses by means of an A0 address pin.
 
-
 |  Address  |   A0   |
 |:---------:|:------:|
 |   0x4C    |   LOW  |

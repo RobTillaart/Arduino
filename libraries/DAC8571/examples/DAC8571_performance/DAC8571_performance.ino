@@ -24,9 +24,11 @@ void setup()
   while(!Serial);
   delay(2000);
 
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8571_LIB_VERSION: ");
   Serial.println(DAC8571_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

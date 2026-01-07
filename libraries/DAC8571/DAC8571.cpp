@@ -1,8 +1,8 @@
 //
 //    FILE: DAC8571.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.3
 //    DATE: 2024-04-16
-// VERSION: 0.1.2
 // PURPOSE: Arduino library for DAC8571 I2C.
 //     URL: https://github.com/RobTillaart/DAC8571
 

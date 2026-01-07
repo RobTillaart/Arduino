@@ -17,6 +17,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5248_LIB_VERSION: ");
   Serial.println(AD5248_LIB_VERSION);
+  Serial.println();
 
   Wire1.begin(21, 22);  //  adjust if needed
   Wire1.setClock(400000);

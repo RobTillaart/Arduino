@@ -1,7 +1,7 @@
 //
 //    FILE: AD5248.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Library for I2C digital potentiometer AD5243 + rheostat AD5248
 //    DATE: 2023-12-12
 //     URL: https://github.com/RobTillaart/AD5248

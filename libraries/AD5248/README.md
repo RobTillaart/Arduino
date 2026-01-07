@@ -11,7 +11,7 @@
 
 # AD5248
 
-Arduino library for I2C digital potentioMeter AD5243 and rheostat AD5248
+Arduino library for the I2C digital potentiometer AD5243 and rheostat AD5248.
 
 
 ## Description
@@ -28,6 +28,31 @@ The AD5243 is a digital potentiometer, the AD5248 is a digital rheostat.
 Both IC's have two "channels" and they do not have the output lines
 some other IC's in these series have e.g. like the AD5242.
 
+An important property of the devices is that they defaults
+to their mid position at startup.
+
+The library defines **AD5248_MIDPOINT == 127**.
+To be used to set to defined mid-point.
+
+
+### Related
+
+- https://github.com/RobTillaart/AD520x
+- https://github.com/RobTillaart/AD524X
+- https://github.com/RobTillaart/AD5245
+- https://github.com/RobTillaart/AD5248
+- https://github.com/RobTillaart/AD5144A
+- https://github.com/RobTillaart/AD5263
+- https://github.com/RobTillaart/X9C10X
+
+
+### Compatibles
+
+If you know compatible devices please let me know.
+
+
+## I2C address
+
 The AD5243 has a fixed address (0x2F = 47 decimal) while the AD5248 has 
 two address pins giving 4 possible addresses. See table below.
 
@@ -40,27 +65,22 @@ two address pins giving 4 possible addresses. See table below.
 |    47    |   0x2F    |  +5V  |  +5V  |  fixed address of AD5243  |
 
 
-An important property of the devices is that they defaults
-to their mid position at startup.
+### I2C multiplexing
 
-The library defines **AD5248_MIDPOINT == 127**.
-To be used to set to defined mid-point.
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
 
-#### Related
-
-- https://github.com/RobTillaart/AD520x
-- https://github.com/RobTillaart/AD524X
-- https://github.com/RobTillaart/AD5245
-- https://github.com/RobTillaart/AD5248
-- https://github.com/RobTillaart/AD5144A
-- https://github.com/RobTillaart/AD5263
-- https://github.com/RobTillaart/X9C10X
-
-
-#### Compatibles
-
-If you know compatible devices please let me know.
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -73,7 +93,7 @@ The library has a number of functions which are all quite straightforward.
 One can get / set the value of (both) the potentiometer(s), and the O1 and O2 output lines.
 
 
-#### Constructors
+### Constructors
 
 - **AD5243(TwoWire \*wire = &Wire)** constructor base class,
 creates an instance with 2 potentiometers.
@@ -83,7 +103,7 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 - **bool isConnected()** See if the address set in constructor is on the I2C bus.
 - **uint8_t getAddress()**  Returns address set in the constructor, or fixed 0x2F for the AD5243.
 
-#### Read write
+### Read write
 
 - **uint8_t read(uint8_t channel)** read back the set value.
 - **uint8_t write(uint8_t channel, uint8_t value)** set channel 0/1 to value 0..255.
@@ -93,7 +113,7 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 - **uint8_t readBackRegister()** read register back, for debugging.
 
 
-#### Experimental
+### Experimental
 
 - **uint8_t shutDown()** check datasheet, not tested yet, use at own risk.
 
@@ -122,7 +142,6 @@ Note the user must call **wire.begin()** or equivalent before calling **begin()*
 
 
 #### Wont
-
 
 
 ## Support

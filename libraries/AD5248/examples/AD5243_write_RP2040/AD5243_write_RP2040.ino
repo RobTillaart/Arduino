@@ -17,6 +17,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5248_LIB_VERSION: ");
   Serial.println(AD5248_LIB_VERSION);
+  Serial.println();
 
   Wire1.setSDA(12);  //  adjust if needed
   Wire1.setSCL(13);  //  adjust if needed

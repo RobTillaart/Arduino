@@ -2,7 +2,7 @@
 //
 //    FILE: SWSPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for SoftWare SPI.
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define SWSPI_LIB_VERSION     (F("0.1.2"))
+#define SWSPI_LIB_VERSION     (F("0.1.3"))
 
 
 class SWSPI
@@ -166,7 +166,6 @@ public:
 
 protected:
 
-
   uint8_t _transfer(uint8_t data)
   {
     uint8_t rv = 0;
@@ -288,7 +287,7 @@ protected:
 //
 //  DERIVED CLASS
 //
-//  readonly and write only class?
+//  read only and write only class?
 //
 
 

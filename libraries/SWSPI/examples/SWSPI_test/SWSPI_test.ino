@@ -4,11 +4,14 @@
 // PURPOSE: test
 //     URL: https://github.com/RobTillaart/SWSPI
 
+
 #include "SWSPI.h"
+
 
 SWSPI myspi(9, 10, 13);
 
 uint8_t selectPin = 8;
+
 
 void setup()
 {

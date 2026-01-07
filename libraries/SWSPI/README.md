@@ -118,6 +118,7 @@ The mode used is set in the **setTransaction()** call.
 
 #### Must
 
+- improve documentation
 - elaborate documentation
   - links to SPI explainers.
 - test
@@ -125,6 +126,7 @@ The mode used is set in the **setTransaction()** call.
 
 #### Should
 
+- make standard SPI master/slave
 - derived classes, read or write only.
 
 #### Could

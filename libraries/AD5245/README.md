@@ -13,10 +13,11 @@
 
 Arduino library for I2C single channel digital potentiometer AD5245.
 
-The library is experimental and not tested with hardware yet.
-
-
 ## Description
+
+**Experimental**
+
+The library is experimental and not tested with hardware yet.
 
 The AD5245 is a single channel digital potentiometer which comes in
 5 kΩ, 10 kΩ, 50 kΩ, 100 kΩ and can be set in 256 steps.
@@ -36,7 +37,7 @@ to the mid-scale position at startup.
 One can use **AD5245_MIDPOINT** == 128 to reset to the mid-scale position.
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -45,7 +46,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 This library is based upon the AD524X library, and triggered by this issue:
 - https://github.com/RobTillaart/AD524X/issues/11
@@ -71,6 +72,24 @@ The AD5245 has one address line to configure the I2C address.
 |     45      |     0x2D     |  +5V  |
 
 The maximum I2C speed is 400 KHz.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface

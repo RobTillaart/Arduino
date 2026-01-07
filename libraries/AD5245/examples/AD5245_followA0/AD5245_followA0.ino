@@ -18,10 +18,11 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5245_LIB_VERSION: ");
   Serial.println(AD5245_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(400000);
-  
+
   bool b = AD.begin();
   Serial.println(b ? "true" : "false");
   Serial.println(AD.isConnected());

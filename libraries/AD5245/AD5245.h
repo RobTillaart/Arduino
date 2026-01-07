@@ -2,19 +2,17 @@
 //
 //    FILE: AD5245.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 // PURPOSE: Arduino library for I2C digital potentiometer AD5245.
 //    DATE: 2022-07-31
 //     URL: https://github.com/RobTillaart/AD5245
-//
-//  Experimental
 
 
 #include "Arduino.h"
 #include "Wire.h"
 
 
-#define AD5245_LIB_VERSION          (F("0.4.0"))
+#define AD5245_LIB_VERSION          (F("0.4.1"))
 
 
 #define AD5245_OK                   0

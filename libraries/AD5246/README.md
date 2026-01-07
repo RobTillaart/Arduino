@@ -34,17 +34,18 @@ Indicative step size.
 An important property is that the device defaults to the mid-scale position at startup.
 One can use **AD5246_MIDPOINT** == 64 to reset to the mid-scale position.
 
+Ω = ALT-234
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
+The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 This library is based upon the AD5245 library.
 
@@ -66,19 +67,19 @@ The AD5246 has one fixed address 0x2E.
 The maximum I2C speed is 400 KHz.
 
 
-#### I2C multiplexing
+### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
-This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
-to eight channels (think of it as I2C subnets) which can use the complete 
-address range of the device. 
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-Drawback of using a multiplexer is that it takes more administration in 
-your code e.g. which device is on which channel. 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
 This will slow down the access, which must be taken into account when
 deciding which devices are on which channel.
-Also note that switching between channels will slow down other devices 
+Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548

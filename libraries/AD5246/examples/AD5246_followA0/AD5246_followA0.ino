@@ -18,6 +18,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5246_LIB_VERSION: ");
   Serial.println(AD5246_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(400000);

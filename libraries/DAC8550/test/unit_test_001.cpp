@@ -78,7 +78,7 @@ unittest(test_SW_constructor)
 {
   DAC8550 myDAC(4, 5, 6);
   myDAC.begin();
-  
+
   for (uint16_t val = 0; val < 65500; val += 30)
   {
     myDAC.setValue(val);
@@ -96,16 +96,16 @@ unittest(test_powerDown)
 {
   DAC8550 myDAC(4, 5, 6);
   myDAC.begin();
-  
+
   myDAC.setPowerDown(DAC8550_POWERDOWN_NORMAL);
   assertEqual(DAC8550_POWERDOWN_NORMAL, myDAC.getPowerDownMode());
-  
+
   myDAC.setPowerDown(DAC8550_POWERDOWN_1K);
   assertEqual(DAC8550_POWERDOWN_1K, myDAC.getPowerDownMode());
-  
+
   myDAC.setPowerDown(DAC8550_POWERDOWN_100K);
   assertEqual(DAC8550_POWERDOWN_100K, myDAC.getPowerDownMode());
-  
+
   myDAC.setPowerDown(DAC8550_POWERDOWN_HIGH_IMP);
   assertEqual(DAC8550_POWERDOWN_HIGH_IMP, myDAC.getPowerDownMode());
 }

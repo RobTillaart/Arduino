@@ -14,14 +14,16 @@ DAC8550 myDAC(7);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8550_LIB_VERSION: ");
   Serial.println(DAC8550_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 
   myDAC.begin();
-  
+
   myDAC.setValue(0);
   myDAC.setPowerDown(DAC8550_POWERDOWN_HIGH_IMP);
 }
@@ -40,7 +42,7 @@ void loop()
   uint32_t start = millis();
   while (millis() - start < 5000);
   myDAC.setPowerDown(DAC8550_POWERDOWN_NORMAL);
-  
+
   Serial.println("Continue sawtooth");
   for (uint16_t i = 32000; i < 64000; i+= 100)
   {

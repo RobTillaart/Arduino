@@ -2,7 +2,7 @@
 //    FILE: DAC8550.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DAC8550 SPI Digital Analog Convertor
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2021-02-04
 //     URL: https://github.com/RobTillaart/DAC8550
 
@@ -90,7 +90,7 @@ void DAC8550::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
-};
+}
 
 
 //////////////////////////////////////////////////////////////////

@@ -14,9 +14,11 @@ DAC8550 myDAC(7);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8550_LIB_VERSION: ");
   Serial.println(DAC8550_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
 

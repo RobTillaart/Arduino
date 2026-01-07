@@ -1,0 +1,28 @@
+{
+  "name": "BL0942_SPI",
+  "keywords": "",
+  "description": "Arduino library for BL0942 energy monitor, SPI interface.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    },
+    {
+      "name": "Andreas Breitschopp",
+      "email": "-",
+      "maintainer": false
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/BL0942_SPI.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "BL0942_SPI.h"
+}

@@ -1,0 +1,66 @@
+# Syntax Colouring Map For BL0942_SPI
+
+# Data types (KEYWORD1)
+BL0942_SPI	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+calibrate
+getVoltageLSB
+setVoltageLSB
+getCurrentLSB
+setCurrentLSB
+getPowerLSB
+setPowerLSB
+getEnergyLSB
+setEnergyLSB
+
+
+getIWave
+getVWave
+getIRMS
+getVRMS
+getIRMSFast
+getWatt
+getCFPulseCount
+getEnergy
+getFrequency
+
+getStatus
+
+getCurrentRMSOffset
+setCurrentRMSOffset
+getPowerCreep
+setPowerCreep
+getFastRMSThreshold
+setFastRMSThreshold
+
+getFastRMSCycles
+setFastRMSCycles
+getFrequencyCycles
+setFrequencyCycles
+
+getOutputConfigMask
+setOutputConfigMask
+getUserMode
+setUserMode
+getCurrentGain
+setCurrentGain
+
+softReset
+getWriteProtect
+setWriteProtect
+
+
+setSPIspeed
+getSPIspeed
+usesHWSPI
+
+getLastError
+
+
+# Constants (LITERAL1)
+BL0942_SPI_LIB_VERSION	LITERAL1
+

@@ -1,7 +1,6 @@
 //
 //    FILE: rotaryDecoder_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-08
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoder
 //
@@ -26,9 +25,11 @@ rotaryDecoder decoder(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ROTARY_DECODER_LIB_VERSION:\t");
   Serial.println(ROTARY_DECODER_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

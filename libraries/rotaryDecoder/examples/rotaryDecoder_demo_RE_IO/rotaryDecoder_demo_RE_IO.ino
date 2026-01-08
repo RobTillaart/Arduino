@@ -1,14 +1,13 @@
 //
 //    FILE: rotaryDecoder_demo_RE_IO.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-02-13
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoder
 //
 //  example configuration
 //    connect one rotary encoders
 //    connect multiple switches
-//    connect one line to the other end of the switches to enable them 
+//    connect one line to the other end of the switches to enable them
 //    connect a buzzer
 //
 //  RotaryEncoder     PCF8574      UNO
@@ -35,9 +34,11 @@ rotaryDecoder decoder(0x39);  //  0x39 = 57
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ROTARY_DECODER_LIB_VERSION:\t");
   Serial.println(ROTARY_DECODER_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

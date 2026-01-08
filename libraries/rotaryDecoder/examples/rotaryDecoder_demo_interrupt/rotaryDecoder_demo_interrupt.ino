@@ -1,7 +1,6 @@
 //
 //    FILE: rotaryDecoder_demo_interrupt.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-08
 // PURPOSE: demo interrupt controlled rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder
 //
@@ -38,9 +37,11 @@ void moved()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ROTARY_DECODER_LIB_VERSION:\t");
   Serial.println(ROTARY_DECODER_LIB_VERSION);
+  Serial.println();
 
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(0, moved, FALLING);

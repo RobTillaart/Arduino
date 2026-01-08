@@ -92,13 +92,16 @@ Not compatible, the DS3232 has 236 bytes of SRAM, where the SD2405 has (only) 12
 ### Related
 
 - https://github.com/RobTillaart/DS3232
+- https://github.com/RobTillaart/PCF85263
 - https://github.com/RobTillaart/dateTimeHelpers
+- https://github.com/RobTillaart/printHelpers
+- https://github.com/RobTillaart/millis64
 - https://forum.arduino.cc/t/got-time-from-ntp-server-need-day-of-week/117799/6
 
 
 ## Hardware
 
-Always check datasheet for the connections.
+Always check the datasheet for the connections.
 
 Pull up resistors are needed on SDA, SCL. Value depend on length of wires.
 

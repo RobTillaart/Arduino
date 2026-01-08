@@ -3,7 +3,7 @@
 //    FILE: SD2405.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for I2C SD2405 RTC and compatibles.
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-03-17
 //     URL: https://github.com/RobTillaart/SD2405
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define SD2405_LIB_VERSION           (F("0.2.0"))
+#define SD2405_LIB_VERSION           (F("0.2.1"))
 
 
 //  ERROR CODES

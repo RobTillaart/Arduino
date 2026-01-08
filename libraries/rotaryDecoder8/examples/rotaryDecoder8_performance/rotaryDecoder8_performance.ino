@@ -25,9 +25,11 @@ rotaryDecoder8 decoder(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ROTARY_DECODER8_LIB_VERSION:\t");
   Serial.println(ROTARY_DECODER8_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

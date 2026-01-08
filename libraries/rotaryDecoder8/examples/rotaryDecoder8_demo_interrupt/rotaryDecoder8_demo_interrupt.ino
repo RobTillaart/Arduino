@@ -37,9 +37,11 @@ void moved()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ROTARY_DECODER8_LIB_VERSION:\t");
   Serial.println(ROTARY_DECODER8_LIB_VERSION);
+  Serial.println();
 
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(0, moved, FALLING);

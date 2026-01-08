@@ -15,9 +15,11 @@ PCA9698 PCA(0x20);  //  adjust if needed
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9698_LIB_VERSION:\t");
   Serial.println(PCA9698_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

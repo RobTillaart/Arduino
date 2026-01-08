@@ -2,7 +2,7 @@
 //    FILE: PCA9698.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-01-06
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the PCA9698 - I2C, 40 channel IO expander.
 //     URL: https://github.com/RobTillaart/PCA9698_RT
 

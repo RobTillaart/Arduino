@@ -76,7 +76,7 @@ As always, feedback is welcome.
 #include "rotaryDecoderSwitch5.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **rotaryDecoderSwitch5(const int8_t address, TwoWire \*wire = Wire)**
 constructor to set the address and optional the Wire bus.

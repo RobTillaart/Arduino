@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoderSwitch5.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-01-13
 // PURPOSE: Arduino library for a PCF8575 based rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_SWITCH5_LIB_VERSION         (F("0.1.0"))
+#define ROTARY_DECODER_SWITCH5_LIB_VERSION         (F("0.1.1"))
 
 const uint8_t ROTDEC_MAX_COUNT = 5;
 

@@ -1,7 +1,6 @@
 //
 //    FILE: rotaryDecoderSwitch5_demo_simple.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2025-01-13
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
 //
@@ -34,9 +33,11 @@ rotaryDecoderSwitch5 decoder(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ROTARY_DECODER_SWITCH5_LIB_VERSION:\t");
   Serial.println(ROTARY_DECODER_SWITCH5_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   Wire.setClock(100000);

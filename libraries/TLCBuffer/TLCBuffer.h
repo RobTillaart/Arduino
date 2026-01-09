@@ -3,7 +3,7 @@
 //    FILE: TLCBuffer.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-10-26
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for a Time Length Compressed buffer.
 //     URL: https://github.com/RobTillaart/TLCBuffer
 //
@@ -12,16 +12,16 @@
 #include "Arduino.h"
 
 
-#define TLCBUFFER_LIB_VERSION         (F("0.1.0"))
+#define TLCBUFFER_LIB_VERSION         (F("0.2.0"))
 
 //  ERROR CODES
 //  values <> 0 are errors.
 #define TLCBUFFER_OK                  (0x00)
-//  TODO
 #define TLCBUFFER_ERR_ALLOC           (0xFF)
-#define TLCBUFFER_ERR_TIMEUNIT        (0xFE)
 
 
+//  TLCBuffer<uint8_t, uint8_t> TLCB(20);  //  minimize RAM usage
+template<typename T_DATA = uint32_t, typename T_TIME = uint32_t>
 class TLCBuffer
 {
 public:
@@ -30,14 +30,14 @@ public:
     _size = size;
     if (_size < 4) _size = 4;
     //  allocate dynamic buffer
-    _data = (uint32_t *) malloc(_size * 4);
-    _time = (uint32_t *) malloc(_size * 4);
+    _data = (T_DATA *) malloc(_size * sizeof(T_DATA));
+    _time = (T_TIME *) malloc(_size * sizeof(T_TIME));
   }
 
   ~TLCBuffer()
   {
-    if (_data != NULL) free(_data);
-    if (_time != NULL) free(_time);
+    free(_data);
+    free(_time);
   }
 
   //  time units
@@ -47,101 +47,82 @@ public:
   {
     if ((_data == NULL) || (_time == NULL))
     {
+      //  _error = TLCBUFFER_ERR_ALLOC;
       free(_data);
       free(_time);
       return false;
     }
 
-    _index = 0;
+    _index = (_size - 1);
     _count = 0;
     _timeUnits = timeUnits;
-    _lastTime = 0;
-    _lastData = 0;
-    memset(_time, 0, _size * 4);
-    memset(_data, 0, _size * 4);
+    memset(&_lastTime, 0, sizeof(T_TIME));
+    memset(&_lastData, 0, sizeof(T_DATA));
+    memset(_time, 0, _size * sizeof(T_TIME));
+    memset(_data, 0, _size * sizeof(T_DATA));
     return true;
   }
 
-  void writeData(uint32_t data)
+
+  //  READ WRITE
+  void writeData(T_DATA data)
   {
     //  update duration of last data first.
-    uint32_t now = getTime();
-    _time[_index] += (now - _lastTime);
+    T_TIME now = getTime();
+    _time[_index] += (T_TIME)(now - _lastTime);
     _lastTime = now;
     //  do we have a new data?
-    if (data == _lastData)
+    if (memcmp(&_lastData, &data, sizeof(T_DATA)) == 0)
     {
       return;
     }
-    _lastData = data;
+    memcpy(&_lastData, &data, sizeof(T_DATA));
     //  buffer the new data in next free slot.
-    //  TODO handle circular here
     _index++;
+    //  TODO handle circular here
     if (_index >= _size) _index = 0;
-    _data[_index] = data;
+    memcpy(&_data[_index], &data, sizeof(T_DATA));
     _time[_index] = 0;
     if (_count < _size) _count++;
   }
 
-  uint32_t readData(uint32_t index)
+  T_DATA readData(uint32_t index)
   {
-    //  no check on index
+    //  wrap index
+    if (index >= _size) index %= _size;
     return _data[index];
   }
 
-  uint32_t readDuration(uint32_t index)
+  T_TIME readDuration(uint32_t index)
   {
-    //  no check on index
+    //  wrap index
+    if (index >= _size) index %= _size;
     return _time[index];
   }
 
 
   //  META INFO
-  uint32_t size() 
-  {
-    return _size;
-  }
-
-  uint32_t count()
-  {
-    return _count;
-  }
-
-  uint32_t index()
-  {
-    return _index;
-  }
-
-  bool empty()
-  {
-    return (_count == 0);
-  }
-
-  bool full()
-  {
-    return (_count == _size);
-  }
-
-  uint32_t available()
-  {
-    return (_size - _count);
-  }
-
-  char getTimeUnit()
-  {
-    return _timeUnits;
-  }
+  uint32_t size()      { return _size; }
+  uint32_t count()     { return _count; }
+  uint32_t index()     { return _index; }
+  bool empty()         { return (_count == 0); }
+  bool full()          { return (_count == _size); }
+  uint32_t available() { return (_size - _count); }
+  char getTimeUnit()   { return _timeUnits; }
 
 
 private:
-  uint32_t * _data  = NULL;
-  uint32_t * _time  = NULL;
-  uint32_t _size    = 0;
-  uint32_t _index   = 0;
-  uint32_t _count   = 0;
+  //  dynamic memory to hold data & duration
+  T_DATA * _data   = NULL;
+  T_TIME * _time   = NULL;
+  T_DATA _lastData;
+  T_TIME _lastTime;
+
+  uint32_t _size   = 0;
+  uint32_t _index  = 0;
+  uint32_t _count  = 0;
   char     _timeUnits = 'm';
-  uint32_t _lastTime  = 0;
-  uint32_t _lastData  = 0;
+
   //  int      _error = TLCBUFFER_OK;
 
   uint32_t getTime()

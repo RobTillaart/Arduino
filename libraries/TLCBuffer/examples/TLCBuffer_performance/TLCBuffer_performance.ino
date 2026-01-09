@@ -1,14 +1,14 @@
 //
 //    FILE: TLCBuffer_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic performance
+// PURPOSE: test basic performance Time Length Compression
 //     URL: https://github.com/RobTillaart/TLCBuffer
 
 
 #include "TLCBuffer.h"
 
 
-TLCBuffer TLCB(20);
+TLCBuffer<> TLCB(20);  //  default uint32_t, uint32_t
 uint32_t start, stop;
 
 
@@ -52,21 +52,21 @@ void setup()
   delay(100);
 
   start = micros();
-  uint32_t x = TLCB.readData(1);
+  uint32_t x = TLCB.readData(0);
   stop = micros();
   Serial.print("READ 1: \t");
   Serial.println(stop - start);
   delay(100);
 
   start = micros();
-  uint32_t y = TLCB.readData(2);
+  uint32_t y = TLCB.readData(1);
   stop = micros();
   Serial.print("READ 2: \t");
   Serial.println(stop - start);
   delay(100);
 
   start = micros();
-  uint32_t z = TLCB.readDuration(1);
+  uint32_t z = TLCB.readDuration(0);
   stop = micros();
   Serial.print("DURATION: \t");
   Serial.println(stop - start);

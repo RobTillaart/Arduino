@@ -47,11 +47,17 @@ unittest(test_constants)
 
 unittest(test_constructor)
 {
-  TLCBuffer TLCB(10);
-  
+  TLCBuffer<> TLCB(10);
+
   assertEqual(10, TLCB.size());
   assertEqual(0, TLCB.count());
-  
+
+  for (int i = 0; i < 5; i++)
+  {
+    TLCB.writeData(i);
+  }
+  //  note first element == zero !!
+  assertEqual(4, TLCB.count());
 }
 
 

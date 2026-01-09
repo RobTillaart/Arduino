@@ -1,5 +1,5 @@
 //
-//    FILE: TLCBuffer_demo.ino
+//    FILE: TLCBuffer_int.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour Time Length Compression
 //     URL: https://github.com/RobTillaart/TLCBuffer
@@ -7,8 +7,8 @@
 
 #include "TLCBuffer.h"
 
-
-TLCBuffer<> TLCB(20);  //  default uint32_t, uint32_t
+//  T_DATA (= signed), T_TIME (= unsigned)
+TLCBuffer<int16_t, uint16_t> TLCB(20);
 
 
 void setup()
@@ -28,14 +28,13 @@ void setup()
 
   Serial.print("SIZE:\t");  Serial.println(TLCB.size());
   Serial.print("COUNT:\t");  Serial.println(TLCB.count());
-  Serial.print("INDEX:\t");  Serial.println(TLCB.index());
   Serial.println();
 
   //  fill the buffer with random numbers and generate different timestamps
   for (int i = 0; i < 20; i++)
   {
-    uint32_t val = random(10);
-    for (int i = 1 + random(50); i > 0; i--)
+    int val = -50 + random(100);
+    for (int i = 1 + random(99); i > 0; i--)
     {
       TLCB.writeData(val);
       delay(1);
@@ -46,8 +45,10 @@ void setup()
   Serial.print("COUNT:\t");  Serial.println(TLCB.count());
   Serial.println();
 
-  for (int i = 0; i < 20; i++)
+  for (int i = 0; i < TLCB.count(); i++)
   {
+    Serial.print(i);
+    Serial.print('\t');
     Serial.print(TLCB.readDuration(i));
     Serial.print('\t');
     Serial.println(TLCB.readData(i));

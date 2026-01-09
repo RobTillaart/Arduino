@@ -2,7 +2,7 @@
 //
 //    FILE: TCS3210.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for TCS3210 colour light to frequency convertor.
 //    DATE: 2025-01-12
 //     URL: https://github.com/RobTillaart/TCS3210
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define TCS3210_LIB_VERSION               (F("0.1.1"))
+#define TCS3210_LIB_VERSION               (F("0.1.2"))
 
 
 class TCS3210

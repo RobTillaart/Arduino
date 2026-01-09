@@ -41,7 +41,7 @@ If so one could not use this library as is (but it is fairly easy to adapt)
 
 |  board    |  millis64  |  micros64  |
 |:----------|:----------:|:----------:|
-|  UNO      |     N      |     N      |
+|  UNO R3   |     N      |     N      |
 |  ESP32    |     N      |     N      |
 |  ESP8266  |     N      |    YYY     |
 |  M4       |     N      |     N      |
@@ -64,7 +64,7 @@ Run the **millis64_performance.ino** to get an indication of the performance
 on your platform of choice to see if it meets your needs.
 
 
-Indicative times in micros for Arduino UNO.
+Indicative times for 1000 calls in micros for Arduino UNO.
 
 |  function          |  UNO   |
 |:-------------------|:------:|

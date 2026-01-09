@@ -4,7 +4,7 @@
 // PURPOSE: test TCA9554 interrupt
 //     URL: https://github.com/RobTillaart/TCA9554
 //
-//  See datasheet 
+//  See datasheet
 //  - 9.3.3 Interrupt (INT) Output
 //  - timing see page 13
 
@@ -26,6 +26,7 @@ void tca_irq()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TCA9554_LIB_VERSION: ");
   Serial.println(TCA9554_LIB_VERSION);

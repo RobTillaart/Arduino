@@ -14,6 +14,7 @@ TCA9554 TCA(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TCA9554_LIB_VERSION: ");
   Serial.println(TCA9554_LIB_VERSION);

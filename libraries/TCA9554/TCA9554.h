@@ -2,7 +2,7 @@
 //
 //    FILE: TCA9554.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for I2C TCA9554 8 channel port expander.
 //    DATE: 2025-01-09
 //     URL: https://github.com/RobTillaart/TCA9554
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define TCA9554_LIB_VERSION               (F("0.1.2"))
+#define TCA9554_LIB_VERSION               (F("0.1.3"))
 
 #define TCA9554_OK                        0x00
 #define TCA9554_PIN_ERROR                 0x81

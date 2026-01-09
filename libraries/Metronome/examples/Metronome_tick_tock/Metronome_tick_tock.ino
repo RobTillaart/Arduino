@@ -6,9 +6,11 @@
 // uses two LEDs to indicate the tick (GREEN) and tock (RED).
 // could also drive other devices.
 
+
 #include "Metronome.h"
 
-//  two colors to differentiate between "tick and tock"
+
+//  two colours to differentiate between "tick and tock"
 #define GREEN_LED_PIN     12
 #define RED_LED_PIN       13
 
@@ -33,7 +35,7 @@ void setup()
 
 void loop()
 {
-  // call as often as possible eg every millisecond
+  // call as often as possible e.g. every millisecond
   M.check();
 }
 

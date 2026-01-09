@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2025-05-14
+- fix typo in readme.md
+- update GitHub actions
+- minor edits
+
 ## [0.1.1] - 2025-05-14
 - fix tock pin
 - add Metronome_tick_tock.ino

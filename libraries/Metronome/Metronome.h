@@ -2,7 +2,7 @@
 //
 //    FILE: Metronome.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for creating a Metronome.
 //    DATE: 2013-09-16  (initial sketch)
 //     URL: https://github.com/RobTillaart/Metronome
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define METRONOME_LIB_VERSION   (F("0.1.0"))
+#define METRONOME_LIB_VERSION   (F("0.1.2"))
 
 
 class Metronome

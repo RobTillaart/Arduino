@@ -27,7 +27,7 @@ void setup()
 
 void loop()
 {
-  // call as often as possible eg every millisecond
+  //  call as often as possible e.g. every millisecond
   M.check();
 }
 

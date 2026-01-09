@@ -6,6 +6,7 @@
 //  uses build in LED Arduino UNO to indicate the BPM
 //  uses a potentiometer to set the BPM.
 
+
 #include "Metronome.h"
 
 #define LED_PIN       13
@@ -42,7 +43,7 @@ void loop()
     BPM = analogRead(A0) / 3;  //  0..340
     M.setBeatsPerMinute(BPM);
   }
-  // call as often as possible eg every millisecond
+  //  call as often as possible e.g. every millisecond
   M.check();
 }
 

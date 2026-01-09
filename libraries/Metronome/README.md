@@ -13,12 +13,11 @@
 
 Arduino library for creating a Metronome.
 
-
 ## Description
 
 **Experimental**
 
-This library is to create a simple Metronome.
+This library is to create a simple Metronome on an Arduino.
 
 The class is very straightforward, one can set the beats per minute (BPM)
 and uses start / stop to have the ticks in the requested rhythm.
@@ -34,7 +33,7 @@ will get 5 pulses and the second will get one.
 
 The default BPM == 100 and default measure == 4.
 
-Default the Metronoe is idle and needs an explicit start with **start()**.
+Default the Metronome is idle and needs an explicit start with **start()**.
 
 The metronome can be used as a very simple square wave generator.
 Be aware that to set a frequency, the BPM must be multiplied by 60.
@@ -72,7 +71,7 @@ or two different sounds.
 If tick and tock pins are the same it will behave as only the tick pin is defined.
 
 
-### BPM
+### BPM = Beats Per Minute
 
 setMeasure(4) => tick tick tick TOCK
 setMeasure(3) => tick tick TOCK
@@ -82,7 +81,7 @@ The BPM can be set as a floating point to correct minimal deviations.
 The internal interval is measured in micros and if the BPM is very high it will be less accurate.
 - **float getBeatsPerMinute()** returns the set BPM.
 - **void setMeasure(uint8_t tock)** defines the TOCK rhythm, typical values are 2,3,4,5,6,8,12.
-Will only work if tockpin is defined in the constructor.
+Will only work if tockPin is defined in the constructor.
 - **uint8_t getMeasure()** returns the set measure.
 
 
@@ -130,7 +129,7 @@ Default the Metronome is idle and needs an explicit **start()**.
   - "R10 M4 B60 R2 M6 B120 R5 M4 B60" (R = repeat all till next R
   - interactive over serial?
 - unit tests,
-- ledstrip output?
+- led-strip output?
 - determine BPM tool with a button?
 - debug() => probably complexer than the library :)
 

@@ -27,6 +27,8 @@ as the 16 bit interface does in fact 2 calls to the 8 bit interface.
 
 The TCA9555 has an interrupt pin, however the library does not support this.
 
+Feedback as always is welcome.
+
 
 ### TCA9535
 

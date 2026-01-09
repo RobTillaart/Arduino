@@ -6,8 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.9] - 2026-01-09
+- PR #10 update README.md (Kudos to Syfur007)
+- update GitHub actions
+- minor edits
+
 ## [0.2.8] - 2025-09-10
-- update GitHub actions"
+- update GitHub actions
 - minor edits
 
 ## [0.2.7] - 2023-11-21
@@ -74,10 +79,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.02]
 - documentation
 
-## [0.1.01]
+## [0.1.01] - 2014-11-09
 - extending/refactor etc (09/11/2014)
 
-## [0.1.00]
+## [0.1.00] - 2014-11-09
 - initial version by Rob Tillaart (09/11/2014)
 
 

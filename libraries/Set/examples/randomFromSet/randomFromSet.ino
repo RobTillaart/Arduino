@@ -2,7 +2,6 @@
 //    FILE: randomFromSet.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo random playlist with set
-//    DATE: 2021-05-04
 //     URL: https://github.com/RobTillaart/SET
 //          https://github.com/RobTillaart/Prandom/issues/3
 

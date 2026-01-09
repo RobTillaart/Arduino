@@ -2,7 +2,6 @@
 //    FILE: allTest.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo/test Set class
-//    DATE: 2014-11-16
 //     URL: https://github.com/RobTillaart/SET
 
 
@@ -375,7 +374,7 @@ void intersectionTest()
 void intersection2Test()
 {
   Serial.println(__FUNCTION__);
-  
+
   randomSeed(1);
   setA.clear();
   setB.clear();
@@ -410,7 +409,7 @@ void intersection2Test()
 void subsetTest()
 {
   Serial.println(__FUNCTION__);
-  
+
   Set setE;
   for (int i = 0; i < 5; i++) setE.add(i);
 

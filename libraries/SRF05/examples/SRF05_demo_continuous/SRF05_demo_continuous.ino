@@ -4,7 +4,7 @@
 // PURPOSE: demo distance sensor
 //     URL: https://github.com/RobTillaart/SRF05
 //
-//  e.g. use with plotter.
+//  Use with plotter.
 
 #include "SRF05.h"
 

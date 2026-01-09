@@ -2,7 +2,7 @@
 //
 //    FILE: SRF05.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for SRF05 distance sensor
 //     URL: https://github.com/RobTillaart/SRF05
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define SRF05_LIB_VERSION                 (F("0.3.1"))
+#define SRF05_LIB_VERSION                 (F("0.3.2"))
 
 
 const uint8_t SRF05_MODE_SINGLE      = 0;
@@ -63,7 +63,7 @@ public:
   float    determineSpeedOfSound(float distance, uint8_t count = 64);
 
 
-  //  Experimental - adjust trigger length 
+  //  Experimental - adjust trigger length
   //  - gain is a few microseconds at best.
   //  - 10 microseconds is advised minimum
   //  - to be investigated.
@@ -97,6 +97,9 @@ private:
   uint32_t _read();
   void     _insertSort(uint32_t * array, uint8_t size);
 };
+
+
+//  wrapper classes with other names?
 
 
 //  -- END OF FILE --

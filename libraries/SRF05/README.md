@@ -43,6 +43,8 @@ The library allows to set a correction factor to compensate for the timing of
 the **pulseIn()** function. This has in the end the same effect as changing the
 speed of sound however it is technically more correct to keep the two separated.
 
+Feedback as always is welcome.
+
 
 ### Compatibles
 
@@ -321,6 +323,7 @@ See examples.
 - add uint16_t **PulseTimeOut** = 200;  //  milliSeconds?
   - void setPulseTimeOut(uint16_t milliSeconds = 200);
   - uint16_t getPulseTimeOut();
+- wrapper classes for compatibles
 
 
 #### Wont

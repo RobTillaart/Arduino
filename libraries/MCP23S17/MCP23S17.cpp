@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.0
+// VERSION: 0.8.1
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -359,7 +359,7 @@ void MCP23S17::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
-};
+}
 
 
 ///////////////////////////////////////////////////////////////////
@@ -569,7 +569,7 @@ bool MCP23S17::getPullup16(uint16_t &mask)
 //
 //  INTERRUPTS (experimental, see MCP23S17 - #40)
 //
-//  TODO, MCP23x17_INT_MODE_ERROR?
+//  MCP23x17_INT_MODE_ERROR
 //
 //  pin = 0..15, mode = { RISING, FALLING, CHANGE }
 bool MCP23S17::enableInterrupt(uint8_t pin, uint8_t mode)

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.1] - 2026-01-10
+- update GitHub actions
+- minor edits
+
 ## [0.8.0] - 2025-04-25
 - fix #55, hardware constructor, kudos to crocodileInside
 - update readme.md
@@ -23,7 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add link to keypad library
 - update readme.md
 - update keywords.txt
-
 
 ## [0.6.0] - 2024-11-19
 - fix #47, interrupt handling. Kudos to GlibSkunk!

@@ -15,8 +15,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("MCP23S17_LIB_VERSION: ");
   Serial.println(MCP23S17_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   SPI.begin();

@@ -24,6 +24,8 @@ Programming Interface is kept the same as much as possible.
 The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+Feedback as always is welcome.
+
 ### 0.8.0 Breaking change
 
 Fix #55, hardware SPI constructor.
@@ -104,7 +106,6 @@ Keypad
 #include "MCP23S17.h"
 ```
 
-
 ### Constructor
 
 - **MCP23S17(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00)** constructor SOFTWARE SPI.
@@ -129,7 +130,6 @@ The two hardware constructors allow to call 4 different constructors.
 - MCP23S17(10, &SPI2);     // select pin + SPI port
 ```
 
-
 ### Sharing SELECT lines
 
 (verified in #19)  
@@ -153,7 +153,6 @@ MCP.enableHardwareAddress();  //  0.2.5 version and up
 
 See also **IO Control Register** section below.
 
-
 ### Single pin interface
 
 - **bool pinMode1(uint8_t pin, uint8_t mode)** pin = 0..15, mode = INPUT, OUTPUT or INPUT_PULLUP. 
@@ -165,7 +164,6 @@ Returns true if successful.
 - **bool getPolarity(uint8_t pin, bool &reversed)** pin = 0..15, reads reversed flag. Returns true if successful.
 - **bool setPullup(uint8_t pin, bool pullup)** pin = 0..15, set pull-up flag. Returns true if successful.
 - **bool getPullup(uint8_t pin, bool &pullup)** pin = 0..15, reads pull-up flag. Returns true if successful.
-
 
 ### 8 pins interface
 
@@ -180,7 +178,6 @@ Returns true if successful.
 Returns true if successful.
 - **bool getPullup8(uint8_t port, uint8_t &mask)** port = 0..1, reads pull-up for 8 channels at once.
 Returns true if successful.
-
 
 ### 16 pins interface
 
@@ -204,7 +201,6 @@ Returns true if successful.
 
 The reading and writing to registers have been performance optimized for the 16 bit interface.
 If there are problems please open an issue.
-
 
 ### Interrupts (experimental 0.5.2)
 
@@ -253,18 +249,15 @@ to read more registers to find the changed ones.
 - **bool mirrorInterrupts(bool on)** enables / disables mirror mode.
 - **bool isMirroredInterrupts()** returns set option (0,1 or 2).
 
-
 ### SPI
 
 - **void setSPIspeed(uint32_t speed)** set hardware speed (8Mb default).
 - **uint32_t getSPIspeed()** returns set speed.
 
-
 ### Debugging
 
 - **bool usesHWSPI()** returns true = hardware SPI, false = software SPI.
 - **int lastError()** idem.
-
 
 ### IO Control Register
 
@@ -292,7 +285,6 @@ Two dedicated functions are added: (MCP23S17 only)
 - **bool enableHardwareAddress()** set IOCR_HAEN  bit.
 - **bool disableHardwareAddress()** clear IOCR_HAEN bit.
 
-
 ### Error codes
 
 If one of the above functions return false, there might be an error.
@@ -316,7 +308,6 @@ Reading it will reset the flag to **MCP23S17_OK**.
 #### Must
 
 - Improve and extend documentation
-- add examples
 
 #### Should
 
@@ -328,8 +319,9 @@ Reading it will reset the flag to **MCP23S17_OK**.
 - add example with interrupts
   - test
   - extend error codes
+- add examples
+  - rotary decoder
 - optimize code - squeeze footprint
-- fix TODO's in code
 - IOCON.HAEN, Hardware Address ENable.
   - should this be enabled in **begin()** by default?  0.3.0
   - check address range in constructor.
@@ -344,6 +336,8 @@ Reading it will reset the flag to **MCP23S17_OK**.
   - depends on input output pull-up etc
 - AVR software SPI optimize
   - dao and clock - see fastShiftOut.
+- implement MCP23x17_INT_MODE_ERROR - enableInterrupt()
+
 
 #### Wont
 

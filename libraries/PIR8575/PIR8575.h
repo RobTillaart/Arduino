@@ -2,7 +2,7 @@
 //
 //    FILE: PIR8575.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-01-28
 // PURPOSE: Arduino library for 16 channel PIR detection system based upon PCF8575
 //          Also works (limited) with PCF8574.
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define PIR8575_LIB_VERSION        (F("0.1.0"))
+#define PIR8575_LIB_VERSION        (F("0.1.1"))
 
 #define PIR8575_OK                  0x00
 #define PIR8575_PIN_ERROR           0x81

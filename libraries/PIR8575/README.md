@@ -39,7 +39,7 @@ As always, feedback is welcome.
 
 ### I2C address
 
-The base address of teh PCF8575 = 0x20 + 0..7 depending on address pins A0..A2.
+The base address of the PCF8575 = 0x20 + 0..7 depending on address pins A0..A2.
 
 
 ### Interrupts intro
@@ -55,7 +55,9 @@ See datasheet PCF8575 for details.
 ### Related
 
 - https://github.com/RobTillaart/PIR
+- https://github.com/RobTillaart/PIR8575 16 parallel PIR sensors
 - https://github.com/RobTillaart/PCF8575  16 bit IO expander.
+- https://github.com/RobTillaart/TCRT5000 reflective IR sensor
 
 
 ## Interface

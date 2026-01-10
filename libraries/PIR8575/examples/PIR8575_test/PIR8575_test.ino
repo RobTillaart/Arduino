@@ -23,6 +23,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PIR8575_LIB_VERSION:\t");
   Serial.println(PIR8575_LIB_VERSION);

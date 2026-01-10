@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.6] - 2026-01-10
+- update GitHub actions
+- minor edits
+
 ## [0.6.5] - 2025-11-11
 - fix #61, improvements on ALERT register functions
 - removed FC00 mask in **bool setAlertRegister()**
@@ -20,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update GitHub actions
 - update readme.md
 - minor edits
-
 
 ## [0.6.4] - 2025-03-05
 - add **getLastError()** low level (I2C) error handling

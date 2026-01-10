@@ -1,6 +1,6 @@
 //    FILE: INA226.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.5
+// VERSION: 0.6.6
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -536,6 +536,7 @@ uint16_t INA226::_readRegister(uint8_t reg)
 
 uint16_t INA226::_writeRegister(uint8_t reg, uint16_t value)
 {
+  _error = 0;
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value >> 8);

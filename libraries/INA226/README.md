@@ -33,6 +33,8 @@ A few important maxima, see datasheet, chapter 6.
 |  shunt voltage  |  81.9  |   mVolt  |  datasheet 81.92 mV
 |  current        |  20    |  Ampere  |
 
+Feedback as always is welcome.
+
 
 ### 0.5.0 Breaking change
 
@@ -349,7 +351,7 @@ Returns true if write to register is successful.
 - **bool getAlertPolarity()** return current status.
 
 
-|  description alert register  |  mask   |  short  |
+|  description alert register  |   mask   |  short  |
 |:-----------------------------|:--------:|--------:|
 |  INA226_SHUNT_OVER_VOLTAGE   |  0x8000  |    SOL  |
 |  INA226_SHUNT_UNDER_VOLTAGE  |  0x4000  |    SUL  |
@@ -359,14 +361,14 @@ Returns true if write to register is successful.
 |  INA226_CONVERSION_READY     |  0x0400  |   CNVR  |
 
 
-|  description alert flags         |  mask   |  short  |
+|  description alert flags         |   mask   |  short  |
 |:---------------------------------|:--------:|--------:|
 |  INA226_ALERT_FUNCTION_FLAG      |  0x0010  |    AFF  |
 |  INA226_CONVERSION_READY_FLAG    |  0x0008  |   CVRF  |
 |  INA226_MATH_OVERFLOW_FLAG       |  0x0004  |    OVF  |
 
 
-|  description alert configuration |  mask   |  short  |
+|  description alert configuration |   mask   |  short  |
 |:---------------------------------|:--------:|--------:|
 |  INA226_ALERT_POLARITY_FLAG      |  0x0002  |   APOL  |
 |  INA226_ALERT_LATCH_ENABLE_FLAG  |  0x0001  |    LEN  |

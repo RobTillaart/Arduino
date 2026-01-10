@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA226.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.5
+// VERSION: 0.6.6
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA226 power sensor
 //     URL: https://github.com/RobTillaart/INA226
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA226_LIB_VERSION                (F("0.6.5"))
+#define INA226_LIB_VERSION                (F("0.6.6"))
 
 
 //  set by setAlertRegister
@@ -25,7 +25,7 @@
 #define INA226_CONVERSION_READY           0x0400
 
 
-//  returned by getAlertFlag
+//  returned by getAlertRegister
 #define INA226_ALERT_FUNCTION_FLAG        0x0010
 #define INA226_CONVERSION_READY_FLAG      0x0008
 #define INA226_MATH_OVERFLOW_FLAG         0x0004

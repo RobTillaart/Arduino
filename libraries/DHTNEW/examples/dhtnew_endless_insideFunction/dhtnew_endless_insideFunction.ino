@@ -29,7 +29,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println("dhtnew_endless_insideFunction.ino");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 

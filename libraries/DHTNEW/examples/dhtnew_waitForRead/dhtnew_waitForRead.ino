@@ -6,7 +6,7 @@
 
 //  DHT PIN layout from left to right
 //  =================================
-//  FRONT : DESCRIPTION  
+//  FRONT : DESCRIPTION
 //  pin 1 : VCC
 //  pin 2 : DATA
 //  pin 3 : Not Connected
@@ -25,7 +25,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println("dhtnew_waitForRead.ino");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 
@@ -74,7 +74,7 @@ void test()
 
   //  DISPLAY IF OLD OR NEW DATA
   if (duration > 50){Serial.print("NEW\t");}else{Serial.print("OLD\t");}
-  
+
   //  DISPLAY DATA
   Serial.print(mySensor.getHumidity(), 1);
   Serial.print(",\t");

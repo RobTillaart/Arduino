@@ -1,7 +1,7 @@
 //
 //    FILE: dhtnew.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.5.5
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTNEW
 //
@@ -37,7 +37,7 @@ DHTNEW::DHTNEW(uint8_t pin)
 {
   _dataPin = pin;
   reset();
-};
+}
 
 
 void DHTNEW::reset()
@@ -320,7 +320,7 @@ void DHTNEW::powerUp()
   digitalWrite(_dataPin, HIGH);
   //  do a dummy read to synchronise the sensor
   read();
-};
+}
 
 
 void DHTNEW::powerDown()

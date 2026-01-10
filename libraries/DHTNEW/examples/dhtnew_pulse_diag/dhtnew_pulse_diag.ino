@@ -33,6 +33,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println("dhtnew_pulse_diag.ino");
+  Serial.println("DHTNEW_LIB_VERSION - test");
   Serial.println();
 
   //  default should be HIGH

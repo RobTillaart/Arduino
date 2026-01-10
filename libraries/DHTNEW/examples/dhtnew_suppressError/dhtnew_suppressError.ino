@@ -25,11 +25,11 @@ uint32_t count = 0;
 
 void setup()
 {
+  Serial.begin(115200);
   while(!Serial);        // MKR1010 needs this
-
   Serial.println();
   Serial.println("dhtnew_suppressError.ino");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 

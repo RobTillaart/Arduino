@@ -33,7 +33,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println("DHT_endless_debug.ino");
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("DHTNEW_LIB_VERSION: ");
   Serial.println(DHTNEW_LIB_VERSION);
   Serial.println();
 

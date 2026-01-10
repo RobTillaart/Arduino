@@ -28,6 +28,8 @@ For converting temperature to Fahrenheit or Kelvin, see https://github.com/RobTi
 For diagnosis if a DHT sensor gives strange readings one can use **dhtnew_pulse_diag_ext.ino**
 to compare timing with the datasheet.
 
+Feedback as always is welcome.
+
 
 ### Sonoff Si7021
 
@@ -373,6 +375,9 @@ Support KY015 (again)
 Add **DHT_endless_debug.ino** develop example
 38. (0.5.3)
 Update readme.md for Arduino R4
+39. (0.5.4)
+40. (0.5.5)
+Update gitHub actions + minor edits
 
 
 ## Future

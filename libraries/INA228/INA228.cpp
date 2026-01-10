@@ -1,6 +1,6 @@
 //    FILE: INA228.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -363,7 +363,8 @@ uint8_t INA228::getAverage()
 int INA228::setMaxCurrentShunt(float maxCurrent, float shunt)
 {
   //  Shunt can be really small
-  if (shunt < 0.0001) return -2;   //  TODO error code
+  if (shunt < 0.0001) return -2;    //  TODO error code
+  if (maxCurrent < 0.0) return -3;  //  TODO error code
   _maxCurrent = maxCurrent;
   _shunt = shunt;
   _current_LSB = _maxCurrent * 1.9073486328125e-6;  //  pow(2, -19);
@@ -375,8 +376,7 @@ int INA228::setMaxCurrentShunt(float maxCurrent, float shunt)
   {
     shunt_cal *= 4;
   }
-  //  shunt_cal must be written to REGISTER.
-  //  work in progress PR #7
+  //  shunt_cal must be written to its REGISTER.
   _writeRegister(INA228_SHUNT_CAL, shunt_cal);
 
   return 0;
@@ -466,35 +466,47 @@ uint16_t INA228::getDiagnoseAlertBit(uint8_t bit)
 //
 //  THRESHOLD AND LIMIT REGISTERS 12-17
 //
-//  TODO - API ?
-
+//  TODO  (sync INA228)
+//  - API ?
+//  - return bool for setters
+//  - float voltage interface instead of uint16_t?  breaking!
 void INA228::setShuntOvervoltageTH(uint16_t threshold)
 {
   //  TODO ADCRANGE DEPENDENT
+  //  Conversion Factor: 5 μV/LSB when ADCRANGE = 0
+  //  1.25 μV/LSB when ADCRANGE = 1.
+  //  float LSB = 5.0e-6;
+  //  if (_ADCRange == 1) LSB = 1.25e-6;
   _writeRegister(INA228_SOVL, threshold);
 }
 
 uint16_t INA228::getShuntOvervoltageTH()
 {
   //  TODO ADCRANGE DEPENDENT
+  //  float LSB = 5.0e-6;
+  //  if (_ADCRange == 1) LSB = 1.25e-6;
   return _readRegister(INA228_SOVL, 2);
 }
 
 void INA228::setShuntUndervoltageTH(uint16_t threshold)
 {
   //  TODO ADCRANGE DEPENDENT
+  //  float LSB = 5.0e-6;
+  //  if (_ADCRange == 1) LSB = 1.25e-6;
   _writeRegister(INA228_SUVL, threshold);
 }
 
 uint16_t INA228::getShuntUndervoltageTH()
 {
   //  TODO ADCRANGE DEPENDENT
+  //  float LSB = 5.0e-6;
+  //  if (_ADCRange == 1) LSB = 1.25e-6;
   return _readRegister(INA228_SUVL, 2);
 }
 
 void INA228::setBusOvervoltageTH(uint16_t threshold)
 {
-  if (threshold > 0x7FFF) return;
+  if (threshold > 0x7FFF) return;  //  false;
   //float LSB = 3.125e-3;  //  3.125 mV/LSB.
   _writeRegister(INA228_BOVL, threshold);
 }
@@ -520,13 +532,13 @@ uint16_t INA228::getBusUndervoltageTH()
 
 void INA228::setTemperatureOverLimitTH(uint16_t threshold)
 {
-  //float LSB = 7.8125e-3;  //  milliCelsius
+  //float LSB = 7.8125e-3;  //  milli degrees Celsius
   _writeRegister(INA228_TEMP_LIMIT, threshold);
 }
 
 uint16_t INA228::getTemperatureOverLimitTH()
 {
-  //float LSB = 7.8125e-3;  //  milliCelsius
+  //float LSB = 7.8125e-3;  //  milli degrees Celsius
   return _readRegister(INA228_TEMP_LIMIT, 2);
 }
 

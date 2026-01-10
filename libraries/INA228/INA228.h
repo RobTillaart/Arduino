@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA228.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2024-05-09
 // PURPOSE: Arduino library for the INA228, I2C, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA228
@@ -16,7 +16,7 @@
 #include "Wire.h"
 
 
-#define INA228_LIB_VERSION          (F("0.4.0"))
+#define INA228_LIB_VERSION          (F("0.4.1"))
 
 
 //  for setMode() and getMode()
@@ -116,7 +116,7 @@ public:
 
   //  raw integer interface.
   int32_t  getShuntVoltageRAW();
-  
+
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
   float    getAmpere()          { return getCurrent(); };
@@ -191,12 +191,12 @@ public:
   //  read datasheet for details. use with care.
   //  maxCurrent <= 204, (in fact no limit)
   //  shunt >= 0.0001.
-  //  returns _current_LSB;
+  //  returns error code => 0 == OK;
   int      setMaxCurrentShunt(float maxCurrent, float shunt);
-  bool     isCalibrated()    { return _current_LSB != 0.0; };
+  bool     isCalibrated()    { return _current_LSB > 0.0; };
   float    getMaxCurrent();
   float    getShunt();
-  float    getCurrentLSB();
+  float    getCurrentLSB();  //  <= 0.0 means not calibrated.
 
   //
   //  SHUNT TEMPERATURE COEFFICIENT REGISTER 3
@@ -243,7 +243,7 @@ public:
   //  MANUFACTURER and ID REGISTER 3E and 3F
   //
   //                               typical value
-  uint16_t getManufacturer();  //  0x5449
+  uint16_t getManufacturer();  //  0x5449 ("TI" in ASCII)
   uint16_t getDieID();         //  0x0228
   uint16_t getRevision();      //  0x0001
 

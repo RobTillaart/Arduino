@@ -19,8 +19,8 @@ volatile uint16_t value;
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("INA228_LIB_VERSION: ");
   Serial.println(INA228_LIB_VERSION);
   Serial.println();

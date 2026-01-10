@@ -15,8 +15,8 @@ INA228 INA(0x40);
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("INA228_LIB_VERSION: ");
   Serial.println(INA228_LIB_VERSION);
   Serial.println();

@@ -39,6 +39,7 @@ The INA228 also provides an **ALERT** line, to generate an interrupt
 in case a predefined threshold has been met.
 This can be an under- or over-voltage, temperature or power limit.
 The library does not handle these interrupts.
+The alert / limits part of the library's API still needs a redesign.
 
 The library is limited tested and verified with hardware.
 
@@ -259,7 +260,7 @@ This value is always positive.
 
 ### SHUNT VOLTAGE
 
-- **float getShuntVoltage()** idem, Returns value in volts.
+- **float getShuntVoltage()** idem. Returns value in volts.
 Note the value can be positive or negative as the INA228 is bidirectional.
 - **float getShuntVolt()**
 - **float getShuntMilliVolt()**
@@ -274,10 +275,6 @@ Note this value can be positive or negative as the INA228 is bidirectional.
 - **float getMilliAmpere()**
 - **float getMicroAmpere()**
 
-### TEMPERATURE
-
-- **float getTemperature()** returns the temperature in Celsius.
-
 ### POWER
 
 - **float getPower()** returns the current x BusVoltage in Watt.
@@ -285,6 +282,10 @@ Note this value can be positive or negative as the INA228 is bidirectional.
 - **float getMilliWatt()**
 - **float getMicroWatt()**
 - **float getKiloWatt()**
+
+### TEMPERATURE
+
+- **float getTemperature()** returns the temperature in Celsius.
 
 ### ENERGY
 
@@ -332,7 +333,7 @@ Read datasheet for details, section 7.6.1.1, page 22
 - **uint8_t getConversionDelay()** return set value.
 - **void setTemperatureCompensation(bool on)** see Shunt temperature coefficient below.
 - **bool getTemperatureCompensation()** return set value.
-- **bool setADCRange(bool flag)** flag = false => 164 mV, true => 41 mV
+- **bool setADCRange(bool flag)** flag = false => ~163.84 mV, true => ~40.96 mV
 Since 0.3.1 setADCRange() calls setMaxCurrentShunt() to update the internal LSB values.
 - **bool getADCRange()** return set value.
 
@@ -389,6 +390,8 @@ Read datasheet for details, section 7.6.1.2, page 22++
 | INA228_4120_us      |    7    |
 
 
+### ADC Average
+
 - **bool setAverage(uint8_t avg = INA228_1_SAMPLE)**
 - **uint8_t getAverage()** return set value.
 
@@ -416,6 +419,7 @@ depends on breakout used, See section above.
 The shunt should be 0.0001 Ω and up.
   - returns 0 if OK.
   - returns -2 if shunt < 0.0001 Ohm. ( Mateksys == 0.0002 Ω )
+  - returns -3 if maxCurrent < 0.0.
 - **bool isCalibrated()** is valid calibration value. The currentLSB > 0.
 - **float getMaxCurrent()** return set value.
 - **float getShunt()** return set value.
@@ -504,6 +508,8 @@ might be changed / extended in the future.
 - test and verify.
 - DiagnoseAlertBit functions
   - redo API (0.2.0)
+- keep in sync with INA226 where possible.
+- keep in sync with INA238 where possible.
 
 #### Should
 

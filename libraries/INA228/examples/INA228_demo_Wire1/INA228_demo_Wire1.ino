@@ -1,5 +1,5 @@
 //
-//    FILE: INA228_demo.ino
+//    FILE: INA228_demo_Wire1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo core functions
 //     URL: https://github.com/RobTillaart/INA228
@@ -8,7 +8,7 @@
 #include "INA228.h"
 
 
-INA228 INA(0x40);
+INA228 INA(0x40, &Wire1);
 
 
 void setup()
@@ -20,7 +20,7 @@ void setup()
   Serial.println(INA228_LIB_VERSION);
   Serial.println();
 
-  Wire.begin();
+  Wire1.begin();
   if (!INA.begin() )
   {
     Serial.println("Could not connect. Fix and Reboot");

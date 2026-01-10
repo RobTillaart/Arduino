@@ -2,7 +2,6 @@
 //    FILE: Kelvin2RGB_table.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: generate table of values
-//    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 
 
@@ -14,6 +13,7 @@ Kelvin2RGB KRGB;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("KELVIN2RGB_LIB_VERSION: ");
   Serial.println(KELVIN2RGB_LIB_VERSION);

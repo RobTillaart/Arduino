@@ -2,7 +2,6 @@
 //    FILE: Kelvin2RGB_difference.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo - shows difference between 2 convert functions.
-//    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 //
 //       best viewed in plotter.
@@ -17,6 +16,7 @@ Kelvin2RGB KRGB2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("KELVIN2RGB_LIB_VERSION: ");
   Serial.println(KELVIN2RGB_LIB_VERSION);

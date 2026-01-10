@@ -2,7 +2,6 @@
 //    FILE: Kelvin2RGB_timing.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo - shows timing 2 methods
-//    DATE: 2020-07-29
 //     URL: https://github.com/RobTillaart/Kelvin2RGB
 
 
@@ -16,6 +15,7 @@ uint32_t start, stop, duration1, duration2;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("KELVIN2RGB_LIB_VERSION: ");
   Serial.println(KELVIN2RGB_LIB_VERSION);

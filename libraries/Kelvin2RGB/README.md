@@ -35,7 +35,7 @@ These numbers are weights can be used to correct a colour image for virtual whit
 There are two convert functions where the **convert_NB()** is claimed to be
 the more accurate one.
 
-With the numbers **red**, **green** and **blue** calculated one can convert images 
+With the numbers **red**, **green** and **blue** calculated one can convert images
 so they will look more like taken with candle light, sunrise or sunset etc.
 
 
@@ -54,17 +54,19 @@ for each pixel in image
 }
 ```
 
-The numbers can also be used to reduce the blue channel so it has less effect 
+The numbers can also be used to reduce the blue channel so it has less effect
 on "getting sleepy".
 
 The library uses floats for the R,G and B weights to keep values as accurate as possible.
 Especially with images with more than 8 bits per channel this is preferred.
 That said it is also possible to use this on a 565 image or to adjust colour lookup tables.
 
+Feedback as always is welcome.
+
 
 ### Celsius and Fahrenheit
 
-To use Celsius or Fahrenheit with the **Kelvin2RGB** library, 
+To use Celsius or Fahrenheit with the **Kelvin2RGB** library,
 one need to convert that temperature to Kelvin.
 
 ```cpp
@@ -92,8 +94,8 @@ The interface is straightforward:
 
 ### Constructor
 
-- **Kelvin2RGB()** constructor.
-- **void begin()** resets all internal values to 0. 
+- **Kelvin2RGB()** constructor, sets all internals to 0 == dark.
+- **void begin()** resets all internal values to 0 == dark.
     All colours, brightness and temperature.
 
 
@@ -135,6 +137,8 @@ The interface is straightforward:
 
 
 ```cpp
+//             DAY LIGHT SETTING   = TEMPERATURE
+//
 const uint16_t DLS_dark            =     0;
 const uint16_t DLS_match           =  1700;
 const uint16_t DLS_sodiumLamp      =  1700;
@@ -174,10 +178,10 @@ const uint16_t DLS_polewardSky3    = 27000;
 #### Could
 
 - investigate other formulas.
-- investigate usability for RGB led strip.
+  - rgb -> HSL?
 - separate brightness per colour channel to mimic "artificial illumination"
 - add examples
-  - ledstrip
+  - RGB led-strip
 - use a "dirty flag" to minimize math operations.
 
 #### Wont

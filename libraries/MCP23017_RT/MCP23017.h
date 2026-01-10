@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23017.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.9.1
+// VERSION: 0.9.2
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -16,7 +16,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23017_LIB_VERSION              (F("0.9.1"))
+#define MCP23017_LIB_VERSION              (F("0.9.2"))
 
 #define MCP23017_OK                       0x00
 #define MCP23017_PIN_ERROR                0x81
@@ -141,7 +141,7 @@ protected:
 
 
 /*
-TODO
+WON'T
 - can it protect the user
 - can we detect REV D chips (over I2C)
 

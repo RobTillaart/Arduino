@@ -17,6 +17,7 @@ void setup()
 {
   Serial.begin(230400);
   Serial.println();
+  Serial.print(__FILE__);
   Serial.print("MCP23017_LIB_VERSION: ");
   Serial.println(MCP23017_LIB_VERSION);
   Serial.println();
@@ -93,7 +94,7 @@ void setup()
   Serial.println(val8);           //  keep build CI compiler happy
   Serial.println();
 
-  
+
   //////////////////////////////////////////////////
   //
   // write16 read16 interface

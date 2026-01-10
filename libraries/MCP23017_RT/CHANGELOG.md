@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.9.2] - 2026-01-10
+- update GitHub actions
+- minor edits
+
 ## [0.9.1] - 2025-03-06
 - fix #46, add **setAddress()** and **setWire()**
 
@@ -20,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add link to keypad library
 - update readme.md
 - update keywords.txt
-
 
 ## [0.8.0] - 2024-11-19
 - fix #47 (MCP23S17), interrupt handling. Kudos to GlibSkunk!

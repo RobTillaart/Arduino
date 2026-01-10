@@ -67,7 +67,7 @@ unittest(test_constructor)
   MCP23017 MCP(0x27);
 
   assertFalse(Wire.didBegin());
-  
+
   Wire.begin();
   MCP.begin();
   assertTrue(Wire.didBegin());

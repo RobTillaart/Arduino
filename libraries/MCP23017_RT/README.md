@@ -24,6 +24,8 @@ Programming Interface is kept the same as much as possible.
 The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+Feedback as always is welcome.
+
 
 ### REV D - June 2022
 
@@ -136,17 +138,19 @@ too if they are behind the multiplexer.
 
 16 bit port expanders
 
-- https://github.com/RobTillaart/MCP23017_RT
-- https://github.com/RobTillaart/MCP23S17
-- https://github.com/RobTillaart/PCF8575
-- https://github.com/RobTillaart/TCA9555
+- https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
+- https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
+- https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
+- https://github.com/RobTillaart/PCA9671  I2C 16 IO lines. - successor PCF8575
+- https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
 
 
 8 bit port expanders
 
-- https://github.com/RobTillaart/MCP23008
-- https://github.com/RobTillaart/MCP23S08
-- https://github.com/RobTillaart/PCF8574
+- https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
+- https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
+- https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
+- https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
 
 Keypad
 
@@ -325,7 +329,6 @@ Reading it will reset the flag to **MCP23017_OK**.
 #### Must
 
 - Improve and extend documentation
-- add examples
 
 #### Should
 
@@ -337,8 +340,11 @@ Reading it will reset the flag to **MCP23017_OK**.
 - add example with interrupts
   - test
   - extend error codes
+- add examples
+  - rotary decoder
+  - IO debounce buttons
 - optimize code - squeeze footprint
-- fix TODO's in code
+- add **MCP23x17_INT_MODE_ERROR** - enableInterrupt()
 
 #### Could
 

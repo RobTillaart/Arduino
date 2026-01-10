@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23017.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.9.1
+// VERSION: 0.9.2
 // PURPOSE: Arduino library for I2C MCP23017 16 channel port expander
 //    DATE: 2019-10-12
 //     URL: https://github.com/RobTillaart/MCP23017_RT
@@ -519,7 +519,7 @@ bool MCP23017::getPullup16(uint16_t &mask)
 //
 //  INTERRUPTS (experimental, see MCP23S17 - #40)
 //
-//  TODO, MCP23x17_INT_MODE_ERROR?
+//  MCP23x17_INT_MODE_ERROR?
 //
 //  pin = 0..15, mode = { RISING, FALLING, CHANGE }
 bool MCP23017::enableInterrupt(uint8_t pin, uint8_t mode)

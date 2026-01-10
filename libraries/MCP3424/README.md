@@ -39,7 +39,7 @@ The user has to configure the ADC device (bits, gain) and can call
 Current implementation will probably change slightly in the future
 when related devices will be supported. (See future section).
 
-As always feedback is welcome.
+Feedback as always is welcome.
 
 ### Special chars
 
@@ -183,7 +183,7 @@ The user has to configure the ADC device (bits, gain) and can call
 Correct settings will be written to the device immediately, but be aware of the fact
 that it will take some time before the conversion with new settings is done.
 
-#### Channels
+### Channels
 
 - **bool setChannel(uint8_t channel = 0)** not to be used for the MCP3421 as
 it has only one channel. Default is channel 0, parameter should be less than the
@@ -192,13 +192,13 @@ After changing a channel one has to wait an interval depending on the resolution
 See table above.
 - **uint8_t getChannel()** returns chosen channel (default 0).
 
-#### Gain
+### Gain
 
 - **bool setGain(uint8_t gain = 1)** set gain to 1,2,4, or 8.
 Other values will return false and not change the setting.
 - **uint8_t getGain()** returns the set gain (default 1).
 
-#### Resolution
+### Resolution
 
 - **bool setResolution(uint8_t bits = 12)** set the bit resolution 12,14,16 or 18.
 Other values will return false and not change the setting.
@@ -207,7 +207,7 @@ Other values will return false and not change the setting.
 current resolution between calls to **setChannel()** and /or **read()**.
 See Resolution section above.
 
-#### Mode
+### Mode
 
 - **void setContinuousMode()** idem.
 - **void setSingleShotMode()** idem.

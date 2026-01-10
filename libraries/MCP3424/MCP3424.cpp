@@ -1,7 +1,7 @@
 //
 //    FILE: MCP3424.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 
@@ -219,7 +219,7 @@ int32_t MCP3424::readRaw()
   {
     if (_wire->requestFrom(_address, (uint8_t)3) != 3)
     {
-      //  _error = PCF8574_I2C_ERROR;
+      //  _error = MCP3424_I2C_ERROR;
       return 0;
     }
     rv += _wire->read();
@@ -235,7 +235,7 @@ int32_t MCP3424::readRaw()
   //  12, 14, 16 bit
   if (_wire->requestFrom(_address, (uint8_t)2) != 2)
   {
-    //  _error = PCF8574_I2C_ERROR;
+    //  _error = MCP3424_I2C_ERROR;
     return 0;
   }
   rv += _wire->read();

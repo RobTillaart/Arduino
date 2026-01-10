@@ -1,7 +1,7 @@
 //
 //    FILE: m5rotate8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for M5 8ROTATE 8x rotary encoders
 //     URL: https://github.com/RobTillaart/M5ROTATE8
 
@@ -161,7 +161,6 @@ bool M5ROTATE8::allOff()
 {
   return setAll(0, 0, 0);
 }
-
 
 
 //

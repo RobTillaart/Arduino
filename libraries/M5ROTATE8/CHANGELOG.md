@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] 2026-01-10
+- update GitHub actions
+- minor edits
+
 ## [0.4.1] 2025-01-27
 - fix #8, ambiguity Wire.write() function in write32()
 - add ```while(!Serial);``` to examples
@@ -27,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.3.0] 2023-12-05
 - refactor API
-- update readme 
+- update readme
 - update examples
 
 ----

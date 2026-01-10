@@ -40,9 +40,9 @@ First tests with hardware have been done.
 **Warning:** One strange observation, the RE makes steps of size 2 and occasionally step size 1.
 This needs further investigation, so use with care.
 
-Feedback is welcome!
+Feedback as always is welcome!
 
-#### Missing in V1
+### Missing in V1
 
 The device has no interrupt signal e.g. on change. However since firmware version V2
 the device allows to read one register to see changes on all rotary encoders and one 
@@ -52,13 +52,13 @@ of the time.
 Note: V2 is not tested with hardware yet.
 
 
-#### Breaking change
+### Breaking change 0.4.0
 
 Version 0.4.0 added support for Firmware V2 functions. See below.
 If your hardware has firmware V1 these functions won't work.
 
 
-#### Breaking change
+### Breaking change 0.3.0
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -67,7 +67,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### I2C
+### I2C
 
 The address range is in theory from 0..127, however the I2C specification
 states it should be between 8 and 119 as some addresses are reserved,
@@ -85,7 +85,7 @@ The default address is **0x41** or **65**.
 See log file performance sketch.
 
 
-#### Accuracy
+### Accuracy
 
 The overall behaviour looks not too bad, there are 30 steps per rotation.
 The rotary encoders show a step size of 2 and sometimes a step size of 1.
@@ -93,7 +93,7 @@ So normally one rotation gives +60 or -60.
 The step size needs investigation as I would expect step size 1, always.
 
 
-#### Related
+### Related
 
 Manufacturer
 - https://github.com/m5stack/M5Unit-8Encoder
@@ -115,7 +115,7 @@ Libraries
 #include "M5ROTATE8.h"
 ```
 
-#### Constructor part
+### Constructor
 
 - **M5ROTATE8(uint8_t address = M5ROTATE8_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Default address = 0x41, default Wire.
@@ -130,7 +130,7 @@ Returns false if address below 8 or above 119.
 - **uint8_t getVersion()** get the firmware version from device.
 
 
-#### Rotary encoder part
+### Rotary encoder
 
 - **int32_t getAbsCounter(uint8_t channel)**
 Read the absolute or cumulative position of the rotary encoder since reset or start.
@@ -147,12 +147,12 @@ True (1) is pressed, False (0) is not pressed.
 - **void resetAll()** reset all rotary encoder counters to 0.
 
 
-#### Input switch part
+### Input switch
 
 - **uint8_t inputSwitch()** read the status of the micro switch.
 
 
-#### LED part
+### LED
 
 - **bool writeRGB(uint8_t channel, uint8_t R, uint8_t G, uint8_t B)** Set the RGB value of a specific LED.  
 channel = 0..8 as there is one more LED than rotary encoders.
@@ -162,7 +162,7 @@ The value is 0x00RRGGBB.
 - **bool allOff()** switches all LEDs off, RGB = (0,0,0).
 
 
-#### Firmware V2 functions
+### Firmware V2 functions
 
 New content in registers 0x58 - 0x5F, 0x61, 0x62.  
 Needs testing with hardware.

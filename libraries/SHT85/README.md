@@ -13,6 +13,9 @@
 
 Arduino library for the SHT85 temperature and humidity sensor.
 
+
+## Description
+
 Based upon the SHT31 library - https://github.com/RobTillaart/SHT31
 however this library will be leading in the future as it implements derived classes 
 for the following sensors: **SHT30, SHT31, SHT35 and SHT85**.
@@ -21,8 +24,10 @@ for the following sensors: **SHT30, SHT31, SHT35 and SHT85**.
 **WARNING** to keep self-heating below 0.1°C, the SHT85 sensor should 
 not be used for more than 10% of the time.
 
+Feedback as always is welcome.
 
-## Description
+
+### Hardware 
 
 Always check datasheet before connecting! 
 
@@ -59,7 +64,7 @@ Accuracy table
 |   SHT30  |      ~0.3°    |     2.0%   |     N      |
 |   SHT31  |      ~0.3°    |     1.5%   |     Y      |
 |   SHT35  |      ~0.2°    |     1.5%   |     N      |
-|   SHT85  |      ~0.2°    |     1.5%   |     Y      |
+|   SHT85  |      ~0.1°    |     1.5%   |     Y      |
 
 
 Note: The SHT40, SHT41 and SHT45 are not protocol compatible with SHT3x and SHT85.
@@ -69,7 +74,7 @@ The SHT4x series is slightly faster than the SHT3x series.
 ### I2C performance
 
 The SHT85 sensors should work (I2C) up to 1000 KHz. 
-During tests with an Arduino UNO it stopped between 500 - 550 KHz.
+During tests with an Arduino UNO R3 it stopped between 500 - 550 KHz.
 So to be safe I recommend not to use the sensor above 400 KHz.
 Also the differences in read time becomes quite small. (max 15% gain).
 
@@ -86,7 +91,7 @@ SPS (= samples per second) are added later.
 |   250 KHz   |    4.56   |       |
 |   300 KHz   |    4.50   |  164  |
 |   350 KHz   |    4.47   |       |
-|   400 KHz   |    4.45   |  164  |
+|   400 KHz   |    4.45   |  164  |  max advised
 |   450 KHz   |    4.43   |       |
 |   500 KHz   |    4.42   |  163  |
 |   550 KHz   |    ----   |       |  fail 
@@ -203,7 +208,7 @@ has past since request to read the data.
 The parameter **fast** should be the same as in requestData().
 - **bool readData(bool fast = true)** fast = true skips the CRC check. 
 Returns false if reading the data fails or if CRC check failed.
-- **uint32_t getLastRequest()** returns timestamp of last successful call  to requestData.
+- **uint32_t getLastRequest()** returns timestamp of last successful call to requestData.
 This function is used to check if the request is too long ago.
 
 
@@ -327,20 +332,25 @@ Will switch the heater off if maximum heating time has passed.
 **bool clearStatus()** clears 15, 11, 10 and 4.
 
 
-### GetSerial
+### GetSerialNumber
 
 - **bool getSerialNumber(uint32_t &serial, bool fast = true)** fast == true, => no CRC check
 fast == false, => do CRC check. 
 This command seems to be timing sensitive, it uses a delay of 500us
 which may need "tuning". So function is bit experimental.
 
+## Test
+
+Library tested with UNO R3, ESP32 and UNO R4 (#32).
+
+(elaborate)
 
 ## Future
 
 #### Must
 
 - improve documentation.
-  - reorder interface
+- reorder interface
 
 #### Should
 
@@ -356,6 +366,8 @@ which may need "tuning". So function is bit experimental.
 - investigate command ART (auto sampling at 4 Hz)
 - investigate command BREAK (stop auto sampling)
 - test SHT30/35
+- remove SHT85_LIB_VERSION (0.7.0)
+
 
 #### Won't
 

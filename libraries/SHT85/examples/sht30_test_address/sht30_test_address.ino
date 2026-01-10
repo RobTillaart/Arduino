@@ -15,6 +15,7 @@ SHT30 sht2(0x45);
 
 void setup()
 {
+  delay(1000);
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println();

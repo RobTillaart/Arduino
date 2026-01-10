@@ -25,6 +25,7 @@ SHT85 sht(SHT85_ADDRESS);
 
 void setup()
 {
+  delay(1000);
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
   Serial.println();

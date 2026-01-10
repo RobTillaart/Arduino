@@ -1,7 +1,7 @@
 //
 //    FILE: SHT85.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.2
+// VERSION: 0.6.3
 //    DATE: 2021-02-10
 // PURPOSE: Arduino library for the SHT85 temperature and humidity sensor
 //          https://nl.rs-online.com/web/p/temperature-humidity-sensor-ics/1826530
@@ -42,8 +42,8 @@ SHT::SHT(uint8_t address, TwoWire *wire)
   _heaterOn          = false;
   _error             = SHT_OK;
   _type              = 0;
-  _temperatureOffset = 0;
-  _humidityOffset    = 0;
+  _temperatureOffset = 0.0f;
+  _humidityOffset    = 0.0f;
 }
 
 
@@ -329,24 +329,24 @@ bool SHT::isHeaterOn()
 //
 float SHT::getHumidity()
 {
-  float hum = _rawHumidity * (100.0 / 65535);
-  if (_humidityOffset != 0) hum += _humidityOffset;
+  float hum = _rawHumidity * (100.0f / 65535.0f);
+  if (_humidityOffset != 0.0f) hum += _humidityOffset;
   return hum;
 }
 
 
 float SHT::getTemperature()
 {
-  float temp = _rawTemperature * (175.0 / 65535) - 45;
-  if (_temperatureOffset != 0) temp += _temperatureOffset;
+  float temp = _rawTemperature * (175.0f / 65535.0f) - 45.0f;
+  if (_temperatureOffset != 0.0f) temp += _temperatureOffset;
   return temp;
 }
 
 
 float SHT::getFahrenheit()
 {
-  float temp = _rawTemperature * (63.0 / 13107.0) - 49;
-  if (_temperatureOffset != 0) temp += _temperatureOffset * 1.8;
+  float temp = _rawTemperature * (315.0f / 65535.0f) - 49.0f;
+  if (_temperatureOffset != 0.0f) temp += _temperatureOffset * 1.8f;
   return temp;
 }
 
@@ -415,8 +415,11 @@ bool SHT::writeCmd(uint16_t cmd)
   _wire->beginTransmission(_address);
   _wire->write(cmd >> 8 );
   _wire->write(cmd & 0xFF);
-  if (_wire->endTransmission() != 0)
+  int rv = _wire->endTransmission();
+  if (rv != 0)
   {
+    //  Serial.print("RV: ");
+    //  Serial.println(rv);
     _error = SHT_ERR_WRITECMD;
     return false;
   }
@@ -444,6 +447,7 @@ bool SHT::readBytes(uint8_t n, uint8_t *val)
 
 bool SHT::getSerialNumber(uint32_t &serial, bool fast) {
   if (writeCmd(SHT_GET_SERIAL_NUMBER) == false) {
+      //  serial = 0xFFFFFFFF; // ?
       return false;
   }
   delayMicroseconds(500);  //  timing sensitive.

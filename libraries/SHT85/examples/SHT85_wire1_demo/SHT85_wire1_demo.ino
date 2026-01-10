@@ -1,5 +1,5 @@
 //
-//    FILE: SHT85_demo.ino
+//    FILE: SHT85_wire1_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SHT85
@@ -20,7 +20,7 @@
 uint32_t start;
 uint32_t stop;
 
-SHT85 sht(SHT85_ADDRESS);
+SHT85 sht(SHT85_ADDRESS, &Wire1);
 
 
 void setup()
@@ -34,8 +34,8 @@ void setup()
   Serial.println(SHT_LIB_VERSION);
   Serial.println();
 
-  Wire.begin();
-  Wire.setClock(100000);
+  Wire1.begin();
+  Wire1.setClock(100000);
   sht.begin();
 
   uint16_t stat = sht.readStatus();

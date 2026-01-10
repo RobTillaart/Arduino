@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.3] - 2026-01-10
+- add example **SHT85_verbose.ino** for testing
+- add example **SHT85_Wire1_demo.ino**
+- update examples (add delay(1000) for startup sensor.
+- update GitHub actions
+- add (float) "f" postfix for float constants.
+- minor edits
+
 ## [0.6.2] - 2025-05-10
 - fix #30, sync SHT31 getSerialNumber
 - changed defines for commands in static constexpr (.cpp)

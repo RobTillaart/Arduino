@@ -77,7 +77,7 @@ See example **LC7822_multi.ino**.
 
 The LC7822 et al, can work with relative high voltages, up to ~20 Volts.
 They can be controlled directly with an Arduino as 5V is within specification.
-It is adviced to add an appropriate optocoupler and optional invertor
+It is advised to add an appropriate optocoupler and optional inverter
 when voltages above the 5 Volt are used with this device.
 
 Be sure to read the datasheet.
@@ -86,7 +86,7 @@ Be sure to read the datasheet.
 ### Compatibles
 
 There are newer devices with type numbers LC78211, LC78212 and LC78213 
-that are compatible with resp. LC7821, LC7822 and LC7823.
+that are compatible with LC7821, LC7822 and LC7823.
 (although these seem to be obsolete too).
 
 

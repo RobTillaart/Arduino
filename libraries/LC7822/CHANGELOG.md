@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2026-01-11
+- fix #4, add **LC7822_prepare_masks.ino** example, show how to use prepared masks
+- add **LC7822_multi_pumps.ino** example, demo
+- update GitHub Actions
+- minor edits
+
 ## [0.2.0] - 2025-12-21
 - fix #2, cePin bug
 - fix #3, add address as parameter to **begin()**

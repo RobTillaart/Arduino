@@ -1,7 +1,7 @@
 //
 //    FILE: LC7822_multi.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic behaviour
+// PURPOSE: demo multi LC7822
 //     URL: https://github.com/RobTillaart/LC7822
 
 

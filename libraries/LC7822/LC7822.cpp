@@ -2,7 +2,7 @@
 //    FILE: LC7822.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-12-20
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for the LC7822 8 channel analogue switch.
 //     URL: https://github.com/RobTillaart/LC7822
 

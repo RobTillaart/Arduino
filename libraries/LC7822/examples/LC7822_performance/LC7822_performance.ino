@@ -1,8 +1,7 @@
 //
 //    FILE: LC7822_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic behaviour
-
+// PURPOSE: measure performance core functions
 //     URL: https://github.com/RobTillaart/LC7822
 
 
@@ -75,5 +74,6 @@ void test(int del)
   Serial.println(stop - start);
   delay(100);
 }
+
 
 //  -- END OF FILE --

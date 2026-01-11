@@ -1,14 +1,21 @@
 //
-//    FILE: LC7822_demo.ino
+//    FILE: LC7822_prepare_masks.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic behaviour
+// PURPOSE: demo masks
 //     URL: https://github.com/RobTillaart/LC7822
+//
+//  Has an array of prepared masks which will be walked
+//  through after receiving a byte over Serial.
 
 
 #include "LC7822.h"
 
 //  LC7822(dataPin, clockPin, cePin, sPin, resetPin);
 LC7822 LC(4,5,6,7);  //  no reset Pin.
+
+//  prepared masks
+uint8_t masks[10] = { 0x00, 0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC, 0xDE, 0xFF, 0x55};
+uint8_t idx = 0;
 
 
 void setup()
@@ -31,20 +38,13 @@ void setup()
 
 void loop()
 {
-  //  set on, one by one
-  for (int sw = 0; sw < 8; sw ++)
+  if (Serial.available())
   {
-    LC.setSwitch(sw, 1);
-    delay(500);
+    Serial.read();
+    LC.setAll(masks[idx]);
+    idx++;
+    if (idx >= 10) idx = 0;
   }
-
-  // set off, one by one
-  for (int sw = 0; sw < 8; sw ++)
-  {
-    LC.setSwitch(sw, 0);
-    delay(500);
-  }
-  delay(2000);
 }
 
 

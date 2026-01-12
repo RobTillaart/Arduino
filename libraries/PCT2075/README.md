@@ -37,6 +37,8 @@ Check the datasheet for the details.
 
 Library is limited tested with an Arduino UNO.
 
+Feedback as always is welcome.
+
 
 ### Please report your experiences.
 
@@ -86,7 +88,7 @@ reflect the A0..A2 pin. See table 5 + 6, page 8 datasheet for 27 possible addres
 - **void setConfiguration(uint8_t mask)** set all bits in configuration at once.
 - **uint8_t getConfiguration()** return the current configuration bit mask.
 
-COnfiguration register
+Configuration register
 
 |  bit  |  symbol       |  description  |
 |:-----:|:--------------|:--------------|
@@ -104,9 +106,7 @@ See page 6 datasheet for details.
 - **setOSPolarityHIGH()** idem.
 - **setOSComparatorMode()** idem.
 - **setOSInterruptMode()** idem.
-- **wakeUp()** idem, starts making measurements. See datasheet 7.1.
-Note it takes ~28 milliseconds to get a first new temperature reading.
-- **shutDown()** idem, stops making measurements.
+
 
 |  OS_F_QUE  |  times  |  notes  |
 |:----------:|:-------:|:--------|
@@ -114,6 +114,13 @@ Note it takes ~28 milliseconds to get a first new temperature reading.
 |     1      |   2x    |
 |     2      |   4x    |
 |     3      |   6x    |  OS triggers on sixth occurrence
+
+
+### wake up
+
+- **wakeUp()** idem, starts making measurements. See datasheet 7.1.
+Note it takes ~28 milliseconds to get a first new temperature reading.
+- **shutDown()** idem, stops making measurements.
 
 
 ### Temperature

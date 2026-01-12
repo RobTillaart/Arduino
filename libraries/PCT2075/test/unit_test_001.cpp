@@ -26,7 +26,7 @@
 #include "PCT2075.h"
 
 // writing to a virtual device does not work
-// as millis() function is not implemented in 
+// as millis() function is not implemented in
 // the Arduino-CI environment
 
 
@@ -44,6 +44,7 @@ unittest_teardown()
 unittest(test_constants)
 {
   assertEqual(0x00, PCT2075_OK);
+  assertEqual(0x81, PCT2075_PARAM_ERROR);
   assertEqual(0x82, PCT2075_I2C_ERROR);
 }
 

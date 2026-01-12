@@ -2,7 +2,7 @@
 //    FILE: PCT2075.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-11
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for I2C PCT2075 temperature sensor / thermal watchdog.
 //     URL: https://github.com/RobTillaart/PCT2075
 
@@ -35,7 +35,6 @@ bool PCT2075::isConnected()
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
 }
-
 
 uint8_t PCT2075::getAddress()
 {
@@ -124,7 +123,6 @@ float PCT2075::getTemperature()
   return temp;
 }
 
-
 //  OPERATING MODE - OS pin => datasheet section 7
 void PCT2075::setHysteresis(float temp)
 {
@@ -171,7 +169,10 @@ uint16_t PCT2075::lastError()
   return _error;
 }
 
-
+////////////////////////////////////////////
+//
+//  PRIVATE
+//
 uint16_t PCT2075::_read8(uint8_t reg)
 {
   _error = PCT2075_OK;
@@ -193,7 +194,6 @@ uint16_t PCT2075::_read8(uint8_t reg)
   uint8_t value = _wire->read();
   return value;
 }
-
 
 uint16_t PCT2075::_read16(uint8_t reg)
 {
@@ -219,7 +219,6 @@ uint16_t PCT2075::_read16(uint8_t reg)
   return value;
 }
 
-
 uint16_t PCT2075::_write8(uint8_t reg, uint8_t value)
 {
   _error = PCT2075_OK;
@@ -235,7 +234,6 @@ uint16_t PCT2075::_write8(uint8_t reg, uint8_t value)
   }
   return _error;
 }
-
 
 uint16_t PCT2075::_write16(uint8_t reg, uint16_t value)
 {

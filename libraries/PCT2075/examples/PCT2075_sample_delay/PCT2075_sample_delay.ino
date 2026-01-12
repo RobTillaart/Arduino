@@ -13,6 +13,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCT2075_LIB_VERSION: ");
   Serial.println(PCT2075_LIB_VERSION);
@@ -36,7 +37,6 @@ void loop()
 
   delay(2000);  //  wait 2000
 }
-
 
 
 //  -- END OF FILE --

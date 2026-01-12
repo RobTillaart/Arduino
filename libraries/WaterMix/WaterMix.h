@@ -3,14 +3,15 @@
 //    FILE: WaterMix.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for mixing water with different temperatures.
-// VERSION: 0.1.5
+// VERSION: 0.1.6
+//    DATE: 2023-08-29
 //     URL: https://github.com/RobTillaart/WaterMix
 
 
 #include "Arduino.h"
 
 
-#define WATERMIX_LIB_VERSION     (F("0.1.5"))
+#define WATERMIX_LIB_VERSION     (F("0.1.6"))
 
 
 ////////////////////////////////////////////
@@ -135,7 +136,6 @@ public:
   {
     return mass / density(temperature);
   }
-
 
   //  density is in fact multiMap code
   float  density(float temperature)

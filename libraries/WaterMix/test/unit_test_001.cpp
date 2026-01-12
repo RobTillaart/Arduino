@@ -55,7 +55,7 @@ unittest(test_add_sub)
 
   assertEqualFloat(0, WM.volume(), 0.01);
   assertEqualFloat(0, WM.temperature(), 0.01);
-  
+
   WM.add(100, 10);
   assertEqualFloat(100, WM.volume(), 0.01);
   assertEqualFloat(10, WM.temperature(), 0.01);
@@ -63,7 +63,7 @@ unittest(test_add_sub)
   WM.add(100, 20);
   assertEqualFloat(200, WM.volume(), 0.01);
   assertEqualFloat(15, WM.temperature(), 0.01);
-  
+
   WM.sub(50);
   assertEqualFloat(150, WM.volume(), 0.01);
   assertEqualFloat(15, WM.temperature(), 0.01);
@@ -78,7 +78,7 @@ unittest(test_div_mul)
 
   assertEqualFloat(0, WM.volume(), 0.01);
   assertEqualFloat(0, WM.temperature(), 0.01);
-  
+
   WM.add(100, 10);
   assertEqualFloat(100, WM.volume(), 0.01);
   assertEqualFloat(10, WM.temperature(), 0.01);
@@ -86,7 +86,7 @@ unittest(test_div_mul)
   WM.mul(3);
   assertEqualFloat(300, WM.volume(), 0.01);
   assertEqualFloat(10, WM.temperature(), 0.01);
-  
+
   WM.div(2);
   assertEqualFloat(150, WM.volume(), 0.01);
   assertEqualFloat(10, WM.temperature(), 0.01);

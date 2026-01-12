@@ -49,6 +49,8 @@ If you have requests, questions or ideas, let me know by opening an issue.
 By adding the LiquidMix base class the library allows easy derived classes
 like the WaterMix.
 
+Feedback as always is welcome.
+
 ### Limitations
 
 The **LiquidMix** uses a generic volume parameter instead of gallons or liters as

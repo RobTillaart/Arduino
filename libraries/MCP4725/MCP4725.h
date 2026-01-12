@@ -3,7 +3,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //     URL: https://github.com/RobTillaart/MCP4725
 
 
@@ -11,27 +11,28 @@
 #include "Arduino.h"
 
 
-#define MCP4725_VERSION         (F("0.4.1"))
+#define MCP4725_LIB_VERSION         (F("0.4.2"))
+#define MCP4725_VERSION             MCP4725_LIB_VERSION
 
 
 //  CONSTANTS
-#define MCP4725_MAXVALUE        4095
+#define MCP4725_MAXVALUE            4095
 
 
 //  ERRORS
-#define MCP4725_OK              0
-#define MCP4725_VALUE_ERROR     -999
-#define MCP4725_REG_ERROR       -998
-#define MCP4725_NOT_CONNECTED   -997
+#define MCP4725_OK                  0
+#define MCP4725_VALUE_ERROR         -999
+#define MCP4725_REG_ERROR           -998
+#define MCP4725_NOT_CONNECTED       -997
 
 
 //  powerDown Mode - TODO ENUM?
-#define MCP4725_PDMODE_NORMAL   0x00
-#define MCP4725_PDMODE_1K       0x01
-#define MCP4725_PDMODE_100K     0x02
-#define MCP4725_PDMODE_500K     0x03
+#define MCP4725_PDMODE_NORMAL       0x00
+#define MCP4725_PDMODE_1K           0x01
+#define MCP4725_PDMODE_100K         0x02
+#define MCP4725_PDMODE_500K         0x03
 
-#define MCP4725_MIDPOINT        2048
+#define MCP4725_MIDPOINT            2048
 
 
 class MCP4725

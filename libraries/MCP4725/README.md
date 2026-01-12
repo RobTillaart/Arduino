@@ -23,6 +23,8 @@ The MCP4725 supports 100 KHz 400 KHz and 3.4 MHz bus speeds.
 The output of the MCP4725 depends on the voltage supplied, which is in the range
 of 2.7V .. 5.5V. Check datasheet for the details.
 
+Feedback as always is welcome.
+
 
 ### 0.4.0 Breaking change
 
@@ -58,20 +60,20 @@ Returns true if deviceAddress can be found on the I2C bus.
 
 ### Base
 
-- **int setValue(uint16_t value = 0)** value = 0 .. 4095.  
+- **int setValue(uint16_t value = 0)** value = 0 .. 4095.
 Uses writeFastMode and does not write to EEPROM.
 Therefore it does not update the lastWriteEEPROM timestamp.
-The default value is 0.  
+The default value is 0.
 Returns 0 on success
-- **uint16_t getValue()** returns last value set from cache, this is much faster than readDAC().  
-This latter gives the real value from the MCP4725. 
+- **uint16_t getValue()** returns last value set from cache, this is much faster than readDAC().
+This latter gives the real value from the MCP4725.
 Note: a difference can be caused by power outage a reset etc.
 - **int setPercentage(float percentage)** percentage = 0..100.0%.
 Convenience wrapper around setValue().
 - **float getPercentage()** returns percentage. Wrapper around getValue().
-- **int writeDAC(value, bool EEPROM = false)** Writes to DAC and conditionally to EEPROM.  
+- **int writeDAC(value, bool EEPROM = false)** Writes to DAC and conditionally to EEPROM.
 This latter is for startup / reset behaviour. Check datasheet for the detail behaviour.
-- **bool ready()** returns true if a new value can be written to the MCP4725.  
+- **bool ready()** returns true if a new value can be written to the MCP4725.
 Return false if recently was written to EEPROM.
 - **uint16_t readDAC()** reads the current value set in the MCP4725.
 - **uint16_t readEEPROM()** reads the current value in the EEPROM of the MCP4725.
@@ -112,8 +114,8 @@ Check datasheet for these functions, (not tested enough yet).
 - **int powerOnWakeUp()**
 
 More investigations needed for:
-- Writing to EEPROM, **ready()** and **getLastWriteEEPROM()**  
-checking when and how long the sensor blocks needs to be verified in detail in practice. 
+- Writing to EEPROM, **ready()** and **getLastWriteEEPROM()**
+checking when and how long the sensor blocks needs to be verified in detail in practice.
 
 
 ## Address Notes
@@ -166,18 +168,22 @@ But one cannot always order the right devices.
 Especially breakout boards often have the same address-range.
 
 
-### TCA9548 I2C multiplexer
+### I2C multiplexing
 
-Use an I2C multiplexer to create multiple "I2C channels" which allows then
-up to 8 devices per channel. Selecting the right devices includes setting
-the I2C multiplexer to the right channel to address the right device.
-This implies access is a bit slower and uses more code.
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-One (TCA9548) multiplexer allows one to control up to 64 MCP4725's.
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
-
-Note that other multiplexers do exist.
 
 
 ### Use A0 address pin as a SELECT pin
@@ -225,20 +231,21 @@ It is even possible to power devices (not all) with the current loop.
 #### Should
 
 - test the powerDown modes / functions.
-- test A0 (address bit) as SELECT pin.
+- add example
+  - test A0 (address bit) as SELECT pin (multiple devices)
 - optimize
   - voltage interface uses float divisions => store reciprocate?
-  - takes 2 extra floats.
+  - takes 2 extra floats?
+  - I2C is more performance bottleneck
+- rename MCP4725_VERSION => MCP4725_LIB_VERSION
 
 #### Could
 
-- add mavVoltage parameter in begin?
-  - **bool begin(float maxVoltage = 5.0);**
+- add maxVoltage parameter in begin?
+  - **bool begin(float maxVoltage = 5.0)**
 - extend unit tests
 
 #### Wont
-
-- MCP4725_VERSION ==> MCP4725_LIB_VERSION
 
 
 ## Support

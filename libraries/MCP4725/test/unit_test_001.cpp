@@ -30,7 +30,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "MCP4725_VERSION: %s\n", (char *) MCP4725_VERSION);
+  fprintf(stderr, "MCP4725_LIB_VERSION: %s\n", (char *) MCP4725_LIB_VERSION);
 }
 
 

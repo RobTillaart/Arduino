@@ -2,13 +2,13 @@
 //
 //    FILE: I2C_LCD.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2023-12-16
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 
 
-#define I2C_LCD_LIB_VERSION     (F("0.2.5"))
+#define I2C_LCD_LIB_VERSION     (F("0.2.6"))
 
 
 #include "Arduino.h"

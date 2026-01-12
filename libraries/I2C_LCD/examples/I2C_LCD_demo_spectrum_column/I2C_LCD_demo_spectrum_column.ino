@@ -47,7 +47,7 @@ void setup()
 
   for (int i = 0; i < 8; i++)
   {
-       lcd.createChar(i, columnWide[i]);
+    lcd.createChar(i, columnWide[i]);
     //  lcd.createChar(i, columnMedium[i]);
     //  lcd.createChar(i, columnSmall[i]);
     //  lcd.createChar(i, columnHollow[i]);

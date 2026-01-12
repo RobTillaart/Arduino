@@ -461,6 +461,7 @@ To elaborate.
 - test other platforms.
   - ESP32, RPI2040
 - test other display sizes.
+- check keywords.txt
 
 #### Could
 

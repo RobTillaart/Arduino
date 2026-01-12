@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_LCD_special_chars.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: see library.properties
+// VERSION: see CHANGELOG.md
 // PURPOSE: Arduino library for I2C_LCD
 //     URL: https://github.com/RobTillaart/I2C_LCD
 

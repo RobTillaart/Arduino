@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-12-17
-// PURPOSE: unit tests for the I2C_LCD 
+// PURPOSE: unit tests for the I2C_LCD
 //          https://github.com/RobTillaart/I2C_LCD
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

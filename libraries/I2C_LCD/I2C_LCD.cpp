@@ -90,7 +90,7 @@ bool I2C_LCD::begin(uint8_t columns, uint8_t rows)
   _columns = columns;
   _rows = rows;
 
-  if (isConnected() == false) 
+  if (isConnected() == false)
   {
     //  _error is set in siConnected()
     return false;

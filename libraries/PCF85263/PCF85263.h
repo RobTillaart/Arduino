@@ -3,7 +3,7 @@
 //    FILE: PCF85263.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-17
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the PCF85263 RTC (I2C).
 //     URL: https://github.com/RobTillaart/PCF85263
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF85263_LIB_VERSION         (F("0.1.0"))
+#define PCF85263_LIB_VERSION         (F("0.1.1"))
 #define PCF85263_DEFAULT_ADDRESS     0x51
 
 

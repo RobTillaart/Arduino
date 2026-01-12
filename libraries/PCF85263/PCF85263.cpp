@@ -2,7 +2,7 @@
 //    FILE: PCF85263.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-17
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the PCF85263 RTC.
 //     URL: https://github.com/RobTillaart/PCF85263
 
@@ -14,7 +14,7 @@
 PCF85263::PCF85263(TwoWire *wire)
 {
   _wire     = wire;
-  _error    = 0;
+  _error    = PCF85263_OK;
   _lastRead = 0;
 }
 
@@ -22,7 +22,7 @@ PCF85263::PCF85263(TwoWire *wire)
 int PCF85263::begin()
 {
   //  reset variables
-  _error = 0;
+  _error = PCF85263_OK;
   _lastRead = 0;
   if (! isConnected())
   {

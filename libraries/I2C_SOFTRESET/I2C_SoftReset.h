@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_SoftReset.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-02-03
 // PURPOSE: Arduino library for I2C_SoftReset, to reset stuck devices.
 //     URL: https://github.com/RobTillaart/I2C_SoftReset
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define I2C_SOFTRESET_LIB_VERSION     (F("0.1.0"))
+#define I2C_SOFTRESET_LIB_VERSION     (F("0.1.1"))
 
 
 

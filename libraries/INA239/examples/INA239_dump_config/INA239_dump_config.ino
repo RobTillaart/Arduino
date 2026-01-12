@@ -18,8 +18,8 @@ INA239 INA(5, &SPI);
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(__FILE__);
   Serial.println();
+  Serial.println(__FILE__);
   Serial.print("INA239_LIB_VERSION: ");
   Serial.println(INA239_LIB_VERSION);
   Serial.println();

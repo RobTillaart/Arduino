@@ -1,6 +1,6 @@
 //    FILE: INA239.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-12-05
 // PURPOSE: Arduino library for the INA239, SPI, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA239
@@ -204,7 +204,7 @@ bool INA239::setADCRange(bool flag)
   else      value &= ~INA239_CFG_ADCRANGE;
   //  if value has not changed we do not need to write it back.
   _writeRegister(INA239_CONFIG, value);
-  //  INA228, #26
+  //  See INA228, #26
   bool rv = setMaxCurrentShunt(getMaxCurrent(), getShunt()) == 0;
   return rv;
 }

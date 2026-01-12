@@ -20,6 +20,7 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("OUTPIN_LIB_VERSION: ");
   Serial.println(OUTPIN_LIB_VERSION);

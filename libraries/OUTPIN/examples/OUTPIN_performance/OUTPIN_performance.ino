@@ -16,6 +16,7 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("OUTPIN_LIB_VERSION: ");
   Serial.println(OUTPIN_LIB_VERSION);
@@ -25,6 +26,8 @@ void setup()
   test_set_high_low();
   test_pulseHigh();
   test_pulseOut();
+  test_multiPulseHigh();
+  test_multiPulseLow();
 }
 
 
@@ -192,5 +195,47 @@ void test_pulseOut()
     delay(100);
   }
 }
+
+
+void test_multiPulseHigh()
+{
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  delay(100);
+
+  for (int times = 1; times <= 128; times *= 2)
+  {
+    start = micros();
+    op.multiPulseHigh(10, 10, times);
+    stop = micros();
+    Serial.print("multiPulseHigh(10, 10, times):\t");
+    Serial.print(times);
+    Serial.print("\t");
+    Serial.println(stop - start);
+    delay(100);
+  }
+}
+
+
+void test_multiPulseLow()
+{
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  delay(100);
+
+  for (int times = 1; times <= 128; times *= 2)
+  {
+    start = micros();
+    op.multiPulseLow(10, 10, times);
+    stop = micros();
+    Serial.print("multiPulseLow(10, 10, times):\t");
+    Serial.print(times);
+    Serial.print("\t");
+    Serial.println(stop - start);
+    delay(100);
+  }
+}
+
+
 
 //  -- END OF FILE --

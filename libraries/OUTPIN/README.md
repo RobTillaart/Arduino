@@ -109,7 +109,7 @@ The formula for the pulse duration differs depending on compiler optimizations:
    if nops > 8 timing is the same as (b).
 - (b) is nops a (volatile) variable (unknown at compile time)
 
-Indicative time of pulses in nano seconds, Arduino UNO R3, IDE: 1.8.19
+Indicative time of pulses in **nano seconds**, Arduino UNO R3, IDE: 1.8.19
 Measured with oscilloscope, different resolutions 
 
 |  nops  |   (b)   |   (a)   |  notes  |
@@ -136,7 +136,7 @@ Measured with oscilloscope, different resolutions
 
 The approximate formula for (a)  **time in ns = 687.0 + 63.5 x NOPs**  NOPs = 0..8
 
-The approximate formula for (b)  **time in ns = 908.62 + 313.90 x NOPs**  MOPs 0..255
+The approximate formula for (b)  **time in ns = 908.62 + 313.90 x NOPs**  NOPs 0..255
 
 To calculate (b) the number of **NOPs = round((time - 908.62)/ 313.9)**.
 
@@ -163,9 +163,25 @@ The parameter microseconds should be > 75 for AVR UNO R3, to have reasonable acc
 Below 75 us one should use **pulseHigh()** or **pulseLow()**
 
 
-Other boards might need tweak in the .cpp file.
+Other boards might need tweak in the OUTPIN.cpp file.
 
 See **OUTPIN_performance.ino** sketch for figures.
+
+
+### MultiPulse
+
+**Experimental - work in progress**
+
+- **void multiPulseHigh(uint8_t nopsHIGH, uint8_t nopsLOW, uint8_t times)**
+- **void multiPulseLow(uint8_t nopsHIGH, uint8_t nopsLOW, uint8_t times)**
+
+From performance test.
+
+Timing differs between these functions. => use with care.  
+To be verified with oscilloscope when time permits.  
+
+multiPulseHigh(10, 10, times) => duration = 9.379 x times + 3.046 us  
+multiPulseLow(10, 10, times)  => duration = 8.599 x times + 4.418 us  
 
 
 ## Future
@@ -180,27 +196,14 @@ See **OUTPIN_performance.ino** sketch for figures.
 
 - make timing measurements with an oscilloscope to see actual pulse lengths.
 - add unit tests?.
+- non optimized **pulseHIGH()** et al should it have noInterrupts?
 
 #### Could
 
 - example e.g. DHT22 simulator.
 - example pulse generator - potmeter to set pulse length?
 - add nops parameter to tune **pulseOut()** duration ? add 0, 1 2 3 nops (0.3125 us)
-- add **void multiPulseHigh(nopsHIGH, nopsLOW, times);**
 
-```
-void multiPulseHigh(nopsHIGH, nopsLOW, times)
-{
-  SREG
-  //  local nopsH, nopsL
-  while times--
-    nopsH = nopsHIGH
-    inline HIGH
-    nopsL = nopsLOW
-    inline LOW
-  SREG
-}
-```
 
 
 #### Wont

@@ -2,7 +2,7 @@
 //
 //    FILE: OUTPIN.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for (AVR) faster and extended output pin.
 //    DATE: 2016-12-27
 //     URL: https://github.com/RobTillaart/OUTPIN
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define OUTPIN_LIB_VERSION         (F("0.1.0"))
+#define OUTPIN_LIB_VERSION         (F("0.1.1"))
 
 
 class OUTPIN
@@ -157,6 +157,56 @@ public:
     digitalWrite(_pin, !state);
 #endif
   };
+
+
+void multiPulseHigh(uint8_t nopsHIGH, uint8_t nopsLOW, uint8_t times)
+{
+  uint8_t nhigh, nlow;
+  while (times--)
+  {
+    nhigh = nopsHIGH;
+    nlow = nopsLOW;
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+    uint8_t oldSREG = SREG;
+    noInterrupts();
+    *_out |= _bitmask;
+    while(nhigh--) asm("NOP");
+    *_out &= _bitmask2;
+    while(nlow--) asm("NOP");
+    SREG = oldSREG;
+#else
+    digitalWrite(_pin, HIGH);
+    while(nhigh--) asm("NOP");
+    digitalWrite(_pin, LOW);
+    while(nlow--) asm("NOP");
+#endif
+  }
+}
+
+
+void multiPulseLow(uint8_t nopsHIGH, uint8_t nopsLOW, uint8_t times)
+{
+  uint8_t nhigh, nlow;
+  while (times--)
+  {
+    nhigh = nopsHIGH;
+    nlow = nopsLOW;
+#if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_MEGAAVR)
+    uint8_t oldSREG = SREG;
+    noInterrupts();
+    *_out &= _bitmask2;
+    while(nlow--) asm("NOP");
+    *_out |= _bitmask;
+    while(nhigh--) asm("NOP");
+    SREG = oldSREG;
+#else
+    digitalWrite(_pin, LOW);
+    while(nlow--) asm("NOP");
+    digitalWrite(_pin, HIGH);
+    while(nhigh--) asm("NOP");
+#endif
+  }
+}
 
 
 private:

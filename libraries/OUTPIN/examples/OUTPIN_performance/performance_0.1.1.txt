@@ -1,0 +1,83 @@
+
+IDE: 1.8.19
+BOARD: Arduino UNO R3 AVR
+
+
+OUTPIN_performance.ino
+OUTPIN_LIB_VERSION: 0.1.1
+
+
+D:\Rob\WORK\Arduino\libraries\OUTPIN\examples\OUTPIN_performance\OUTPIN_performance.ino
+OUTPIN_LIB_VERSION: 0.1.1
+
+
+D:\Rob\WORK\Arduino\libraries\OUTPIN\examples\OUTPIN_performance\OUTPIN_performance.ino
+OUTPIN_LIB_VERSION: 0.1.1
+
+
+test_set_high_low
+DW:	3584
+set:	2016
+high:	1136
+low:	1136
+toggle:	1136
+
+test_pulseHigh
+DW:	6788
+pulseHigh():	1828
+pulseHigh(0):	2584
+pulseHigh(20):	8864
+step size:	0.3140
+pulseHigh(13):	6664
+
+test_pulseOut
+pulseOut:	10	8
+pulseOut:	20	16
+pulseOut:	30	24
+pulseOut:	40	36
+pulseOut:	50	48
+pulseOut:	60	60
+pulseOut:	70	68
+pulseOut:	80	76
+pulseOut:	90	84
+pulseOut:	100	100
+pulseOut:	100	96
+pulseOut:	200	200
+pulseOut:	300	296
+pulseOut:	400	404
+pulseOut:	500	496
+pulseOut:	600	604
+pulseOut:	700	704
+pulseOut:	800	804
+pulseOut:	900	900
+pulseOut:	1000	1004
+pulseOut:	1000	1004
+pulseOut:	2000	2012
+pulseOut:	3000	3016
+pulseOut:	4000	4020
+pulseOut:	5000	5028
+pulseOut:	6000	6028
+pulseOut:	7000	7032
+pulseOut:	8000	8044
+pulseOut:	9000	9052
+pulseOut:	10000	10060
+
+test_multiPulseHigh
+multiPulseHigh(10, 10, times):	1	12
+multiPulseHigh(10, 10, times):	2	24
+multiPulseHigh(10, 10, times):	4	40
+multiPulseHigh(10, 10, times):	8	80
+multiPulseHigh(10, 10, times):	16	152
+multiPulseHigh(10, 10, times):	32	300
+multiPulseHigh(10, 10, times):	64	604
+multiPulseHigh(10, 10, times):	128	1204
+
+test_multiPulseLow
+multiPulseLow(10, 10, times):	1	12
+multiPulseLow(10, 10, times):	2	20
+multiPulseLow(10, 10, times):	4	36
+multiPulseLow(10, 10, times):	8	76
+multiPulseLow(10, 10, times):	16	144
+multiPulseLow(10, 10, times):	32	280
+multiPulseLow(10, 10, times):	64	556
+multiPulseLow(10, 10, times):	128	1104

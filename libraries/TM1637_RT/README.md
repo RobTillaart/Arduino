@@ -18,11 +18,14 @@ Library for TM1637 driven displays and key scans.
 
 The TM1637 drives 7 segment displays and can also scan a 16 key keyboard.
 
-The library is mainly tested with Arduino UNO, both a 6 digits display and 4 digit (clock) display.
+The library is mainly tested with an Arduino UNO R3, both a 6 digits display 
+and 4 digit (clock) display.
 The TM1637 can scan max 2 rows and 8 columns or a smaller keyboard.
 It is therefore not possible to scan a "standard" 3x4 or 4x4 matrix keypad.
 
 ESP32 is supported since 0.2.0 see https://github.com/RobTillaart/TM1637_RT/pull/5
+
+As always, feedback is welcome.
 
 
 ### Related
@@ -62,6 +65,14 @@ cables consider shielded ones.
 If you have additional performance tweaks, please let me know.
 
 Note: Ω = ALT-234
+
+
+### Dual display
+
+In a short test (few minutes) it was possible to drive two TM1637 (4 digit) displays 
+with the same IO lines with an Arduino UNO R3. 
+The power consumption was not measured, and advised is to have separate power supplies
+for the Arduino and the displays.
 
 
 ## Interface

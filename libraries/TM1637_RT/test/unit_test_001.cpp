@@ -63,7 +63,7 @@ unittest(test_brightness)
 {
   TM1637 TM;
   TM.begin(2, 3, 6);
-  
+
   for (uint8_t b = 0; b < 8; b++)
   {
     TM.setBrightness(b);
@@ -83,7 +83,7 @@ unittest(test_set_bit_delay)
 {
   TM1637 TM;
   TM.begin(2, 3, 6);
-  
+
   for (uint8_t b = 0; b < 100; b += 10)
   {
     TM.setBitDelay(b);

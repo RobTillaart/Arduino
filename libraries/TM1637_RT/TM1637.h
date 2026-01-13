@@ -3,7 +3,7 @@
 //    FILE: TM1637.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2019-10-28
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 // PURPOSE: TM1637 library for Arduino
 //     URL: https://github.com/RobTillaart/TM1637_RT
 
@@ -20,7 +20,7 @@
 
 #include "Arduino.h"
 
-#define TM1637_LIB_VERSION      (F("0.4.2"))
+#define TM1637_LIB_VERSION      (F("0.4.3"))
 
 
 class TM1637

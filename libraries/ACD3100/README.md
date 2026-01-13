@@ -82,7 +82,6 @@ One must connect GND from the power supply to the GND of the MCU.
 
 ### Hardware
 
-
 ```
              TOPVIEW ACD3100
          +--------------------+

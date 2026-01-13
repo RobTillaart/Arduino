@@ -21,7 +21,7 @@ void test(uint32_t speed)
   uint32_t duration1 = micros() - start;
 
   while(mySensor.requestReady() == false) delay(10);
-  
+
   start = micros();
   mySensor.readSensor();
   uint32_t duration2 = micros() - start;
@@ -46,6 +46,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("ACD3100_LIB_VERSION: ");
   Serial.println(ACD3100_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   mySensor.begin();

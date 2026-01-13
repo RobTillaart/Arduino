@@ -41,7 +41,7 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(ACD3100_DEFAULT_ADDRESS, 0x2A);
+  assertEqual(ACD3100_DEFAULT_ADDRESS, 0x54);
 }
 
 

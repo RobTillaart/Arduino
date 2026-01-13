@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("ACD3100_LIB_VERSION: ");
   Serial.println(ACD3100_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   mySensor.begin();
@@ -26,7 +27,7 @@ void setup()
   mySensor.readFirmwareVersion(&FWversion[0]);
   Serial.print("FIRMWARE: \t");
   Serial.println(FWversion);
-  
+
   mySensor.readSensorCode(&sensorCode[0]);
   Serial.print("SENSORCODE: \t");
   Serial.println(sensorCode);

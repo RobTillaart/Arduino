@@ -3,7 +3,7 @@
 //    FILE: ACD3100.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-10-29
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for I2C ACD3100 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD3100
 //          http://www.aosong.com/products-220.html
@@ -13,8 +13,8 @@
 #include "Wire.h"
 
 
-#define ACD3100_LIB_VERSION         (F("0.1.2"))
-#define ACD3100_DEFAULT_ADDRESS     0x2A          //  0x54 ?
+#define ACD3100_LIB_VERSION         (F("0.1.3"))
+#define ACD3100_DEFAULT_ADDRESS     0x54        //  from datasheet
 
 //  ERROR CODES
 //  values <> 0 are errors.

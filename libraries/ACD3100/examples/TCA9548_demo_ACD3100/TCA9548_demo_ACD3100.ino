@@ -19,9 +19,11 @@ ACD3100 outside;   //  channel 2
 
 uint32_t lastTime = 0;
 
+
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("TCA9548_LIB_VERSION: ");
   Serial.println(TCA9548_LIB_VERSION);

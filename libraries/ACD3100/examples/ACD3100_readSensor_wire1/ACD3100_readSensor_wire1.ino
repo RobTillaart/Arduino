@@ -18,6 +18,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("ACD3100_LIB_VERSION: ");
   Serial.println(ACD3100_LIB_VERSION);
+  Serial.println();
 
   Wire1.begin();
   mySensor.begin();

@@ -16,6 +16,7 @@ AGS3871 AGS;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AGS3871_LIB_VERSION: ");
   Serial.println(AGS3871_LIB_VERSION);

@@ -3,7 +3,7 @@
 //    FILE: AGS3871.h
 //  AUTHOR: Rob Tillaart, Lorna1
 //    DATE: 2025-01-01
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for AGS3871 - CarbonMonoxide CO sensor.
 //     URL: https://github.com/RobTillaart/AGS3871
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AGS3871_LIB_VERSION         (F("0.1.1"))
+#define AGS3871_LIB_VERSION         (F("0.1.2"))
 
 #define AGS3871_OK                  0
 #define AGS3871_ERROR               -10

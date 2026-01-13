@@ -1,8 +1,8 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-08-12
-// PURPOSE: unit tests for the AGS02NA TVOC sensor
+//    DATE: 2025-01-01
+// PURPOSE: unit tests for the AGS3871 CarbonMonoxide CO sensor.
 //          https://github.com/RobTillaart/AGS3871
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

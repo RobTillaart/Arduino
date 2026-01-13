@@ -34,18 +34,24 @@ The time between reads should be at least 2 seconds.
 |  read freq  |  once per 2 sec  |
 |  warm up    |  120 sec         |
 |  current    |  20-30 mA        |  prefers own power supply.
+|  temprange  |  -25..60 C       |
 
 
 **Warning:** This library is very limited tested with hardware. So use with care.
 
 Feedback as always, is welcome. Please open an issue.
 
-**Warning:** This library is **not** meant to replace professional monitoring systems.
+
+### Warning:
+
+This library is **not** meant to replace professional monitoring systems.
 
 
 ### Related
 
 - https://github.com/RobTillaart/AGS02MA TVOC sensor
+- https://github.com/RobTillaart/AGS2616 H2 sensor
+- https://github.com/RobTillaart/AGS3870 CH4 sensor
 - https://github.com/RobTillaart/AGS3871 CO sensor
 - https://www.renesas.com/us/en/document/whp/overview-tvoc-and-indoor-air-quality
 
@@ -67,6 +73,11 @@ Feedback as always, is welcome. Please open an issue.
 The device has a fixed address of 26 or 0x1A.
 
 The device works at 100 kHz I2C bus speed (datasheet).
+
+Note: several AGS devices use the same I2C address 0x1A.
+Known are the AGS2616 (H2), AGS3870 (CH4), AGS3871 (CO), AGS02MA (TVOC).
+If you want to use them on one I2C bus, you need multiplexing.
+See section below.
 
 
 ### I2C multiplexing
@@ -201,12 +212,12 @@ Note: unlike other public methods, CRC errors don't return false or show up in
 #### Must
 
 - improve documentation
-  - references?
 - test with hardware
 
 #### Should
 
 - investigate and test calibration
+- keep in sync with AGS3870 / AGS02MA lib
 
 #### Could
 

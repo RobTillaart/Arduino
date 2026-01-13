@@ -2,7 +2,7 @@
 //    FILE: DAC8574.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-11
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for DAC8574, I2C, 4 channel, 16 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC8574
 
@@ -47,10 +47,23 @@ bool DAC8574::begin(uint16_t value)
 }
 
 
+/*
 bool DAC8574::isConnected()
 {
+  read(0);
+  write(0, 0);
+  return (_error != DAC8574_OK);
+}
+*/
+
+
+bool DAC8574::isConnected()
+{
+  _control &= 0xF0;  //  keep A2A3 + mode bits
+  uint8_t control = _control;  //  channel == 0
   _wire->beginTransmission(_address);
-  _error = _wire->endTransmission();  //  default == 0 ==> DAC8574_OK
+  _wire->write(control);
+  _error = _wire->endTransmission();
   if (_error != 0)
   {
     _error = DAC8574_I2C_ERROR;

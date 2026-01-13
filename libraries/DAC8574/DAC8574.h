@@ -3,7 +3,7 @@
 //    FILE: DAC8574.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-11
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for DAC8574, I2C, 4 channel, 16 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC8574
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DAC8574_LIB_VERSION         (F("0.1.1"))
+#define DAC8574_LIB_VERSION         (F("0.1.2"))
 
 //  ERROR CODES
 #define DAC8574_OK                  0x00

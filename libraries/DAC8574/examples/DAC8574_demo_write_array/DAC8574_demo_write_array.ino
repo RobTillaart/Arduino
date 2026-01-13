@@ -17,7 +17,7 @@ void setup()
   Serial.begin(115200);
   while(!Serial);
   delay(2000);
-
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC8574_LIB_VERSION: ");
   Serial.println(DAC8574_LIB_VERSION);

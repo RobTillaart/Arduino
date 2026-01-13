@@ -3,7 +3,7 @@
 //    FILE: AGS2616.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-01-11
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for AGS2616 - Hydrogen H2 sensor.
 //     URL: https://github.com/RobTillaart/AGS2616
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AGS2616_LIB_VERSION         (F("0.1.0"))
+#define AGS2616_LIB_VERSION         (F("0.1.1"))
 
 #define AGS2616_OK                  0
 #define AGS2616_ERROR               -10

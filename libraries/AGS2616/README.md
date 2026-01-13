@@ -18,6 +18,9 @@ Arduino library for AGS2616 - Hydrogen H2 sensor.
 
 **Experimental**
 
+**Warning:** H2 is an explosive gas, so handle it with necessary precautions.
+See also license.
+
 This library is experimental, so please use with care.
 
 The library is based upon the limited datasheet and the code of the AGS02MA sensor,
@@ -28,13 +31,13 @@ The sensor needs a warm up time of 2 minutes before readings are stabilized.
 Readings during warm up must be considered with care.
 The time between reads should be at least 2 seconds.
 
-|  function   |  value           |  notes  |
-|:------------|:----------------:|:--------|
-|  H2 range   |  30 - 3000 PPM   |
-|  read freq  |  once per 2 sec  |
-|  warm up    |  120 sec         |
-|  current    |  20-30 mA        |  prefers own power supply.
-|  temprange  |  -25..60 C       |
+|  function    |  value           |  notes  |
+|:-------------|:----------------:|:--------|
+|  H2 range    |  30 - 3000 PPM   |
+|  read freq   |  once per 2 sec  |
+|  warm up     |  120 sec         |
+|  current     |  20-30 mA        |  prefers own power supply.
+|  temp range  |  -25..60 C       |
 
 
 **Warning:** This library is not tested with hardware yet. So use with care.
@@ -48,6 +51,7 @@ Feedback as always, is welcome. Please open an issue.
 
 - https://github.com/RobTillaart/AGS02MA TVOC sensor
 - https://github.com/RobTillaart/AGS2616 H2 sensor
+- https://github.com/RobTillaart/AGS3870 CH4 sensor
 - https://github.com/RobTillaart/AGS3871 CO sensor
 - https://www.renesas.com/us/en/document/whp/overview-tvoc-and-indoor-air-quality
 

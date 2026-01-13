@@ -31,20 +31,22 @@ The sensor needs a warm up time of 2 minutes before readings are stabilized.
 Readings during warm up must be considered with care.
 The time between reads should be at least 2 seconds.
 
-|  function   |  value           |  notes  |
-|:------------|:----------------:|:--------|
-|  CH4 range  |  30 - 50000 PPM  |
-|  read freq  |  once per 2 sec  |
-|  warm up    |  120 sec         |
-|  current    |  20-30 mA        |  prefers own power supply.
-|  temprange  |  -25..60 C       |
+|  function    |  value           |  notes  |
+|:-------------|:----------------:|:--------|
+|  CH4 range   |  30 - 50000 PPM  |
+|  read freq   |  once per 2 sec  |
+|  warm up     |  120 sec         |
+|  current     |  20-30 mA        |  prefers own power supply.
+|  temp range  |  -25..60 C       |
 
 
 **Warning:** This library is not tested with hardware yet. So use with care.
 
 Feedback as always, is welcome. Please open an issue.
 
-**Warning:** This library is **not** meant to replace professional monitoring systems.
+### Warning
+
+This library is **not** meant to replace professional monitoring systems.
 
 
 ### Related

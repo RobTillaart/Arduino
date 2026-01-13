@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.2] - 2025-05-14
+## [0.1.2] - 2026-01-09
 - fix typo in readme.md
 - update GitHub actions
 - minor edits

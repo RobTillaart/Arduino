@@ -2,7 +2,7 @@
 //    FILE: AGS3870.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-01-14
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for AGS3870 - Methane CH4 sensor.
 //     URL: https://github.com/RobTillaart/AGS3870
 

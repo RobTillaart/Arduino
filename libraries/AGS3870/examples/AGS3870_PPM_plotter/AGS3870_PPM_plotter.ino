@@ -23,6 +23,7 @@ void setup()
   delay(1000);
 
   Serial.begin(115200);
+//  Serial.println();
 //  Serial.println(__FILE__);
 //  Serial.print("AGS3870_LIB_VERSION: ");
 //  Serial.println(AGS3870_LIB_VERSION);

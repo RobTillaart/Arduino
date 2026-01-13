@@ -2,7 +2,7 @@
 //    FILE: APDS9900.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-12-09
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for the APDS9900 environment sensor.
 //     URL: https://github.com/RobTillaart/APDS9900
 

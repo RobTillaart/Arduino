@@ -203,7 +203,7 @@ TODO Make ENUM for constants?
 |    0    |   100 mA   |
 |    1    |    50 mA   |
 |    2    |    25 mA   |
-|    3    |   12.5 mA  |
+|    3    |  12.5 mA   |
 
 
 ### ProximityDiodeSelect

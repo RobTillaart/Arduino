@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: APDS9900.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-12-09
 // PURPOSE: Arduino library for the APDS9900 environment sensor.
 //     URL: https://github.com/RobTillaart/APDS9900
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define APDS9900_LIB_VERSION          (F("0.2.0"))
+#define APDS9900_LIB_VERSION          (F("0.2.1"))
 
 
 class APDS9900

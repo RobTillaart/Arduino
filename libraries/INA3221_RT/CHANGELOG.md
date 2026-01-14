@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2026-01-14
+- update GitHub actions
+- minor edits
+
 ## [0.4.1] - 2025-03-06
 - add **getLastError()** low level (I2C) error handling
 - update readme.md

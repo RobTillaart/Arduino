@@ -1,6 +1,6 @@
 //    FILE: INA3221.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -377,7 +377,6 @@ uint16_t INA3221::getManufacturerID()
 {
   return _readRegister(INA3221_MANUFACTURER);
 }
-
 
 uint16_t INA3221::getDieID()
 {

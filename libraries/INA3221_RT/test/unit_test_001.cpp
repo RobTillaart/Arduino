@@ -48,7 +48,6 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-
   INA3221 INA(0x40);
 
   Wire.begin();

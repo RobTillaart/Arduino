@@ -43,6 +43,8 @@ Some important maxima, see datasheet for all details.
 | shunt R       |   100  |   mOhm |  typical
 | current       |  1.63  | Ampere |  I = U/R
 
+Feedback as always is welcome.
+
 
 ### 0.4.0 breaking changes.
 
@@ -86,8 +88,11 @@ As always feedback is welcome, please open an issue on GitHub.
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm

@@ -22,6 +22,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INA3221_LIB_VERSION: ");
   Serial.println(INA3221_LIB_VERSION);

@@ -2,7 +2,7 @@
 //    FILE: PCA9632.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-11-25
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for PCA9632 and PCA9633 I2C 8 bit PWM LED driver, 4 channel.
 //     URL: https://github.com/RobTillaart/PCA9632
 

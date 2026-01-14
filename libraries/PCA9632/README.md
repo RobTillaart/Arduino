@@ -231,8 +231,10 @@ The functions to enable all/sub-addresses are straightforward:
 
 - align with PCA9634 where possible
   - error codes
-  - configure()?
+  - uint8_t configure(uint8_t mode1_mask, uint8_t mode2_mask); ?
 - examples
+- write() ==> writeRGBW() ?
+- write() ==> writeArray()  ?
 
 
 #### Could

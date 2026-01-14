@@ -17,19 +17,20 @@ getCurrent	KEYWORD2
 getMathOverflowFlag	KEYWORD2
 getConversionFlag	KEYWORD2
 
-getBusVoltage_mV	KEYWORD2
 getShuntVoltage_mV	KEYWORD2
-getCurrent_mA	KEYWORD2
+getBusVoltage_mV	KEYWORD2
 getPower_mW	KEYWORD2
+getCurrent_mA	KEYWORD2
 
-getBusVoltage_uV	KEYWORD2
 getShuntVoltage_uV	KEYWORD2
-getCurrent_uA	KEYWORD2
+getBusVoltage_uV	KEYWORD2
 getPower_uW	KEYWORD2
+getCurrent_uA	KEYWORD2
 
 reset	KEYWORD2
 setBusVoltageRange	KEYWORD2
 getBusVoltageRange	KEYWORD2
+
 setGain	KEYWORD2
 getGain	KEYWORD2
 getMaxShuntVoltage	KEYWORD2
@@ -66,6 +67,8 @@ getShunt	KEYWORD2
 getMaxCurrent	KEYWORD2
 
 getRegister	KEYWORD2
+
+getLastError	KEYWORD2
 
 # Constants (LITERAL1)
 INA219_LIB_VERSION	LITERAL1

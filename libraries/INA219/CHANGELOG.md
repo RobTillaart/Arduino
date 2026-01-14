@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.2] - 2026-01-14
+- update GitHub actions
+- minor edits
 
 ## [0.4.1] - 2025-03-05
 - fix #23, add **getLastError()** low level (I2C) error handling
 - add INA_comparison_table.md
-
 
 ## [0.4.0] - 2024-08-14
 - fix **float getShuntVoltage()** for negative values, kudos to aguilerabr

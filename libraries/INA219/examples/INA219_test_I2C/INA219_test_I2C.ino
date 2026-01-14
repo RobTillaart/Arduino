@@ -13,9 +13,11 @@ INA219 INA(0x40);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INA219_LIB_VERSION: ");
   Serial.println(INA219_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   if (!INA.begin() )

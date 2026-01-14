@@ -15,9 +15,11 @@ INA219 arr_ina[3] = { INA219(0x40), INA219(0x41), INA219(0x42) };
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("INA219_LIB_VERSION: ");
   Serial.println(INA219_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
 

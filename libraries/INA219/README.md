@@ -32,14 +32,16 @@ A few important maxima, see datasheet, chapter 7, esp 7.5
 |  shunt voltage  |  320  |  mVolt  |  depends on PGA setting
 
 
+Feedback as always is welcome.
 
-#### 0.4.0 Breaking change
+
+### 0.4.0 Breaking change
 
 Version 0.4.0 fixed negative values for **getShuntVoltage()**.
 Older versions are obsolete now.
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -48,13 +50,13 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Special characters
+### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Related
+### Related
 
 - https://www.ti.com/product/INA219#tech-docs
 - https://www.ti.com/product/INA219#params
@@ -62,7 +64,9 @@ before calling **begin()**.
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
@@ -71,17 +75,16 @@ before calling **begin()**.
 - https://github.com/RobTillaart/printHelpers  (for scientific notation)
 
 
-
 ## I2C
 
-#### Address
+### Address
 
 The sensor can be configured to use 1 of 16 I2C addresses between 0x40 and 0x4F.
 The address depends on how the A0 and A1 address lines are connected to the SCL, SDA, GND and VCC pins.
 (datasheet chapter 8.5.5.1 Serial Bus Address)
 
 
-#### Performance
+### Performance
 
 Datasheet states it supports 1 KHz .. 2.56 MHz.
 Note: higher speeds and longer wires need smaller pull up resistors.
@@ -108,7 +111,7 @@ use **INA219_test_I2C.ino**
 ```
 
 
-#### Constructor
+### Constructor
 
 - **INA219(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set
 the address and optional Wire interface.
@@ -118,7 +121,7 @@ Returns true if the INA219 address (set in the constructor) is on the I2C bus.
 - **uint8_t getAddress()** Returns the INA219 address set in the constructor.
 
 
-#### Core Functions
+### Core Functions
 
 Note the power and the current are not meaningful without calibrating the sensor. 
 Also the value is not meaningful if there is no shunt connected.
@@ -146,14 +149,14 @@ Helper functions for the micro scale.
 - **float getPower_uW()** idem, in microWatt.
 
 
-##### Indicator flags
+### Indicator flags
 
 - **bool getMathOverflowFlag()** internal math overflow.
 - **bool getConversionFlag()** conversion is ready.
 Especially useful in non-continuous modi.
 
 
-#### Configuration
+### Configuration
 
 - **bool reset()** software power on reset. 
 This implies that calibration with **setMaxCurrentShunt()** needs to be redone.
@@ -173,7 +176,7 @@ Returns false if it could not write settings to device.
 320 is the sensors default.
 
 
-#### Configuration BUS and SHUNT
+### Configuration BUS and SHUNT
 
 **Note:**
 The internal conversions runs in the background in the device.
@@ -225,7 +228,7 @@ Returns false if it could not write settings to device.
 - **uint8_t getShuntADC()** returns mask, see table below.
 
 
-#### Resolution samples table
+### Resolution samples table
 
 mask = both resolution + averaging multiple samples.
 minus - == don't care
@@ -252,7 +255,7 @@ minus - == don't care
 - note that there are 3 ways to set 12 bits 1 sample.
 
 
-#### Operating mode
+### Operating mode
 
 See details datasheet,
 
@@ -274,7 +277,7 @@ Descriptive mode functions (convenience wrappers around **setMode()**).
 - **bool setModeShuntBusContinuous()** mode 7 - default
 
 
-#### Calibration
+### Calibration
 
 See datasheet.
 
@@ -299,7 +302,7 @@ To print these values one might use https://github.com/RobTillaart/printHelpers
 to get the values in scientific notation like "3.5e-6"
 
 
-#### Debugging
+### Debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch values from registers directly.
 Meant for debugging only, reg = 0..5. Check datasheet for the details.
@@ -312,6 +315,11 @@ Meant for debugging only, reg = 0..5. Check datasheet for the details.
 |   3   |  power          |  R   |
 |   4   |  current        |  R   |
 |   5   |  calibration    |  RW  |
+
+
+### Error Handling
+
+- **int getLastError()** returns last (I2C) error.
 
 
 ## Future

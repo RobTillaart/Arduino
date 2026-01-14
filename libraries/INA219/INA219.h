@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA219.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2021-05-18
 // PURPOSE: Arduino library for INA219 voltage, current and power sensor
 //     URL: https://github.com/RobTillaart/INA219
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA219_LIB_VERSION              (F("0.4.1"))
+#define INA219_LIB_VERSION              (F("0.4.2"))
 
 
 class INA219
@@ -35,17 +35,17 @@ public:
   bool     getMathOverflowFlag();  //  02
   bool     getConversionFlag();    //  02
 
-
   //  Scale helpers milli range
-  float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
-  float    getCurrent_mA()      { return getCurrent()      * 1e3; };
+  float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
   float    getPower_mW()        { return getPower()        * 1e3; };
+  float    getCurrent_mA()      { return getCurrent()      * 1e3; };
+
   //  Scale helpers micro range
-  float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
   float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
-  float    getCurrent_uA()      { return getCurrent()      * 1e6; };
+  float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
   float    getPower_uW()        { return getPower()        * 1e6; };
+  float    getCurrent_uA()      { return getCurrent()      * 1e6; };
 
 
   //  Configuration
@@ -54,6 +54,8 @@ public:
   //  voltage = 16, 32  (values below 32 are rounded to 16 or 32)
   bool     setBusVoltageRange(uint8_t voltage = 16);
   uint8_t  getBusVoltageRange();  //  returns 16 or 32.
+
+
   //  factor = 1, 2, 4, 8 (8 = sensor default)
   bool     setGain(uint8_t factor);  //  removed default parameter.
   uint8_t  getGain();
@@ -70,12 +72,14 @@ public:
   bool     setBusADC(uint8_t mask = 0x03);  //  uses a mask, check datasheet
   uint8_t  getBusADC();
 
+
   //  configuration SHUNT
   //  use one of the next three
   bool     setShuntResolution(uint8_t bits);  //  9..12, always 1 sample
   bool     setShuntSamples(uint8_t value);    //  0..7, always 12 bits.
   bool     setShuntADC(uint8_t mask = 0x03);  //  uses a mask, check datasheet
   uint8_t  getShuntADC();
+
 
   //  Calibration
   //  mandatory to set these! read datasheet.

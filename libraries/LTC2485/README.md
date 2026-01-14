@@ -49,7 +49,7 @@ visible in the measurements during tests, especially in temperature.
 
 ### Key code
 
-ALT230 = µ  (windows).
+ALT-230 = µ  (windows).
 
 
 ### I2C Address

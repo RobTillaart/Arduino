@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2485.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2025-02-21
 // PURPOSE: Arduino library for LTC2485 I2C 24 bit ADC.
 //     URL: https://github.com/RobTillaart/LTC2485

@@ -35,13 +35,7 @@ They are low power, support voltage- and current-output, see table below.
 |  DAC63002  |   12   |    4095    |      2     |
 
 
-
-
-
 TODO elaborate
-
-
-
 
 
 ### Please report your experiences.
@@ -93,10 +87,10 @@ too if they are behind the multiplexer.
 
 ### Constructor
 
-- **DAC53001(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus.
-- **DAC53002(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus.
-- **DAC63001(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus.
-- **DAC63002(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus.
+- **DAC53001(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus. 10 bit.
+- **DAC53002(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus. 10 bit.
+- **DAC63001(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus. 12 bit.
+- **DAC63002(uint8_t address, TwoWire \* wire = &Wire)** set address and I2C bus. 12 bit.
 - **bool begin()** checks if address can be found on the I2C bus.
 - **bool isConnected()** checks if address can be found on the I2C bus.
 - **uint8_t getAddress()** returns address set.
@@ -146,6 +140,7 @@ See datasheet page 59.
 
 Note: three scales, in steps 1, 2, 5, 10.
 
+
 ### Output mode
 
 See datasheet page 62.
@@ -163,6 +158,8 @@ See datasheet page 62.
 |  0x05  |  PowerDown + 100 kΩ to AGND  |   power down   |
 |  0x06  |  PowerDown + Hi-Z to AGND    |   power up     |
 |  0x07  |  PowerDown + Hi-Z to AGND    |   power down   |  default
+
+Ω = ALt-234 (windows)
 
 
 ### setDAC

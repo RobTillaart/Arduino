@@ -16,6 +16,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DAC53001_LIB_VERSION: ");
   Serial.println(DAC53001_LIB_VERSION);
@@ -33,25 +34,25 @@ void setup()
   Serial.println(dac.getMaxValue());
   Serial.print("CHANNELS:\t");
   Serial.println(dac.getChannels());
-  
+
   Serial.print("VREF:\t");
   Serial.println(dac.getReference());
   Serial.print("OUTPUT:\t");
   Serial.println(dac.getOutputMode());
-  
+
   Serial.print("STATUS:\t");
   Serial.println(dac.getStatus());
   Serial.print("DEVID:\t");
   Serial.println(dac.getDeviceID());
   Serial.print("VERSION:\t");
   Serial.println(dac.getVersionID());
-  
+
   Serial.print("GETDAC:\t");
   Serial.println(dac.getDAC());
-  
+
   Serial.print("ERROR:\t");
   Serial.println(dac.lastError());
-  
+
 }
 
 

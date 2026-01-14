@@ -3,7 +3,7 @@
 //    FILE: DAC53001.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-12
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C DAC53001 10 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC53001
 //
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define DAC53001_LIB_VERSION         (F("0.1.0"))
+#define DAC53001_LIB_VERSION         (F("0.1.1"))
 
 #define DAC53001_OK                  0x00
 #define DAC53001_PARAM_ERROR         0x81

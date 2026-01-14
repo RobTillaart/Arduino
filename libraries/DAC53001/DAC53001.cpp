@@ -2,7 +2,7 @@
 //    FILE: DAC53001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-12
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for I2C DAC53001 10 bit DAC.
 //     URL: https://github.com/RobTillaart/DAC53001
 //
@@ -289,7 +289,6 @@ uint16_t DAC53001::_write16(uint8_t reg, uint16_t value)
   }
   return _error;
 }
-
 
 
 ////////////////////////////////////////////////////////

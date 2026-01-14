@@ -27,6 +27,7 @@ which implies an accuracy of about 0.088° or even 0.022°.
 
 TODO elaborate.
 
+Feedback as always is welcome.
 
 
 ### Compatibles
@@ -42,6 +43,7 @@ Families of AMT2x series rotary encoder devices with other interfaces.
 |  AMT25   |    SPI     |   YYY    |
 
 So far the AMT22 family looks compatible and the AMT23 family might.
+
 TODO investigate.
 
 Please note that from the **AMT25xy-V** there are 8 variations.
@@ -85,6 +87,13 @@ Decoders
 - https://github.com/RobTillaart/AMT25 this library
 - https://github.com/RobTillaart/AS5600 magnetic rotation meter.
 - https://github.com/RobTillaart/ERCFS SPI based rotary encoder.
+
+Related rotary decoder libraries
+
+- https://github.com/RobTillaart/rotaryDecoder
+- https://github.com/RobTillaart/rotaryDecoderSwitch
+- https://github.com/RobTillaart/rotaryDecoder8
+- https://github.com/RobTillaart/rotaryDecoderSwitch5
 
 
 ### Please report your experiences.

@@ -16,6 +16,7 @@ void setup()
 {
   while (!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AMT25_LIB_VERSION: ");
   Serial.println(AMT25_LIB_VERSION);
@@ -46,7 +47,6 @@ void loop()
 {
 
 }
-
 
 
 //  -- END OF FILE --

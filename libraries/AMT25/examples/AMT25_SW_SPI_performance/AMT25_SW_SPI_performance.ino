@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: performance measurements
 //     URL: https://github.com/RobTillaart/AMT25
-//
+
 
 #include "AMT25.h"
 
@@ -14,10 +14,12 @@ AMT25 re(4, 5, 6, 7);  //  software SPI, bit bang.
 uint32_t start, stop;
 volatile uint16_t value;
 
+
 void setup()
 {
   while (!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AMT25_LIB_VERSION: ");
   Serial.println(AMT25_LIB_VERSION);

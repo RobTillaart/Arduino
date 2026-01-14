@@ -1,9 +1,9 @@
 //
 //    FILE: AD5370.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2025-02-24
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for AD5370
+// PURPOSE: Arduino library for the AD5370 40 channel 16 bit DAC over SPI.
 //     URL: https://github.com/RobTillaart/AD5370
 //          http://www.aosong.com/en/products-77.html
 
@@ -87,7 +87,6 @@ void AD5370::setLDACPin(uint8_t ldacPin)
 }
 
 
-
 /////////////////////////////////////////////
 //
 //  WRITE
@@ -155,7 +154,6 @@ bool AD5370::setOffset(uint8_t channel, uint16_t value)
   updateDevice(msg, 3);
   return true;
 }
-
 
 
 /////////////////////////////////////////////
@@ -236,7 +234,6 @@ bool AD5370::set1234GroupChannelDAC(uint8_t channel, uint16_t value)
   updateDevice(msg, 3);
   return true;
 }
-
 
 
 /////////////////////////////////////////////
@@ -325,11 +322,15 @@ bool AD5370::blockABSelectRegister(uint8_t value)
 }
 
 
-
 /////////////////////////////////////////////
 //
 //  SPI
 //
+bool AD5370::usesHWSPI()
+{
+  return _hwSPI;
+}
+
 void AD5370::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
@@ -340,7 +341,6 @@ uint32_t AD5370::getSPIspeed()
 {
   return _SPIspeed;
 }
-
 
 
 /////////////////////////////////////////////
@@ -370,7 +370,6 @@ void AD5370::clear()
   digitalWrite(_clear, LOW);
   digitalWrite(_clear, HIGH);
 }
-
 
 
 ///////////////////////////////////////////////

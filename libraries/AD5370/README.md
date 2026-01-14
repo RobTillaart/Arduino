@@ -56,6 +56,12 @@ Times are for 1000 calls in microseconds.
 |  16000000  |     18612   |
 
 
+### Compatibles
+
+There are about a dozen similar devices from same supplier,
+but as far as checked none is compatible.
+
+
 ### Related
 
 Mainly other DAC devices.
@@ -131,6 +137,7 @@ Need hardware to verify and test. Feedback welcome.
 
 ### SPI
 
+- **bool usesHWSPI()** idem.
 - **void setSPIspeed(uint32_t speed)** set speed in Hz
 - **uint32_t getSPIspeed()** returns set speed.
 
@@ -158,7 +165,7 @@ Needs **setLDACPin()** to be called first.
 
 - read back registers
 - improve the special functions (also doc)
-  - add defines for mask etc
+  - add defines for mask etc.
   - add detailed links to datasheet
 - find better name group commands - set1234GroupChannelDAC()
 

@@ -6,6 +6,8 @@ AD5370	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+setBusyPin	KEYWORD2
+setLDACPin	KEYWORD2
 
 setDAC	KEYWORD2
 setGain	KEYWORD2
@@ -20,10 +22,12 @@ writeNOP	KEYWORD2
 writeControlRegister	KEYWORD2
 writeOffset0Register	KEYWORD2
 writeOffset1Register	KEYWORD2
+
 selectReadBackRegister	KEYWORD2
 writeABSelectRegister	KEYWORD2
 blockABSelectRegister	KEYWORD2
 
+usesHWSPI	KEYWORD2
 setSPIspeed	KEYWORD2
 setSPIspeed	KEYWORD2
 

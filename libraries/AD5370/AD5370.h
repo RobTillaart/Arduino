@@ -2,9 +2,9 @@
 //
 //    FILE: AD5370.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2025-02-24
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for
+// PURPOSE: Arduino library for the AD5370 40 channel 16 bit DAC over SPI.
 //     URL: https://github.com/RobTillaart/AD5370
 //
 
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD5370_LIB_VERSION         (F("0.1.0"))
+#define AD5370_LIB_VERSION         (F("0.1.1"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -90,6 +90,7 @@ public:
   //
   //  SPI
   //
+  bool     usesHWSPI();
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
   uint32_t getSPIspeed();

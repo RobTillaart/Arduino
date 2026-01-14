@@ -13,6 +13,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ERCFS_LIB_VERSION: ");
   Serial.println(ERCFS_LIB_VERSION);
@@ -34,7 +35,6 @@ void loop()
   Serial.println(position);
   delay(50);
 }
-
 
 
 //  -- END OF FILE --

@@ -18,7 +18,7 @@ Arduino library for SPI based ERCFS rotary encoder.
 
 **Experimental**
 
-**Warning:** This library is not tested with hardware yet. 
+**Warning:** This library is not tested with hardware yet.
 So use with care, feedback welcome.
 
 ECRFS is a library for the **ERCF 1 05SPI 360 Z** rotation encoder.
@@ -27,11 +27,11 @@ of about 0.022°.
 The angle is calculated every 350 μs, so 2850 times per second.
 
 As the device can handle up to 800 rpm = 75 milliseconds per rotation.
-To have a fair indication of rpm and direction one has to sample 
+To have a fair indication of rpm and direction one has to sample
 4 times so roughly once every 20 ms.
 
-
 Feedback as always, is welcome. Please open an issue.
+
 
 ### Hardware connection
 
@@ -62,6 +62,13 @@ Decoders
 - https://github.com/RobTillaart/AS5600 magnetic rotation meter.
 - https://github.com/RobTillaart/ERCFS this library
 - https://p3america.com/ercf-1-05spi-360-z/ home of ERCFS datasheet.
+
+Related rotary decoder libraries
+
+- https://github.com/RobTillaart/rotaryDecoder
+- https://github.com/RobTillaart/rotaryDecoderSwitch
+- https://github.com/RobTillaart/rotaryDecoder8
+- https://github.com/RobTillaart/rotaryDecoderSwitch5
 
 
 ### Compatibles

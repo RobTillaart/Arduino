@@ -1,7 +1,7 @@
 //
 //    FILE: ERCFS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for SPI based ERCFS rotary encoder.
 //    DATE: 2025-02-08
 //     URL: https://github.com/RobTillaart/ERCFS

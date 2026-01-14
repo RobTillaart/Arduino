@@ -18,6 +18,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ERCFS_LIB_VERSION: ");
   Serial.println(ERCFS_LIB_VERSION);
@@ -41,7 +42,7 @@ void loop()
     position = re.getRawValue();
     float delta = abs(position - previous);
     previous = position;
-    RPM = (60e6 / 16384) * delta / duration; 
+    RPM = (60e6 / 16384) * delta / duration;
   }
   if (millis() - lastDisplay > 500)
   {

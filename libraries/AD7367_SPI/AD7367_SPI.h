@@ -2,7 +2,7 @@
 //
 //    FILE: AD7367_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-02-10
 // PURPOSE: Arduino library for the AD7367, 2 channel consecutive sampling 14 bit ADC.
 //          Also AD7366 == 12 bits.
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define AD7367_SPI_LIB_VERSION        (F("0.1.1"))
+#define AD7367_SPI_LIB_VERSION        (F("0.1.2"))
 
 
 #ifndef __SPI_CLASS__
@@ -38,6 +38,7 @@ public:
   void     begin();
   uint8_t  getType();  //  returns 66 or 67
   int      getBits();  //  returns 12 or 14
+  int      getMaxValue();  //  12 bit == 4095, 14 bit = 16383.
 
   //  READ
   //  note the ADDR line below determines which pair is read (a1, b1) or (a2, b2)

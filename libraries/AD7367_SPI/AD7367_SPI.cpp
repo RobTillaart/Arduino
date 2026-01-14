@@ -1,7 +1,7 @@
 //
 //    FILE: AD7367_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-02-10
 // PURPOSE: Arduino library for the AD7367, 2 channel consecutive sampling 14 bit ADC.
 //     URL: https://github.com/RobTillaart/AD7367_SPI
@@ -44,6 +44,10 @@ int AD7367_SPI::getBits()
   return _bits;
 }
 
+int AD7367_SPI::getMaxValue()
+{
+  return _bits == 12 ? 4095 : 16383;
+}
 
 //////////////////////////////////////////////////////////////////
 //

@@ -18,11 +18,11 @@ Arduino library for the AD7367_SPI, 2 channel consecutive sampling 14 bit ADC.
 
 **Experimental**
 
-The AD7367 is a device with two ADC's which can be sampled simultaneously
+The AD7367 is a device with two ADC's which could be sampled simultaneously
 at 14 bits with a theoretical speed of up to 1 MSPS.
 The AD7366 is a similar 12 bits device.
 
-This library uses a single channel to clock out both ADC values.
+This library uses a single channel to clock out both ADC values **consecutively**
 Therefore the theoretical speed is max 500KSPS.
 
 One need to connect the **SPI.MISO** to one of the two dataOut channels of the device.
@@ -73,6 +73,7 @@ Forum link where it all started
 - **void begin()** initializes internal state.
 - **uint8_t getType()** returns 67 or 66, depends on type (which constructor used)
 - **int getBits()** returns resolution 12 or 14 bits, depends on type.
+- **int getMaxValue()** returns 12 bit => 4095, 14 bit => 16383.
 
 
 ### Read

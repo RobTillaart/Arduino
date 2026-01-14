@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-01-14
+- update GitHub actions
+- add **getMaxValue()** convenience function.
+- minor edits
+
 ## [0.1.1] - 2025-02-04
 - add **getLastADCA()** and **getLastADCB()**
 - obsolete **getValue()**
@@ -15,7 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add support for **RANGE** pins
 - add examples 
 - update readme.md
-
 
 ## [0.1.0] - 2025-01-10
 - initial version

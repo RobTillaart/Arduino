@@ -2,7 +2,7 @@
 //
 //    FILE: AD7367.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-01-10
 // PURPOSE: Arduino library for the AD7367, 2 channel simultaneous sampling 14 bit ADC.
 //          Also AD7366 == 12 bits.
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define AD7367_LIB_VERSION        (F("0.1.1"))
+#define AD7367_LIB_VERSION        (F("0.1.2"))
 
 
 class AD7367
@@ -24,6 +24,7 @@ public:
   void     begin();
   uint8_t  getType();  //  returns 66 or 67
   int      getBits();  //  returns 12 or 14
+  int      getMaxValue();  //  12 bit == 4095, 14 bit = 16383.
 
   //  READ
   //  note the ADDR line below determines which pair is read (a1, b1) or (a2, b2)
@@ -65,8 +66,8 @@ public:
   //  RANGE
   void     setRangePin(uint8_t range0, uint8_t range1);
   //  page 16/17, table 8
-  //  0 = ±10 V
-  //  1 = ±5 V
+  //  0 = Â±10 V
+  //  1 = Â±5 V
   //  2 = 0 V to 10 V
   //  other values = fail
   //  returns 0 on success, -1 or -2 on failure.
@@ -74,6 +75,7 @@ public:
   uint8_t  getRange();  //  returns 0, 1, 2  (255 if pins are not set)
 
   //  OBSOLETE
+  [[deprecated("Use getLastADCA() or getLastADCB()")]]
   int      getValue(uint8_t channel); // 0 = ADC-A,  1 = ADC-B
 
 

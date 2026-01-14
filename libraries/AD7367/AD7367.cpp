@@ -1,7 +1,7 @@
 //
 //    FILE: AD7367.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-01-10
 // PURPOSE: Arduino library for the AD7367, 2 channel simultaneous sampling 14 bit ADC.
 //     URL: https://github.com/RobTillaart/AD7367
@@ -45,6 +45,11 @@ uint8_t AD7367::getType()
 int AD7367::getBits()
 {
   return _bits;
+}
+
+int AD7367::getMaxValue()
+{
+  return _bits == 12 ? 4095 : 16383;
 }
 
 
@@ -203,7 +208,6 @@ uint8_t AD7367::getRange()
 }
 
 
-
 //////////////////////////////////////////////////////////////////
 //
 //  OBSOLETE
@@ -214,12 +218,10 @@ int AD7367::getValue(uint8_t channel)
 }
 
 
-
 //////////////////////////////////////////////////////////////////
 //
 //  PROTECTED
 //
-
 
 
 /////////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@ begin	KEYWORD2
 
 getType	KEYWORD2
 getBits	KEYWORD2
+getMaxValue	KEYWORD2
 
 read	KEYWORD2
 triggerConversion	KEYWORD2

@@ -18,6 +18,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");
   Serial.println(PCA9671_LIB_VERSION);
@@ -30,7 +31,7 @@ void setup()
   delay(100);  //  time to flush Serial
 
 
-  for (long clk = 100000; clk < 600000; clk += 50000)
+  for (long clk = 100000; clk <= 1000000; clk += 100000)
   {
     //  setup and measure
     Wire.setClock(clk);
@@ -56,6 +57,8 @@ void setup()
     Serial.println(stop - start);
     delay(1000);
   }
+
+  Serial.println("\ndone...");
 }
 
 
@@ -65,4 +68,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

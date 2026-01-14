@@ -97,20 +97,23 @@ See datasheet page 6, section 7.1.1 Address maps.
 
 ### Performance
 
-TODO: test to fill the table
+Indicative numbers for Arduino UNO, max speed advised 600k.
 
 | clock speed |  Read  |  Write  |  Notes              |
 |:-----------:|:------:|:-------:|:--------------------|
-|    100000   |        |         |
-|    200000   |        |         |
-|    300000   |        |         |
-|    400000   |        |         |
-|    500000   |        |         |
-|    600000   |        |         |
-|    700000   |        |         |
-|    800000   |        |         |
-|    900000   |        |         |
-|   1000000   |        |         |
+|    100000   |  132   |   244   |
+|    200000   |   80   |   152   |
+|    300000   |   64   |   112   |
+|    400000   |   52   |   100   |
+|    500000   |   48   |    88   |
+|    600000   |   44   |    76   |  
+|    700000   |   40   |    76   |
+|    800000   |   40   |    76   |
+|    900000   |   44   |    56   |
+|   1000000   |   44   |    56   |
+
+You can test your board with **PCA9671_performance.ino**.
+Feedback welcome.
 
 
 ### I2C multiplexing

@@ -6,20 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2026-01-14
+- update GitHub actions
+- minor edits
+- add performance data UNO (2025-05-05)
+
 ## [0.1.2] - 2025-03-26
 - fix #4, investigate deviceID
 - update readme.md
 - minor edits
 
 ## [0.1.1] - 2025-03-18
-
 - fix #2, fix examples
 - remove address range check from getAddress()
 - add PCA9673 as derived class.
 - minor edits
 
 ## [0.1.0] - 2025-03-16
-
 - initial version based upon PCF8575 library.
 
 

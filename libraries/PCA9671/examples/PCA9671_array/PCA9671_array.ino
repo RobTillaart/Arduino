@@ -19,6 +19,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");
   Serial.println(PCA9671_LIB_VERSION);

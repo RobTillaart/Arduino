@@ -1,5 +1,5 @@
 //
-//    FILE: PCA9671_test.ino
+//    FILE: PCA9671_blink.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test PCA9671 library
 //     URL: https://github.com/RobTillaart/PCA9671
@@ -58,28 +58,21 @@ void setup()
   Serial.println();
 
   Wire.begin();
-
-  PCA.begin();
-
-  uint16_t x = PCA.read16();
-  Serial.print("Read ");
-  printHex(x);
   delay(1000);
+  PCA.begin();
 }
 
 
 void loop()
 {
-  Serial.println("HLT");
-  while (Serial.available() == 0);
-  switch(Serial.read())
-  {
-    case 'H': doHigh(); break;
-    case 'L': doLow(); break;
-    case 'T': doToggle(); break;
-  }
+  PCA.write16(0xFFFF);
+  Serial.println("HIGH");
+  delay(1000);
+
+  PCA.write16(0x0000);
+  Serial.println("LOW");
+  delay(1000);
 }
 
 
 //  -- END OF FILE --
-

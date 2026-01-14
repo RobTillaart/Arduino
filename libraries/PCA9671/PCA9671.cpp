@@ -2,7 +2,7 @@
 //    FILE: PCA9671.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-03-16
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for the PCA9671 and PCA9673, I2C 16-bit I/O expander.
 //     URL: https://github.com/RobTillaart/PCA9671
 
@@ -269,7 +269,6 @@ int PCA9671::lastError()
 }
 
 
-//  TODO get this working
 uint32_t PCA9671::deviceID()
 {
   uint8_t DEVICEID_ADDRESS = 0x7C;

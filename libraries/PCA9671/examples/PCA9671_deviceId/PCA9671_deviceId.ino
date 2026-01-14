@@ -15,6 +15,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9671_LIB_VERSION:\t");
   Serial.println(PCA9671_LIB_VERSION);
@@ -33,7 +34,7 @@ void setup()
   uint8_t feature  = (deviceID >> 9) & 0x7F;
   uint8_t category = (deviceID >> 3) & 0x3F;
   uint8_t revision = (deviceID >> 0) & 0x07;
-  
+
   Serial.print("MANUFACT: \t");
   Serial.println(manufacturer, HEX);
   Serial.print(" FEATURE: \t");

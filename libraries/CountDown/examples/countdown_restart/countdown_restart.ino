@@ -16,6 +16,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);

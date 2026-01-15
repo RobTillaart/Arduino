@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.5] - 2026-01-15
+- update GitHub actions
+- add HOURS resolution
+- minor edits
 
 ## [0.3.4] - 2025-03-20
 - add **void resume()** to replace cont()
@@ -12,11 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - minor edits
 
-
 ## [0.3.3] - 2024-04-11
 - update GitHub actions
 - minor edits
-
 
 ## [0.3.2] - 2023-10-18
 - update readme.md (badges)
@@ -70,7 +72,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
 ## [0.1.3] - 2017-07-16
-- TODO improved seconds - OdoMeter see below ... TODO 
+- TODO improved seconds - OdoMeter see below ... TODO
 
 ## [0.1.2] - 2017-07-16
 - add start(days, hours, minutes, seconds) + cont() == continue countdown

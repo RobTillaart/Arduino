@@ -34,13 +34,16 @@ For longer periods one could cascade CountDown objects, so when one is finished 
 Note the CountDown object is as accurate as the underlying **millis()** or **micros()**.
 Interrupts etc. might cause deviations.
 
+Feedback as always is welcome.
+
 
 ### Related
 
+- https://github.com/RobTillaart/CountDown
+- https://github.com/RobTillaart/dateTimeHelpers  formatting date / time strings
 - https://github.com/RobTillaart/printHelpers
 - https://github.com/RobTillaart/stopWatch_RT
-- https://github.com/RobTillaart/CountDown
-- https://github.com/RobTillaart/timing  wrappers around millis() and microc()
+- https://github.com/RobTillaart/timing  wrappers around millis() and micros()
 
 
 ## Interface
@@ -58,6 +61,7 @@ The main functions of the CountDown clock are straightforward:
 default to MILLIS. See table below.
 - **enum Resolution resolution()** return the current resolution (integer).
 - **char getUnits()** return the current resolution as printable char (u,m,s,M)
+
 
 ### Start / Stop functions
 
@@ -78,11 +82,13 @@ Obsolete in future (0.4.0).
 - **void cont()** resumes / continue the count down.
 *(note continue is a C-Keyword)*
 
+
 ### Status 
 
 - **uint32_t remaining()** returns the remaining ticks in current resolution.
 - **bool isRunning()** idem.
 - **bool isStopped()** idem.
+
 
 ## Operation
 
@@ -118,6 +124,7 @@ The resolution is implicitly set to **CountDown::MINUTES**.
 |  start(ticks)                          |  MICROS  = micros  |  ~70 min   |  setResolution(CountDown::MICROS)  |
 |  start(ticks)                          |  SECONDS = millis  |  49+ days  |  setResolution(CountDown::SECONDS) |
 |  start(ticks)                          |  MINUTES = millis  |  49+ days  |  setResolution(CountDown::MINUTES) |
+|  start(ticks)                          |  HOURS   = millis  |  49+ days  |  setResolution(CountDown::HOURS)   |
 
 
 The Countdown clock uses by default **millis()** to do the time keeping,
@@ -131,6 +138,7 @@ The parameter **res** can be:
 |  CountDown::MILLIS   |  millis()  |     m        |  default
 |  CountDown::SECONDS  |  millis()  |     s        |
 |  CountDown::MINUTES  |  millis()  |     M        |
+|  CountDown::HOURS    |  millis()  |     H        |
 
 Although possible one should not change the resolution of the CountDown 
 clock while it is running as you mix up different timescales.
@@ -173,10 +181,12 @@ a repeating (timed) function or a watchdog. See examples.
 - add examples
   - visualisations - hexadecimal - alphabetical (radix 26)
   - depends on sensor
-- add resolution::HOURS + **start(days, hours)**
-  - extend adaptive display example
-  - or default 00 minutes?
-- add **void resume()** instead of **cont()**? 
+- implement a CountDown64 class
+  - far longer timespan
+  - inaccurate at best
+  - interesting for longer micros() time span?
+- implement a CountDownRTC class
+  - which RTC?
 
 #### Wont (unless)
 
@@ -196,6 +206,7 @@ a repeating (timed) function or a watchdog. See examples.
 - printable interface (stopwatch_rt)
 - add call-back function when **0** is reached
   - cannot be guaranteed as interface polls.
+- enum State { RUNNING, PAUSED, STOPPED };  // stopped => remaining = 0;
 
 
 ## Support

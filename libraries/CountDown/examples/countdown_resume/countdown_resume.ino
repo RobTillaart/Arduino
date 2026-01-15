@@ -1,7 +1,7 @@
 //
 //    FILE: countdown_resume.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo stop and resume counting
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //          https://github.com/RobTillaart/CountDown
 
@@ -15,6 +15,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);

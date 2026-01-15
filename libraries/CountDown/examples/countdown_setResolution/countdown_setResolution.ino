@@ -16,13 +16,14 @@ void setup()
 {
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);
   Serial.println();
 
   CD.setResolution(CountDown::MINUTES);
-  //  countdown 1 minutes
+  //  countdown 1 minute
   CD.start(1);
 }
 

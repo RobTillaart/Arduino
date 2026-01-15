@@ -1,20 +1,22 @@
 //
 //    FILE: countdown_overflow_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test overflow behavior (micros is fastest to test)
+// PURPOSE: test overflow behaviour (micros is fastest to test)
 //     URL: http://forum.arduino.cc/index.php?topic=356253
 //          https://github.com/RobTillaart/CountDown
+//
+//  note this test takes loooong!
 
 
 #include "CountDown.h"
 
 CountDown CD(CountDown::MICROS);
 
-
 void setup()
 {
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("COUNTDOWN_LIB_VERSION: ");
   Serial.println(COUNTDOWN_LIB_VERSION);

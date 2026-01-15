@@ -1,7 +1,7 @@
 //
 //    FILE: CountDown.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 
@@ -137,6 +137,9 @@ void CountDown::calcRemaining()
   {
     switch(_res)
     {
+      case HOURS:
+        t = (millis() - _startTime) / (60 * 60000UL);
+        break;
       case MINUTES:
         t = (millis() - _startTime) / 60000UL;
         break;

@@ -2,20 +2,20 @@
 //
 //    FILE: CountDown.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: CountDown library for Arduino
 //     URL: https://github.com/RobTillaart/CountDown
 
 
 #include "Arduino.h"
 
-#define COUNTDOWN_LIB_VERSION               (F("0.3.4"))
+#define COUNTDOWN_LIB_VERSION               (F("0.3.5"))
 
 
 class CountDown
 {
 public:
-  enum Resolution { MICROS = 'u', MILLIS = 'm', SECONDS = 's', MINUTES = 'M' };
+  enum Resolution { MICROS = 'u', MILLIS = 'm', SECONDS = 's', MINUTES = 'M', HOURS = 'H' };
 
   explicit CountDown(const enum Resolution res = MILLIS);
 
@@ -28,6 +28,7 @@ public:
   //  Implicit set resolution to SECONDS.
   bool     start(uint8_t days, uint16_t hours, uint32_t minutes, uint32_t seconds);
   //  Implicit set resolution to MINUTES.
+  //  optional set minutes to zero for hours
   bool     start(uint8_t days, uint16_t hours, uint32_t minutes);
 
   void     stop();
@@ -39,6 +40,7 @@ public:
   bool     isStopped();
 
   //  obsolete in future
+  [[deprecated("Use resume()")]]
   void     cont() { resume(); };  //  replaced by resume()
 
 private:

@@ -1,7 +1,7 @@
 //
 //    FILE: UUID.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-06-14
 // PURPOSE: Arduino Library for generating UUID's
 //     URL: https://github.com/RobTillaart/UUID
@@ -63,9 +63,9 @@ void UUID::generate()
   if (_mode == UUID_MODE_VERSION4)
   {
     ar[1] &= 0xFFF0FFFF;   //  remove 4 bits.
-    ar[1] |= 0x00040000;   //  variant 4
+    ar[1] |= 0x00040000;   //  version 4
     ar[2] &= 0xFFFFFFF3;   //  remove 2 bits
-    ar[2] |= 0x00000008;   //  version 1
+    ar[2] |= 0x00000008;   //  variant 1
   }
   //  store binary version globally ?
   //  _ar[i] = ar[i];

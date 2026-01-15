@@ -51,7 +51,7 @@ unittest(test_generate)
 {
   UUID uuid;
   char u[40], v[40], w[40];
-  
+
   uuid.generate();
   strcpy(u, uuid.toCharArray());
   assertEqual(36, strlen(u));
@@ -67,7 +67,7 @@ unittest(test_generate)
   uuid.generate();
   strcpy(w, uuid.toCharArray());
   assertEqual(36, strlen(w));
-  
+
   assertNotEqual(u, v);
   assertNotEqual(u, w);
   assertNotEqual(w, v);
@@ -78,7 +78,7 @@ unittest(test_layout)
 {
   UUID uuid;
   char u[40];
-  
+
   uuid.generate();
   strcpy(u, uuid.toCharArray());
   fprintf(stderr, ">%s<\n", uuid.toCharArray());

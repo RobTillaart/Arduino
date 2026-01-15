@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2026-01-15
+- update GitHub actions
+- minor edits
+
 ## [0.2.0] - 2025-03-29
 - update readme.md with ESP Component reference, thanks to KOIO5
 - optimize performance (especially ESP32)

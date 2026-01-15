@@ -209,7 +209,7 @@ Indicative performance per function measured with **UUID_test.ino**.
 |   0.2.0   |  generate     |    120 us    |      13 us      |
 |   0.2.0   |  toCharArray  |      4 us    |       2 us      |
 
-Note: generating the 16 random bytes already takes ~40 us (UNO).
+Note: generating the 16 random bytes already takes ~40 us (UNO R3).
 
 
 ### UUID's per second

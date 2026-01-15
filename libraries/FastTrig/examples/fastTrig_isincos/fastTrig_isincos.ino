@@ -1,6 +1,5 @@
 //    FILE: isincos.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-12-09
 // PURPOSE: R&D
 //     URL: https://github.com/RobTillaart/FastTrig
 
@@ -20,7 +19,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
   delay(10);

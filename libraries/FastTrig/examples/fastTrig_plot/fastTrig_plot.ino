@@ -2,7 +2,6 @@
 //    FILE: fastTrig_plot.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: testing the fastTrigonio functions
-//    DATE: 2020-09-07
 //     URL: https://github.com/RobTillaart/FastTrig
 
 //  sketch to visually compare tan(x) and itan(x)
@@ -22,7 +21,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
 

@@ -6,13 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.3] - 2025-03-23
+## [0.3.5] - 2026-01-15
+- update GitHub actions
+- minor edits
+
+## [0.3.4] - 2025-03-23
 - fix #28, prevent promotion of constants to double. Kudos to Harrison3000
 - replace M_PI by a const float _PI_ to prevent promotion.
 - update examples
 - update readme.md (minor)
 - minor edits
-
 
 ## [0.3.3] - 2023-11-02
 - update readme.md
@@ -102,16 +105,14 @@ is added, as it uses the same **isintable16\[\]** interpolation table.
 
 There is no **atan()** or **atan2()** replacement.
 
-
 ## [0.1.4] - 2020-09-08
 - rewrite itan()
-- cleanup
+- clean up
 - examples
 
 The library (0.1.4) provides an **itan()** which improved accuracy
 upon the (0.1.3) version and performance for the ESP32.
 Performance on AVR (UNO) is still an issue, accuracy is OK.
-
 
 ## [0.1.3] - 2020-09-07
 - initial release.

@@ -1,6 +1,5 @@
 //    FILE: fastTrig_atan_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-12-05
 // PURPOSE: performance and accuracy measurement
 //     URL: https://github.com/RobTillaart/FastTrig
 

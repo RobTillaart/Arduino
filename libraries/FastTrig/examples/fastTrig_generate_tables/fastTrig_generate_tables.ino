@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: generate look up tables for goniometry functions (and others)
 //          these are not optimized for interpolation.
-//    DATE: 2020-09-08
 //     URL: https://github.com/RobTillaart/FastTrig
 
 //  TODO
@@ -20,7 +19,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
 

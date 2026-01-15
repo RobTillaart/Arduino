@@ -1,6 +1,5 @@
 //    FILE: fastTrig_hypot_accuracy.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2022-12-05
 // PURPOSE: performance and accuracy measurement
 //     URL: https://github.com/RobTillaart/FastTrig
 
@@ -20,7 +19,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
   delay(10);

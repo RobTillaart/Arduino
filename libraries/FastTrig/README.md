@@ -46,10 +46,14 @@ between **isin(int(x))** and **isin(int(x+1))**.
 Of course this introduces an error but the error is small and performance is still 
 quite fast (which was the goal).
 
+Feedback as always is welcome.
+
 
 ### Related
 
+- https://github.com/RobTillaart/fastTrig
 - https://github.com/RobTillaart/fast_math
+- https://github.com/RobTillaart/printHelpers a.o. print floats in scientific notation
 - https://github.com/RobTillaart?tab=repositories&q=math
 
 

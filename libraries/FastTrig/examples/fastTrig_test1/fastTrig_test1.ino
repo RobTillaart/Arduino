@@ -2,8 +2,6 @@
 //    FILE: fastTrig_test1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: testing the fastTrigonio functions
-//    DATE: 2020-08-30
-//    (c) : MIT
 //     URL: https://github.com/RobTillaart/FastTrig
 
 
@@ -21,7 +19,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
 

@@ -3,7 +3,6 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.1.1
 // PURPOSE: testing the fastTrigonio functions
-//    DATE: 2020-09-09
 //     URL: https://github.com/RobTillaart/FastTrig
 
 
@@ -22,7 +21,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
 

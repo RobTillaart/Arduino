@@ -2,7 +2,6 @@
 //    FILE: fastTrig_optimize.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: sketch to optimize the table for interpolation
-//    DATE: 2020-09-06
 //     URL: https://github.com/RobTillaart/FastTrig
 
 //  WARNING TAKES A LOT OF TIME ON 16 MHz
@@ -29,7 +28,7 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FAST_TRIG_LIB_VERSION: ");
+  Serial.print("FAST_TRIG_LIB_VERSION: ");
   Serial.println(FAST_TRIG_LIB_VERSION);
   Serial.println();
 

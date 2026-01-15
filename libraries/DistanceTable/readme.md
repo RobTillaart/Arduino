@@ -101,18 +101,32 @@ Use skipSelf to ignore (x,x) as this is 0.
 
 ### GeoMetric Median
 
-**EXPERIMENTAL**
+**Experimental**
 
-from Wikipedia: Geometric median
+Based on Wikipedia: Geometric median
 
 _In geometry, the Geometric Median (GM) of a discrete point set in a Euclidean space 
-is the point minimizing the sum of distances to the sample points._
+is the point minimizing the sum of distances to the sample points.
+This generalizes the median, which has the property of minimizing the sum of distances or 
+absolute differences for one-dimensional data.
+It is also known as the spatial median, Euclidean minimum point, Torricelli point, or 1-median._
 
-The function **minimumColumn()** is an approximation of GM as it assumes the GM must be
+To find the Geometric Median one has to access all points and do the following steps.
+- make a distance table of all points, 
+- sum per column or row,
+- take the minimum of that
+
+Technically it is possible that there are more than one GM. E.g. the four corners of a rectangle
+or six corners of a hexagon. If there exists a symmetry line (point) between the places there
+will be more than one GM for sure.
+
+See distanceTable_column_functions.ino
+
+The function **minimumColumn()** is an approximation of the GM as it assumes the GM must be
 in the set of points.
 The other functions were added to make the set of column based functions complete.
 
-- **float geometricMedian(uint8_t &x);** find the (first) median point, 
+- **float geometricMedian(uint8_t &x);** find the (first) median point (from given points), 
 returns the sum of all distances in column(x).
 - **float minColumn(uint8_t &x)** find the (first) median point, 
 returns the sum of all distances in column(x).
@@ -139,7 +153,9 @@ Note 4: to count all non-negative numbers, use **count(0.0) + countAbove(0.0)**,
 Behaviour might change in the future.
 
 
-### Invert (experimental)
+### Invert
+
+**Experimental**
 
 - **void setInvert(bool invert = false)** Set the invert flag. 
 - **bool getInvert()** returns the current value of the invert flag.
@@ -172,9 +188,25 @@ Note in previous releases it dumped only a "triangle".
 Typical ```elements() x sizeof(float)```.
 
 
-## Operational
+## Travelling Sales Person (TSP)
 
-See examples.
+Distance table related problem.
+
+A well known optimization problem in the computer science is the Travelling Sales Person,
+a.k.a. Travelling Salesman Problem or in short TSP. 
+The salesman should visit a number of places and the question is what is the shortest 
+possible route in terms of distance (time, fuel, money etc).
+There exist (as far as known) no simple algorithm that guarantees a solution in Polynomial 
+time hence it is named NP-problem.
+
+To solve the TSP problem one typical has to try all possible routes and remember the 
+shortest route found so far. 
+There are heuristics that are able to find good routes for many places in a short time.
+If you want to explore this "programming challenge" there are sets of "standard travel 
+points" like the berlin52.tsp. 
+These can be found on the internet.
+
+https://github.com/pdrozdowski/TSPLib.Net/blob/master/TSPLIB95/tsp/berlin52.tsp
 
 
 ## Future
@@ -200,6 +232,7 @@ See examples.
 - add examples
   - Note: table can be used for other symmetrical 2D tables. 
   - And therefore include negative values
+  - Travelling Sales Person 
 - investigate behaviour of **count()** functions a bit more.
   - include diagonal?
 - could the "non-inverted" distance table be a derived or base class?
@@ -215,7 +248,7 @@ See examples.
 #### won't 
 
 - **clear()** could set all to NAN? is that better as it indicates unknown?  
-  - setAll() let the user decide.
+  - **setAll()** let the user decide.
 - Hamilton paths? 
 - math
   - add / subtract an offset? 

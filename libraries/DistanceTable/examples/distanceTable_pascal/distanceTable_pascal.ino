@@ -2,7 +2,6 @@
 //    FILE: distanceTable_pascal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of memory efficient distance table class
-//    DATE: 2015-06-18
 //     URL: https://github.com/RobTillaart/DistanceTable
 //
 
@@ -21,6 +20,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DISTANCETABLE_LIB_VERSION: ");
   Serial.println(DISTANCETABLE_LIB_VERSION);

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2026-01-15
+- update GitHub actions
+- add Travelling Sales Person section to readme.md
+- minor edits
+
 ## [0.3.4] - 2025-03-06
 - add sumOfColumn(), minimumOfColumn(), maximumOfColumn() and averageOfColumn()
 - add geometricMedian(), minColumn(), maxColumn()

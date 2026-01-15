@@ -1,7 +1,7 @@
 //
 //    FILE: MAX6675.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for MAX6675 chip for K type thermocouple
 //    DATE: 2022-01-11
 //     URL: https://github.com/RobTillaart/MAX6675
@@ -64,7 +64,7 @@ void MAX6675::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
-};
+}
 
 
 uint8_t MAX6675::read()

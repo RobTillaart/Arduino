@@ -24,6 +24,7 @@ void setup()
 {
   //  while(!Serial);
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MAX6675_LIB_VERSION: ");
   Serial.println(MAX6675_LIB_VERSION);

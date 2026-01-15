@@ -13,18 +13,15 @@
 
 Max6675 is an Arduino library for MAX6675 chip with a K type thermocouple. 
 
-The library is based upon (stripped and adapted version of) the https://github.com/RobTillaart/MAX31855_RT library.
-
-Currently the library is experimental, so use with care.
-
-Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO at 16 MHz. 
-The library works and it reads temperatures well, both with HW SPI and SW SPI. 
-
 
 ## Description
 
 The MAX6675 is a chip to convert the reading of a K-type thermocouple to a temperature. 
 The MAX6675 only supports positive degrees Celsius.
+
+The library is based upon (stripped and adapted version of) the https://github.com/RobTillaart/MAX31855_RT library.
+Hardware has finally arrived (April 2022) and I had time to do my first round of tests with an UNO at 16 MHz. 
+The library works and it reads temperatures well, both with HW SPI and SW SPI. 
 
 The values are read with an precision of **0.25°C.** 
 Typical noise seen during usage are **± 0.5°C**, so using a low pass filter on the temperature might be a good idea.
@@ -32,6 +29,8 @@ Typical noise seen during usage are **± 0.5°C**, so using a low pass filter on
 The working of thermocouples (TC) is based upon Seebeck effect.
 Different TC's have a different Seebeck Coefficient (SC) expressed in µV/°C.
 See http://www.analog.com/library/analogDialogue/archives/44-10/thermocouple.html
+
+Feedback as always is welcome.
 
 
 ### Breakout
@@ -68,10 +67,13 @@ Note the order of the parameters of the software SPI constructor has changed in 
 
 ### Related
 
+- https://github.com/RobTillaart/AD8495
+- https://github.com/RobTillaart/DS18B20_RT oneWire temperature sensor 
 - https://github.com/RobTillaart/MAX6675 
 - https://github.com/RobTillaart/MAX31850
 - https://github.com/RobTillaart/MAX31855_RT
 - https://github.com/RobTillaart/Temperature  conversion to (exotic) temperature scales.
+- https://github.com/RobTillaart/PrintHelpers  to print in sci / eng format
 
 
 ## Hardware SPI vs software SPI

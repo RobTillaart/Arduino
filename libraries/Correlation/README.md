@@ -31,6 +31,8 @@ This will happen if the **sumX2** is zero or very small.
 
 Use with care.
 
+Feedback as always is welcome
+
 
 ### Related
 

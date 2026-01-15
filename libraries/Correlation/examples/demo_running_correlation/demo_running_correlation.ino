@@ -1,7 +1,6 @@
 //
 //    FILE: demo_running_correlation.ino.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-05-18
 // PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 

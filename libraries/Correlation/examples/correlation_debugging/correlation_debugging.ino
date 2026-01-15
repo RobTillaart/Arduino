@@ -1,7 +1,6 @@
 //
 //    FILE: correlation_debugging.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-05-17
 // PURPOSE: demo of the Correlation Library
 //     URL: https://github.com/RobTillaart/Correlation
 

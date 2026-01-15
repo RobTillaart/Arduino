@@ -2,7 +2,8 @@
 //
 //    FILE: Correlation.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
+//    DATE: 2010-10-29
 // PURPOSE: Calculate Correlation from a small dataset.
 //     URL: https://github.com/RobTillaart/Correlation
 
@@ -10,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define CORRELATION_LIB_VERSION          (F("0.3.3"))
+#define CORRELATION_LIB_VERSION          (F("0.3.4"))
 
 
 class Correlation
@@ -98,9 +99,9 @@ public:
   float   getX(uint8_t index);    //  idem
   float   getY(uint8_t index);    //  idem
 
-  float   getSumXY();  //  returns sum(xi*yi)
-  float   getSumX2();  //  returns sum(xi*xi)
-  float   getSumY2();  //  returns sum(yi*yi)
+  float   getSumXY();  //  returns sum(xi * yi)
+  float   getSumX2();  //  returns sum(xi * xi)
+  float   getSumY2();  //  returns sum(yi * yi)
 
 
 private:

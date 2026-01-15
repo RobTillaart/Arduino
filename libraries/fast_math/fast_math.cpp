@@ -1,7 +1,7 @@
 //
 //    FILE: fast_math.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -105,7 +105,7 @@ uint8_t dec2bcdRef(uint8_t value)
 uint8_t dec2bcd(uint8_t value)
 {
   uint8_t b = (value * 103) >> 10;
-  return (b * 16 + value - (b * 10)); 
+  return (b * 16 + value - (b * 10));
   // return value + 6 * b;   //  compiles equally fast.
 }
 
@@ -268,7 +268,7 @@ uint16_t ping2sixteenths(uint16_t in)
 uint32_t ping2cm32(uint32_t in)
 {
   //  divide by 29.41176 == * 0.034
-  //  uint32_t q = (in >> 5) + (in >> 9) + (in >> 11) + (in >> 12) + (in >> 14) 
+  //  uint32_t q = (in >> 5) + (in >> 9) + (in >> 11) + (in >> 12) + (in >> 14)
   //             + (in >> 19) + (in >> 20) + (In >> 21) + (in >> 24) + (26, 28 29...;
   uint32_t d = in >> 5;
   uint32_t q = d;

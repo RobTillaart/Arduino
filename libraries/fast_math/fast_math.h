@@ -2,7 +2,7 @@
 //
 //    FILE: fast_math.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -16,7 +16,7 @@
 #include "Arduino.h"
 #endif
 
-#define FASTMATH_LIB_VERSION          (F("0.2.4"))
+#define FASTMATH_LIB_VERSION          (F("0.2.5"))
 
 
 #ifdef __cplusplus

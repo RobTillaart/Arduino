@@ -128,7 +128,7 @@ void search_heat()
     error += (YY1 - 42) * (YY1 - 42);
     error += (YY2 -  3) * (YY2 -  3);
     error += (YY3 -  3) * (YY3 -  3);
-    
+
     //  if new values is a better fit
     if (error < minimum)
     {

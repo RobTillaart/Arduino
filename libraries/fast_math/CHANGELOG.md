@@ -6,16 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.5] - 2026-01-15
+- update GitHub actions
+- minor edits
+
 ## [0.2.4] - 2025-03-25
 - add fastLog2(), fastLog10(), fastLog()
 - add example
 - update readme.md
 - minor edits
 
-
 ## [0.2.3] - 2024-01-03
 - fix typos examples
-- minor edits 
+- minor edits
 
 ## [0.2.2] - 2023-10-26
 - update readme.md
@@ -28,7 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update ping2cm32(), ping2mm32()
 - add ping2quarter();
 - add ping2inch_tempF(duration, Fahrenheit);
-
 
 ## [0.2.0] - 2022-10-29
 - initial release as library

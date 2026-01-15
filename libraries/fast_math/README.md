@@ -29,11 +29,15 @@ with improving decades ago when computers were slower than an Arduino UNO.
 Note: I am interested in your feedback e.g. results on other platforms.
 Also improvements or other fast code is welcome. Please open an issue.
 
+Feedback as always is welcome.
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/fastTrig Gonio functions (less exact but faster)
+- https://github.com/RobTillaart/fast_math
+- https://github.com/RobTillaart/printHelpers scientific and engineering notation.
 - https://github.com/RobTillaart?tab=repositories&q=math
+
 
 ## Interface
 
@@ -173,7 +177,6 @@ Indicative performance Arduino UNO.
 |  ping2cm_tempC    |  17.2  |    2.2   |
 |  ping2inch_tempC  |  16.6  |    2.3   |
 |  ping2inch_tempF  |  16.4  |    2.3   |
-
 
 
 ### Polynome

@@ -17,7 +17,12 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("ANSI_LIB_VERSION: ");
+  Serial.println(ANSI_LIB_VERSION);
+  Serial.println();
+
 }
 
 

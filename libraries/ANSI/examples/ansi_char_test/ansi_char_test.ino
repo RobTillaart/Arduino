@@ -12,7 +12,12 @@ ANSI ansi(&Serial);
 
 void setup()
 {
-  Serial.begin(115200);
+  ansi.println();
+  ansi.println(__FILE__);
+  ansi.print("ANSI_LIB_VERSION: ");
+  ansi.println(ANSI_LIB_VERSION);
+  ansi.println();
+  delay(1000);
 
   ansi.clearScreen();
 

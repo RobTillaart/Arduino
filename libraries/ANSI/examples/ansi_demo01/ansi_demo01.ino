@@ -1,5 +1,5 @@
 //
-//    FILE: ansiDemo01.ino
+//    FILE: ansi_demo01.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/ANSI
@@ -13,6 +13,12 @@ ANSI ansi(&Serial);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("ANSI_LIB_VERSION: ");
+  Serial.println(ANSI_LIB_VERSION);
+  Serial.println();
+  delay(1000);
 
   ansi.clearScreen();
   ansi.println("Hello world");

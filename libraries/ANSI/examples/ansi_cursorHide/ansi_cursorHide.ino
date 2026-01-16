@@ -4,7 +4,7 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/ANSI
 //
-//  should altenatingly show/hide the cursor for 5 seconds.
+//  should alternately show/hide the cursor for 5 seconds.
 
 #include "ansi.h"
 
@@ -15,6 +15,13 @@ bool visible = true;
 void setup()
 {
   Serial.begin(115200);
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("ANSI_LIB_VERSION: ");
+  Serial.println(ANSI_LIB_VERSION);
+  Serial.println();
+  delay(1000);
 
   ansi.clearScreen();
   ansi.cursorShow();

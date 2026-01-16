@@ -1,7 +1,7 @@
 //
 //    FILE: ansi_132_column.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo clock
+// PURPOSE: display 132 columns
 //     URL: https://github.com/RobTillaart/ANSI
 //
 //  use Tera Term to view 132 columns.
@@ -32,6 +32,11 @@ ANSI ansi(&Serial);
 void setup()
 {
   Serial.begin(115200);
+  ansi.println();
+  ansi.println(__FILE__);
+  ansi.print("ANSI_LIB_VERSION: ");
+  ansi.println(ANSI_LIB_VERSION);
+  ansi.println();
 
   // SPLASH SCREEN
   ansi.set80columns();
@@ -42,25 +47,20 @@ void setup()
   ansi.normal();
   delay(3000);
   ansi.clearScreen();
-
-  ansi.set132columns();
-  ansi.println(lorem);
-  ansi.println();
-
-  delay(5000);
-  ansi.set80columns();
-  ansi.println(lorem);
-  ansi.println();
-
-  delay(5000);
-  ansi.set132columns();
-  ansi.println(lorem);
-  ansi.println();
 }
 
 
 void loop()
 {
+  ansi.set132columns();
+  ansi.println(lorem);
+  ansi.println();
+  delay(5000);
+
+  ansi.set80columns();
+  ansi.println(lorem);
+  ansi.println();
+  delay(5000);
 }
 
 

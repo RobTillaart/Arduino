@@ -1,7 +1,7 @@
 //
 //    FILE: ansiTestPrint.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo different print modi
 //     URL: https://github.com/RobTillaart/ANSI
 
 
@@ -29,6 +29,7 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 void setup()
 {
   Serial.begin(115200);
+  ansi.println();
   ansi.println(__FILE__);
   ansi.print("ANSI_LIB_VERSION: ");
   ansi.println(ANSI_LIB_VERSION);

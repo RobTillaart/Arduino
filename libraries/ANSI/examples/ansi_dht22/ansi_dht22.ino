@@ -1,12 +1,12 @@
 //
 //    FILE: ansi_dht22.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: display temperature and humidity with color
 //     URL: https://github.com/RobTillaart/ANSI
 
 
-#include <dhtnew.h>
-DHTNEW mySensor(5);   //  datapin  UNO 5  ESP 16  MKR1010 5
+#include "dhtnew.h"
+DHTNEW mySensor(5);   //  data pin:  UNO 5  ESP 16  MKR1010 5
 
 
 #include "ansi.h"
@@ -22,12 +22,12 @@ void setup()
 {
   while (!Serial);    //  MKR1010 needs this
   Serial.begin(115200);
-  Serial.println(__FILE__);
-  Serial.print("DHTNEW_LIB_VERSION: \t");
-  Serial.println(DHTNEW_LIB_VERSION);
-  Serial.print("ANSI_LIB_VERSION: \t");
-  Serial.println(ANSI_LIB_VERSION);
-  Serial.println();
+  ansi.println();
+  ansi.println(__FILE__);
+  ansi.print("ANSI_LIB_VERSION: ");
+  ansi.println(ANSI_LIB_VERSION);
+  ansi.println();
+  delay(1000);
 
   mySensor.setType(22);
 
@@ -60,7 +60,7 @@ void loop()
   ansi.gotoXY(10, 7);
   ansi.print(" HUM:       ");
   ansi.gotoXY(16, 7);
-  
+
   float h = mySensor.getHumidity();
   ansi.foreground(ansi.white);
   if (h > 50) ansi.foreground(ansi.yellow);

@@ -2,7 +2,7 @@
 //
 //    FILE: ansi.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 // PURPOSE: Arduino library to send ANSI escape sequences
 //    DATE: 2020-04-28
 //     URL: https://github.com/RobTillaart/ANSI
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define ANSI_LIB_VERSION        (F("0.3.4"))
+#define ANSI_LIB_VERSION        (F("0.3.5"))
 
 
 class ANSI : public Stream
@@ -165,6 +165,67 @@ public:
   //  RGB_COLOR
   void setRGBforeground(uint8_t r, uint8_t g, uint8_t b);  //  -
   void setRGBbackground(uint8_t r, uint8_t g, uint8_t b);  //  -
+
+
+  //  EXPERIMENTAL BOXES SECTION (TODO)
+  //  move to .cpp when stable.
+  //  add to keywords.txt
+  //
+  //  draw "horizontal line", c might be space.
+  size_t repeat(char c, uint8_t times)
+  {
+    uint8_t t = times;
+    while(t--) write(c);
+    return times;
+  };
+
+  size_t repeat(char * str, uint8_t times)
+  {
+    uint8_t t = times;
+    while(t--) print(str);
+    return times * strlen(str);
+  };
+
+  //  can be used as clearBox
+  void fillBox(int x, int y, int width, int height, char c)
+  {
+    for (int i = 0; i < height; i++)
+    {
+      gotoXY(x, y + i);
+      repeat(c, width);
+    }
+  };
+
+  //  simple box, no checks
+  void box(int x, int y, int width, int height, const char * header = "")
+  {
+    gotoXY(x, y);
+    print("+");
+    repeat('-', width - 2);
+    println('+');
+    for (int i = 0; i < height - 2; i++)
+    {
+      gotoXY(x, y + i + 1);
+      print('|');
+      gotoXY(x + width - 1, y + i + 1);
+      print('|');
+    }
+    gotoXY(x, y + height - 1);
+    print('+');
+    repeat('-', width - 2);
+    println('+');
+
+    gotoXY(x + 2, y);
+    print(header);
+  };
+
+
+
+
+
+
+
+
 
 
 protected:

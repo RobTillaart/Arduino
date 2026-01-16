@@ -1,9 +1,9 @@
 //
 //    FILE: ansi.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.4
-// PURPOSE: Arduino library to send ANSI escape sequences
+// VERSION: 0.3.5
 //    DATE: 2020-04-28
+// PURPOSE: Arduino library to send ANSI escape sequences
 //     URL: https://github.com/RobTillaart/ANSI
 
 
@@ -313,7 +313,7 @@ void ANSI::setRGBforeground(uint8_t r, uint8_t g, uint8_t b)  //  -
   write(';');
   write(b);
   print("m");
-};
+}
 
 
 void ANSI::setRGBbackground(uint8_t r, uint8_t g, uint8_t b)  //  -
@@ -325,7 +325,7 @@ void ANSI::setRGBbackground(uint8_t r, uint8_t g, uint8_t b)  //  -
   write(';');
   write(b);
   print("m");
-};
+}
 
 
 //////////////////////////////////////////////////

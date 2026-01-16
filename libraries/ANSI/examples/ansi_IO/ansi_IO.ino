@@ -16,27 +16,31 @@ String password = "";
 void setup()
 {
   Serial.begin(115200);
+  ansi.println();
+  ansi.println(__FILE__);
+  ansi.print("ANSI_LIB_VERSION: ");
+  ansi.println(ANSI_LIB_VERSION);
+  ansi.println();
+  delay(1000);
 
   ansi.clearScreen();
-
-  ansi.print("ANSI_LIB_VERSION: ");
-  ansi.print(ANSI_LIB_VERSION);
 
   ansi.gotoXY(2, 4);
   ansi.print("Username: ");
   char c = '\0';
-  while (c != '\r')
+  while (c != '\r' && c != '\n')
   {
     if (ansi.available() )
     {
       c = ansi.read();
-      if (c != '\r')
+      if (c != '\r' && c != '\n')
       {
         user += c;
         ansi.print(c);
       }
     }
   }
+  while (ansi.available()) ansi.read();  //  flush input
 
   ansi.gotoXY(2, 5);
   ansi.print("Password: ");
@@ -66,5 +70,6 @@ void setup()
 void loop()
 {
 }
+
 
 //  -- END OF FILE --

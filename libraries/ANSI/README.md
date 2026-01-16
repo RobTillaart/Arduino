@@ -24,13 +24,15 @@ The set of codes is large, however not all terminal types do support all codes.
 Sending these ANSI codes to a simple ASCII only terminal like the one in the Arduino
 IDE might result in garbage. So use with care.
 
+Feedback as always is welcome.
+
 
 ### Breaking change 0.2.0
 
 The **gotoXY(x, y)** has changed as the X and Y coordinates were swapped.
 
 The code has been updated to explicitly mention which is row and which is column.
-- **gotoXY(uint8_t column, uint8_t row)** 
+- **gotoXY(uint8_t column, uint8_t row)**
 
 
 ### Related
@@ -69,7 +71,7 @@ Can be a software serial too.
 - **int available()** to check if chars are available on the stream.
 - **int read()** read a byte from the stream.
 - **int peek()** preview the byte in the stream without fetching.
-- **void flush()** 
+- **void flush()**
 
 Stream interface also includes print(), println(), write().
 
@@ -107,7 +109,7 @@ Three helpers to map to the nearest colour.
 - **void clearLine(uint8_t clear = toEnd)** toEnd = 0,
   toStart = 1, entireLine = 2,
 - **void home()** set cursor to 0, 0
-- **void gotoXY(uint8_t column, uint8_t row)** set cursor to position. 
+- **void gotoXY(uint8_t column, uint8_t row)** set cursor to position.
 Note X == row and Y == column. See #13.
 - **void cursorUp(uint8_t x)** idem.
 - **void cursorDown(uint8_t x)** idem.
@@ -136,7 +138,7 @@ Be sure to test the return value!
 - **bool getScreenSize(uint16_t &w, uint16_t &h, uint32_t timeout = 100)**
 returns true if width and height are reported.
 Be sure to test the return value!
-- **inline uint16_t screenWidth()** used after successful 
+- **inline uint16_t screenWidth()** used after successful
 call of getScreenSize();
 - **inline uint16_t screenHeight()** used after successful
 call of getScreenSize();
@@ -177,7 +179,7 @@ PRINTING
 - **void printScreen()**
 - **void setPrintingMode(bool on)**
 
-RESET 
+RESET
 - **void reset()** terminal to initial state
 
 
@@ -190,6 +192,25 @@ RESET
 - **void strikeThrough()**
 - **void setRGBforeground(uint8_t r, uint8_t g, uint8_t b)**
 - **void setRGBbackground(uint8_t r, uint8_t g, uint8_t b)**
+
+
+### Experimental BOX functions
+
+Repeating characters, useful for your own boxes too.
+
+- **size_t repeat(char c, uint8_t times)** idem.
+- **size_t repeat(char \* str, uint8_t times)** idem.
+
+Box:
+
+- **void fillBox(int x, int y, int width, int height, char c)** fill a box 
+on screen with a single character.
+The character might be a space ' ' to clear part of the screen.
+Note that single line boxes are faster cleared with **repeat(' ', times)**.
+- **void box(int x, int y, int width, int height, const char \* header = "")**
+draw a box with an optional header.
+
+See ansi_box_test.ino for some ideas.
 
 
 ## Performance

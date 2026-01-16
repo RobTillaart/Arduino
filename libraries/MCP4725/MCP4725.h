@@ -3,7 +3,7 @@
 //    FILE: MCP4725.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //     URL: https://github.com/RobTillaart/MCP4725
 
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MCP4725_LIB_VERSION         (F("0.4.2"))
+#define MCP4725_LIB_VERSION         (F("0.4.3"))
 #define MCP4725_VERSION             MCP4725_LIB_VERSION
 
 
@@ -58,12 +58,15 @@ public:
   float    getPercentage();
 
   //  typical and default value = 5.0 V
-  void     setMaxVoltage(float v = 5.0);
+  void     setMaxVoltage(float maxVolts = 5.0);
   float    getMaxVoltage();
   //  will set 0..5V to the closest integer value in range 0..4095
-  int      setVoltage(float v);
+  int      setVoltage(float volts);
   // returns (approximation of) the set voltage. Assumes linear mapping.
   float    getVoltage();
+  //  milliVolts wrappers - #36
+  int      setMilliVolts(float milliVolts);
+  float    getMillisVolts();
 
 
   //  unfortunately it is not possible to write a different value

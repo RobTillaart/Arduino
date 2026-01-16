@@ -2,7 +2,7 @@
 //    FILE: MCP4725.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for 12 bit I2C DAC - MCP4725
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //     URL: https://github.com/RobTillaart/MCP4725
 
 
@@ -82,27 +82,34 @@ float MCP4725::getPercentage()
 }
 
 
-void MCP4725::setMaxVoltage(float v)
+void MCP4725::setMaxVoltage(float maxVolts)
 {
-  _maxVoltage = v;
+  _maxVoltage = maxVolts;
 }
-
 
 float MCP4725::getMaxVoltage()
 {
   return _maxVoltage;
 }
 
-
-int MCP4725::setVoltage(float v)
+int MCP4725::setVoltage(float volts)
 {
-  return setValue(round((v * MCP4725_MAXVALUE) / _maxVoltage));
+  return setValue(round((volts * MCP4725_MAXVALUE) / _maxVoltage));
 }
-
 
 float MCP4725::getVoltage()
 {
   return getValue() * (_maxVoltage / MCP4725_MAXVALUE);
+}
+
+int MCP4725::setMilliVolts(float milliVolts)
+{
+  return setVoltage(milliVolts * 0.001);
+}
+
+float MCP4725::getMillisVolts()
+{
+  return getVoltage() * 1000.0;
 }
 
 

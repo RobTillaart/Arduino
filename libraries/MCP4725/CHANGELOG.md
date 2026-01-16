@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.3] - 2026-01-16
+- fix #36, add milliVolts wrappers
+- update readme.md
+- add example
+
 ## [0.4.2] - 2026-01-12
 - update GitHub actions
 - add MCP4725_LIB_VERSION

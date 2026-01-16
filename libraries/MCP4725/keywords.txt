@@ -21,6 +21,11 @@ getMaxVoltage	KEYWORD2
 setVoltage	KEYWORD2
 getVoltage	KEYWORD2
 
+setVolts	KEYWORD2
+getVolts	KEYWORD2
+setMilliVolts	KEYWORD2
+getMillisVolts	KEYWORD2
+
 writeDAC	KEYWORD2
 ready	KEYWORD2
 readDAC	KEYWORD2

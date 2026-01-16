@@ -93,11 +93,16 @@ The default value is 5.0 volt.
 Allows sort of calibration e.g. setting maxVoltage to 4.952 Volt.
 Furthermore it can be a preferred interface over percentage and raw values.
 
-- **void setMaxVoltage(float v = 5.0)** configures maximum voltage of Vout.
+- **void setMaxVoltage(float maxVolts = 5.0)** configures maximum voltage of Vout.
 - **float getMaxVoltage()** return set maximum.
-- **void setVoltage(float v)** set the DAC to voltage v.
+- **int setVoltage(float volts)** set the DAC to voltage v.
 This maps the voltage to 0..4095 and calls **setValue()**
+Returns the set register value.
 - **float getVoltage()** get the current setting as a voltage
+
+MilliVolt wrappers.
+- **int setMilliVolts(float milliVolts)**
+- **float getMillisVolts()**
 
 If this behaviour is not precise enough or should be more "complex" the user can
 always define its own set of wrapper functions around **getValue()** and **setValue()**.

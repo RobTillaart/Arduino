@@ -1,6 +1,5 @@
 //    FILE: LTC2991_test_conversion.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2025-03-27
 // PURPOSE: test conversion code (development)
 //     URL: https://github.com/RobTillaart/LTC2991
 //
@@ -14,7 +13,9 @@ void setup()
 {
   //  while(!Serial);  //  uncomment if needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
               //  expected voltage
   P(0x3FFF);  //  > 5.0000
@@ -35,7 +36,7 @@ void P(int16_t val)
   v = v & 0x7FFF;  //  strip DATA_VALID bit
   Serial.print(v, HEX);
   Serial.print('\t');
-  if ((v & 0x4000) == 0)
+  if ((v & 0x4000) == 0)  //  sign bit.
   {
     Serial.println(2.5 / 8192 * (float(v)), 6);
   }

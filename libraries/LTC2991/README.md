@@ -30,6 +30,8 @@ Read the datasheet for the details.
 
 The library is not tested by myself, (no hardware).
 
+Feedback as always is welcome.
+
 
 ### Breaking change 0.3.0
 

@@ -2,7 +2,7 @@
 //
 //    FILE: LTC2991.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTC2991_LIB_VERSION               (F("0.3.0"))
+#define LTC2991_LIB_VERSION               (F("0.3.1"))
 
 //
 //  DEFINES for readability

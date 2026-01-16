@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2991.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2021-05-10
 // PURPOSE: Library for LTC2991 temperature and voltage control IC
 //     URL: https://github.com/RobTillaart/LTC2991
@@ -190,7 +190,7 @@ void LTC2991::set_Kelvin(uint8_t n)
 {
   set_temp_scale(n, true);
   set_mode_temperature(n);
-};
+}
 
 
 //  can be more efficient in one register addressing.
@@ -198,7 +198,7 @@ void LTC2991::set_Celsius(uint8_t n)
 {
   set_temp_scale(n, false);
   set_mode_temperature(n);
-};
+}
 
 
 void LTC2991::set_temp_scale(uint8_t n, bool Kelvin)

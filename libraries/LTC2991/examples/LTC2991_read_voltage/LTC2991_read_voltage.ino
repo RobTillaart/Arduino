@@ -15,6 +15,7 @@ LTC2991 LTC(0x48);  //  all address lines GND
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("LTC2991_LIB_VERSION: ");
   Serial.println(LTC2991_LIB_VERSION);

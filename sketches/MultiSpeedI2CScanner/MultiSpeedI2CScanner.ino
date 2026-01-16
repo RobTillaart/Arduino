@@ -1,9 +1,9 @@
 //
 //    FILE: MultiSpeedI2CScanner.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
-// PURPOSE: I2C scanner at different speeds
+// VERSION: 0.2.1
 //    DATE: 2013-11-05
+// PURPOSE: I2C scanner at different speeds
 //     URL: https://github.com/RobTillaart/MultiSpeedI2CScanner
 //     URL: http://forum.arduino.cc/index.php?topic=197360
 //
@@ -21,7 +21,7 @@
 TwoWire *wire;
 
 
-const char version[] = "0.2.0";
+const char version[] = "0.2.1";
 
 
 //  INTERFACE COUNT (TESTED TEENSY 3.5 AND ARDUINO DUE ONLY)

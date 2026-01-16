@@ -17,7 +17,7 @@ not used.
 # Arduino MultiSpeed I2C Scanner
 
 
-## Version: 0.2.0
+## Version: 0.2.1
 
 
 ## Description
@@ -47,9 +47,10 @@ Note this is not a menu option and must be done compile time (for now).
 
 build your own I2C scanner with:
 - https://github.com/RobTillaart/I2C_SCANNER
+- https://github.com/RobTillaart/I2C_SOFTRESET
 
 
-## Menu dialog
+## Menu dialogue
 
 ```
 <speeds = 50 100 150 200 250 300 350 400 >
@@ -169,8 +170,8 @@ Check your datasheet to see which speeds are applicable for the processor in use
 
 - add "T" command to toggle I2C_TIMEOUT 0 - 25000 ?
 - non-AVR command behind a ```#ifdef``` ?
-- I2C GENERIC RESET address 0x00 CMD 0x06
-- I2C GENERIC DEVICEID -> under investigation in PCA9671
+- I2C GENERIC RESET address 0x00 CMD 0x06    => separate class 
+- I2C GENERIC DEVICEID => under investigation in PCA9671
 
 
 #### Wont

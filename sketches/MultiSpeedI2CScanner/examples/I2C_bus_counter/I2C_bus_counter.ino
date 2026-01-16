@@ -23,9 +23,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  Serial.print(__FILE__);
+  Serial.println(__FILE__);
   Serial.print("\t");
   Serial.println(version);
+  Serial.println();
   delay(1000);
 
 #if defined WIRE_IMPLEMENT_WIRE1 || WIRE_INTERFACES_COUNT > 1

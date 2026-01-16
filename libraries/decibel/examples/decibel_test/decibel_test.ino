@@ -15,7 +15,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DECIBEL_LIB_VERSION:\t");
+  Serial.println(DECIBEL_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   start = micros();
@@ -85,8 +89,6 @@ void setup()
 
 void loop()
 {
-
-
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

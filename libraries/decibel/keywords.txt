@@ -12,7 +12,6 @@ inverseDecibel	KEYWORD2
 decibelFast	KEYWORD2
 
 
-
 # Constants (LITERAL1)
 DECIBEL_LIB_VERSION	LITERAL1
 

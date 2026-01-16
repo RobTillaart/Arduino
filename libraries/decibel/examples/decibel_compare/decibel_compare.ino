@@ -11,9 +11,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DECIBEL_LIB_VERSION:\t");
   Serial.println(DECIBEL_LIB_VERSION);
+  Serial.println();
   delay(100);
 
   float m = 0;
@@ -25,12 +27,12 @@ void setup()
     float n = decibel(a);
     float f = decibelFast(a);
     //  find max error
-    if (abs(n - f) > m) 
+    if (abs(n - f) > m)
     {
       m = abs(n - f);
     }
     avg += abs(n - f);
-    
+
     Serial.print(a, 6);
     Serial.print('\t');
     Serial.print(n, 6);
@@ -55,4 +57,4 @@ void loop()
 
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

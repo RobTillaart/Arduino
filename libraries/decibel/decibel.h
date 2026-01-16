@@ -2,7 +2,7 @@
 //
 //    FILE: decibel.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2022-12-19
 // PURPOSE: fast decibel function
 //     URL: https://github.com/RobTillaart/decibel
@@ -17,7 +17,7 @@
 #endif
 
 
-#define DECIBEL_LIB_VERSION               (F("0.1.0"))
+#define DECIBEL_LIB_VERSION               (F("0.1.1"))
 
 
 #ifdef __cplusplus
@@ -35,7 +35,7 @@ float decibel(float alpha)
 {
   float a = alpha;
   if (a < 0) a = -a;
-  return 10 * log10(a);
+  return 10.0 * log10(a);
 };
 
 //  AVR ~204 us

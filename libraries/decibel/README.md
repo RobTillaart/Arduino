@@ -46,6 +46,7 @@ Feedback, as always is welcome.
 ### Related
 
 - https://github.com/RobTillaart/fast_math
+- https://github.com/RobTillaart/printHelpers  scientific notation floats.
 - https://github.com/RobTillaart?tab=repositories&q=math
 
 

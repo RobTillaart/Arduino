@@ -6,13 +6,11 @@ jobs:
   runTest:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6
       - run: |
-          sudo sysctl vm.mmap_rnd_bits=28
           gem install arduino_ci
           arduino_ci.rb

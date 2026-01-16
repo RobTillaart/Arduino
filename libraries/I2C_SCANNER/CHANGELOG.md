@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2026-01-16
+- update GitHub actions
+- minor edits
+
 ## [0.3.1] - 2025-03-12
 - update examples
 - implement experimental **setWireTimeout()**

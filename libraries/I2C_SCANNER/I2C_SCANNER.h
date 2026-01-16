@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_SCANNER.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2022-08-29
 // PURPOSE: Arduino class to implement an I2C scanner.
 //     URL: https://github.com/RobTillaart/I2C_SCANNER
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define I2C_SCANNER_LIB_VERSION        (F("0.3.1"))
+#define I2C_SCANNER_LIB_VERSION        (F("0.3.2"))
 
 
 class I2C_SCANNER
@@ -50,7 +50,7 @@ public:
   //  EXPERIMENTAL.
   //  not all platforms support this function.
   //  patch .cpp file to get this working for your platform.
-  //  timeout in microseconds, 
+  //  timeout in microseconds,
   //  set timeOut = 0 to disable
   //  reset == reset on timeout.
   bool     setWireTimeout(uint32_t timeOut, bool reset = false);

@@ -17,6 +17,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("I2C_SCANNER_LIB_VERSION: ");
   Serial.println(I2C_SCANNER_LIB_VERSION);
+  Serial.println();
 
   Wire.begin();
   scanner.begin();

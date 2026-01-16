@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2022-08-29
 // PURPOSE: Arduino class to implement an I2C scanner.
 //     URL: https://github.com/RobTillaart/I2C_SCANNER
@@ -159,6 +159,7 @@ uint8_t I2C_SCANNER::count(uint8_t start, uint8_t end)
 }
 
 
+//  known warning: "reset not used"
 bool I2C_SCANNER::setWireTimeout(uint32_t timeOut, bool reset)
 {
   if (_timeout != timeOut)
@@ -167,6 +168,10 @@ bool I2C_SCANNER::setWireTimeout(uint32_t timeOut, bool reset)
     //  not all platforms support this.
 #if defined(WIRE_HAS_TIMEOUT)
     _wire->setWireTimeout(timeOut, reset);
+#else
+    //  handle reset warning
+    //  return false;  //  ?
+    //  conditional around whole function!
 #endif
     return true;
   }

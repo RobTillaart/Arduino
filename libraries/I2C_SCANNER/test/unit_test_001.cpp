@@ -51,11 +51,11 @@ unittest(test_getWirePortCount)
 {
   I2C_SCANNER scanner;
   assertTrue(scanner.begin());
-  
+
   int ports = scanner.getWirePortCount();
   fprintf(stderr, "PORTS: %d\n", ports);
   assertMoreOrEqual(1, ports);
-  
+
   for (int p = 0; p < ports; p++)
   {
     assertTrue(scanner.setWire(p));

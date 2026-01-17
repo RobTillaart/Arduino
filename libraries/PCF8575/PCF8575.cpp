@@ -1,8 +1,8 @@
 //
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.5
 //    DATE: 2020-07-20
-// VERSION: 0.2.4
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //          https://github.com/RobTillaart/PCA9671  (replacement)

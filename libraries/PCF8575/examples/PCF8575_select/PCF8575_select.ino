@@ -16,6 +16,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
@@ -31,7 +32,7 @@ void setup()
   delay(1000);
   PCF.selectNone();
   delay(1000);
-  
+
   //  VU meter up
   for (int i = 0; i < 15; i++)
   {

@@ -18,6 +18,7 @@ void setup()
 {
   //  while(!Serial);  //  uncomment when needed
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
@@ -27,7 +28,7 @@ void setup()
 
   PCF.begin();
   Serial.println(PCF.isConnected());
-  delay(100);  //  time to flush Serial 
+  delay(100);  //  time to flush Serial
 
 
   for (long clk = 100000; clk < 600000; clk += 50000)

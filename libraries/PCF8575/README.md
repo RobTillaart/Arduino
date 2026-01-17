@@ -39,6 +39,8 @@ Furthermore some additional functions are implemented that are playful and usefu
 
 Related to the PCF8574 8 channel IO expander library  https://github.com/RobTillaart/PCF8574.
 
+Feedback as always is welcome.
+
 
 ### Interrupts intro
 

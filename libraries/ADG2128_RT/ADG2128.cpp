@@ -1,8 +1,8 @@
 //
 //    FILE: ADG2128.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.1
 //    DATE: 2025-02-28
-// VERSION: 0.2.0
 // PURPOSE: Arduino library for ADG2128 8x12 (cross-point) matrix switch with I2C.
 //     URL: https://github.com/RobTillaart/ADG2128
 

@@ -48,7 +48,7 @@ void loop()
     delay(1000);
   }
 
-  
+
   //  should switch all after 5 seconds
   sw.setLatchMode();
   for (int p = 0; p < 10; p++)

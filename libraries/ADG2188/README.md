@@ -178,7 +178,7 @@ Error handling is to be elaborated.
 
 - cache status of switches to speed up On/Off
   - import export cache for reboot / reset purposes.
-  - extern buffer of 12 bytes.
+  - external buffer of 12 bytes.
 - add **uint16_t isOnColumn(uint8_t column)** get a whole column at once as bit mask.
   - needs cache to be performant
 - add **latch()**, remember the last value sent,

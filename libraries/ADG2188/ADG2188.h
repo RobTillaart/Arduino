@@ -2,8 +2,8 @@
 //
 //    FILE: ADG2188.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.1
 //    DATE: 2025-02-28
-// VERSION: 0.2.0
 // PURPOSE: Arduino library for ADG2188 8x8 (cross-point) matrix switch with I2C.
 //     URL: https://github.com/RobTillaart/ADG2188
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ADG2188_LIB_VERSION             (F("0.2.0"))
+#define ADG2188_LIB_VERSION             (F("0.2.1"))
 
 #define ADG2188_DEFAULT_ADDRESS         0x70
 

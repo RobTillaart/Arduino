@@ -22,6 +22,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5620_LIB_VERSION: ");
   Serial.println(AD5620_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
   AD16_HW.setSPIspeed(50000);
@@ -40,7 +41,7 @@ void loop()
   float period = 1000000.0 / frequency;
   float value = fmod(micros(), period);   //  0..period
   //  value = period - value;  //  reverse
-  
+
   value = amplitude * value / period;
   AD16_SW.setValue(value);
   AD16_HW.setValue(value);

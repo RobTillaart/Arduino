@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5620_LIB_VERSION: ");
   Serial.println(AD5620_LIB_VERSION);
+  Serial.println();
 
   SPI.begin();
   AD16_HW.begin();
@@ -31,7 +32,7 @@ void setup()
   delay(100);
 
   AD16_HW.setSPIspeed(16000000);
-  
+
   Serial.println();
   Serial.println("usec\tcalls/sec");
 }

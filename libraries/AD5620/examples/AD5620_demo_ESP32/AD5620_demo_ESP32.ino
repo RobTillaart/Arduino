@@ -27,6 +27,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("AD5620_LIB_VERSION: ");
   Serial.println(AD5620_LIB_VERSION);
+  Serial.println();
 
   myspi->begin();
   AD16_HW.begin();

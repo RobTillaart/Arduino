@@ -1,7 +1,7 @@
 //
 //    FILE: AD5620.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2024-10-25
 // PURPOSE: Arduino library for AD5620 / AD5640 Digital Analog Convertor (12/14 bit).
 
@@ -143,7 +143,7 @@ void AD5620::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
-};
+}
 
 
 uint32_t AD5620::getSPIspeed()

@@ -2,15 +2,15 @@
 //
 //    FILE: PPD71.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for PPD71
+// VERSION: 0.1.1
 //    DATE: 2025-04-09
+// PURPOSE: Arduino library for PPD71
 //     URL: https://github.com/RobTillaart/PPD71
 
 
 #include "Arduino.h"
 
-#define PPD71_LIB_VERSION       (F("0.1.0"))
+#define PPD71_LIB_VERSION       (F("0.1.1"))
 
 //  special bytes
 //  #define PPD71_STX     0x02

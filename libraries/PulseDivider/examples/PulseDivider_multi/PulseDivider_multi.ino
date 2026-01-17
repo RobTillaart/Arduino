@@ -2,7 +2,6 @@
 //    FILE: PulseDivider_multi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Test multi pulse dividers parallel
-//    DATE: 2023-09-13
 //     URL: https://github.com/RobTillaart/PulseDivider
 
 
@@ -19,9 +18,11 @@ uint32_t last3 = 0;
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("PULSEDIVIDER_LIB_VERSION: ");
   Serial.println(PULSEDIVIDER_LIB_VERSION);
+  Serial.println();
 
   PDiv1.start();
   PDiv2.start();

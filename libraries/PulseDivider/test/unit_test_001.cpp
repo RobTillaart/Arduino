@@ -28,7 +28,7 @@
 
 unittest_setup()
 {
-    fprintf(stderr, "PULSEDIVIDER_LIB_VERSION: %s\n", (char *) PULSEDIVIDER_LIB_VERSION);
+  fprintf(stderr, "PULSEDIVIDER_LIB_VERSION: %s\n", (char *) PULSEDIVIDER_LIB_VERSION);
 }
 
 unittest_teardown()

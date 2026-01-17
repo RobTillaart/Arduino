@@ -1,6 +1,5 @@
 //    FILE: frequencyMultiplier.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-10-26
 // PURPOSE: demo
 //     URL: https://forum.arduino.cc/t/tacho-inlezen-en-puls-regelen/1315467/6
 
@@ -21,13 +20,17 @@ uint32_t lastPulse = 0;
 uint32_t outputInterval = 0;
 
 //  time it takes before output stops after input stops.
-//  depends on input frequency 
+//  depends on input frequency
 const uint32_t STOPDELAY = 1000;
 
 
 void setup ()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.println();
+
   pinMode (outputPin, OUTPUT);
   pinMode (inputPin, INPUT);
 }

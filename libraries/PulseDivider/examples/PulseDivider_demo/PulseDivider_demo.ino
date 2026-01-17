@@ -2,7 +2,6 @@
 //    FILE: PulseDivider_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Minimal sketch
-//    DATE: 2023-09-13
 //     URL: https://github.com/RobTillaart/PulseDivider
 
 
@@ -16,9 +15,11 @@ uint32_t count = 0;
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("PULSEDIVIDER_LIB_VERSION: ");
   Serial.println(PULSEDIVIDER_LIB_VERSION);
+  Serial.println();
 
   Serial.println(PD.getInPin());
   Serial.println(PD.getOutPin());

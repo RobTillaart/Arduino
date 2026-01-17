@@ -2,7 +2,7 @@
 //
 //    FILE: PulseDivider.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2023-09-13
 // PURPOSE: Arduino library to divide a pulse stream with a float factor.
 //     URL: https://github.com/RobTillaart/PulseDivider
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define PULSEDIVIDER_LIB_VERSION        (F("0.1.3"))
+#define PULSEDIVIDER_LIB_VERSION        (F("0.1.4"))
 
 
 class PulseDivider
@@ -145,7 +145,7 @@ public:
        if (((_edge == RISING) and (value == HIGH)) or
            ((_edge == FALLING) and (value == LOW)))
        {
-           doPulse();
+         doPulse();
        }
     }
     _prevState = value;

@@ -16,9 +16,11 @@ PulseDivider PD1000(6, 13, 1000, 1, 50000);  //  build in LED!
 void setup()
 {
   Serial.begin(115200);
-
+  Serial.println();
+  Serial.println(__FILE__);
   Serial.print("PULSEDIVIDER_LIB_VERSION: ");
   Serial.println(PULSEDIVIDER_LIB_VERSION);
+  Serial.println();
 
   PD10.start();
   PD100.start();

@@ -2,8 +2,8 @@
 //
 //    FILE: ACD10.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.3
 //    DATE: 2023-09-25
-// VERSION: 0.2.2
 // PURPOSE: Arduino library for for I2C ACD10 CO2 sensor
 //     URL: https://github.com/RobTillaart/ACD10
 //          http://www.aosong.com/en/products-77.html
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ACD10_LIB_VERSION         (F("0.2.2"))
+#define ACD10_LIB_VERSION         (F("0.2.3"))
 #define ACD10_DEFAULT_ADDRESS     0x2A
 
 

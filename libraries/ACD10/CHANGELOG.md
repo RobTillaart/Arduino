@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.3] - 2026-01-17
+- update GitHub actions
+- minor edits
 
 ## [0.2.2] - 2025-04-02
 - add ACD10_CALIBRATION constants

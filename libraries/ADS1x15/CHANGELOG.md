@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.0] - 2026-01-17
+- fix #98, software differential functions have reversed subtraction.
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.5.4] - 2025-08-04
 - fix #94, add setComparatorOff() function. (experimental)
 - update keywords.txt

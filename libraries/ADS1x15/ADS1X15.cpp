@@ -1,7 +1,7 @@
 //
 //    FILE: ADS1X15.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.4
+// VERSION: 0.6.0
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -399,19 +399,19 @@ void ADS1X15::setComparatorThresholdLow(int16_t lo)
 int16_t ADS1X15::getComparatorThresholdLow()
 {
   return _readRegister(_address, ADS1X15_REG_LOW_THRESHOLD);
-};
+}
 
 
 void ADS1X15::setComparatorThresholdHigh(int16_t hi)
 {
   _writeRegister(_address, ADS1X15_REG_HIGH_THRESHOLD, hi);
-};
+}
 
 
 int16_t ADS1X15::getComparatorThresholdHigh()
 {
   return _readRegister(_address, ADS1X15_REG_HIGH_THRESHOLD);
-};
+}
 
 
 int8_t ADS1X15::getError()
@@ -638,13 +638,13 @@ int16_t ADS1015::readADC_Differential_2_3()
 
 int16_t ADS1015::readADC_Differential_0_2()
 {
-  return readADC(2) - readADC(0);
+  return readADC(0) - readADC(2);
 }
 
 
 int16_t ADS1015::readADC_Differential_1_2()
 {
-  return readADC(2) - readADC(1);;
+  return readADC(1) - readADC(2);
 }
 
 
@@ -747,13 +747,13 @@ int16_t ADS1115::readADC_Differential_2_3()
 
 int16_t ADS1115::readADC_Differential_0_2()
 {
-  return readADC(2) - readADC(0);
+  return readADC(0) - readADC(2);
 }
 
 
 int16_t ADS1115::readADC_Differential_1_2()
 {
-  return readADC(2) - readADC(1);;
+  return readADC(1) - readADC(2);
 }
 
 

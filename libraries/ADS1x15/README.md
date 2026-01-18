@@ -87,11 +87,16 @@ It may be appropriate to adapt the code in the library to implement only that ch
 as it will indeed give the best results._
 
 
+### 0.6.0 Breaking change
+
+Fixed #98, the functions readADC_Differential_0_2() and readADC_Differential_1_2()
+did the subtraction in the wrong order so it gave the negative of the right value. 
+
+
 ### 0.5.0 Breaking change
 
 Fixed #80, setComparatorPolarity() and setComparatorLatch() as these inverted
 the setting.
-
 
 ### 0.4.0 Breaking change
 
@@ -100,7 +105,6 @@ You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire / I2C implementations.
 The user has to call **Wire.begin()** and can optionally set the I2C pins
 before calling **begin()**.
-
 
 ### Related
 
@@ -374,6 +378,9 @@ For reading the ADC in a differential way there are 4 calls possible.
 - **int16_t readADC_Differential_0_2()** ADS1x15 only - in software (no async equivalent)
 - **int16_t readADC_Differential_1_2()** ADS1x15 only - in software (no async equivalent)
 
+Note, changed behaviour in 0.6.0 see note at top and issue #98, for the two software 
+differentials readADC_Differential_0_2() and readADC_Differential_1_2().
+
 ```cpp
   //  read differential ADC between pin 0 and 1
   ADS.readADC_Differential_0_1(0);
@@ -388,6 +395,8 @@ The differential reading of the ADC can also be done with asynchronous calls.
 
 After one of these calls you need to call
 - **int16_t getValue()** Read the result of the last conversion.
+
+Note: there does not exist an async differential read for "0_2" and "1_2".
 
 See [examples](https://github.com/RobTillaart/ADS1X15/blob/master/examples/ADS_differential/ADS_differential.ino).
 
@@ -723,6 +732,8 @@ This is read and reset by **getError()**.
 
 #### Could
 
+- change CONVERSION_DELAY from milliseconds to microseconds.
+  - now 8 or 1 ms, change to 1000 and 8000 us allows precise tuning of the delay
 - SMB alert command (00011001) on I2C bus?
 - Sync code order .h / .cpp
 

@@ -24,6 +24,8 @@ Programming Interface is kept the same as much as possible.
 The **write1(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+Feedback as always is welcome.
+
 
 ### 0.6.0 Breaking change
 

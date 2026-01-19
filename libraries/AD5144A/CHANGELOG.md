@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2026-01-19
+- update GitHub actions
+- minor edits
+
 ## [0.4.0] - 2025-04-23
 - fix #28, support for AD5122A, affects several functions. Kudos to Jenibluere.
 - fix for preload() and preloadAll()

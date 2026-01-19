@@ -45,14 +45,14 @@ void loop()
   uint32_t start = micros();
   for (uint32_t i = 0; i < 1000; i++)
   {
-     // AD16_HW.setValue(i);
+     //  AD16_HW.setValue(i);
      AD16_SW.setValue(i);
   }
   uint32_t duration = micros() - start;
   Serial.print(duration);
   Serial.print("\t");
   Serial.println(1e9 / duration);
-  
+
   delay(1000);
 }
 

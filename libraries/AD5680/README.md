@@ -24,7 +24,7 @@ This means that the output voltage will be fluctuating unless the two
 least significant bits are 0 (zero). To dampen this fluctuation the datasheet
 advises to add a LOW pass filter after the output.
 
-Feedback, issues, improvements are welcome. 
+Feedback, issues, improvements are welcome.
 Please file an issue on GitHub.
 
 
@@ -42,9 +42,9 @@ Optionally the user can provide parameters to the **SPI.begin(...)**
 
 ### 0.2.0 breaking change
 
-The version 0.2.0 has breaking changes in the interface. 
-The essence is removal of ESP32 specific code from the library. 
-This makes it possible to support the ESP32-S3 and other processors in the future. 
+The version 0.2.0 has breaking changes in the interface.
+The essence is removal of ESP32 specific code from the library.
+This makes it possible to support the ESP32-S3 and other processors in the future.
 Also it makes the library a bit simpler to maintain.
 
 Note the order of the parameters of the software SPI constructor has changed in 0.2.0.
@@ -80,9 +80,9 @@ Overview of related devices, number of bits, setValue range and indicative LSB
 
 ### Base class
 
-- **AD5680(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor hardware SPI (RP2040 specific). 
+- **AD5680(uint8_t slaveSelect, SPIClassRP2040 \* mySPI = &SPI)** constructor hardware SPI (RP2040 specific).
 Sets internal value to zero.
-- **AD5680(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor hardware SPI. 
+- **AD5680(uint8_t slaveSelect, SPIClass \* mySPI = &SPI)** constructor hardware SPI.
 Sets internal value to zero.
 - **AD5680(uint8_t slaveSelect, uint8_t spiData, uint8_t spiClock)** constructor software SPI.
 Sets the software SPI pins.
@@ -93,7 +93,7 @@ Sets internal value to zero.
 
 ### Set DAC
 
-- **bool setValue(uint32_t value)** set value to the output immediately, 
+- **bool setValue(uint32_t value)** set value to the output immediately,
 effectively a prepare + update in one call.
 Returns false if value out of range.
 - **uint32_t getValue()** returns set value from cache.
@@ -103,7 +103,7 @@ At power up the AD5680 will be reset to 0 (== 0 volt).
 If percentage is out of range, it is **not** set and the function returns false.
 The stepsize is about 0.001% for the AD5680.
 - **float getPercentage()** returns percentage, wrapper around **getValue()**.
-Might return a slightly different value than **setPercentage()** due to 
+Might return a slightly different value than **setPercentage()** due to
 rounding math.
 At power up the function will return 0 as default value.
 
@@ -120,8 +120,8 @@ please read datasheet of the ADC first to get optimal speed.
 
 ## Performance
 
-Measurements with AD5680_demo.ino - performance of **setValue()** is the 
-most important. The numbers are rounded and indicative, other boards might 
+Measurements with AD5680_demo.ino - performance of **setValue()** is the
+most important. The numbers are rounded and indicative, other boards might
 produce different numbers.
 
 |  version  |  board  |  clock    |  SPI  |  calls / sec  |  Notes  |
@@ -132,10 +132,10 @@ produce different numbers.
 |   0.1.1   |  ESP32  |  240 MHz  |  SW   |   111000      |
 
 
-1. ESP32 HW is equal performant for HSPI and VSPI. 
+1. ESP32 HW is equal performant for HSPI and VSPI.
    Unknown why HW SPI is 20% slower than SW SPI (transaction overhead?)
 
-50000 - 100000 calls per second means that a 1 KHz wave can be 
+50000 - 100000 calls per second means that a 1 KHz wave can be
 constructed with 50-100 values per period (max).
 
 Please share your performance data, open an issue to report.

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2026-01-19
+- update GitHub actions
+- minor edits
+
 ## [0.4.0] - 2025-04-12
 - fix SPI mode 1 (See #12 AD5620)
 - sync AD5660/20
@@ -22,7 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add support for ARDUINO_ARCH_MBED
 
 ## [0.3.0] - 2024-01-19
-- Fix #7, improve handling SPI dependency.
+- fix #7, improve handling SPI dependency.
 
 ----
 
@@ -45,7 +49,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix **updateDevice()**
 - add **AD5680_triangle.ino** example
 - add **AD5680_sawtooth.ino** example
-
 
 ## [0.1.0] - 2023-09-19
 - initial version

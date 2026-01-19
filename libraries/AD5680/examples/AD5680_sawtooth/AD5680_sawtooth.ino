@@ -39,7 +39,7 @@ void loop()
   float period = 1000000.0 / frequency;
   float value = fmod(micros(), period);   //  0..period
   //  value = period - value;  //  reverse
-  
+
   value = amplitude * value / period;
   AD16_HW.setValue(value);
   Serial.println(value);

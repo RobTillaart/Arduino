@@ -44,7 +44,7 @@ void loop()
   Serial.print(duration);
   Serial.print("\t");
   Serial.println(1e9 / duration);
-  
+
   delay(1000);
 }
 

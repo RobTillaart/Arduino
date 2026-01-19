@@ -2,7 +2,7 @@
 //
 //    FILE: AD5660.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for AD5660 Digital Analog Convertor (16 bit).
 
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define AD5660_LIB_VERSION        (F("0.2.0"))
+#define AD5660_LIB_VERSION        (F("0.2.1"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -36,6 +36,7 @@ public:
   void     begin();
   uint8_t  getType();
 
+
   //  SET DAC
   //  sets output immediately = prepare + update.
   bool     setValue(uint16_t value = 0);
@@ -56,8 +57,8 @@ public:
 
 
 protected:
-  uint8_t  _type;  //  #bits
-  uint16_t _maxValue;
+  uint8_t  _type        = 16;      //  #bits
+  uint16_t _maxValue    = 65535;
   uint8_t  _dataOut     = 255;
   uint8_t  _clock       = 255;
   uint8_t  _select      = 255;

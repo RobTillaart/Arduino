@@ -1,7 +1,7 @@
 //
 //    FILE: AD5660.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-10-29
 // PURPOSE: Arduino library for AD5660 Digital Analog Convertor (16 bit).
 
@@ -51,7 +51,7 @@ void AD5660::begin()
     //  _mySPI->begin();
     //  delay(1);
   }
-  else  //  SOFTWARE SPI MODE0
+  else  //  SOFTWARE SPI
   {
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock, OUTPUT);
@@ -74,8 +74,9 @@ bool AD5660::setValue(uint16_t value)
 {
   //  range check not needed.
   //  if (value > _maxValue) return false;
+  //  keep last value
   _value = value;
-  //  prepare 12 bit transfer.
+  //  prepare 16 bit transfer.
   uint32_t data = value;
   //  set powerMode bits if not 0.
   if (_powerMode) data |= (((uint32_t)_powerMode) << 16);
@@ -84,6 +85,7 @@ bool AD5660::setValue(uint16_t value)
 }
 
 
+//  returns 0..65535 == 0xFFFF (16 bit)
 uint16_t AD5660::getValue()
 {
   return _value;

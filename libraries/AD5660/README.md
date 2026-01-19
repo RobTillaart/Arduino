@@ -16,7 +16,7 @@ Arduino library for AD5660 Digital Analog Convertor (16 bit).
 
 ## Description
 
-**Experimental** 
+**Experimental**
 
 The AD5660 is a 16 bit DAC, which is to be controlled by SPI.
 This library supports both hardware as software SPI.
@@ -57,7 +57,7 @@ The AD5662 is compatible, however it does not support the Vref functions.
 ### Related
 
 - https://github.com/RobTillaart/AD5620 (single channel, 12 bit)
-- https://github.com/RobTillaart/AD5660 (single channel, 12 bit)
+- https://github.com/RobTillaart/AD5660 (single channel, 16 bit)
 - https://github.com/RobTillaart/AD5680 (single channel, 18 bit)
 - https://github.com/RobTillaart/AD56x8 (multi channel)
 - https://github.com/RobTillaart/AD568X (single channel lower resolution)

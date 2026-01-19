@@ -24,6 +24,8 @@ Programming Interface is kept the same as much as possible.
 Since 0.1.1 the **digitalWrite(pin, value)** is optimized. 
 If a pin is not changed it will not be written again to save time.
 
+Feedback as always is welcome.
+
 
 ### 0.3.0 Breaking change
 
@@ -97,7 +99,6 @@ TODO test to fill the table
 |  600000     |        |         |
 |  700000     |        |         |
 |  800000     |        |         |
-
 
 
 ### I2C multiplexing

@@ -1,5 +1,5 @@
 //
-//    FILE: AS7331_minimal.ino
+//    FILE: AS7331_getRawUV.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal sketch
 //     URL: https://github.com/RobTillaart/AS7331
@@ -45,17 +45,12 @@ void loop()
 {
   if (mySensor.conversionReady())
   {
-    Serial.print("UVA:\t");
-    Serial.println(mySensor.getUVA_uW());
-    Serial.print("UVB:\t");
-    Serial.println(mySensor.getUVB_uW());
-    Serial.print("UVC:\t");
-    Serial.println(mySensor.getUVC_uW());
-    Serial.print("TEMP:\t");
-    Serial.println(mySensor.getCelsius());
-    Serial.print("ERR:\t");
-    Serial.println(mySensor.getLastError());
-    Serial.println();
+    Serial.print("Raw UVA:\t");
+    Serial.println(mySensor.getRawUVA());
+    Serial.print("Raw UVB:\t");
+    Serial.println(mySensor.getRawUVB());
+    Serial.print("Raw UVC:\t");
+    Serial.println(mySensor.getRawUVC());
     //  start new measurement.
     mySensor.startMeasurement();
   }

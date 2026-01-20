@@ -2,7 +2,7 @@
 //    FILE: AS7331.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-08-28
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AS7331 UV sensor
 //     URL: https://github.com/RobTillaart/AS7331
 
@@ -40,6 +40,9 @@ AS7331::AS7331(uint8_t address, TwoWire *wire)
   _mode     = AS7331_MODE_MANUAL;
   _gain     = AS7331_GAIN_16x;
   _convTime = AS7331_CONV_064;
+  _rawUVA   = 0;
+  _rawUVB   = 0;
+  _rawUVC   = 0;
 }
 
 bool AS7331::begin()
@@ -311,6 +314,25 @@ bool AS7331::conversionReady()
 //
 //  Math 7.4
 //
+uint16_t AS7331::getRawUVA()
+{
+  _rawUVA = _readRegister16(AS7331_REG_MRES1);
+  return _rawUVA;
+}
+
+uint16_t AS7331::getRawUVB()
+{
+  _rawUVB = _readRegister16(AS7331_REG_MRES2);
+  return _rawUVB;
+}
+
+uint16_t AS7331::getRawUVC()
+{
+  _rawUVC = _readRegister16(AS7331_REG_MRES3);
+  return _rawUVC;
+}
+
+
 float AS7331::getUVA_uW()
 {
   //  Page 32
@@ -320,8 +342,7 @@ float AS7331::getUVA_uW()
   //  LSB = Least Significant Bit = value per bit
   //  const float FSR_UVA = 348160.0f;  //  figure 27, 28
   const float LSB_UVA = 340000.0f;
-  uint16_t raw = _readRegister16(AS7331_REG_MRES1);
-  float microWatt = raw * LSB_UVA * _GainTimeFactor;
+  float microWatt = getRawUVA() * LSB_UVA * _GainTimeFactor;
   return microWatt;
 }
 
@@ -329,8 +350,7 @@ float AS7331::getUVB_uW()
 {
   //  const float FSR_UVB = 387072.0f;  //  figure 29, 30
   const float LSB_UVB = 378000.0f;
-  uint16_t raw = _readRegister16(AS7331_REG_MRES2);
-  float microWatt = raw * LSB_UVB * _GainTimeFactor;
+  float microWatt = getRawUVB() * LSB_UVB * _GainTimeFactor;
   return microWatt;
 }
 
@@ -338,8 +358,7 @@ float AS7331::getUVC_uW()
 {
   //  const float FSR_UVC = 169984.0f;  //  figure 31, 32
   const float LSB_UVC = 166000.0f;
-  uint16_t raw = _readRegister16(AS7331_REG_MRES3);
-  float microWatt = raw * LSB_UVC * _GainTimeFactor;
+  float microWatt = getRawUVC() * LSB_UVC * _GainTimeFactor;
   return microWatt;
 }
 

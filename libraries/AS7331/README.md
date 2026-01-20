@@ -84,6 +84,8 @@ Search for Lambert’s Cosine Law on Wikipedia for details.
 
 µ = ALT-230,
 λ = ALT-955,
+Ω = ALT-234
+
 Via emoji tab: WIN .  => Ω tab => search for λ)
 
 
@@ -94,7 +96,7 @@ UV related
 - https://en.wikipedia.org/wiki/Ultraviolet
 - https://en.wikipedia.org/wiki/Ultraviolet_index
 - https://github.com/RobTillaart/AnalogUVSensor 
-- https://github.com/RobTillaart/AS7331 - profi UVA, UVB, UVC sensor.
+- https://github.com/RobTillaart/AS7331 - professional UVA, UVB, UVC sensor.
 - https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
 - https://github.com/RobTillaart/LTR390_RT   (native LTR390)
 - https://github.com/RobTillaart/ML8511
@@ -197,7 +199,7 @@ Returns true if the device address can be found on I2C bus.
   - **AS7331_CONV_064**
 - **bool isConnected()** Returns true if the device address can be found on I2C bus.
 - **uint8_t getAddress()** Returns the device address set in the constructor.
-- **void softwareReset()** reset to initial state.
+- **void softwareReset()** reset to the initial state.
 
 
 ### Mode
@@ -252,7 +254,7 @@ Note the factors decrease while the gain value increases.
 See table below.
   
 - **bool setGain(uint8_t gain)** sets the gain, if value > 11 the
-function returns false.
+function returns false and nothing is changed.
 - **uint8_t getGain()** returns the set value from device.
 
 |  Define             |  Value  |  Notes  |
@@ -282,12 +284,15 @@ Note: these functions only work in CONFIGURATION MODE.
 The convTime parameter (exposure time) is 0..15, which goes from 1 millisecond
 up to 16384 millisecond (~16 seconds). See table below.
 
-Note value 15 is 1 millisecond like value 0 and in fact currently uses value 0 (overruled).
-The difference between value 15 and 0 needs to be investigated.
+Note the value 15 is 1 millisecond like the value 0 and in fact when the value 15 
+is set, the code currently uses value 0 (overruled to simplify internal math).
+So far there is no difference found between the value 15 and 0, and the datasheet
+needs to be investigated further if something was missed.  
 
 - **void setConversionTime(uint8_t convTime)** set conversion time (table below), 
-if the value > 15 the function returns false.
-- **uint8_t getConversionTime()** returns set value.
+if the value > 15 the function returns false and the internal value is not changed.
+- **uint8_t getConversionTime()** returns the set value, except when 15 is set,
+as this is replaced by 0, see note above.
 
 The number in the define indicates the milliseconds of the conversion / exposure.
 
@@ -360,7 +365,9 @@ Read the datasheet for details.
 Datasheet figure 33, page 39.
 
 The functions affect the performance and measurement, but the parameter 
-CLOCK is not yet included in the radiation math. The table below shows which gain values cannot be used. See Figure 33 Page 39 datasheet for details.
+CLOCK is not yet included in the radiation math. 
+The table below shows which gain values cannot be used. 
+See Figure 33 Page 39 datasheet for details.
 
 The CCLK parameter is 0..3, Note that the maximum gain (2048x) can only be used
 when the CCLK == 0, the default. See datasheet page 38 for details.
@@ -383,11 +390,21 @@ Read the datasheet for details (7.4 Transfer function).
 
 Note: these functions only work in MEASUREMENT MODE. (8.2.9)
 
+Raw register data:
+
+- **uint16_t getRawUVA()** returns register value for UVA
+- **uint16_t getRawUVB()** returns register value for UVB
+- **uint16_t getRawUVC()** returns register value for UVC
+
+Processed data:
+
 - **float getUVA_uW()** returns in microWatts / cm2
 - **float getUVB_uW()** returns in microWatts / cm2
 - **float getUVC_uW()** returns in microWatts / cm2
-- **float getCelsius()** returns temperature in Celsius.
 
+Temperature:
+
+- **float getCelsius()** returns inner temperature in Celsius.
 
 #### Convenience wrappers
 
@@ -447,6 +464,7 @@ The SYN pin can be used in two modi:
 
 Read the datasheet for details.
 
+
 ### SYNS
 
 In the SYNS mode the SYN pin is used as an external trigger to start a measurement.
@@ -456,6 +474,7 @@ This has two advantages above the start via an I2C command.
 
 The pulse length to start a measurement is 3 us @ 1 MHz internal clock.
 The SYN pin should be drawn to GND, so do not forget the pull up resistor!
+
 
 ### SYND
 
@@ -485,8 +504,8 @@ The Divider is not tested, needs investigation.
 
 Read the datasheet for details (page54).
 
-_The bit CREG2:EN_DIV enables the internal pre-scaler, which could be interesting for conversion
-times more than 16-bits (CREG1:TIME ≥ 0111b) and if SYND mode is used._
+_The bit CREG2:EN_DIV enables the internal pre-scaler, which could be interesting 
+for conversion times more than 16-bits (CREG1:TIME ≥ 0111b) and if SYND mode is used._
 
 - **void enableDivider()** enable divider
 - **void disableDivider()** disable divider
@@ -517,7 +536,6 @@ Read the datasheet for details (see chapter 7.6).
 a single 24 bit value.
 
 
-
 ## Future
 
 #### Must
@@ -532,14 +550,15 @@ a single 24 bit value.
 - test SYND mode (uses external timing, other math needed?)
 - test different configurations (gain + Tconv)
 - add functions around status bits
-- add return values functions (error not in right MODE?) iso void()
+- add return values functions (error not in right MODE?) instead of void()
 
 #### Could
 
 - reorganize code
 - check handle Tconv == 15 case (last column) correctly.
+  - would change adjustGainTimeFactor() a bit 
 - mention VEML6070 ?
-- write documentation (code) from state machine pov?
+- write documentation (code) from state machine point of view?
 - Split status en OSR? Yes/No?
   - not clear benefit / usage / performance ?
 - extend unit tests
@@ -548,7 +567,7 @@ a single 24 bit value.
 
 #### Wont
 
-- add UV Index table => See Wikipedia.
+- add UV Index table => See https://en.wikipedia.org/wiki/Ultraviolet_index.
 
 
 ## Support

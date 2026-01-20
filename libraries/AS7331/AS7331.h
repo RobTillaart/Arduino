@@ -3,7 +3,7 @@
 //    FILE: AS7331.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-08-28
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 // PURPOSE: Arduino library for AS7331 UV sensor
 //     URL: https://github.com/RobTillaart/AS7331
 //          https://www.sparkfun.com/products/23517
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define AS7331_LIB_VERSION          (F("0.3.0"))
+#define AS7331_LIB_VERSION          (F("0.4.0"))
 
 #ifndef AS7331_DEFAULT_ADDRESS
 #define AS7331_DEFAULT_ADDRESS      0x74
@@ -122,6 +122,8 @@ public:
   //         11 => 1x
   bool     setGain(uint8_t gain);
   uint8_t  getGain();  //  from device.
+
+
   //  convTime = 0..15
   //       0  = 1 ms
   //       14 = 16384 ms
@@ -169,20 +171,25 @@ public:
   bool     conversionReady();
 
   //       READ the measurements
+  //       raw measurements
+  uint16_t getRawUVA();
+  uint16_t getRawUVB();
+  uint16_t getRawUVC();
+  //       converted measurements
   //       returns in microWatts / cm2
   float    getUVA_uW();
   float    getUVB_uW();
   float    getUVC_uW();
   float    getCelsius();  //  inner temperature.
-  //  wrappers
+  //       wrappers
   //       returns in milliWatts / cm2
   float    getUVA_mW() { return getUVA_uW() * 0.001; };
-  float    getUVB_mW() { return getUVA_uW() * 0.001; };
-  float    getUVC_mW() { return getUVA_uW() * 0.001; };
+  float    getUVB_mW() { return getUVB_uW() * 0.001; };
+  float    getUVC_mW() { return getUVC_uW() * 0.001; };
   //       returns in Watts / m2
   float    getUVA_Wm2() { return getUVA_uW() * 0.01; };
-  float    getUVB_Wm2() { return getUVA_uW() * 0.01; };
-  float    getUVC_Wm2() { return getUVA_uW() * 0.01; };
+  float    getUVB_Wm2() { return getUVB_uW() * 0.01; };
+  float    getUVC_Wm2() { return getUVC_uW() * 0.01; };
 
 
   //       BREAK-TIME, REGISTER 0x09 BREAK
@@ -250,6 +257,10 @@ private:
   uint8_t  _convTime;
   uint8_t  _error;
 
+  uint16_t _rawUVA;
+  uint16_t _rawUVB;
+  uint16_t _rawUVC;
+  
   //  to adjust when gain or Tconv changes.
   void     _adjustGainTimeFactor();
   float    _GainTimeFactor = 1.0f;

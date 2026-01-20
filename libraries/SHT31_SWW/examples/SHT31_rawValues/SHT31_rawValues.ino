@@ -22,9 +22,13 @@ SHT31_SWW sht(SHT31_ADDRESS, &sw);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("SHT31_SWW_LIB_VERSION: \t");
+  Serial.print("SHT31_LIB_VERSION: ");
+  Serial.println(SHT31_LIB_VERSION);
+  Serial.print("SHT31_SWW_LIB_VERSION: ");
   Serial.println(SHT31_SWW_LIB_VERSION);
+  Serial.println();
 
   sw.begin();
   sw.setClock(100000);
@@ -34,7 +38,7 @@ void setup()
   uint16_t stat = sht.readStatus();
   Serial.print(stat, HEX);
   Serial.println();
-  
+
   sht.requestData();
   cnt = 0;
 }
@@ -67,7 +71,7 @@ void loop()
       Serial.print(" = ");
 
       //  This formula comes from page 14 of the SHT31 datasheet
-      Serial.print(rawTemperature * (175.0 / 65535) - 45, 1); 
+      Serial.print(rawTemperature * (175.0 / 65535) - 45, 1);
       Serial.print("°C\t");
       Serial.print(sht.getRawHumidity(), HEX);
       Serial.print(" = ");

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2026-01-20
+- update GitHub actions
+- minor edits
+
 ## [0.2.1] - 2025-04-28
 - fix #6, typo in changelog.md
 - sync with SHT31
@@ -28,6 +32,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0] - 2023-03-23
 - initial version, derives from SHT31 0.3.8
 - uses **SoftwareWire.h** to get SHT85 working on UNO.
-- disabled build-CI as I did not get it to work. 
+- disabled build-CI as I did not get it to work.
 - update examples, unit test.
 - update readme.md.

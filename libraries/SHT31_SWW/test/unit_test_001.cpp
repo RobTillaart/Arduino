@@ -22,10 +22,10 @@
 // assertNull(actual)
 
 /*
-  most unit tests will test for fail 
+  most unit tests will test for fail
   as there is no sensor connected
   and there is no mockup.
-  
+
   It appears that Wire.write does not fail without sensor...
 */
 
@@ -36,13 +36,14 @@
 #include "SHT31_SWW.h"
 
 
-int expect;  // TODO needed as there seems a problem with 8 bit comparisons (char?)
+int expect;  //  TODO needed as there seems a problem with 8 bit comparisons (char?)
 
 uint32_t start, stop;
 
 
 unittest_setup()
 {
+  fprintf(stderr, "SHT31_LIB_VERSION: %s\n", (char *) SHT31_LIB_VERSION);
   fprintf(stderr, "SHT31_SWW_LIB_VERSION: %s\n", (char *) SHT31_SWW_LIB_VERSION);
 }
 
@@ -140,7 +141,7 @@ unittest(test_readStatus)
   SHT31 sht;
   bool b = sht.begin(0x44);
   assertEqual(b, true);
-  
+
   assertEqual(0xFFFF, sht.readStatus());
   expect = SHT31_ERR_READBYTES;
   assertEqual(expect, sht.getError());
@@ -152,7 +153,7 @@ unittest(test_heater)
   SHT31 sht;
   bool b = sht.begin(0x44);
   assertEqual(b, true);
-  
+
   assertTrue(sht.heatOn());
   expect = SHT31_OK;
   assertEqual(expect, sht.getError());
@@ -172,7 +173,7 @@ unittest(test_async)
   SHT31 sht;
   bool b = sht.begin(0x44);
   assertEqual(b, true);
-  
+
   assertTrue(sht.requestData());
   expect = SHT31_OK;
   assertEqual(expect, sht.getError());

@@ -31,6 +31,8 @@ devices on one Arduino.
 
 Note: this library is AVR specific.
 
+Feedback as always is welcome.
+
 
 ### SoftWire vs SoftwareWire
 

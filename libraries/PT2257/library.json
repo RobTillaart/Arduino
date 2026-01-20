@@ -1,0 +1,23 @@
+{
+  "name": "PT2257",
+  "keywords": "0..-79 dB, stereo, mute, audio",
+  "description": "Arduino library for the PT2257 two channel volume controller.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PT2257.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PT2257.h"
+}

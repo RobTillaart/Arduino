@@ -1,0 +1,28 @@
+# Syntax Colouring Map For PT2257
+
+# Data types (KEYWORD1)
+PT2257	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+allOff	KEYWORD2
+mute	KEYWORD2
+isMuted	KEYWORD2
+
+stereo	KEYWORD2
+left	KEYWORD2
+right	KEYWORD2
+getLeft	KEYWORD2
+getRight	KEYWORD2
+
+getLastError	KEYWORD2
+
+# Constants (LITERAL1)
+PT2257_LIB_VERSION	LITERAL1
+
+PT2257_OK	LITERAL1
+

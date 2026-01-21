@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x_EID.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: test reading ID + firmwareVersion
 //     URL: https://github.com/RobTillaart/SHT2x
 
 
@@ -28,11 +28,11 @@ void setup()
   uint32_t EIDA = sht.getEIDA();
   Serial.print(EIDA, HEX);
   Serial.println();
-  
+
   uint32_t EIDB = sht.getEIDB();
   Serial.print(EIDB, HEX);
   Serial.println();
-  
+
   uint8_t firmware = sht.getFirmwareVersion();
   Serial.print(firmware, HEX);
   Serial.println();

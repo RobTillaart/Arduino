@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB, morfeus02
-// VERSION: 0.5.3
+// VERSION: 0.5.4
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -174,7 +174,7 @@ bool SHT2x::readTemperature()
     _error = SHT2x_ERR_CRC_TEMP;
     //  Allow reading the value even if CRC fails, as _error is flagged.
     //  The user should call getError() to check the status.
-    //  return false; 
+    //  return false;
   }
   _rawTemperature  = buffer[0] << 8;
   _rawTemperature += buffer[1];
@@ -282,14 +282,14 @@ uint8_t SHT2x::getRequestType()
 float SHT2x::getTemperature()
 {
   //  par 6.2
-  return -46.85 + (175.72 / 65536.0) * _rawTemperature;
+  return -46.85f + (175.72f / 65536.0f) * _rawTemperature;
 }
 
 
 float SHT2x::getHumidity()
 {
   //  par 6.1
-  return -6.0 + (125.0 / 65536.0) * _rawHumidity;
+  return -6.0f + (125.0f / 65536.0f) * _rawHumidity;
 }
 
 
@@ -692,6 +692,28 @@ HTU20::HTU20(TwoWire *wire) : SHT2x(wire)
 
 HTU21::HTU21(TwoWire *wire) : SHT2x(wire)
 {
+}
+
+//  #40 - temperature compensated humidity
+float HTU21::getHumidityCompensated()
+{
+  return getHumidityCompensated(getTemperature());
+}
+
+float HTU21::getHumidityCompensated(float temperature)
+{
+  // RH_comp = RH + (25 - T) * -0.15 %RH/°C (stated for 0–80°C).
+  return getHumidity() + (25.0f - temperature) * _compensationFactor;
+}
+
+void HTU21::setHumidityCompensationFactor(float hcFactor)
+{
+  _compensationFactor = hcFactor;
+}
+
+float HTU21::getHumidityCompensationFactor()
+{
+  return _compensationFactor;
 }
 
 

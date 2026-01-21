@@ -122,7 +122,7 @@ unittest(test_begin)
   assertEqualFloat(-6.0, sht.getHumidity(), 0.01);      // -6.0 + (125.0 / 65536.0) * 0
   assertEqual(0, sht.getRawTemperature());
   assertEqual(0, sht.getRawHumidity());
-  
+
   // Check post-reset states set by SHT2x::reset()
   assertEqual(0, sht.getResolution()); // Default resolution after reset
   assertFalse(sht.isHeaterOn());     // Heater should be off after reset
@@ -151,12 +151,12 @@ unittest(test_read)
   // assertFalse(sht.read()); // Expect read to fail without hardware
   // expect = SHT2x_ERR_READBYTES; // Or another error depending on Wire mock behavior
   // assertEqual(expect, sht.getError());
-  
+
   // Current library behavior: read() calls requestTemperature()/readTemperature() then requestHumidity()/readHumidity().
   // Each of these involves I2C. If Wire.endTransmission() is 0 and Wire.requestFrom() doesn't block/error,
   // it might proceed to try to read bytes, which would then likely fail CRC or have incorrect status.
   // The corrected status checks (0x01 for temp, 0x02 for hum) would trigger SHT2x_ERR_READBYTES.
-  
+
   // Given the hardware dependency, these are hard to make meaningful without a sophisticated mock.
   // For now, we ensure the structure is present and comments explain the situation.
   assertTrue(true); // Placeholder
@@ -223,13 +223,13 @@ unittest(test_resolution)
   //  out of range
   assertFalse(sht.setResolution(4)); // Should return false for invalid parameter
   expect = SHT2x_OK; // setResolution itself doesn't set error for invalid param, it just returns false.
-  assertEqual(expect, sht.getError()); 
+  assertEqual(expect, sht.getError());
   assertEqual(0, sht.getResolution()); // Resolution should remain unchanged.
 
 /*
   // Test valid resolution settings
   // These calls interact with hardware, so they might not truly succeed without a sensor,
-  // but we can check if the function returns true (indicating command sent, though Wire mock might always allow this) 
+  // but we can check if the function returns true (indicating command sent, though Wire mock might always allow this)
   // and if getResolution() reflects the last attempted set value (cached).
   // Since there's no hardware, getError() after setResolution might give SHT2x_ERR_READBYTES or SHT2x_ERR_WRITECMD
   // depending on how Wire behaves. The main thing is that setResolution itself doesn't crash.
@@ -238,7 +238,7 @@ unittest(test_resolution)
     // If setResolution failed at I2C level, an error would be set.
     // We cannot reliably check getError() here without mock hardware that simulates I2C errors.
     // For example, expect = SHT2x_ERR_READBYTES; or SHT2x_ERR_WRITECMD;
-    // assertEqual(expect, sht.getError()); 
+    // assertEqual(expect, sht.getError());
     assertEqual(res, sht.getResolution()); // Check if cached value is updated
   }
 
@@ -267,7 +267,7 @@ unittest(test_heater_timeout)
   // Test truncation to 180 (max timeout)
   sht.setHeatTimeout(200);
   assertEqual(180, sht.getHeatTimeout());
-  
+
   sht.setHeatTimeout(180); // Exact max
   assertEqual(180, sht.getHeatTimeout());
 }

@@ -54,6 +54,13 @@ lastRequest	KEYWORD2
 getRequestType	KEYWORD2
 
 
+##
+# HTU21 specific
+getHumidityCompensated	KEYWORD2
+setHumidityCompensationFactor	KEYWORD2
+getHumidityCompensationFactor	KEYWORD2
+
+
 # Instances (KEYWORD2)
 
 

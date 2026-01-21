@@ -6,8 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## {0.5.4] - 2026-01-20
+- fix #40, add getHumidityCompensated() for HTU21 device.
+- add example HTU21_getHumidityCompensated.ino
+- add example HTU21_test_getHumidityCompensated.ino
+- update readme.md
+- update GitHub actions
+- minor edits
+
 ## [0.5.3] - 2025-06-19
-- Fix #37, update README to wait before first command (kudos to pdaoust)
+- fix #37, update README to wait before first command (kudos to pdaoust)
 - add delay in async demos to wait for sensor to be ready
 - fix version number
 - minor edits

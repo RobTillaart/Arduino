@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/SHT2x
 
 
-// WARNING: NOT TESTED FOR SHT2x - UNDER DEVELOPMENT
+//  WARNING: NOT TESTED FOR SHT2x - UNDER DEVELOPMENT
 
 
 #include "Wire.h"

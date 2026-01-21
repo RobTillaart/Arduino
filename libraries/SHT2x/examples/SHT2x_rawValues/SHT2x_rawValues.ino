@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x_raw_values.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo raw
+// PURPOSE: demo reading raw register values
 //     URL: https://github.com/RobTillaart/SHT2x
 
 

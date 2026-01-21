@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x_test_CRC.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: verify CRC algorithm
 //     URL: https://github.com/RobTillaart/SHT2x
 
 

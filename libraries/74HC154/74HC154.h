@@ -3,14 +3,14 @@
 //    FILE: 74HC154.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-02-22
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Arduino library for the 74HC154 4-to-16 line decoder/demultiplexer.
 //     URL: https://github.com/RobTillaart/74HC154
 
 
 #include "Arduino.h"
 
-#define LIB_74HC154_VERSION         (F("0.2.0"))
+#define LIB_74HC154_VERSION         (F("0.2.1"))
 
 
 

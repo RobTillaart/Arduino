@@ -34,6 +34,8 @@ One can use one of the enable inputs as the multiplexed data input.
 Keep the other enable input LOW and the addressed output will follow
 the state of the applied data.
 
+Feedback as always is welcome.
+
 
 ### SetLine
 
@@ -50,6 +52,7 @@ This only works if the enablePin is set in the constructor.
 
 - https://github.com/RobTillaart/74HC138  (3 to 8 selector)
 - https://github.com/RobTillaart/74HC154  (4 to 16 selector)
+- https://github.com/RobTillaart/74HC590
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
 - https://github.com/RobTillaart/HC4053  (3x2 mux)

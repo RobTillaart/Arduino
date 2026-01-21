@@ -42,7 +42,8 @@ As always feedback is welcome.
 
 ### Related
 
-only slightly related
+Slightly related
+
 - https://github.com/RobTillaart/FastShiftIn
 - https://github.com/RobTillaart/FastShiftInOut
 - https://github.com/RobTillaart/FastShiftOut
@@ -58,13 +59,15 @@ only slightly related
 
 ### Constructor
 
-- **74HC590(uint8_t OE, uint8_t CCLR, uint8_t CCKEN, uint8_t CCLK, uint8_t RCLK = 255, uint8_t RCO = 255)**
+- **DEV_74HC590(uint8_t OE, uint8_t CCLR, uint8_t CCKEN, uint8_t CCLK, uint8_t RCLK = 255, uint8_t RCO = 255)**
   - OE    = output enable
   - CCLR  = counter clear
   - CCKEN = counter clock enable
   - CCLK  = counter clock
   - RCLK  = register clock (if 255 ==> RCLK == CCLK)
-  - RCO   = register clock OUT (if 255 ==>  no RCO)
+  - RCO   = ripple carry out (if 255 ==>  no RCO)
+- **DEV_54HC590(uint8_t OE, uint8_t CCLR, uint8_t CCKEN, uint8_t CCLK, uint8_t RCLK = 255, uint8_t RCO = 255)** - idem as above.
+
 
 ### Control
 
@@ -99,7 +102,6 @@ Could be connected to an interrupt pin to know when 256 pulses arrived.
 
 #### Should
 
-- derived class 54HC590?
 - CCLK optional / external?
 
 #### Could

@@ -3,14 +3,14 @@
 //    FILE: 74HC590.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-04-30
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the 54HC590 / 74HC590 binary counter
 //     URL: https://github.com/RobTillaart/74HC590
 
 
 #include "Arduino.h"
 
-#define LIB_74HC590_VERSION         (F("0.1.0"))
+#define LIB_74HC590_VERSION         (F("0.1.1"))
 
 
 
@@ -100,7 +100,22 @@ protected:
   uint8_t _CCLK;
   uint8_t _RCLK;
   uint8_t _RCO;
-  };
+};
+
+
+/////////////////////////////////////////
+//
+//  DERIVED CLASS
+//
+class DEV_54HC590 : public DEV_74HC590
+{
+public:
+  DEV_54HC590(uint8_t OE, uint8_t CCLR, uint8_t CCKEN, uint8_t CCLK, uint8_t RCLK = 255, uint8_t RCO = 255)
+    : DEV_74HC590(OE, CCLR, CCKEN, CCLK, RCLK, RCO)
+    {
+      //  empty for now
+    };
+};
 
 
 //  -- END OF FILE --

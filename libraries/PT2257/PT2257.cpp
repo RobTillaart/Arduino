@@ -1,8 +1,8 @@
 //
 //    FILE: PT2257.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2026-xx-xx
-// VERSION: 0.1.0
+//    DATE: 2026-01-20
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the PT2257 two channel volume controller.
 //     URL: https://github.com/RobTillaart/PT2257
 
@@ -55,10 +55,16 @@ void PT2257::allOff()
   _write(0xFF);
 }
 
-void PT2257::mute(bool mute)
+void PT2257::mute()
 {
-  _muted = mute;
-  _write(mute ? 0x79 : 0x78 );
+  _muted = true;
+  _write(0x79);
+}
+
+void PT2257::muteOff()
+{
+  _muted = false;
+  _write(0x78);
 }
 
 bool PT2257::isMuted()
@@ -124,7 +130,7 @@ int PT2257::getLastError()
 
 ///////////////////////////////////////////////
 //
-//  PRIVATE
+//  PROTECTED
 //
 int PT2257::_write(uint8_t command)
 {
@@ -144,7 +150,48 @@ int PT2257::_write2(uint8_t val1, uint8_t val2)
 }
 
 
+///////////////////////////////////////////////
+//
+//  DERIVED
+//
+PT2259::PT2259(TwoWire *wire) : PT2257(wire)
+{
+}
 
+void PT2259::allOff()
+{
+  stereo(-79);  //  work around
+}
+
+void PT2259::mute()
+{
+  _muted = true;
+  _write(0x77);
+}
+
+void PT2259::muteOff()
+{
+  _muted = false;
+  _write(0x74);
+}
+
+void PT2259::muteLeft()
+{
+  _muted = false;
+  _write(0x76);
+}
+
+void PT2259::muteRight()
+{
+  _muted = false;
+  _write(0x75);
+}
+
+
+void PT2259::clearRegister()
+{
+  _write(0xF0);
+}
 
 //  -- END OF FILE --
 

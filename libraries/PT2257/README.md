@@ -20,15 +20,15 @@ Arduino library for the PT2257 two channel volume controller.
 
 The PT2257 is a 2 channel, stereo, volume controller with an I2C interface.
 
+The library also has a derived class for the PT2259 which is very
+similar.
+
+Note: the PT225x need about 200 ms at startup to initialize.
+
+
 TODO elaborate
 
 Feedback as always is welcome.
-
-
-### Special characters
-
-Ω == Ohm = ALT-234 (Windows)
-µ == micro = ALT-0181 (Windows)
 
 
 ### Hardware
@@ -82,15 +82,15 @@ The device has a fixed I2C address of 0x44 (68).
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
-This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
-to eight channels (think of it as I2C subnets) which can use the complete 
-address range of the device. 
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-Drawback of using a multiplexer is that it takes more administration in 
-your code e.g. which device is on which channel. 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
 This will slow down the access, which must be taken into account when
 deciding which devices are on which channel.
-Also note that switching between channels will slow down other devices 
+Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
@@ -98,20 +98,20 @@ too if they are behind the multiplexer.
 
 ### I2C Performance
 
-Only test **xxxxxxxx()** as that is the main function.
+Only test **stereo()** as that is a representative function.
 
 The PT2257 only supports 100 kHz.
 
 
 |  Clock     |  time (us)  |  Notes  |
 |:----------:|:-----------:|:--------|
-|   100 KHz  |             |  max speed supported. 
+|   100 KHz  |             |  max speed supported.
 
 
 TODO: add + run performance sketch on hardware.
 
 
-## Interface
+## Interface PT2257
 
 ```cpp
 #include "PT2257.h"
@@ -119,7 +119,7 @@ TODO: add + run performance sketch on hardware.
 
 ### Constructor
 
-- **PT2257(uint8_t address, TwoWire \*wire = &Wire)** optional select I2C bus.
+- **PT2257(TwoWire \*wire = &Wire)** optional select I2C bus.
 - **bool begin()** checks if device is visible on the I2C bus.
 - **bool isConnected()** Checks if device address can be found on I2C bus.
 - **uint8_t getAddress()** Returns the fixed address 0x2A (42).
@@ -127,8 +127,9 @@ TODO: add + run performance sketch on hardware.
 ### Core
 
 - **void allOff()**
-- **void mute(bool mute)**
-- **bool isMuted()**
+- **void mute()** mutes all channels.
+- **void muteOff()** switch mute off for all channels.
+- **bool isMuted()** current state
 
 //  dB = attenuation of 0..-79, out of range => return false
 - **bool stereo(int dB)**
@@ -145,6 +146,26 @@ TODO: add + run performance sketch on hardware.
 - PT2257_OK = 0
 
 
+## Interface PT2259
+
+Only differences with PT2257
+
+### Constructor
+
+- **PT2259(TwoWire \*wire = &Wire)** optional select I2C bus.
+
+### Core
+
+- **void muteLeft()** mutes left channel only.
+- **void muteRight()** mutes right channel only.
+
+### POR
+
+Datasheet page 9.
+
+- **void clearRegister()**, need to call after Power-On-Reset (POR).
+
+
 ## Future
 
 #### Must
@@ -155,12 +176,17 @@ TODO: add + run performance sketch on hardware.
 
 #### Should
 
-- add examples
+- investigate PT2259 clearRegister.
+- test I2C performance.
 
 #### Could
 
 - create unit tests if possible
-
+- add examples
+- replace magic numbers by named constants.
+- **void softMute()** bring back channels "slowly" to -79 dB
+- **void swapChannels()** swap left / right
+- **void balance(-100..+100)** how??
 
 #### Wont
 

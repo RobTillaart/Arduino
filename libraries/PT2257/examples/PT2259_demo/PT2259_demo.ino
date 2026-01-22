@@ -1,5 +1,5 @@
 //
-//    FILE: PT2257_demo.ino
+//    FILE: PT2259_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour
 //     URL: https://github.com/RobTillaart/PT2257
@@ -8,7 +8,7 @@
 #include "PT2257.h"
 
 
-PT2257 myPT;
+PT2259 myPT;
 
 
 void setup()
@@ -29,6 +29,10 @@ void setup()
 
   myPT.mute();
   Serial.println(myPT.isMuted());  //  expect 1
+  myPT.muteLeft();
+  Serial.println(myPT.isMuted());  //  expect 0
+  myPT.muteRight();
+  Serial.println(myPT.isMuted());  //  expect 0
   myPT.muteOff();
   Serial.println(myPT.isMuted());  //  expect 0
 }

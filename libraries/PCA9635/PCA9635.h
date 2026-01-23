@@ -3,7 +3,7 @@
 //    FILE: PCA9635.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9635
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9635_LIB_VERSION         (F("0.6.1"))
+#define PCA9635_LIB_VERSION         (F("0.6.2"))
 
 
 //  mode codes
@@ -144,7 +144,7 @@ public:
   uint8_t  writeN(uint8_t channel, uint8_t * arr, uint8_t count);
 
   //  array at least 16 elements
-  uint8_t  writeAll(uint8_t * arr);  
+  uint8_t  writeAll(uint8_t * arr);
   uint8_t  allOff();
 
   //  generic worker, write N consecutive PWM registers without Stop command

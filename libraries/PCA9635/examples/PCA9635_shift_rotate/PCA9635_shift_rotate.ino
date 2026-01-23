@@ -11,13 +11,14 @@
 PCA9635 ledArray(0x20);
 
 uint8_t arr[16];  //  working array
-uint8_t channels = 16; 
+uint8_t channels = 16;
 
 
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9635_LIB_VERSION: ");
   Serial.println(PCA9635_LIB_VERSION);

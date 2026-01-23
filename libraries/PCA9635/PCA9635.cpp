@@ -2,7 +2,7 @@
 //    FILE: PCA9635.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 23-apr-2016
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 // PURPOSE: Arduino library for PCA9635 I2C LED driver, 16 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9635
 

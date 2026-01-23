@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2026-01-23
+- update GitHub actions
+- minor edits
+
 ## [0.5.2] - 2025-05-10
 - add getSerialNumber, kudos to skunktrading
 - add example SHT31_getSerialNumber.ino

@@ -39,6 +39,8 @@ An elaborated library for the SHT31 sensor can be found here
 A derived class for using the SHT31 sensor with SoftWire (soft I2C) can be found here
 - https://github.com/RobTillaart/SHT31_SW
 
+Feedback as always is welcome.
+
 
 ### I2C multiplexing
 

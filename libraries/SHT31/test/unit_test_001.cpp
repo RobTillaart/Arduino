@@ -22,10 +22,10 @@
 // assertNull(actual)
 
 /*
-  most unit tests will test for fail 
+  most unit tests will test for fail
   as there is no sensor connected
   and there is no mockup.
-  
+
   It appears that Wire.write does not fail without sensor...
 */
 
@@ -148,7 +148,7 @@ unittest(test_readStatus)
 
   bool b = sht.begin();
   assertEqual(b, true);
-  
+
   assertEqual(0xFFFF, sht.readStatus());
   expect = SHT31_ERR_READBYTES;
   assertEqual(expect, sht.getError());
@@ -163,7 +163,7 @@ unittest(test_heater)
 
   bool b = sht.begin();
   assertEqual(b, true);
-  
+
   assertTrue(sht.heatOn());
   expect = SHT31_OK;
   assertEqual(expect, sht.getError());
@@ -186,7 +186,7 @@ unittest(test_async)
 
   bool b = sht.begin();
   assertEqual(b, true);
-  
+
   assertTrue(sht.requestData());
   expect = SHT31_OK;
   assertEqual(expect, sht.getError());
@@ -211,4 +211,4 @@ unittest(test_async)
 
 unittest_main()
 
-//  -- END OF FILE -- 
+//  -- END OF FILE --

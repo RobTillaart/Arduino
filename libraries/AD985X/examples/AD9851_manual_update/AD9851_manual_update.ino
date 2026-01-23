@@ -23,6 +23,7 @@ void setup()
 {
   //  while(!Serial):  //  uncomment if needed.
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("AD985X_LIB_VERSION: \t");
   Serial.println(AD985X_LIB_VERSION);

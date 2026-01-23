@@ -228,7 +228,7 @@ unittest(test_ad9851_autoRefClock)
     assertEqual(30, funcgen.getRefClock());
   }
   fprintf(stderr, "\n");
-  
+
   funcgen.setAutoRefClock(true);
   assertTrue(funcgen.getAutoRefClock());
   fprintf(stderr, "\n");

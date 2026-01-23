@@ -1,7 +1,7 @@
 //
 //    FILE: AD985X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.7.2
+// VERSION: 0.7.3
 //    DATE: 2019-02-08
 // PURPOSE: Class for AD9850 and AD9851 function generator
 //     URL: https://github.com/RobTillaart/AD985X
@@ -198,7 +198,7 @@ void AD9850::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
   _spi_settings = SPISettings(_SPIspeed, LSBFIRST, SPI_MODE0);
-};
+}
 
 
 void AD9850::writeData()
@@ -446,7 +446,7 @@ bool AD9851::setFrequencyF(float freq)
 uint32_t AD9851::getMaxFrequency()
 {
   return AD9851_MAX_FREQ;
-};
+}
 
 
 ////////////////////////////////////////////////////////
@@ -457,13 +457,13 @@ void AD9851::setAutoRefClock(bool arc)
 {
   _autoRefClock = arc;
   setFrequency(_freq);
-};
+}
 
 
 bool AD9851::getAutoRefClock()
 {
   return _autoRefClock;
-};
+}
 
 
 void AD9851::setRefClockHigh()
@@ -490,7 +490,7 @@ void AD9851::setARCCutOffFreq(uint32_t Hz)
 {
   if (Hz > 30000000UL) Hz = 30000000;
   _ARCCutOffFreq = Hz;
-};
+}
 
 
 uint32_t AD9851::getARCCutOffFreq()

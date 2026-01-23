@@ -40,6 +40,8 @@ way more functionality.
 
 Note: mainly tested on Arduino UNO.
 
+Feedback as always is welcome.
+
 
 ### 0.7.2 new constructors
 
@@ -201,22 +203,31 @@ devices at the same time.
 
 ### Constructors
 
-- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI, uint8_t spiClock)** hardware SPI constructor RP2040.
-Deprecated as spiClock no longer needed.
+There are constructors with and without SELECT pin, e.g. if device is continuously selected.
+
+- select = chip select. The library uses HIGH as active and LOW as not selected.  
+- resetPin = reset
+- FQUDPin = Frequency UpDate Pin
+
+#### HW SPI
+
 - **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI)** hardware SPI constructor RP2040
-- **AD9850(uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI)** hardware SPI constructor RP2040
-- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI, uint8_t spiClock)** hardware SPI constructor.
-Deprecated as spiClock no longer needed.
 - **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI)** hardware SPI constructor.
+- **AD9850(uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI)** hardware SPI constructor RP2040
 - **AD9850(uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI)** hardware SPI constructor.
 
+#### SW SPI
 
 - **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)**
 - **AD9850(uint8_t resetPin, uint8_t FQUDPin, uint8_t spiData, uint8_t spiClock)**
-  - select = chip select. The library uses HIGH as active and LOW as not selected.  
-  - resetPin = reset
-  - FQUDPin = Frequency UpDate Pin
 - **AD9851(...)** constructors with same interface as AD9850
+
+#### Deprecated
+
+Deprecated as spiClock no longer needed.
+
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClassRP2040 \* mySPI, uint8_t spiClock)** hardware SPI constructor RP2040.
+- **AD9850(uint8_t select, uint8_t resetPin, uint8_t FQUDPin, SPIClass \* mySPI, uint8_t spiClock)** hardware SPI constructor.
 
 
 ### Common interface
@@ -293,8 +304,8 @@ To be used only if one needs a specific speed.
 
 ## AD9851 additional
 
-- **void setRefClockHigh()** set reference clock to 180 Mhz.
-- **void setRefClockLow()** set reference clock to 30 Mhz.
+- **void setRefClockHigh()** set reference clock to 180 MHz.
+- **void setRefClockLow()** set reference clock to 30 MHz.
 - **uint8_t getRefClock()** returns 30 or 180.
 - **void setAutoRefClock(bool arc)** sets a flag so the library switches automatically
 to the reference clock of 180 MHz when the frequency is set above 10 MHz and 

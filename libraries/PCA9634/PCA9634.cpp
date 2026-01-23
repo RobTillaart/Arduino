@@ -2,7 +2,7 @@
 //    FILE: PCA9634.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel PWM, 8 bit
 //     URL: https://github.com/RobTillaart/PCA9634
 

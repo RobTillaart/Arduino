@@ -3,7 +3,7 @@
 //    FILE: PCA9634.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-01-03
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for PCA9634 I2C LED driver, 8 channel
 //     URL: https://github.com/RobTillaart/PCA9634
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9634_LIB_VERSION         (F("0.4.1"))
+#define PCA9634_LIB_VERSION         (F("0.4.2"))
 
 
 //  mode codes
@@ -144,7 +144,7 @@ public:
   uint8_t  writeN(uint8_t channel, uint8_t * arr, uint8_t count);
 
   //  array at least 8 elements
-  uint8_t  writeAll(uint8_t * arr);  
+  uint8_t  writeAll(uint8_t * arr);
   uint8_t  allOff();
 
   //  generic worker, write N consecutive PWM registers without Stop command

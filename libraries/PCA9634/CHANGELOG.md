@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2026-01-23
+- update GitHub actions
+- minor edits
+
 ## [0.4.1] - 2025-05-08
 - fix #36, sync PCA9632
 - rename setLedDriverMode() => setLedDriverModeAll()

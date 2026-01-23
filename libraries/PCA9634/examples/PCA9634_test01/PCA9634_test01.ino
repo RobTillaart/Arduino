@@ -14,6 +14,7 @@ PCA9634 ledArray(0x20);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("PCA9634_LIB_VERSION: ");
   Serial.println(PCA9634_LIB_VERSION);

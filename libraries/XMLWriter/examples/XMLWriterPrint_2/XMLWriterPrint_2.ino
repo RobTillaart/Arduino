@@ -1,14 +1,13 @@
 //
 //    FILE: XMLWriterPrint_2.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo Print interface - use it to print "unsupported" and Printable data types 
-//    DATE: 2020-07-07
+// PURPOSE: demo Print interface - use it to print "unsupported" and Printable data types
 //     URL: https://github.com/RobTillaart/XMLWriter
 //
 
 
 #include <XMLWriter.h>
-#include <printHelpers.h>   // https://github.com/RobTillaart/printHelpers
+#include <printHelpers.h>   //  https://github.com/RobTillaart/printHelpers
 
 XMLWriter XML(&Serial);
 
@@ -21,6 +20,11 @@ char buffer[24];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
 
   XML.setConfig(XMLWRITER_COMMENT | XMLWRITER_INDENT);
   XML.header();

@@ -2,7 +2,6 @@
 //    FILE: XMLWriterDefaultSerial.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: make a simple XML generating lib
-//    DATE: 2020-04-24
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
@@ -16,6 +15,13 @@ char buffer[24];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
+  delay(100);
+
   uint32_t start = micros();
   XML.header();
   XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
@@ -80,8 +86,8 @@ void AnalogPorts(const char* name)
   XML.writeNode("Analog0", itoa(analogRead(A0), buffer, 10));
   XML.writeNode("Analog1", (uint16_t) analogRead(A1));
   // default nr decimals = 2
-  XML.writeNode("Analog2", (double) (5.0 * analogRead(A2)) / 1023); 
-  XML.writeNode("Analog3", (double) (5.0 * analogRead(A3)) / 1023, (uint8_t)3);  
+  XML.writeNode("Analog2", (double) (5.0 * analogRead(A2)) / 1023);
+  XML.writeNode("Analog3", (double) (5.0 * analogRead(A3)) / 1023, (uint8_t)3);
   XML.tagClose();
 }
 

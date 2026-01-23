@@ -1,7 +1,7 @@
 //
 //    FILE: XMLWriter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
 //     URL: https://github.com/RobTillaart/XMLWriter
@@ -39,6 +39,12 @@ void XMLWriter::reset()
 void XMLWriter::setConfig(uint8_t config)
 {
   _config = config;
+}
+
+
+uint8_t XMLWriter::getConfig()
+{
+  return _config;
 }
 
 
@@ -107,13 +113,19 @@ void XMLWriter::newLine(uint8_t n)
 //
 //  INDENT
 //
+void  XMLWriter::setIndentSize(const int size)
+{
+  if (size < 0) _indentStep = 0;
+  else if (size > 8) _indentStep = 8;
+  else _indentStep = size;
+};
+
 void XMLWriter::indent()
 {
   if (_config & XMLWRITER_INDENT)
   {
-    //  as indentation is a multiple of 2
-    //  this is nice balance between speed and RAM.
-    for (uint8_t i = _indent; i > 0; i-= 2) print("  ");
+    //  step size 1 to support odd numbers.
+    for (int i = _indent; i > 0; i--) print(' ');
   }
 }
 
@@ -153,7 +165,7 @@ void XMLWriter::tagOpen(const char* tag, const char* name, const bool newline)
 }
 
 
-//  ind == indent flag 
+//  ind == indent flag
 void XMLWriter::tagClose(const bool ind)
 {
   _indent -= _indentStep;
@@ -188,9 +200,19 @@ void XMLWriter::tagField(const char *field, const char* str)
 
 void XMLWriter::tagEnd(const bool newline, const bool addSlash)
 {
-  if (addSlash) print("/>");
-  else print('>');
-  if (newline) print('\n');
+  if (addSlash)
+  {
+    print("/>");
+    //  tag closes so no indent change
+  }
+  else
+  {
+    print('>');
+  }
+  if (newline)
+  {
+    print('\n');
+  }
 }
 
 

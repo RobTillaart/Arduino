@@ -2,7 +2,6 @@
 //    FILE: KMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: simple KML writer
-//    DATE: 2015-05-21
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
@@ -16,11 +15,19 @@ char buffer[24];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   uint32_t start = micros();
   KMLTest();
   uint32_t stop = micros();
   Serial.println();
+
+  Serial.print("TIME: \t");
   Serial.println(stop - start);
 }
 
@@ -38,7 +45,7 @@ void KMLTest()
   KML.comment("KMLWriterTest.ino\nThis is a demo of the XMLWriter lib for Arduino", MULTILINE); // == true (default == false)
 
   KML.tagStart("kml");
-  KML.tagField("xmlns", "http://earth.google.com/kml/2.0");
+  KML.tagField("xmlns", "http : //earth.google.com/kml/2.0");
   KML.tagEnd(NEWLINE, NOSLASH);
 
   KML.tagOpen("Document");
@@ -69,12 +76,15 @@ void KMLTest()
 
 
 /* output
-<!--
+XMLWRITER_LIB_VERSION: 0.4.1
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
 KMLWriterTest.ino
 This is a demo of the XMLWriter lib for Arduino
  -->
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://earth.google.com/kml/2.0">
+<kml xmlns="http : //earth.google.com/kml/2.0">
 <Document>
   <Placemark>
     <name>MyOffice</name>
@@ -86,13 +96,15 @@ This is a demo of the XMLWriter lib for Arduino
       <heading>0</heading>
     </LookAt>
     <Point>
-      <coordinates>8.853193712983327,53.10919982492059,10</coordinate>
+      <coordinates>8.853193712983327,53.10919982492059,10</coordinates>
     </Point>
   </Placemark>
 </Document>
 </kml>
+
+TIME:   40612
+
 */
 
 
 // -- END OF FILE --
-

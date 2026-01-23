@@ -17,13 +17,13 @@ compile:
   # Choosing to run compilation tests on 2 different Arduino platforms
   platforms:
     - uno
-    # - due
-    # - zero
-    # - leonardo
+    - due
+    - zero
+    - leonardo
     - m4
     - esp32
     # - esp8266  #  causes analog pins to fail
-    # - mega2560
+    - mega2560
     - rpipico
 
   libraries:

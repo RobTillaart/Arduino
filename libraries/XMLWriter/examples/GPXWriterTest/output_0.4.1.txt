@@ -1,0 +1,46 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+
+GPXWriterTest.ino
+XMLWRITER_LIB_VERSION: 0.4.1
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+GPXWriterTest.ino
+This is a demo of the XMLWriter lib for Arduino
+ -->
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="Wikipedia"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+   <!-- Comments look like this -->
+   <metadata>
+      <name>Data name</name>
+      <desc>Valid GPX example without special characters</desc>
+      <author>
+         <name>Author name</name>
+      </author>
+   </metadata>
+   <wpt lat="52.518611" lon="13.376111">
+      <ele>35.0</ele>
+      <time>2011-12-31T23:59:59Z</time>
+      <name>Reichstag (Berlin)</name>
+      <sym>City</sym>
+   </wpt>
+   <wpt lat="48.208031" lon="16.358128">
+      <ele>179</ele>
+      <time>2011-12-31T23:59:59Z</time>
+      <name>Parlament (Wien)</name>
+      <sym>City</sym>
+   </wpt>
+   <wpt lat="46.9466" lon="7.44412">
+      <ele>179</ele>
+      <time>2011-12-31T23:59:59Z</time>
+      <name>Bundeshaus (Bern)</name>
+      <sym>City</sym>
+   </wpt>
+</gpx>
+
+92904

@@ -2,7 +2,7 @@
 //
 //    FILE: XMLWriter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2013-11-06
 // PURPOSE: Arduino library for creating XML
 //     URL: https://github.com/RobTillaart/XMLWriter
@@ -11,33 +11,34 @@
 #include "Arduino.h"
 
 
-#define XMLWRITER_VERSION         (F("0.4.0"))
+#define XMLWRITER_VERSION         (F("0.4.1"))
+#define XMLWRITER_LIB_VERSION     (F("0.4.1"))
 
 
 //  for comment()
-#define NOMULTILINE               false
-#define MULTILINE                 true
+#define NOMULTILINE               (false)
+#define MULTILINE                 (true)
 
 //  for tagOpen(), tagEnd()
-#define NEWLINE                   true
-#define NONEWLINE                 false
-#define NOINDENT                  false    //  for tagClose()
+#define NEWLINE                   (true)
+#define NONEWLINE                 (false)
+#define NOINDENT                  (false)    //  for tagClose()
 
 //  for tagEnd()
-#define SLASH                     true
-#define NOSLASH                   false
+#define SLASH                     (true)
+#define NOSLASH                   (false)
 
 //  deepness of XML tree 5..10
 //  needed for stack of tagStack
 //  adjust for deeper nested structures
 #ifndef XMLWRITER_MAXLEVEL
-#define XMLWRITER_MAXLEVEL        5
+#define XMLWRITER_MAXLEVEL        (5)
 #endif
 
 //  set maximum length of the tags
 //  adjust for longer or shorter fields - !! eats memory !!
 #ifndef XMLWRITER_MAXTAGSIZE
-#define XMLWRITER_MAXTAGSIZE      15
+#define XMLWRITER_MAXTAGSIZE      (15)
 #endif
 
 //  reduce footprint by commenting next lines
@@ -68,7 +69,8 @@ public:
 
   //  to show/strip comment, indent, newLine
   //  to minimize the output setConfig(0);
-  void setConfig(uint8_t config);
+  void    setConfig(uint8_t config);
+  uint8_t getConfig();
 
   //  standard XML header
   void header();
@@ -92,9 +94,8 @@ public:
   //
   //  INDENT
   //
-  //  typically 0,2,4; default == 2;
-  //  multiple of 2;
-  void    setIndentSize(const uint8_t size = 2) { _indentStep = size; };
+  //  indentSize = { 0..8 }; default == 2;
+  void    setIndentSize(const int size = 2);
   uint8_t getIndentSize() { return _indentStep; };
   //  for manual layout control
   void incrIndent()       { _indent += _indentStep; };

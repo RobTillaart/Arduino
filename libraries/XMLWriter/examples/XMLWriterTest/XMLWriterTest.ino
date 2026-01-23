@@ -2,7 +2,6 @@
 //    FILE: XMLWriterTest.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: make a simple XML generating lib
-//    DATE: 2013-11-06
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
@@ -16,13 +15,18 @@ char buffer[24];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
 
   uint32_t start = micros();
-  XML.setConfig(0);  // comment this line to see difference
+  XML.setConfig(0);  //  comment this line to see difference
 
   XML.header();
   XML.comment("XMLWriterTest.ino\nThis is a demo of a simple XML lib for Arduino", true);
-  // XML.newLine(0);
+  //  XML.newLine(0);
   XML.tagOpen("Arduino", "42");
 
   XML.tagOpen("Ports");
@@ -74,7 +78,7 @@ void Weather()
 }
 
 
-// casting to keep some compilers happy
+//  casting to keep some compilers happy
 void AnalogPorts(const char* name)
 {
   XML.comment("The analog ports are multiplexed");
@@ -100,7 +104,7 @@ void DigitalPorts()
 void DataTypes()
 {
   XML.comment("Testing dataTypes I");
-  XML.tagOpen("Datatypes");
+  XML.tagOpen("DataTypes");
   XML.writeNode("BoolT", 1 == 1);
   XML.writeNode("BoolF", 1 == 0);
   XML.writeNode("BIN", 42, BIN);
@@ -131,4 +135,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

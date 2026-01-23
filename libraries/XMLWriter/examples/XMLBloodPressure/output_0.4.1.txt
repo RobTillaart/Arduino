@@ -1,0 +1,65 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+
+XMLBloodPressure.ino
+XMLWRITER_LIB_VERSION: 0.4.1
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+XMLBloodPressure.ino
+This is a demo of the XMLWriter lib for Arduino
+ -->
+<btx xmlns="http://www.specifications.btx/BTX/1.0">
+<Document>
+  <Patient>
+    <id>314159265</id>
+    <name>John Doe</name>
+  </Patient>
+  <Measurements name="2026">
+    <Measurement name="2026-01-02">
+      <diastolic>85</diastolic>
+      <systolic>129</systolic>
+      <stage>0</stage>
+      <heartRateRest>83</heartRateRest>
+      <O2-saturation>100</O2-saturation>
+      <temperature>36.9</temperature>
+    </Measurement>
+    <Measurement name="2026-01-09">
+      <diastolic>78</diastolic>
+      <systolic>128</systolic>
+      <stage>0</stage>
+      <heartRateRest>80</heartRateRest>
+      <O2-saturation>100</O2-saturation>
+      <temperature>36.9</temperature>
+    </Measurement>
+    <Measurement name="2026-01-16">
+      <diastolic>82</diastolic>
+      <systolic>135</systolic>
+      <stage>1</stage>
+      <heartRateRest>83</heartRateRest>
+      <O2-saturation>100</O2-saturation>
+      <temperature>36.9</temperature>
+    </Measurement>
+    <Measurement name="2026-01-23">
+      <diastolic>89</diastolic>
+      <systolic>141</systolic>
+      <stage>2</stage>
+      <heartRateRest>81</heartRateRest>
+      <O2-saturation>98</O2-saturation>
+      <temperature>37.1</temperature>
+    </Measurement>
+    <Measurement name="2026-01-30">
+      <diastolic>79</diastolic>
+      <systolic>122</systolic>
+      <stage>0</stage>
+      <heartRateRest>79</heartRateRest>
+      <O2-saturation>98</O2-saturation>
+      <temperature>37.0</temperature>
+    </Measurement>
+  </Measurements>
+</Document>
+</btx>
+
+TIME: 	132328

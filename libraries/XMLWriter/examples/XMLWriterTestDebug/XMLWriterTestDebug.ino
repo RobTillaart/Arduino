@@ -5,7 +5,7 @@
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
-#include <XMLWriter.h>
+#include "XMLWriter.h"
 
 XMLWriter XML(&Serial);
 
@@ -13,9 +13,14 @@ XMLWriter XML(&Serial);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
 
   XML.header();
-  
+
   //  compile time constants into XML
   XML.comment(__DATE__);
   XML.comment(__TIME__);

@@ -53,7 +53,7 @@ unittest(test_constants)
   assertTrue(NEWLINE);
   assertFalse(NONEWLINE);
   assertFalse(NOINDENT);
-  
+
   assertTrue(SLASH);
   assertFalse(NOSLASH);
 
@@ -85,11 +85,11 @@ unittest(test_header_flush)
   XML.header();
   assertEqual(36, XML.bytesWritten());
   assertEqual(3, XML.bufferIndex());
-  
+
   XML.flush();
   assertEqual(39, XML.bytesWritten());
   assertEqual(0, XML.bufferIndex());
-  
+
   XML.reset();
   assertEqual(0, XML.bytesWritten());
   assertEqual(0, XML.bufferIndex());
@@ -100,21 +100,21 @@ unittest(test_indent)
 {
   XMLWriter XML(&Serial);
   assertEqual(0, XML.bytesWritten());
-  
+
   for (uint8_t indent = 0; indent < 10; indent += 2)
   {
     XML.setIndentSize(indent);
     assertEqual(indent, XML.getIndentSize());
   }
   assertEqual(0, XML.bytesWritten());
-  
+
   XML.reset();
   XML.setIndentSize(2);
   XML.indent();
   assertEqual(0, XML.bytesWritten());
   fprintf(stderr, "%d\n", XML.bufferIndex());
   assertEqual(0, XML.bufferIndex());
-  
+
   XML.reset();
   XML.setIndentSize(2);
   XML.incrIndent();
@@ -122,7 +122,7 @@ unittest(test_indent)
   assertEqual(0, XML.bytesWritten());
   fprintf(stderr, "%d\n", XML.bufferIndex());
   assertEqual(2, XML.bufferIndex());
-  
+
   XML.reset();
   XML.setIndentSize(2);
   XML.incrIndent();

@@ -2,7 +2,6 @@
 //    FILE: XMLWriterDemo01.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: XML writer demo
-//    DATE: 2016-03-16
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
@@ -14,6 +13,11 @@ XMLWriter XML(&Serial);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
 
   double p = random(100) * 1.0;
   double y = random(100) * 1.0;

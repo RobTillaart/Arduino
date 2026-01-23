@@ -44,9 +44,33 @@ As always, feedback or improvements are welcome.
 Please open an issue.
 
 
+### KML
+
+Other XML-based mark up languages can be generated too with this library, e.g the **KMLWriterTest.ino**
+generates KML (Keyhole Markup Language) used for geographic data.
+
+- https://en.wikipedia.org/wiki/Keyhole_Markup_Language
+
+
+### GPX
+
+GPX = GPS Exchange Format (GPX) is an XML schema designed as a common GPS data 
+format for software applications. See **GPXWriterTest.ino**.
+
+https://en.wikipedia.org/wiki/GPS_Exchange_Format
+
+
+## Breaking change 0.5.0
+
+Calling **XML.setIndentSize(size)** with size an odd number, failed.
+This is fixed in 0.5.0. Note even numbers worked well.
+
+Versions before 0.5.0 are obsolete (or should only use even indentSizes).
+
+
 ### Related
 
-- https://github.com/RobTillaart/printHelpers  Formatting incl scientific notation (large floats)
+- https://github.com/RobTillaart/printHelpers  Formatting including scientific notation (large floats)
 - https://github.com/RobTillaart/PrintString  Make a string representation
 - https://github.com/RobTillaart/MultiPlex  send stream to multiple destinations (e.g. File and Screen)
 
@@ -68,7 +92,7 @@ See table in description above.
 
 ### Functions for manual layout control
 
-- **void setIndentSize(uint8_t size = 2)** preferred a multiple of 2; no limit.
+- **void setIndentSize(uint8_t size = 2)** size = 0..8, limited in 0.5.0 to 8.
 For compact XML with no indents set size to zero.
 - **uint8_t getIndentSize()** returns set indent size.
 - **void incrIndent()** increments indent by defined spaces (default 2).
@@ -81,6 +105,7 @@ For compact XML with no indents set size to zero.
 
 - **void setConfig(uint8_t config)** used to show/strip comment, indent, newLine. 
 To minimize the output, use **setConfig(0);**, see table below.
+- **uint8_t getConfig()** returns the current configuration (=bitmask), see table below.
 - **void newLine(uint8_t n = 1)** add a number of newlines to the output, default = 1.
 
 #### Configuration flags
@@ -191,14 +216,23 @@ can inject strings.
 
 #### Should
 
+- investigate void tagField(char field, float value, uint8_t decimals = 2); 
+  - int as decimal parameter gives compile error (ambiguous)
+  - other float functions to.
+
+
 #### Could
 
-- what can be configured?
-- **uint8_t getConfig()** returns mask
-- **void comment(int)** in all its variations,
+- what can be configured? (5 bits free).
+  - 2 bits for tag depth?  depth = 4 + 2n???? too complex?
+- support for FlashStrings().
+  - big impact on footprint?
 - move code to .cpp
 
+
 #### Wont
+
+- **void comment(int)** in all its variations - user can convert.
 
 
 ## Support

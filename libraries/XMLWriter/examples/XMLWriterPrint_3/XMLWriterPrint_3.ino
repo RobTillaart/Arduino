@@ -2,15 +2,14 @@
 //    FILE: XMLWriterPrint_3.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo Print interface - Printable data types
-//    DATE: 2020-07-07
 //     URL: https://github.com/RobTillaart/XMLWriter
 //
-//  example works for UNO but does not compile for ESP, 
+//  example works for UNO but does not compile for ESP,
 //  to investigate [complex vs Complex]
 
 
 #include <XMLWriter.h>
-#include <Complex.h>   // https://github.com/RobTillaart/Complex
+#include <Complex.h>   //  https://github.com/RobTillaart/Complex
 
 XMLWriter XML(&Serial);
 
@@ -22,6 +21,12 @@ char buffer[24];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
+
   XML.setConfig(XMLWRITER_COMMENT | XMLWRITER_INDENT);
   XML.header();
   XML.comment("XMLWriter Print interface - Printable interface");
@@ -44,5 +49,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -2,7 +2,6 @@
 //    FILE: XMLWriterPrint_1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo Print interface
-//    DATE: 2020-07-07
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
@@ -16,6 +15,11 @@ char buffer[24];
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
 
   XML.newLine(0);
   XML.print("\n");
@@ -23,7 +27,7 @@ void setup()
   XML.comment("XMLWriter Print interface");
   XML.setConfig(0);  // no indent, no (further) comments
 
-  //   The {} and indentations are not mandatory 
+  //   The {} and indentations are not mandatory
   //   however they shows the XML structure in the code...
 
   XML.tagOpen("Order");

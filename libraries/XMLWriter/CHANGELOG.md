@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2026-01-22
+- fix #18 bug in indent(), odd sizes fails
+- limit setIndentSize() to 0..8 (8 is a practical limited)
+  - also maps negative values to 0.
+- add example GPXWriterTest.ino
+- add example XMLBloodPressure.ino
+- update GitHub actions
+- reduce build-CI time
+- update examples (print library version)
+- minor edits
+
+----
+
 ## [0.4.0] - 2025-05-10
 - fix #15, missing tagField(...float...), kudos for PaulA-V
 - fix #16, missing writeNode(...float...), kudos for PaulA-V

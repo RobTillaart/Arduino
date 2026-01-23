@@ -1,0 +1,35 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+
+KMLWriterTest.ino
+XMLWRITER_LIB_VERSION: 0.4.1
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+KMLWriterTest.ino
+This is a demo of the XMLWriter lib for Arduino
+ -->
+<kml xmlns="http : //earth.google.com/kml/2.0">
+<Document>
+  <Placemark>
+    <name>MyOffice</name>
+    <LookAt>
+      <longitude>8.853193712983327</longitude>
+      <latitude>53.10919982492059</latitude>
+      <range>500000</range>
+      <tilt>0</tilt>
+      <heading>0</heading>
+    </LookAt>
+    <Point>
+      <coordinates>8.853193712983327,53.10919982492059,10</coordinates>
+    </Point>
+  </Placemark>
+</Document>
+</kml>
+
+TIME: 	40612
+
+
+

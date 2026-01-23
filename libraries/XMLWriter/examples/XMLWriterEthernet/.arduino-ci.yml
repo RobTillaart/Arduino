@@ -3,8 +3,8 @@ compile:
   platforms:
     - uno
     - due
-    - zero
-    - leonardo
+    #- zero
+    #- leonardo
     - m4
     # - esp32       // has different Ethernet libraries
     # - esp8266

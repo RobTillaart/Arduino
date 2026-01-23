@@ -2,7 +2,6 @@
 //    FILE: XMLWriterEthernet.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo XML writer for EthernetClient
-//    DATE: 2020-04-24
 //     URL: https://github.com/RobTillaart/XMLWriter
 
 
@@ -47,9 +46,12 @@ void HTTP_header(EthernetClient* cl, const char *contentType, bool keepAlive = f
 //
 void setup()
 {
-
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("XMLWRITER_LIB_VERSION: ");
+  Serial.println(XMLWRITER_LIB_VERSION);
+  Serial.println();
 
   // Ethernet.init(pin) to configure the CS pin
   Ethernet.init(EthernetPIN);

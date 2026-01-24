@@ -1,6 +1,6 @@
 {
   "name": "DS18B20",
-  "keywords": "DS18B20,Dallas,Semiconductor,Temperature,sensor,asynchronuous",
+  "keywords": "DS18B20,Dallas,Semiconductor,Temperature,sensor,asynchronous",
   "description": "Arduino library for the DS18B20 temperature sensor. Restricted to a single sensor per pin. Minimalistic version.",
   "authors":
   [
@@ -23,7 +23,7 @@
       "version": "^2.3.5"
     }
   ],
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

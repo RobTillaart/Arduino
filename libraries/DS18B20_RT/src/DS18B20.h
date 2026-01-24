@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -22,15 +22,17 @@
 #include "OneWire.h"
 
 
-#define DS18B20_LIB_VERSION     (F("0.2.5"))
+#define DS18B20_LIB_VERSION     (F("0.2.6"))
 
-//  Error Code
-#define DEVICE_DISCONNECTED     -127
-#define DEVICE_CRC_ERROR        -128
+//  Error Codes
+const int DEVICE_DISCONNECTED = -127;
+const int DEVICE_CRC_ERROR    = -128;
+const int DEVICE_POR_ERROR    = -129;
+const int DEVICE_GND_ERROR    = -130;  //  parasitic power Vdd must GND
 
-//  configuration codes
-#define DS18B20_CLEAR           0x00
-#define DS18B20_CRC             0x01
+//  configuration masks
+const uint8_t DS18B20_CLEAR   = 0x00;  //  fast mode only temp register
+const uint8_t DS18B20_CRC     = 0x01;  //  slow mode, all registers
 
 
 typedef uint8_t DeviceAddress[8];
@@ -64,7 +66,7 @@ public:
 
 
 private:
-  void          readScratchPad(uint8_t *, uint8_t);
+  void          readScratchPad(uint8_t * scratchPad, uint8_t fields);
   void          _setResolution();
 
   DeviceAddress _deviceAddress;

@@ -3,6 +3,12 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Minimal DS18B20 lib with async support.
 //     URL: https://github.com/RobTillaart/DS18B20_RT
+//
+//  getTempC() can return
+//  DEVICE_DISCONNECTED = -127;
+//  DEVICE_CRC_ERROR    = -128;
+//  DEVICE_POR_ERROR    = -129;
+//  DEVICE_GND_ERROR    = -130;
 
 
 #include "DS18B20.h"
@@ -57,12 +63,20 @@ void loop()
     float temperature = sensor.getTempC();
     stop = millis();
 
-    Serial.print(res);
-    Serial.print("\t");
-    Serial.print(stop - start);
-    Serial.print("\t");
-    //  1 decimal makes perfect sense
-    Serial.println(temperature, 1);
+    if (temperature <= -127)
+    {
+      Serial.print("Error: ");
+      Serial.println(round(temperature));
+    }
+    else
+    {
+      Serial.print(res);
+      Serial.print("\t");
+      Serial.print(stop - start);
+      Serial.print("\t");
+      //  1 decimal makes perfect sense
+      Serial.println(temperature, 1);
+    }
   }
   Serial.println();
 
@@ -71,4 +85,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

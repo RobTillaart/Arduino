@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_Kelvin.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: set offset to mimick Kelvin scale
+// PURPOSE: set offset to mimic Kelvin scale
 //     URL: https://github.com/RobTillaart/DS18B20_RT
 
 
@@ -26,6 +26,7 @@ void setup(void)
 
   sensor.begin();
   sensor.setResolution(12);
+  //  difference between Celsius and Kelvin is 273.15 degrees.
   sensor.setOffset(273.15);
 }
 

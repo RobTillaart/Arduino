@@ -148,8 +148,11 @@ Returns false if no device is found.
 If DS18B20_CRC flag is set the library will check the CRC, otherwise it won't.
 Not checking the CRC is a few milliseconds faster.
 - **uint8_t getConfig()** get current configuration 
-  - 1 == DS18B20_CRC
-  - 0 == no flag set.
+
+|  constant       |  value  |  meaning  |
+|:----------------|:-------:|:----------|
+|  DS18B20_CLEAR  |    0    |  only 2 bytes read from scratchPad.
+|  DS18B20_CRC    |    1    |  all bytes read from scratchPad.
 
 
 ## Operation
@@ -180,6 +183,8 @@ Two specific return values from reading the sensor:
 - plus 85 is the power on default. 
 If you get this unexpected it may indicate a power problem
 
+See also the Diagnostic notes section below.
+
 
 ### Disconnect
 
@@ -209,30 +214,41 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 \* = no info, smaller?
 
 
-### Diagnosis notes
+### Diagnostic notes
 
 It was noted that the library sometimes give unexpected values, and keep 
 sending these values.
 
 This is due to the fact that by default the CRC is not checked to speed up reading. 
 In fact, default only the two temperature registers are read.
-By setting ```sensor.setConfig(DS18B20_CRC);``` the whole scratchpad is read
+By setting ```sensor.setConfig(DS18B20_CRC);``` the whole scratchPad is read
 and the CRC can be checked. 
 
 
-table of known "strange values" and actions one could take.
+Table of known "strange values" and actions one could take.
 It is meant to start some diagnosis.
 
-| value   | possible cause                      | optional action |
-|:--------|:------------------------------------|:----------------|
-|  0.0000 | data line has no pull up            | use pull up     |
-| -0.0625 | data line is constantly pulled HIGH | check GND       |
-| -128    | CRC error                           | wrong pull up, bad sensor ? | 
-| -127    | DISCONNECTED                        | check wires     }
+(note these are all known errors, not perse for this library)
+
+| value   | possible cause                      |  optional action  |
+|:--------|:------------------------------------|:------------------|
+|  0.0000 | data line has no pull up            |  use pull up
+| -0.0625 | data line is constantly pulled HIGH |  check GND
+| -127    | DISCONNECTED                        |  check wires
+| -128    | CRC error                           |  wrong pull up, bad sensor ? | 
+| -129    | POR error                           |  no convert done after power up. redo convert call.
+| -130    | GND error                           |  if parasitic mode, check Vdd must be connected to GND.
 
 If a value occurs only once in a while, wiring is often the cause, 
 or it can be caused by e.g. induction e.g. switching on a motor while 
 sensor is read.
+
+Additional notes:
+
+- https://github.com/milesburton/Arduino-Temperature-Control-Library/pull/289
+
+For error -130, the temperature 127.94 can be seen.
+For error -129, the temperature 85.00 can be seen.
 
 
 ## Credits

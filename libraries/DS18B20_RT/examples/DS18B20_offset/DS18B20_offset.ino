@@ -31,6 +31,8 @@ void setup(void)
   sensor.begin();
   //  arbitrary number for the demo
   sensor.setOffset(0.25);
+  //  verify the value.
+  Serial.println(sensor.getOffset());
 }
 
 

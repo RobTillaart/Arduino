@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -17,7 +17,7 @@
 #define WRITESCRATCH            0x4E
 
 
-//  Scratchpad locations
+//  ScratchPad locations
 #define TEMP_LSB                 0
 #define TEMP_MSB                 1
 #define HIGH_ALARM_TEMP          2
@@ -118,12 +118,25 @@ float DS18B20::getTempC(bool checkConnect)
     {
       return DEVICE_CRC_ERROR;
     }
+    if (scratchPad[6] == 0x0C)
+    {
+      //  Power On Reset 85C error needs scratchPad[6]. See #37 (DCTL #289)
+      if ((scratchPad[1] == 0x05) && (scratchPad[0] == 0x50))
+      {
+        return DEVICE_POR_ERROR;
+      }
+    }
   }
   else
   {
     readScratchPad(scratchPad, 2);
   }
-
+  //  Power On Reset 85C error cannot be tested here
+  //  the 127.94 error can be checked here
+  if ((scratchPad[1] == 0x07) && (scratchPad[0] == 0xFF))
+  {
+    return DEVICE_GND_ERROR;
+  }
   int16_t rawTemperature = (((int16_t)scratchPad[TEMP_MSB]) << 8) | scratchPad[TEMP_LSB];
   float temp = 0.0625 * rawTemperature;
   if (temp < -55)

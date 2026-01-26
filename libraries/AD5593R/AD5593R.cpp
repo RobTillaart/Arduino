@@ -1,7 +1,7 @@
 //
 //    FILE: AD5593R.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-01-30
 // PURPOSE: Arduino library for AD5593R, I2C, 8 channel ADC / DAC / GPIO device.
 //     URL: https://github.com/RobTillaart/AD5593R

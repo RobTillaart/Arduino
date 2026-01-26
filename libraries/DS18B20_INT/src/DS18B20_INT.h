@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2017-07-25
 // PURPOSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -25,13 +25,17 @@
 #include "OneWire.h"
 
 
-#define DS18B20_INT_LIB_VERSION       (F("0.3.4"))
+#define DS18B20_INT_LIB_VERSION       (F("0.3.5"))
 
-//  Error Code
-#define DEVICE_DISCONNECTED           -127
+//  Error Codes (not all used)
+const int DEVICE_DISCONNECTED = -127;
+const int DEVICE_CRC_ERROR    = -128;
+const int DEVICE_POR_ERROR    = -129;
+const int DEVICE_GND_ERROR    = -130;  //  parasitic power Vdd must GND
 
 
 typedef uint8_t DeviceAddress[8];
+typedef uint8_t ScratchPad[9];
 
 
 class DS18B20_INT
@@ -43,9 +47,10 @@ public:
   bool      getAddress(uint8_t * buf);
 
   void      requestTemperatures(void);
-  int16_t   getTempC(bool connectCheck = true);
+  int16_t   getTempC(bool checkConnect = true);
   bool      isConversionComplete(void);
 
+  //  for getTempCentiC()
   bool      setResolution(uint8_t resolution = 9);
   uint8_t   getResolution();  //  returns cached value
 
@@ -58,7 +63,7 @@ private:
   bool          _addressFound;
 
   uint8_t       _resolution;
-  int16_t       _readRaw();
+  void          readScratchPad(uint8_t *scratchPad, uint8_t fields);
   void          _setResolution();
 };
 

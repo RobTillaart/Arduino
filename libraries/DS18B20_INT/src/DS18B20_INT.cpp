@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.4
+// VERSION: 0.3.5
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -51,8 +51,8 @@ bool DS18B20_INT::isConnected(uint8_t retries)
     _oneWire->reset_search();
     _deviceAddress[0] = 0x00;
     _oneWire->search(_deviceAddress);
-    _addressFound = _deviceAddress[0] != 0x00 &&
-                _oneWire->crc8(_deviceAddress, 7) == _deviceAddress[7];
+    _addressFound = (_deviceAddress[0] != 0x00) &&
+                (_oneWire->crc8(_deviceAddress, 7) == _deviceAddress[7]);
   }
   return _addressFound;
 }
@@ -85,16 +85,25 @@ bool DS18B20_INT::isConversionComplete(void)
 }
 
 
-int16_t DS18B20_INT::getTempC(bool connectCheck)
+int16_t DS18B20_INT::getTempC(bool checkConnect)
 {
-  if (connectCheck)
+  ScratchPad scratchPad;
+  if (checkConnect)
   {
     if (isConnected(3) == false)
     {
       return DEVICE_DISCONNECTED;
     }
   }
-  int16_t rawTemperature = _readRaw();
+  readScratchPad(scratchPad, 2);
+  //  Power On Reset 85C error cannot be tested here
+  //  the 127.94 error can be checked here
+  if ((scratchPad[1] == 0x07) && (scratchPad[0] == 0xFF))
+  {
+    return DEVICE_GND_ERROR;
+  }
+
+  int16_t rawTemperature = (((int16_t)scratchPad[1]) << 8) | scratchPad[0];
   rawTemperature >>= 4;
   if (rawTemperature < -55)
   {
@@ -123,18 +132,26 @@ uint8_t DS18B20_INT::getResolution()
 
 int16_t DS18B20_INT::getTempCentiC(void)
 {
+  ScratchPad scratchPad;
   if (isConnected(3) == false)
   {
-    return DEVICE_DISCONNECTED;
+    return DEVICE_DISCONNECTED * 100;
   }
-  int16_t rawTemperature = _readRaw();
+  readScratchPad(scratchPad, 2);
+  //  Power On Reset 85C error cannot be tested here
+  //  the 127.94 error can be checked here
+  if ((scratchPad[1] == 0x07) && (scratchPad[0] == 0xFF))
+  {
+    return DEVICE_GND_ERROR * 100;
+  }
+  int16_t rawTemperature = (((int16_t)scratchPad[1]) << 8) | scratchPad[0];
   //  rawTemperature = rawTemperature * 100 / 16;
   rawTemperature *= 25;
-  rawTemperature >>= 2;
+  rawTemperature >>= 4;
   //  use at own risk. (not tested)
   if (rawTemperature < -5500)
   {
-    return DEVICE_DISCONNECTED * 100;
+    return DEVICE_DISCONNECTED;
   }
   return rawTemperature;
 }
@@ -144,16 +161,17 @@ int16_t DS18B20_INT::getTempCentiC(void)
 //
 //  PRIVATE
 //
-int16_t DS18B20_INT::_readRaw(void)
+void DS18B20_INT::readScratchPad(uint8_t *scratchPad, uint8_t fields)
 {
   _oneWire->reset();
   _oneWire->select(_deviceAddress);
   _oneWire->write(READSCRATCH);
 
-  int16_t rawTemperature = ((int16_t)_oneWire->read());
-  rawTemperature |= _oneWire->read() << 8;
+  for (uint8_t i = 0; i < fields; i++)
+  {
+    scratchPad[i] = _oneWire->read();
+  }
   _oneWire->reset();
-  return rawTemperature;
 }
 
 

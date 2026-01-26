@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2026-01-24
+- sync DS18B20_RT  (GND error)
+
 ## [0.3.4] - 2026-01-02
 - update GitHub actions
 - update examples

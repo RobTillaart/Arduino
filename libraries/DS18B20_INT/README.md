@@ -187,6 +187,38 @@ Note: thicker wires require smaller resistors (typically 1 step in E12 series)
 \* = no info, smaller?
 
 
+### Diagnostic notes
+
+It was noted that the library sometimes give unexpected values, and keep 
+sending these values.
+
+This is due to the fact that by default the CRC is not checked to speed up reading. 
+In fact, only the two temperature registers are read.
+
+Table of known "strange values" and actions one could take.
+It is meant to start some diagnosis.
+
+(note these are all known errors, not perse for this library)
+
+| value   | possible cause                      |  optional action  |
+|:--------|:------------------------------------|:------------------|
+|  0.0000 | data line has no pull up            |  use pull up
+| -0.0625 | data line is constantly pulled HIGH |  check GND
+| -127    | DISCONNECTED                        |  check wires
+| -128    | CRC error                           |  wrong pull up, bad sensor ? | 
+| -129    | POR error                           |  no convert done after power up. redo convert call.
+| -130    | GND error                           |  if parasitic mode, check Vdd must be connected to GND.
+
+If a value occurs only once in a while, wiring is often the cause, 
+or it can be caused by e.g. induction e.g. switching on a motor while 
+sensor is read.
+
+Additional notes:
+
+- https://github.com/milesburton/Arduino-Temperature-Control-Library/pull/289
+
+
+
 ## Performance
 
 To elaborate connected state.

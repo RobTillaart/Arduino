@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: DS18B20 lib getAddress demo
+// PURPOSE: measure performance
 //     URL: https://github.com/RobTillaart/DS18B20_INT
 
 

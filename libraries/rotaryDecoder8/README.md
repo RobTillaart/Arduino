@@ -11,15 +11,15 @@
 
 # rotaryDecoder8
 
-Arduino library for a PCF8575 based rotary decoder - supports 8 rotary encoders.
+Arduino library for a PCF8575 based rotary decoder - supports up to 8 rotary encoders.
 
 
 ## Description
 
 **Experimental**
 
-This library uses a PCF8575 to read the pulses of a rotary encoder.
-As a PCF8575 has 16 lines up to 8 decoders can be read over I2C.
+This library uses a PCF8575 to read the pulses of one or more rotary encoders.
+As a PCF8575 has 16 IO lines up to 8 decoders can be read over I2C.
 The PCF interrupt line can be used to detect changes in the position of the encoders.
 
 If less than 8 rotary encoders are connected one should use the lower bit lines as the 
@@ -41,6 +41,23 @@ As always, feedback is welcome.
 - https://github.com/RobTillaart/PCF8575
 
 
+### Hardware
+
+```
+// connect up to 8 rotary encoders to 1 PCF8575.
+//
+//  RotaryEncoder    PCF8575      UNO R3
+//  --------------------------------------
+//    pin A           pin 0
+//    pin B           pin 1
+//    ....            ....     (up to 8 RE)
+//
+//                    SDA         A4
+//                    SCL         A5
+//
+```
+
+
 ## Interface
 
 ```cpp
@@ -53,8 +70,8 @@ As always, feedback is welcome.
 constructor to set the address and optional the Wire bus.
 - **bool begin(uint8_t count = 8)** UNO ea. initializes the class. 
 count is the number of rotary encoders connected. (Max 8 per PCF8575)
-Returns true if the PCF8575 is on the I2C bus.
-- **bool isConnected()** returns true if the PCF8575 is on the I2C bus.
+Returns true if the PCF8575 address is found on the I2C bus.
+- **bool isConnected()** returns true if the PCF8575 address is found on the I2C bus.
 - **uint8_t getRECount()** returns number of RE's from begin(), 
 convenience e.g. for for loops.
 - **void reset()** reset all internal counters to 0.
@@ -63,7 +80,7 @@ convenience e.g. for for loops.
 
 - **uint16_t readInitialState()** read the initial state of the 4 rotary encoders. 
 Typically called in setup only, or after a sleep e.g. in combination with **setValue()**.
-This function returns the read state, saves an additional read8() call.
+This function returns the read state, saves an additional read() call.
 - **bool checkChange()** used for polling to see if one or more RE have changed.
 This function does NOT update the internal counters.
 - **bool update()** returns true if there is a change detected.
@@ -78,13 +95,15 @@ It updates the internal counters of the RE.
 This will add +1, +2 or +3 as it assumes that the rotary encoder 
 only goes into a single direction.
 Typical use is for a RPM measurement.
-Note that the **getValue()** can go 3x as fast if you turn in the other direction.
+Note that the **getValue()** can go 3x as fast if you turn in the opposite direction.
 Returns false if there is no change since last read.
+
+Note: a mix of single direction and bidirectional is not expected to work.
 
 
 ### Counters
 
-- **int32_t getValue(uint8_r re)** returns the RE counter.
+- **int32_t getValue(uint8_r re)** returns the position of the RE counter.
 If the parameter re > 7 then 0 is returned.
 The max value is ± 2147483647.
 - **bool setValue(uint8_r re, int32_t value = 0)** (re)set the internal counter to value, default 0.
@@ -96,6 +115,7 @@ If the parameter re > 7 then false is returned, true otherwise.
 **Warning**
 
 The **write1(pin, value)** might alter the state of the rotary encoder pins.
+Think of effect on the INT(errupt) pin.
 So this functionality should be tested thoroughly for your application.
 Especially the **write1()** is **experimental**, feedback welcome.
 
@@ -114,9 +134,11 @@ As said before the user must guard not to interfere with the
 rotary encoder pins.
 - **uint16_t read16()** read all pins in one I2C IO action. When one need to access multiple 
 input pins this is faster but need some bit masking.
-- **bool write16(uint16_t bitmask)** writes to multiple pins at once, e.g. to control multiple
+- **bool write16(uint16_t bitMask)** writes to multiple pins at once, e.g. to control multiple
 LEDs in one IO action. As said before the user must guard not to interfere with the
 rotary encoder pins.
+
+A typical use-case is to use the 8 lower pins for 4 RE, and the upper 8 for other IO.
 
 
 ### Debugging
@@ -158,6 +180,14 @@ At a 50% update percentage this implies a max of about
 
 Note that a high speed drill goes up to 30000 RPM = 500 RPS = 2000 interrupts per second, 
 assuming 4 pulses == 360°. (not tested)
+
+
+## Interrupts
+
+The PCF8575 has an INT pin which can be used to detect movement of one
+of the connected rotary encoders. 
+In issue #5 it became clear that some RE's give more than one pulse per tick. 
+So a point of attention for your project if it is interrupt based.
 
 
 ## Future

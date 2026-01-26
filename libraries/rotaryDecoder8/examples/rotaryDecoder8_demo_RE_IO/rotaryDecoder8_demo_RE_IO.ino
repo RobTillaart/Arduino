@@ -10,7 +10,7 @@
 //    connect one line to the other end of the switches to enable them
 //    connect a buzzer
 //
-//  RotaryEncoder     PCF8575      UNO
+//  RotaryEncoder     PCF8575      UNO R3
 //  --------------------------------------
 //   pin A            pin 0
 //   pin B            pin 1

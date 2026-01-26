@@ -62,6 +62,7 @@ The library allows two things
 1. take the average of many many samples where normally a summing float would "overflow"
 2. take the average of numbers that differ in order of magnitude.
 
+Feedback as always is welcome.
 
 
 ### Notes

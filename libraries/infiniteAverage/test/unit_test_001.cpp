@@ -49,7 +49,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
   IAVG iavg;
-  
+
   assertEqual(0, iavg.count());
   assertEqual(0, iavg.whole());
   assertEqualFloat(0, iavg.decimals(), 0.0001);

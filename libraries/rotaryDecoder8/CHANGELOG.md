@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.3] - 2026-01-22
-- fix #5, update example
-- update examples.
+- fix #5, update example interrupt
+- update examples
+- update readme.md
 - minor edits
 
 ## [0.1.2] - 2026-01-08

@@ -186,8 +186,31 @@ assuming 4 pulses == 360°. (not tested)
 
 The PCF8575 has an INT pin which can be used to detect movement of one
 of the connected rotary encoders. 
-In issue #5 it became clear that some RE's give more than one pulse per tick. 
-So a point of attention for your project if it is interrupt based.
+In issue #5 (rotaryDecoder8) it became clear that some (mechanical) rotary 
+encoders can give more than one pulse per tick. 
+In issue #5 the pulse per tick ratio was 4. 
+This is a point of attention for your project if it is interrupt based.
+
+The example **rotaryDecoder8_demo_interrupt.ino** shows a possible solution 
+how to handle these multiple interrupts per tick. 
+A static counter in the interrupt handler only sets the "new data" flag to read 
+the device every n-th interrupt.
+
+If you have different rotary encoders with different pulses per tick ratio's
+one should use the greatest common divider of the ratios.
+Ultimo this can imply that the interrupt handler should set the flag every 
+interrupt to prevent missing ticks.
+
+Also if you want to be able to turning multiple rotary encoders simultaneously, 
+there is a (small) chance that two (or more) pulses share the same interrupt. 
+In a scenario with 2 RE's, one could e.g. have only 7 interrupts instead of 8.
+To guarantee the capture of every change one has to set the pulses to tick ratio 
+to 1. This causes extra reads (== time/overhead) that show no movement.
+
+Note that if other devices e.g. switches are connected to the PCF8575, 
+there can be additional interrupts generated.
+In such scenario setting the pulse to tick ratio to 1 is also the safest 
+way to capture all changes.
 
 
 ## Future

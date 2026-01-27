@@ -24,12 +24,13 @@
 
 rotaryDecoder8 decoder(0x20);
 
-volatile bool flag = false;
+volatile bool newTickFlag = false;
 
 
 void moved()
 {
-  //  adjust if mechanical rotary encoder gives e.g. 4 pulses per tick 
+  //  adjust if mechanical rotary encoder gives e.g. 4 pulses per tick
+  //  see interrupt section readme.md
   //  see issue #5
   const int IRQ_PULSES_PER_TICK = 1;
   static int count = 0;
@@ -37,7 +38,7 @@ void moved()
   if (count == IRQ_PULSES_PER_TICK)
   {
     count = 0;
-    flag = true;
+    newTickFlag = true;
   }
 }
 
@@ -53,7 +54,7 @@ void setup()
 
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(0, moved, FALLING);
-  flag = false;
+  newTickFlag = false;
 
   Wire.begin();
   Wire.setClock(100000);
@@ -64,10 +65,10 @@ void setup()
 
 void loop()
 {
-  if (flag)
+  if (newTickFlag)
   {
     decoder.update();
-    flag = false;
+    newTickFlag = false;
     Serial.print(millis());
     for (uint8_t i = 0; i < 8; i++)
     {

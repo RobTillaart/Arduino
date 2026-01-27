@@ -1,0 +1,27 @@
+
+Jan 6, 2026, first light.
+
+No load / voltage connected to sensor.
+The dump registers should dump all defaults from the datasheet,
+except the STATUS which makes perfect sense as nothing was connected.
+
+BL0942_REG_I_WAVE:      0
+BL0942_REG_V_WAVE:      0
+BL0942_REG_I_RMS:       0
+BL0942_REG_V_RMS:       0
+BL0942_REG_I_FAST_RMS:  0
+BL0942_REG_WATT:        0
+BL0942_REG_CF_CNT:      800000
+BL0942_REG_FREQ:        4E20
+BL0942_REG_STATUS:      300
+BL0942_REG_I_RMSOS:     0
+BL0942_REG_WA_CREEP:    B
+BL0942_REG_I_FAST_RMS_TH:       FFFF
+BL0942_REG_I_FAST_RMS_CYC:      1
+BL0942_REG_FREQ_CYC:    3
+BL0942_REG_OT_FUNX:     24
+BL0942_REG_MODE:        87
+BL0942_REG_GAIN_CR:     2
+BL0942_REG_SOFT_RESET:  0
+BL0942_REG_USR_WRPROT:  0
+

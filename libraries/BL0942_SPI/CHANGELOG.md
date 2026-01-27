@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.0.1] - 2026-01-06
+
+## [0.1.1] - 2026-01-06
+- fix setUserMode() to force bit 0 and 1 to b1
+- add bit masks to getters and setters to get only valid bits.
+- add **resetSPI()**
+- improve example output (bit masking)
+- improve documentation / code comments
+- added conversion formulas
+- many small edits / fixes.
+
+## [0.1.0] - 2026-01-06
 - initial release
 
 ## [0.0.0] - 2025-12-29

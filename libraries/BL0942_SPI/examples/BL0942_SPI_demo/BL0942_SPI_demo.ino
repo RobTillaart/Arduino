@@ -52,7 +52,7 @@ void setup()
   Serial.print("BL0942_REG_FREQ:\t");
   Serial.println(mySensor.getFrequency());
   Serial.print("BL0942_REG_STATUS:\t");
-  Serial.println(mySensor.getStatus());
+  Serial.println(mySensor.getStatus(), HEX);
 
 
   Serial.println("\nREAD WRITE\n");
@@ -70,7 +70,7 @@ void setup()
 
 
   Serial.print("BL0942_REG_OT_FUNX:\t");
-  Serial.println(mySensor.getOutputConfigMask());
+  Serial.println(mySensor.getOutputConfigMask(), HEX);
   Serial.print("BL0942_REG_MODE:\t");
   Serial.println(mySensor.getUserMode());
   Serial.print("BL0942_REG_GAIN_CR:\t");

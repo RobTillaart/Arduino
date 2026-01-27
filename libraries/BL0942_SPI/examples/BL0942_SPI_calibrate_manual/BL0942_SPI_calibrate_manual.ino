@@ -1,5 +1,5 @@
 //
-//    FILE: BL0942_SPI_calibrate_test.ino
+//    FILE: BL0942_SPI_calibrate_manual.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: verify the formulas against the magic numbers from other lib
 //     URL: https://github.com/RobTillaart/BL0942_SPI

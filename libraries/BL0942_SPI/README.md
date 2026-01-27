@@ -65,7 +65,7 @@ There are two different BL0942 modules, one with 10 pins, and one with
 |     IN    |     3    |     3    |  current channel
 |     VP    |     4    |     4    |  voltage channel
 |    GND    |     5    |     5    |  ground
-|    CF1    |     6    |     6    |  output 1
+|    CF1    |     6    |     6    |  output 1 (pulse output)
 |    SEL    |     7    |    11    |  LOW = UART  HIGH = SPI
 |  CLK/BAUD |     8    |    12    |  SPI clock / BAUD select
 |   RX/SDI  |     9    |    13    |  serial data in
@@ -73,8 +73,8 @@ There are two different BL0942 modules, one with 10 pins, and one with
 |           |          |          |
 |    A1     |          |     6    |  address pin, GND in SPI
 |  A2_NCS   |          |     7    |  address pin, SELECT in SPI
-|   CF2     |          |     8    |  output 2
-|    ZX     |          |     9    |  zero crossing
+|   CF2     |          |     8    |  output 2 (pulse output)
+|    ZX     |          |     9    |  zero crossing (pulse output)
 
 Note: use pull ups on the serial data / clock lines.
 
@@ -146,9 +146,9 @@ Indicative figures (in microseconds per call)
 
 |  SPI  |  Function     |  UNO R3  |  ESP32  |  RP2040  |
 |:-----:|:-------------:|:--------:|:-------:|:--------:|
-|   HW  |  Calibrate    |    4     |         |          |
+|   HW  |  Calibrate    |     4    |         |          |
 |   HW  |  RW register  |   116    |         |          |
-|   SW  |  Calibrate    |    4     |         |          |
+|   SW  |  Calibrate    |     4    |         |          |
 |   SW  |  RW register  |   924    |         |          |
 
 
@@ -276,8 +276,8 @@ Read datasheet for details.
 
 ### RMS offset
 
-- **float getCurrentRMSOffset()**
-- **void setCurrentRMSOffset(float offset)**  TODO
+- **float getCurrentRMSOffset()** returns set offset.
+- **void setCurrentRMSOffset(float offset)** set offset in Amperes.
 
 
 ### Power creep
@@ -292,7 +292,7 @@ and will not be accounted for as Power and Energy.
 ### Fast RMS threshold
 
 - **float getFastRMSThreshold()**
-- **void setFastRMSThreshold(float threshold)**  TODO
+- **void setFastRMSThreshold(float threshold)**
 
 
 ### Fast RMS cycles
@@ -326,6 +326,8 @@ and will not be accounted for as Power and Energy.
 
 ### Output configuration
 
+To set the (pulsed) output of the CF1, CF2 and the ZX pins.
+
 - **uint8_t getOutputConfigMask()**
 - **void setOutputConfigMask(uint8_t mask)** mask = 0..63
 
@@ -351,7 +353,10 @@ Register 0x18, mask values should be OR-ed.
 
 ### UserMode
 
-See datasheet for details
+See datasheet for details.
+
+To be able to write to the UserMode register, one must call **setWriteProtect(false)**.
+See below.
 
 - **uint16_t getUserMode()**
 - **void setUserMode(uint16_t mode)** mode = 0x0000 .. 0x03FF (default 0x087)
@@ -408,8 +413,6 @@ Read datasheet for details.
 
 Read datasheet for details.
 
-TODO this way or reverse?
-
 - **uint8_t getWriteProtect()** returns current write protect status.
 - **void setWriteProtect(bool wp)**
   - wp = true => write protected
@@ -425,9 +428,11 @@ Has no effect on software SPI.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true / false depending on constructor.
 
-_3.1.3 Fault Tolerant Mechanism of SPI Interface
+_3.1.3 Fault Tolerant Mechanism of SPI Interface_
 If MCU send 6 bytes (0xFF), the BL0942 perform a reset function 
-on the SPI communication interface. => **resetSPI()** (not implemented)_
+on the SPI communication interface.
+This might also affect configuration - to be verified!
+- **void resetSPI()** not tested.
 
 
 ### Error
@@ -457,20 +462,19 @@ To set the channel selector call back function.
 #### Must
 
 - improve documentation
-  - fix / fill TODO's
+  - elaborate all functions.
 - get API functional complete
-  - fix TODO's in code
-  - verify proper working of all functions (configuration ones)
+- verify proper working of all functions (including configuration ones)
 - get hardware to test
-- test software SPI communication.
 
 #### Should
 
 - **resetSPI()** function?  section 3.1.3
 - software SPI force under SPI max speed 
   - depending on performance / hard delayMicroseconds() for now.
+    (it could measure time for first call and switch on/off delay)
+    (#ifdef FCPU ... ?)
   - make it configurable? 
-- performance measurements
 
 #### Could
 
@@ -478,8 +482,10 @@ To set the channel selector call back function.
 - improve error handling
 - investigate unit tests
 - default parameters for simple reset?
+- performance measurements
 
 #### Wont
+- mA interface? float can easily be converted (also other units).
 
 
 ## Support

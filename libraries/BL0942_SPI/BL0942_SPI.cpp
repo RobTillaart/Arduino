@@ -2,7 +2,7 @@
 //    FILE: BL0942_SPI.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-12-29
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for BL0942 energy monitor, SPI interface.
 //     URL: https://github.com/RobTillaart/BL0942_SPI
 
@@ -58,12 +58,14 @@ const float BL0942_MAGIC_POWER   = 3537000000;
 //
 BL0942_SPI::BL0942_SPI(__SPI_CLASS__ * mySPI)
 {
+  //  255 is not used on any known board.
   BL0942_SPI(255, mySPI);
 }
 
 BL0942_SPI::BL0942_SPI(uint8_t select, __SPI_CLASS__ * mySPI)
 {
   _select   = select;
+  //  255 is not used on any known board.
   _dataIn   = 255;
   _dataOut  = 255;
   _clock    = 255;
@@ -132,7 +134,7 @@ void BL0942_SPI::calibrate(float shunt, float reductionFactor)
   _powerLSB  /= (BL0942_MAGIC_POWER * shunt);
 
   //  optimized formula
-  _energyLSB  = (1638.4 * 256 / 3600000) * _powerLSB;
+  _energyLSB  = ((1638.4 * 256) / 3600000) * _powerLSB;
 }
 
 float BL0942_SPI::getVoltageLSB()
@@ -186,47 +188,53 @@ void BL0942_SPI::setEnergyLSB(float energyLSB)
 //
 float BL0942_SPI::getIWave()
 {
+  //  signed 20 bit
   int32_t raw = readRegister(BL0942_REG_I_WAVE);
+  raw &= 0xFFFFF;
   //  extend sign bit
-  if (raw & 0x00040000) raw |= 0xFFF0000;
-  //  TODO formula units?
+  if (raw & 0x00080000) raw |= 0xFFF0000;
   return raw * _currentLSB;
 }
 
 float BL0942_SPI::getVWave()
 {
+  //  signed 20 bit
   int32_t raw = readRegister(BL0942_REG_V_WAVE);
+  raw &= 0xFFFFF;
   //  extend sign bit
-  if (raw & 0x00040000) raw |= 0xFFF0000;
+  if (raw & 0x00080000) raw |= 0xFFF0000;
   return raw * _voltageLSB;
 }
 
 float BL0942_SPI::getIRMS()
 {
-  //  unsigned
+  //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_I_RMS);
+  raw &= 0xFFFFFF;
   return raw * _currentLSB;
 }
 
 float BL0942_SPI::getVRMS()
 {
-  //  unsigned
+  //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_V_RMS);
-  //  RMS factor?
+  raw &= 0xFFFFFF;
   return raw * _voltageLSB;
 }
 
 float BL0942_SPI::getIRMSFast()
 {
-  //  unsigned
+  //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_I_FAST_RMS);
-  //  RMS factor?
+  raw &= 0xFFFFFF;
   return raw * _currentLSB;
 }
 
 float BL0942_SPI::getWatt()
 {
+  //  signed 24 bit
   int32_t raw = readRegister(BL0942_REG_WATT);
+  raw &= 0xFFFFFF;
   //  extend sign bit
   if (raw & 0x00800000) raw |= 0xFF00000;
   return raw * _powerLSB;
@@ -234,32 +242,36 @@ float BL0942_SPI::getWatt()
 
 uint32_t BL0942_SPI::getCFPulseCount()
 {
-  //  unsigned
+  //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_CF_CNT);
+  raw &= 0xFFFFFF;
   return raw;
 }
 
 float BL0942_SPI::getEnergy()
 {
-  //  unsigned
+  //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_CF_CNT);
+  raw &= 0xFFFFFF;
   return raw * _energyLSB;
 }
 
 float BL0942_SPI::getFrequency()
 {
-  //  unsigned
+  //  unsigned 16 bit
   uint32_t raw = readRegister(BL0942_REG_FREQ);
+  raw &= 0xFFFF;
   //  page 19 formula  default 20000 == 50 Hz
   return 1e6 / raw;
 }
 
-//  only 10 bits defined,
-//  see BL0942.h file
+
 uint16_t BL0942_SPI::getStatus()
 {
+  //  only 10 bits defined, see BL0942.h file
   uint32_t raw = readRegister(BL0942_REG_STATUS);
-  return raw & 0x03FF;
+  uint16_t status = raw & 0x03FF;
+  return status;
 }
 
 
@@ -269,27 +281,32 @@ uint16_t BL0942_SPI::getStatus()
 //
 float BL0942_SPI::getCurrentRMSOffset()
 {
+  //  unclear signed or not => signed makes more sense for offset.
   int32_t raw = readRegister(BL0942_REG_I_RMSOS);
-  //  TODO formula units?
-  //  _currentLSB  ?
-  return raw;
+  raw &= 0xFF;
+  //  verify formula units
+  return raw * _currentLSB;
 }
 
 void BL0942_SPI::setCurrentRMSOffset(float offset)
 {
-  uint8_t raw = offset;  //  _currentLSB  ?
+  //  verify formula units
+  uint8_t raw = offset / _currentLSB;
   writeRegister(BL0942_REG_I_RMSOS, raw);
 }
 
 float BL0942_SPI::getPowerCreep()
 {
+  //  unsigned ?, 8 bits
   int32_t raw = readRegister(BL0942_REG_WA_CREEP);
+  raw &= 0xFF;
   float watt = raw * (3125.0/256.0);
   return watt;
 }
 
 void BL0942_SPI::setPowerCreep(float watt)
 {
+  //  8 bits
   uint8_t raw = watt * (256.0 / 3125.0);
   writeRegister(BL0942_REG_WA_CREEP, raw);
 }
@@ -300,22 +317,27 @@ void BL0942_SPI::setPowerCreep(float watt)
 //  ==> there must be a factor 256 somewhere.
 float BL0942_SPI::getFastRMSThreshold()
 {
+  //  unsigned 16 bits (as RMS is always >= 0)
   uint16_t raw = readRegister(BL0942_REG_I_FAST_RMS_TH);
-  //  TODO formula units?
-  //  raw * _currentLSB * 256;
-  return raw;
+  raw &= 0xFFFF;
+  //  verify formula units
+  return raw * _currentLSB * 256;
 }
 
 void BL0942_SPI::setFastRMSThreshold(float threshold)
 {
-  uint16_t raw = threshold;
+  //  unsigned 16 bits (as RMS is always >= 0)
+  //  verify formula units
+  uint16_t raw = threshold / (_currentLSB * 256);
   writeRegister(BL0942_REG_I_FAST_RMS_TH, raw);
 }
 
 
 uint8_t BL0942_SPI::getFastRMSCycles()
 {
+  //  3 bits
   uint8_t raw = readRegister(BL0942_REG_I_FAST_RMS_CYC);
+  raw &= 0x07;
   return raw;
 }
 
@@ -326,6 +348,7 @@ uint8_t BL0942_SPI::getFastRMSCycles()
 //  4..7 == 8 cycles
 void BL0942_SPI::setFastRMSCycles(uint8_t cycles)
 {
+  //  3 bits
   uint8_t raw = cycles;
   if (raw > 7) raw = 7;
   writeRegister(BL0942_REG_I_FAST_RMS_CYC, raw);
@@ -334,12 +357,15 @@ void BL0942_SPI::setFastRMSCycles(uint8_t cycles)
 
 uint8_t BL0942_SPI::getFrequencyCycles()
 {
+  //  2 bits
   uint8_t raw = readRegister(BL0942_REG_FREQ_CYC);
+  raw &= 0x03;
   return raw;
 }
 
 void BL0942_SPI::setFrequencyCycles(uint8_t cycles)
 {
+  //  2 bits
   uint8_t raw = cycles;
   if (raw > 3) raw = 3;
   writeRegister(BL0942_REG_FREQ_CYC, raw);
@@ -347,58 +373,73 @@ void BL0942_SPI::setFrequencyCycles(uint8_t cycles)
 
 uint8_t BL0942_SPI::getOutputConfigMask()
 {
+  //  6 bits
   uint8_t raw = readRegister(BL0942_REG_OT_FUNX);
+  raw &= 0x3F;
   return raw;
 }
 
 void BL0942_SPI::setOutputConfigMask(uint8_t mask)
 {
+  //  6 bits
   uint8_t raw = mask;
-  if (raw > 63) raw = 63;
+  //  what values are OK? easy to test?
+  raw &= 0x3F;
   writeRegister(BL0942_REG_OT_FUNX, raw);
 }
 
 uint16_t BL0942_SPI::getUserMode()
 {
+  //  8 bits out of 10
   uint16_t raw = readRegister(BL0942_REG_MODE);
+  raw &= 0x03FC;
   return raw;
 }
 
 void BL0942_SPI::setUserMode(uint16_t mode)
 {
+  //  8 bits out of 10
   uint16_t raw = mode;
   //  limit to 10 bits
   raw &= 0x03FF;
+  //  force bits 0,1 to b1
+  raw |= 0x0003;
   writeRegister(BL0942_REG_MODE, raw);
 }
 
 uint8_t BL0942_SPI::getCurrentGain()
 {
+  //  2 bits
   uint8_t raw = readRegister(BL0942_REG_GAIN_CR);
+  raw &= 0x03;
   return raw;
 }
 
 void BL0942_SPI::setCurrentGain(uint8_t gain)
 {
+  //  2 bits
   uint8_t raw = gain;
-  if (raw > 3) raw = 3;
+  raw &= 0x03;
   writeRegister(BL0942_REG_GAIN_CR, raw);
 }
 
 void BL0942_SPI::softReset()
 {
-  const uint32_t SOFT_RESET = 0x5A5A5A;  //  magic number
+  //  24 bit magic number
+  const uint32_t SOFT_RESET = 0x5A5A5A;
   writeRegister(BL0942_REG_SOFT_RESET, SOFT_RESET);
 }
 
 uint8_t BL0942_SPI::getWriteProtect()
 {
+  //  8 bit magic number
   uint8_t raw = readRegister(BL0942_REG_USR_WRPROT);
   return raw;
 }
 
 void BL0942_SPI::setWriteProtect(bool wp)
 {
+  //  8 bit magic number
   const uint32_t WRITE_PROTECT = 0x55;  //  magic number
   writeRegister(BL0942_REG_USR_WRPROT, wp ? 0 : WRITE_PROTECT);
 }
@@ -413,7 +454,10 @@ void BL0942_SPI::setSPIspeed(uint32_t speed)
   //  datasheet page 20, section 3.1
   //  900 KHz max datasheet
   _SPIspeed = speed;
-  if (_SPIspeed > BL0942_SPI_MAX_SPEED) _SPIspeed = BL0942_SPI_MAX_SPEED;
+  if (_SPIspeed > BL0942_SPI_MAX_SPEED)
+  {
+    _SPIspeed = BL0942_SPI_MAX_SPEED;
+  }
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 }
 
@@ -425,6 +469,31 @@ uint32_t BL0942_SPI::getSPIspeed()
 bool BL0942_SPI::usesHWSPI()
 {
   return _hwSPI;
+}
+
+
+void BL0942_SPI::resetSPI()
+{
+  if (_hwSPI)  //  Hardware SPI
+  {
+    _mySPI->beginTransaction(_spi_settings);
+    select(true);
+    for (int i = 0; i < 6; i++)
+    {
+      _mySPI->transfer(0xFF);
+    }
+    select(false);
+    _mySPI->endTransaction();
+  }
+  else         //  Software SPI
+  {
+    select(true);
+    for (int i = 0; i < 6; i++)
+    {
+      swSPI_transfer(0xFF);
+    }
+    select(false);
+  }
 }
 
 

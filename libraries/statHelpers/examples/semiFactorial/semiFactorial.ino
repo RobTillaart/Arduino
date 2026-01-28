@@ -2,7 +2,6 @@
 //    FILE: semiFactorial.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-08-05
 //     URL: https://github.com/RobTillaart/statHelpers
 
 
@@ -16,6 +15,7 @@ uint32_t start, duration1, duration2, duration3;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATHELPERS_LIB_VERSION: ");
   Serial.println(STATHELPERS_LIB_VERSION);
@@ -36,7 +36,7 @@ void setup()
     Serial.println();
   }
   Serial.println();
-  
+
   Serial.println("PERFORMANCE");
   Serial.println("n\tsemiFactorial, semiFactorial64, dSemiFactorial usec\t values");
   delay(100);

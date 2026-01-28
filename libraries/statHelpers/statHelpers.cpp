@@ -1,7 +1,7 @@
 //
 //    FILE: statHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -177,7 +177,7 @@ double dfactorial(uint8_t n)
 }
 
 
-//  stirling is an approximation function for factorial(n).
+//  Stirling is an approximation function for factorial(n).
 //  it is slower but constant in time.
 //  float  => 26!
 //  double => 143!

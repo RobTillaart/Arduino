@@ -25,8 +25,10 @@ Note that these are very computation (time) intensive so not suited for real tim
 
 To print very large numbers - https://github.com/RobTillaart/PrintHelpers
 
+Feedback as always is welcome.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
@@ -52,9 +54,9 @@ Returns how many different ways one can choose a set of k elements from a set of
 The order does matter so (1, 2) is not equal to (2, 1). 
 The limits mentioned is the n for which all k still work.
 
-- **uint32_t permutations(n, k)** exact up to n = 12
-- **uint64_t permutations64(n, k)** exact up to n = 20
-- **double dpermutations(n, k)** not exact up to n = 34 (4 byte) or n = 170 (8 byte)
+- **uint32_t permutations(uint8_t n, uint8_t k)** exact up to n = 12
+- **uint64_t permutations64(uint8_t n, uint8_t k)** exact up to n = 20
+- **double dpermutations(uint8_t n, uint8_t k)** not exact up to n = 34 (4 byte) or n = 170 (8 byte)
 
 If you need a larger n but k is near 0 the functions will still work.
 To which value of k the formulas work differs per value for n. 
@@ -70,10 +72,10 @@ other same code examples exist.
 
 ### Factorial
 
-- **uint32_t factorial(n)** exact up to n = 12.
-- **uint64_t factorial64(n)** exact up to n = 20.  (Print 64 bit integers with my printHelpers)
-- **double dfactorial(n)** not exact up to n = 34. (double == 4 byte) or n = 170 (double == 8 byte).
-- **double stirling(n)** approximation function for factorial (right magnitude).
+- **uint32_t factorial(uint8_t n)** exact up to n = 12.
+- **uint64_t factorial64(uint8_t n)** exact up to n = 20.  (Print 64 bit integers with my printHelpers)
+- **double dfactorial(uint8_t n)** not exact up to n = 34. (double == 4 byte) or n = 170 (double == 8 byte).
+- **double stirling(uint8_t n)** approximation function for factorial (right magnitude).
 Constant run-time.
 
 **dfactorial()** is quite accurate over the whole range.
@@ -92,9 +94,9 @@ SemiFactorial are defined for
 
 Example 12!! = 12 x 10 x 8 x 6 x 4 x 2 = 46080
 
-- **uint32_t semiFactorial(n)** exact up to 20!!
-- **uint64_t semiFactorial64(n)** exact up to 33!!  (Print 64 bit integers with printHelpers library)
-- **double dSemiFactorial(n)** not exact up to 56!! (4 byte) or 300!! (8 byte)
+- **uint32_t semiFactorial(uint8_t n)** exact up to 20!!
+- **uint64_t semiFactorial64(uint8_t n)** exact up to 33!!  (Print 64 bit integers with printHelpers library)
+- **double dSemiFactorial(uint16_t n)** not exact up to 56!! (4 byte) or 300!! (8 byte)
 
 
 Notes:  
@@ -142,11 +144,11 @@ The order does **not** matter so (1, 2) is equal to (2, 1).
 The number of combinations grows fast so n is limited per function.
 The limits mentioned is the n for which all k still work.
 
-- **uint32_t combinations(n, k)**     n = 0 .. 30 (iterative version)
-- **uint64_t combinations64(n, k)**   n = 0 .. 61 (iterative version)
-- **uint32_t rcombinations(n, k)**    n = 0 .. 30 (recursive version, slightly slower)
-- **uint64_t rcombinations64(n, k)**  n = 0 .. 61 (recursive version, slightly slower)
-- **double dcombinations(n, k)**      n = 0 .. 125 (4bit)  n = 0 .. 1020 (8 bit) 
+- **uint32_t combinations(uint16_t n, uint16_t k)**     n = 0 .. 30 (iterative version)
+- **uint64_t combinations64(uint16_t n, uint16_t k)**   n = 0 .. 61 (iterative version)
+- **uint32_t rcombinations(uint16_t n, uint16_t k)**    n = 0 .. 30 (recursive version, slightly slower)
+- **uint64_t rcombinations64(uint16_t n, uint16_t k)**  n = 0 .. 61 (recursive version, slightly slower)
+- **double dcombinations(uint16_t n, uint16_t k)**      n = 0 .. 125 (4bit)  n = 0 .. 1020 (8 bit) 
 
 If you need a larger n but k is near 0 the functions will still work.
 To which value of k the formulas work differs per value for n. 
@@ -171,9 +173,9 @@ This sketch is added to this library as it fits in the context.
 
 - **void bigFactorial(uint32_t n, double &mantissa, uint32_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent. 
-- **void bigPermutation(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)** 
+- **void bigPermutations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent. 
-- **void bigCombination(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)** 
+- **void bigCombinations(uint32_t n, uint32_t k, double &mantissa, uint32_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent. 
 
 An experimental **bigFactorial(n)** calculation to get an idea of the big numbers. 
@@ -181,11 +183,11 @@ it can calculate factorials up to an exponent of 4294967295 max.  100.000.000! c
 done in 38 minutes on an ESP32 at 240 MHz.  
 Maximum value for n is **518678059! ==  2.1718890e4294967292** a number that took ~10 hours to calculate. 
 
-An experimental **bigPermutation(n, k)** calculation, to handle big numbers too. 
+An experimental **bigPermutations(n, k)** calculation, to handle big numbers too. 
 Maximum value for n is **518678059** to have full range support. For small(er) 
 values of k, n can even be much larger, but not larger than 4294967295 max.
 
-An experimental **bigCombination(n, k)** calculation for big numbers. 
+An experimental **bigCombinations(n, k)** calculation for big numbers. 
 Not investigated what its maximum value is, but it should be higher than **518678059** as the number 
 of combinations is always smaller than number of permutations.
 
@@ -198,9 +200,9 @@ and **bigCombinations64(n, k)** would work fast for small values of k.
 
 - **void bigFactorial64(uint64_t n, double &mantissa, uint64_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent.
-- **void bigPermutation64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
+- **void bigPermutations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent.
-- **void bigCombination64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
+- **void bigCombinations64(uint64_t n, uint64_t k, double &mantissa, uint64_t &exponent)** 
 returns a double mantissa between 0 and 10, and an integer exponent.
 
 If someone has found the limits of these 64 bit versions, please let me know.

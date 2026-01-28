@@ -2,7 +2,6 @@
 //    FILE: factorial_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
 
 
@@ -16,6 +15,7 @@ uint32_t start, duration1, duration2, duration3;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATHELPERS_LIB_VERSION: ");
   Serial.println(STATHELPERS_LIB_VERSION);

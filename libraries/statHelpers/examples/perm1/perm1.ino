@@ -1,7 +1,6 @@
 //
 //    FILE: perm1.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2010-11-23
 // PURPOSE: demo permutations
 //     URL: https://github.com/RobTillaart/statHelpers
 //
@@ -49,6 +48,7 @@ void permutate(char * array, uint8_t n)
 void setup()
 {
   Serial.begin(500000);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATHELPERS_LIB_VERSION: ");
   Serial.println(STATHELPERS_LIB_VERSION);
@@ -62,7 +62,7 @@ void setup()
   start = millis();
   permutate(permstring, strlen(permstring));
   stop = millis();
-  
+
   Serial.print("TIME: ");
   Serial.println(stop - start);
 }

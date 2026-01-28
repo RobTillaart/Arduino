@@ -17,6 +17,7 @@ volatile uint32_t x;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATHELPERS_LIB_VERSION: ");
   Serial.println(STATHELPERS_LIB_VERSION);
@@ -46,7 +47,7 @@ void setup()
   Serial.println();
 
   ///////////////////////////////////////////
-  // 
+  //
   // tests are commented as they take serious time.
 
   /*

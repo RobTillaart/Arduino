@@ -2,7 +2,6 @@
 //    FILE: bigCombinations.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-08-06
 //     URL: https://github.com/RobTillaart/statHelpers
 
 
@@ -17,6 +16,7 @@ volatile uint32_t x;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATHELPERS_LIB_VERSION: ");
   Serial.println(STATHELPERS_LIB_VERSION);

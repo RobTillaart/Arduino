@@ -2,7 +2,6 @@
 //    FILE: nextPermutation.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
 
 
@@ -20,6 +19,7 @@ uint32_t start, duration1;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATHELPERS_LIB_VERSION: ");
   Serial.println(STATHELPERS_LIB_VERSION);
@@ -61,10 +61,11 @@ void setup()
   start = micros();
   while (nextPermutation<uint8_t>(score2, 6));
   duration1 = micros() - start;
-  Serial.println("\ntiming 120 permutations only");
+  Serial.println("\ntiming 720 permutations only");
   Serial.print("time:\t");
   Serial.println(duration1);
-
+  delay(10);
+ 
   Serial.println("\nDone...");
 }
 
@@ -75,4 +76,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

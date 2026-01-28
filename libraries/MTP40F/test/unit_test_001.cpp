@@ -72,7 +72,7 @@ unittest(test_constants)
 unittest(test_constructor)
 {
   MTP40F sensor = MTP40F(&Serial);
-  
+
   assertEqual(5, sensor.getType());
   assertTrue(sensor.begin());
   assertEqual(100, sensor.getTimeout());
@@ -98,7 +98,7 @@ unittest(test_air_pressure)
   //  millis() does not work...
   //  so it will return last known value...
   // assertEqual(0, sensor.getAirPressureReference());
-  
+
   assertFalse(sensor.getSuppressError());
   sensor.suppressError(true);
   assertTrue(sensor.getSuppressError());
@@ -126,7 +126,7 @@ unittest(test_gas_concentration)
   sensor.suppressError(true);
   assertEqual(0, sensor.getGasConcentration());
   sensor.suppressError(false);
-  
+
   //  no communication
   //  assertEqual(MTP40F_INVALID_GAS_LEVEL, sensor.getGasConcentration());
 }

@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.2] - 2026-01-26
+- update GitHub actions
+- reorder MTP40F.h with readme.md
+- reo keywords.txt
+- minor edits
+
 ## [0.2.1] - 2025-05-26
 - added default constructor
 
 ## [0.2.0] - 2024-02-20
 - add CRC check in **request()**, thanks to DaveDavenport
   - failing CRC indicates communication error.
-- added **MTP40F_INVALID_CRC** 
+- added **MTP40F_INVALID_CRC**
 - update unit test
 - add section about multi device / multiplexer to readme.md
 - minor edits examples

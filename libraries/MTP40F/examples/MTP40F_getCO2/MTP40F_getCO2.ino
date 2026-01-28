@@ -41,9 +41,11 @@ int lines = 10;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MTP40F_LIB_VERSION:\t");
   Serial.println(MTP40F_LIB_VERSION);
+  Serial.println();
 
   //  sws.begin(9600);
   Serial1.begin(9600);

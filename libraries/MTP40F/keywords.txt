@@ -7,18 +7,19 @@ MTP40F	KEYWORD1
 # Methods and Functions (KEYWORD2)
 setStream	KEYWORD2
 begin	KEYWORD2
-isConnected	KEYWORD2
+getType	KEYWORD2
 
-getAddress	KEYWORD2
-setAddress	KEYWORD2
+getGasConcentration	KEYWORD2
+suppressError	KEYWORD2
+getSuppressError	KEYWORD2
+lastError	KEYWORD2
+lastRead	KEYWORD2
+
+setTimeout	KEYWORD2
+getTimeout	KEYWORD2
 
 getAirPressureReference	KEYWORD2
 setAirPressureReference	KEYWORD2
-
-getGasConcentration	KEYWORD2
-
-suppressError	KEYWORD2
-getSuppressError	KEYWORD2
 
 setSinglePointCorrection	KEYWORD2
 getSinglePointCorrectionReady	KEYWORD2
@@ -29,18 +30,6 @@ getSelfCalibrationStatus	KEYWORD2
 setSelfCalibrationHours	KEYWORD2
 getSelfCalibrationHours	KEYWORD2
 
-setGenericAddress	KEYWORD2
-setSpecificAddress	KEYWORD2
-useSpecificAddress	KEYWORD2
-
-setTimeout	KEYWORD2
-getTimeout	KEYWORD2
-
-lastRead	KEYWORD2
-
-getType	KEYWORD2
-lastError	KEYWORD2
-
 
 # Constants (LITERAL1)
 MTP40F_LIB_VERSION	LITERAL1
@@ -50,7 +39,8 @@ MTP40F_DEFAULT_ADDRESS	LITERAL1
 MTP40F_OK	LITERAL1
 MTP40F_INVALID_AIR_PRESSURE	LITERAL1
 MTP40F_INVALID_GAS_LEVEL	LITERAL1
-MTP40F_INVALID_ADDRESS	LITERAL1
 MTP40F_INVALID_CRC	LITERAL1
+MTP40F_NO_STREAM	LITERAL1
+MTP40F_INVALID_ADDRESS	LITERAL1
 MTP40F_REQUEST_FAILED	LITERAL1
 

@@ -40,10 +40,11 @@ uint32_t start;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("MTP40F_LIB_VERSION:\t");
   Serial.println(MTP40F_LIB_VERSION);
+  Serial.println();
 
   sws.begin(19200);
   mtp.begin();

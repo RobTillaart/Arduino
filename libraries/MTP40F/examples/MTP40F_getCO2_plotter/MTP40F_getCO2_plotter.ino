@@ -38,9 +38,11 @@ MTP40F mtp(&sws);       // use hardware Serial1 for MTP40F sensor
 void setup()
 {
   Serial.begin(115200);
+  // Serial.println();
   // Serial.println(__FILE__);
   // Serial.print("MTP40F_LIB_VERSION:\t");
   // Serial.println(MTP40F_LIB_VERSION);
+  // Serial.println();
 
   sws.begin(9600);
   mtp.begin();

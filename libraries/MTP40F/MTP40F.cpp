@@ -2,7 +2,7 @@
 //    FILE: MTP40F.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -102,7 +102,7 @@ uint32_t MTP40F::getGasConcentration()
   if (request(cmd, 9, 14) )
   {
     uint8_t status = _buffer[11];
-    if (status == 0x00) 
+    if (status == 0x00)
     {
       _gasLevel =  _buffer[7];
       _gasLevel <<= 8;

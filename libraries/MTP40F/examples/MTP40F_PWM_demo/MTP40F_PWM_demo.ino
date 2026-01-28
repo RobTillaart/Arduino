@@ -18,7 +18,11 @@ uint8_t interruptPin = 3;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  //  Serial.print("MTP40F_LIB_VERSION:\t");
+  //  Serial.println(MTP40F_LIB_VERSION);
+  Serial.println();
 
   pinMode(interruptPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(interruptPin), mtp40F_irq, CHANGE);

@@ -3,7 +3,7 @@
 //    FILE: MTP40F.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-25
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for MTP40F CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40F
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MTP40F_LIB_VERSION                    (F("0.2.1"))
+#define MTP40F_LIB_VERSION                    (F("0.2.2"))
 
 
 #define MTP40F_DEFAULT_ADDRESS                0x64
@@ -28,44 +28,48 @@
 class MTP40F
 {
 public:
+  //  CONSTRUCTOR
   MTP40F();
   MTP40F(Stream * stream);
-
   void     setStream(Stream * stream);
-
   bool     begin();
+  //       2 = MTP40C - other library
+  //       3 = MTP40D - other library
+  //       5 = MTP40F
+  uint8_t  getType()  { return _type; };
 
+
+  //  CO2 measurement
+  uint32_t getGasConcentration();  //  returns PPM
+  void     suppressError(bool suppress) { _suppressError = suppress; };
+  bool     getSuppressError()           { return _suppressError; };
+  int      lastError();
+  uint32_t lastRead() { return _lastRead; };
+  
+
+  //  TIME-OUT
+  //  set timeout of serial communication.
+  void     setTimeout(uint32_t timeout = 100) { _timeout = timeout; };
+  uint32_t getTimeout() { return _timeout; };
+
+
+  //  AIR pressure
   int      getAirPressureReference();
   bool     setAirPressureReference(int apr = 1013);
 
-  uint32_t getGasConcentration();  //  returns PPM
 
-  void     suppressError(bool se) { _suppressError = se; };
-  bool     getSuppressError()     { return _suppressError; };
-
-  //  CALIBRATION FUNCTIONS
-  //  READ DATASHEET !!
+  //  Single Point correction
   bool     setSinglePointCorrection(uint32_t spc);
   bool     getSinglePointCorrectionReady();
 
+
+  //  Calibration functions
+  //  READ DATASHEET !!
   bool     openSelfCalibration();
   bool     closeSelfCalibration();
   uint8_t  getSelfCalibrationStatus();
   bool     setSelfCalibrationHours(uint16_t hours = 168);
   uint16_t getSelfCalibrationHours();
-
-
-  //  set timeout of serial communication.
-  void     setTimeout(uint32_t timeout = 100) { _timeout = timeout; };
-  uint32_t getTimeout() { return _timeout; };
-
-  uint32_t lastRead() { return _lastRead; };
-
-  //       2 = MTP40C - other library
-  //       3 = MTP40D - other library
-  //       5 = MTP40F
-  uint8_t  getType()  { return _type; };
-  int      lastError();
 
 
 //////////////////////////////////////////////////////

@@ -1,0 +1,44 @@
+# Syntax Colouring Map For radiation
+
+# Data types (KEYWORD1)
+radiation	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+setGray	KEYWORD2
+setMilliGray	KEYWORD2
+setMicroGray	KEYWORD2
+setRad	KEYWORD2
+setMilliRad	KEYWORD2
+setMicroRad	KEYWORD2
+
+getGray	KEYWORD2
+getMilliGray	KEYWORD2
+getMicroGray	KEYWORD2
+getRad	KEYWORD2
+getMilliRad	KEYWORD2
+getMicroRad	KEYWORD2
+
+setSievert	KEYWORD2
+setMilliSievert	KEYWORD2
+setMicroSievert	KEYWORD2
+setRem	KEYWORD2
+setMilliRem	KEYWORD2
+setMicroRem	KEYWORD2
+
+getSievert	KEYWORD2
+getMilliSievert	KEYWORD2
+getMicroSievert	KEYWORD2
+getRem	KEYWORD2
+getMilliRem	KEYWORD2
+getMicroRem	KEYWORD2
+
+BecquerelToCurie	KEYWORD2
+CurieToBecquerel	KEYWORD2
+
+
+# Constants (LITERAL1)
+RADIATION_LIB_VERSION	LITERAL1
+
+

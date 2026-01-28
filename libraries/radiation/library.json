@@ -1,0 +1,23 @@
+{
+  "name": "radiation",
+  "keywords": "environment, Gray, Rad, REM, Sievert, Becquerel, Curie",
+  "description": "Arduino library for conversion of radiation units.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/radiation.git"
+  },
+  "version": "0.1.1",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "radiation.h"
+}

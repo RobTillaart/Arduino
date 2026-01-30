@@ -2,7 +2,7 @@
 //    FILE: DS3232.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DS3232 RTC (minimalistic)
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 //    DATE: 2011-01-21
 //     URL: https://github.com/RobTillaart/DS3232
 
@@ -58,8 +58,22 @@ uint16_t DS3231::getType()
 //
 //  CORE
 //
-int DS3231::read()
+int DS3231::read(bool fast)
 {
+  //  more elaborate version of fast is possible
+  //  drawback no small footprint
+  if (fast)
+  {
+    uint32_t now = millis();
+    uint32_t seconds = (now - _lastRead)/1000;
+    //  keep the math simple
+    if ((_reg[0] + seconds) < 60)
+    {
+      _reg[0] += seconds;
+      _lastRead = now;
+      return DS3232_OK;
+    }
+  }
   _wire->beginTransmission(_address);
   _wire->write(DS3232_SECONDS);
   _rv = _wire->endTransmission();

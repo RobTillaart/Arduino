@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2026-01-30
+- add read(bool fast) - fast mode.
+- add DS3232_demo_performance_fast.ino example
+- update GitHub actions
+- minor edits
+
 ## [0.6.0] - 2025-05-30
 - fix #8, setSeconds()
 - remove undocumented DS1307 compatibility.

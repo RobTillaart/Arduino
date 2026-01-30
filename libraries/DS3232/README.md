@@ -39,6 +39,16 @@ Note: This DS3232 library is a refactored version of an old experimental DS3232 
 from 2011 which was never published.
 
 
+### 0.6.1 experimental
+
+**Experimental**
+
+The read() function now has a flag to check if the lastRead has been 
+less than 60 seconds ago. If so, the time returned is not fetched
+from the RTC, but from cache.
+This reduces the I2C communication.
+
+
 ### Tests
 
 All 0.4.0 examples are tested with Arduino UNO with 100 kHz I2C.
@@ -134,7 +144,9 @@ too if they are behind the multiplexer.
 
 ### Base RTC
 
-- **int read()** read the current date and time from the RTC.
+- **int read(bool fast = false)** read the current date and time from the RTC.
+If fast == true, the internal values are updated by millis().
+(Experimental 0.6.1)
 - **int write()** set the current date and time in the RTC.
 Writes all fields, be aware that weekDay need to be set too.
 - **uint32_t lastRead()** lastTime in milliseconds when RTC is read.

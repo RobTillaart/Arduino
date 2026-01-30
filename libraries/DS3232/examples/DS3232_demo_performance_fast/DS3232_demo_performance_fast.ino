@@ -1,18 +1,16 @@
 //
-//    FILE: DS3232_demo_read_minute.ino
+//    FILE: DS3232_demo_performance_fast.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test read once per minute trick
+// PURPOSE: test read(fast = true)
 //     URL: https://github.com/RobTillaart/DS3232
-//
-//  The trick in this sketch is meant to minimize the read() calls
-//  to minimize I2C.
-//  Included in the library in 0.6.1 (experimental)
 
 
 #include "DS3232.h"
 
 
-DS3231 rtc;
+DS3232 rtc;
+
+uint32_t start, stop;
 
 
 void setup()
@@ -31,27 +29,25 @@ void setup()
     Serial.println("could not connect, check wires etc");
     while (1);
   }
-  Serial.println(rtc.getType());
+
+  Serial.print("FAST: false: ");
+  duration(false);
+  Serial.print("FAST: true:  ");
+  duration(true);
   
-  rtc.read();
+  Serial.println('\n');
 }
 
 
 void loop()
 {
-  //  only read once per minute to save I2C traffic.
-  uint32_t seconds = (millis() - rtc.lastRead()) / 1000;
-  if (rtc.seconds() + seconds > 59)
-  {
-    Serial.println("r");
-    rtc.read();
-    seconds = 0;
-  }
+  rtc.read(true);
 
   Serial.print(rtc.lastRead());
   Serial.print("\t\t");
 
   //  DATE
+  if (rtc.year() < 10) Serial.print(0);
   Serial.print(rtc.year());
   Serial.print('-');
   if (rtc.month() < 10) Serial.print(0);
@@ -59,7 +55,7 @@ void loop()
   Serial.print('-');
   if (rtc.day() < 10) Serial.print(0);
   Serial.print(rtc.day());
-  
+
   Serial.print(' ');
   //  TIME
   if (rtc.hours() < 10) Serial.print(0);
@@ -68,11 +64,24 @@ void loop()
   if (rtc.minutes() < 10) Serial.print(0);
   Serial.print(rtc.minutes());
   Serial.print(':');
-  if (rtc.seconds() + seconds < 10) Serial.print(0);
-  Serial.print(rtc.seconds() + seconds);
+  if (rtc.seconds() < 10) Serial.print(0);
+  Serial.print(rtc.seconds());
   Serial.print('\n');
 
-  delay(1000);
+  delay(2000);
+}
+
+
+void duration(bool fast)
+{
+  delay(100);
+  uint32_t start = millis();
+  for (int i = 0; i < 1000; i++)
+  {
+    rtc.read(fast);
+  }
+  uint32_t stop = millis();
+  Serial.println(stop - start);
 }
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB, morfeus02
-// VERSION: 0.5.4
+// VERSION: 0.5.5
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -530,9 +530,9 @@ uint8_t SHT2x::getFirmwareVersion()
 //
 //  RESOLUTION
 //
-bool SHT2x::setResolution(uint8_t res)
+bool SHT2x::setResolution(uint8_t resolution)
 {
-  if (res > 3) return false;
+  if (resolution > 3) return false;
 
   uint8_t userReg = 0x00;
   writeCmd(SHT2x_READ_USER_REGISTER);
@@ -545,15 +545,15 @@ bool SHT2x::setResolution(uint8_t res)
   //  clear old resolution and set new
   userReg &= ~SHT2x_USRREG_RESOLUTION;
   //  resolution is bit 7 and bit 0.
-  userReg |= ((res & 0x02) << 6);
-  userReg |= (res & 0x01);
+  userReg |= ((resolution & 0x02) << 6);
+  userReg |= (resolution & 0x01);
 
   if (writeCmd(SHT2x_WRITE_USER_REGISTER, userReg) == false)
   {
     _error = SHT2x_ERR_RESOLUTION;
     return false;
   }
-  _resolution = res;
+  _resolution = resolution;
   return true;
 }
 

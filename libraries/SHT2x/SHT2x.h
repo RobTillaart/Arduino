@@ -2,7 +2,7 @@
 //
 //    FILE: SHT2x.h
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB, morfeus02
-// VERSION: 0.5.4
+// VERSION: 0.5.5
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define SHT2x_LIB_VERSION             (F("0.5.4"))
+#define SHT2x_LIB_VERSION             (F("0.5.5"))
 
 
 //  fields getStatus
@@ -122,8 +122,9 @@ public:
   //   1  |  08 bit  |   12 bit
   //   2  |  10 bit  |   13 bit
   //   3  |  11 bit  |   11 bit
-  bool    setResolution(uint8_t res = 0);  //  Sets resolution (res = 0..3). Returns false for invalid values.
-  uint8_t getResolution();                 //  Returns the currently configured resolution (cached value).
+  bool    setResolution(uint8_t resolution = 0);  //  Sets resolution (res = 0..3).
+                                                  //  Returns false for invalid values.
+  uint8_t getResolution();  //  Returns the currently configured resolution (cached value).
 
 
   //  Asynchronous Interface (experimental)
@@ -134,7 +135,8 @@ public:
 
 
   //  Check if data is ready after an asynchronous request.
-  //  The time required for measurement depends on the configured resolution (see datasheet or implementation of reqHumReady/reqTempReady in .cpp).
+  //  The time required for measurement depends on the configured resolution
+  //  (see datasheet or implementation of reqHumReady/reqTempReady in SHT2x.cpp).
   bool    reqTempReady();   //  Returns true if temperature data is ready to be read.
   bool    reqHumReady();    //  Returns true if humidity data is ready to be read.
   bool    requestReady();   //  Returns true if either temperature or humidity data is ready.

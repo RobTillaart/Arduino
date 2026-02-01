@@ -16,27 +16,33 @@ Arduino library for the SHT2x, HTU2x and Si70xx temperature and humidity sensors
 
 ## Description
 
-This library is not tested extensively yet.
-It works for the Si7021 including the asynchronous interface.
-It should work for SHT20, SHT21 and SHT25 but these are not tested yet.
-The SHT2x family of sensors should work up to 400 KHz I2C.
+This library is to use the SHT20, SHT21 and SHT25 and compatible temperature
+and humidity sensors.
+The interface implements an asynchronous API to prevent blocking code, examples
+exist how this is used. 
+For simplicity there is also a blocking read() call.
+
+The library is verified for the SHT21, HTU21 and Si7021 including the asynchronous 
+interface. It is expected to work for SHT20 and SHT25 as these are datasheet 
+compatible but these are not tested yet.
 
 Furthermore there are several other sensors that should be compatible
 (see table below), but have not been tested either.
 
-Accuracy table
+Accuracy table (indicative)
 
-|  Sensor   | Temperature | Humidity |  Notes  |
-|:---------:|:-----------:|:--------:|:--------|
-|  SHT20    |   ~0.3      |  ±3.0    |         |
-|  SHT21    |   ~0.3      |  ±3.0    |         |
-|  SHT25    |   ~0.3      |  ±1.8    |         |
-|  HTU20    |             |          |  to-do  |
-|  HTU21    |             |          |  #40    |
-|  Si7013   |             |          |  to-do  |
-|  Si7020   |             |          |  to-do  |
-|  Si7021   |   ~0.3      |  ~2.0    |         |
-|  GY21     |             |          |  to-do  |
+|  Sensor  | test | Temperature | Humidity |  Notes  |
+|:--------:|:----:|:-----------:|:--------:|:--------|
+|  SHT20   |   -  |   ±0.3      |  ±3.0    |
+|  SHT21   |   Y  |   ±0.3      |  ±3.0    |
+|  SHT25   |   -  |   ±0.3      |  ±1.8    |
+|  HTU20   |   -  |             |          |
+|  HTU21   |   Y  |   ±0.3      |  ±2.0    |  #40 #42
+|  Si7013  |   -  |   ±0.3      |  ±3.0    |
+|  Si7020  |   -  |   ±0.3      |  ±4.0    |
+|  Si7021  |   Y  |   ±0.3      |  ±2.0    |
+|  GY21    |   -  |             |          |  often HTU21
+|  HDC1080 |   -  |   ±0.2      |  ±2.0    |  TI
 
 
 All sensors in this family of sensors have address 0x40 (64 decimal).
@@ -44,6 +50,30 @@ If you want to use more on one I2C bus one needs either an I2C multiplexer
 or one should switch sensors on/off like the select in SPI communication.
 
 Feedback as always is welcome.
+
+
+### 0.5.5 Wifi affecting accuracy
+
+See https://github.com/RobTillaart/SHT2x/issues/42
+
+User pgtest did a number of experiments after he saw an increased temperature
+and decreased humidity when the sensors he used were in close proximity (about 3 cm)
+of the ESP-C3 Wifi antenna. As far as understood the 2.4 GHz heats up the water 
+molecules in the air which cause the absolute humidity to rise, and thus the relative
+humidity to go down. Furthermore it seems that water evaporates which causes the 
+absolute humidity drop too, resulting in drop of relative humidity too.
+Possibly there are more ways the 2.4 GHz could affect the sensor, especially the amount
+of Wifi usage could be a factor.
+
+Shortly discussed on the Arduino forum, there were additional cause e.g. RF effect on
+internal electronics and possible effects from a power dip when Wifi is switched on.
+
+The library does not compensate for the found effect as there is no formula that calculates
+the delta for a given distance and/or Wifi usage. However one could use the multiMap() 
+library to build (non-linear) corrections if needed.
+
+Advice is to keep the sensor "as far" from heat sources including Wifi as possible.
+Also take care of good air circulation in/around the sensor.
 
 
 ### 0.5.0 Breaking change
@@ -57,10 +87,44 @@ before calling **begin()**.
 
 ### Related
 
+- https://github.com/RobTillaart/SHT2x
+- https://github.com/RobTillaart/SHT2x_INT - integer math only to minimize footprint.
 - https://github.com/RobTillaart/SHT31
 - https://github.com/RobTillaart/SHT85
-- https://github.com/RobTillaart/tinySHT2x
-- https://github.com/RobTillaart/Temperature Temperature related formulas.
+- https://github.com/RobTillaart/tinySHT2x - specific for AVR tiny processors.
+- https://github.com/RobTillaart/Temperature - Temperature related formulas.
+- https://github.com/RobTillaart/MultiMap - non linear mapping
+
+
+### Special chars (win)
+
+ALT241 = ± (plus-minus)
+ALT167 = º (degrees)
+
+
+## I2C
+
+### Performance
+
+The SHT2x family of sensors should work up to 400 KHz I2C.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -115,7 +179,7 @@ these bits.
 These functions are used for synchronous (blocking) reads of temperature and humidity.
 
 - **bool read()**: Reads both temperature and humidity from the sensor. 
-This is a blocking call; program execution will pause until the readings are complete.
+This is a blocking call, and program execution will pause until the readings are complete.
 - **float getTemperature()**: Returns the temperature in degrees Celsius (°C) based 
 on the latest raw data acquired by `read()`.
 - **float getHumidity()**: Returns the relative humidity in percent (%) based on the 
@@ -125,7 +189,7 @@ value for temperature directly from the sensor, as acquired by `read()`.
 - **uint16_t getRawHumidity()**: Returns the raw, not calibrated 16-bit integer 
 value for humidity directly from the sensor, as acquired by `read()`.
 
-**Note on `read()` and data retrieval:**
+**Note on `read()` and data retrieval**
 The `getTemperature()` and `getHumidity()` functions recalculate values from raw 
 data on every call. If performance is critical, cache these values in your code after 
 a `read()` instead of calling them repeatedly. Raw values are useful for minimizing 
@@ -152,7 +216,7 @@ stalled while waiting for sensor data. This interface is experimental (since 0.2
 and may change in future versions. 
 See discussion in [issue #16](https://github.com/RobTillaart/SHT2x/issues/16).
 
-**General Workflow for Asynchronous Operations:**
+**General Workflow for Asynchronous Operations**
 
 1.  **Initiate a request:** Call `requestTemperature()` to start a temperature 
 measurement or `requestHumidity()` to start a humidity measurement. 
@@ -167,7 +231,7 @@ retrieve the humidity value. These functions then fetch the data from the sensor
 and update the internal raw values. 
 You can then use `getTemperature()` or `getHumidity()` to get the processed values.
 
-**Difference between synchronous `read()` and asynchronous operations:**
+**Difference between synchronous `read()` and asynchronous operations**
 - **Synchronous `read()`**: When you call `read()`, your program stops and waits 
 for the sensor to complete both temperature and humidity measurements. 
 This is simpler to use but can block other operations for the duration of the sensor's 
@@ -178,7 +242,7 @@ retrieve the result.
 This avoids blocking but requires a slightly more complex program structure to 
 periodically check the sensor's status.
 
-**Asynchronous Function Descriptions:**
+**Asynchronous Function Descriptions**
 
 - **`bool requestTemperature()`**: Initiates a request for a temperature reading from the sensor. 
 If a previous asynchronous request (either temperature or humidity) was still pending, 
@@ -220,7 +284,7 @@ The possible return values are:
 | 0x02   | `SHT2x_REQ_HUMIDITY`    | A humidity request is currently pending or was the last one made.    |
 | 0xFF   | `SHT2x_REQ_FAIL`        | A humidity request is currently pending or was the last one made.    |
 
-**Example Snippet (Asynchronous Reading):**
+**Example Snippet (Asynchronous Reading)**
 
 ```cpp
 #include "SHT2x.h"
@@ -292,7 +356,7 @@ void loop() {
 }
 ```
 
-**Waiting until the device is ready:**
+**Waiting until the device is ready**
 
 These sensors typically need a bit of time to start up before they can accept commands. 
 The SHT21, for instance, requires up to 15ms after it's been powered up. 
@@ -339,7 +403,8 @@ specific sensor model; refer to the sensor datasheet.)
 ### Electronic ID
 
 Functions to retrieve the unique electronic identification code and firmware version from the sensor.
-(These functions need more testing and have primarily been tested with Si7021 sensors.)
+These functions need more testing and have primarily been tested with Si7021 sensors (low prio).
+They might not be supported on some "compatible" sensors.
 
 - **uint32_t getEIDA()**: Returns the first part (A) of the electronic ID.
 - **uint32_t getEIDB()**: Returns the second part (B) of the electronic ID.
@@ -353,8 +418,8 @@ Allows adjustment of the measurement resolution for temperature and humidity.
 as initial results are not perfectly aligned with datasheet specifications. 
 It has been primarily tested on HTUxx and Si7021 sensors using the `SHT2X_resolution.ino` example.
 
-- **bool setResolution(uint8_t res)**: Sets the measurement resolution. 
-`res` can be 0, 1, 2, or 3. Other values will result in the function returning `false`.
+- **bool setResolution(uint8_t resolution)**: Sets the measurement resolution. 
+`resolution` can be 0, 1, 2, or 3. Other values will result in the function returning `false`.
 - **uint8_t getResolution()**: Returns the currently set resolution (cached value).
 
 Datasheet SHT20 Table 8: Resolution settings
@@ -365,6 +430,7 @@ Datasheet SHT20 Table 8: Resolution settings
 |  1  |  08 bit  |   12 bit    |
 |  2  |  10 bit  |   13 bit    |
 |  3  |  11 bit  |   11 bit    |
+
 
 Datasheet SHT20 Table 7: Measurement timing (milliseconds) vs. observed real-world measurements.
 (See details at https://github.com/RobTillaart/SHT2x/pull/11)

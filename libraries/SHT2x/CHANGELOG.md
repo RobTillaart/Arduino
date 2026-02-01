@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## {0.5.5] - 2026-01-30
+- update readme.md, Wifi section, see #42 (kudos pgtest)
+- add **SHT2x_AH_issue42.ino** test sketch
+- minor edits
+
 ## {0.5.4] - 2026-01-20
 - fix #40, add getHumidityCompensated() for HTU21 device.
 - add example HTU21_getHumidityCompensated.ino

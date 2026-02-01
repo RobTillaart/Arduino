@@ -14,6 +14,15 @@
 Arduino library for an analogue UV sensor.
 
 
+## Warning
+
+**Always take precautions as UV radiation can cause sunburn, eye damage and other severe problems**.
+
+Do not expose yourself to the sun as UV source too long.
+
+When working with UV light, natural or artificial (TL LED laser a.o.) use appropriate shielding. Do not look right into UV light sources.
+
+
 ## Description
 
 ![Foo](https://www.tinytronics.nl/shop/image/cache/catalog/products/product-003601/uv-light-sensor-module-200-370nm-80x80w.jpg)
@@ -43,6 +52,8 @@ The sensor has an analogue output that is roughly linear with the UV-index (sunl
 From this table the formula is derived (spreadsheet) which is pretty linear between UV 1 and 11.
 Between 0 and 1 there seems to be a curve / other linear relation.
 
+Feedback as always is welcome.
+
 
 ### Notes
 
@@ -59,8 +70,8 @@ If one wants to use other values one need to fix the formula in the **mv2index()
 (mv stands for millivolt)
 
 Note: the output of the sensor is typically 0 .. 1.1 volt. To increase precision one might configure
-the ADC used to match this voltage range. E.g. Arduino UNO can be set to use an internal 1.1 volt reference.
-See Arduino manual **setAnalogReference()**
+the ADC used to match this voltage range. E.g. Arduino UNO R3 can be set to use an internal 1.1 volt reference.
+See Arduino documentation **setAnalogReference()**
 
 Note: for a continuous colour scale check
 - https://github.com/RobTillaart/map2colour
@@ -86,12 +97,12 @@ Search for **Lambert’s Cosine Law** on Wikipedia for details.
 
 ### Related
 
-- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/AnalogUVSensor - this lib.
+- https://github.com/RobTillaart/AS7331 - professional UVA, UVB, UVC sensor.
 - https://github.com/RobTillaart/LTR390_DFR
 - https://github.com/RobTillaart/LTR390_RT
-- https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/map2colour - maps values to colour scale.
 - https://github.com/RobTillaart/ML8511
-
 
 
 ## Hardware
@@ -119,16 +130,24 @@ If your analog device is missing, send the URL so I can add it to the list.
 #include "AnalogUVSensor.h"
 ```
 
+### Constructor
+
 - **AnalogUVSensor()** Constructor.
 - **void begin(uint8_t analogPin, float volts = 5.0, uint16_t maxADC = 1023)**
 set the parameters of the sensor, analogPin, volts and maxADC to specify the internal ADC.
 Volts and maxADC have a default so these can be omitted if these match.
   - Note: one needs to reset these parameters if the settings of the internal ADC are
 changed e.g. to INTERNAL_1V1 to change the accuracy.
+
+### Read
+
 - **float read(uint8_t times = 1)** Returns the UV index.
 Read the analogue sensor one (or more) times to average the reading.
 This can improve the accuracy of the reading.
 If times == 0 it is set to 1.
+
+### Conversion
+
 - **float mV2index(uint16_t milliVolt)** MilliVolt to index. Returns the UV index.
 The conversion formula from milliVolt to the UV index is used internally by the **read()** function.
 This function can also be called with a voltage measured with an external ADC.
@@ -137,6 +156,9 @@ The function will return a value between 0.0 and 12.0.
 **Y**ellow, **O**range, **R**ed or **P**urple.
 Can be used as indication on a user interface.
 This function can also be called with an index from an other UV index sensor.
+
+Note: for a continuous colour scale check
+- https://github.com/RobTillaart/map2colour
 
 
 ### Power interface
@@ -155,13 +177,16 @@ e.g. when the analogue sensor is switched through a MOSFET.
 
 #### Must
 
-- verify vs calibrated sensor
+- improve documentation
+
 
 #### Should
 
-- documentation
-  - investigate with different light sources (UVled, TL, sunlight).
+- verify vs calibrated sensor
+- investigate with different light sources (UVled, TL, sunlight).
 - move powerPin setting to constructor (breaking 0.2.0 ?)
+- example with map2Colour => scale?
+
 
 #### Could
 

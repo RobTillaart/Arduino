@@ -13,10 +13,11 @@ AnalogUVSensor AUV;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("ANALOG_UVSENSOR_LIB_VERSION: ");
   Serial.println(ANALOG_UVSENSOR_LIB_VERSION);
+  Serial.println();
 
   AUV.begin(A0, 5.0, 1023);
 }

@@ -1,0 +1,23 @@
+# Syntax Colouring Map for RunningMinMax
+
+
+# Data types (KEYWORD1)
+RunningMinMax	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+add	KEYWORD2
+reset	KEYWORD2
+
+getMinimum	KEYWORD2
+getAverage	KEYWORD2
+getMaximum	KEYWORD2
+
+getSize	KEYWORD2
+getCount	KEYWORD2
+isFull	KEYWORD2
+
+
+# Constants (LITERAL1)
+RUNNING_MINMAX_LIB_VERSION	LITERAL1
+

@@ -1,0 +1,23 @@
+{
+  "name": "RunningMinMax",
+  "keywords": "running, moving, minimum, average, maximum",
+  "description": "Arduino library for a running Minimum and Maximum..",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/RunningMinMax.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "RunningMinMax.h"
+}

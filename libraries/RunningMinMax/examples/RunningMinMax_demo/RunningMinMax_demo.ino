@@ -8,7 +8,7 @@
 #include "RunningMinMax.h"
 
 
-RunningMinMax samples = RunningMinMax(5);
+RunningMinMax <float> samples(5);
 
 
 void setup()

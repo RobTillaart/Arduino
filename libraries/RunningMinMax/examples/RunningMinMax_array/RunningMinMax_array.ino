@@ -9,12 +9,12 @@
 
 
 //  create an different lengths
-RunningMinMax a(5);
-RunningMinMax b(10);
-RunningMinMax c(15);
-RunningMinMax d(20);
+RunningMinMax <int16_t>a(5);
+RunningMinMax <int16_t>b(10);
+RunningMinMax <int16_t>c(15);
+RunningMinMax <int16_t>d(20);
 
-RunningMinMax RMM[4] = { a, b, c, d };
+RunningMinMax <int16_t>RMM[4]= { a, b, c, d };
 
 
 void setup()

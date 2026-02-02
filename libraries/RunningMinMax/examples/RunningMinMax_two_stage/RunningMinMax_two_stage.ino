@@ -8,8 +8,8 @@
 #include "RunningMinMax.h"
 
 
-RunningMinMax stage1 = RunningMinMax(20);  //  5 seconds 4 samples/second
-RunningMinMax stage2 = RunningMinMax(24);  //  12x (1 min and 1 max) = 1 minute
+RunningMinMax <float>stage1(20);  //  5 seconds 4 samples/second
+RunningMinMax <float>stage2(24);  //  12x (1 min and 1 max) = 1 minute
 
 uint16_t counter = 0;
 

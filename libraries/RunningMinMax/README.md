@@ -56,10 +56,9 @@ https://github.com/RobTillaart/printHelpers
 #include "RunningMinMax.h"
 ```
 
-
 ### Constructor
 
-- **RunningMinMax(const uint8_t size)** Constructor, dynamically allocates memory.
+- **RunningMinMax <T>(const uint8_t size)** Constructor, dynamically allocates memory.
 - **~RunningMinMax()** Destructor.
 - **uint8_t getSize()** returns size of internal array.
 - **uint8_t getCount()** returns current used elements, getCount() <= getSize().
@@ -69,11 +68,29 @@ https://github.com/RobTillaart/printHelpers
 ### Base functions
 
 - **clear()** resets internal buffer and variables, effectively empty the buffer.
-- **add(const float value)** adds a new value to internal buffer, 
+- **add(const T value)** adds a new value to internal buffer, 
 optionally replacing the oldest element if the buffer is full.
 - **float getAverage()** returns average of the values in the internal buffer.
-- **float getMaximum()** get the largest values in the buffer.
-- **float getMinimum()** get the smallest value in the buffer.
+- **T getMaximum()** get the largest values in the buffer.
+- **T getMinimum()** get the smallest value in the buffer.
+
+
+## Performance
+
+See performance example (version 0.2.0, UNO R3)
+
+|  Type     |   add   |  min  |  max  |  avg  |
+|:---------:|:-------:|:-----:|:-----:|:-----:|
+|  float    |  10.88  |  108  |  108  |  256  |
+|  int32_t  |   6.64  |   40  |   36  |  392  |
+|  int16_t  |   5.76  |   28  |   32  |  384  |
+|  int8_t   |   5.52  |   24  |   20  |  340  |
+|           |         |       |       |       |
+
+Average is expensive due to conversion to float,
+except for float data type.
+Removing (not using) the average function could
+reduce footprint as no float math is used elsewhere.
 
 
 ## Future
@@ -82,16 +99,24 @@ optionally replacing the oldest element if the buffer is full.
 
 - improve documentation.
 - test
-- keep it a simple class.
+- template class
+  - user defines type
 
 #### Should
 
-- check for optimizations.
+- Stereo example
+- Array example  
+  - multichannel. (8 bit class needed)  
+  - equalizer  (better example)
+
 
 #### Could
 
+- investigate for optimizations.
+  - cache values + dirty flag(bitmask) when add.
+  - only works when reading more often than writing.
 - check for optimizations.
-- add examples
+- IsEmpty(), noData()?
 - extend unit tests
 
 #### Wont

@@ -7,7 +7,7 @@
 
 #include "RunningMinMax.h"
 
-RunningMinMax RMM(20);
+RunningMinMax <uint8_t>RMM(20);
 
 
 void setup()

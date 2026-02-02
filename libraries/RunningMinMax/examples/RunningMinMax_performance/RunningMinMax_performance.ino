@@ -28,7 +28,7 @@ const int sourceData[] =
 const int sourceSize = (sizeof(sourceData) / sizeof(sourceData[0]));
 
 
-RunningMinMax samples = RunningMinMax(sourceSize / 2);
+RunningMinMax <int32_t>samples(sourceSize / 2);
 
 uint32_t start = 0;
 uint32_t stop  = 0;

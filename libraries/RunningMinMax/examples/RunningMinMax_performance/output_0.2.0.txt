@@ -1,0 +1,82 @@
+
+BOARD   UNO R3
+IDE     1.8.19
+
+
+//  test type: <float>
+
+RunningMinMax_performance.ino
+RUNNING_MINMAX_LIB_VERSION: 0.2.0
+
+
+test
+size  = 25
+count = 0
+
+50 x add: 544
+     avg: 10.88
+ 1 x getMinimum: 108
+ 1 x getMaximum: 108
+ 1 x getAverage: 256
+
+done..
+
+-----------------------------------------
+
+//  test type: <int32_t>
+
+RunningMinMax_performance.ino
+RUNNING_MINMAX_LIB_VERSION: 0.2.0
+
+
+test
+size  = 25
+count = 0
+
+50 x add: 332
+     avg: 6.64
+ 1 x getMinimum: 40
+ 1 x getMaximum: 36
+ 1 x getAverage: 392
+
+done..
+
+-----------------------------------------
+
+//  test type: <int16_t>  
+
+RunningMinMax_performance.ino
+RUNNING_MINMAX_LIB_VERSION: 0.2.0
+
+
+test
+size  = 25
+count = 0
+
+50 x add: 288
+     avg: 5.76
+ 1 x getMinimum: 28
+ 1 x getMaximum: 32
+ 1 x getAverage: 384
+
+done..
+
+-----------------------------------------
+
+//  test type: <int8_t>
+
+RunningMinMax_performance.ino
+RUNNING_MINMAX_LIB_VERSION: 0.2.0
+
+
+test
+size  = 25
+count = 0
+
+50 x add: 276
+     avg: 5.52
+ 1 x getMinimum: 24
+ 1 x getMaximum: 20
+ 1 x getAverage: 340
+
+done...

@@ -50,7 +50,7 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-  RunningMinMax samples = RunningMinMax(5);
+  RunningMinMax <>samples(5);
   assertEqual(5, samples.getSize());
   assertEqual(0, samples.getCount());
 }
@@ -58,7 +58,7 @@ unittest(test_constructor)
 
 unittest(test_basic_add)
 {
-  RunningMinMax samples = RunningMinMax(5);
+  RunningMinMax <float>samples(5);
 
   int cnt = 0;
   for (int i = 0, cnt = 0; i < 50; i+=10)

@@ -6,11 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2026-02-02
+- update github actions to v6
+- minor edits
+
 ## [0.1.4] - 2025-08-18
 - update github actions to v5
 - update readme.md
 - minor edits
-
 
 ## [0.1.3] - 2023-10-19
 - update readme.md
@@ -33,6 +36,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0] - eons ago
 - initial version
 - started as a VoltMeter only class
-
-
 

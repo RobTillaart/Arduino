@@ -28,10 +28,14 @@ that includes amps ohms, diode testing etc.
 This is an old 'toy' project, wrapped into a class.
 Do not expect high precision or accuracy.
 
+Feedback as always is welcome.
+
 
 ### Related
 
-- https://github.com/RobTillaart/ACS712 (current measurement).
+- https://github.com/RobTillaart/ACS712 - current measurement
+- https://github.com/RobTillaart/INA226 - voltage + current + power
+- https://github.com/RobTillaart/printHelpers - engineering formatting of numbers.
 
 
 ## Interface
@@ -125,10 +129,10 @@ To elaborate.
 
 #### Functional
 
-- AMPS
-  - how -> measure voltage over a known small resistor
+- AMPERE
+  - how -> measure voltage over a known small resistor load.
   - use internal 1.1V?
-- CAPS
+- CAPACITY
   - how -> RC timing
   - RC (load 5 seconds)
   - disconnect

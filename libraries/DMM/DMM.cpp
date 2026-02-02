@@ -1,7 +1,7 @@
 //
 //    FILE: DMM.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2022-12-19
 // PURPOSE: Library for a DMM class for Arduino UNO.
 //     URL: https://github.com/RobTillaart/DMM

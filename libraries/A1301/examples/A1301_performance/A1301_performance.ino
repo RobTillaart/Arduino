@@ -1,7 +1,7 @@
 //
 //    FILE: A1301_performance
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo A1301 A1302 magnetometer.
+// PURPOSE: A1301 A1302 magnetometer performance measurement.
 //     URL: https://github.com/RobTillaart/A1301
 
 

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2026-02-02
+- update GitHub actions
+- minor edits
+
 ## [0.3.0] - 2025-08-15
 - improve API and documentation
 - rename readExt() => readExternal()
@@ -28,10 +32,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - experimental Teensy build (no success yet)
 - minor edits in examples.
 
-
 ## [0.2.2] - 2024-01-01
 - add **float autoMidPoint(times)**
-- add examples 
+- add examples
 - update readme.md
 
 ## [0.2.1] - 2023-09-19

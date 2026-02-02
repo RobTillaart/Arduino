@@ -42,6 +42,7 @@ The following 5 classes are supported:
 |  A1326   |  2.500 mV/Gauss |     Y     |
 
 The library needs more testing.
+
 Feedback, issues and improvements are welcome,
 also if compatible devices are missing.
 Please open an issue on GitHub.
@@ -67,8 +68,9 @@ See changelog.md for details. Functional there are no changes.
 
 ### Related
 
-- https://github.com/RobTillaart/AS5600
-- https://github.com/RobTillaart/AngleConvertor
+- https://github.com/RobTillaart/AS5600 - magnetic angle measurement
+- https://github.com/RobTillaart/AngleConvertor - convertor to less known angle types.
+- https://github.com/RobTillaart/printHelpers - engineering notation + units.
 
 
 ## Interface

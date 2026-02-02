@@ -2,7 +2,7 @@
 //
 //    FILE: A1301.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2010-07-22
 // PURPOSE: Arduino library for A1301 A1302 magnetometer.
 //     URL: https://github.com/RobTillaart/A1301
@@ -18,7 +18,7 @@
 
 #include "Arduino.h"
 
-#define A1301_LIB_VERSION        (F("0.3.0"))
+#define A1301_LIB_VERSION        (F("0.3.1"))
 
 /**
 * @brief Construct a new HALL::HALL object

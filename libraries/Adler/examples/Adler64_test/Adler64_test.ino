@@ -32,7 +32,7 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("Adler64_test");
+  Serial.println(__FILE__);
   Serial.print("ADLER64_LIB_VERSION: ");
   Serial.println(ADLER64_LIB_VERSION);
   Serial.println();

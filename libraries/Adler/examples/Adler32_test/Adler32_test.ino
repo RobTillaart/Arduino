@@ -30,7 +30,7 @@ void setup()
   while (!Serial);
 
   Serial.println();
-  Serial.println("Adler32_test");
+  Serial.println(__FILE__);
   Serial.print("ADLER32_LIB_VERSION: ");
   Serial.println(ADLER32_LIB_VERSION);
   

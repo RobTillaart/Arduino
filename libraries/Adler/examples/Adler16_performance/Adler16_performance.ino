@@ -36,11 +36,12 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
-  Serial.println("Adler16_performance");
+  Serial.println(__FILE__);
   Serial.print("ADLER16_LIB_VERSION: ");
   Serial.println(ADLER16_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   start = micros();
   for (uint16_t x = 0; x < 10000; x++)

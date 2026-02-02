@@ -40,6 +40,9 @@ in line with the CRC library.
 - Adler64.h for the Adler64 class.
 - performance is low due to emulation of 64 bit
 
+Feedback as always is welcome.
+
+
 ### Related
 
 - https://en.wikipedia.org/wiki/Adler-32
@@ -56,9 +59,6 @@ Tested on Arduino UNO and ESP32 (except 64 bit).
 
 ## Interface
 
-
-### AdlerXX class
-
 ```cpp
 #include "Adler32.h"
 // or 
@@ -67,19 +67,21 @@ Tested on Arduino UNO and ESP32 (except 64 bit).
 
 The interface for the Adler16 and Adler64 class is very similar.
 
+### Constructor
+
 - **Adler32()** Constructor, initializes internals.
 - **void begin(uint32_t s1 = 1, uint32_t s2 = 0)** resets the internals.
 optional setting start values for s1 and s2. Note this is not part of the standard.
 These parameters allows a restart from a specific index in a buffer.
+
+### Add
+
 - **void add(uint8_t value)** add a single value to the checksum.
 - **uint32_t add(uint8_t \* array, uint16_t length)** add an array of values to the checksum.
 Returns the current checksum.
 - **uint32_t addFast(uint8_t \* array, uint16_t length)** add an array of values to the checksum.
 Is faster by trading PROGMEM for performance.
 Returns the current checksum.
-- **uint32_t getAdler()** get the current checksum.
-- **uint32_t count()** get the number of items added. Merely a debugging feature,
-can overflow without affecting checksum.
 
 The class is typically used for streaming very large blocks of data,
 optional with intermediate checksum tests (e.g after every 256 bytes)
@@ -89,6 +91,13 @@ Wrappers exist for adding char and char array. Functional identical to above.
 - **void add(char value)**
 - **uint32_t add(char \* array, uint16_t length)**
 - **uint32_t addFast(char \* array, uint16_t length)**
+
+
+### getAdler
+
+- **uint32_t getAdler()** get the current checksum.
+- **uint32_t count()** get the number of items added. Merely a debugging feature,
+can overflow without affecting checksum.
 
 
 ## Performance Adler32

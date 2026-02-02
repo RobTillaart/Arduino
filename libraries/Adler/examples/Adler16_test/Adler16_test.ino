@@ -28,11 +28,11 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
-  Serial.println("Adler16_test");
+  Serial.println(__FILE__);
   Serial.print("ADLER16_LIB_VERSION: ");
   Serial.println(ADLER16_LIB_VERSION);
+  Serial.println();
 
   ad.begin();
   ad.add(arr1, 5);

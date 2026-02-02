@@ -2,7 +2,7 @@
 //
 //    FILE: Adler64.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 //    DATE: 2025-08-14
 // PURPOSE: Arduino Library for calculating Adler-64 checksum
 //     URL: https://github.com/RobTillaart/Adler
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define ADLER64_LIB_VERSION        (F("0.3.0"))
+#define ADLER64_LIB_VERSION        (F("0.3.1"))
 
 
 //  largest prime below 2^32

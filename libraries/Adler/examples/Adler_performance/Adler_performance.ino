@@ -32,12 +32,12 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
-
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("ADLER_LIB_VERSION: ");
   Serial.println(ADLER_LIB_VERSION);
   Serial.println();
+  delay(100);
 
   for (int i = 0; i < 60; i++)
   {

@@ -1,5 +1,5 @@
 //
-//    FILE: Fletcher_test.ino
+//    FILE: Fletcher_test_continuous.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/Fletcher
@@ -17,6 +17,7 @@ Fletcher32 F32;
 Fletcher64 F64;
 
 uint32_t count = 0;
+
 
 void setup()
 {
@@ -91,6 +92,7 @@ void loop()
     Serial.println(count * 1000.0 / millis());
   }
 }
+
 
 uint64_t ref64(uint32_t x)
 {

@@ -32,6 +32,8 @@ Use https://github.com/RobTillaart/printHelpers to print the Fletcher64().
 
 Tested on Arduino UNO + ESP32 + SAMD (See PR #7).
 
+Feedback as always is welcome.
+
 
 ### Related
 

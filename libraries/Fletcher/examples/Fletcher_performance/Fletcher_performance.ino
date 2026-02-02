@@ -1,7 +1,7 @@
 //
 //    FILE: Fletcher_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: test performance
 //     URL: https://github.com/RobTillaart/Fletcher
 
 
@@ -27,6 +27,7 @@ nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
 
 
 uint32_t start, stop;
+
 
 void setup()
 {

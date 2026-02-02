@@ -2,17 +2,19 @@
   Author:  Daniel Mohr
   Date:    2022-09-13
   Purpose: shows stream performance
-  GitHub:  https://github.com/RobTillaart/Fletcher
+  URL:     https://github.com/RobTillaart/Fletcher
 */
 
 
 #include "Arduino.h"
+
 
 #include "printHelpers.h" // needed for Arduino Nano
 #include <Fletcher16.h>
 #include <Fletcher32.h>
 #include <Fletcher64.h>
 #include <Fletcher.h>
+
 
 #ifdef ARDUINO_ARCH_AVR
 #define MAX_LEN 1024
@@ -25,7 +27,9 @@ union main_value_storage {
   uint32_t uint32[MAX_LEN / 4];
 } values;
 
+
 #define DO_N 23
+
 
 #if defined(ARDUINO_ARCH_AVR)
 String float2strn(float value, size_t n) {
@@ -43,6 +47,7 @@ String float2strn(float value, size_t n) {
 }
 #endif
 
+
 uint16_t myfletcher16(uint8_t *data, const size_t length)
 {
   uint8_t s1 = 0;
@@ -55,6 +60,7 @@ uint16_t myfletcher16(uint8_t *data, const size_t length)
   }
   return (((uint16_t) s2) << 8) | ((uint16_t) s1);
 }
+
 
 uint32_t myfletcher32(uint16_t *data, const size_t length)
 {
@@ -69,6 +75,7 @@ uint32_t myfletcher32(uint16_t *data, const size_t length)
   return (((uint32_t) s2) << 16) | ((uint32_t) s1);
 }
 
+
 uint64_t myfletcher64(uint32_t *data, const size_t length)
 {
   uint32_t s1 = 0;
@@ -81,6 +88,7 @@ uint64_t myfletcher64(uint32_t *data, const size_t length)
   }
   return (((uint64_t) s2) << 32) | ((uint64_t) s1);
 }
+
 
 void test_fletcher16(const byte mode) {
   Serial.print("| Fletcher16 |   ");
@@ -130,6 +138,7 @@ void test_fletcher16(const byte mode) {
   Serial.println(" |");
 }
 
+
 void test_fletcher32(const byte mode) {
   Serial.print("| Fletcher32 |   ");
   const uint16_t max_len = MAX_LEN / 2;
@@ -177,6 +186,7 @@ void test_fletcher32(const byte mode) {
   }
   Serial.println(" |");
 }
+
 
 void test_fletcher64(const byte mode) {
   Serial.print("| Fletcher64 |   ");
@@ -226,11 +236,19 @@ void test_fletcher64(const byte mode) {
   Serial.println(" |");
 }
 
+
 void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("FLETCHER_LIB_VERSION: ");
+  Serial.println(FLETCHER_LIB_VERSION);
+  Serial.println();
+  delay(100);
 }
+
 
 void loop() {
   Serial.print("Using list of ");
@@ -258,3 +276,5 @@ void loop() {
   Serial.println("");
   delay(1000);
 }
+
+

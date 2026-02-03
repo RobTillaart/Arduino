@@ -2,7 +2,8 @@
 //
 //    FILE: DEVFULL.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
+//    DATE: 2022-03-11
 // PURPOSE: Arduino library for a /dev/full stream - useful for testing / debugging.
 //     URL: https://github.com/RobTillaart/DEVFULL
 
@@ -11,7 +12,7 @@
 #include "limits.h"
 
 
-#define DEVFULL_LIB_VERSION     (F("0.1.4"))
+#define DEVFULL_LIB_VERSION     (F("0.1.5"))
 
 
 //  ERROR NO SPACE

@@ -13,7 +13,12 @@ DEVFULL df;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.print("DEVFULL_LIB_VERSION: ");
+  Serial.println(DEVFULL_LIB_VERSION);
+  Serial.println();
+  delay(100);
 
   Serial.print("PRINTLN:   ");
   //  returns 65480 == -28 + -28 = -56 println() is split in 2 write calls.

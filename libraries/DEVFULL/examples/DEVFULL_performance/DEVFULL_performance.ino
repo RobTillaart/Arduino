@@ -19,9 +19,11 @@ int n;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("DEVFULL_LIB_VERSION: ");
   Serial.println(DEVFULL_LIB_VERSION);
+  Serial.println();
   delay(100);
 
 

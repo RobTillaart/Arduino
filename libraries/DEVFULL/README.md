@@ -27,6 +27,8 @@ This causes a return value of n x -28 ==> mostly a number in the 65xxx range
 
 See - https://en.wikipedia.org/wiki//dev/full
 
+feedback as always is welcome.
+
 
 ### Related
 

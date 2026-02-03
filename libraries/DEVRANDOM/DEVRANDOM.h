@@ -2,7 +2,8 @@
 //
 //    FILE: DEVRANDOM.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
+//    DATE: 2020-06-23
 // PURPOSE: Arduino library for a /dev/random stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVRANDOM
 
@@ -10,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define  DEVRANDOM_LIB_VERSION      (F("0.2.3"))
+#define  DEVRANDOM_LIB_VERSION      (F("0.2.4"))
 
 
 #define  DEVRANDOM_MODE_RANDOM       0

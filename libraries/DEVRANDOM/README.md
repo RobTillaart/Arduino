@@ -19,8 +19,9 @@ Arduino library to wrap a random generator in a stream.
 The library implements a stream class that mimics the /dev/random
 device of a Linux system. It can be used for testing with streams.
 
+Feedback as always is welcome.
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/DEVFULL
 - https://github.com/RobTillaart/DEVNULL

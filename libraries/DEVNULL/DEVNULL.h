@@ -2,7 +2,8 @@
 //
 //    FILE: DEVNULL.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
+//    DATE: 2020-06-23
 // PURPOSE: Arduino library for a /dev/null stream - useful for testing
 //     URL: https://github.com/RobTillaart/DEVNULL
 

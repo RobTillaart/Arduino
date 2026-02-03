@@ -32,6 +32,8 @@ Performance can be increased by implementing all methods of the print interface
 with only a return 0; (or at least **print(Type)** as the **println(T)** would only 
 call once extra for the "\n".
 
+Feedback as always is welcome.
+
 
 ### Related
 

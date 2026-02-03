@@ -2,7 +2,7 @@
 //    FILE: SHEX_vtab.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo SHEX hex dump class
-//    DATE: 2022-05-28
+//     URL: https://github.com/RobTillaart/SHEX
 
 
 #include "SHEX.h"

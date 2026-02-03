@@ -40,6 +40,8 @@ This makes it possible to switch between the modes e.g. between 'debugging' and 
 
 One can toggle the character count at the start of the line.
 
+Feedback as always is welcome.
+
 
 ### SHEXA
 

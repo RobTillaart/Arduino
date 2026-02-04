@@ -1,0 +1,79 @@
+# Syntax Colouring Map For BL0940_SPI
+
+# Data types (KEYWORD1)
+BL0940_SPI	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+calibrate	KEYWORD2
+
+getMaxCurrent	KEYWORD2
+getMaxVoltage	KEYWORD2
+getMaxCurrentRMS	KEYWORD2
+getMaxVoltageRMS	KEYWORD2
+
+getVoltageLSB	KEYWORD2
+setVoltageLSB	KEYWORD2
+getCurrentLSB	KEYWORD2
+setCurrentLSB	KEYWORD2
+getPowerLSB	KEYWORD2
+setPowerLSB	KEYWORD2
+getEnergyLSB	KEYWORD2
+setEnergyLSB	KEYWORD2
+
+
+# RO
+
+getIRMSFast	KEYWORD2
+getIWave	KEYWORD2
+getVWave	KEYWORD2
+getIRMS	KEYWORD2
+getVRMS	KEYWORD2
+
+getWatt	KEYWORD2
+getCFPulseCount	KEYWORD2
+getEnergy	KEYWORD2
+getPhaseAngle	KEYWORD2
+
+getIntTemperature	KEYWORD2
+getExtTemperature	KEYWORD2
+
+
+# RW
+
+getFastRMSControl	KEYWORD2
+setFastRMSControl	KEYWORD2
+getCurrentRMSOffset	KEYWORD2
+setCurrentRMSOffset	KEYWORD2
+
+getPowerOffset	KEYWORD2
+setPowerOffset	KEYWORD2
+getPowerCreep	KEYWORD2
+setPowerCreep	KEYWORD2
+
+getUserMode	KEYWORD2
+setUserMode	KEYWORD2
+softReset	KEYWORD2
+getWriteProtect	KEYWORD2
+setWriteProtect	KEYWORD2
+
+getTemperatureControl	KEYWORD2
+setTemperatureControl	KEYWORD2
+getExtTempGain	KEYWORD2
+setExtTempGain	KEYWORD2
+getExtTempOffset	KEYWORD2
+setExtTempOffset	KEYWORD2
+
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+BL0940_SPI_LIB_VERSION	LITERAL1
+

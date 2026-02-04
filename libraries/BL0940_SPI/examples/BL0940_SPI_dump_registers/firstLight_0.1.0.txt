@@ -1,0 +1,8 @@
+
+placeholder 2026, first light.
+
+No load / voltage connected to sensor.
+The dump registers should dump all defaults from the datasheet,
+except the STATUS which makes perfect sense as nothing was connected.
+
+

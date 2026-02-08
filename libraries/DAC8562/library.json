@@ -1,0 +1,23 @@
+{
+  "name": "DAC8562",
+  "keywords": "SPI, digital, analog, convertor",
+  "description": "Arduino library for DAC8562 SPI 16 bit dual channel DAC. Also supports DAC7562, DAC7563, DAC8162, DAC8163, DAC8563",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DAC8562"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DAC8562.h"
+}

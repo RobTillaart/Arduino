@@ -32,18 +32,13 @@ are sort of similar but definitely not compatible.
 
 There exist Serial libraries that support the reading of the base registers.
 This library gives access to all registers over SPI (it does not support Serial).
-To use the SPI interface, the SEL (protocol select) pin of the BL0940 
+To use the SPI interface, the SEL (== protocol select) pin of the BL0940 
 must be connected to HIGH (3.3V).
 
 The device acts as a SPI slave, which works in half duplex mode,
 at a maximum clock rate of 900 kHz. This is a rather low speed and
 it is not tested yet if the device works well beyond that speed.
 The expectation is that there is not much gain possible.
-
-The device contains a ChipSelect pin (A2_NCS) so it is possible to use
-multiple devices. The library implements three constructors, one without
-a select pin (single device) one with select pin and a software SPI 
-constructor.
 
 Always read the datasheet for the details.
 
@@ -69,7 +64,7 @@ The BL0940 module has 14 pins.
 |    GND    |     7    |  Ground
 |     ZX    |     8    |  Zero crossing
 |     CF    |     9    |  Energy Pulse
-|    SEL    |    10    |  Select (0 = UART, 1 = SPI)
+|    SEL    |    10    |  Protocol Select (0 = UART, 1 = SPI)
 |   SCLK    |    11    |  SPI clock
 |  RX/SDI   |    12    |  data input (RX for UART)
 |  TX/SDO   |    13    |  data output (TX for UART)
@@ -81,10 +76,29 @@ Note: use pull ups on the SDI / SDO / clock lines.
 
 ### Multi device
 
-TODO investigate 
+The BL0940 does not support a SPI-CS (Chip Select) pin. Therefore one cannot use
+multiple devices on a SPI bus by pulling one Chip Select line LOW/HIGH.
 
-(expect a multiplexer is needed).
+There are several ways to support multiple BL0940 devices, which one
+works for you depends on your requirements.
+The following methods are NOT tested (so feedback is welcome).
 
+1. Use different pins per device. As each device uses 3 wires (CLK, IN, OUT),
+the number of wires used adds up, **n devices use 3n pins**.
+This method is robust and needs no additional coding.
+1. Use clock pin as Chip Select too. SPI devices will not act if they see 
+no clock signal (AFAIK). So by giving every device an unique clock pin and
+share the IN OUT pins the number of pins needed is reduced. 
+**n devices use n+2 pins**.
+1. Use an HC4067 1x16 multiplexer to multiplex the clock pin.
+It needs up to four lines to "Chip Select" one of sixteen devices.
+For less than 9 devices one can make one of the four lines fixed etc.
+**1..16 devices use 4..7 pins** 
+With every 4 pins extra one can add 16 devices.
+
+The latter two need extra handling of the Chip Select by additional code.
+
+(feedback welcome)
 
 ### Calibration
 
@@ -158,21 +172,11 @@ Alt-234 = Ω (Ohm sign) (Windows).
 
 ### Constructor
 
-- **BL0940_SPI(__SPI_CLASS__ \* mySPI = &SPI)** hardware SPI without select 
-pin for single device usage.
-- **BL0940_SPI(uint8_t select, __SPI_CLASS__ \* mySPI = &SPI)** hardware SPI
-with select pin. For multiple devices usage.
-- **BL0940_SPI(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock)** 
-software SPI with select pin. 
-For single device usage one can set the select pin to 255.
+- **BL0940_SPI(__SPI_CLASS__ \* mySPI = &SPI)** hardware SPI without Chip Select 
+pin for single device usage.  No Chip Select pin supported (See #2).
+- **BL0940_SPI(uint8_t dataIn, uint8_t dataOut, uint8_t clock)** 
+software SPI. No Chip Select pin supported (See #2).
 - **bool begin()** initializes internals.
-
-The select pin should be connected to the A2_NCS pin of the device (14 pins model).
-When this pin is pulled LOW this device is selected.
-
-Note you typical need one select pin per device. Although other hardware
-configurations are possible (e.g. HC4067 multiplexer) these are not
-supported by the library.
 
 
 ### Calibration 1

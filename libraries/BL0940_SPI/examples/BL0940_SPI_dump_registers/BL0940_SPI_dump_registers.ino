@@ -10,8 +10,8 @@
 #include "BL0940_SPI.h"
 
 
-//BL0940_SPI mySensor(4, 5, 6, 7);
-BL0940_SPI mySensor(255, &SPI);
+//BL0940_SPI mySensor(5, 6, 7);
+BL0940_SPI mySensor(&SPI);
 
 
 void setup()

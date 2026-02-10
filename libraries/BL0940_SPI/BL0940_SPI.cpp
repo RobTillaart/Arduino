@@ -2,7 +2,7 @@
 //    FILE: BL0940_SPI.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-02-03
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for BL0940 energy monitor, SPI interface.
 //     URL: https://github.com/RobTillaart/BL0940_SPI
 
@@ -62,13 +62,6 @@ const float BL0940_MAGIC_POWER   = 4046000000;  //  APP NOTE p.4
 BL0940_SPI::BL0940_SPI(__SPI_CLASS__ * mySPI)  //v
 {
   //  255 is not used on any known board.
-  BL0940_SPI(255, mySPI);
-}
-
-BL0940_SPI::BL0940_SPI(uint8_t select, __SPI_CLASS__ * mySPI)  //v
-{
-  _select   = select;
-  //  255 is not used on any known board.
   _dataIn   = 255;
   _dataOut  = 255;
   _clock    = 255;
@@ -79,9 +72,8 @@ BL0940_SPI::BL0940_SPI(uint8_t select, __SPI_CLASS__ * mySPI)  //v
 //
 //  SOFTWARE SPI
 //
-BL0940_SPI::BL0940_SPI(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock)
+BL0940_SPI::BL0940_SPI(uint8_t dataIn, uint8_t dataOut, uint8_t clock)
 {
-  _select   = select;
   _dataIn   = dataIn;
   _dataOut  = dataOut;
   _clock    = clock;
@@ -92,7 +84,6 @@ BL0940_SPI::BL0940_SPI(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t 
 
 bool BL0940_SPI::begin()  //v
 {
-  pinMode(_select, OUTPUT);
   select(false);
 
   setSPIspeed(BL0940_SPI_MAX_SPEED);
@@ -569,11 +560,7 @@ void BL0940_SPI::setChannelSelector(ChannelSelector selector) {
 }
 #endif
 
-
-//////////////////////////////////////////////////////
-//
 //  PRIVATE
-//
 void BL0940_SPI::select(bool active)
 {
 //  OPEN KNX support
@@ -581,11 +568,15 @@ void BL0940_SPI::select(bool active)
   if (_channelSelector)
     _channelSelector(active);
 #else
-  digitalWrite(_select, active ? LOW : HIGH);
+  // compiler warning active.
 #endif
 }
 
 
+//////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 #define BL0940_CMD_WRITE                  0xA8
 #define BL0940_CMD_READ                   0x58
 

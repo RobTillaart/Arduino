@@ -3,7 +3,7 @@
 //    FILE: BL0940_SPI.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-02-03
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for BL0940 energy monitor, SPI interface.
 //     URL: https://github.com/RobTillaart/BL0940_SPI
 //
@@ -25,7 +25,7 @@
 #endif
 
 
-#define BL0940_SPI_LIB_VERSION         (F("0.1.0"))
+#define BL0940_SPI_LIB_VERSION         (F("0.1.1"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -76,9 +76,8 @@ class BL0940_SPI
 public:
   //  HARDWARE SPI
   BL0940_SPI(__SPI_CLASS__ * mySPI = &SPI);
-  BL0940_SPI(uint8_t select, __SPI_CLASS__ * mySPI = &SPI);
   //  SOFTWARE SPI  (dataIn == "MISO", dataOut == "MOSI")
-  BL0940_SPI(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock);
+  BL0940_SPI(uint8_t dataIn, uint8_t dataOut, uint8_t clock);
 
   bool     begin();
 
@@ -188,7 +187,6 @@ public:
 private:
   uint8_t  _dataOut;
   uint8_t  _dataIn;
-  uint8_t  _select;
   uint8_t  _clock;
   int      _error;
   uint32_t _errorCount = 0;
@@ -209,7 +207,7 @@ private:
   // uint32_t readRegister(uint8_t regAddr);
   uint8_t  swSPI_transfer(uint8_t val);
 
-  void select(bool active);
+  inline void select(bool active);
 
 #ifdef BL0940_SPI_CALLBACK
   ChannelSelector _channelSelector = nullptr;

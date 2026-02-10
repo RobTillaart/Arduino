@@ -8,8 +8,8 @@
 #include "BL0940_SPI.h"
 
 
-// BL0940_SPI mySensor(4);
-BL0940_SPI mySensor(4, 5, 6, 7);
+// BL0940_SPI mySensor();  //  HW SPI default
+BL0940_SPI mySensor(5, 6, 7);
 
 
 uint32_t start, stop;

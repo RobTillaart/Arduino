@@ -3,7 +3,7 @@
 //    FILE: BL0942_SPI.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-12-29
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for BL0942 energy monitor, SPI interface.
 //     URL: https://github.com/RobTillaart/BL0942_SPI
 //
@@ -25,7 +25,7 @@
 #endif
 
 
-#define BL0942_SPI_LIB_VERSION         (F("0.1.1"))
+#define BL0942_SPI_LIB_VERSION         (F("0.1.2"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -140,6 +140,13 @@ public:
   void     setPowerLSB(float powerLSB);
   float    getEnergyLSB();
   void     setEnergyLSB(float energyLSB);
+  //  GET MAXIMA
+  //  derived from calibration data.
+  float    getMaxCurrent();
+  float    getMaxVoltage();
+  float    getMaxCurrentRMS();
+  float    getMaxVoltageRMS();
+
 
   //  READ ONLY registers
   float    getIWave();
@@ -232,7 +239,7 @@ public:
 
   //       ERROR
   int      getLastError();
-
+  uint32_t errorCount() { return _errorCount; };
 
   //  should be protected
   //  for now available for testing
@@ -246,6 +253,7 @@ private:
   uint8_t  _select;
   uint8_t  _clock;
   int      _error;
+  uint32_t _errorCount = 0;
 
   //  (semi) constants to set in calibrate() et al..
   float    _powerLSB      = 1.0;
@@ -255,7 +263,7 @@ private:
 
 
   bool     _hwSPI;
-  uint32_t _SPIspeed = 800000;
+  uint32_t _SPIspeed = 100000;
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;
 

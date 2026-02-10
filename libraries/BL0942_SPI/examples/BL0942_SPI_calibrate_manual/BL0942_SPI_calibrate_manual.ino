@@ -8,7 +8,7 @@
 //  to elaborate
 
 #include "BL0942_SPI.h"
-#include "printHelpers.h"  //  
+#include "printHelpers.h"  //
 
 BL0942_SPI mySensor(4, 5, 6, 7);
 
@@ -40,6 +40,17 @@ void setup()
   Serial.print(sci(mySensor.getPowerLSB(), 3));
   Serial.print("\t");
   Serial.println(sci(mySensor.getEnergyLSB(), 3));
+  Serial.println();
+
+  Serial.print("MAX VOLTAGE:     ");
+  Serial.println(mySensor.getMaxVoltage(), 1);
+  Serial.print("MAX VOLTAGE_RMS: ");
+  Serial.println(mySensor.getMaxVoltageRMS(), 1);
+  Serial.print("MAX CURRENT:     ");
+  Serial.println(mySensor.getMaxCurrent(), 1);
+  Serial.print("MAX CURRENT_RMS: ");
+  Serial.println(mySensor.getMaxCurrentRMS(), 1);
+  Serial.println();
 }
 
 void loop()
@@ -50,37 +61,37 @@ void loop()
     float delta = 1.01;
     switch (c)
     {
-      case 'V' : 
-          mySensor.setVoltageLSB(mySensor.getVoltageLSB() * delta); 
+      case 'V' :
+          mySensor.setVoltageLSB(mySensor.getVoltageLSB() * delta);
           Serial.println(mySensor.getVWave());
           break;
-      case 'v' : 
-          mySensor.setVoltageLSB(mySensor.getVoltageLSB() / delta); 
+      case 'v' :
+          mySensor.setVoltageLSB(mySensor.getVoltageLSB() / delta);
           Serial.println(mySensor.getVWave());
           break;
-      case 'C' : 
-          mySensor.setCurrentLSB(mySensor.getCurrentLSB() * delta); 
+      case 'C' :
+          mySensor.setCurrentLSB(mySensor.getCurrentLSB() * delta);
           Serial.println(mySensor.getIWave());
           break;
-      case 'c' : 
+      case 'c' :
           mySensor.setCurrentLSB(mySensor.getCurrentLSB() / delta);
           Serial.println(mySensor.getIWave());
           break;
-      case 'P' : 
+      case 'P' :
           mySensor.setPowerLSB(mySensor.getPowerLSB() * delta);
           Serial.println(mySensor.getWatt());
           break;
-      case 'p' : 
-          mySensor.setPowerLSB(mySensor.getPowerLSB() / delta); 
+      case 'p' :
+          mySensor.setPowerLSB(mySensor.getPowerLSB() / delta);
           Serial.println(mySensor.getWatt());
           break;
-      case 'E' : 
+      case 'E' :
           mySensor.setEnergyLSB(mySensor.getEnergyLSB() * delta);
-          Serial.println(mySensor.getEnergy());          
+          Serial.println(mySensor.getEnergy());
           break;
-      case 'e' : 
+      case 'e' :
           mySensor.setEnergyLSB(mySensor.getEnergyLSB() / delta);
-          Serial.println(mySensor.getEnergy());          
+          Serial.println(mySensor.getEnergy());
           break;
     }
 

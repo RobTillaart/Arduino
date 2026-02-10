@@ -7,7 +7,7 @@
 
 
 #include "BL0942_SPI.h"
-#include "printHelpers.h"  //  
+#include "printHelpers.h"  //
 
 BL0942_SPI mySensor(4, 5, 6, 7);
 
@@ -25,10 +25,10 @@ void setup()
 
   mySensor.begin();
 
-  //  numbers from the BL0942 APP NOTE 
+  //  numbers from the BL0942 APP NOTE
   float RF = (390000.0 * 5 + 510.0) / 510.0;
   float SHUNT = 0.001;
-  
+
   mySensor.calibrate(SHUNT, RF);  //  shunt in ohm, reduction factor voltage.
 
   Serial.print("SHUNT:\t");
@@ -57,7 +57,17 @@ void setup()
   Serial.println(1200 * mySensor.getEnergyLSB(), 3);   //  0.224 kWh
   Serial.println();
 
-  Serial.println("Done...");
+  Serial.print("MAX VOLTAGE:     ");
+  Serial.println(mySensor.getMaxVoltage(), 1);
+  Serial.print("MAX VOLTAGE_RMS: ");
+  Serial.println(mySensor.getMaxVoltageRMS(), 1);
+  Serial.print("MAX CURRENT:     ");
+  Serial.println(mySensor.getMaxCurrent(), 1);
+  Serial.print("MAX CURRENT_RMS: ");
+  Serial.println(mySensor.getMaxCurrentRMS(), 1);
+
+
+  Serial.println("\nDone...");
 }
 
 

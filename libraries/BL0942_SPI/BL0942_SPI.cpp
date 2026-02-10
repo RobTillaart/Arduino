@@ -2,7 +2,7 @@
 //    FILE: BL0942_SPI.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-12-29
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for BL0942 energy monitor, SPI interface.
 //     URL: https://github.com/RobTillaart/BL0942_SPI
 
@@ -14,12 +14,12 @@
 //
 //      NAME                                NUMBER       BITS    RW
 //-------------------------------------------------------------------
-#define BL0942_REG_I_WAVE                   0x01      //  20     RO
-#define BL0942_REG_V_WAVE                   0x02      //  20     RO
+#define BL0942_REG_I_WAVE                   0x01      //  20s    RO
+#define BL0942_REG_V_WAVE                   0x02      //  20s    RO
 #define BL0942_REG_I_RMS                    0x03      //  24     RO
 #define BL0942_REG_V_RMS                    0x04      //  24     RO
 #define BL0942_REG_I_FAST_RMS               0x05      //  24     RO
-#define BL0942_REG_WATT                     0x06      //  24     RO
+#define BL0942_REG_WATT                     0x06      //  24s    RO
 #define BL0942_REG_CF_CNT                   0x07      //  24     RO
 #define BL0942_REG_FREQ                     0x08      //  16     RO
 #define BL0942_REG_STATUS                   0x09      //  10     RO
@@ -47,7 +47,8 @@
 //  extracted from app note (Chinese)
 //  + page 17 datasheet
 //  these constants have the factor 1000 for mV and mA in it.
-const float BL0942_VREF          = 1.218;
+//        for power the factor = 1000 x 1000.
+const float BL0942_VREF          = 1.218f;
 const float BL0942_MAGIC_CURRENT = 305978000;
 const float BL0942_MAGIC_VOLT    = 73989000;
 const float BL0942_MAGIC_POWER   = 3537000000;
@@ -106,7 +107,7 @@ bool BL0942_SPI::begin()
     pinMode(_dataOut, OUTPUT);
     pinMode(_clock,   OUTPUT);
     digitalWrite(_dataOut, LOW);
-    digitalWrite(_clock,   LOW);
+    digitalWrite(_clock,   LOW);  //  datasheet 3.1.1
   }
 
   //  reset variables
@@ -117,26 +118,55 @@ bool BL0942_SPI::begin()
 
 //////////////////////////////////////////////////////
 //
-//  CALIBRATION
+//  CALIBRATION 1
 //
 void BL0942_SPI::calibrate(float shunt, float reductionFactor)
 {
   //  based upon APPNOTE (Chinese) page 4
   _voltageLSB = BL0942_VREF * reductionFactor / BL0942_MAGIC_VOLT;
+  //  optimized formula
+  //  _voltageLSB = reductionFactor * (BL0942_VREF / BL0942_MAGIC_VOLT);
 
   _currentLSB = BL0942_VREF / (BL0942_MAGIC_CURRENT * shunt);
+  //  optimized formula
+  // _currentLSB = (BL0942_VREF / BL0942_MAGIC_CURRENT) / shunt;
 
+  //  reference APP NOTE formula
+  _powerLSB   = (BL0942_VREF * BL0942_VREF) * reductionFactor;
+  _powerLSB  /= (BL0942_MAGIC_POWER * shunt);
   //  optimized formula
   //  _powerLSB   = _voltageLSB * _currentLSB * 6.3995208E+06;
 
-  //  reference APP NOTE formula
-  _powerLSB   = BL0942_VREF * BL0942_VREF * reductionFactor;
-  _powerLSB  /= (BL0942_MAGIC_POWER * shunt);
-
   //  optimized formula
-  _energyLSB  = ((1638.4 * 256) / 3600000) * _powerLSB;
+  _energyLSB  = ((1638.4f * 256) / 3600000) * _powerLSB;
 }
 
+//  datasheet page 6.
+float BL0942_SPI::getMaxCurrent()
+{
+  return _currentLSB * ((0.042f * BL0942_MAGIC_CURRENT) / BL0942_VREF);
+}
+
+float BL0942_SPI::getMaxVoltage()
+{
+  return _voltageLSB * ((0.100f * BL0942_MAGIC_VOLT) / BL0942_VREF);
+}
+
+float BL0942_SPI::getMaxCurrentRMS()
+{
+  return _currentLSB * ((0.030f * BL0942_MAGIC_CURRENT) / BL0942_VREF);
+}
+
+float BL0942_SPI::getMaxVoltageRMS()
+{
+  return _voltageLSB * ((0.070f * BL0942_MAGIC_VOLT) / BL0942_VREF);
+}
+
+
+//////////////////////////////////////////////////////
+//
+//  CALIBRATION 2
+//
 float BL0942_SPI::getVoltageLSB()
 {
   return _voltageLSB;
@@ -190,9 +220,11 @@ float BL0942_SPI::getIWave()
 {
   //  signed 20 bit
   int32_t raw = readRegister(BL0942_REG_I_WAVE);
+  // Serial.print(__FUNCTION__);
+  // Serial.println(raw, HEX);
   raw &= 0xFFFFF;
   //  extend sign bit
-  if (raw & 0x00080000) raw |= 0xFFF0000;
+  if (raw & 0x00080000) raw |= 0xFFF00000;
   return raw * _currentLSB;
 }
 
@@ -200,9 +232,11 @@ float BL0942_SPI::getVWave()
 {
   //  signed 20 bit
   int32_t raw = readRegister(BL0942_REG_V_WAVE);
+  // Serial.print(__FUNCTION__);
+  // Serial.println(raw, HEX);
   raw &= 0xFFFFF;
   //  extend sign bit
-  if (raw & 0x00080000) raw |= 0xFFF0000;
+  if (raw & 0x00080000) raw |= 0xFFF00000;
   return raw * _voltageLSB;
 }
 
@@ -210,6 +244,8 @@ float BL0942_SPI::getIRMS()
 {
   //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_I_RMS);
+  // Serial.print(__FUNCTION__);
+  // Serial.println(raw, HEX);
   raw &= 0xFFFFFF;
   return raw * _currentLSB;
 }
@@ -218,6 +254,8 @@ float BL0942_SPI::getVRMS()
 {
   //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_V_RMS);
+  // Serial.print(__FUNCTION__);
+  // Serial.println(raw, HEX);
   raw &= 0xFFFFFF;
   return raw * _voltageLSB;
 }
@@ -226,6 +264,8 @@ float BL0942_SPI::getIRMSFast()
 {
   //  unsigned 24 bit
   uint32_t raw = readRegister(BL0942_REG_I_FAST_RMS);
+  // Serial.print(__FUNCTION__);
+  // Serial.println(raw, HEX);
   raw &= 0xFFFFFF;
   return raw * _currentLSB;
 }
@@ -234,9 +274,11 @@ float BL0942_SPI::getWatt()
 {
   //  signed 24 bit
   int32_t raw = readRegister(BL0942_REG_WATT);
+  // Serial.print(__FUNCTION__);
+  // Serial.println(raw, HEX);
   raw &= 0xFFFFFF;
   //  extend sign bit
-  if (raw & 0x00800000) raw |= 0xFF00000;
+  if (raw & 0x00800000) raw |= 0xFF000000;
   return raw * _powerLSB;
 }
 
@@ -286,28 +328,34 @@ float BL0942_SPI::getCurrentRMSOffset()
   raw &= 0xFF;
   //  verify formula units
   return raw * _currentLSB;
+  //  maybe
+  //  int8_t offset = raw & 0xFF
+  //  return raw * _currentLSB;
 }
 
 void BL0942_SPI::setCurrentRMSOffset(float offset)
 {
   //  verify formula units
-  uint8_t raw = offset / _currentLSB;
+  uint32_t raw = offset / _currentLSB;
+  if (raw > 255) raw = 255;
   writeRegister(BL0942_REG_I_RMSOS, raw);
 }
 
 float BL0942_SPI::getPowerCreep()
 {
-  //  unsigned ?, 8 bits
-  int32_t raw = readRegister(BL0942_REG_WA_CREEP);
+  //  unsigned 8 bits
+  uint32_t raw = readRegister(BL0942_REG_WA_CREEP);
   raw &= 0xFF;
-  float watt = raw * (3125.0/256.0);
+  float watt = raw * (3125.0 / 256.0);
   return watt;
 }
 
 void BL0942_SPI::setPowerCreep(float watt)
 {
-  //  8 bits
-  uint8_t raw = watt * (256.0 / 3125.0);
+  //  unsigned 8 bits
+  uint32_t raw = watt * (256.0 / 3125.0);
+  //  watt = [0.0 - 3112.79] => [0 - 255]
+  if (raw > 255) raw = 255;
   writeRegister(BL0942_REG_WA_CREEP, raw);
 }
 
@@ -458,6 +506,8 @@ void BL0942_SPI::setSPIspeed(uint32_t speed)
   {
     _SPIspeed = BL0942_SPI_MAX_SPEED;
   }
+  //  datasheet 3.1
+  //  CPOL=0, CPHA=1 => SPI_MODE1
   _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE1);
 }
 
@@ -471,9 +521,9 @@ bool BL0942_SPI::usesHWSPI()
   return _hwSPI;
 }
 
-
 void BL0942_SPI::resetSPI()
 {
+  //  datasheet 3.1.3
   if (_hwSPI)  //  Hardware SPI
   {
     _mySPI->beginTransaction(_spi_settings);
@@ -609,6 +659,7 @@ uint32_t BL0942_SPI::readRegister(uint8_t regAddr)
     if (crc != (checkSum ^ 0xFF))
     {
       _error = BL0942_ERR_CHECKSUM;
+      _errorCount++;
     }
     select(false);
     _mySPI->endTransaction();
@@ -630,6 +681,7 @@ uint32_t BL0942_SPI::readRegister(uint8_t regAddr)
     if (crc != (checkSum ^ 0xFF))
     {
       _error = BL0942_ERR_CHECKSUM;
+      _errorCount++;
     }
     select(false);
   }
@@ -645,6 +697,7 @@ uint8_t BL0942_SPI::swSPI_transfer(uint8_t val)
   uint8_t dao = _dataOut;
   uint8_t dai = _dataIn;
   uint8_t value = 0;
+  //  SPI MODE 1 - MSB FIRST
   for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
     digitalWrite(dao,(val & mask));
@@ -655,7 +708,7 @@ uint8_t BL0942_SPI::swSPI_transfer(uint8_t val)
       value |= mask;
     }
     //  force below 900.000 Hz rate (hard coded for now).
-    delayMicroseconds(1);
+    delayMicroseconds(5);
   }
   return value;
 }

@@ -7,58 +7,64 @@ BL0942_SPI	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 
-calibrate
-getVoltageLSB
-setVoltageLSB
-getCurrentLSB
-setCurrentLSB
-getPowerLSB
-setPowerLSB
-getEnergyLSB
-setEnergyLSB
+calibrate	KEYWORD2
+
+getMaxCurrent	KEYWORD2
+getMaxVoltage	KEYWORD2
+getMaxCurrentRMS	KEYWORD2
+getMaxVoltageRMS	KEYWORD2
+
+getVoltageLSB	KEYWORD2
+setVoltageLSB	KEYWORD2
+getCurrentLSB	KEYWORD2
+setCurrentLSB	KEYWORD2
+getPowerLSB	KEYWORD2
+setPowerLSB	KEYWORD2
+getEnergyLSB	KEYWORD2
+setEnergyLSB	KEYWORD2
 
 
-getIWave
-getVWave
-getIRMS
-getVRMS
-getIRMSFast
-getWatt
-getCFPulseCount
-getEnergy
-getFrequency
+getIWave	KEYWORD2
+getVWave	KEYWORD2
+getIRMS	KEYWORD2
+getVRMS	KEYWORD2
+getIRMSFast	KEYWORD2
+getWatt	KEYWORD2
+getCFPulseCount	KEYWORD2
+getEnergy	KEYWORD2
+getFrequency	KEYWORD2
 
-getStatus
+getStatus	KEYWORD2
 
-getCurrentRMSOffset
-setCurrentRMSOffset
-getPowerCreep
-setPowerCreep
-getFastRMSThreshold
-setFastRMSThreshold
+getCurrentRMSOffset	KEYWORD2
+setCurrentRMSOffset	KEYWORD2
+getPowerCreep	KEYWORD2
+setPowerCreep	KEYWORD2
+getFastRMSThreshold	KEYWORD2
+setFastRMSThreshold	KEYWORD2
 
-getFastRMSCycles
-setFastRMSCycles
-getFrequencyCycles
-setFrequencyCycles
+getFastRMSCycles	KEYWORD2
+setFastRMSCycles	KEYWORD2
+getFrequencyCycles	KEYWORD2
+setFrequencyCycles	KEYWORD2
 
-getOutputConfigMask
-setOutputConfigMask
-getUserMode
-setUserMode
-getCurrentGain
-setCurrentGain
+getOutputConfigMask	KEYWORD2
+setOutputConfigMask	KEYWORD2
+getUserMode	KEYWORD2
+setUserMode	KEYWORD2
+getCurrentGain	KEYWORD2
+setCurrentGain	KEYWORD2
 
-softReset
-getWriteProtect
-setWriteProtect
+softReset	KEYWORD2
+getWriteProtect	KEYWORD2
+setWriteProtect	KEYWORD2
 
 
-setSPIspeed
-getSPIspeed
-usesHWSPI
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
 
-getLastError
+getLastError	KEYWORD2
 
 
 # Constants (LITERAL1)

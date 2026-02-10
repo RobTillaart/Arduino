@@ -30,8 +30,8 @@ to be used in the Open KNX environment.
 Andreas co-developed and did the testing with hardware 
 
 This library only implements and supports the SPI interface.
-To use the SPI interface, the SEL (protocol select) pin of the PL0942 
-must be connected to HIGH (3.3V).
+To use the SPI interface, the SEL (protocol select) pin of the BL0942 
+must be connected to HIGH (3.3 Volt).
 
 The device acts as a SPI slave, which works in half duplex mode,
 at a maximum clock rate of 900 kHz. This is a rather low speed and
@@ -48,6 +48,12 @@ Always read the datasheet for the details.
 The library is still under test / development with hardware, so use with care.
 
 Feedback as always is welcome. Please open an issue on GitHub.
+
+
+### Breaking change 0.1.2
+
+0.1.2 fixes signed values in three functions. 
+Pre 0.1.2 releases are therefore obsolete.
 
 
 ### Hardware 2 models
@@ -223,8 +229,15 @@ loads. **So, the maximum rated current@ (1mΩ shunt) should be limited to 16A.**
 
 Reduction factor of an ```VDD - R1 - R2 - GND``` ladder:
 ```
-RF = (R1 + R2) / R2;  // e.g. R1=200K R2=100 => RF=200100/100 = 2001.
+RF = (R1 + R2) / R2;  // e.g. R1 = 200K R2 = 100 ==> RF = 200100 / 100 = 2001.
 ```
+
+From the calibration data the maxima can be derived.
+
+- **float getMaxCurrent()** idem
+- **float getMaxVoltage()** idem
+- **float getMaxCurrentRMS()** idem
+- **float getMaxVoltageRMS()** idem
 
 
 ### Calibration 2
@@ -249,22 +262,25 @@ Note: the LSB numbers are the reciprocal of the numbers configured in the UART l
 
 ### Core
 
+Register 0x01-0x08.
+
 - **float getIWave()** return current in Amperes.
 - **float getVWave()** return voltage in Volts.
 - **float getIRMS()** return RMS current in Amperes.
 - **float getVRMS()** return RMS voltage in Volts.
 - **float getIRMSFast()** returns RMS current (faster less exact) in Amperes.
-- **float getWatt()** returns power Watt.
+- **float getWatt()** returns power in Watt.
 - **uint32_t getCFPulseCount()** returns counter (base for energy).
 - **float getEnergy()** returns energy in kWh.
-- **float getFrequency()** returns frequency ~ 50 or 60 Hz.
+- **float getFrequency()** returns frequency typical ~50 or ~60 Hz.
 
 
 ### Status
 
-Read datasheet for details.
+Register 0x09.
 
 - **uint16_t getStatus()** returns status byte mask.
+Read datasheet for details. 
 
 |  name                  |  value   |
 |:-----------------------|:--------:|
@@ -276,11 +292,15 @@ Read datasheet for details.
 
 ### RMS offset
 
+Register 0x12.
+
 - **float getCurrentRMSOffset()** returns set offset.
 - **void setCurrentRMSOffset(float offset)** set offset in Amperes.
 
 
 ### Power creep
+
+Register 0x14.
 
 - **float getPowerCreep()**
 - **void setPowerCreep(float watt)**
@@ -291,11 +311,15 @@ and will not be accounted for as Power and Energy.
 
 ### Fast RMS threshold
 
+Register 0x15.
+
 - **float getFastRMSThreshold()**
 - **void setFastRMSThreshold(float threshold)**
 
 
 ### Fast RMS cycles
+
+Register 0x16.
 
 - **uint8_t getFastRMSCycles()**
 - **void setFastRMSCycles(uint8_t cycles)** cycles = 0..7
@@ -312,6 +336,8 @@ and will not be accounted for as Power and Energy.
 
 ### Frequency cycles
 
+Register 0x17.
+
 - **uint8_t getFrequencyCycles()**
 - **void setFrequencyCycles(uint8_t cycles)** cycles = 0..2
 
@@ -325,6 +351,8 @@ and will not be accounted for as Power and Energy.
 
 
 ### Output configuration
+
+Register 0x18.
 
 To set the (pulsed) output of the CF1, CF2 and the ZX pins.
 
@@ -353,6 +381,8 @@ Register 0x18, mask values should be OR-ed.
 
 ### UserMode
 
+Register 0x19.
+
 See datasheet for details.
 
 To be able to write to the UserMode register, one must call **setWriteProtect(false)**.
@@ -361,7 +391,7 @@ See below.
 - **uint16_t getUserMode()**
 - **void setUserMode(uint16_t mode)** mode = 0x0000 .. 0x03FF (default 0x087)
 
-Register 0x19, mask values should be OR-ed.
+Mask values should be OR-ed.
 
 |  Name                            |  Value   |  Notes  |
 |:---------------------------------|:--------:|:--------|
@@ -382,36 +412,36 @@ Register 0x19, mask values should be OR-ed.
 |  BL0942_MODE_UART_19200          |  0x0200  |
 |  BL0942_MODE_UART_38400          |  0x0300  |
 
-Note: The UART settings are not to be used in this SPI library.
+Note: The UART settings are not used in this SPI library.
 
-Note: bits 0,1 are reserved and default 1. bits 23-10 are default 0.
+Note: bits 0,1 are reserved and default 1. Bits 23-10 are default 0.
 
 
 ### Gain
 
+Register 0x1A.
+
 - **uint8_t getCurrentGain()**
 - **void setCurrentGain(uint8_t gain)**
-
-Register 0x1A
 
 |  Name            |  Value  |  Gain  |  Notes  |
 |:-----------------|:-------:|:------:|:--------|
 |  BL0942_GAIN_1   |   0x00  |    1   |
 |  BL0942_GAIN_4   |   0x01  |    4   |
-|  BL0942_GAIN_16  |   0x02  |   16   |
+|  BL0942_GAIN_16  |   0x02  |   16   |  default
 |  BL0942_GAIN_24  |   0x03  |   24   |
 
 
 ### Reset
 
-Read datasheet for details.
+Register 0x1C. Read datasheet for details.
 
-- **void softReset()**
+- **void softReset()** idem.
 
 
 ### Write protect
 
-Read datasheet for details.
+Register 0x1D. Read datasheet for details.
 
 - **uint8_t getWriteProtect()** returns current write protect status.
 - **void setWriteProtect(bool wp)**
@@ -428,16 +458,19 @@ Has no effect on software SPI.
 - **uint32_t getSPIspeed()** returns SPI transfer rate.
 - **bool usesHWSPI()** returns true / false depending on constructor.
 
+From datasheet:
+
 _3.1.3 Fault Tolerant Mechanism of SPI Interface_
 If MCU send 6 bytes (0xFF), the BL0942 perform a reset function 
 on the SPI communication interface.
 This might also affect configuration - to be verified!
-- **void resetSPI()** not tested.
+- **void resetSPI()** not tested yet.
 
 
 ### Error
 
 - **uint8_t getLastError()** returns last error of low level communication.
+- **uint32_t errorCount()** counter for CRC errors in readRegister. Not resettable.
 
 |  Value  |  Error                 |  Notes  |
 |:-------:|:-----------------------|:--------|
@@ -463,13 +496,11 @@ To set the channel selector call back function.
 
 - improve documentation
   - elaborate all functions.
-- get API functional complete
-- verify proper working of all functions (including configuration ones)
 - get hardware to test
+- verify proper working of all functions (including configuration ones)
 
 #### Should
 
-- **resetSPI()** function?  section 3.1.3
 - software SPI force under SPI max speed 
   - depending on performance / hard delayMicroseconds() for now.
     (it could measure time for first call and switch on/off delay)
@@ -480,6 +511,7 @@ To set the channel selector call back function.
 
 - add examples
 - improve error handling
+  - e.g. setters return bool if out of range.
 - investigate unit tests
 - default parameters for simple reset?
 - performance measurements

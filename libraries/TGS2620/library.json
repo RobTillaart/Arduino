@@ -1,0 +1,23 @@
+{
+  "name": "TGS2620",
+  "keywords": "TGS2600,environment",
+  "description": "Arduino library for TGS2620 and compatibles.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TGS2620.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TGS2620.h"
+}

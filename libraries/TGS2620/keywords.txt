@@ -1,0 +1,16 @@
+# Syntax Colouring Map For TGS2620
+
+# Data types (KEYWORD1)
+TGS2620	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+configure	KEYWORD2
+calibrate	KEYWORD2
+
+getPPM	KEYWORD2
+lastRead	KEYWORD2
+
+# Constants (LITERAL1)
+TGS2620_LIB_VERSION	LITERAL1
+

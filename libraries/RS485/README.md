@@ -16,7 +16,9 @@ Arduino library for RS485 communication.
 
 ## Description
 
-RS485 is an **experimental** library to make half duplex communication easier.
+**Experimental**
+
+RS485 is an experimental library to make half duplex communication easier.
 The library implements the Stream interface so the user can use
 **print()** and **write()** calls just like one does with **Serial**.
 
@@ -58,7 +60,7 @@ The new defines all have got an **ASCII_** prefix, e.g. **ASCII_FS**
 
 ### Related
 
-- https://www.gammon.com.au/forum/?id=11428
+- https://www.gammon.com.au/forum/?id=11428 - a very good reference
 - http://en.wikipedia.org/wiki/RS485
 - https://www.ti.com/lit/an/snla049b/snla049b.pdf - 10 ways to bulletproof your RS485
 - https://github.com/RobTillaart/Adler - checksum
@@ -83,6 +85,11 @@ via the Serial class.
 The sendPin is the pin that connects to the transmit/receive enable (DE/RE) pins.
 See connection schema above.
 The library sets the pinMode and defaults it to LOW (receiving mode).
+- **uint8_t getDeviceID()** returns the set deviceID. 
+
+
+### Mode
+
 - **void setTXmode()** explicitly set mode to transmitting / sending.
 This implies that the device will stop listening on the RS485 bus.
 - **void setRXmode()** explicitly set mode to receiving / listening.
@@ -121,9 +128,11 @@ baud rates are used it can be smaller.
 - **uint16_t getMicrosPerByte()** returns set value, default 1100 (9600 baud time).
 
 
-### Experimental
+### Experimental protocol
 
-Work in progress. The library has an **experimental** protocol implemented to
+**Experimental**
+
+Work in progress. The library has an protocol implemented to
 send and receive larger messages between the nodes in the network. 
 This network consists of one master that can poll multiple slaves. 
 
@@ -131,15 +140,15 @@ In 0.2.5 this protocol has been tested and some bugs in the receive parser
 have been fixed. It still is experimental and it needs more testing.
 
 The library functions are:
-- **size_t send(uint8_t receiverID, uint8_t msg[], uint8_t len)**
+- **size_t send(uint8_t receiverID, uint8_t message[], uint8_t length)**
   - send a buffer of given length to a receiver.
-- **bool receive(uint8_t &senderID, uint8_t msg[], uint8_t &len)**
+- **bool receive(uint8_t &senderID, uint8_t message[], uint8_t &length)**
   - receive a packet, senderID identifies the sender.
 
 Two wrappers:
-- **size_t send(uint8_t receiverID, char msg[], uint8_t len)**
+- **size_t send(uint8_t receiverID, char message[], uint8_t length)**
   - send a buffer of given length to a receiver.
-- **bool receive(uint8_t &senderID, char msg[], uint8_t &len)**
+- **bool receive(uint8_t &senderID, char message[], uint8_t &length)**
   - receive a packet, senderID identifies the sender. 
 
 Current implementation limits messages up to 48 bytes (hardcoded buffer size)

@@ -3,7 +3,7 @@
 //    FILE: RS485.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: Arduino library for RS485 modules
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "ASCII_CONTROL.h"
 
-#define RS485_LIB_VERSION        (F("0.5.2"))
+#define RS485_LIB_VERSION        (F("0.5.3"))
 
 
 class RS485 : public Stream
@@ -45,16 +45,18 @@ public:
   //  - in a derived class?
   //  - use at own risk
   //  send ASCII encoded messages from one master to multiple clients.
-  //       msg[] = 32..127
-  //       len   =  1.. 48 (internal receive buffer is 50)
-  size_t   send(uint8_t receiverID, uint8_t msg[], uint8_t len);
-  bool     receive(uint8_t &senderID, uint8_t msg[], uint8_t &len);
+  //       message[] = 32..127
+  //       length    =  1.. 48 (internal receive buffer is 50)
+  size_t   send(uint8_t receiverID, uint8_t message[], uint8_t length);
+  bool     receive(uint8_t &senderID, uint8_t message[], uint8_t &length);
 
   //  EXPERIMENTAL
-  size_t   send(uint8_t receiverID, char msg[], uint8_t len);
-  bool     receive(uint8_t &senderID, char msg[], uint8_t &len);
+  size_t   send(uint8_t receiverID, char message[], uint8_t length);
+  bool     receive(uint8_t &senderID, char message[], uint8_t &length);
 
   //  EXPERIMENTAL
+  //  set small delay to ensure flush sends all chars
+  //  mpb == 1100 @ 9600 baud
   void     setMicrosPerByte(uint16_t mpb) { _microsPerByte = mpb; };
   uint16_t getMicrosPerByte() { return _microsPerByte; };
 

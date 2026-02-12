@@ -2,7 +2,7 @@
 //    FILE: RS485.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 30-okt-2017
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: Arduino library for RS485 modules (MAX485)
 //     URL: https://github.com/RobTillaart/RS485
 
@@ -154,23 +154,23 @@ size_t RS485::write(uint8_t * array, uint8_t length)
 //     ASCII_EOT          end of transmission
 //
 
-size_t RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
+size_t RS485::send(uint8_t receiverID, uint8_t message[], uint8_t msglen)
 {
   size_t n = 0;
-  uint8_t CHKSUM = 0;
+  uint8_t CHECKSUM = 0;
 
   setTXmode();                 //  transmit mode
   _stream->write(ASCII_SOH);
   n += _stream->write(receiverID);  //  TO
   n += _stream->write(_deviceID);   //  FROM
-  n += _stream->write(len);         //  LENGTH BODY
+  n += _stream->write(msglen);      //  LENGTH BODY
   n += _stream->write(ASCII_STX);
-  for (int i = 0; i < len; i++)
+  for (int i = 0; i < msglen; i++)
   {
-    n += _stream->write(msg[i]);
-    CHKSUM ^= msg[i];          //  Simple XOR checksum.
+    n += _stream->write(message[i]);
+    CHECKSUM ^= message[i];          //  Simple XOR checksum.
   }
-  n += _stream->write(CHKSUM);
+  n += _stream->write(CHECKSUM);
   n += _stream->write(ASCII_ETX);
   n += _stream->write(ASCII_EOT);
   _stream->flush();
@@ -182,12 +182,12 @@ size_t RS485::send(uint8_t receiverID, uint8_t msg[], uint8_t len)
 
 //  returns true if complete message is captured.
 //  multiple calls needed as it should be non-blocking.
-bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
+bool RS485::receive(uint8_t &senderID, uint8_t message[], uint8_t &msglen)
 {
   static uint8_t state  = 0;
   static uint8_t length = 0;
   static bool    forMe  = false;
-  static uint8_t CHKSUM = 0;
+  static uint8_t CHECKSUM = 0;
 
   if (_stream->available() == 0) return false;
 
@@ -204,7 +204,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       if (v == ASCII_SOH)
       {
         _bidx = 0;        //  start new packet
-        CHKSUM = 0;
+        CHECKSUM = 0;
         state = 1;
       }
       break;
@@ -240,11 +240,11 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       if (length == 0)
       {
         //  expect checksum
-        if (CHKSUM == v) state = 6;
+        if (CHECKSUM == v) state = 6;
         else
         {
           //  debug failing checksum
-          //  Serial.print(CHKSUM, HEX);
+          //  Serial.print(CHECKSUM, HEX);
           //  Serial.print('\t');
           //  Serial.println(v, HEX);
           state = 99;  //  for debug change to state = 6;
@@ -253,7 +253,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
       }
       //  error handling  if v not ASCII ?
       _buffer[_bidx++] = v;
-      CHKSUM ^= v;
+      CHECKSUM ^= v;
       length--;
       break;
 
@@ -270,7 +270,7 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
         msglen = _bidx;
         for (int i = 0; i < msglen; i++)
         {
-          msg[i] = _buffer[i];
+          message[i] = _buffer[i];
         }
         state = 0;
         return true;
@@ -288,15 +288,15 @@ bool RS485::receive(uint8_t &senderID, uint8_t msg[], uint8_t &msglen)
 }
 
 
-size_t RS485::send(uint8_t receiverID, char msg[], uint8_t len)
+size_t RS485::send(uint8_t receiverID, char message[], uint8_t length)
 {
-  return send(receiverID, (uint8_t *)msg, len);
+  return send(receiverID, (uint8_t *)message, length);
 }
 
 
-bool RS485::receive(uint8_t &senderID, char msg[], uint8_t &len)
+bool RS485::receive(uint8_t &senderID, char message[], uint8_t &length)
 {
-  return receive(senderID, (uint8_t*) msg, len);
+  return receive(senderID, (uint8_t*) message, length);
 }
 
 

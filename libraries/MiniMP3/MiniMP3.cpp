@@ -1,7 +1,7 @@
 //
 //    FILE: MiniMP3.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 // PURPOSE: Arduino library for DFRobotics MP3 player and compatibles.
 //    DATE: 2018-06-11
 //     URL: https://github.com/RobTillaart/MINIMP3
@@ -32,6 +32,7 @@
 #define MP3_PLAY_FOLDER       0x0F
 #define MP3_VOL_ADJUST_SET    0x10
 #define MP3_REPEAT            0x11
+#define MP3_STOP              0x15
 
 
 //  QUERIES
@@ -75,7 +76,7 @@ void MINIMP3::prev()
 
 void MINIMP3::stop()
 {
-  command(0x15);
+  command(MP3_STOP);
 }
 
 
@@ -158,14 +159,14 @@ void MINIMP3::command(uint8_t cmd, uint8_t arg1, uint8_t arg2)
                         0xEF     //  End Byte
                         };
 
-  uint16_t chksum  = 0;
+  uint16_t checksum  = 0;
   for (int i = 1; i < 7; i++ )
   {
-    chksum += buffer[i];
+    checksum += buffer[i];
   }
-  chksum = -chksum;
-  buffer[7] = (chksum >> 8);      //  CheckSumHigh
-  buffer[8] = (chksum & 0xFF);    //  CheckSumLow
+  checksum = -checksum;
+  buffer[7] = (checksum >> 8);      //  CheckSumHigh
+  buffer[8] = (checksum & 0xFF);    //  CheckSumLow
 
   _stream->write(buffer, 10);
 }

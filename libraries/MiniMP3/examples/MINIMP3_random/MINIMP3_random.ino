@@ -40,6 +40,9 @@ void setup()
   while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
+  Serial.print("MINIMP3_LIB_VERSION: ");
+  Serial.println(MINIMP3_LIB_VERSION);
+  Serial.println();
 
   pinMode(BUSY_PIN, INPUT_PULLUP);
   sws.begin(9600);

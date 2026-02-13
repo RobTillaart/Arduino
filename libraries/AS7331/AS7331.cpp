@@ -1,8 +1,8 @@
 //
 //    FILE: AS7331.cpp
-//  AUTHOR: Rob Tillaart
+//  AUTHOR: Rob Tillaart, Finn Reichertz
 //    DATE: 2025-08-28
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 // PURPOSE: Arduino library for AS7331 UV sensor
 //     URL: https://github.com/RobTillaart/AS7331
 
@@ -341,7 +341,7 @@ float AS7331::getUVA_uW()
   //  FSR = Full Scale Range
   //  LSB = Least Significant Bit = value per bit
   //  const float FSR_UVA = 348160.0f;  //  figure 27, 28
-  const float LSB_UVA = 340000.0f;
+  const float LSB_UVA = 340.0f;
   float microWatt = getRawUVA() * LSB_UVA * _GainTimeFactor;
   return microWatt;
 }
@@ -349,7 +349,7 @@ float AS7331::getUVA_uW()
 float AS7331::getUVB_uW()
 {
   //  const float FSR_UVB = 387072.0f;  //  figure 29, 30
-  const float LSB_UVB = 378000.0f;
+  const float LSB_UVB = 378.0f;
   float microWatt = getRawUVB() * LSB_UVB * _GainTimeFactor;
   return microWatt;
 }
@@ -357,7 +357,7 @@ float AS7331::getUVB_uW()
 float AS7331::getUVC_uW()
 {
   //  const float FSR_UVC = 169984.0f;  //  figure 31, 32
-  const float LSB_UVC = 166000.0f;
+  const float LSB_UVC = 166.0f;
   float microWatt = getRawUVC() * LSB_UVC * _GainTimeFactor;
   return microWatt;
 }

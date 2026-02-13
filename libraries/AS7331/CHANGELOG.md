@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2026-02-12
+- fix #8, fix the scale from nWatt to uWatt  (kudos to Finnventor)
+- sync with https://github.com/Finnventor/AS7331
+- add a lot of calibration data and code. (kudos to Finnventor)
+- mention Finn Reichertz (Finnventor) as co-author.
+- minor edits
+
 ## [0.4.0] - 2026-01-14
 - fix #6, typo in UVB and UVC wrapper functions.
 - add **uint16_t getRawUVA(), getRawUVB(), getRawUVC()** - see #6

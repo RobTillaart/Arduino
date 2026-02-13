@@ -10,4 +10,5 @@ jobs:
       - uses: arduino/arduino-lint-action@v2
         with:
           library-manager: update
-          compliance: strict
+          #  compliance not strict due to calibration code part
+          compliance: permissive

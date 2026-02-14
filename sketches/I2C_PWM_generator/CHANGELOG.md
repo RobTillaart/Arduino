@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-02-14
+- update GitHub actions
+- minor edits
+
 ## [0.1.1] - 2025-05-16
 - add LED 13 as heartbeat indicator.
 - add watchdog reset (2 seconds)

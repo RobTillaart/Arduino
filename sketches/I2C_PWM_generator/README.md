@@ -17,7 +17,7 @@ not used.
 Arduino UNO as a 6 channel I2C PWM generator.
 
 
-## Version: 0.1.1
+## Version: 0.1.2
 
 ## Description
 

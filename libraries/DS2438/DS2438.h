@@ -2,7 +2,7 @@
 //
 //    FILE: DS2438.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for DS2438 battery monitor
 //     URL: https://github.com/RobTillaart/DS2438
@@ -33,9 +33,16 @@
 #include "Arduino.h"
 #include "OneWire.h"
 
-#define DS2438_LIB_VERSION        (F("0.1.2"))
+#define DS2438_LIB_VERSION        (F("0.2.0"))
 
 #define DS2438_INVALID             -999
+
+
+//  bits configuration register (do not change)
+const uint8_t DS2438_CONFIG_IAD = 0;
+const uint8_t DS2438_CONFIG_CA  = 1;
+const uint8_t DS2438_CONFIG_EE  = 2;
+const uint8_t DS2438_CONFIG_AD  = 3;
 
 
 typedef uint8_t DeviceAddress[8];
@@ -57,20 +64,26 @@ public:
 
 
   //  VOLTAGE
+  //  enable the AD voltage selector,
+  //  read pin 4 as the selected voltage or read VDD as voltage
+  void    enableVoltageSelector();
+  void    disableVoltageSelector();
   //  unit is Volts
   float    readVDD();
-  float    getVDD();
+  float    getVDD();  //  from cache
   float    readVAD();
-  float    getVAD();
+  float    getVAD();  //  from cache
 
 
   //  CURRENT
-  void     setResistor(float resistor = 0.01);  // in OHM
+  void     setResistor(float resistor = 0.01);  //  in Ohm
   void     enableCurrentMeasurement();
   void     disableCurrentMeasurement();
   //  unit is Ampere
   float    readCurrent();
-  float    getCurrent();
+  float    getCurrent();  //  from cache
+  //  datasheet p.6
+  //  to write, measurements must be disabled.
   void     writeCurrentOffset(int value);
   int      readCurrentOffset();
 
@@ -105,8 +118,17 @@ public:
   //  CCA / DCA
   //  Charging + Discharge Current Accumulator
   //  unit = mVHr
-  void     enableCCA();
+  void     enableCCA();  //  enables both CCA and DCA
   void     disableCCA();
+
+  //  enable shadow CCA / DCA
+  void     enableCCAShadow();
+  void     disableCCAShadow();
+  //  experimental
+  bool     setCCA(float CCA);    //  blocks 10+ ms
+  bool     setDCA(float DCA);    //  blocks 10+ ms
+  void     resetAccumulators();  //  blocks 10+ ms
+  //  read works only meaningful if shadow to EEPROM is enabled.
   float    readCCA();
   float    readDCA();
 
@@ -115,6 +137,11 @@ public:
   void     setConfigBit(uint8_t bit);
   void     clearConfigBit(uint8_t bit);
   uint8_t  getConfigRegister();
+  //  STATUS
+  bool     busy();
+  bool     busyTemperature();
+  bool     busyNVRAM();
+  bool     busyADC();
 
 
 private:
@@ -128,6 +155,7 @@ private:
   float    _vdd;
   float    _current;
   float    _inverseR;   //  1/(4096*resistor) optimized.
+  float    _RICA;       //  1/(2048*resistor) optimized.
 
   void     readScratchPad(uint8_t page);
   void     writeScratchPad(uint8_t page);

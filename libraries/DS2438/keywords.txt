@@ -11,6 +11,9 @@ isConnected	KEYWORD2
 readTemperature	KEYWORD2
 getTemperature	KEYWORD2
 
+enableVoltageSelector	KEYWORD2
+disableVoltageSelector	KEYWORD2
+
 readVDD	KEYWORD2
 getVDD	KEYWORD2
 readVAD	KEYWORD2
@@ -39,13 +42,23 @@ readEEPROM	KEYWORD2
 
 enableCCA	KEYWORD2
 disableCCA	KEYWORD2
+enableCCAShadow	KEYWORD2
+disableCCAShadow	KEYWORD2
+
+resetAccumulators	KEYWORD2
+setCCA	KEYWORD2
+setDCA	KEYWORD2
 readCCA	KEYWORD2
 readDCA	KEYWORD2
-
 
 setConfigBit	KEYWORD2
 clearConfigBit	KEYWORD2
 getConfigRegister	KEYWORD2
+
+busy	KEYWORD2
+busyTemperature	KEYWORD2
+busyNVRAM	KEYWORD2
+busyADC	KEYWORD2
 
 
 # Constants (LITERAL1)

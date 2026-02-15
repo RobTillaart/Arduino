@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2026-02-05
+- fix address bug in read/writeEEPROM()
+- fix #5, improve demo sketch
+- fix sign extension in **readCurrentOffset()**
+- add DS2438_time_convert.ino
+- add **enableCCAShadow()** + **disableCCAShadow()**
+- add **bool setCCA(float value)** and **bool setDCA(float value)**
+- add getters for status bits e.g **busyADC()**
+- refactor code.
+- update readme.md
+
+----
+
 ## [0.1.2] - 2026-01-02
 - update GitHub actions
 - update examples

@@ -23,7 +23,6 @@ void setup()
   Serial.println(DS2438_LIB_VERSION);
   Serial.println();
 
-
   bm.begin();
   Serial.println(bm.isConnected());
 
@@ -43,6 +42,9 @@ void setup()
   Serial.println("\nCurrent");
   bm.setResistor(0.01);
   bm.enableCurrentMeasurement();
+  delay(10);
+  Serial.print("STATUS: ");
+  Serial.println(bm.getConfigRegister(), HEX);
   delay(30);
   bm.readCurrent();
   Serial.println(bm.getCurrent());
@@ -53,25 +55,30 @@ void setup()
   Serial.println(bm.readDisconnectTime());
   Serial.println(bm.readEndOfChargeTime());
 
-
-  Serial.println("\nThresshold");
+  Serial.println("\nThreshold");
   Serial.println(bm.readThreshold());
 
 
   Serial.println("\nCCA/DCA");
+  Serial.println("  Charge: ");
   Serial.println(bm.readCCA());
+  Serial.println("Discharge: ");
   Serial.println(bm.readDCA());
+  Serial.println("    Delta: ");
+  Serial.println(bm.readCCA() - bm.readDCA());
 
 
   Serial.println("\nEEPROM");
-  for (int addr = 0; addr < 40; addr++)
+  Serial.println("Do NOT write the last 4 EEPROM bytes == persistent store of CCA and CDA");
+  for (int addr = 0; addr < 36; addr++)
   {
     bm.writeEEPROM(addr, 100 + addr);
   }
-  for (int addr = 0; addr < 40; addr++)
+  for (int addr = 0; addr < 36; addr++)
   {
     if (addr % 8 == 0) Serial.println();
     Serial.print(bm.readEEPROM(addr));
+    Serial.print(' ');
   }
   Serial.println();
 

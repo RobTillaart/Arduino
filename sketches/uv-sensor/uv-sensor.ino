@@ -26,7 +26,7 @@ float indexUV(uint16_t pin, int16_t analog_max, float voltage_max)
   uint16_t raw = analogRead(pin);
   float millivolt = (voltage_max * raw * 1000) / analog_max;
   float uvi = 0.0;
-  
+
   if (millivolt < 50)
   {
     return uvi;

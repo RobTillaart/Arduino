@@ -24,7 +24,7 @@ void setup()
   Serial.println(SOUNDEX_LIB_VERSION);
   Serial.println();
   delay(100);
-  
+
   start = micros();
   char * p = SDX.soundex("soundex");
   stop = micros();

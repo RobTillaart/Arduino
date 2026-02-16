@@ -1,7 +1,7 @@
 //
 //    FILE: DHT_simulator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Simulation of the DHT protocol
 //    DATE: 2014-06-14
 //     URL: https://github.com/RobTillaart/DHT_Simulator
@@ -10,15 +10,15 @@
 // - split loop into some functions?
 
 
-//  SET ACTUAL PINS PER PLATFORM
-const int dataPin     = 5;    //  connect to MCU ( !! also connect GND !! )
-const int CRCPin      = 6;    //  connect switch to simulate CRC errors.
-const int TimeOutPin  = 7;    //  connect switch to simulate timeout errors.
-const int PulseLenPin = 8;    //  connect switch to simulate pulselength errors.
+// SET ACTUAL PINS PER PLATFORM
+const int dataPin     = 5;    // connect to MCU ( !! also connect GND !! )
+const int CRCPin      = 6;    // connect switch to simulate CRC errors.
+const int TimeOutPin  = 7;    // connect switch to simulate timeout errors.
+const int PulseLenPin = 8;    // connect switch to simulate pulselength errors.
 
 
 #if defined(__AVR__)
-const int humPin  = A0;       //  analog pins for potmeters.
+const int humPin  = A0;   // analog pins for potmeters.
 const int tempPin = A2;
 #elif defined(ESP32)
 const int humPin  = 14;
@@ -32,31 +32,30 @@ const int tempPin = A2;
 #endif
 
 
-//  DATA TO SEND
-byte b[5];                //  actual bytes sent
-int humidity;             //  humidity * 10     - prevent float operations
-int temperature;          //  temperature * 10
+// DATA TO SEND
+byte b[5];                // actual bytes sent
+int humidity;             // humidity * 10     - prevent float operations
+int temperature;          // temperature * 10
 
 
-//  CONFIGURE
-const bool randomize = true;   //  use random generator
-const bool debug     = false;  //  test data generation
+// CONFIGURE
+const bool randomize = true;   // use random generator
+const bool debug     = false;  // test data generation
 
-bool CRCerror        = false;  //  inject CRC error
+bool CRCerror        = false;  // inject CRC error
 bool TimeOutError    = false;  //
-bool PulseLenError   = false;  //
-uint32_t   count     = 0;      //  count values per second generated
-uint32_t   lastTime  = 0;      //  keep track of timing
+bool PulseLenError   = false;  //.
+uint32_t   count     = 0;      // count values per second generated
+uint32_t   lastTime  = 0;      // keep track of timing
 
 
 /////////////////////////////////////////
-
-
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   pinMode(dataPin,     INPUT_PULLUP);
   pinMode(CRCPin,      INPUT_PULLUP);
@@ -64,10 +63,9 @@ void setup()
   pinMode(PulseLenPin, INPUT_PULLUP);
 }
 
-
 void loop()
 {
-  yield();    //  keep ESP happy
+  yield();    // keep ESP happy
 
   count++;
   uint32_t now = millis();
@@ -104,22 +102,22 @@ void loop()
   }
 
 
-  //  READ "ERROR" PINS
+  // READ "ERROR" PINS
   CRCerror        = digitalRead(CRCPin) == LOW;
   TimeOutError    = digitalRead(TimeOutPin) == LOW;
   PulseLenError   = digitalRead(PulseLenPin) == LOW;
 
 
-  //  WAKE UP SIGNAL DETECTED
+  // WAKE UP SIGNAL DETECTED
   if (digitalRead(dataPin) == LOW)
   {
     uint32_t start = micros();
-    //  wait max 1500 us until signal goes high
+    // wait max 1500 us until signal goes high
     while (digitalRead(dataPin) == LOW)
     {
       if (micros() - start > 1500)
       {
-        // Serial.println("ERROR: low puise too long");
+        // Serial.println("ERROR: low pulse too long");
         return;
       }
     }
@@ -141,7 +139,7 @@ void loop()
     }
     else
     {
-      Serial.println("ERROR: low puise too short");
+      Serial.println("ERROR: low pulse too short");
     }
   }
 }
@@ -161,7 +159,7 @@ void DHTsend(int H, int T)
     delayMicroseconds(100);  //  inject extra 100 microseconds
   }
 
-  //  PREPARE DATA
+  // PREPARE DATA
   b[0] = H / 256;
   b[1] = H & 255;
 
@@ -177,7 +175,7 @@ void DHTsend(int H, int T)
 
   //  CRC
   b[4] = b[0] + b[1] + b[2] + b[3];
-  if (CRCerror) b[4]++;          //  inject CRC error
+  if (CRCerror) b[4]++;          // inject CRC error
 
   //  SEND DATA
   for (int i = 0; i < 5; i++)
@@ -187,10 +185,9 @@ void DHTsend(int H, int T)
 
   //  END OF TRANSMISSION SIGNAL
   digitalWrite(dataPin, LOW);
-  delayMicroseconds(50);                  //  50 us
+  delayMicroseconds(50);                  // 50 us
   pinMode(dataPin, INPUT_PULLUP);
 }
-
 
 //  timing manual tuned
 void DHTsendbyte(byte b)
@@ -210,5 +207,6 @@ void DHTsendbyte(byte b)
     mask >>= 1;
   }
 }
+
 
 //  -- END OF FILE --

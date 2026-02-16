@@ -1,7 +1,7 @@
 //
 //    FILE: DHT_simulator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Simulation of the DHT protocol
 //    DATE: 2014-06-14
 //     URL: https://github.com/RobTillaart/DHT_Simulator
@@ -26,7 +26,7 @@ const int tempPin = 15;
 #elif defined(ESP8266)
 const int humPin  = 2;
 const int tempPin = 3;
-#else // CI 
+#else // CI
 const int humPin  = A0;
 const int tempPin = A2;
 #endif
@@ -43,7 +43,7 @@ const bool randomize = true;   // use random generator
 const bool debug     = false;  // test data generation
 
 bool CRCerror        = false;  // inject CRC error
-bool TimeOutError    = false;  // 
+bool TimeOutError    = false;  //
 bool PulseLenError   = false;  //.
 uint32_t   count     = 0;      // count values per second generated
 uint32_t   lastTime  = 0;      // keep track of timing
@@ -53,8 +53,9 @@ uint32_t   lastTime  = 0;      // keep track of timing
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Start ");
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   pinMode(dataPin,     INPUT_PULLUP);
   pinMode(CRCPin,      INPUT_PULLUP);
@@ -116,11 +117,11 @@ void loop()
     {
       if (micros() - start > 1500)
       {
-        // Serial.println("ERROR: low puise too long");
+        // Serial.println("ERROR: low pulse too long");
         return;
       }
     }
-    if (micros() - start > 500)     // serious request...
+    if (micros() - start > 500)     //  serious request...
     {
       DHTsend(humidity, temperature);
 
@@ -138,7 +139,7 @@ void loop()
     }
     else
     {
-      Serial.println("ERROR: low puise too short");
+      Serial.println("ERROR: low pulse too short");
     }
   }
 }
@@ -147,15 +148,15 @@ void loop()
 void DHTsend(int H, int T)
 {
   pinMode(dataPin, OUTPUT);
-  // SEND ACK
+  //  SEND ACK
   digitalWrite(dataPin, LOW);
-  delayMicroseconds(80);                  // 80 us
+  delayMicroseconds(80);                  //  80 us
   digitalWrite(dataPin, HIGH);
-  delayMicroseconds(80);                  // 80 us
+  delayMicroseconds(80);                  //  80 us
 
   if (TimeOutError)
   {
-    delayMicroseconds(100);  // inject extra 100 microseconds
+    delayMicroseconds(100);  //  inject extra 100 microseconds
   }
 
   // PREPARE DATA
@@ -172,39 +173,40 @@ void DHTsend(int H, int T)
   b[2] |= T / 256;
   b[3] = T & 255;
 
-  // CRC
+  //  CRC
   b[4] = b[0] + b[1] + b[2] + b[3];
   if (CRCerror) b[4]++;          // inject CRC error
 
-  // SEND DATA
+  //  SEND DATA
   for (int i = 0; i < 5; i++)
   {
     DHTsendbyte(b[i]);
   }
 
-  // END OF TRANSMISSION SIGNAL
+  //  END OF TRANSMISSION SIGNAL
   digitalWrite(dataPin, LOW);
   delayMicroseconds(50);                  // 50 us
   pinMode(dataPin, INPUT_PULLUP);
 }
 
-// timing manual tuned
+//  timing manual tuned
 void DHTsendbyte(byte b)
 {
   byte mask = 128;
   for (int i = 0; i < 8; i++)
   {
     digitalWrite(dataPin, LOW);
-    delayMicroseconds(45);                // 50 us
+    delayMicroseconds(45);                //  50 us
     if (PulseLenError)
     {
-      delayMicroseconds(10);              // inject extra pulselength  // TWEAK amount
+      delayMicroseconds(10);              //  inject extra pulse length  // TWEAK amount
     }
     digitalWrite(dataPin, HIGH);
-    if (b & mask) delayMicroseconds(60);  // 70 us
-    else delayMicroseconds(24);           // 26 us
+    if (b & mask) delayMicroseconds(60);  //  70 us
+    else delayMicroseconds(24);           //  26 us
     mask >>= 1;
   }
 }
 
-// -- END OF FILE --
+
+//  -- END OF FILE --

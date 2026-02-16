@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2026-02-01
+- add meta fields in API - ADS1x15.h
+
 ## [0.6.0] - 2026-01-17
 - fix #98, software differential functions have reversed subtraction.
 - update GitHub actions

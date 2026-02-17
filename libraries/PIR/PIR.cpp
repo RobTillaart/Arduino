@@ -1,7 +1,7 @@
 //
 //    FILE: PIR.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-08-13
 // PURPOSE: PIR library for Arduino.
 //     URL: https://github.com/RobTillaart/PIR
@@ -33,6 +33,24 @@ uint8_t PIR::add(uint8_t * pins, uint8_t length)
     add(pins[i]);
   }
   return _count - 1;
+}
+
+
+uint8_t PIR::getPinAtIndex(uint8_t index)
+{
+  if (_count == 0)     return PIR_ERR_NO_SENSOR;
+  if (_count <= index) return PIR_ERR_INDEX;
+  return _pins[index];
+}
+
+
+bool PIR::hasPin(uint8_t pin)
+{
+  for (int i = 0; i < _count; i++)
+  {
+    if (_pins[i] == pin) return true;;
+  }
+  return false;
 }
 
 

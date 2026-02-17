@@ -5,6 +5,9 @@ PIR	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 add	KEYWORD2
+getPinAtIndex	KEYWORD2
+hasPin	KEYWORD2
+
 reset	KEYWORD2
 count	KEYWORD2
 free	KEYWORD2

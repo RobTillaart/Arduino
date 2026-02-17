@@ -20,7 +20,7 @@ The library supports default 8 PIR sensors per object, which typically are added
 It is possible to add a sensor (pin) multiple times as the library accepts duplicates.
 
 The library has two **read()** functions, one to read a specific sensor, and one to read all of them.
-The latter will return a mask indicating HIGH and LOW.
+The latter will return a mask indicating HIGH and LOW per PIR sensor.
 The first added PIR will have the LSB.
 
 The maximum number of PIR sensors supported can be adjusted with a define 
@@ -32,7 +32,9 @@ As always feedback is welcome.
 
 ### Related
 
-- https://github.com/RobTillaart/TCRT5000
+- https://github.com/RobTillaart/PIR - Simple PIR class
+- https://github.com/RobTillaart/PIR8575 - 16 parallel PIR sensors
+- https://github.com/RobTillaart/TCRT5000 - reflective IR sensor
 
 
 ## Interface
@@ -50,6 +52,8 @@ Returns the index or PIR_ARRAY_FULL (0xFE)
 to the set of pins if there is enough room for all pins of the array.
 If there is no room in the internal set to add length pins, no pin is added. 
 Returns the (last) index or PIR_ARRAY_FULL (0xFE) in case no pin is added.
+- **uint8_t getPinAtIndex(uint8_t index)** read back pins configured.
+- **bool hasPin(uint8_t pin)** checks if pin is in the set of pins
 - **void reset()** removes all pins from the internal set, reset lastRead too.
 - **uint8_t count()** returns number of PIR sensors added.
 - **uint8_t free()** returns number of free slots to add.
@@ -78,19 +82,17 @@ This can improve processing in some cases.
 
 - add examples
   - interrupts?
-- investigate dynamic allocation in constructor (0.3.0)
-  - 0.2.0 has compile time define.
 
 #### Could
 
 - one lastRead for all
-- **uint8_t getPinAtIndex(uint8_t index)** to get back configuration
-
+- investigate dynamic allocation in constructor (0.3.0)
+  - 0.2.0 has compile time define.
 
 #### Wont
 
 - PIR class based upon a PCF8574?
-  - separate class
+  - separate class (see PIR8575)
 - timestamp per PIR
   - lastRead, lastTriggered?
   - taking "a lot of RAM" for every pin

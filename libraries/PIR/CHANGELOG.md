@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2026-02-17
+- update GitHub actions
+- add **uint8_t getPinAtIndex(uint8_t index)**
+- add **bool hasPin(uint8_t pin)**
+- minor edits
+
 ## [0.2.0] - 2025-06-26
 - add **reset()** to clean up internal admin
 - add **free()** to return available slots

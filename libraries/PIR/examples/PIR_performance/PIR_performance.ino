@@ -1,7 +1,7 @@
 //
 //    FILE: PIR_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo pir sensor class
+// PURPOSE: demo PIR sensor class
 //     URL: https://github.com/RobTillaart/PIR
 
 
@@ -39,6 +39,7 @@ void setup()
   test_read();
   test_lastValue();
   test_changed();
+  test_hasPin();
 }
 
 
@@ -87,6 +88,22 @@ void test_changed()
 
   start = micros();
   uint8_t x = P.changed();
+  stop = micros();
+  Serial.print("TIME:\t");
+  Serial.println(stop - start);
+  Serial.print("VAL:\t");
+  Serial.println(x, HEX);
+}
+
+
+void test_hasPin()
+{
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  delay(10);
+
+  start = micros();
+  uint8_t x = P.hasPin(10);
   stop = micros();
   Serial.print("TIME:\t");
   Serial.println(stop - start);

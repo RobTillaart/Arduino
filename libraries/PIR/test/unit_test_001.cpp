@@ -89,7 +89,7 @@ unittest(test_free)
   }
   assertEqual(5, P.count());
   assertEqual(3, P.free());
-  
+
   P.reset();
   assertEqual(0, P.count());
   assertEqual(8, P.free());
@@ -105,7 +105,7 @@ unittest(test_read)
   assertEqual(0, x);
   uint8_t y = P.lastValue();
   assertEqual(x, y);
-  
+
   P.add(3);
   x = P.read();
   assertEqual(0, x);
@@ -131,4 +131,4 @@ unittest(test_single_read)
 unittest_main()
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -1,7 +1,7 @@
 //
 //    FILE: PIR_demo_add_array.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo pir sensor class
+// PURPOSE: demo PIR sensor class
 //     URL: https://github.com/RobTillaart/PIR
 
 

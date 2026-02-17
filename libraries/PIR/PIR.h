@@ -2,7 +2,7 @@
 //
 //    FILE: PIR.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2022-08-13
 // PURPOSE: PIR library
 //     URL: https://github.com/RobTillaart/PIR
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define PIR_LIB_VERSION           (F("0.2.0"))
+#define PIR_LIB_VERSION           (F("0.2.1"))
 
 
 #ifndef PIR_MAX_COUNT
@@ -36,6 +36,10 @@ public:
   uint8_t add(uint8_t pin);
   //  adds multiple pins in one call.
   uint8_t add(uint8_t * pins, uint8_t length);
+  //  read back added pins.
+  uint8_t getPinAtIndex(uint8_t index);
+  //  if pin already exists
+  bool hasPin(uint8_t pin);
 
   //  resets the internal set to empty.
   void reset();
@@ -88,5 +92,5 @@ protected:
 // }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

@@ -39,7 +39,7 @@ uint16_t count;
 uint32_t lastTime = 0;
 
 
-// LOOKUP TABLE SINE
+//  LOOKUP TABLE SINE
 uint16_t sine[361];
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: AD7390.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-06-14
 // PURPOSE: Arduino library for AD7390/AD7391 12/10 bit SPI DAC.
 //     URL: https://github.com/RobTillaart/AD7390
@@ -11,7 +11,7 @@
 #include "SPI.h"
 
 
-#define AD7390_LIB_VERSION              (F("0.1.1"))
+#define AD7390_LIB_VERSION              (F("0.1.2"))
 
 
 #ifndef __SPI_CLASS__

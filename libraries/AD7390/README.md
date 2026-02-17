@@ -195,6 +195,7 @@ Has no effect on software SPI.
   - calculate and cache the conversion Pfactor and Vfactor. (8 bytes)
   - remove range test as setValue() does this?
 - test SW-SPI with 0x0800 mask (clock only 12 bits does that work).
+  - need hardware - breakout
 - add examples
 
 #### Wont

@@ -1,7 +1,7 @@
 //
 //    FILE: AD7390_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: measure primary performance 
+// PURPOSE: measure primary performance
 //     URL: https://github.com/RobTillaart/AD7390
 
 

@@ -1,7 +1,7 @@
 //
 //    FILE: AD7390.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-06-14
 // PURPOSE: Arduino library for AD7390/AD7391 12/10 bit SPI DAC.
 //     URL: https://github.com/RobTillaart/AD7390
@@ -87,15 +87,15 @@ uint16_t AD7390::getMaxValue()
 
 bool AD7390::setPercentage(float percentage)
 {
-  if ((percentage < 0) || (percentage > 100.0)) return false;
-  return setValue(round(percentage * (_maxValue / 100.0)));
+  if ((percentage < 0) || (percentage > 100.0f)) return false;
+  return setValue(round(percentage * (_maxValue *0.01f)));
 }
 
 float AD7390::getPercentage()
 {
   uint16_t v = _value;
-  if (v == 0) return 0.0;
-  return (100.0 / _maxValue) * v;
+  if (v == 0) return 0.0f;
+  return (100.0f / _maxValue) * v;
 }
 
 void AD7390::clear()
@@ -108,7 +108,7 @@ void AD7390::clear()
 
 bool AD7390::setRefVoltage(float volts)
 {
-  if ((volts < 0) || (volts > 5.5)) return false;
+  if ((volts < 0.0f) || (volts > 5.5f)) return false;
   _refVoltage = volts;
   return true;
 }
@@ -120,14 +120,14 @@ float AD7390::getRefVoltage()
 
 bool AD7390::setVoltage(float volts)
 {
-  if ((volts < 0) || (volts > _refVoltage)) return false;
+  if ((volts < 0.0f) || (volts > _refVoltage)) return false;
   return setValue(round(volts * (_maxValue / _refVoltage)));
 }
 
 float AD7390::getVoltage()
 {
   uint16_t v = _value;
-  if (v == 0) return 0.0;
+  if (v == 0) return 0.0f;
   return (_refVoltage / _maxValue) * v;
 }
 

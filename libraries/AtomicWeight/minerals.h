@@ -291,13 +291,30 @@
 //  #define CHABAZITE  see 14.28
 #define NATROLITE           "Na2Al2Si3O10(H2O)5"
 //  #define HEULANDITE      "(Na,Ca)2-3Al3(Al,Si)2Si13O36(H2O)12"
-#define STILBITE           "NaCa2Al5Si13O365(H2O)14"   //  specific variation of HEULANDITE
+#define STILBITE            "NaCa2Al5Si13O365(H2O)14"   //  specific variation of HEULANDITE
 
 
 //
-//  OTHER (chap 18)
+//  ENVIRONMENTAL (chap 18)
 //
-//  TODO
+#define PHOSPHATE           "P2O5"
+#define POTASH              "K2O"
+//  18.3.1
+//  #define ERIONITE        "(Ka2,Na2,Ca2)2Al4Si14O36(H2O)15"
+//  18.3.2
+//  mix Fe2+ and Fe3+
+#define RIEBECKITE          "Na2Fe5Si8O22(OH)2"
+#define ACTINOLITE          "Ca2Fe5Si8O22(OH)2"
+//  18.3.4
+#define ARSENIDE            "H3AsO3"
+#define ARSENATE            "H3AsO4"
+
+
+//
+//  OTHER
+//
+#define JADARITE.           "LiNaSiB3O7(OH)"
+
 
 
 //  -- END OF FILE --

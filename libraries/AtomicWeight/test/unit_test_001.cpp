@@ -63,7 +63,7 @@ unittest(test_constructor)
 {
   PTOE ptoe;
 
-  assertEqual(118, ptoe.size());
+  assertEqual(119, ptoe.size());
 }
 
 

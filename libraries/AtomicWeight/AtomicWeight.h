@@ -3,7 +3,7 @@
 //    FILE: AtomicWeight.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define ATOMIC_WEIGHT_LIB_VERSION         (F("0.3.3"))
+#define ATOMIC_WEIGHT_LIB_VERSION         (F("0.3.4"))
 
 
 #ifndef ATOMIC_WEIGHT_MAX_SPLIT_LIST
@@ -35,7 +35,7 @@ const float DALTON2EV           = 931494697.25613;      //
 class PTOE
 {
 public:
-  PTOE(const uint8_t size = 118);    //  all by default
+  PTOE(const uint8_t size = 119 );    //  all by default
   uint8_t size();
 
 

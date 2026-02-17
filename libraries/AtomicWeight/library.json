@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AtomicWeight.git"
   },
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

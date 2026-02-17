@@ -43,18 +43,22 @@ to get a needed amount of moles.
 With these functions, in combination with a load cell, one could create a "molar-scale".
 Another application for the conversion functions is create lookup-tables, see example.
 
-Note: the library is experimental. More testing is needed. Feedback welcome.
+Note: the library is experimental. More testing is needed. 
+
+Feedback as always is welcome.
 
 
 ### Isotopes
 
 The library does **not** support isotopes of the elements.
-The elements have up to 40 isotopes with 1 to 5 stable ones. 
+The elements can have up to 40 isotopes with 1 to 5 stable ones. 
 This would cost quite some extra RAM 
 
 Large read about isotopes.
 - https://www.degruyter.com/document/doi/10.1515/pac-2015-0703/html
 
+A first order weight of an isotope is to add/subtract the difference in neutrons.
+(Not in this library)
 
 ### Internal
 
@@ -76,10 +80,12 @@ The PTOE class uses a table with "scaled" weights to save RAM.
 ### Related
 
 List of formulae to play with.
+
 - https://en.wikipedia.org/wiki/Glossary_of_chemical_formulae
 - https://en.wikipedia.org/wiki/Avogadro_constant
 
 Libraries useful to build the "molar-scale"
+
 - https://github.com/RobTillaart/HX711  (load cell)
 - https://github.com/RobTillaart/weight  (conversion)
 - https://github.com/RobTillaart/printHelpers  (scientific notation of numbers)
@@ -91,12 +97,17 @@ Libraries useful to build the "molar-scale"
 #include "AtomicWeight.h"
 ```
 
+### Constructor
+
+- **PTOE(uint8_t size = 119)** Constructor (Periodic Table Of Elements).
+Default it holds all 118 elements. 
+The parameter size is used in the **find()** and guards some parameters.
+
+### Base
+
 The parameter **element** in the following functions is 0..118.  
 (element 0 being 'n' == a single neutron).
 
-- **PTOE(uint8_t size = 118)** Constructor (Periodic Table Of Elements).
-Default it holds all 118 elements. 
-The parameter size is used in the **find()** and guards some parameters.
 - **uint8_t electrons(uint8_t element)** returns the number of electrons of the element.
 - **uint8_t neutrons(uint8_t element)** returns the number of neutrons of the element.
 - **uint8_t protons(uint8_t element)** returns the number of protons of the element.

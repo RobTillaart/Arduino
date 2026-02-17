@@ -2,7 +2,7 @@
 //    FILE: AtomicWeight.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-03-09
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for atomic weights
 //     URL: https://github.com/RobTillaart/AtomicWeight
 
@@ -31,7 +31,7 @@ uint8_t PTOE::size()
 char * PTOE::name(const uint8_t element)
 {
   //  catch out of range.
-  if (element > _size) return NULL;
+  if (element >= _size) return NULL;
   return elements[element].name;
 }
 
@@ -77,7 +77,7 @@ uint8_t PTOE::protons(const uint8_t element)
 //
 float PTOE::weight(const uint8_t element)
 {
-  if (element > _size) return 0;  //  catch out of range.
+  if (element >= _size) return 0;  //  catch out of range.
   return elements[element].weight * ATOMIC_WEIGHT_FACTOR;
 }
 

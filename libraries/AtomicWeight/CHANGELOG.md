@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.4] - 2026-02-17
+- extend minerals.h
+- changed size to 119 = 0..118
+- add atomic_weight_plot.ino
+- update GitHub actions
+- minor edits
+
 ## [0.3.3] - 2025-07-10
 - add acids.h
 - add atomic_weight_acids.ino

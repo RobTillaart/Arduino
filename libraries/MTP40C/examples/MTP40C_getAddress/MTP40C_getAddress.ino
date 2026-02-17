@@ -2,12 +2,11 @@
 //    FILE: MTP40C_getAddress.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of MTP40C library
-//    DATE: 2021-08-21
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// any board that support two or more hardware serial ports
-// Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
-// Uno, Nano or Mini will fail to compile.
+//  any board that support two or more hardware serial ports
+//  Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
+//  UNO R3, Nano or Mini will fail to compile.
 
 
 #include "MTP40C.h"
@@ -20,17 +19,18 @@ MTP40C mtp(&sws);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("MTP40_LIB_VERSION:\t");
   Serial.println(MTP40_LIB_VERSION);
+  Serial.println();
 
   sws.begin(19200);
-  if (mtp.begin(248) == false)   // must fail!
+  if (mtp.begin(248) == false)   //  must fail!
   {
     Serial.println("OK 248");
   }
-  mtp.begin();    // default address 0x64
+  mtp.begin();  //  default address 0x64
 
   Serial.println();
   uint8_t addr = mtp.getAddress();
@@ -43,7 +43,7 @@ void setup()
   //  Serial.println(mtp.setAddress(0x30));
 
   mtp.setSpecificAddress();
-  Serial.println(mtp.setAddress());  // reset to default
+  Serial.println(mtp.setAddress());  //  reset to default
 
   Serial.println("\ndone");
 }
@@ -54,5 +54,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

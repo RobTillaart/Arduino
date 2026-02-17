@@ -6,14 +6,16 @@
 //
 //  formula is faster than lookup on AVR (UNO) but not on ESP32
 //  therefore in the library depending on platform a different
-//  CRC algorithm is used. 
+//  CRC algorithm is used.
 
 uint32_t start, count = 0, duration1 = 0, duration2 = 0;
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
   delay(100);
 }
 
@@ -105,9 +107,9 @@ uint16_t CRC_DATASHEET(uint8_t *data, uint16_t len)
     0x40
   };
 
-  uint8_t  uchCRCHi = 0xFF ; // High byte initialization of the CRC
-  uint8_t  uchCRCLo = 0xFF ; // The low byte of the CRC is initialized
-  uint16_t uIndex;           // Query the CRC table index
+  uint8_t  uchCRCHi = 0xFF ;  //  High byte initialization of the CRC
+  uint8_t  uchCRCLo = 0xFF ;  //  The low byte of the CRC is initialized
+  uint16_t uIndex;            //  Query the CRC table index
   uint16_t crc;
 
   while (len--)               //  Complete the entire message buffer
@@ -179,4 +181,4 @@ uint16_t reverse16(uint16_t in)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

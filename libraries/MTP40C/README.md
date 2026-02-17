@@ -18,9 +18,11 @@ Arduino library for MTP40C and MTP40D CO2 sensor.
 
 ## Description
 
+**Experimental**
+
 The library for the MTP40C / MTP40D CO2 sensor is experimental as not all functionality is tested.
 
-Both the MTP40C and MTP40D sensor is an NDIR (Non Dispersive InfraRed) CO2 sensor.
+Both the MTP40C and MTP40D sensors are an NDIR (Non Dispersive InfraRed) CO2 sensor.
 
 The sensor communicates over a 19200 baud serial (TTL) interface with a microprocessor or PC. 
 This implies that calls which can take up to 25 bytes can take as much as about 20 milliseconds.
@@ -30,8 +32,10 @@ This signal quality over longer distances is not investigated.
 
 The MTP40D has more interface options, I2C, PWM and ALARM. 
 This library does not support these other interfaces for now.
-However minimal examples are added to have a starter but these 
+However some minimal examples are added to have a starter but these 
 need to be tested if and how well these work.
+
+Feedback as always is welcome.
 
 
 ### Warnings
@@ -107,8 +111,9 @@ Has TTL level RS232, I2C and PWM IO.
 
 - https://www.co2.earth/ - current outdoor CO2 level can be used for calibrating.
 - https://keelingcurve.ucsd.edu/ - historical outdoor CO2 level.
+- https://github.com/RobTillaart/MTP40C - this library
 - https://github.com/RobTillaart/MTP40F
-- https://github.com/RobTillaart/MHZCO2  MHZ19 series
+- https://github.com/RobTillaart/MHZCO2 - MHZ19 series
 - https://github.com/RobTillaart/Cozir
 - https://github.com/RobTillaart/Pressure - converters
 

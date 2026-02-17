@@ -2,7 +2,7 @@
 //    FILE: MTP40C.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-08-20
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for MTP40C MTP40D CO2 sensor
 //     URL: https://github.com/RobTillaart/MTP40C
 

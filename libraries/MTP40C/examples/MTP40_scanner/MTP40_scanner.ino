@@ -2,12 +2,11 @@
 //    FILE: MTP40_scanner.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of MTP40C library
-//    DATE: 2021-08-21
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// any board that support two or more hardware serial ports
-// Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
-// Uno, Nano or Mini will fail to compile.
+//  any board that support two or more hardware serial ports
+//  Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
+//  UNO R3, Nano or Mini will fail to compile.
 
 
 #include "MTP40C.h"
@@ -15,7 +14,7 @@
 
 SoftwareSerial sws(6, 7);
 
-MTP40C mtp(&sws);       // optional use hardware Serial1 for MTP40C sensor
+MTP40C mtp(&sws);       //  optional use hardware Serial1 for MTP40C sensor
 
 
 void setup()
@@ -24,7 +23,6 @@ void setup()
   delay(100);
   Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("\tMTP40_LIB_VERSION:\t");
   Serial.println(MTP40_LIB_VERSION);
   Serial.println();
@@ -101,5 +99,5 @@ void detect_scan()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

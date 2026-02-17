@@ -2,9 +2,7 @@
 //    FILE: MTP40C_getCO2_SW_SERIAL.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of MTP40C library
-//    DATE: 2021-08-21
 //     URL: https://github.com/RobTillaart/MTP40C
-//
 
 
 #include "MTP40C.h"
@@ -18,15 +16,17 @@ int lines = 10;
 
 void setup()
 {
-  // DEBUG SERIAL
+  //  DEBUG SERIAL
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("MTP40_LIB_VERSION:\t");
   Serial.println(MTP40_LIB_VERSION);
+  Serial.println();
 
   // SERIAL OF MTP40C SENSOR
   sws.begin(19200);
-  if ( mtp.begin() == false)           // default address 0x64
+  if ( mtp.begin() == false)  //  default address 0x64
   {
     Serial.println("could not connect!");
     while (1);
@@ -54,5 +54,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

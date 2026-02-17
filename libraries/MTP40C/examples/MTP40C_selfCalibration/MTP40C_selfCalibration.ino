@@ -2,12 +2,11 @@
 //    FILE: MTP40C_selfCalibration.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of MTP40C library
-//    DATE: 2021-08-23
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// any board that support two or more hardware serial ports
-// Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
-// Uno, Nano or Mini will fail to compile.
+//  any board that support two or more hardware serial ports
+//  Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
+//  UNO R3, Nano or Mini will fail to compile.
 
 
 #include "MTP40C.h"
@@ -23,10 +22,11 @@ uint32_t start;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("MTP40_LIB_VERSION:\t");
   Serial.println(MTP40_LIB_VERSION);
+  Serial.println();
 
   sws.begin(19200);
   mtp.begin(MTP40_DEFAULT_ADDRESS);
@@ -77,5 +77,5 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --
 

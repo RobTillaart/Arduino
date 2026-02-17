@@ -2,12 +2,11 @@
 //    FILE: MTP40C_singlePointCorrection.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of MTP40C library
-//    DATE: 2021-08-23
 //     URL: https://github.com/RobTillaart/MTP40C
 //
-// any board that support two or more hardware serial ports 
-// Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
-// Uno, Nano or Mini will fail to compile.
+//  any board that support two or more hardware serial ports
+//  Serial and Serial1, e.g. for MEGA, LEONARDO, MICRO, ESP32,ESP8266
+//  UNO R3, Nano or Mini will fail to compile.
 
 
 #include "MTP40C.h"
@@ -23,17 +22,18 @@ uint32_t start;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-
   Serial.print("MTP40_LIB_VERSION:\t");
   Serial.println(MTP40_LIB_VERSION);
+  Serial.println();
 
   sws.begin(19200);
-  mtp.begin(MTP40_DEFAULT_ADDRESS);  
+  mtp.begin(MTP40_DEFAULT_ADDRESS);
 
   Serial.println("Set CO2 level to: 400-5000");
-  Serial.setTimeout(10000);           // default is 1000 which is rather small.
-  float spc = Serial.parseFloat();   // reads until carriage return
+  Serial.setTimeout(10000);          //  default is 1000 which is rather small.
+  float spc = Serial.parseFloat();   //  reads until carriage return
   Serial.println(spc, 1);
 
   bool valid = mtp.setSinglePointCorrection(spc);
@@ -51,7 +51,7 @@ void setup()
         Serial.println();
         cnt = 0;
       }
-      if (millis() - start > 600000UL)  // 600 seconds = 10 minutes
+      if (millis() - start > 600000UL)  //  600 seconds = 10 minutes
       {
         Serial.println();
         Serial.println("took > 10 minutes, something went wrong?");
@@ -75,4 +75,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

@@ -2,7 +2,6 @@
 //    FILE: MTP40D_I2C_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo of MTP40D I2C interface
-//    DATE: 2021-08-27
 //     URL: https://github.com/RobTillaart/MTP40C
 //
 //
@@ -13,12 +12,16 @@
 //  - reading the gas concentration (command 0x03, three byte response) works
 //  - reading and writing of other values doesn't work (the device always returns zeroes)
 
+
 #include "Wire.h"
+
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 }
 
 
@@ -74,4 +77,4 @@ uint16_t readMTP40D(uint8_t address)
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

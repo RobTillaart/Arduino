@@ -42,11 +42,11 @@ Some math for a two potentiometer system see **cascading_voltage_divider.ino** e
 ### Range voltage divider
 
 The following setup has two potmeters, left and right, to define a range.
-- X can be set between 0.0 and 5.0 Volt and 
+- X can be set between 0.0 and 5.0 Volt and
 - Y can be set between 0.0 and 5.0 volt.
 
 The third range potentiometer has 256 positions within the defined range range.
-E.g if left is set to 2.3 Volt and right is set to 2.5 Volt, 
+E.g if left is set to 2.3 Volt and right is set to 2.5 Volt,
 the range potentiometer divides this 0.2 volt in 256 steps of about a single millivolt (in theory).
 
 
@@ -69,7 +69,7 @@ the range potentiometer divides this 0.2 volt in 256 steps of about a single mil
 
 ### Cascaded resistor
 
-No dangling connectors give less noise as even a bad wiper will not break 
+No dangling connectors give less noise as even a bad wiper will not break
 the resistance chain completely. (Preferred imho)
 
 
@@ -112,5 +112,5 @@ Drawback is extra components, control lines and code.
                +----------+         +-----------+         +----------+
 ```
 
-### 
+###
 

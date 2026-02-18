@@ -22,11 +22,13 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   //  find settings for all R's in steps of pot LSB_B
   //  LSB_B iso 40 would be more exact but gives "no nice numbers"
-  for (uint32_t r = 0; r <= 1000000; r += 40)
+  for (uint32_t r = 0; r <= 10000; r += 40)
   {
     search(r);
   }
@@ -87,5 +89,6 @@ void printTable()
     }
   }
 }
+
 
 //  -- END OF FILE --

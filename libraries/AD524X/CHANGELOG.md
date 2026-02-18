@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2026-02-18
+- update GitHub actions
+- minor edits
+
 ## [0.5.2] - 2025-06-20
 - fix #30, typo in keywords.txt
 - add example cascading_potmeters.ino

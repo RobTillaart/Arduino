@@ -1,7 +1,7 @@
 //
 //    FILE: MCP330X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2025-04-16
 // PURPOSE: Arduino library for MCP3302 and MCP3304 13-Bit Differential ADC, SPI
 //     URL: https://github.com/RobTillaart/MCP330X
@@ -92,6 +92,13 @@ int16_t MCP330X::differentialRead(uint8_t channel)
 {
   if (channel >= _channels) return 0;
   return readADC(channel, false);
+}
+
+
+int16_t MCP330X::differentialRead(uint8_t chan1, uint8_t chan2)
+{
+  if ((chan1 >= _channels) || (chan2 >= _channels)) return 0;
+  return readADC(chan1, true) - readADC(chan2, true);
 }
 
 

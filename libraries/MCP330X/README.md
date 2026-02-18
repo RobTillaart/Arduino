@@ -61,8 +61,8 @@ Pre 0.2.0 versions are therefore obsolete.
 |   6     |    6     |    7     |      |  V   |
 |   7     |    7     |    6     |      |  V   |
 
-The library does not support other pairs in differential mode (yet).
-ONe can do this by make two **read()** calls.
+The library does support other pairs in an differential mode.
+One can do this by call **int16_t differentialRead(uint8_t chan1, uint8_t chan2)** which wraps two read() calls.
 
 
 ### Performance
@@ -142,6 +142,10 @@ The value returned is 0..4095.
 pair = 0..3 or 0..7
 The value returned is -4096..4095.
 Check datasheet for details. See table above.
+- **int16_t differentialRead(uint8_t chan1, uint8_t chan2)** do a less 
+efficient (2 read calls) differential read for all pairs.
+This function allows to have chan1 == chan2, which could e.g. be used as a 
+noise indication.
 
 ### SPI
 
@@ -170,15 +174,14 @@ of the ADC first to get optimal speed.
 #### Could
 
 - check interface to extend functionality.
-- int16_t differentialRead(chan1, chan2) for all pairs
-- float voltage(channel) interface as 5V fixed (+ set 5.000 Vref.)
-  would add float lib (footprint).
 - improve performance SWSPI see figure 6.2 -> 20 bit iso 24 (16%)
   more complex, first test the lib as is.
+
+#### Wont (unless)
+
 - diffRead() short for differentialRead()?
-
-#### Wont
-
+- float voltage(channel) interface as 5V fixed (+ set 5.000 Vref.)
+  would add float lib (footprint).
 
 ## Support
 

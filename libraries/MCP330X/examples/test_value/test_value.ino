@@ -1,7 +1,6 @@
 //    FILE: test_value.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2025-04-16
-// PURPOSE: test return value MCP330X
+// PURPOSE: test return value MCP330X (develop tool)
 //     URL: https://github.com/RobTillaart/MCP330X
 
 #include "Arduino.h"
@@ -11,7 +10,9 @@ void setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println();
   Serial.println(__FILE__);
+  Serial.println();
 
   //  table 6.1 page 23
   Serial.println(construct(0x0F, 0xFF));
@@ -43,4 +44,4 @@ int16_t construct(uint8_t a, uint8_t b)
   return raw;
 }
 
-// -- END OF FILE --
+//  -- END OF FILE --

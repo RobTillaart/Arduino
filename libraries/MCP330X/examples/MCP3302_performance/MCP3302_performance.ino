@@ -108,7 +108,16 @@ void test_2()
   stop = micros();
   Serial.print("mcp2.diffRead() 4x: \t");
   Serial.println(stop - start);
+  delay(10);
 
+  start = micros();
+  for (int channel = 0 ; channel < mcp2.channels(); channel++)
+  {
+    value += mcp2.differentialRead(channel, channel);  //  same just for the test
+  }
+  stop = micros();
+  Serial.print("mcp2.diffRead() 4x: \t");
+  Serial.println(stop - start);
   delay(10);
 }
 
@@ -138,6 +147,17 @@ void test_2s()
   Serial.print("mcp2s.diffRead() 4x: \t");
   Serial.println(stop - start);
   delay(10);
+  
+  start = micros();
+  for (int channel = 0 ; channel < mcp2s.channels(); channel++)
+  {
+    value += mcp2s.differentialRead(channel, channel);  //  same just for the test
+  }
+  stop = micros();
+  Serial.print("mcp2s.diffRead() 4x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
 }
 
 
@@ -166,6 +186,16 @@ void test_4()
   Serial.print("mcp4.diffRead() 8x: \t");
   Serial.println(stop - start);
   delay(10);
+
+  start = micros();
+  for (int channel = 0 ; channel < mcp4.channels(); channel++)
+  {
+    value += mcp4.differentialRead(channel, channel);  // smae just for the test
+  }
+  stop = micros();
+  Serial.print("mcp4.diffRead() 8x: \t");
+  Serial.println(stop - start);
+  delay(10);
 }
 
 
@@ -189,6 +219,16 @@ void test_4s()
   for (int channel = 0 ; channel < mcp4s.channels(); channel++)
   {
     value += mcp4s.differentialRead(channel);
+  }
+  stop = micros();
+  Serial.print("mcp4s.diffRead() 8x: \t");
+  Serial.println(stop - start);
+  delay(10);
+
+  start = micros();
+  for (int channel = 0 ; channel < mcp4s.channels(); channel++)
+  {
+    value += mcp4s.differentialRead(channel, channel);  // smae just for the test
   }
   stop = micros();
   Serial.print("mcp4s.diffRead() 8x: \t");

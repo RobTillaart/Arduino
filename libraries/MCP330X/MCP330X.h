@@ -2,7 +2,7 @@
 //
 //    FILE: MCP330X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2025-04-16
 // PURPOSE: Arduino library for MCP3302 and MCP3304 13-Bit Differential ADC, SPI
 //     URL: https://github.com/RobTillaart/MCP330X
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP330X_LIB_VERSION       (F("0.2.0"))
+#define MCP330X_LIB_VERSION       (F("0.2.1"))
 
 
 #ifndef __SPI_CLASS__
@@ -47,7 +47,9 @@ public:
   int16_t  read(uint8_t channel);
   //  pair = 0..3 or 0..7
   int16_t  differentialRead(uint8_t pair);
-
+  //  channel = 0..3 or 0..7
+  //  wrapper around read(chan1) - read(chan2)
+  int16_t differentialRead(uint8_t chan1, uint8_t chan2);
 
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);

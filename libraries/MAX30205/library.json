@@ -1,0 +1,23 @@
+{
+  "name": "MAX30205",
+  "keywords": "",
+  "description": "Arduino library for MAX30205, I2C, high accuracy temperature sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MAX30205.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "MAX30205.h"
+}

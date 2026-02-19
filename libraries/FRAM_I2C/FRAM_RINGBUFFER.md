@@ -16,14 +16,14 @@ Library for FRAM_RINGBUFFER to be used with the FRAM_I2C library.
 
 ## Description
 
-**FRAM_RINGBUFFER** is a class that uses an FRAM object to implement 
-a ring buffer that can be made persistent over reboots. 
+**FRAM_RINGBUFFER** is a class that uses an FRAM object to implement
+a ring buffer that can be made persistent over reboots.
 The ring buffer can hold any size objects, but the user is responsible
-to manage the contents. 
+to manage the contents.
 This means it can hold objects of different sizes, but the user should
 add this size and/or type info into the object, or preceding every object.
 
-The FRAM_RINGBUFFER is build upon the FRAM_I2C library so it is not 
+The FRAM_RINGBUFFER is build upon the FRAM_I2C library so it is not
 expected to work with other FRAM libraries.
 
 Types of FRAM that should work with this library:
@@ -41,9 +41,9 @@ Types of FRAM that should work with this library:
 Please let me know if you have verified one that is not in the list.
 
 
-#### Version
+### Version
 
-As the FRAM_RINGBUFFER is strongly connected to FRAM_I2C 
+As the FRAM_RINGBUFFER is strongly connected to FRAM_I2C
 it has no separate version number.
 
 
@@ -56,12 +56,12 @@ it has no separate version number.
 ### Administration
 
 - **FRAM_RINGBUFFER()** Constructor.
-- **uint32_t begin(FRAM \*fram, uint32_t size, uint32_t memAddr)** initializes 
-the ring buffer. 
-  - size is in bytes. 
+- **uint32_t begin(FRAM \*fram, uint32_t size, uint32_t memAddr)** initializes
+the ring buffer.
+  - size is in bytes.
   - memAddr is start memory address where ring buffer starts.
   - returns uint32_t == first free (next) FRAM location.
-- **void flush()** resets the internal administration. 
+- **void flush()** resets the internal administration.
   - Note: flush() does not wipe the content from FRAM.
 - **uint32_t size()** returns size.
 - **uint32_t count()** returns count == bytes used.
@@ -87,10 +87,10 @@ the ring buffer.
   - returns the number of bytes written or **FRAM_RB_ERR_BUF_NO_ROOM**
   - see example how to use.
 - **template <class T> int read(T &obj)** returns an object from the ring buffer.
-  - returns bytes read or **FRAM_RB_ERR_BUF_NO_DATA** if the buffer has less 
+  - returns bytes read or **FRAM_RB_ERR_BUF_NO_DATA** if the buffer has less
     bytes than the object requested.
 - **template <class T> int peek(T &obj)** returns the next object in the ring buffer.
-  - returns bytes read or **FRAM_RB_ERR_BUF_NO_DATA** if the buffer has less 
+  - returns bytes read or **FRAM_RB_ERR_BUF_NO_DATA** if the buffer has less
     bytes than the object requested.
 
 
@@ -100,8 +100,8 @@ the ring buffer.
 is written to FRAM.
 - **void save()** stores the internal administration + checksum to FRAM.
 - **bool load()** retrieves the internal administration + checksum from FRAM.
-  - returns true if checksum matches the stored variables. Only then the 
-  variables of the ring buffer will be updated. 
+  - returns true if checksum matches the stored variables. Only then the
+  variables of the ring buffer will be updated.
 - **void wipe()** removes all data from ring buffer by overwriting the FRAM.
 
 
@@ -138,7 +138,7 @@ See examples.
 
 - example for a ring-buffer with different size objects
   - struct with size and type info.
-  - preceding every object with type + size - 1..4 bytes 
+  - preceding every object with type + size - 1..4 bytes
 - add debugging tooling
 - add object count?
 - create a RING_BUFFER class that can work with any type of storage.

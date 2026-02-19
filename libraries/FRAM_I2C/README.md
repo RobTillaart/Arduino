@@ -38,6 +38,8 @@ Typical FRAM allows 10^12 write cycles (see datasheet) where an ATMEGA328 (UNO)
 supports 10^5 write cycles (https://docs.arduino.cc/learn/built-in-libraries/eeprom). 
 That is a factor of 10 million more write cycles.
 
+Feedback as always is welcome.
+
 
 ### Fujitsu
 
@@ -117,8 +119,29 @@ If you encounter problems or success, please open an issue on GitHub.
 
 ### Related
 
-- https://github.com/RobTillaart/I2C_EEPROM  (eeprom)
-- https://github.com/RobTillaart/I2C_24LC1025  (eeprom)
+- https://github.com/RobTillaart/I2C_EEPROM  (EEPROM)
+- https://github.com/RobTillaart/I2C_24LC1025  (EEPROM)
+
+
+## I2C
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -148,7 +171,7 @@ address and writeProtectPin is optional.
 Note the **MB85RC1MT** only uses even addresses.
 
 
-### Write & read
+### Write
 
 Support for basic types and two calls for generic objects, use casting if needed.  
 In the **FRAM32** class these functions have an **uin32_t memAddr**.
@@ -162,6 +185,9 @@ In the **FRAM32** class these functions have an **uin32_t memAddr**.
   - For boards that have an 8 byte double.
 - **void write(uint16_t memAddr, uint8_t \* obj, uint16_t size)** other types / sizes.
   - typical used for structs or text.
+
+### Read
+
 - **uint8_t read8(uint16_t memAddr)**
 - **uint16_t read16(uint16_t memAddr)**
 - **uint32_t read32(uint16_t memAddr)**
@@ -171,6 +197,9 @@ In the **FRAM32** class these functions have an **uin32_t memAddr**.
   - For board that have 8 byte double.
 - **void read(uint16_t memAddr, uint8_t uint8_t \* obj, uint16_t size)**
   - One needs to allocate memory as the function won't.
+
+### Clear
+
 - **uint32_t clear(uint8_t value = 0)** clears the whole FRAM by writing value to all addresses
   - default value is all zero's.
   - Returns the number of bytes written.
@@ -303,7 +332,7 @@ _current with \* are from datasheet_
 ### Error
 
 Experimental 0.8.3. Allows to detect low level errors after reads and writes.
-Definitily not perfect but a step in the right direction.
+Definitely not perfect but a step in the right direction.
 
 - **int lastError()** returns the last set error, clears the internal value to FRAM_OK.
 

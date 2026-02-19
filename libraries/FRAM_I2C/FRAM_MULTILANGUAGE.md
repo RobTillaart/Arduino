@@ -16,7 +16,7 @@ Library for FRAM_MULTILANGUAGE (FRAM_ML) to be used with the FRAM_I2C library.
 
 ## Description
 
-The **FRAM_MULTILANGUAGE (FRAM_ML)** is an experimental library that uses an FRAM object to 
+The **FRAM_MULTILANGUAGE (FRAM_ML)** is an experimental library that uses an FRAM object to
 persistently store text tables. Typical use is to implement multiple translations.
 However it can be used to store strings in only a single language too.
 The storage of text in FRAM reduces the RAM usage of an Arduino quite a lot.
@@ -24,9 +24,9 @@ The storage of text in FRAM reduces the RAM usage of an Arduino quite a lot.
 The FRAM_ML library supports up to 5 languages. This is hard coded in the first version (0.5.1).
 An FRAM module of 32KB can easily store many hundreds or even thousands (shorter) strings.
 This allows to store e.g. 600 long strings in one language or 300 in two languages
-or 120 in five languages. 
+or 120 in five languages.
 
-The FRAM_ML library can be configured to use only part of an FRAM and multiple FRAM_ML 
+The FRAM_ML library can be configured to use only part of an FRAM and multiple FRAM_ML
 objects can use the same FRAM.
 
 The current implementation is very straightforward, which is not memory efficient.
@@ -35,7 +35,7 @@ The advantage is it performs pretty well as every string can be found with littl
 As this library is experimental, implementation and API might change in the future.
 
 
-#### Version
+### Version
 
 The FRAM_MULTILANGUAGE library follows FRAM_I2C version number.
 
@@ -46,11 +46,11 @@ The FRAM_MULTILANGUAGE library follows FRAM_I2C version number.
 #include "FRAM_MULTILANGUAGE.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **FRAM_ML()** Constructor.
-- **uint32_t begin(FRAM \*fram, uint32_t memAddr, uint8_t languages, uint8_t strings, uint8_t maxLength)** 
-initializes the FRAM and writes the parameters to FRAM for persistency. 
+- **uint32_t begin(FRAM \*fram, uint32_t memAddr, uint8_t languages, uint8_t strings, uint8_t maxLength)**
+initializes the FRAM and writes the parameters to FRAM for persistency.
   - fram = pointer to FRAM object.
   - memAddr = start memory address in FRAM.
   - languages = number of language tables ( max 5 hardcoded).
@@ -85,13 +85,13 @@ See https://www.nationsonline.org/oneworld/country_code_list.htm
 
 - **int setLanguage(uint8_t index)** set the current language to use.
 This makes access easier as one often stays within one language.
-If only one language is used this function is not used. 
+If only one language is used this function is not used.
   - returns error status.
 - **int getLanguage()** returns the current set language.
-- **int setText(uint8_t index, const char \* text)** writes text to FRAM 
+- **int setText(uint8_t index, const char \* text)** writes text to FRAM
 under the index of the current language.
   - returns error status.
-- **int getText(uint8_t index, char \* text)** reads text to FRAM 
+- **int getText(uint8_t index, char \* text)** reads text to FRAM
 under the index of the current language.
   - returns error status.
 

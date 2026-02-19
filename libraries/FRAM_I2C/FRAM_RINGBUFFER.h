@@ -75,7 +75,7 @@ public:
   //  OBJECT INTERFACE
   //
   //  returns bytes written.
-  //  - FRAM_RB_ERR_BUF_NO_ROOM indicates (almost) full buffer 
+  //  - FRAM_RB_ERR_BUF_NO_ROOM indicates (almost) full buffer
   //    ==>  object does not fit.
   template <class T> int write(T &obj)
   {
@@ -91,7 +91,7 @@ public:
   };
 
   //  returns bytes read.
-  //  - FRAM_RB_ERR_BUF_NO_DATA indicates (almost) empty buffer 
+  //  - FRAM_RB_ERR_BUF_NO_DATA indicates (almost) empty buffer
   //    ==>  Too few bytes to read object.
   template <class T> int read(T &obj)
   {
@@ -107,7 +107,7 @@ public:
   };
 
   //  returns bytes read.
-  //  - FRAM_RB_ERR_BUF_NO_DATA indicates (almost) empty buffer 
+  //  - FRAM_RB_ERR_BUF_NO_DATA indicates (almost) empty buffer
   //    ==>  Too few bytes to read object.
   template <class T> int peek(T &obj)
   {
@@ -129,7 +129,7 @@ public:
   //
   bool isSaved();
   //  stores the internal variables + checksum.
-  //  if you need constant persistency, 
+  //  if you need constant persistency,
   //  call save() after every read() write() flush()
   void save();
   //  retrieves the internal variables + verify checksum.

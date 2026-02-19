@@ -124,7 +124,7 @@ bool FRAM_RINGBUFFER::isSaved()
 }
 
 
-void FRAM_RINGBUFFER::save() 
+void FRAM_RINGBUFFER::save()
 {
   uint32_t pos = _start - 20;
   if (not _saved)
@@ -140,7 +140,7 @@ void FRAM_RINGBUFFER::save()
 }
 
 
-bool FRAM_RINGBUFFER::load()  
+bool FRAM_RINGBUFFER::load()
 {
   uint32_t pos = _start - 20;
   uint32_t size     = _fram->read32(pos +  0);

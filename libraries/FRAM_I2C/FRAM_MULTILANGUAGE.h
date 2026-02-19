@@ -36,7 +36,7 @@ public:
   //  returns uint32_t == first free (next) FRAM location.
   //  to be used when creating an FRAM language table
   uint32_t  begin(FRAM *fram, uint32_t memAddr, uint8_t languages, uint8_t strings, uint8_t maxLength);
-  
+
   //  or fetch parameters from FRAM. (read mode)
   uint32_t  begin(FRAM *fram, uint32_t memAddr);
 

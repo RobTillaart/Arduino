@@ -150,9 +150,11 @@ unittest(test_converter)
   assertEqualFloat(  32.00, TC.getFahrenheit(), 0.01);
   assertEqualFloat(   0.00, TC.getReamur(),     0.01);
   assertEqualFloat( 491.67, TC.getRankine(),    0.01);
-  assertEqualFloat(-100.00, TC.getDelisle(),    0.01);
+  assertEqualFloat( 150.00, TC.getDelisle(),    0.01);
   assertEqualFloat(   0.00, TC.getNewton(),     0.01);
   assertEqualFloat(   7.50, TC.getRomer(),      0.01);
+  assertEqualFloat( 253.15, TC.getLeiden(),     0.01);
+  assertEqualFloat( -8.042, TC.getWedgwood(),   0.01);
 
   fprintf(stderr, "\n 100°C\n");
   TC.setCelsius(100);
@@ -161,9 +163,11 @@ unittest(test_converter)
   assertEqualFloat( 212.00, TC.getFahrenheit(), 0.01);
   assertEqualFloat(  80.00, TC.getReamur(),     0.01);
   assertEqualFloat( 671.67, TC.getRankine(),    0.01);
-  assertEqualFloat(  50.00, TC.getDelisle(),    0.01);
+  assertEqualFloat(   0.00, TC.getDelisle(),    0.01);
   assertEqualFloat(  33.00, TC.getNewton(),     0.01);
   assertEqualFloat(  60.00, TC.getRomer(),      0.01);
+  assertEqualFloat( 353.15, TC.getLeiden(),     0.01);
+  assertEqualFloat( -6.657, TC.getWedgwood(),   0.01);
 }
 
 
@@ -188,9 +192,15 @@ unittest(test_set_get)
   assertEqualFloat( 42.00, TC.getNewton(),     0.01);
   TC.setRomer(42);
   assertEqualFloat( 42.00, TC.getRomer(),      0.01);
+  TC.setLeiden(42);
+  assertEqualFloat( 42.00, TC.getLeiden(),     0.01);
+  TC.setWedgwood(42);
+  assertEqualFloat( 42.00, TC.getWedgwood(),   0.01);
 }
 
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

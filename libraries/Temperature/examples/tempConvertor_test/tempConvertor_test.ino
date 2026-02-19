@@ -30,11 +30,13 @@ void setup()
     float Ra = TC.getRankine();
     float Ne = TC.getNewton();
     float Ro = TC.getRomer();
+    float Le = TC.getLeiden();
+    float We = TC.getWedgwood();
 
     if (celsius % 20 == 0)
     {
       Serial.println();
-      Serial.print("\t C \t K \t F \t\t De \t Re \t Ra \t\t Ne \t Ro \n");
+      Serial.print("\t C \t K \t F \t\t De \t Re \t Ra \t\t Ne \t Ro \t Le \t We \n");
     }
 
     Serial.print("\t");
@@ -53,14 +55,18 @@ void setup()
     Serial.print(Ne);
     Serial.print("\t");
     Serial.print(Ro);
+    Serial.print("\t");
+    Serial.print(Le);
+    Serial.print("\t");
+    Serial.print(We);
     Serial.print("\n");
   }
 
 
   /*
-    for (int celsius = 0; celsius <= 100; celsius += 100)
+    for (int Celsius = 0; Celsius <= 100; Celsius += 100)
     {
-      TC.setCelsius(celsius);
+      TC.setCelsius(Celsius);
       float C = TC.getCelsius();
       float K = TC.getKelvin();
       float F  = TC.getFahrenheit();
@@ -69,11 +75,13 @@ void setup()
       float Ra = TC.getRankine();
       float Ne = TC.getNewton();
       float Ro = TC.getRomer();
+      float Le = TC.getLeiden();
+      float We = TC.getWedgwood();
 
-      if (celsius % 20 == 0)
+      if (Celsius % 20 == 0)
       {
         Serial.println();
-        Serial.print("\t C \t K \t F \t\t De \t Re \t Ra \t\t Ne \t Ro \n");
+        Serial.print("\t C \t K \t F \t\t De \t Re \t Ra \t\t Ne \t Ro \t Le \t We \n");
       }
 
       Serial.print("\t");
@@ -92,6 +100,10 @@ void setup()
       Serial.print(Ne);
       Serial.print("\t");
       Serial.print(Ro);
+      Serial.print("\t");
+      Serial.print(Le);
+      Serial.print("\t");
+      Serial.print(We);
       Serial.print("\n");
     }
   */

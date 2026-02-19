@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2026-02-17
+- add set/getLeiden()
+- add set/getWedgwood()
+- update GitHub actions
+- update readme.md
+- minor edits
+
 ## [0.4.0] - 2025-06-26
 - add discomfortIndex
 - add example

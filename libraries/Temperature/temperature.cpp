@@ -1,7 +1,7 @@
 //
 //    FILE: temperature.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //     URL: https://github.com/RobTillaart/Temperature
@@ -10,9 +10,9 @@
 #include "temperature.h"
 
 
-float Fahrenheit(float celsius)
+float Fahrenheit(float Celsius)
 {
-  return 1.8 * celsius + 32;    //  5.0 / 9.0 = 1.8
+  return 1.8 * Celsius + 32;    //  5.0 / 9.0 = 1.8
 }
 
 
@@ -22,9 +22,9 @@ float Celsius(float Fahrenheit)
 }
 
 
-float Kelvin(float celsius)
+float Kelvin(float Celsius)
 {
-  return celsius + 273.15;
+  return Celsius + 273.15;
 }
 
 

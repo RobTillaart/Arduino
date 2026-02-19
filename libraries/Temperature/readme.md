@@ -24,14 +24,17 @@ DHT22 or Sensirion, to make a weather station application.
 
 Note: pre-0.3.1 versions have incorrect heat-index.
 
+Feedback as always is welcome.
 
-#### Related
+
+### Related
 
 - https://en.wikipedia.org/wiki/Heat_index.
 - https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 - https://wahiduddin.net/calc/density_algorithms.htm
-- https://github.com/RobTillaart/pressure
+- https://github.com/RobTillaart/pressure - conversion
 - https://temperatures.com/  just a lot of interesting stuff
+- https://curiousnotions.com/temperature-converter - online converter 
 
 
 ## Interface
@@ -166,18 +169,35 @@ Check Wikipedia for details about the scales.
 |  Name         |  units  |  1° in °K  |     0°C   |    100°C  |  notes  |
 |:--------------|:-------:|:----------:|----------:|----------:|:--------|
 |  Celsius      |   °C    |  1.000000  |     0.00  |   100.00  |
-|  Delisle      |   °De   |  0.666666  |  -100.00  |    50.00  |
+|  Delisle      |   °De   |  0.666666  |   150.00  |     0.00  |  (newer) reverse scale
 |  Fahrenheit   |   °F    |  0.555556  |    32.00  |   212.00  |
 |  Kelvin       |   °K    |  1.000000  |   273.15  |   373.15  |
 |  Newton       |   --    |  3.030303  |     0.00  |    33.00  |  not the force.
 |  Rankine      |   °Ra   |  0.555556  |   491.76  |   671.67  |  0°Ra == 0°K, steps == Fahrenheit.
 |  Reamur       |   °Re   |  1.250000  |     0.00  |    80.00  |
 |  Romer        |   °Ro   |  1.904762  |     7.50  |    60.00  |
-
-Note: units to be verified.
+|  Leiden       |   °Le   |  1.000000  |   253.00  |   353.00  |  0 Le = boiling point H2
+|  Wedgwood     |   °We   |  0.01384622|   -8.042  |   -6.657  |  (original) For pottery oven 1We = ~580 C 
 
 Note: this class is slightly slower than direct conversion, but it 
-prevents to have 8 x 7 optimized functions.
+prevents to have 10 x 9 optimized functions.
+
+There are many more temperature scales used in the past.
+An online convertor can be found here:
+ 
+- https://curiousnotions.com/temperature-converter/index.php
+
+For completeness the list of 73 supported scales of this online convertor.
+
+_Amontons, Barnsdorf, Beaumuir, Bénart, Bergen, Brisson, Celsius, Cimento, Cruquius, Dalencé, 
+daltons, Daniell, De la Hire, De la Ville, Delisle [Newer], Delisle [Older], De Luc, de Revillas, 
+Derham [I], Derham [II], de Suede, de Villeneuve, Du Crest, Edinburgh, electron volts, Fahrenheit, 
+Fahrenheit [Pre-1707], Florentine [Large], Florentine [Small], Florentine Magnum, Fowler, Frick,
+Gas Mark, Goubert, Hales, Hanow [Newer], Hanow [Older], Hauksbee, Hoffmann CG, Jacobs-Holborn, 
+kelvins, Kirch [Christfried], Kirch [Christine], Kirch [Gottfried], Kirch [Maria], La Court, 
+Lambert, Lange, Leiden, Ludolf, Mariotte, Miles, Murray, Newton, Oertel, Paris, plancks, Poleni, 
+Réaumur, Rømer, Rankine, Richter, Rinaldini, Rosenthal, Royal Society of London, Sagredo, 
+Saint-Patrice, Stufe, Sue de Lyon, Sulzer, Thermostat, Wedgwood [Original], and Wedgwood [Revised]._
 
 
 ## Interface
@@ -186,12 +206,12 @@ prevents to have 8 x 7 optimized functions.
 #include "temperature.h"
 ```
 
-#### Constructor
+### Constructor
 
 - **temperatureConverter()** Constructor sets the default to zero degrees C.
 
 
-#### setters
+### setters
 
 - **void setKelvin(float value = 0)**
 - **void setCelsius(float value = 0)**
@@ -201,8 +221,10 @@ prevents to have 8 x 7 optimized functions.
 - **void setDelisle(float value = 0)**
 - **void setNewton(float value = 0)**
 - **void setRomer(float value = 0)**
+- **void setLeiden(float value = 0)**
+- **void setWedgwood(float value = 0)**
 
-#### getters
+### getters
 
 - **void getKelvin()**
 - **void getCelsius()**
@@ -212,6 +234,8 @@ prevents to have 8 x 7 optimized functions.
 - **void getDelisle()**
 - **void getNewton()**
 - **void getRomer()**
+- **void getLeiden()**
+- **void getWedgwood()**
 
 
 ## Operations

@@ -44,6 +44,8 @@ setRankine	KEYWORD2
 setDelisle	KEYWORD2
 setNewton	KEYWORD2
 setRomer	KEYWORD2
+setLeiden	KEYWORD2
+setWedgwood	KEYWORD2
 
 getKelvin	KEYWORD2
 getCelsius	KEYWORD2
@@ -53,6 +55,8 @@ getRankine	KEYWORD2
 getDelisle	KEYWORD2
 getNewton	KEYWORD2
 getRomer	KEYWORD2
+getLeiden	KEYWORD2
+getWedgwood	KEYWORD2
 
 
 # Constants (LITERAL1)

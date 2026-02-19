@@ -2,7 +2,7 @@
 //
 //    FILE: temperature.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2015-03-29
 // PURPOSE: collection temperature functions
 //     URL: https://github.com/RobTillaart/Temperature
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define TEMPERATURE_LIB_VERSION         (F("0.4.0"))
+#define TEMPERATURE_LIB_VERSION         (F("0.4.1"))
 
 
 //  simple convertors
@@ -113,28 +113,32 @@ class temperatureConverter
 {
   //  used Celsius as internal unit, to minimize math
   public:
-    temperatureConverter()              { _temp = 0; };
+    temperatureConverter()              { _temp = 0.0f; };
 
-    void setKelvin(float value = 0)     { _temp = value - 273.15; };
+    void setKelvin(float value = 0)     { _temp = value - 273.15f; };
     void setCelsius(float value = 0)    { _temp = value; };
-    void setFahrenheit(float value = 0) { _temp = (value - 32.0) / 1.8; };
-    void setReamur(float value = 0)     { _temp = value * 1.25; };
-    void setRankine(float value = 0)    { _temp = (value - 491.67) / 1.8; };
-    void setDelisle(float value = 0)    { _temp = (value + 100) / 1.5; };
-    void setNewton(float value = 0)     { _temp = value / 0.33; };
-    void setRomer(float value = 0)      { _temp = (value - 7.5) / 0.525; };
-
-    float getKelvin()      { return _temp + 273.15; };
+    void setFahrenheit(float value = 0) { _temp = (value - 32.0f) / 1.8f; };
+    void setReamur(float value = 0)     { _temp = value * 1.25f; };
+    void setRankine(float value = 0)    { _temp = (value - 491.67f) / 1.8f; };  //  (value/1.8) - 273.15f; == known nrs?
+    void setDelisle(float value = 0)    { _temp = (value - 150.0f) / -1.5f; };
+    void setNewton(float value = 0)     { _temp = value / 0.33f; };             //  value * 3.03030303f  slightly faster?
+    void setRomer(float value = 0)      { _temp = (value - 7.5f) / 0.525f; };
+    void setLeiden(float value = 0)     { _temp = value - 253.15f; };
+    void setWedgwood(float value = 0)   { _temp = (72.221875f * value) + 580.8f; };
+    
+    float getKelvin()      { return _temp + 273.15f; };
     float getCelsius()     { return _temp; };
-    float getFahrenheit()  { return _temp * 1.8 + 32; };
-    float getReamur()      { return _temp * 0.8; };
-    float getRankine()     { return _temp * 1.8 + 491.67; };
-    float getDelisle()     { return _temp * 1.5 - 100.0; };
-    float getNewton()      { return _temp * 0.33; };
-    float getRomer()       { return _temp * 0.525 + 7.5; };
+    float getFahrenheit()  { return _temp * 1.8f + 32; };
+    float getReamur()      { return _temp * 0.8f; };
+    float getRankine()     { return _temp * 1.8f + 491.67f; };
+    float getDelisle()     { return _temp * -1.5f + 150.0f; };
+    float getNewton()      { return _temp * 0.33f; };
+    float getRomer()       { return _temp * 0.525f + 7.5f; };
+    float getLeiden()      { return _temp + 253.15f; };
+    float getWedgwood()    { return (_temp - 580.8f) / 72.221875f; };
 
   private:
-    float _temp = 0;
+    float _temp = 0.0f;
 };
 
 

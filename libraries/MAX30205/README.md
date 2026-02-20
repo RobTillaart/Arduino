@@ -11,7 +11,7 @@
 
 # MAX30205
 
-Arduino library for the MAX30205, I2C, high accuracy temperature sensor.
+Arduino library for the MAX30205, I2C, 16 bit, high accuracy temperature sensor.
 
 
 ## Description
@@ -23,7 +23,8 @@ This library is to use MAX30205 high accuracy (16 bits) temperature sensor.
 This library is work in progress and needs testing with actual hardware.
 So feedback is welcome!
 
-The MAX30205 temperature sensor is especially meant for skin contact measurements. It has a high accuracy in the human temperature range
+The MAX30205 temperature sensor is especially meant for skin contact measurements.
+It has a high accuracy in the human temperature range, see table.
 
 |   range °C       |  accuracy  |  notes  |
 |:----------------:|:----------:|:-------:|
@@ -35,17 +36,25 @@ The MAX30205 temperature sensor is especially meant for skin contact measurement
 |  41°C to 45°C    |    ±0.3°C  |
 |  45°C to 50°C    |    ±0.5°C  |
 
-The MAX30205 is a 3.3V device so so not connect it to a 5V as this can 
-or will harm the sensor. If needed use a voltage convertor or an appropriate 
-board that supports the 5V.
+The MAX30205 is a 3.3V device so do not connect it to a 5V as this can
+or will harm the sensor. If needed use a voltage convertor or use an
+appropriate board that supports the 5V.
 
 The conversion time is about 50 ms or a bit less.
 
-The MAX30205 has an OS pin that can be used for thresholds and more.
-This needs more investigation how this works.
+The datasheet states that the sensor operates between 0 and 50 degrees Celsius,
+and at the same time the datasheet shows the sensor provides a sign bit.
+There is also a bit in the configuration register to set an extended temperature
+range.
+This library handles the sign bit as a sign bit as it not verified what the sensor
+does when freezing in normal vs extended mode.
 
+The MAX30205 has an OUTPUT (OS) pin that can be used as an over temperature
+alarm, thresholds or interrupts.
+This OUTPUT pin needs more investigation how this works in detail.
 
 Feedback as always is welcome.
+
 
 ### Special characters
 
@@ -54,7 +63,7 @@ ALT0176 = °
 
 ### Warning
 
-_Do not apply this product to safety protection devices or emergency stop equipment, 
+_Do not apply this product to safety protection devices or emergency stop equipment,
 and any other applications that may cause personal injury due to the product's failure._
 
 
@@ -77,7 +86,7 @@ and any other applications that may cause personal injury due to the product's f
 |:-----:|:--------:|:--------------------|:-------:|
 |   1   |  SDA     |  I2C data           |  3-5V
 |   2   |  SCL     |  I2C clock          |  3-5V
-|   3   |   OS     |  Overtemp Shutdown  |
+|   3   |   OS     |  Overtemp Shutdown  |  Open-drain. use pull-up resistor.
 |   4   |  GND     |  Ground             |
 |   5   |   A2     |  address pins       |  see datasheet
 |   6   |   A1     |  address pins       |
@@ -85,48 +94,51 @@ and any other applications that may cause personal injury due to the product's f
 |   8   |  VDD     |  +3.3V              |  Bypass GND with 0.1μF cap
 
 
+### Compatibles
+
+There are no known compatible sensors.
+
+
 ### Related
 
-- https://github.com/RobTillaart/MAX30205
+- https://github.com/RobTillaart/MAX30205 - this library
 - https://github.com/RobTillaart/DS18B20_RT - well known temperature sensor
-- https://github.com/RobTillaart/PCT2075 11 bit I2C temperature sensor with thermal watchdog.
-- https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
+- https://github.com/RobTillaart/PCT2075 - bit I2C temperature sensor with thermal watchdog.
+- https://github.com/RobTillaart/SHT85 - Sensirion humidity / temperature sensor
+- https://github.com/RobTillaart/Temperature - conversions and more.
 
 
 ### Tested
 
-TODO: Test on Arduino UNO and ESP32
+TODO: need hardware
 
 
 ## I2C
 
 ### I2C Address
 
-The device has three address lines and depending on connection a different 
-address can be chosen.
+The device has three address lines and depending on connection a different address
+can be chosen. The full range is 32 addresses, 0x40..0x5F ==> decimal 64..95
 
-0x40..0x5F = 32 addresses
-
-See datasheet for full range of connections.
+See datasheet for the full range of connections.
+Note in the datasheet the shifted addresses (x 2) are mentioned.
 
 ### I2C multiplexing
 
 Sometimes you need to control more devices than possible with the default
 address range the device provides.
-This is possible with an I2C multiplexer e.g. TCA9548 which creates up 
-to eight channels (think of it as I2C subnets) which can use the complete 
-address range of the device. 
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
 
-Drawback of using a multiplexer is that it takes more administration in 
-your code e.g. which device is on which channel. 
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
 This will slow down the access, which must be taken into account when
 deciding which devices are on which channel.
-Also note that switching between channels will slow down other devices 
+Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
-
-See example **TCA9548_demo_MAX30205.ino**
 
 
 ### I2C Performance
@@ -136,7 +148,7 @@ Only test **read()** as that is the main function.
 
 |  Clock     |  time (us)  |  Notes  |
 |:----------:|:-----------:|:--------|
-|   100 KHz  |             |  default 
+|   100 KHz  |             |  default
 |   200 KHz  |             |
 |   300 KHz  |             |
 |   400 KHz  |             |  max per datasheet
@@ -163,29 +175,39 @@ TODO: run performance sketch on hardware.
 
 - **bool read()** returns true after a successful read of the temperature.
 - **float getTemperature()** returns the last read temperature.
+- **float getAccuracy()** returns the maximum error e.g. 0.3 => ±0.3°C
+
+The datasheet mentions to use a sample period larger than 10 seconds to
+eliminate self-heating effects. The user can use lastRead() for this.
+
+- **uint32_t lastRead()** returns timestamp of last read call.
 
 
 ### Configuration mask
 
 See datasheet page 12, 13
 
-- **void setConfig(uint8_t mask = 0x00)**
-- **uint8_t getConfig()**
+- **void setConfig(uint8_t mask = 0x00)** allows to set the configuration
+register in one call. The default is the POR (Power On Reset) value 0x00.
+- **uint8_t getConfig()** read back configuration register.
 
 ### Configuration field
 
 See datasheet page 12, 13
 
-- **void shutDown()**
-- **void wakeUp()**
-- **void setModeComparator()**
-- **void setModeInterrupt()**
+These functions set the configuration register per bit(s).
+
+- **void shutDown()** idem
+- **void wakeUp()** idem
+- **void setModeComparator()** see datasheet
+- **void setModeInterrupt()** see datasheet
 - **void setPolarity(uint8_t polarity = LOW)** polarity = LOW HIGH
 - **void setFaultQueLevel(uint8_t level = 0)** level = 0..3
-- **void setDataFormat(uint8_t range = 0)** range = 0 => 0..50; 
+- **void setDataFormat(uint8_t range = 0)** range = 0 => 0..50;
 range = 1 => extended (slower)
-- **void setTimeout(uint8_t timeout = 0)** timeout = 0, 1
-- **void setModeContinuous()** Continuous implies wakeup
+- **void setTimeout(uint8_t timeout = 0)** timeout = 0, 1, used to suppress
+I2C bus reset when SDA is LOW for more than 50 ms.
+- **void setModeContinuous()** Continuous implies wakeup.
 - **void setModeOneShot()** OneShot implies shutdown.
 
 
@@ -198,28 +220,91 @@ See datasheet page 8
 - **bool setOverTemperature(float Celsius = 80)**
 - **float getOverTemperature()**
 
-Describe OS pin behaviour.
+See Comparator mode and Interrupt mode below.
 
 
 ### Debug
 
-- **uint32_t getLastRead()**
-- **uint16_t getLastError()** returns last error of low level communication.
+- **uint16_t lastError()** returns last error of low level communication.
+
+
+## Comparator mode
+
+Datasheet Figure 2. OS Output Temperature Response Diagram
+
+The OS pin is open drain so a pull up resistor is needed to pull the output to HIGH.
+
+By calling **setModeComparator()** the MAX30205 OS pin has the following behaviour.
+
+- Default the OS output is HIGH (by means of the pull up resistor).
+- if the temperature rises above the value in the over-temperature register,
+the OS output goes to LOW.
+- if the temperature drops below the value in the hysteresis register,
+the OS output goes to HIGH again.
+
+The values in the registers can be changed with 
+- **setOverTemperature(float Celsius = 80)** and
+- **setHysteresis(float Celsius = 75)**
+
+Note one might need to also set the extended temperature range with 
+**setDataFormat(1)** to get this working.
+Furthermore one might need to **setPolarity()** to get the signal needed.
+Finally one might set the **setFaultQueLevel()** to determine the number of
+consecutive reads to trigger an OS change. Used to suppress noise.
+
+The comparator mode is ideal to use the sensor as a thermostat e.g. to control
+a fan, a heater, an alarm etc.
+
+TODO: verify with hardware.
+
+
+## Interrupt mode
+
+Datasheet Figure 2. OS Output Temperature Response Diagram
+
+The OS pin is open drain so a pull up resistor is needed to pull the output to HIGH.
+
+By calling **setModeInterrupt()** the MAX30205 OS pin has the following behaviour.
+
+- Default the OS output is HIGH (by means of the pull up resistor).
+- it waits until if the temperature rises above the value in the over-temperature register, if so the OS output goes to LOW.
+- when the sensor is **read()** the OS output goes HIGH again.
+- then it waits until the temperature drops below the value in the hysteresis register, if so the OS output goes to LOW.
+- if the sensor is **read()** the OS output goes HIGH again.
+
+So the interrupt is triggered **alternately** by the OS and hysteresis register value.
+
+The values in the registers can be changed with 
+- **setOverTemperature(float Celsius = 80)** and
+- **setHysteresis(float Celsius = 75)**
+
+Note one might need to also set the extended temperature range with 
+**setDataFormat(1)** to get this working. 
+Furthermore one might need to **setPolarity()** to get the signal needed.
+Finally one might set the **setFaultQueLevel()** to determine the number of
+consecutive reads to trigger an OS change. Used to suppress noise.
+
+The interrupt mode assumes when the temperature is HIGH, an action is taken 
+that lowers the temperature. When the lower threshold is met a new interrupt
+is triggered which allows to take another action.
+
+Note: there are no additional interrupts if the temperature "dances" around
+the value in the OS register.
+
+TODO: verify with hardware.
 
 
 ## Future
 
 #### Must
 
-- improve documentation (a lot)
+- improve documentation
 - get hardware to test
 
 #### Should
 
-- add examples 
-  - configuration
+- add examples
   - interrupt
-  - fan using OS pin
 
 #### Could
 

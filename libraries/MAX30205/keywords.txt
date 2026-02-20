@@ -9,7 +9,29 @@ begin	KEYWORD2
 isConnected	KEYWORD2
 getAddress	KEYWORD2
 
+read	KEYWORD2
+getTemperature	KEYWORD2
+getAccuracy	KEYWORD2
 
+setConfig	KEYWORD2
+getConfig	KEYWORD2
+shutDown	KEYWORD2
+wakeUp	KEYWORD2
+setModeComparator	KEYWORD2
+setModeInterrupt	KEYWORD2
+
+setPolarity	KEYWORD2
+setFaultQueLevel	KEYWORD2
+setDataFormat	KEYWORD2
+setTimeout	KEYWORD2
+
+setModeContinuous	KEYWORD2
+setModeOneShot	KEYWORD2
+
+setHysteresis	KEYWORD2
+getHysteresis	KEYWORD2
+setOverTemperature	KEYWORD2
+getOverTemperature	KEYWORD2
 
 getLastError	KEYWORD2
 

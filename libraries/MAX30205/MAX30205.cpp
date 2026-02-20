@@ -2,7 +2,7 @@
 //    FILE: MAX30205.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-02-19
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for MAX30205
 //     URL: https://github.com/RobTillaart/MAX30205
 
@@ -81,6 +81,18 @@ float MAX30205::getTemperature()
   return _temperature;
 }
 
+float MAX30205::getAccuracy()
+{
+  if (_temperature < 15.0) return 0.5;
+  if (_temperature < 35.8) return 0.3;
+  if (_temperature < 37.0) return 0.2;
+  if (_temperature < 39.0) return 0.1;
+  if (_temperature < 41.8) return 0.2;
+  if (_temperature < 45.0) return 0.3;
+  //  > 45C
+  return 0.5;
+}
+
 
 /////////////////////////////////////////////
 //
@@ -118,7 +130,7 @@ void MAX30205::setModeInterrupt()
   if ((raw & 0x02) == 0x02) return;
   setConfig(getConfig() | 0x02);
 }
-  
+
 void MAX30205::setModeComparator()
 {
   uint8_t raw = getConfig();

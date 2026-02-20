@@ -277,9 +277,28 @@ control over the AD9833 device.
 Especially frequency setting is improved as the float parameter of **setFrequency()** does 
 not have the 28 bits precision of the register.
 
-- **void writeControlRegister(uint16_t value)** see datasheet
+- **void writeControlRegister(uint16_t value)** see datasheet.
+- **uint16_t readControlRegisterCache()** read the cached bits of
+the control register. (not from device).
 - **void writeFrequencyRegister(uint8_t channel, uint32_t freq)** channel = 0 or 1, freq = 0 .. 268435455 (2^28 - 1 )
 - **void writePhaseRegister(uint8_t channel, uint16_t value)** channel = 0 or 1, value = 0 .. 4095
+
+Control register bits
+
+|  defines          |  value      |  notes  |
+|:------------------|:-----------:|:--------|
+|  AD9833_FREG1     |  0x8000     |
+|  AD9833_FREG0     |  0x4000     |
+|  AD9833_B28       |  (1 << 13)  |
+|  AD9833_HLB       |  (1 << 12)  |
+|  AD9833_FSELECT   |  (1 << 11)  |
+|  AD9833_PSELECT   |  (1 << 10)  |
+|  AD9833_RESET     |  (1 << 8)   |
+|  AD9833_SLEEP1    |  (1 << 7)   |
+|  AD9833_SLEEP12   |  (1 << 6)   |
+|  AD9833_OPBITEN   |  (1 << 5)   |
+|  AD9833_DIV2      |  (1 << 3)   |
+|  AD9833_MODE      |  (1 << 1)   |
 
 
 ### HLB mode

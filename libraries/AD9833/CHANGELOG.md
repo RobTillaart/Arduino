@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.5] - 2026-02-20
+- fix #26, make control register constants available in .h file
+- add **readControlRegisterCache()**
+- fix keywords.txt
+- minor edits
+
 ## [0.4.4] - 2026-01-02
 - update GitHub actions
 - update examples

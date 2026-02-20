@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator
 //    DATE: 2023-08-25
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -13,18 +13,6 @@
 //  FREQUENCY REGISTER BITS
 #define AD9833_FREG1        0x8000
 #define AD9833_FREG0        0x4000
-
-//  CONTROL REGISTER BITS
-#define AD9833_B28          (1 << 13)
-#define AD9833_HLB          (1 << 12)
-#define AD9833_FSELECT      (1 << 11)
-#define AD9833_PSELECT      (1 << 10)
-#define AD9833_RESET        (1 << 8)
-#define AD9833_SLEEP1       (1 << 7)
-#define AD9833_SLEEP12      (1 << 6)
-#define AD9833_OPBITEN      (1 << 5)
-#define AD9833_DIV2         (1 << 3)
-#define AD9833_MODE         (1 << 1)
 
 
 //  HARDWARE SPI
@@ -312,6 +300,11 @@ void AD9833::writeControlRegister(uint16_t value)
 {
   uint16_t data = value & 0x3FFF;  //  bit 15 and 14 == 00
   writeData(data);
+}
+
+uint16_t AD9833::readControlRegisterCache()
+{
+  return _control;
 }
 
 

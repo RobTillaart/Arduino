@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AD9833 function generator.
 //    DATE: 2023-08-25
-// VERSION: 0.4.4
+// VERSION: 0.4.5
 //     URL: https://github.com/RobTillaart/AD9833
 
 
@@ -12,7 +12,7 @@
 #include "SPI.h"
 
 
-#define AD9833_LIB_VERSION     (F("0.4.4"))
+#define AD9833_LIB_VERSION     (F("0.4.5"))
 
 
 #ifndef __SPI_CLASS__
@@ -53,6 +53,19 @@
 #define AD9833_ERR_FREQUENCY        -3
 #define AD9833_ERR_PHASE            -4
 #define AD9833_ERR_GENERIC          -99
+
+
+//  CONTROL REGISTER BITS
+#define AD9833_B28          (1 << 13)
+#define AD9833_HLB          (1 << 12)
+#define AD9833_FSELECT      (1 << 11)
+#define AD9833_PSELECT      (1 << 10)
+#define AD9833_RESET        (1 << 8)
+#define AD9833_SLEEP1       (1 << 7)
+#define AD9833_SLEEP12      (1 << 6)
+#define AD9833_OPBITEN      (1 << 5)
+#define AD9833_DIV2         (1 << 3)
+#define AD9833_MODE         (1 << 1)
 
 
 class AD9833
@@ -107,6 +120,7 @@ public:
 
   //  LOW LEVEL API - Expert users only
   void     writeControlRegister(uint16_t value);
+  uint16_t readControlRegisterCache();
   void     writeFrequencyRegister(uint8_t channel, uint32_t freq);
   void     writePhaseRegister(uint8_t channel, uint16_t value);
 

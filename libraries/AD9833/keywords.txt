@@ -25,6 +25,8 @@ setPhase	KEYWORD2
 getPhase	KEYWORD2
 getMaxPhase	KEYWORD2
 setPhaseChannel	KEYWORD2
+setPhaseRadians	KEYWORD2
+getPhaseRadians	KEYWORD2
 
 setSPIspeed	KEYWORD2
 getSPIspeed	KEYWORD2
@@ -33,8 +35,12 @@ usesHWSPI	KEYWORD2
 
 # LOW LEVEL API
 writeControlRegister	KEYWORD2
+readControlRegisterCache	KEYWORD2
 writeFrequencyRegister	KEYWORD2
 writePhaseRegister	KEYWORD2
+
+setCrystalFrequency	KEYWORD2
+getCrystalFrequency	KEYWORD2
 writeFrequencyRegisterLSB	KEYWORD2
 writeFrequencyRegisterMSB	KEYWORD2
 

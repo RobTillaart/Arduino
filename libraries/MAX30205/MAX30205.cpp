@@ -2,7 +2,7 @@
 //    FILE: MAX30205.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-02-19
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for MAX30205
 //     URL: https://github.com/RobTillaart/MAX30205
 
@@ -27,6 +27,7 @@ MAX30205::MAX30205(uint8_t address, TwoWire *wire)
   _error       = MAX30205_OK;
   _lastRead    = 0;
   _temperature = 0.0f;
+  _modeNormal  = true;
 }
 
 
@@ -62,18 +63,30 @@ uint8_t MAX30205::getAddress()
 //
 //  READ
 //
-bool MAX30205::read()
+int MAX30205::read()
 {
-  Serial.println(".");
+  uint32_t now = millis();
+  //  50 ms is max, 44 is average, tune at your own risk.
+  if (now - _lastRead < 50)
+  {
+    _error = MAX30205_READ_TOO_FAST;
+    return _error;
+  }
   uint16_t raw = readRegister(MAX30205_REG_TEMPERATURE, 2);
   if (_error != MAX30205_OK)
   {
-    //  other error value? -999.0f;
-    return false;
+    return _error;
   }
-  _lastRead = millis();
+  _lastRead = now;
+
   _temperature = int16_t(raw) * MAX30205_LSB;
-  return true;
+  //  datasheet page 12, 
+  //  extended temperature range
+  if (_modeNormal == false)  //  or (_temperature < 0)
+  {
+    _temperature = _temperature + 64;
+  }
+  return MAX30205_OK;
 }
 
 float MAX30205::getTemperature()
@@ -158,6 +171,8 @@ void MAX30205::setFaultQueLevel(uint8_t level)
 void MAX30205::setDataFormat(uint8_t range)
 {
   if (range > 1) return;
+  _modeNormal = (range == 0);
+
   uint8_t raw = getConfig();
   uint8_t previous = raw;
   raw = raw & ~(1 << 5);  //  clear bits

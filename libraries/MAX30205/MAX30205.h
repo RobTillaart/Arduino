@@ -3,7 +3,7 @@
 //    FILE: MAX30205.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-02-19
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for
 //     URL: https://github.com/RobTillaart/MAX30205
 //
@@ -13,14 +13,14 @@
 #include "Wire.h"
 
 
-#define MAX30205_LIB_VERSION         (F("0.1.1"))
+#define MAX30205_LIB_VERSION         (F("0.1.2"))
 
 //  ERROR CODES
 //  values <> 0 are errors.
 #define MAX30205_OK                  0x00
-#define MAX30205_CRC_ERROR           0x01
 #define MAX30205_NOT_READY           0x10
 #define MAX30205_REQUEST_ERROR       0x11
+#define MAX30205_READ_TOO_FAST       0x12
 
 
 class MAX30205
@@ -35,7 +35,7 @@ public:
 
   //       READ
   //  read temperature from device
-  bool     read();
+  int      read();
   //  get temperature from lastRead
   float    getTemperature();
   float    getAccuracy();
@@ -87,6 +87,7 @@ private:
   uint32_t _lastRead;
   uint16_t _temperature;
   uint16_t _error;
+  bool     _modeNormal;
 };
 
 

@@ -23,7 +23,7 @@ This library is to use MAX30205 high accuracy (16 bits) temperature sensor.
 This library is work in progress and needs testing with actual hardware.
 So feedback is welcome!
 
-The MAX30205 temperature sensor is especially meant for skin contact measurements.
+The MAX30205 temperature sensor is especially meant for skin contact measurements in the range 0..50°C.
 It has a high accuracy in the human temperature range, see table.
 
 |   range °C       |  accuracy  |  notes  |
@@ -61,10 +61,39 @@ Feedback as always is welcome.
 ALT241 = ±
 ALT0176 = °
 
+
 ### Warning
+
+Disclaimer!
 
 _Do not apply this product to safety protection devices or emergency stop equipment,
 and any other applications that may cause personal injury due to the product's failure._
+
+### Fever
+
+Disclaimer!
+
+The temperature of the human body can be too low, normal or too hot.
+The first case is called hypothermia, the latter case is called fever.
+There are no official temperature ranges for fever, so the table below 
+is indicative and definitely no medical advice or whatsoever.
+
+The colour codes are no standard either but could be used as a visual 
+indication of the temperature measured. 
+One can use - https://github.com/RobTillaart/map2colour for this.
+
+|  Celsius     |  description      |   colour  |  action  |
+|:-------------|:------------------|----------:|:---------|
+|  below 35.0  |  hypothermia      |   PURPLE  |  doctor
+|  35.0..36.0  |  low temperature  |     BLUE  |
+|  36.0..37.2  |  Normal           |    GREEN  |
+|  37.5..38.0  |  low grade fever  |   YELLOW  |
+|  38.0..38.9  |  mild fever       |   ORANGE  |  doctor
+|  39.0..39.9  |  high fever       |      RED  |  doctor
+|  40.0 and up |  very high fever  |      RED  |  doctor
+
+- Armpit measures 0.3-0.6°C lower.
+- Oral measures 0.0-0.2°C lower.
 
 
 ### Hardware
@@ -86,7 +115,7 @@ and any other applications that may cause personal injury due to the product's f
 |:-----:|:--------:|:--------------------|:-------:|
 |   1   |  SDA     |  I2C data           |  3-5V
 |   2   |  SCL     |  I2C clock          |  3-5V
-|   3   |   OS     |  Overtemp Shutdown  |  Open-drain. use pull-up resistor.
+|   3   |   OS     |  OverTemp Shutdown  |  Open-drain. use pull-up resistor.
 |   4   |  GND     |  Ground             |
 |   5   |   A2     |  address pins       |  see datasheet
 |   6   |   A1     |  address pins       |
@@ -106,6 +135,11 @@ There are no known compatible sensors.
 - https://github.com/RobTillaart/PCT2075 - bit I2C temperature sensor with thermal watchdog.
 - https://github.com/RobTillaart/SHT85 - Sensirion humidity / temperature sensor
 - https://github.com/RobTillaart/Temperature - conversions and more.
+- https://github.com/RobTillaart/map2colour - mapping a float to colours
+
+Other MAX30205 libraries
+
+- https://github.com/Protocentral/Protocentral_MAX30205
 
 
 ### Tested
@@ -120,8 +154,9 @@ TODO: need hardware
 The device has three address lines and depending on connection a different address
 can be chosen. The full range is 32 addresses, 0x40..0x5F ==> decimal 64..95
 
-See datasheet for the full range of connections.
-Note in the datasheet the shifted addresses (x 2) are mentioned.
+See datasheet for the full range of connections needed.
+Note the datasheet mentions the shifted addresses (x 2).
+
 
 ### I2C multiplexing
 
@@ -143,8 +178,7 @@ too if they are behind the multiplexer.
 
 ### I2C Performance
 
-Only test **read()** as that is the main function.
-
+Only test **read()** as that is the main function called most.
 
 |  Clock     |  time (us)  |  Notes  |
 |:----------:|:-----------:|:--------|
@@ -173,13 +207,16 @@ TODO: run performance sketch on hardware.
 
 ### Read
 
-- **bool read()** returns true after a successful read of the temperature.
-- **float getTemperature()** returns the last read temperature.
-- **float getAccuracy()** returns the maximum error e.g. 0.3 => ±0.3°C
+Note there must be 44-50 ms between read() calls, otherwise an
+**MAX30205_READ_TOO_FAST (0x12)** will be returned.
 
 The datasheet mentions to use a sample period larger than 10 seconds to
 eliminate self-heating effects. The user can use lastRead() for this.
 
+- **int read()** returns MAX30205_OK after a successful read of the temperature, an error code otherwise. 
+- **float getTemperature()** returns the last successful read temperature.
+- **float getAccuracy()** returns the maximum error e.g. 0.3 => ±0.3°C.
+This is based on 3 sigma from datasheet. The actual error is probably smaller.
 - **uint32_t lastRead()** returns timestamp of last read call.
 
 
@@ -204,7 +241,10 @@ These functions set the configuration register per bit(s).
 - **void setPolarity(uint8_t polarity = LOW)** polarity = LOW HIGH
 - **void setFaultQueLevel(uint8_t level = 0)** level = 0..3
 - **void setDataFormat(uint8_t range = 0)** range = 0 => 0..50;
-range = 1 => extended (slower)
+range = 1 => extended (slower).
+Changing dataformat takes at least 2 read times = 100ms.
+Note The minimum and maximum of the extended range is not defined
+in the datasheet.
 - **void setTimeout(uint8_t timeout = 0)** timeout = 0, 1, used to suppress
 I2C bus reset when SDA is LOW for more than 50 ms.
 - **void setModeContinuous()** Continuous implies wakeup.
@@ -223,9 +263,19 @@ See datasheet page 8
 See Comparator mode and Interrupt mode below.
 
 
-### Debug
+### Error handling
 
-- **uint16_t lastError()** returns last error of low level communication.
+To be elaborated
+
+- **uint16_t lastError()** returns last error of the communication.
+
+|  code                    |  value  |  notes  |
+|:-------------------------|:-------:|:--------|
+|  MAX30205_OK             |   0x00  |
+|  MAX30205_NOT_READY      |   0x10  |
+|  MAX30205_REQUEST_ERROR  |   0x11  |
+|  MAX30205_READ_TOO_FAST  |   0x12  |  wait up to 50 ms before read().
+|  other                   |         |
 
 
 ## Comparator mode

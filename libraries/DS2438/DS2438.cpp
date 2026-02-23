@@ -1,7 +1,7 @@
 //
 //    FILE: DS2438.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for DS2438 battery monitor
 //     URL: https://github.com/RobTillaart/DS2438
@@ -68,6 +68,14 @@ bool DS2438::isConnected(uint8_t retries)
   return _addressFound;
 }
 
+bool DS2438::isDS2438()
+{
+  if (_addressFound || isConnected(3))
+  {
+    return (_address[0] == 0x26);
+  }
+  return false;
+}
 
 ///////////////////////////////////////////////////////////
 //
@@ -86,7 +94,7 @@ float DS2438::readTemperature()
   readScratchPad(0);
 
   //             sign    MSB               LSB         step      >> 3
- _temperature = (int(_scratchPad[2]) * 256 + _scratchPad[1]) * 0.03125 * 0.125;
+ _temperature = (int(_scratchPad[2]) * 256 + _scratchPad[1]) * (0.03125f * 0.125f);
 
   return _temperature;
 }
@@ -127,7 +135,7 @@ float DS2438::readVDD()
   readScratchPad(DS2438_PAGE_CORE);
 
   //  10 mV resolution
-  _vdd = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01;
+  _vdd = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01f;
 
   //  convert current in same call?!
 
@@ -152,7 +160,7 @@ float DS2438::readVAD()
   readScratchPad(DS2438_PAGE_CORE);
 
   //  10 mV resolution
-  _vad = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01;
+  _vad = ((_scratchPad[4] & 0x03) * 256 + _scratchPad[3]) * 0.01f;
 
   //  convert current in same call?!
 
@@ -172,8 +180,8 @@ float DS2438::getVAD()
 //
 void DS2438::setResistor(float resistor)
 {
-  _inverseR = 1.0 / (4096.0 * resistor);
-  _RICA     = 1.0 / (2048.0 * resistor);
+  _inverseR = 1.0f / (4096.0f * resistor);
+  _RICA     = 1.0f / (2048.0f * resistor);
 }
 
 
@@ -245,9 +253,9 @@ float DS2438::readRemaining()
 {
   //  datasheet p.7
   readScratchPad(DS2438_PAGE_ETM_ICA_OFFSET);
-  //  factor 2.0 from optimization (need to explain this factor)
   //  Remaining Capacity = ICA / (2048 * RSENS)
-  float remaining = _scratchPad[4] / _RICA;  //   mAhr
+  //  setResistor() :  _RICA = 1.0/(2048 * Rsens);
+  float remaining = _scratchPad[4] * _RICA;  //   mAhr
   return remaining;
 }
 
@@ -391,7 +399,7 @@ float DS2438::readCCA()
   //  datasheet p.8 + 16
   readScratchPad(DS2438_PAGE_CCA_DCA);
   uint16_t raw = (_scratchPad[5] * 256 + _scratchPad[4]);
-  return raw * 15.625;
+  return raw * 15.625f;
 }
 
 float DS2438::readDCA()
@@ -399,7 +407,7 @@ float DS2438::readDCA()
   //  datasheet p.8 + 16
   readScratchPad(DS2438_PAGE_CCA_DCA);
   uint16_t raw = (_scratchPad[7] * 256 + _scratchPad[6]);
-  return raw * 15.625;
+  return raw * 15.625f;
 }
 
 bool DS2438::setCCA(float CCA)
@@ -408,7 +416,7 @@ bool DS2438::setCCA(float CCA)
   if (CCA < 0) return false;
    clearConfigBit(DS2438_CONFIG_IAD);
   readScratchPad(DS2438_PAGE_CCA_DCA);
-  uint16_t tmp = round(CCA / 15.625);
+  uint16_t tmp = round(CCA * (1.0f / 15.625f));
   _scratchPad[4] = tmp & 0xFF;
   _scratchPad[5] = tmp >> 8;
   writeScratchPad(DS2438_PAGE_CCA_DCA);
@@ -423,7 +431,7 @@ bool DS2438::setDCA(float DCA)
   if (DCA < 0) return false;
   clearConfigBit(DS2438_CONFIG_IAD);
   readScratchPad(DS2438_PAGE_CCA_DCA);
-  uint16_t tmp = round(DCA / 15.625);
+  uint16_t tmp = round(DCA * (1.0f / 15.625f));
   _scratchPad[6] = tmp & 0xFF;
   _scratchPad[7] = tmp >> 8;
   writeScratchPad(DS2438_PAGE_CCA_DCA);
@@ -453,7 +461,7 @@ void DS2438::resetAccumulators()
 //
 void DS2438::setConfigBit(uint8_t bit)
 {
-  if (bit > 3) return;
+  if (bit > DS2438_CONFIG_AD) return;
   uint8_t mask = (0x01 << bit);
   readScratchPad(DS2438_PAGE_CORE);
   if ((_scratchPad[0] & mask) == mask) return;  //  already 1
@@ -463,7 +471,7 @@ void DS2438::setConfigBit(uint8_t bit)
 
 void DS2438::clearConfigBit(uint8_t bit)
 {
-  if (bit > 3) return;
+  if (bit > DS2438_CONFIG_AD) return;
   uint8_t mask = (0x01 << bit);
   readScratchPad(DS2438_PAGE_CORE);
   if ((_scratchPad[0] & mask) == 0x00) return;  //  already 0
@@ -515,7 +523,12 @@ void DS2438::readScratchPad(uint8_t page)
   _oneWire->write(DS2438_READ_SCRATCH, 0);
   _oneWire->write(page, 0);
   for (uint8_t i = 0; i < 8; i++) _scratchPad[i] = _oneWire->read();
-  //  skip crc for now.
+  //  skip CRC for now
+  //  - update loop to 9
+  //  - change return type
+  //  - set error flag.
+  //  return _oneWire->crc8(_scratchPad, 8) != _scratchPad[8]);
+  return;
 }
 
 
@@ -527,6 +540,7 @@ void DS2438::writeScratchPad(uint8_t page)
   _oneWire->write(DS2438_WRITE_SCRATCH, 0);
   _oneWire->write(page, 0);
   for (uint8_t i = 0; i < 8; i++) _oneWire->write(_scratchPad[i], 0);
+  //  no CRC when writing.
   _oneWire->reset();
   _oneWire->select(_address);
   _oneWire->write(DS2438_COPY_SCRATCH, 0);

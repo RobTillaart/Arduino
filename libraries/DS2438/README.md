@@ -20,17 +20,18 @@ Arduino Library for the DS2438 1-wire battery monitor.
 
 The DS2438 is a experimental library for the DS2438 battery management sensor.
 
-The library is not tested by me in detail as I have no hardware (breakout board).
-So for the moment the library is written based upon the datasheet and provided as is.
-That said, the library is working (see e.g. #5) but use it with care as it is still
-work in progress.
+The library is tested in #5 and seems to work OK, but use it with care as 
+it is still work in progress.
+As I have no hardware == breakout board (yet) I cannot tests.
 
 The device supports the following functionality.
 - voltage measurement
 - temperature measurement
 - current measurement.
-- 40 bytes non-volatile EEPROM memory
+- 40 bytes non-volatile EEPROM memory (use only 36 see below)
 - Elapsed time meter in binary format
+- current accumulators
+- test deviceType
 
 This library supports only one DS2438 per Arduino / MCU pin.
 
@@ -40,7 +41,8 @@ As always, feedback is welcome.
 ### 0.2.0 Breaking Change
 
 The 0.2.0 version fixes a bug in the EEPROM that affects the proper working
-of the device. (See issue 5).
+of the device. (See issue 5). Furthermore there are many other fixes and
+enhancements.
 
 Versions before 0.2.0 are therefore obsolete.
 
@@ -52,17 +54,13 @@ Need to find a breakout.
 See datasheet for details for a measurement schema.
 
 ```
-                   DS2438
-              +------------------+
-              | 1  GND           |
-              | 2  Vsense+       |
-              | 3  Vsense-       |
-              | 4  VAD           |
-              | 5  VDD           |
-              | 6  NC            |
-              | 7  NC            |
-              | 8  DQ            |
-              +------------------+
+                     DS2438
+           +-----------------------+
+           | 1  GND           DQ 8 |
+           | 2  Vsense+       NC 7 |
+           | 3  Vsense-       NC 6 |
+           | 4  VAD          VDD 5 |
+           +-----------------------+
 ```
 
 |  Pin     |  Description                        |  Connect to  |
@@ -73,7 +71,7 @@ See datasheet for details for a measurement schema.
 |  VSENS-  |  Battery current monitor input (-)  |  Battery     |
 |  VDD     |  Power Supply (2.4V to 10.0V)       |  +5V         |
 |  GND     |  Ground                             |  processor   |
-|  NC      |  No connect                         |  -           |
+|  NC      |  No connected                       |  -           |
 
 
 ### Related
@@ -101,6 +99,9 @@ Returns true if address / device is found and all is OK.
 There will be a number of retries to connect, default 3.
 - **bool isConnected(uint8_t retries = 3)** Returns true if address / device is found.
 There will be a number of retries to connect, default 3.
+- **bool isDS2438()** returns true if the device type == 0x26 which indicates
+an DS2438. Returns false if no device seen or other type.
+
 
 ### Temperature
 
@@ -247,14 +248,11 @@ This library supports only one DS2438 per Arduino / MCU pin.
 
 #### Must
 
-- Improve documentation (a lot).
-- test with hardware or simulator?.
-- examples for testing.
+- improve documentation
 
 #### Should
 
-- implement CRC
-- add device type check
+- add real live examples
 
 #### Could
 
@@ -269,13 +267,13 @@ only after testing and code works.
 - optimize the code.
   - cache registers?
 - improve magic masks and numbers
-- performance test.
 - getAddress() ?
-- debugging
 - error handling.
 - copy snapshot to EEPROM(page) -> datasheet p.8 EE bit.
   - copies page 0 to EEPROM page 0..4
-
+- enable CRC in readScratchPad() 
+  - performance penalty
+  - failing CRC must be handled otherwise no added value.
 
 #### Wont
 

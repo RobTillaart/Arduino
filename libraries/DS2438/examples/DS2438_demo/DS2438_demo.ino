@@ -25,7 +25,14 @@ void setup()
 
   bm.begin();
   Serial.println(bm.isConnected());
-
+  if (!bm.isDS2438())
+  {
+    Serial.print("Pin ");
+    Serial.print(ONE_WIRE_BUS);
+    Serial.println(" has no DS2438 attached.");
+    Serial.println("Check connections and restart.");
+    while(1);
+  }
 
   Serial.println("\nTemperature");
   bm.readTemperature();
@@ -48,6 +55,7 @@ void setup()
   delay(30);
   bm.readCurrent();
   Serial.println(bm.getCurrent());
+  Serial.println(bm.readCurrentOffset());
 
 
   Serial.println("\nTime");
@@ -57,7 +65,8 @@ void setup()
 
   Serial.println("\nThreshold");
   Serial.println(bm.readThreshold());
-
+  Serial.println("Remaining: ");
+  Serial.println(bm.readRemaining());
 
   Serial.println("\nCCA/DCA");
   Serial.println("  Charge: ");
@@ -66,6 +75,8 @@ void setup()
   Serial.println(bm.readDCA());
   Serial.println("    Delta: ");
   Serial.println(bm.readCCA() - bm.readDCA());
+  Serial.println("Remaining: ");
+  Serial.println(bm.readRemaining());
 
 
   Serial.println("\nEEPROM");

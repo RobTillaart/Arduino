@@ -1,0 +1,30 @@
+
+BOARD   UNO R3
+IDE     1.8.19
+
+(size/RAM = 7006/696)
+
+DS2438\examples\DS2438_performance\DS2438_performance.ino
+DS2438_LIB_VERSION: 0.2.1
+
+0
+Pin 2 has no DS2438 attached.
+Check connections and restart.
+
+readTemperature: 	34592
+readVDD: 	71572
+readVAD: 	52484
+getConfigRegister: 	18716
+readCurrent: 	17912
+readCurrentOffset: 	17888
+readElapsedTimeMeter: 	17888
+readDisconnectTime: 	17896
+readEndOfChargeTime: 	17888
+readThreshold: 	17900
+readRemaining: 	17888
+readCCA: 	17872
+readDCA: 	17868
+writeEEPROM (10x): 	368548
+readEEPROM (10x): 	179612
+
+done...

@@ -2,22 +2,20 @@
 //
 //    FILE: DS2438.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2023-07-28
 // PURPOSE: Arduino Library for DS2438 battery monitor
 //     URL: https://github.com/RobTillaart/DS2438
 //
-//                    DS2438
-//               +------------------+
-//               | 1  GND           |
-//               | 2  Vsense+       |
-//               | 3  Vsense-       |
-//               | 4  VAD           |
-//               | 5  VDD           |
-//               | 6  NC            |
-//               | 7  NC            |
-//               | 8  DQ            |
-//               +------------------+
+//
+//                       DS2438
+//             +-----------------------+
+//             | 1  GND           DQ 8 |
+//             | 2  Vsense+       NC 7 |
+//             | 3  Vsense-       NC 6 |
+//             | 4  VAD          VDD 5 |
+//             +-----------------------+
+//
 //
 //  |  Pin     |  Description                        |  Connect to  |
 //  |:--------:|:------------------------------------|:-------------|
@@ -33,7 +31,7 @@
 #include "Arduino.h"
 #include "OneWire.h"
 
-#define DS2438_LIB_VERSION        (F("0.2.0"))
+#define DS2438_LIB_VERSION        (F("0.2.1"))
 
 #define DS2438_INVALID             -999
 
@@ -55,7 +53,7 @@ public:
 
   bool     begin(uint8_t retries = 3);
   bool     isConnected(uint8_t retries = 3);
-
+  bool     isDS2438();
 
   //  TEMPERATURE
   //  unit is degrees Celsius

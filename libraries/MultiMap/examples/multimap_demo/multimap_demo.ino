@@ -9,7 +9,7 @@
 
 #include "MultiMap.h"
 
-//  not the IN array is not equidistant.
+//  note the IN array is not equidistant.
 //  layout is to see the points of the graph.
 float in[]  = { 0, 20,  40,  50,  60,   80,   90,   100, 105 };
 float out[] = { 1, 2.8, 4.5, 7.0, 10.4, 33.5, 57.5, 100, 120 };

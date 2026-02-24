@@ -4,7 +4,7 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/MultiMap
 //
-//  example simulates the lookup graph of a distance sensor 
+//  example simulates the lookup graph of a distance sensor
 
 
 #include "MultiMap.h"

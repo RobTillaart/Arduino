@@ -4,8 +4,9 @@
 // PURPOSE: demo mapping an angle on a semi-circle (2D {x, y} position)
 //     URL: https://github.com/RobTillaart/MultiMap
 //
-//  when printing into a plotter one sees a rough sine and cosine
+//  when printing into a plotter one sees a very rough sine and cosine
 //  with an amplitude of 5, approximated with interpolation.
+
 
 #include "MultiMap.h"
 

@@ -135,6 +135,7 @@ lower than 0.5% compared to the numbers above.
 - https://www.robot-electronics.co.uk/htm/srf05tech.htm Good documentation including how to connect.
 - https://randomnerdtutorials.com/complete-guide-for-ultrasonic-sensor-hc-sr04/ good guide.
 - https://github.com/stoduk/PingSerial  Serial IO with distance sensors e.g. US-100
+- https://github.com/robTillaart/printHelpers - print feet (for feet/sec)
 
 
 ## Interface
@@ -309,6 +310,8 @@ See examples.
 - add examples
   - DHT22 and the formula for SOS
 - investigate effect of wind (speed of air) on the speed of sound.
+  - v = SOS + wind x cos(angle)
+  - back and forth are normally compensating.
 - investigate
   - value of **setTriggerLength()**
 - investigate "guard time" between reads of 50 ms (20x /sec max).

@@ -1,7 +1,7 @@
 //
 //    FILE: SRF05.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.4.0
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for the SRF05 distance sensor (and compatibles)
 //     URL: https://github.com/RobTillaart/SRF05
@@ -93,6 +93,21 @@ void SRF05::setModeRunningAverage(float alpha)
 uint8_t SRF05::getOperationalMode()
 {
   return _mode;
+}
+
+
+//////////////////////////////////////////////////
+//
+//  INTERVAL
+//
+void SRF05::setSampleInterval(uint16_t microSeconds)
+{
+  _sampleInterval = microSeconds;
+}
+
+uint16_t SRF05::getSampleInterval()
+{
+  return _sampleInterval;
 }
 
 

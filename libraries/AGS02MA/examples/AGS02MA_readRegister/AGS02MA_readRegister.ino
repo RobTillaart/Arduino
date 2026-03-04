@@ -46,7 +46,7 @@ void loop()
     Serial.print(address, HEX);
     Serial.print("]");
 
-    if(b)
+    if (b)
     {
       printRegister(address, reg);
     }

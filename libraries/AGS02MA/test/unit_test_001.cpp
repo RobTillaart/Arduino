@@ -26,7 +26,7 @@
 #include "AGS02MA.h"
 
 // writing to a virtual device does not work
-// as millis() function is not implemented in 
+// as millis() function is not implemented in
 // the Arduino-CI environment
 
 

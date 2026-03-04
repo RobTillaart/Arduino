@@ -50,7 +50,8 @@ before calling **begin()**.
 - https://www.renesas.com/us/en/document/whp/overview-tvoc-and-indoor-air-quality
 - https://github.com/RobTillaart/SGP30 (experimental)
 - https://github.com/RobTillaart/AtomicWeight  (determine Mass from chemical formula)
-- https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/map2colour 
+- https://github.com/RobTillaart/printHelpers - scientific notation and more
 
 
 ## I2C
@@ -83,7 +84,7 @@ See section below.
 
 The sensor uses I2C at very low speed <= 30 KHz.
 For an Arduino UNO the lowest speed supported is about 30.4KHz (TWBR = 255) which works
-in my testruns so far.
+in my test runs so far.
 First runs with Arduino UNO indicate 2 failed reads in > 500 Reads, so less than 1%
 failure rate.
 
@@ -98,11 +99,11 @@ The "reset clock speed" can be changed with **setI2CResetSpeed(speed)** e.g. to 
 
 ### 0.3.1 fix.
 
-Version 0.3.1 sets the **I2C prescaler TWSR** register of the Arduino UNO to 4 so the lowest
+Version 0.3.1 sets the **I2C pre-scaler TWSR** register of the Arduino UNO to 4 so the lowest
 speed possible is reduced to about 8 KHz.
 A test run 4 hours with 6000++ reads on an UNO at 25 KHz gave 0 errors.
 So the communication speed will be set to 25 KHz, also for other boards, for stability.
-After communication the I2C clock (+ prescaler) is reset again as before.
+After communication the I2C clock (+ pre-scaler) is reset again as before.
 
 
 ### I2C multiplexing
@@ -207,8 +208,8 @@ to indicate the production date(?).
 This date is encoded in an uint32_t to minimize footprint as it is a debug function.
 
 ```cpp
-uint32_t dd = sensor.getSensorDate();
-Serial.println(dd, HEX);   //  prints YYYYMMDD e.g. 20210203
+uint32_t date = sensor.getSensorDate();
+Serial.println(date, HEX);   //  prints YYYYMMDD e.g. 20210203
 ```
 
 
@@ -274,12 +275,12 @@ Some known gasses
 
 |  gas   |  Common name        |  ratio  ppb-μg/m3     |  molecular weight M  |
 |:-------|:--------------------|:----------------------|:--------------------:|
-|  SO2   |  Sulphur dioxide    |  1 ppb = 2.62 μg/m3   |    64 gr/mol         |
-|  NO2   |  Nitrogen dioxide   |  1 ppb = 1.88 μg/m3   |    46 gr/mol         |
-|  NO    |  Nitrogen monoxide  |  1 ppb = 1.25 μg/m3   |    30 gr/mol         |
-|  O3    |  Ozone              |  1 ppb = 2.00 μg/m3   |    48 gr/mol         |
-|  CO    |  Carbon Monoxide    |  1 ppb = 1.145 μg/m3  |    28 gr/mol         |
-|  C6H6  |  Benzene            |  1 ppb = 3.19 μg/m3   |    78 gr/mol         |
+|  SO2   |  Sulphur dioxide    |  1 ppb = 2.62 μg/m3   |    64 gr/mole        |
+|  NO2   |  Nitrogen dioxide   |  1 ppb = 1.88 μg/m3   |    46 gr/mole        |
+|  NO    |  Nitrogen monoxide  |  1 ppb = 1.25 μg/m3   |    30 gr/mole        |
+|  O3    |  Ozone              |  1 ppb = 2.00 μg/m3   |    48 gr/mole        |
+|  CO    |  Carbon Monoxide    |  1 ppb = 1.145 μg/m3  |    28 gr/mole        |
+|  C6H6  |  Benzene            |  1 ppb = 3.19 μg/m3   |    78 gr/mole        |
 
 
 - https://github.com/RobTillaart/AtomicWeight  (determine Mass from chemical formula)

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.4] - 2026-03-04
+- update GitHub actions
+- minor edits
 
 ## [0.4.3] - 2025-08-15
 - update readme.md
@@ -13,11 +16,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edits
 
 ## [0.4.2] - 2024-02-03
-- update readme.md 
+- update readme.md
   - added multiplexer section
-  - extended PPB "health" table 
+  - extended PPB "health" table
 - clean up examples
-- refactor conditional code 
+- refactor conditional code
   - added **setI2CLowSpeed()** and **setI2CHighSpeed()**
 - improved error handling a bit.
   - added **AGS02MA_ERROR_REQUEST**

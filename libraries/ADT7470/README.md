@@ -95,7 +95,6 @@ Check datasheet for the details as these sections needs to be elaborated.
 - **uint8_t getDeviceID()** should return 0x70.
 - **uint8_t getCompanyID()** should return 0x41.
 
-
 ### Temperature
 
 - **int8_t getTemperature(uint8_t index)** index = 0..9; if connected it returns the temperature
@@ -105,7 +104,6 @@ of sensor index. Temperature sensors are daisy changed.
 - **int8_t getTemperatureLowLimit(uint8_t index)** return the set value. Default ?
 - **int8_t getTemperatureHighLimit(uint8_t index)** return the set value. Default ?
 
-
 ### PWM
 
 - **bool setPWM(uint8_t index, uint8_t value)** set the speed of the fan at index
@@ -114,7 +112,6 @@ of sensor index. Temperature sensors are daisy changed.
 - **bool setFanHighFreq(value = 0)**
 - **void setInvertPWM(uint8_t index)**
 - **uint8_t getInvertPWM(uint8_t index)**
-
 
 ### Tachio & RPM
 
@@ -128,7 +125,6 @@ This value is needed to calculate a correct tach and RPM.
 - **bool setTachLimits(uint8_t index, uint16_t low, uint16_t high)**
 - **uint16_t getTachLowLimits(uint8_t index)**
 - **uint16_t getTachHighLimits(uint8_t index)**
-
 
 ### Interrupts
 
@@ -157,11 +153,12 @@ This library will only be worked on on request as I have no hardware to test.
   - add missing descriptions.
   - The descriptions are short and need to be extended.
   - redo function groups.
-- get the hardware to test
+
 
 #### Should
 
 - fix TODO's in code
+- get the hardware to test
 
 #### Could
 

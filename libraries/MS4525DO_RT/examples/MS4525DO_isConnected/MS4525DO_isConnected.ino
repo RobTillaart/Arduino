@@ -48,7 +48,7 @@ void loop()
       Serial.println(sensor.getMilliBar());
       Serial.println();
     }
-    else 
+    else
     {
       Serial.print("error: ");
       Serial.println(state);

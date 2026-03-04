@@ -79,13 +79,32 @@ Always check datasheet for the exact pins.
 - https://github.com/RobTillaart/MS5837 - (I2C) temperature pressure sensor  (incl pressure to altitude)
 - https://github.com/RobTillaart/MS5611 - (I2C) temperature pressure sensor  (incl pressure to altitude)
 - https://github.com/RobTillaart/MSP300 - (I2C) industrial pressure transducer
+- https://github.com/RobTillaart/printHelpers - printing scientific format et al.
 - https://swharden.com/blog/2017-04-29-precision-pressure-meter-project/
-
 
 
 ## I2C
 
+### I2C Address
+
 Valid addresses are: 0x28,0x36,0x46,0x48..0x51 (interface type, I,J,K,0..9).
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -133,7 +152,7 @@ Related library: https://github.com/RobTillaart/temperature additional conversio
 ### State
 
 - **uint16_t errorCount()** total counter for the number of errors occurred.
-internal counter wraps after 65535.
+Internal counter wraps after 65535.
 - **uint32_t lastRead()** time in milliseconds of last successful read of the sensor.
 - **int state()** last known state of read(), which is also returned by **read()**
 
@@ -150,8 +169,8 @@ internal counter wraps after 65535.
 
 Raw counter API, for debugging or your own conversion.
 
-- **int rawPressureCount()** idem.
-- **int rawTemperatureCount()** idem.
+- **uint16_t rawPressureCount()** idem.
+- **uint16_t rawTemperatureCount()** idem.
 
 
 ## Testing
@@ -167,6 +186,7 @@ TODO:
 
 ## Future
 
+
 #### Must
 
 - update documentation.
@@ -178,6 +198,8 @@ TODO:
 
 - support Vacuum series transport function (page 6)
   - for now one might use P = -sensor.getPSI();
+- int begin(float psi) to allow calibration or even arbitrary units.
+  - return state?
 
 #### Could
 
@@ -185,15 +207,19 @@ TODO:
 - add altitude code (from MS5837)
 - improve state code after reset() and before read() ?
   - MS4525DO_NO_READ or MS4525DO_RESET?
+  - MS4525DO_NOT_INIT if begin() not called?
 - MS4525DO_OVF_ERROR should bits just be masked?
-- int begin(float psi) to allow calibration or even arbitrary units.
-  - return state?
-- pressure in N/m2 => pitot formula. `v = sqrt(2 * pressure / rho);`
-  - rho is specific weight in kg/m3, depends on humidity temperature and height.
-
+- optimize **read()**
+  - read P 1 or 2 bytes, no temp
+  - read T 0, 1 or 2 bytes
+  - small performance gain
+  - might introduce its own errors
+  
 
 #### Wont
 
+- pressure in N/m2 => pitot formula. `v = sqrt(2 * pressure / rho);`
+  - rho is specific weight in kg/m3, depends on humidity temperature and height.
 -  move code from .h to .cpp
 
 

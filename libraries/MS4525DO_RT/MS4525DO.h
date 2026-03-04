@@ -2,7 +2,7 @@
 //
 //    FILE: MS4525DO.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.2.0
 //    DATE: 2025-12-06
 // PURPOSE: Arduino library for the I2C MS4525DO pressure and temperature sensor.
 //     URL: https://github.com/RobTillaart/MS4525DO_RT
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define MS4525DO_LIB_VERSION              (F("0.1.2"))
+#define MS4525DO_LIB_VERSION              (F("0.2.0"))
 
 #define PSI2MILLIBAR                      (68.9475729)
 #define MILLIBAR2PSI                      (0.01450377377)
@@ -56,19 +56,19 @@ public:
   int      state()      { return _state; };
 
   //  debugging / own conversion.
-  int      rawPressureCount()    { return _rpc; };
-  int      rawTemperatureCount() { return _rtc; };
+  uint16_t rawPressureCount()    { return _rawPressure; };
+  uint16_t rawTemperatureCount() { return _rawTemperature; };
 
 
 private:
   uint8_t  _address;
   TwoWire*  _wire;
 
-  float    _maxPressure;  //  mBar
-  float    _pressure;     //  mBar
-  float    _temperature;  //  Celsius
-  int      _rpc;          //  raw counter for debugging.
-  int      _rtc;          //  raw counter for debugging.
+  float    _maxPressure;     //  mBar
+  float    _pressure;        //  mBar
+  float    _temperature;     //  Celsius
+  uint16_t _rawPressure;     //  raw counter for debugging.
+  uint16_t _rawTemperature;  //  raw counter for debugging.
 
   uint8_t  _state;
   uint16_t _errorCount;

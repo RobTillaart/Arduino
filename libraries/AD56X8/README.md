@@ -11,15 +11,12 @@
 
 # AD56X8
 
-Experimental Library for the AD56X8 series digital analog convertor.
-
-Note: not yet tested with hardware, TODO buy hardware.
-
-Feedback, issues, improvements are welcome. 
-Please file an issue on GitHub.
+Library for the AD56X8 series digital analog convertor.
 
 
 ## Description
+
+**Experimental**
 
 The AD56X8 is an 8 channel DAC convertor, that has 12, 14 or 16 bit accuracy. 
 Furthermore it is available in 2.5 V and 5.0 V version, see table below.
@@ -42,6 +39,11 @@ At least it lacks support for:
 - RESET pin,
 - VREF pin.
 - other points mentioned in future section below.
+
+Note: not yet tested with hardware, TODO buy hardware.
+
+Feedback, issues, improvements are welcome. 
+Please file an issue on GitHub.
 
 
 ### 0.3.0 Breaking change
@@ -79,6 +81,7 @@ This allows value range checking.
 - https://github.com/RobTillaart/AD568X (single channel 12, 14, 16 bit)
 - https://github.com/RobTillaart/AD5680 (single channel 18 bit)
 - https://github.com/RobTillaart/MCP_DAC (SPI interface)
+- https://github.com/RobTillaart/MCP4725 (I2C interface)
 
 
 ## Interface

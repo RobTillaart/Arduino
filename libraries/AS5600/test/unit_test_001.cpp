@@ -55,16 +55,30 @@ unittest(test_constants_base)
   assertEqual(0, AS5600_MODE_DEGREES);
   assertEqual(1, AS5600_MODE_RADIANS);
   assertEqual(2, AS5600_MODE_RPM);
+  assertEqual(3, AS5600_MODE_RPS);
 
   assertEqualFloat(360.0/4096,    AS5600_RAW_TO_DEGREES, 0.0001);
   assertEqualFloat(4096/360.0,    AS5600_DEGREES_TO_RAW, 0.0001);
   assertEqualFloat((PI*2.0)/4096, AS5600_RAW_TO_RADIANS, 0.0001);
   assertEqualFloat(60.0/4096,     AS5600_RAW_TO_RPM,     0.0001);
+  assertEqualFloat(1.0/4096,      AS5600_RAW_TO_RPS,     0.0001);
 
   assertEqual(0x36, AS5600_DEFAULT_ADDRESS);
   assertEqual(0x40, AS5600L_DEFAULT_ADDRESS);
 
   assertEqual(255, AS5600_SW_DIRECTION_PIN);
+}
+
+
+unittest(test_constants_error_code)
+{
+  assertEqual(   0, AS5600_OK);
+  assertEqual(-100, AS5600_ERROR_I2C_READ_0);
+  assertEqual(-101, AS5600_ERROR_I2C_READ_1);
+  assertEqual(-102, AS5600_ERROR_I2C_READ_2);
+  assertEqual(-103, AS5600_ERROR_I2C_READ_3);
+  assertEqual(-200, AS5600_ERROR_I2C_WRITE_0);
+  assertEqual(-201, AS5600_ERROR_I2C_WRITE_1);
 }
 
 
@@ -237,7 +251,7 @@ unittest(test_offset_2)
   assertEqualFloat(330, as5600.getOffset(), 0.05);
 
 
-  //  as cummulative error can be larger ==> 0.1 
+  //  as cummulative error can be larger ==> 0.1
   as5600.setOffset(200);
   assertEqualFloat(200, as5600.getOffset(), 0.1);
 

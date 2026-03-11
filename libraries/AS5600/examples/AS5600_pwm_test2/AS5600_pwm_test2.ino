@@ -31,7 +31,7 @@ void measurePWMBitTime()
   while (digitalRead(PWMpin) == LOW);
   long fullPeriod = micros() - rise;
   bitTime = fullPeriod / 4351.0;
-  //  precalculate constants.
+  //  pre-calculate constants.
   f1 = 128 * bitTime;
   f2 = (360.0 / (4095 * bitTime));
 }
@@ -49,8 +49,8 @@ float measureAngle()
   while (digitalRead(PWMpin) == HIGH);
   uint32_t highPeriod = micros() - rise;
 
-  //  precalculated constant
-  //  f1 = 128 * bittime
+  //  pre-calculated constant
+  //  f1 = 128 * bit time
   //  f2 = 360.0 / (4095 * bitTime)
   float dataPeriod = highPeriod - f1;
   float angle = dataPeriod * f2;
@@ -76,7 +76,7 @@ void setup()
 
   pinMode(PWMpin, INPUT_PULLUP);
   measurePWMBitTime();
-  
+
 
 //  //  test code
 //  for (int pwm = 0; pwm < 4096; pwm++)

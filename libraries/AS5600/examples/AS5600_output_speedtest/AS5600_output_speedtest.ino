@@ -91,7 +91,7 @@ void setup()
   as5600.setDirection(AS5600_CLOCK_WISE);  //  default, just be explicit. cw = dir->GND, ccw = dir->VCC
   as5600.setOutputMode(AS5600_OUTMODE_ANALOG_100);
 
-  if (as5600.detectMagnet())
+  if (as5600.magnetDetected())
   {
     Serial.print("Magnet detected, AGC: ");
     Serial.print(as5600.readAGC());

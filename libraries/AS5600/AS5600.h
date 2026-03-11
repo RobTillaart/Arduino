@@ -2,7 +2,7 @@
 //
 //    FILE: AS5600.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.6
+// VERSION: 0.6.7
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define AS5600_LIB_VERSION              (F("0.6.6"))
+#define AS5600_LIB_VERSION              (F("0.6.7"))
 
 
 //  default addresses
@@ -26,16 +26,20 @@ const uint8_t AS5600_COUNTERCLOCK_WISE  = 1;  //  HIGH
 
 //  0.087890625;
 const float   AS5600_RAW_TO_DEGREES     = 360.0 / 4096;
+//  11,37777778;
 const float   AS5600_DEGREES_TO_RAW     = 4096 / 360.0;
 //  0.00153398078788564122971808758949;
-const float   AS5600_RAW_TO_RADIANS     = PI * 2.0 / 4096;
-//  4.06901041666666e-6
+const float   AS5600_RAW_TO_RADIANS     = (PI * 2.0) / 4096;
+//  0.0146484375
 const float   AS5600_RAW_TO_RPM         = 60.0 / 4096;
+//  0.000244140625
+const float   AS5600_RAW_TO_RPS         = 1.0 / 4096;
 
 //  getAngularSpeed
-const uint8_t AS5600_MODE_DEGREES       = 0;
+const uint8_t AS5600_MODE_DEGREES       = 0;  //  default
 const uint8_t AS5600_MODE_RADIANS       = 1;
 const uint8_t AS5600_MODE_RPM           = 2;
+const uint8_t AS5600_MODE_RPS           = 3;
 
 
 //  ERROR CODES
@@ -119,7 +123,7 @@ public:
   void     setDirection(uint8_t direction = AS5600_CLOCK_WISE);
   uint8_t  getDirection();
 
-  //  returns how many times ZPOS and MPOS have been permanently written.
+  //  returns how often ZPOS and MPOS have been written. (MAX 3)
   uint8_t  getZMCO();
 
   //  0 .. 4095
@@ -140,8 +144,14 @@ public:
   //  access the whole configuration register
   //  check datasheet for bit fields
   //  returns false if parameter out of range
-  bool     setConfigure(uint16_t value);
-  uint16_t getConfigure();
+  bool     setConfiguration(uint16_t value);
+  uint16_t getConfiguration();
+
+  //  keep backwards compatible
+  [[deprecated("Use setConfiguration()")]]
+  bool     setConfigure(uint16_t value) { return setConfiguration(value); };
+  [[deprecated("Use getConfiguration()")]]
+  uint16_t getConfigure() { return getConfiguration(); };
 
   //  access details of the configuration register
   //  0 = Normal
@@ -185,6 +195,9 @@ public:
   bool     setWatchDog(uint8_t mask);
   uint8_t  getWatchDog();
 
+  //  read configuration from persistent memory
+  void     resetPOR();
+
 
   //  READ OUTPUT REGISTERS
   uint16_t rawAngle();
@@ -205,24 +218,31 @@ public:
   uint16_t readMagnitude();
 
   //  access detail status register
-  bool     detectMagnet();
+  [[deprecated("use magnetDetected()")]]
+  bool     detectMagnet() { return magnetDetected(); };
+  bool     magnetDetected();
   bool     magnetTooStrong();
   bool     magnetTooWeak();
 
 
   //  BURN COMMANDS
+  //
   //  DO NOT UNCOMMENT - USE AT OWN RISK - READ DATASHEET
+  //
   //  use getZMCO() to get the counter how often ZPOS/MPOS is "burned".
   //  void burnAngle();
   //  void burnSetting();
 
 
-  //  EXPERIMENTAL 0.1.2 - to be tested.
-  //  approximation of the angular speed in rotations per second.
-  //  mode == 1: radians /second
-  //  mode == 0: degrees /second  (default)
+  //  approximation of the angular speed
+  //  mode == 3 AS5600_MODE_RPS:     rounds per second
+  //  mode == 2 AS5600_MODE_RPM:     rounds per minute
+  //  mode == 1 AS5600_MODE_RADIANS: radians /second
+  //  mode == 0 AS5600_MODE_DEGREES: degrees /second  (default)
+  //  update = call readAngle() or use last value (see readme.md)
   float    getAngularSpeed(uint8_t mode = AS5600_MODE_DEGREES,
                            bool update = true);
+
 
   //  EXPERIMENTAL CUMULATIVE POSITION
   //  reads sensor and updates cumulative position
@@ -280,10 +300,12 @@ class AS5600L : public AS5600
 public:
   AS5600L(uint8_t address = AS5600L_DEFAULT_ADDRESS, TwoWire *wire = &Wire);
 
+  //  datasheet page 28
+  //  call burnSettings() to make the I2C address persistent.
   bool     setAddress(uint8_t address);
 
   //       UPDT = UPDATE
-  //       are these two needed?
+  //       are these two needed? (not public).
   bool     setI2CUPDT(uint8_t value);
   uint8_t  getI2CUPDT();
 };

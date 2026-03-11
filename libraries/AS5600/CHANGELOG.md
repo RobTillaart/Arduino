@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.7] - 2026-03-06
+- fix #81, persistent I2C address (kudos to vslash)
+- add **void resetPOR()** read back from non volatile RAM.
+- add **setConfiguration()** // replaces setConfigure in 0.7.0
+- add **getConfiguration()** // idem
+- add **magnetDetected()** //  replaces detectMagnet in 0.7.0
+- add **AS5600_MODE_RPS** rounds / rotations per second mode
+- fix **AS5600_RAW_TO_RPM** constant.
+- remove "older experimental tags"
+- update examples (configuration calls)
+- update readme.md
+- update unit tests
+- update GitHub actions
+- minor edits
+
 ## [0.6.6] - 2025-07-08
 - update **AS5600_burn_zpos.ino** (#38, kudos to eriknz)
 - add **AS5600_detect_type.ino** for debugging purpose

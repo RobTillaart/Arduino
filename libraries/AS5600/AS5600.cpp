@@ -1,7 +1,7 @@
 //
 //    FILE: AS56000.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.6
+// VERSION: 0.6.7
 // PURPOSE: Arduino library for AS5600 magnetic rotation meter
 //    DATE: 2022-05-28
 //     URL: https://github.com/RobTillaart/AS5600
@@ -162,7 +162,7 @@ uint16_t AS5600::getMaxAngle()
 //
 //  CONFIGURATION
 //
-bool AS5600::setConfigure(uint16_t value)
+bool AS5600::setConfiguration(uint16_t value)
 {
   if (value > 0x3FFF) return false;
   writeReg2(AS5600_CONF, value);
@@ -170,7 +170,7 @@ bool AS5600::setConfigure(uint16_t value)
 }
 
 
-uint16_t AS5600::getConfigure()
+uint16_t AS5600::getConfiguration()
 {
   uint16_t value = readReg2(AS5600_CONF) & 0x3FFF;
   return value;
@@ -390,7 +390,7 @@ uint16_t AS5600::readMagnitude()
 }
 
 
-bool AS5600::detectMagnet()
+bool AS5600::magnetDetected()
 {
   return (readStatus() & AS5600_MAGNET_DETECT) > 1;
 }
@@ -410,6 +410,18 @@ bool AS5600::magnetTooWeak()
 
 /////////////////////////////////////////////////////////
 //
+//  Power On Reset - read back the OTP values (non-volatile RAM)
+//
+void AS5600::resetPOR()
+{
+   writeReg(AS5600_BURN, 0x01);
+   writeReg(AS5600_BURN, 0x11);
+   writeReg(AS5600_BURN, 0x10);
+   delay(5);
+}
+
+/////////////////////////////////////////////////////////
+//
 //  BURN COMMANDS
 //
 //  DO NOT UNCOMMENT - USE AT OWN RISK - READ DATASHEET
@@ -418,19 +430,18 @@ bool AS5600::magnetTooWeak()
 //  {
 //    writeReg(AS5600_BURN, x0x80);
 //    delay(2);
+//    resetPOR();
 //  }
 //
 //
+//  Note, burnSetting() will also burn I2C address for AS5600L
 //  See https://github.com/RobTillaart/AS5600/issues/38
+//  See https://github.com/RobTillaart/AS5600/issues/81
 //  void AS5600::burnSetting()
 //  {
 //    writeReg(AS5600_BURN, 0x40);
 //    delay(5);
-//    //  read back the OTP values (non-volatile RAM)
-//    writeReg(AS5600_BURN, 0x01);
-//    writeReg(AS5600_BURN, 0x11);
-//    writeReg(AS5600_BURN, 0x10);
-//    delay(5);
+//    resetPOR();
 //  }
 
 

@@ -15,6 +15,9 @@
 //  - adjust settings and MaxAngle in burn_zpos() function below ==> line 85++
 //  - uncomment line 113 of this sketch
 //
+//  Note the AS5600L also burns an alternative I2C address.
+//  See datasheet page 28.
+//
 //  Examples may use AS5600 or AS5600L devices.
 //  Check if your sensor matches the one used in the example.
 //  Optionally adjust the code.

@@ -13,8 +13,9 @@
 
 
 //  Uncomment the line according to your sensor type
-AS5600L as5600;   //  use default Wire
-// AS5600 as5600;   //  use default Wire
+//  The AS5600L does not support analog OUT.
+//  AS5600L as5600;   //  use default Wire
+AS5600 as5600;   //  use default Wire
 
 
 void setup()

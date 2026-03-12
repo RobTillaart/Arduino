@@ -36,6 +36,7 @@ possibly introduces an ever increasing error.
 In tests with **RunningAverage** library (with equal weights), adding up to 1500000 numbers 
 this error was always small. Still you need to be aware of this limit.
 
+
 ### 0.2.0 breaking change
 
 Fixed #6 by fixing **clear()**, previous versions are now obsolete.
@@ -72,7 +73,7 @@ The object has no default size.
 - **~RunAvgWeight()** destructor to free the memory allocated.
 
 
-### Basic
+### Core
 
 - **bool clear()** empties the internal buffers.
 - **bool addValue(float value, float weight = 1.0)** adds a new value to the object, 
@@ -82,14 +83,15 @@ albeit with the extra overhead.
 **addValue()** updates the sum of values and weights for the **getFastAverage()** function.
 
 
-The following functions returns NAN if there are no values present (count == 0) or 
-of internal array is not allocated.
+The following functions returns NAN if there are no values present (count == 0),
+or the internal array is not allocated. And for some if sum_weights == 0 as this
+would result in a divide by zero error.
 
 - **float getValue(uint16_t position)** returns the value at **position** from the additions. 
 Position 0 is the first one to disappear.
 - **float getWeight(uint16_t position)** returns the weight at **position** from the additions. 
 Position 0 is the first one to disappear.
-- **float getAverage()** iterates over all elements, values and weights, to get the average.
+- **float getAverage()** iterates over all elements, values and weights, to get the weighted average.
 This is the slower and the more accurate method. 
 A call to **getAverage()** updates the internal variables used by **getFastAverage()** to 
 improve its accuracy again.
@@ -100,6 +102,7 @@ improve its accuracy again.
 
 - **float getStandardDeviation()** returns the standard deviation of the current content. 
 More than one element needs to be added to be calculable.
+Also sum of weights should not be zero.
 - **float getStandardError()** returns the standard error of the current content.
 - **float getCoefficientOfVariation()** returns coefficient of variation.
 This is defined as standardDeviation / Average. 
@@ -126,10 +129,10 @@ Note the returned maximum is **unweighted.**
 
 ### Helper functions
 
-- **float getElementValue(uint16_t index)** get element directly from internal buffer at index.
-- **float getElementValue(uint16_t index)** get element directly from internal buffer at index.
-- **float getSumValues()** returns the sum of the values \* weights in the internal buffer.
-- **float getSumWeights()** returns the sum of the values in the internal buffer.
+- **float getElementValue(uint16_t index)** get element directly from internal buffer at index. No check on index fast but unsafe.
+- **float getElementWeight(uint16_t index)** get element directly from internal buffer at index. No check on index fast but unsafe.
+- **float getSumValues()** returns the sum of the values in the internal buffer.
+- **float getSumWeights()** returns the sum of the weights in the internal buffer.
 
 
 ## Future
@@ -141,13 +144,15 @@ Note the returned maximum is **unweighted.**
 
 #### Should
 
-- elaborate unit test
 
 #### Could
 
-- implement missing RunningAverage functions?
+- elaborate unit test
 
 #### Wont
+
+- implement missing RunningAverage functions?
+  - on request only
 
 ## Support
 

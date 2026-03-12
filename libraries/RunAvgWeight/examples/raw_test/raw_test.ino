@@ -1,7 +1,6 @@
 //
 //    FILE: raw_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-06-30
 // PURPOSE: show working of RunAvgWeight
 //     URL: https://github.com/RobTillaart/RunAvgWeight
 

@@ -43,14 +43,35 @@ void setup(void)
   start = micros();
   myRA.addValue(10, 2);
   stop = micros();
-  Serial.print("ADDVALUE:\t");
+  Serial.print("ADD_VALUE:\t");
   Serial.println(stop - start);
+  delay(100);
+
+  int pos = random(20);
+  start = micros();
+  f = myRA.getValue(pos);
+  stop = micros();
+  Serial.print("GET_VALUE:\t");
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(f, 4);
+  delay(100);
+
+  pos = random(20);
+  start = micros();
+  f = myRA.getWeightedValue(pos);
+  stop = micros();
+  Serial.print("GET_W_VAL:\t");
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(f, 4);
+  Serial.println();
   delay(100);
 
   start = micros();
   f = myRA.getFastAverage();
   stop = micros();
-  Serial.print("FASTAVG:\t");
+  Serial.print("FAST_AVG:\t");
   Serial.print(stop - start);
   Serial.print("\t");
   Serial.println(f, 4);
@@ -69,6 +90,15 @@ void setup(void)
   f = myRA.getStandardDeviation();
   stop = micros();
   Serial.print("STD_DEV:\t");
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(f, 4);
+  delay(100);
+
+  start = micros();
+  f = myRA.getCoefficientOfVariation();
+  stop = micros();
+  Serial.print("COEF_VAR:\t");
   Serial.print(stop - start);
   Serial.print("\t");
   Serial.println(f, 4);

@@ -1,7 +1,6 @@
 //
 //    FILE: raw_demo_equal_weight.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2024-06-30
 // PURPOSE: show working of RunAvgWeight with equal weights
 //     URL: https://github.com/RobTillaart/RunAvgWeight
 

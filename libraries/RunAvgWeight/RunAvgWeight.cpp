@@ -1,7 +1,7 @@
 //
 //    FILE: RunAvgWeight.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-06-30
 // PURPOSE: Arduino library to calculate the running average with weights by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunAvgWeight
@@ -61,6 +61,7 @@ bool RunAvgWeight::addValue(const float value, const float weight)
     return false;
   }
   //  TODO weight should be > 0 or at least != 0?
+  //  if zero it still affects the average.
 
   _sumValues -= _values[_index] * _weights[_index];
   _values[_index] = value;
@@ -85,6 +86,7 @@ bool RunAvgWeight::addValue(const float value, const float weight)
 }
 
 
+//  returns the value of an element if exist, NAN otherwise
 float RunAvgWeight::getValue(const uint16_t position)
 {
   if (_count == 0)
@@ -93,7 +95,7 @@ float RunAvgWeight::getValue(const uint16_t position)
   }
   if (position >= _count)
   {
-    return NAN;  // cannot ask more than is added
+    return NAN;  //  cannot ask more than is added
   }
   uint16_t pos = position + _index;
   if (pos >= _count) pos -= _count;
@@ -102,7 +104,6 @@ float RunAvgWeight::getValue(const uint16_t position)
 
 
 //  returns the weight of an element if exist, NAN otherwise
-//  "partner" of getValue()
 float RunAvgWeight::getWeight(const uint16_t position)
 {
   if (_count == 0)
@@ -111,11 +112,28 @@ float RunAvgWeight::getWeight(const uint16_t position)
   }
   if (position >= _count)
   {
-    return NAN;  // cannot ask more than is added
+    return NAN;  //  cannot ask more than is added
   }
   uint16_t pos = position + _index;
   if (pos >= _count) pos -= _count;
   return _weights[pos];
+}
+
+
+//  returns the weight * value of an element if exist, NAN otherwise
+float RunAvgWeight::getWeightedValue(const uint16_t position)
+{
+  if (_count == 0)
+  {
+    return NAN;
+  }
+  if (position >= _count)
+  {
+    return NAN;  //  cannot ask more than is added
+  }
+  uint16_t pos = position + _index;
+  if (pos >= _count) pos -= _count;
+  return _values[pos] * _weights[pos];
 }
 
 
@@ -126,15 +144,17 @@ float RunAvgWeight::getAverage()
   {
     return NAN;
   }
-  //  OPTIMIZE local variable for sums.
-  _sumValues = 0;
-  _sumWeights = 0;
+  //  local variable for sums is faster
+  float sv = 0; 
+  float sw = 0;
   for (uint16_t i = 0; i < _count; i++)
   {
-    _sumValues += _values[i] * _weights[i];
-    _sumWeights += _weights[i];
+    sv += _values[i] * _weights[i];
+    sw += _weights[i];
   }
-  return _sumValues / _sumWeights;  //  multiplication is faster ==> extra admin
+  _sumValues = sv;
+  _sumWeights = sw;
+  return sv / sw;
 }
 
 
@@ -142,11 +162,10 @@ float RunAvgWeight::getAverage()
 //  the greater the gain with respect to getAverage()
 float RunAvgWeight::getFastAverage()
 {
-  if (_count == 0)
+  if (_sumWeights == 0)  //  includes (count == 0) automatically
   {
     return NAN;
   }
-
   return _sumValues / _sumWeights;
 }
 
@@ -172,6 +191,7 @@ weighted.sem = function(x,w,...) { return( sqrt(weighted.var(x,w,...)*sum(w^2)/s
 float RunAvgWeight::getStandardDeviation()
 {
   if (_count <= 1) return NAN;
+  if (_sumWeights == 0) return NAN;
 
   float average = getFastAverage();
   float variance = 0;
@@ -205,11 +225,10 @@ float RunAvgWeight::getStandardError()
 //  If buffer is empty or has only one element or zero average, return NAN.
 float RunAvgWeight::getCoefficientOfVariation()
 {
+  if (_sumValues == 0) return NAN;
   float temp = getStandardDeviation();
   if (temp == NAN) return NAN;
-  if (_sumValues == 0) return NAN;
 
-  //  float cv = temp * getFastAverage();
   float cv = temp * _sumWeights / _sumValues;
   return cv;
 }
@@ -259,10 +278,6 @@ float RunAvgWeight::getMaxInBuffer()
 //  returns the value of an element if exist, NAN otherwise
 float RunAvgWeight::getElementValue(const uint16_t index)
 {
-  if (_count == 0)
-  {
-    return NAN;
-  }
   return _values[index];
 }
 
@@ -270,10 +285,6 @@ float RunAvgWeight::getElementValue(const uint16_t index)
 //  returns the value of an element if exist, NAN otherwise
 float RunAvgWeight::getElementWeight(const uint16_t index)
 {
-  if (_count == 0)
-  {
-    return NAN;
-  }
   return _weights[index];
 }
 

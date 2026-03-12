@@ -10,9 +10,11 @@ clear	KEYWORD2
 addValue	KEYWORD2
 getValue	KEYWORD2
 getWeight	KEYWORD2
+getWeightedValue	KEYWORD2
 
 getAverage	KEYWORD2
 getFastAverage	KEYWORD2
+
 getStandardDeviation	KEYWORD2
 getStandardError	KEYWORD2
 getCoefficientOfVariation	KEYWORD2

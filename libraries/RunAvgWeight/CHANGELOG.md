@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2026-03-12
+- add **float getWeightedValue(pos)**
+- improved **float getAverage()**
+- improved **float getFastAverage()**
+- improved **float getStandardDeviation()**
+- update **raw_performance.ino**
+- update readme.md
+- update GitHub actions
+- minor edits
+
 ## [0.2.1] - 2025-08-01
 - update examples
 - fix keywords.txt

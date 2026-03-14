@@ -1,0 +1,23 @@
+{
+  "name": "TRAFO",
+  "keywords": "RMS, frequency, transformer",
+  "description": "Arduino library for AC line voltage and frequency measurement.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TRAFO.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TRAFO.h"
+}

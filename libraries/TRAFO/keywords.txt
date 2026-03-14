@@ -1,0 +1,20 @@
+# Syntax Colouring Map For TRAFO
+
+# Data types (KEYWORD1)
+TRAFO	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+detectFrequency	KEYWORD2
+setMicrosAdjust	KEYWORD2
+getRMS	KEYWORD2
+
+getADC	KEYWORD2
+getZeroPoint	KEYWORD2
+
+
+# Constants (LITERAL1)
+TRAFO_LIB_VERSION	LITERAL1
+

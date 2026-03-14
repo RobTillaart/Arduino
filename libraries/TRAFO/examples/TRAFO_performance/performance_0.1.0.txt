@@ -1,0 +1,13 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+TRAFO_performance.ino
+TRAFO_LIB_VERSION: 0.1.0
+
+GET_ADC: 	116
+DET_FREQ 1: 	300420
+DET_FREQ 10: 	2102508
+GET_RMS: 	100304
+
+done...

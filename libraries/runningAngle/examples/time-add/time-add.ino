@@ -18,14 +18,14 @@
 #include <runningAngle.h>
 
 
-// Uncomment the line below in order to do the computation in radians.
+//  Uncomment the line below in order to do the computation in radians.
 //#define USE_RADIANS
 
-// We could test both angle units within the same code. Typical user
-// code, however, is likely to use only a single unit, and this can
-// enable some compiler optimizations. Choosing the unit at compile time
-// gives the compiler the same optimization opportunities as in typical
-// user code.
+//  We could test both angle units within the same code. Typical user
+//  code, however, is likely to use only a single unit, and this can
+//  enable some compiler optimizations. Choosing the unit at compile time
+//  gives the compiler the same optimization opportunities as in typical
+//  user code.
 #ifdef USE_RADIANS
 # define ANGLE_UNIT   RADIANS
 # define ANGLE_SYMBOL "rad"
@@ -37,17 +37,17 @@
 #endif
 
 
-// Overhead of the timing code, in CPU cycles. This was found by
-// disassembling and counting cycles.
+//  Overhead of the timing code, in CPU cycles. This was found by
+//  disassembling and counting cycles.
 const uint16_t timing_overhead = 8;
 
-// Iterations for averaging the execution time.
+//  Iterations for averaging the execution time.
 const int iterations = 100;
 
-// Prevent unwanted optimizations. This is most useful for preventing
-// constant folding when feeding constants to the filter. It can also
-// prevent instruction reordering that could move parts of the
-// computation of the input angle within the timed portion of the code.
+//  Prevent unwanted optimizations. This is most useful for preventing
+//  constant folding when feeding constants to the filter. It can also
+//  prevent instruction reordering that could move parts of the
+//  computation of the input angle within the timed portion of the code.
 static float unoptimize(float x)
 {
   volatile float y = x;
@@ -68,9 +68,9 @@ void setup() {
 
   heading.setMode1();
 
-  // Set Timer 1 to count in normal mode at the full CPU frequency.
-  // The timer value, TCNT1, can then be used as a clock with
-  // single-cycle resolution.
+  //  Set Timer 1 to count in normal mode at the full CPU frequency.
+  //  The timer value, TCNT1, can then be used as a clock with
+  //  single-cycle resolution.
   TCCR1A = 0;
   TCCR1B = _BV(CS10);
 
@@ -79,36 +79,36 @@ void setup() {
     float angle = (rand() + 0.5) / (RAND_MAX + 1.0) * ANGLE_MAX;
     angle = unoptimize(angle);
 
-    // Timed part.
+    //  Timed part.
     uint16_t start_time = TCNT1;
     heading.add(angle);
     uint16_t end_time = TCNT1;
 
-    // Do not use the time of the first execution of add(), as it
-    // goes through a non typical and much shorter execution path.
+    //  Do not use the time of the first execution of add(), as it
+    //  goes through a non typical and much shorter execution path.
     if (i != 0) {
 
-      // Add the execution time of this iteration. Note that timer
-      // rollover is not an issue as long as the timed code takes
-      // less that 65536 cycles, and the timing computations are
-      // performed in uint16_t, as this type rolls over in the
-      // same manner as the timer itself.
+      //  Add the execution time of this iteration. Note that timer
+      //  rollover is not an issue as long as the timed code takes
+      //  less that 65536 cycles, and the timing computations are
+      //  performed in uint16_t, as this type rolls over in the
+      //  same manner as the timer itself.
       total_time += end_time - start_time - timing_overhead;
     }
   }
 
-  // Use the resulting average. Otherwise the whole averaging code
-  // could be optimized away.
+  //  Use the resulting average. Otherwise the whole averaging code
+  //  could be optimized away.
   Serial.print("Average angle: ");
   Serial.print(heading.getAverage());
   Serial.println(" " ANGLE_SYMBOL);
 
-  // Print the timing result.
+  //  Print the timing result.
   Serial.print("Average time: ");
   Serial.print((float) total_time / iterations);
   Serial.println(" CPU cycles");
 
-  // This can be used to exit a simulation on simavr.
+  //  This can be used to exit a simulation on simavr.
   Serial.flush();
   cli();
   asm("sleep");

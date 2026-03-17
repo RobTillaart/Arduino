@@ -54,6 +54,7 @@ raised by Edgar Bonet.
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/AS5600 - magnetic angle measurements
 
 For printing floats in scientific or engineering format
 
@@ -192,8 +193,6 @@ Being the most important worker function, doing float math.
 
 #### Should
 
-- should **add()** return the average? (yes)
-  - or make a **fastAdd()** that doesn't?
 
 #### Could
 

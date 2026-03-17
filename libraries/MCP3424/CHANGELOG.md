@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2026-02-22
+- fix #9, fix sign bit for 12, 14, 16 bit reads (Kudos to greiman)
+- fix single shot interface
+- let **setSingleShotMode()** trigger single shot conversion.
+- add **triggerSingleShot()** trigger single shot conversion.
+- add **bool isReady()** single shot is ready.
+- add **writeConfig()** of defaults in **begin()**
+- add **uint32_t lastRead()**
+- add **MCP3421_ringBuffer16.ino**
+- add **MCP3421_exp_avg.ino**
+- add **MCP3425** derived class
+- minor edits
+
+----
+
 ## [0.1.5] - 2026-01-10
 - update GitHub actions
 - minor edits

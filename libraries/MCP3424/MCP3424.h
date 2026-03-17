@@ -2,7 +2,7 @@
 //
 //    FILE: MCP3424.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.2.0
 // PURPOSE: Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 //     URL: https://github.com/RobTillaart/MCP3424
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define MCP3424_LIB_VERSION               (F("0.1.5"))
+#define MCP3424_LIB_VERSION               (F("0.2.0"))
 
 
 class MCP3424
@@ -26,6 +26,10 @@ public:
 
   //  GET DATA
   int32_t  read();
+  void     requestSingleShot();
+  bool     isReady();
+  uint32_t lastRead();
+
   //  wrappers
   float    readVolts();
   float    readMilliVolts();
@@ -56,6 +60,8 @@ protected:
   uint8_t   _gain;
   uint8_t   _bits;
   uint8_t   _config;
+  uint32_t  _lastRead;
+  int32_t   _raw;
 
   uint8_t   _address;
   TwoWire * _wire;
@@ -90,6 +96,12 @@ public:
 //
 //  max 16 bit
 //
+class MCP3425 : public MCP3424
+{
+public:
+  MCP3425(uint8_t address = 0x68, TwoWire *wire = &Wire);
+};
+
 class MCP3426 : public MCP3424
 {
 public:

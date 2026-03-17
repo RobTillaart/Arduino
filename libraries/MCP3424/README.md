@@ -14,6 +14,7 @@
 
 Arduino library for 18 bit ADC I2C MCP3424 and compatibles.
 
+
 ## Description
 
 **Experimental**
@@ -40,6 +41,12 @@ Current implementation will probably change slightly in the future
 when related devices will be supported. (See future section).
 
 Feedback as always is welcome.
+
+
+### 0.2.0 breaking change
+
+Fixed issue 9, extend sign correctly makes pre 0.2.0 obsolete.
+
 
 ### Special chars
 
@@ -91,7 +98,8 @@ The MCP3421 and MCP3426 have a fixed address 0x68, one can order different
 addresses at the factory (see datasheet).
 
 The other devices have two address pins to set 8 addresses. 
-The trick used is to leave address pins floating. 
+The trick used is to leave address pins floating.
+
 See datasheet table 5.3 for details.
 
 
@@ -166,11 +174,16 @@ The MCP3421/2/3/6/7/8 constructors have the same parameters.
 
 ### Read
 
-- **int32_t read()** returns the raw reading.
-- **float readVolts()** converts the raw reading to volts value (wrapper).
-- **float readMilliVolts()** converts the raw reading to millivolts value (wrapper).
+- **int32_t read()** returns the last raw ADC conversion.
+- **void requestSingleShot()** sets single shot mode and request a conversion.
+- **bool isReady()** calls read() and returns true if RDY flag LOW.
+Single shot mode only. (datasheet p 18)
+- **uint32_t lastRead()** returns last successful read in millis().
+Useful for periodic retrieving data.
+- **float readVolts()** calls read() and converts the raw reading to volts value.
+- **float readMilliVolts()** calls read() and converts the raw reading to millivolts value (wrapper).
 This is useful for small ranges.
-- **float readMicroVolts()** converts the raw reading to microvolts value (wrapper).
+- **float readMicroVolts()** calls read() and converts the raw reading to microvolts value (wrapper).
 This is useful for very small ranges (especially with a gain of 8 one has a
 resolution of about 2 microvolts.
 
@@ -210,8 +223,8 @@ See Resolution section above.
 ### Mode
 
 - **void setContinuousMode()** idem.
-- **void setSingleShotMode()** idem.
-- **uint8_t getMode()** returns 0 for singleShot and 1 for continuous.
+- **void setSingleShotMode()** sets the single shot mode and triggers conversion.
+- **uint8_t getMode()** returns 0 for singleShot and 1 for continuous mode.
 
 The set function write their changes directly to the device. It might be better
 to have one function to set all parameters in one call. To be investigated.
@@ -224,12 +237,10 @@ This might be added in the future.
 
 #### Must
 
-- investigate reading of ready flag
+- investigate redo API for all?
 - get hardware to test.
   - redo interface for MCP3424 if needed.
-- investigate continuous vs single shot mode.
 - improve documentation
-  - Table of addresses.
 
 #### Should
 
@@ -245,6 +256,11 @@ This might be added in the future.
 
 #### Could
 
+- add error handling
+  - add error variable
+  - check return value **writeConfig()**.
+  - check read() process.
+  - int lastError();  //  private int error;  some constants?
 - implement maxResolution (combine with maxChannels? in one "maxValue" byte)
   - check range in **setResolution()**.
 - extract gain and resolution from the configuration byte to reduce storage.
@@ -252,15 +268,11 @@ This might be added in the future.
   - need to read 5 bytes... see par 5.3.3
 - extend examples
   - array of ADC's
-- add error handling
-  - add error variable
-  - check return value **writeConfig()**.
-  - check read() process.
-
 
 #### Wont
 
 - cache last read value. (difficult for wrappers)
+- Table of addresses ==> datasheet.
 
 
 ## Support

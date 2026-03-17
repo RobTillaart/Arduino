@@ -17,6 +17,11 @@ getAddress	KEYWORD2
 getMaxChannels	KEYWORD2
 
 read	KEYWORD2
+requestSingleShot	KEYWORD2
+isReady	KEYWORD2
+getRaw	KEYWORD2
+lastRead	KEYWORD2
+
 readVolts	KEYWORD2
 readMilliVolts	KEYWORD2
 readMicroVolts	KEYWORD2

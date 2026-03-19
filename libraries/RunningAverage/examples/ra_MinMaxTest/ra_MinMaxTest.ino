@@ -1,7 +1,6 @@
 //
-//    FILE: runningAverageMinMaxTest.ino
+//    FILE: ra_MinMaxTest.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2015-apr-10
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/RunningAverage
 

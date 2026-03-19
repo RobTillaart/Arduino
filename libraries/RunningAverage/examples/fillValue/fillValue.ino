@@ -1,7 +1,6 @@
 //
 //    FILE: fillValue.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-12-30
 // PURPOSE: demo + timing of fillValue
 //     URL: https://github.com/RobTillaart/RunningAverage
 

@@ -1,7 +1,6 @@
 //
 //    FILE: ra_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-12-30
 // PURPOSE: show working of runningAverage
 //     URL: https://github.com/RobTillaart/RunningAverage
 

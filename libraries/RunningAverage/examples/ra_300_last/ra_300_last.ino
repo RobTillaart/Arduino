@@ -1,7 +1,6 @@
 //
 //    FILE: ra_300.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-26
 // PURPOSE: demonstrate large (16 bit) buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
 

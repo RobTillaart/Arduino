@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.9] - 2026-03-19
+- update GitHub actions
+- add define AVERAGE_MIN_SIZE so at least 1 element.
+- minor edits
+
 ## [0.4.8] - 2025-08-01
 - add array example
 - update examples

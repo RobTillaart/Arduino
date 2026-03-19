@@ -1,7 +1,6 @@
 //
 //    FILE: ra_MinMaxBufferTest.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2015-09-04
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/RunningAverage
 

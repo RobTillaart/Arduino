@@ -1,7 +1,7 @@
 //
 //    FILE: RunningAverage.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.8
+// VERSION: 0.4.9
 //    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
@@ -16,6 +16,7 @@
 RunningAverage::RunningAverage(const uint16_t size)
 {
   _size = size;
+  if (_size < AVERAGE_MIN_SIZE) _size = AVERAGE_MIN_SIZE;
   _partial = _size;
   _array = (float*) malloc(_size * sizeof(float));
   if (_array == NULL) _size = 0;

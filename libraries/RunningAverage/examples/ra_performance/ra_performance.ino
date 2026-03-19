@@ -1,7 +1,6 @@
 //
 //    FILE: ra_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-04-16
 // PURPOSE: timing of runningAverage
 //     URL: https://github.com/RobTillaart/RunningAverage
 

@@ -1,7 +1,6 @@
 //
 //    FILE: ra_getValue.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-01-15
 // PURPOSE: demonstrate access in order of the values added
 //     URL: https://github.com/RobTillaart/RunningAverage
 

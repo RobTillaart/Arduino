@@ -1,7 +1,6 @@
 //
 //    FILE: ra_partial.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-26
 // PURPOSE: demonstrate partial use of internal buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
 

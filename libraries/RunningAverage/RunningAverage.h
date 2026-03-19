@@ -2,7 +2,7 @@
 //
 //    FILE: RunningAverage.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.8
+// VERSION: 0.4.9
 //    DATE: 2011-01-30
 // PURPOSE: Arduino library to calculate the running average by means of a circular buffer
 //     URL: https://github.com/RobTillaart/RunningAverage
@@ -14,8 +14,12 @@
 #include "Arduino.h"
 
 
-#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.8"))
+#define RUNNINGAVERAGE_LIB_VERSION    (F("0.4.9"))
 
+//  AVERAGE_MIN_SIZE  should at least be 1 to be practical,
+#ifndef AVERAGE_MIN_SIZE
+#define AVERAGE_MIN_SIZE               1
+#endif
 
 class RunningAverage
 {

@@ -1,7 +1,6 @@
 //
 //    FILE: ra_FastAverageTest.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2015-sep-04
 // PURPOSE: demo to see if different average algorithm give different result
 //     URL: https://github.com/RobTillaart/RunningAverage
 

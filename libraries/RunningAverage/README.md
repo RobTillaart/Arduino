@@ -31,7 +31,7 @@ In version 0.2.16 a fix was added that uses the calculation of the sum in **getA
 update the internal **\_sum**.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/Correlation
 - https://github.com/RobTillaart/GST - Golden standard test metrics
@@ -40,6 +40,7 @@ update the internal **\_sum**.
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/RunningMinMax
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
 - https://github.com/RobTillaart/Student
@@ -171,11 +172,6 @@ Indicative performance on an UNO, see examples.
 |  getSize               |       8    |       8    |
 |  getCount              |       8    |       8    |
 |  last functions        |       -    |       -    |  not tested
-
-
-## Operation
-
-See examples
 
 
 ## Future

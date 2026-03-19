@@ -1,8 +1,10 @@
 //
 //    FILE: RunningMedian.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.10
+// VERSION: 0.3.11
+//    DATE: 2011-02-16
 // PURPOSE: RunningMedian library for Arduino
+//     URL: https://github.com/RobTillaart/RunningMedian
 
 
 #include "RunningMedian.h"

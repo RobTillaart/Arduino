@@ -2,16 +2,15 @@
 //
 //    FILE: RunningMedian.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.3.11
+//    DATE: 2011-02-16
 // PURPOSE: RunningMedian library for Arduino
-// VERSION: 0.3.10
 //     URL: https://github.com/RobTillaart/RunningMedian
-//     URL: http://arduino.cc/playground/Main/RunningMedian
-// HISTORY: See RunningMedian.cpp
 
 
 #include "Arduino.h"
 
-#define RUNNING_MEDIAN_VERSION        (F("0.3.10"))
+#define RUNNING_MEDIAN_VERSION        (F("0.3.11"))
 
 
 //  fall back to fixed storage for dynamic version => remove true

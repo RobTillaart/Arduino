@@ -2,7 +2,6 @@
 //    FILE: runningMedianTest1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test functionality
-//    DATE: 2013-10-28
 //     URL: https://github.com/RobTillaart/RunningMedian
 
 

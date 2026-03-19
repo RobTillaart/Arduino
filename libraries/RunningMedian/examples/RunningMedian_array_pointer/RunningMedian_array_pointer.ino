@@ -2,7 +2,6 @@
 //    FILE: RunningMedian_array_pointer.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: array of runningMedian objects
-//    DATE: 2022-06-21
 //     URL: https://github.com/RobTillaart/RunningMedian
 
 

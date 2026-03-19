@@ -2,7 +2,6 @@
 //    FILE: RunningMedianQuantileTest.ino
 //  AUTHOR: f-s ( derived from Rob Tillaart )
 // PURPOSE: demo basic quantile usage
-//    DATE: 2020-09-02
 //     URL: https://github.com/RobTillaart/RunningMedian
 
 

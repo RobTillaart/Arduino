@@ -2,7 +2,6 @@
 //    FILE: RunningMedian_large.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo most functions
-//    DATE: 2013-10-17
 //     URL: https://github.com/RobTillaart/RunningMedian
 
 

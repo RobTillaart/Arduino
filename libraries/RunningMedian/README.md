@@ -33,6 +33,8 @@ the running median in the next steps in advance.
 - Running median is slower as one needs to keep the values in timed order 
 to remove the oldest and keep them sorted to be able to select the median.
 
+Feedback, as always, is welcome.
+
 
 ### Note: MEDIAN_MAX_SIZE
 
@@ -69,6 +71,7 @@ There are several options that can be configured via defines at compile time, th
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
+- https://github.com/RobTillaart/RunningMinMax
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
 - https://github.com/RobTillaart/Statistic
 - https://github.com/RobTillaart/Student

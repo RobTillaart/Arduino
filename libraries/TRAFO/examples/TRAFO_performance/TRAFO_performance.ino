@@ -24,7 +24,7 @@ void setup()
   Serial.println(TRAFO_LIB_VERSION);
   Serial.println();
 
-  myTrafo.begin(readADC, 1023, 5.0);
+  myTrafo.begin(readADC, 1023, 5.0, 708);
 
   delay(100);
   start = micros();

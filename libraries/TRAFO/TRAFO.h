@@ -3,7 +3,7 @@
 //    FILE: TRAFO.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-03-13
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for AC line voltage and frequency measurement.
 //     URL: https://github.com/RobTillaart/TRAFO
 //
@@ -12,7 +12,11 @@
 #include "Arduino.h"
 
 
-#define TRAFO_LIB_VERSION         (F("0.1.0"))
+#define TRAFO_LIB_VERSION           (F("0.1.1"))
+
+#ifndef TRAFO_DEFAULT_FREQUENCY
+#define TRAFO_DEFAULT_FREQUENCY     (50.0)
+#endif
 
 
 class TRAFO
@@ -20,20 +24,21 @@ class TRAFO
 public:
   TRAFO() {};
 
-  bool begin(int32_t (* readADC)(), uint32_t steps, float maxVoltage)
+  bool begin(int32_t (* readADC)(), uint32_t steps, float maxVoltage, float trafoFactor = 1.0)
   {
     _readADC = readADC;
     _steps = steps;
     _zeroPoint = steps / 2;  //  reasonable initial value
-    _voltsPerStep = maxVoltage / steps;
-
+    _voltsPerStep = maxVoltage * trafoFactor / steps;
+    _frequency = TRAFO_DEFAULT_FREQUENCY;
+    _period = 1000000 / _frequency;
     detectFrequency();
     return true;
   };
 
 
   //  based upon https://github.com/RobTillaart/ACS712
-  //  at least 10 Hz.
+  //  range 10 - 400 Hz
   float detectFrequency(uint8_t times = 1)
   {
     if (times < 1) times = 1;
@@ -41,6 +46,7 @@ public:
     int32_t maximum = 0;
     minimum = maximum = _readADC();
 
+    //  goes as low as 10 Hz
     uint32_t timeOut = 100000;
     uint32_t start = micros();
     while (micros() - start < timeOut)
@@ -106,12 +112,43 @@ public:
     return rms;
   };
 
+/*  
+ * RMS based upon peak2peak, slightly off during 1st tests.
+ *
+  float getRMS2()
+  {
+    rms = getPTP() * (1.0 / (2.0 * sqrt(2.0)));
+    return rms;
+  };
+*/
+
+  float getPTP()
+  {
+    int32_t minimum = 0;
+    int32_t maximum = 0;
+    minimum = maximum = _readADC();
+
+    uint32_t start = micros();
+    while (micros() - start < _period)
+    {
+      int32_t value = _readADC();
+      if      (value < minimum) minimum = value;
+      else if (value > maximum) maximum = value;
+    }
+    float peak2peak = (maximum - minimum);
+    float ptp = peak2peak * _voltsPerStep;
+    return ptp;
+  };
 
   int32_t getADC()
   {
     return _readADC();
   };
 
+  int32_t getVoltagePerStep()
+  {
+    return _voltsPerStep;
+  };
 
   int32_t getZeroPoint()
   {

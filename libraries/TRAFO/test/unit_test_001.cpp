@@ -28,6 +28,13 @@
 #include "TRAFO.h"
 
 
+//  dummy
+int32_t readADC()
+{
+  return 1234;
+}
+
+
 unittest_setup()
 {
   fprintf(stderr, "TRAFO_LIB_VERSION: %s\n", (char *) TRAFO_LIB_VERSION);
@@ -41,13 +48,7 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(1, 1);
-}
-
-
-unittest(test_constructor)
-{
-  //  TRAFO obj;
+  assertEqualFloat(50.0, TRAFO_DEFAULT_FREQUENCY, 0.01);
 }
 
 

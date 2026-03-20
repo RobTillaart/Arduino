@@ -36,7 +36,7 @@ This can be an under- or over-voltage, temperature or power limit.
 The library does not handle the interrupts.
 The alert / limits part of the library's API still needs a redesign.
 
-The library is not yet tested or verified with hardware.
+The library is limited tested with hardware (RP2040).
 
 ==> **USE WITH CARE**
 
@@ -132,10 +132,11 @@ _Tested - see #2_
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
-- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/6349
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
@@ -225,6 +226,8 @@ Returns true if the INA238 address is on the I2C bus.
   - Note: call **setMaxCurrentShunt(maxCurrent, shunt)** to calibrate your INA238
 - **bool isConnected()** returns true if the INA238 address is on the I2C bus.
 - **uint8_t getAddress()** returns the address set in the constructor.
+- **bool setAddress(uint8_t newAddress)** sets a new I2C address (see #4). returns true if the new address is on the I2C bus.
+
 
 ### BUS VOLTAGE
 

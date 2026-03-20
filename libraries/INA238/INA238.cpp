@@ -1,6 +1,6 @@
 //    FILE: INA238.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-06-11
 // PURPOSE: Arduino library for the INA238, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA238
@@ -83,6 +83,13 @@ bool INA238::isConnected()
 uint8_t INA238::getAddress()
 {
   return _address;
+}
+
+
+bool INA238::setAddress(uint8_t newAddress)
+{
+  _address = newAddress;
+  return isConnected();
 }
 
 

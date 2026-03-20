@@ -6,7 +6,6 @@ jobs:
   runTest:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
     steps:
       - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1

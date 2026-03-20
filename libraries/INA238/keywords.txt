@@ -9,6 +9,7 @@ INA238	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+setAddress	KEYWORD2
 getAddress	KEYWORD2
 
 getBusVoltage	KEYWORD2

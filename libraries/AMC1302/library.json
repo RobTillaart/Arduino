@@ -1,6 +1,6 @@
 {
   "name": "AMC1302",
-  "keywords": "AMC1300,AMC1301,AMC1311,AMC1351",
+  "keywords": "AMC1200,AMC1300,AMC1301,AMC1311,AMC1351",
   "description": "Arduino library for AMC1302 current sensor.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/AMC1302.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

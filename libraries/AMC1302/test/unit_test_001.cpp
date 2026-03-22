@@ -42,16 +42,25 @@ unittest_teardown()
 unittest(test_constants)
 {
   assertEqual(0, AMC1302_OK);
+
+  assertEqualFloat(AMC_FF_SINUS    , (1.0/sqrt(2)), 0.01);
+  assertEqualFloat(AMC_FF_SQUARE   , (1.0)        , 0.01);
+  assertEqualFloat(AMC_FF_TRIANGLE , (1.0/sqrt(3)), 0.01);
+  assertEqualFloat(AMC_FF_SAWTOOTH , (1.0/sqrt(3)), 0.01);
+  assertEqualFloat(AMC_DEFAULT_FREQ, (50.0)       , 0.01);
 }
 
 
 unittest(test_constructor)
 {
+  AMC1200 amc_1200(14, 15);
   AMC1300 amc00(14, 15);
   AMC1301 amc01(14, 15);
   AMC1302 amc02(14, 15);
   AMC1311 amc11(14, 15);
   AMC1351 amc51(14, 15);
+
+  assertEqualFloat(amc_1200.getGain(), 8.0, 0.01);
 
   assertEqualFloat(amc00.getGain(), 8.2, 0.01);
   assertEqualFloat(amc01.getGain(), 8.2, 0.01);

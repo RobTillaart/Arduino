@@ -3,7 +3,7 @@
 //    FILE: TRAFO.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-03-13
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for AC line voltage and frequency measurement.
 //     URL: https://github.com/RobTillaart/TRAFO
 //
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define TRAFO_LIB_VERSION           (F("0.1.1"))
+#define TRAFO_LIB_VERSION           (F("0.1.2"))
 
 #ifndef TRAFO_DEFAULT_FREQUENCY
 #define TRAFO_DEFAULT_FREQUENCY     (50.0)
@@ -112,7 +112,7 @@ public:
     return rms;
   };
 
-/*  
+/*
  * RMS based upon peak2peak, slightly off during 1st tests.
  *
   float getRMS2()
@@ -139,6 +139,38 @@ public:
     float ptp = peak2peak * _voltsPerStep;
     return ptp;
   };
+
+  float determineFormFactor()
+  {
+    return getPTP() / getRMS();
+  };
+
+/*
+ * Longer but faster version - maybe even better version
+ *
+  float determineFormFactor2()
+  {
+    int32_t minimum = 0;
+    int32_t maximum = 0;
+    minimum = maximum = _readADC();
+
+    float sum = 0;
+    uint32_t count = 0;
+    uint32_t start = micros();
+    while (micros() - start < _period)
+    {
+      int32_t value = _readADC();
+      if      (value < minimum) minimum = value;
+      else if (value > maximum) maximum = value;
+      sum = sum + (value - _zeroPoint) * (value - _zeroPoint);
+      count++;
+    }
+    float peak2peak = (maximum - minimum);
+    float rms = sqrt(sum / count);
+    return peak2peak / rms;            //  return p2p * sqrt(count/sum);
+  };
+*/
+
 
   int32_t getADC()
   {

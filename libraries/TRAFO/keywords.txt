@@ -11,6 +11,7 @@ detectFrequency	KEYWORD2
 setMicrosAdjust	KEYWORD2
 getRMS	KEYWORD2
 getPTP	KEYWORD2
+determineFormFactor	KEYWORD2
 
 getADC	KEYWORD2
 getVoltagePerStep	KEYWORD2

@@ -27,7 +27,7 @@ This library tries to generalize the concept so it can be used for different
 transformers and with both internal as external ADC's.
 
 The library supports
-- RMS of an 230 or 110 V AC.
+- RMS of an 230 or 110 Volt AC.
 - detect the frequency of the line.
 
 The library has a define **TRAFO_DEFAULT_FREQUENCY** (50 Hz) which can be overruled
@@ -61,13 +61,13 @@ Trigger for this library
 
 ### Tested
 
-TODO: 
-- Test on Arduino UNO et al with transformer.
-- order hardware - e.g. ZMPT101B module.
+Tested on Arduino UNO R3 with ZMPT101B transformer. Used a calibrated DMM to get
+the trafoFactor right. 50 Hz and 242.3 mains were detected correctly. 
+Although the mains seems high (~230 expected), this was confirmed by the DMM.
 
-Note:
-A minimal test with an UNO R3 (powered USB) with floating internal ADC 
+A minimal test with an UNO R3 (powered over USB) with floating internal ADC 
 touched by my finger gave a frequency of around 50 Hz which is our mains.
+This might come (somehow) indirectly from mains which is 50 Hz.
  
 
 ## Interface
@@ -78,56 +78,64 @@ touched by my finger gave a frequency of around 50 Hz which is our mains.
 
 ### Constructor
 
-- **TRAFO()**
+- **TRAFO()** constructor.
 - **bool begin(int32_t (\* readADC)(), uint32_t steps, float maxVoltage, float trafoFactor = 1)** 
   - readADC is a function to read an ADC returning an int32. This can be a wrapper around any 
     internal or external ADC.
-  - steps = nr of ADC steps, typical power of two like 1024, 4096, etc.
-  - maxVoltage = conversion voltage for max value of ADC
+  - steps = number of ADC steps, typical power of two like 1024, 4096, etc. (Or 1023, 4095)
+  - maxVoltage = conversion voltage for maximum value of the ADC used
   - trafoFactor = conversion of ADC voltage to transformer voltage (calibration). 
     The default of the trafoFactor is set to 1, which allows to read small AC voltages.
 
 Note: the **trafoFactor** in my first hardware test (UNO R3 + ZMPT101B) had a value of 708.
-This was determined by providing AC and measure it with a calibrated DMM.
+This was determined by providing AC and measure it with a calibrated DMM. See below.
 
 
 ### Measurements
 
 - **float detectFrequency(uint8_t times = 1)** idem. 
 Typical around 50.0 or 60.0. Sample multiple times to improve accuracy.
-The frequency range detectable is expected to work for 10 - 400 Hz. (to be tested)
+The frequency range detectable is expected to work for 10 - 400 Hz. (to be verified).
 Note it will be blocking for at least two periods.
 - **void setMicrosAdjust(float factor = 1.0f)** adjust the micros timing 
 to improve the accuracy of the frequency measurement.
-- **float getRMS()** idem. Typical around 230V or 110V.
+- **float getRMS()** Returns the "main" voltage, typical around 230V or 110V.
 Only works if detectFrequency() is called before as it needs the zeroPoint.
-Current version assumes a "clean" sine wave form.
-- **float getPTP()** get peak to peak value.
+- **float getPTP()** Returns the minimum peak to maximum peak voltage. 
+This can be used to determine the RMS voltage by multiplying with the 
+FormFactor of the wave form (typical sine).
+- **float determineFormFactor()** reverse calculating the FormFactor
+from **getPTP** and **getRMS()**.
 
 The library has a commented **getRMS()** version that is based upon the 
 peak to peak value. In initial tests it was slightly less accurate.
 The difference was less than 2% so it might actual be not too bad.
+Cause is probably not a perfect sine wave form.
+
+The library has a commented **determineFormFactor()** version which is 
+faster and uses more program memory.
 
 
 ### Debugging
 
 - **int32_t getADC()** call the readADC given in **begin()**.
 returns raw units.
-- **float getVoltagePerStep()** idem.
+- **float getVoltagePerStep()** returns the ```maxVoltage x trafoFactor / steps```.
 - **int32_t getZeroPoint()** last determined zero point (in ADC units).
 
 
 ## Calibration
 
 First run a sketch with the trafoFactor set to 100, call getRMS() and divide 
-the value expected by the value got. 
+the value expected (e.g. from DMM) by the value you got (x 100). 
+This is the new trafoFactor.
 
 Example
-- Set the trafoFactor to 100, and measure RMS.
-- The expected voltage is 242 Volt, and getRMS() returns 32.34.
+- Set the trafoFactor to 100, and measure the RMS
+- The expected voltage is 242 Volt, and getRMS() returns 32.34
 - The missing factor = 242 / 32.34 = 7.483
-- so the trafoFactor should be 100 x 7.483 = 748.3
-- Set the trafoFactor to 748.3 to confirm the value.
+- So the trafoFactor should be 100 x 7.483 = 748.3
+- Set the trafoFactor to 748.3 to confirm the new value.
 
 
 ## Future
@@ -138,7 +146,8 @@ Example
 
 #### Should
 
-- investigate performance
+- investigate performance improvements.
+- investigate need for yield (RTOS?)
 - investigate frequency range detected.
 - As detectFrequency() determines the peak2peak value, its signature might 
   need to change to **float measure(float &freq, float &RMS)** so it 

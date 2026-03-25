@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2026-03-25
+- update GitHub actions
+- minor edits
+
 ## [0.3.0] - 2025-08-04
 - merge PR #12 with improved fractionize() function (Kudos to Edgar Bonet)
 - add performance logs - performance sketch

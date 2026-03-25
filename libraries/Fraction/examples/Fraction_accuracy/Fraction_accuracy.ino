@@ -12,6 +12,7 @@
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("FRACTION_LIB_VERSION: ");
   Serial.println(FRACTION_LIB_VERSION);

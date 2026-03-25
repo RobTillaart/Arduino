@@ -13,11 +13,17 @@
 //  P(9900) = {2, 2, 3, 3, 5, 5, 11}
 //
 //  other explored options:
-//  P(19800) = {2, 2, 2, 3, 3, 5, 5, 11} (add factor 2 factor)
+//  P(19800) = {2, 2, 2, 3, 3, 5, 5, 11} (add factor 2)
+//  P(59400) = {2, 2, 2, 3, 3, 3, 5, 5, 11} (add factor 3)
 //  P(10800) = {2, 2, 2, 2, 3, 3, 3, 5, 5}
 //  P(9240)  = {2, 2, 2, 3, 5, 7, 11}
 //  P(13860) = {2, 2, 3, 3, 5, 7, 11}
 //  P(30030) = {2, 3, 5, 7, 11, 13}
+//  P(60060) = {2, 2, 3, 5, 7, 11, 13}
+//  P(49500) = {2, 2, 3, 3, 5, 5, 5, 11}
+//
+//  int32's
+//  P(69300) = {2, 2, 3, 3, 5, 5, 7, 11}
 
 
 #include "fraction.h"
@@ -32,7 +38,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.println("FRACTION_LIB_VERSION: ");
+  Serial.print("FRACTION_LIB_VERSION: ");
   Serial.println(FRACTION_LIB_VERSION);
   Serial.println();
   delay(100);

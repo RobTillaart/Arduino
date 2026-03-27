@@ -39,7 +39,8 @@ void get_bell_curve()
 {
   G.begin(0, 1);
 
-  for (float f = -5.0; f <= 5.0; f += 0.01)
+  //  approx 500 points.
+  for (float f = -5.0; f <= 5.0; f += 0.02)
   {
     Serial.println(100.0 * G.bellCurve(f), 6);
   }
@@ -52,7 +53,7 @@ void approximate()
 {
   G.begin(0, 1);
 
-  for (float f = -5.0; f <= 5.0; f += 0.01)
+  for (float f = -5.0; f <= 5.0; f += 0.02)
   {
     //  width == 2x 0.5233 == 1.0466
     //  0.0466 heuristic correction factor to match peak of the bell curve()

@@ -1,5 +1,5 @@
-Arduino UNO
-IDE 1.8.19
+BOARD:  Arduino UNO R3
+IDE:    1.8.19
 
 Gauss_performance.ino
 GAUSS_LIB_VERSION: 0.1.1

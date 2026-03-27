@@ -11,7 +11,7 @@
 
 # Gauss
 
-Library for the Gauss probability math. (Normal Distribution).
+Library for the Gauss probability math. (Normal Distribution, Gaussian distribution).
 
 
 ## Description
@@ -25,9 +25,9 @@ These under the premises of a **Gaussian distribution** with parameters **mean**
 If these parameters are not given, mean == 0 and stddev == 1 are used by default.
 This is the normalized Gaussian distribution.
 
+- Version 0.1.x used the **MultiMap** library need to be downloaded too (see related below).
 The values of the functions are approximated with a **MultiMap()** based lookup 
 using a 34 points interpolated lookup. 
-- Version 0.1.x used the **MultiMap** library need to be downloaded too (see related below).
 - Version 0.2.0 and above embeds an optimized version, so no need to use **MultiMap**.
 
 Note: The number of lookup points might chance in the future, keeping a balance between
@@ -61,7 +61,7 @@ Note: 0.1.0 was 32 points 4 decimals. Need to investigate reduction of points.
 - use as a filter e.g. detect above N1 sigma and under N2 sigma
 - compare historic data to current data e.g. temperature.
   - transforming to sigma makes it scale C / F / K independent.
-- fill a bag (etc) until a certain weight is reached (+- N sigma)
+- fill a bag (etc.) until a certain weight is reached (+- N sigma)
 - compare population data with individual, e.g. Body Mass Index (BMI).
 
 
@@ -131,7 +131,7 @@ E.g if mean == 50 and stddev == 14, then 71 ==> +1.5 sigma.
 Is equal to number of **stddevs()**.
 - **float denormalize(float f)** reverses normalize(). 
 What value would have a deviation of 1.73 stddev.
-- **float stddevs(float f)** returns the number of stddevs from the mean.
+- **float stddevs(float f)** returns the number of stddev's from the mean.
 Identical to **normalize()**.
 
 

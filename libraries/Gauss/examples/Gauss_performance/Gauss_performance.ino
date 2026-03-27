@@ -1,7 +1,7 @@
 //
 //    FILE: Gauss_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: test performance
 //     URL: https://github.com/RobTillaart/Gauss
 
 #include "Gauss.h"

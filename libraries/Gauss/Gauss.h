@@ -2,14 +2,14 @@
 //
 //    FILE: Gauss.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Library for the Gauss probability math.
 //    DATE: 2023-07-06
 
 
 #include "Arduino.h"
 
-#define GAUSS_LIB_VERSION       (F("0.2.2"))
+#define GAUSS_LIB_VERSION       (F("0.2.3"))
 
 
 class Gauss

@@ -1,7 +1,7 @@
 //
 //    FILE: Gauss_HX711.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: check if weights are within +- standard deviation
 //     URL: https://github.com/RobTillaart/Gauss
 //
 //  can be used with plotter
@@ -28,7 +28,7 @@ void setup(void)
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
-  //  default weight in grams + stddev
+  //  default weight in grams + standard deviation
   //  adjust to your local situation
   G.begin(100.0, 0.75);
 

@@ -3,7 +3,7 @@
 //    FILE: SMC.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-23
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for a Sliding Mode Controller (SMC).
 //     URL: https://github.com/RobTillaart/SMC
 //
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define SMC_LIB_VERSION         (F("0.1.0"))
+#define SMC_LIB_VERSION         (F("0.1.1"))
 
 //  MODE
 #define SMC_LINEAR              0

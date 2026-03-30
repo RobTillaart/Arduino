@@ -1,0 +1,23 @@
+{
+  "name": "I2C_HC4067",
+  "keywords": "",
+  "description": "Arduino library for HC4067 over I2C with a PCF8574.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2C_HC4067.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "I2C_HC4067.h"
+}

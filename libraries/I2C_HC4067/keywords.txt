@@ -1,0 +1,22 @@
+# Syntax Colouring Map For I2C_HC4067
+
+# Data types (KEYWORD1)
+I2C_HC4067	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+
+enable	KEYWORD2
+disable	KEYWORD2
+isEnabled	KEYWORD2
+
+
+# Constants (LITERAL1)
+I2C_HC4067_LIB_VERSION	LITERAL1
+
+

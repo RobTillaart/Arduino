@@ -1,0 +1,23 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+HX712_set_mode.ino
+HX712_LIB_VERSION: 0.1.0
+
+0	PERFORMANCE set_average_mode
+100x set_average_mode = 267436
+  VAL: 0.00
+
+1	PERFORMANCE set_median_mode
+100x set_median_mode = 267948
+  VAL: 0.00
+
+2	PERFORMANCE set_medavg_mode
+100x set_medavg_mode = 270120
+  VAL: 0.00
+
+4	PERFORMANCE set_raw_mode
+100x set_raw_mode = 38632
+  VAL: 0.00
+
+done...

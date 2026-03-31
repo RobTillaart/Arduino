@@ -1,0 +1,13 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+(dry run with no HW)
+
+HX712_performance2.ino
+HX712_LIB_VERSION: 0.1.0
+
+Counting get_units() calls for 1 minute...
+calls per minute: 157606
+calls per second: 2626.77
+ micros per call: 380.70
+

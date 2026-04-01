@@ -166,7 +166,12 @@ Returned values might differ.
 
 ### Main status
 
-- **uint8_t getStatus()** need split? or masks? table?
+- **uint8_t getStatus()** returns MAIN_STATUS register.
+This holds all data from next three functions in one call.
+(faster but you need to do masking).
+- **bool getPowerOnStatus()** returns true if power is on.
+- **bool getInterruptStatus()** returns true if interrupt triggered.
+- **bool getDataStatus()** returns true if new data available.
 
 
 ### Get data
@@ -212,7 +217,7 @@ These functions are not verified (yet).
   - test example
   - performance example
 - fix / elaborate TODO's in code.
-  - status and error codes
+  - error codes
   - interrupts and thresholds
 
 #### Could

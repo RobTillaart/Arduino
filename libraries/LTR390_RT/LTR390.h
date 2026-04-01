@@ -3,7 +3,7 @@
 //    FILE: LTR390.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-04-29
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 // PURPOSE: Arduino library for the I2C LTR390 UV sensor.
 //     URL: https://github.com/RobTillaart/LTR390_RT
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTR390_LIB_VERSION         (F("0.1.3"))
+#define LTR390_LIB_VERSION         (F("0.1.4"))
 
 //  LTR390 ERROR CODES
 //  TODO
@@ -211,12 +211,29 @@ public:
   //////////////////////////////////////////////
   //
   //  MAIN STATUS
-  //  TODO elaborate - need split? or masks?
   //
   uint8_t getStatus()
   {
     uint8_t reg = readRegister(LTR390_MAIN_STATUS);
     return reg & 0x38;
+  }
+
+  bool getPowerOnStatus()
+  {
+    uint8_t reg = readRegister(LTR390_MAIN_STATUS);
+    return (reg & 0x20) > 0;
+  }
+
+  bool getInterruptStatus()
+  {
+    uint8_t reg = readRegister(LTR390_MAIN_STATUS);
+    return (reg & 0x10) > 0;
+  }
+
+  bool getDataStatus()
+  {
+    uint8_t reg = readRegister(LTR390_MAIN_STATUS);
+    return (reg & 0x08) > 0;
   }
 
 

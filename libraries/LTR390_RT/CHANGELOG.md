@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.1.4] - 2026-03-31
+- fix #4, add specific status functions.
+  - **bool getPowerOnStatus()**
+  - **bool getInterruptStatus()**
+  - **bool getDataStatus()**
+- update readme.md
+- update GitHub actions
+- minor edits
+
 ## [0.1.3] - 2025-10-13
 - update GitHub actions
 - minor edits

@@ -32,6 +32,9 @@ getPartID	KEYWORD2
 getRevisionID	KEYWORD2
 
 getStatus	KEYWORD2
+getPowerOnStatus	KEYWORD2
+getInterruptStatus	KEYWORD2
+getDataStatus	KEYWORD2
 
 getALSData	KEYWORD2
 getUVSData	KEYWORD2

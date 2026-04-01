@@ -2,7 +2,7 @@
 //
 //    FILE: LTR390_DFR.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2024-04-29
 // PURPOSE: Arduino library for the I2C LTR390 UV sensor (DF Robotics edition).
 //     URL: https://github.com/RobTillaart/LTR390_DFR
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define LTR390_DFR_LIB_VERSION         (F("0.1.2"))
+#define LTR390_DFR_LIB_VERSION         (F("0.1.3"))
 
 //  LTR390 ERROR CODES
 #define LTR390_OK                       0x00

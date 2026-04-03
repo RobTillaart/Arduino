@@ -16,7 +16,7 @@ read	KEYWORD2
 lastTimeRead	KEYWORD2
 lastValueRead	KEYWORD2
 
-readUnit	KEYWORD2
+get_units	KEYWORD2
 
 calibrate	KEYWORD2
 set_offset	KEYWORD2
@@ -29,5 +29,5 @@ power_up	KEYWORD2
 
 
 # Constants (LITERAL1)
-AHX710_LIB_VERSION	LITERAL1
+HX710AB_LIB_VERSION	LITERAL1
 

@@ -6,12 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2026-04-03
+- fix #7, **get_units(n = 1)** parameter default value
+- add **get_units(n)** parameter check (>=1)
+- add example HX710A_get_units.ino example
+- add get_units() to performance test
+- update readme.md
+- fixed return type last_value_read()
+- fixed keywords.txt
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.2.2] - 2025-09-06
 - update license
 - update the GitHub actions
 - fix readme.md.
 - minor edits
-
 
 ## [0.2.1] - 2025-06-19
 - fix **is_ready()** (see HX711 #65)

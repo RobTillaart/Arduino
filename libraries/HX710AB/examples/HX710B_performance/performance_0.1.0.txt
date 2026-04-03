@@ -1,6 +1,6 @@
 
-Arduino UNO
-1.8.19
+BOARD:  Arduino UNO R3
+IDE:    1.8.19
 
 Note this is a test without HW, just the clocking of 26 bits.
 -----

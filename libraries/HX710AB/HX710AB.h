@@ -2,7 +2,7 @@
 //
 //    FILE: HX710AB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 // PURPOSE: Arduino library for the HX710A and HX710B 24-Bit ADC.
 //    DATE: 2024-11-08
 //     URL: https://github.com/RobTillaart/HX710AB
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define HX710AB_LIB_VERSION              (F("0.2.2"))
+#define HX710AB_LIB_VERSION              (F("0.3.0"))
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ public:
     return _lastTimeRead;
   }
 
-  uint32_t last_value_read()
+  int32_t last_value_read()
   {
     return _value;
   }
@@ -87,8 +87,9 @@ public:
   //
   //  CALIBRATED READ
   //
-  float get_units(uint8_t n)
+  float get_units(uint8_t n = 1)
   {
+    if (n < 1) n = 1;
     float x = 0;
     for (int i = 0; i < n; i++)
     {
@@ -209,7 +210,7 @@ public:
     return _value;
   }
 
-  //  TODO getTemperature()
+  //  get_temperature()
 };
 
 
@@ -252,7 +253,7 @@ public:
     return _value;
   }
 
-  //  TODO getVoltage()
+  //  get_voltage()
 };
 
 

@@ -18,6 +18,7 @@ uint32_t start, stop;
 volatile int32_t value;
 volatile bool b;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -32,7 +33,7 @@ void setup()
 
 
   Serial.println("SYNCHRONOUS API");
-  HX.begin(false);  //  fastprocessor flag
+  HX.begin(false);  //  set fast processor flag
   delay(100);
 
   start = micros();
@@ -45,7 +46,7 @@ void setup()
   Serial.print("READ: \t");
   Serial.println((stop - start) * 0.01);
 
-  HX.begin(true);  //  fastprocessor flag
+  HX.begin(true);  //  set fast processor flag
   delay(100);
 
   start = micros();
@@ -58,11 +59,13 @@ void setup()
   Serial.print("READ: \t");
   Serial.println((stop - start) * 0.01);
 
+
   //////////////////////////////////////////////////////////
+
   Serial.println();
   Serial.println("A_SYNCHRONOUS API");
   float totalAsync = 0;
-  HX.begin(true);  //  fastprocessor flag
+  HX.begin(true);  //  set fast processor flag
   delay(100);
 
   start = micros();
@@ -104,9 +107,10 @@ void setup()
 
 
   //////////////////////////////////////////////////////////
+
   Serial.println();
   Serial.println("CALIBRATE");
-  HX.begin(true);  //  fastprocessor flag
+  HX.begin(true);  //  set fast processor flag
   delay(100);
 
   start = micros();
@@ -119,6 +123,28 @@ void setup()
   Serial.println((stop - start) * 0.01);
   Serial.println(HX.get_offset());
   Serial.println(HX.get_scale());
+  delay(100);
+
+
+  //////////////////////////////////////////////////////////
+
+  Serial.println();
+  Serial.println("GET_UNITS");
+  HX.begin(true);  //  set fast processor flag
+  delay(100);
+
+  volatile float u = 0;
+  HX.calibrate(50, 50, 100, 80);
+  start = micros();
+  for (int i = 0; i < 100; i++)
+  {
+    u = HX.get_units(1);
+  }
+  stop = micros();
+  Serial.print("GET_UNITS: \t");
+  Serial.println((stop - start) * 0.01);
+  Serial.print("value: ");
+  Serial.println(u);
   delay(100);
 
   Serial.println("\ndone...");

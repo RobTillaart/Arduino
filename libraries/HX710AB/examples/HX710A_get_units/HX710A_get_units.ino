@@ -1,7 +1,7 @@
 //
-//    FILE: HX710B_plotter_async.ino
+//    FILE: HX710A_get_units.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic behaviour
+// PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/HX710AB
 
 
@@ -11,7 +11,7 @@
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
 
-HX710B HX(dataPin, clockPin);
+HX710A HX(dataPin, clockPin);
 
 
 void setup()
@@ -24,23 +24,16 @@ void setup()
   Serial.println();
 
   HX.begin();
-
-  //  adjust two points to your pressure sensor.
-  //  calibrate(x1 y1, x2, y2);
-  HX.calibrate( 0, 0, 1000, 10);
-  //  start async
-  HX.request();
-
 }
 
 
 void loop()
 {
-  if (HX.is_ready())
-  {
-    Serial.println(HX.read(1), 1);
-  }
-  //  do other tasks
+  int32_t value = HX.get_units(10);
+  Serial.print("get_units(10): \t");
+  Serial.print(value);
+  Serial.println();
+  delay(1000);
 }
 
 

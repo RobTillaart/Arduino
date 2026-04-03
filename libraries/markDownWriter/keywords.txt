@@ -1,0 +1,41 @@
+# Syntax Colouring Map For markDownWriter
+
+# Data types (KEYWORD1)
+markDownWriter	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+reset	KEYWORD2
+
+title	KEYWORD2
+chapter	KEYWORD2
+section	KEYWORD2
+subSection	KEYWORD2
+
+header	KEYWORD2
+
+boldOn	KEYWORD2
+boldOff	KEYWORD2
+italicOn	KEYWORD2
+italicOFF	KEYWORD2
+boldItalicOn	KEYWORD2
+boldItalicOFF	KEYWORD2
+
+line	KEYWORD2
+
+tableHeader	KEYWORD2
+tableValues	KEYWORD2
+
+tableRowStart	KEYWORD2
+tableRowValue	KEYWORD2
+tableRowEnd	KEYWORD2
+
+
+URL	KEYWORD2
+image	KEYWORD2
+link	KEYWORD2
+
+
+# Constants (LITERAL1)
+MARKDOWNWRITER_LIB_VERSION	LITERAL1
+

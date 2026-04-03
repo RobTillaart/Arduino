@@ -131,7 +131,7 @@ unittest(test_read)
 /*
   TODO - can this be converted to SHT4x call
   start = millis();
-  assertFalse(sht.read(false));
+  assertFalse(sht.read(SHT4x_MEASUREMENT_SLOW, false));
   stop = millis();
   Serial.println(stop - start);
   expect = SHT4x_ERR_READBYTES;
@@ -141,7 +141,7 @@ unittest(test_read)
 /*
   TODO - can this be converted to SHT4x call
   start = millis();
-  assertFalse(sht.read(true));
+  assertFalse(sht.read(SHT4x_MEASUREMENT_SLOW, true));
   stop = millis();
   Serial.println(stop - start);
   expect = SHT4x_ERR_READBYTES;

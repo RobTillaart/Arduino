@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.0] - 2026-04-03
+- Merge #12, modernize code + unit tests
+- Merge #13, make _heatInterval consitent
+- improve readme.md
+- Merge #14, add example SHT4x_advanced.ino
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.0.3] - 2025-09-27
 - add heat interval protection
 - add enum measType to replace defines

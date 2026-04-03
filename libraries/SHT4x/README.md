@@ -19,18 +19,17 @@ Arduino library for the I2C SHT4x temperature and humidity sensor.
 The SHT4x family is the 4th generation of Sensirion Humidity and Temperature sensors.
 
 This library is build upon the https://github.com/RobTillaart/SHT31 library.
-The reason for this (extra) SHT4x library is to have an asynchronous interface like 
+The reason for this (extra) SHT4x library is to have an asynchronous interface like
 the SHT31 library has.
 
-The most important difference with the SHT31 seems to be the way the heater is 
+The most important difference with the SHT31 seems to be the way the heater is
 implemented and can be used. More information on how to use properly the heater
-can be found in the SHT4x datasheet and in the Sensirion application note 
+can be found in the SHT4x datasheet and in the Sensirion application note
 "*Using the Integrated Heater of SHT4x in High-Humidity Environments*".
 
 This library has implemented an overheat protection by blocking heating calls
 until a defined interval has passed. The interval is mentioned in table below.
-This interval is based on a 10% duty cycle for 200 mW. 
-Thus, the average power is limited to 20 mW.
+This interval is based on a 10% duty cycle.
 
 Datasheet used: Version 7.1 – March 2025.
 
@@ -41,7 +40,7 @@ Datasheet used: Version 7.1 – March 2025.
 |:--------:|:-------------:|:----------:|:----------:|:-------:|
 |   SHT40  |     ~0.2 °C   |     1.8%   |     Y      |
 |   SHT41  |     ~0.2 °C   |     1.8%   |     N      |
-|   SHT43  |     ~0.2 °C   |     1.8%   |     N      |  ISO/IEC 17025 3-point calibration 
+|   SHT43  |     ~0.2 °C   |     1.8%   |     N      |  ISO/IEC 17025 3-point calibration
 |   SHT45  |     ~0.1 °C   |     1.0%   |     N      |
 
 
@@ -66,13 +65,13 @@ The library does not support "softWare I2C" based SHT4x.
 
 The library and device work from 100 to 850 kHz - not tested beyond.
 
-The I2C performance is mostly relevant when using the async interface as the 
+The I2C performance is mostly relevant when using the async interface as the
 synchronous **read()** call will block much longer.
 
 
 ### I2C Address
 
-The SHT4x sensors have a fixed I2C address, however they can be ordered with 
+The SHT4x sensors have a fixed I2C address, however they can be ordered with
 one of three addresses, 0x44, 0x45 or 0x46. Not all addresses seem to be available
 for all the different SHT4x sensors. Check latest datasheet for details.
 
@@ -131,10 +130,10 @@ Other, including Dew-point, heat-index, related functions and conversions.
 
 ### Constructor
 
-- **SHT4x(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor. 
+- **SHT4x(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Optional select address and the I2C bus (Wire, Wire1 etc.).
 The SHT_DEFAULT_ADDRESS = 0x44.
-- **bool begin()** 
+- **bool begin()**
 Returns false if device address is incorrect or device cannot be reset.
 - **bool isConnected()** checks if device address can be seen on I2C bus. Returns false if not connected.
 - **uint8_t getAddress()** returns device address set in the constructor.
@@ -142,7 +141,7 @@ Returns false if device address is incorrect or device cannot be reset.
 
 ### Read (synchronous)
 
-- **bool read(measType measurementType = SHT4x_MEASUREMENT_SLOW, bool CRCCheck = true)** 
+- **bool read(measType measurementType = SHT4x_MEASUREMENT_SLOW, bool CRCCheck = true)**
   - **SHT4x_MEASUREMENT_SLOW** : High precision measurement
   - **SHT4x_MEASUREMENT_MEDIUM** : Medium precision measurement
   - **SHT4x_MEASUREMENT_FAST** : Low precision measurement
@@ -152,11 +151,11 @@ Returns false if device address is incorrect or device cannot be reset.
   - **SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT** :activate heater with 110mW for 0.1s including a medium precision measurement just before deactivation
   - **SHT4x_MEASUREMENT_LONG_LOW_HEAT** :activate heater with 20mW for 1s including a low precision measurement just before deactivation
   - **SHT4x_MEASUREMENT_SHORT_LOW_HEAT** :activate heater with 20mW for 0.1s including a low precision measurement just before deactivation
-  - **CRCCheck**: CRCCheck = true does the CRC check. Returns false if reading fails or in case of a CRC failure. 
+  - **CRCCheck**: CRCCheck = true does the CRC check. Returns false if reading fails or in case of a CRC failure.
                     Equivalent to fast = false in the SHT31 library.
 
-Note that the call to read() blocks for a serious amount of time. 
-If needed use the **Async interface** as this allows to do other tasks while waiting for the measurement. 
+Note that the call to read() blocks for a serious amount of time.
+If needed use the **Async interface** as this allows to do other tasks while waiting for the measurement.
 See Async interface section below.
 
 
@@ -166,11 +165,11 @@ See Async interface section below.
 | SHT4x_MEASUREMENT_MEDIUM            |     5 ms   |        No heater         |     -    |
 | SHT4x_MEASUREMENT_FAST              |     2 ms   |        No heater         |     -    |
 | SHT4x_MEASUREMENT_LONG_HIGH_HEAT    |  1100 ms   |          10 s            |  200 mW  |
-| SHT4x_MEASUREMENT_LONG_MEDIUM_HEAT  |  1100 ms   |         5.5 s            |  110 mW  |
-| SHT4x_MEASUREMENT_LONG_LOW_HEAT     |  1100 ms   |           0 s            |   20 mW  |
+| SHT4x_MEASUREMENT_LONG_MEDIUM_HEAT  |  1100 ms   |          10 s            |  110 mW  |
+| SHT4x_MEASUREMENT_LONG_LOW_HEAT     |  1100 ms   |          10 s            |   20 mW  |
 | SHT4x_MEASUREMENT_SHORT_HIGH_HEAT   |   110 ms   |           1 s            |  200 mW  |
-| SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT |   110 ms   |        0.55 s            |  110 mW  |
-| SHT4x_MEASUREMENT_SHORT_LOW_HEAT    |   110 ms   |           0 s            |   20 mW  |
+| SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT |   110 ms   |           1 s            |  110 mW  |
+| SHT4x_MEASUREMENT_SHORT_LOW_HEAT    |   110 ms   |           1 s            |   20 mW  |
 
 
 Meta information about the sensor.
@@ -186,22 +185,22 @@ The following functions will return the same value until a new **read()** call (
 - **float getFahrenheit()** computes the temperature in °F based on the latest raw reading, and returns it.
 
 
-The **getRawHumidity()** and **getRawTemperature()** can be used to minimize storage or communication 
+The **getRawHumidity()** and **getRawTemperature()** can be used to minimize storage or communication
 as the data type is 50% smaller.
-Another application for the raw data, is faster comparison with a previous value or threshold, or to 
+Another application for the raw data, is faster comparison with a previous value or threshold, or to
 use integer only math (possibly at cost of some precision).
 
 - **uint16_t getRawHumidity()** returns the raw two-byte representation of humidity directly from the sensor.
 - **uint16_t getRawTemperature()** returns the raw two-byte representation of temperature directly from the sensor.
 
-Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature(). 
+Note that the temperature and humidity values are recalculated on every call to getHumidity() and getTemperature().
 If performance is an issue you should cache the values and only request them after a new reading.
 
 
 ### Error interface
 
-- **int getError()** returns last set error flag and clear it. 
-Be sure to clear the error flag by calling **getError()** before calling 
+- **int getError()** returns last set error flag and clear it.
+Be sure to clear the error flag by calling **getError()** before calling
 any command as the error flag could be from a previous command.
 
 |  Error  |  Symbolic                     |  Description                  |  notes     |
@@ -226,25 +225,25 @@ Some error codes are not used and are kept because inherited from "parent lib" S
 
 See async example for usage
 
-- **bool requestData(measType measurementType = SHT4x_MEASUREMENT_SLOW)** requests a new measurement. 
+- **bool requestData(measType measurementType = SHT4x_MEASUREMENT_SLOW)** requests a new measurement.
 Returns false if this fails. See read() for the possible input.
 - **bool dataReady()** checks if enough time has passed to read the data.
-- **bool readData(bool CRCCheck = true)** CRCCheck = true does the CRC check. 
-Returns false if reading fails or in case of a CRC failure. Equivalent to fast = false in the SHT31 library. 
+- **bool readData(bool CRCCheck = true)** CRCCheck = true does the CRC check.
+Returns false if reading fails or in case of a CRC failure. Equivalent to fast = false in the SHT31 library.
 
 
 ### Heat protection interface
 
 - **bool heatingReady()** Returns true if enough time has passed to call for another measurement with heat.
-- **void setHeatProtection(bool activateHeatProtection)** If activateHeatProtection == true, which is the 
-default value at initialisation, heating interval is validated before sending another heating command. 
+- **void setHeatProtection(bool activateHeatProtection)** If activateHeatProtection == true, which is the
+default value at initialisation, heating interval is validated before sending another heating command.
 If activateHeatProtection == false, this protection is deactivated.
 
 
 ### GetSerial
 
 - **bool getSerialNumber(uint32_t &serial, bool CRCCheck = true)** CRCCheck == true, => CRC check, slower
-CRCCheck == false, => no CRC check, faster. 
+CRCCheck == false, => no CRC check, faster.
 
 
 ## Future
@@ -252,13 +251,13 @@ CRCCheck == false, => no CRC check, faster.
 #### Must
 
 - get documentation right
-- test functionality with hardware 
+- test functionality with hardware
 
 #### Should
 
 - check error handling
   - missing or not used codes.
-  - set _error where needed.
+  - set error where needed.
 
 #### Could
 

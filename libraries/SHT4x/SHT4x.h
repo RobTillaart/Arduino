@@ -3,7 +3,7 @@
 //    FILE: SHT4x.h
 //  AUTHOR: Samuel Cuerrier Auclair
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.3
+// VERSION: 0.1.0
 //    DATE: 2025-08-11
 // PURPOSE: Arduino library for the SHT4x temperature and humidity sensor. High precision sensor with I2C interface.
 //          This is a fork of the SHT31 library by Rob Tillaart, modified to work with the SHT4x series.
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define SHT4x_LIB_VERSION                   (F("0.0.3"))
+#define SHT4x_LIB_VERSION                   (F("0.1.0"))
 
 #ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS                 0x44
@@ -24,31 +24,31 @@
 // SHT4x measurement commands
 typedef enum
 {
-  SHT4x_MEASUREMENT_SLOW                    = 0xFD,
-  SHT4x_MEASUREMENT_MEDIUM                  = 0xF6,
-  SHT4x_MEASUREMENT_FAST                    = 0xE0,
+  SHT4x_MEASUREMENT_SLOW                      = 0xFD,
+  SHT4x_MEASUREMENT_MEDIUM                    = 0xF6,
+  SHT4x_MEASUREMENT_FAST                      = 0xE0,
   // SHT4x measurement commands with heater on
-  SHT4x_MEASUREMENT_LONG_HIGH_HEAT          = 0x39,
-  SHT4x_MEASUREMENT_SHORT_HIGH_HEAT         = 0x32,
-  SHT4x_MEASUREMENT_LONG_MEDIUM_HEAT        = 0x2F,
-  SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT       = 0x24,
-  SHT4x_MEASUREMENT_LONG_LOW_HEAT           = 0x1E,
-  SHT4x_MEASUREMENT_SHORT_LOW_HEAT          = 0x15
+  SHT4x_MEASUREMENT_LONG_HIGH_HEAT            = 0x39,
+  SHT4x_MEASUREMENT_SHORT_HIGH_HEAT           = 0x32,
+  SHT4x_MEASUREMENT_LONG_MEDIUM_HEAT          = 0x2F,
+  SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT         = 0x24,
+  SHT4x_MEASUREMENT_LONG_LOW_HEAT             = 0x1E,
+  SHT4x_MEASUREMENT_SHORT_LOW_HEAT            = 0x15
 } measType;
 
 //  error codes
-#define SHT4x_OK                            0x00
-#define SHT4x_ERR_WRITECMD                  0x81
-#define SHT4x_ERR_READBYTES                 0x82
-#define SHT4x_ERR_HEATER_OFF                0x83
-#define SHT4x_ERR_NOT_CONNECT               0x84
-#define SHT4x_ERR_CRC_TEMP                  0x85
-#define SHT4x_ERR_CRC_HUM                   0x86
-#define SHT4x_ERR_CRC_STATUS                0x87
-#define SHT4x_ERR_HEATER_COOLDOWN           0x88
-#define SHT4x_ERR_HEATER_ON                 0x89
-#define SHT4x_ERR_SERIAL_NUMBER_CRC         0x8A
-#define SHT4x_ERR_INVALID_ADDRESS           0x8B
+constexpr uint8_t SHT4x_OK                    = 0x00;
+constexpr uint8_t SHT4x_ERR_WRITECMD          = 0x81;
+constexpr uint8_t SHT4x_ERR_READBYTES         = 0x82;
+constexpr uint8_t SHT4x_ERR_HEATER_OFF        = 0x83;
+constexpr uint8_t SHT4x_ERR_NOT_CONNECT       = 0x84;
+constexpr uint8_t SHT4x_ERR_CRC_TEMP          = 0x85;
+constexpr uint8_t SHT4x_ERR_CRC_HUM           = 0x86;
+constexpr uint8_t SHT4x_ERR_CRC_STATUS        = 0x87;
+constexpr uint8_t SHT4x_ERR_HEATER_COOLDOWN   = 0x88;
+constexpr uint8_t SHT4x_ERR_HEATER_ON         = 0x89;
+constexpr uint8_t SHT4x_ERR_SERIAL_NUMBER_CRC = 0x8A;
+constexpr uint8_t SHT4x_ERR_INVALID_ADDRESS   = 0x8B;
 
 
 class SHT4x

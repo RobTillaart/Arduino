@@ -2,7 +2,7 @@
 //    FILE: SHT4x.cpp
 //  AUTHOR: Samuel Cuerrier Auclair
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.0.3
+// VERSION: 0.1.0
 //    DATE: 2025-08-11
 // PURPOSE: Arduino library for the SHT4x temperature and humidity sensor. High precision sensor with I2C interface.
 //          This is a fork of the SHT31 library by Rob Tillaart, modified to work with the SHT4x series.
@@ -14,8 +14,8 @@
 
 
 //  SUPPORTED COMMANDS
-static constexpr uint8_t SHT4x_SOFT_RESET        = 0x94;
-static constexpr uint8_t SHT4x_GET_SERIAL_NUMBER = 0x89;
+constexpr uint8_t SHT4x_SOFT_RESET        = 0x94;
+constexpr uint8_t SHT4x_GET_SERIAL_NUMBER = 0x89;
 
 
 SHT4x::SHT4x(uint8_t address, TwoWire *wire)
@@ -302,27 +302,18 @@ void SHT4x::setDelay(measType measurementType)
 
 void SHT4x::setHeatInterval(measType measurementType)
 {
-  //  From a 10% duty cycle for 200 mW. 
-  //  Linear interpolation for lower heat power.
+  //  From a 10% duty cycle
   switch(measurementType)
   {
     case SHT4x_MEASUREMENT_LONG_HIGH_HEAT:
+    case SHT4x_MEASUREMENT_LONG_MEDIUM_HEAT:
+    case SHT4x_MEASUREMENT_LONG_LOW_HEAT:
       _heatInterval = 10000;
       break;
-    case SHT4x_MEASUREMENT_LONG_MEDIUM_HEAT:
-      _heatInterval = 5500;
-      break;
-    case SHT4x_MEASUREMENT_LONG_LOW_HEAT:
-      _heatInterval = 0;
-      break;
     case SHT4x_MEASUREMENT_SHORT_HIGH_HEAT:
-      _heatInterval = 1000;
-      break;
     case SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT:
-      _heatInterval = 550;
-      break;
     case SHT4x_MEASUREMENT_SHORT_LOW_HEAT:
-      _heatInterval = 0;
+      _heatInterval = 1000;
       break;
   }
 }
@@ -339,8 +330,9 @@ bool SHT4x::isHeatCmd(measType measurementType)
     case SHT4x_MEASUREMENT_SHORT_MEDIUM_HEAT:
     case SHT4x_MEASUREMENT_SHORT_LOW_HEAT:
       return true;
+    default:
+      return false;
   }
-  return false;
 }
 
 

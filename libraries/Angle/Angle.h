@@ -2,7 +2,7 @@
 //
 //    FILE: Angle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: angle library for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
@@ -15,7 +15,7 @@
 #include "Printable.h"
 
 
-#define ANGLE_LIB_VERSION               (F("0.2.1"))
+#define ANGLE_LIB_VERSION               (F("0.2.2"))
 
 
 class Angle;
@@ -84,7 +84,7 @@ public:
     Angle operator / (const double);
     Angle& operator /= (const double);
 
-    double operator / (Angle&);   //  ratio
+    double operator / (Angle&);  //  returns ratio
 
 private:
     void normalize();
@@ -97,7 +97,7 @@ private:
     int  _degrees;
     int  _minutes;
     int  _seconds;
-    int  _tenths;      //  ten thousands
+    int  _tenths;    //  ten thousands
 };
 
 

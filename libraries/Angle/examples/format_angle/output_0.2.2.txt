@@ -1,0 +1,12 @@
+BOARD:    Arduino UNO
+IDE:      1.8.19
+
+format_angle.ino
+ANGLE_LIB_VERSION: 0.2.2
+
+23.12'10"0123
+-------------------
+23.
+23.12'
+23.12'10"
+23.12'10"0123

@@ -31,20 +31,25 @@ The library implements the Printable interface, allowing one to call
 Degree sign ° = ALT-0176 (Windows)
 
 
-### Note
+### Warning
 
 The library has not been tested extensively and it could still contain bugs. 
-Especially the constructor does not check input so use it carefully.
+Especially the constructor does not check input so use it with care.
 
 As always feedback is welcome
 
 
 ### Related
 
-- https://github.com/RobTillaart/AngleConvertor
-- https://github.com/RobTillaart/AverageAngle
 - https://github.com/RobTillaart/Angle
-- https://github.com/RobTillaart/runningAngle
+- https://github.com/RobTillaart/AngleConvertor - convert to other formats
+- https://github.com/RobTillaart/AverageAngle
+- https://github.com/RobTillaart/runningAngle 
+- https://github.com/RobTillaart/AS5600 - magnetic angle measurements
+
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
 
 
 ## Interface
@@ -56,7 +61,8 @@ As always feedback is welcome
 ### Constructors
 
 - **Angle(int dd = 0, int mm = 0, int ss = 0, int tt = 0)** create an Angle, default is zero.
-- **Angle(double alpha)** create an Angle from a double.
+  - dd = degrees, mm = minutes, ss = seconds, tt = ten-thousands of a second.
+- **Angle(double alpha)** create an Angle from a double, unit is degrees.
 - **Angle(char \* str)** create an Angle from a string e.g. "45.31234".
 
 ### Base
@@ -105,15 +111,15 @@ The library supports:
   - TOCHECK in code
 - improve code quality
 
-
 #### Could
 
 - optimize code where possible
-  - low priority
-- move all code to .cpp
+  - remove modulos if possible
 - change output format to confirm standard 4°12'14.1234"
 
 #### Wont
+
+- move all code to .cpp
 
 
 ## Support

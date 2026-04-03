@@ -1,5 +1,5 @@
-Arduino UNO
-IDE 1.8.19
+BOARD:    Arduino UNO R3
+IDE:      1.8.19
 
 Angle_performance.ino
 ANGLE_LIB_VERSION: 0.2.0

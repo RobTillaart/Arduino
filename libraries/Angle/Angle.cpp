@@ -1,7 +1,7 @@
 //
 //    FILE: Angle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: library for Angle math for Arduino
 //     URL: https://github.com/RobTillaart/Angle
 //          http://forum.arduino.cc/index.php?topic=339402
@@ -55,14 +55,14 @@ Angle::Angle(const double alpha)
 
     _degrees = int(angle);
     angle = angle - _degrees;
-    //  unsigned long p = angle * 3600000L;
+    //  uint32_t p = angle * 3600000L;
     //  3600 000 = 2^7 • 3^2 • 5^5 = 128 * 28125
     //  2^7 = 128 will only affect exponent - no loss precision
     //  28125 is less digits so less loss of significant digits.
     //  upgraded to 4 decimal seconds
     //  36 000 000L = 256 * 140625
     angle = angle * 256;
-    unsigned long p = round(angle * 140625.0);
+    uint32_t p = round(angle * 140625.0);
     _tenths = p % 10000UL;
     p = p / 10000UL;
     _seconds = p % 60UL;

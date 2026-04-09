@@ -23,8 +23,11 @@ This library is written to be able to generate simple mark down reports.
 The library supports only a part of the mark down functionality, including headers on several levels, bold and italic styles, the creation of tables 
 and external links. 
 
-The markDOwnWriter prints to a stream, default **Serial**, bit other streams
+The markDownWriter prints to a stream, default **Serial**, bit other streams
 like **file**, **SD**, **socket** are possible (not tested yet).
+The writes are buffered similar as in my XMLWriter library.
+Performance measurements with XML showed a serious performance gain.
+Only point of attention is flushing the stream at the end.
 
 The library is work in progress and not all functionality works perfect,
 but is good enough to get started for now.
@@ -39,23 +42,27 @@ As always feedback is welcome.
 
 ### Print interface
 
-The markDownWriter implements the print interface allowing
-to print all data types in theory. 
-However the current table interface (0.1.0) does only support floats, 
-default with 2 decimals. This has priority to improve.
+The markDownWriter implements the print interface allowing to print 
+all data types, including floats with decimals, signed and unsigned integers.
 
-See future section.
+```
+MDW.header(3, "kitchen");
 
+MDW.print("TempC: ");
+MDW.println(temperature, 1);
+```
 
 ### Related
 
 - https://www.markdownguide.org/basic-syntax/ reference
-- https://github.com/RobTillaart/XMLWriter just a format writer.
+- https://github.com/RobTillaart/markDownWriter simple mark down content.
+- https://github.com/RobTillaart/XMLWriter an XML format writer.
+- https://github.com/RobTillaart/lineFormatter tabular output on Serial.
 
 
 ### Tested
 
-Tested on Arduino UNO R3, OK only one simple demo sketch.
+Tested on Arduino UNO R3 with demo sketches.
 
 
 ## Interface
@@ -66,14 +73,18 @@ Tested on Arduino UNO R3, OK only one simple demo sketch.
 
 ### Constructor
 
-- **markDownWriter(Print \* stream = &Serial)** constructor with 
-default stream. Other streams e.g. SD
+- **markDownWriter(Print \* stream = &Serial, uint8_t bufferSize = 10)** constructor with 
+default stream. Other streams e.g. SD, socket etc. are possible.
+By setting the bufferSize to 0 or 1 there will be no buffering.
+Max bufferSize == 250
+- **~markDownWriter()** destructor.
 - **bool reset()** reset internals.
 
 
 ### Headers
 
-- **void header(uint8_t level, const char \* text);)** header at level n.
+- **void header(uint8_t level, const char \* text)** header at level n.
+Note that level 1 is largest font, and MarkDown supports up to level 6.
 - **void title(const char \* str)** wrapper for header level 1.
 - **void chapter(const char \* str)** wrapper for header level 2.
 - **void section(const char \* str)** wrapper for header level 3.
@@ -84,7 +95,7 @@ default stream. Other streams e.g. SD
 
 These functions work, but not perfect.
 The ...off() functions add a space after the markup.
-These functions do not mix well so use carefully
+These functions do not mix well so use carefully.
 
 - **void boldOn()** idem.
 - **void boldOff()** idem.
@@ -100,30 +111,32 @@ These functions do not mix well so use carefully
 Initial the tables are simple, with headers of max 11 characters.
 The align array consist of L=Left, C=Centre, R=Right alignment.
 The align array should at least have size elements and is case insensitive.
-invalid chars for align are centred (default).
+Invalid chars for align are centred (default).
 
-- **void tableHeader(uint8_t size, char headers[][12], char \* align = "CCCCCCCCCC")**
+- **void tableHeader(uint8_t size, char headers[][12], char \* align = "CCCCCCCCCC")** If no align array is given the default is centred.
+Note: default align length = 10, so more columns need an array.
 - **void tableValues(float values[], uint8_t decimals = 2)** values must be at least contain **size** elements as defined in **tableHeader()**.
 Decimals is set for this row. Not nice but works for now.
+
 
 ### Tables II
 
 Functions to create a row per cell / column. 
 Allows every column its own type.
-User must do the admin to print enough cells.
+User must do the admin to print enough cells / columns, however mark down
+seems to be not too strict here.
 
 - **void tableRowStart()**
-- **void tableRowValue(const char \* text)**
-- **void tableRowValue(float value, uint8_t decimals = 2)**
-- **void tableRowValue(uint32_t value)**
-- **void tableRowValue(int32_t value)**
+- **template <typename T> void tableRowValue(T var)** for all types.
+- **void tableRowValue(float value, uint8_t decimals)** for float 
+with decimals (default = 2).
 - **void tableRowEnd()** 
 
 
 ### Links
 
-- **void URL(const char \* text, const char \* link)** idem.
-- **void image(const char \* text, const char \* link)** idem.
+- **void URL(const char \* text, const char \* link)** URL "hidden" under a text.
+- **void image(const char \* text, const char \* link)** Image, with text underneath.
 - **void link(const char \* link)** simple link.
 
 
@@ -134,7 +147,6 @@ User must do the admin to print enough cells.
 - improve documentation
 
 #### Should
-
 
 #### Could
 

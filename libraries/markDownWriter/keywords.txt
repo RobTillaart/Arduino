@@ -30,7 +30,6 @@ tableRowStart	KEYWORD2
 tableRowValue	KEYWORD2
 tableRowEnd	KEYWORD2
 
-
 URL	KEYWORD2
 image	KEYWORD2
 link	KEYWORD2

@@ -3,14 +3,14 @@
 //    FILE: markDownWriter.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-02
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for creating simple mark down content.
 //     URL: https://github.com/RobTillaart/markDownWriter
 
 
 #include "Arduino.h"
 
-#define MARKDOWNWRITER_LIB_VERSION         (F("0.1.0"))
+#define MARKDOWNWRITER_LIB_VERSION         (F("0.1.1"))
 
 
 class markDownWriter : public Print
@@ -39,6 +39,7 @@ public:
   void line()           { print("\n\n----\n\n"); };
 
   //  TABLES
+  //  if no align array is given all columns will be centred.
   void tableHeader(uint8_t size, const char headers[][12], const char * align = "CCCCCCCCCC");
   
   //  row at a time.
@@ -46,10 +47,12 @@ public:
 
   //  per cell API.
   void tableRowStart();
-  void tableRowValue(const char * text);
-  void tableRowValue(float value, uint8_t decimals = 2);
-  void tableRowValue(uint32_t value);
-  void tableRowValue(int32_t value);
+  template <typename T> void tableRowValue(T var)
+  {
+    print(var);
+    print(" | ");
+  }
+  void tableRowValue(float value, uint8_t decimals);
   void tableRowEnd();
 
 

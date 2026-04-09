@@ -2,7 +2,7 @@
 //    FILE: markDownWriter.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-02
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for creating simple mark down content.
 //     URL: https://github.com/RobTillaart/markDownWriter
 
@@ -13,9 +13,14 @@
 
 markDownWriter::markDownWriter(Print* stream, uint8_t bufferSize)
 {
-  _bufferSize = constrain(bufferSize, 2, 250);
-  _buffer = (char *) malloc(_bufferSize);
   _stream = stream;
+  _bufferSize = constrain(bufferSize, 1, 250);
+  _buffer = NULL;
+  if (_bufferSize > 1)
+  {
+    //  include room for \0
+    _buffer = (char *) malloc(_bufferSize + 1);
+  }
   reset();
 }
 
@@ -28,6 +33,7 @@ void markDownWriter::reset()
 {
   _bufferIndex = 0;
   _bytesOut = 0;
+  //  should we add 2 println() here to start at a new line?
 }
 
 
@@ -86,29 +92,11 @@ void markDownWriter::tableValues(float values[], uint8_t decimals)
 void markDownWriter::tableRowStart()
 {
   print("| ");
-};
-
-void markDownWriter::tableRowValue(const char * text)
-{
-  print(text);
-  print(" | ");
 }
 
 void markDownWriter::tableRowValue(float value, uint8_t decimals)
 {
   print(value, decimals);
-  print(" | ");
-}
-
-void markDownWriter::tableRowValue(uint32_t value)
-{
-  print(value);
-  print(" | ");
-}
-
-void markDownWriter::tableRowValue(int32_t value)
-{
-  print(value);
   print(" | ");
 }
 
@@ -154,16 +142,14 @@ void markDownWriter::link(const char * link)
 //
 void markDownWriter::flush()
 {
-  _bytesOut += _bufferIndex;
   if (_bufferIndex > 0)
   {
+    _bytesOut += _bufferIndex;
     _buffer[_bufferIndex] = 0;
-    _stream->write(_buffer, _bufferIndex);  //  saves ~40 bytes on UNO.
-    //  _stream->print(_buffer);
+    _stream->write(_buffer, _bufferIndex);
     _bufferIndex = 0;
   }
 }
-
 
 
 ///////////////////////////////////////////////
@@ -172,6 +158,13 @@ void markDownWriter::flush()
 //
 size_t markDownWriter::write(uint8_t c)
 {
+  //  if unbuffered
+  if (_bufferSize <= 1)
+  {
+    _bytesOut++;
+    return _stream->write(c);
+  }
+
   _buffer[_bufferIndex++] = c;
   if (_bufferIndex == (_bufferSize - 1))
   {

@@ -50,6 +50,7 @@ Not tested, considered compatible.
 - https://github.com/RobTillaart/HC4053  (3x2 mux)
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
 - https://github.com/RobTillaart/MAX14661 (2x16 mux, I2C)
+- https://github.com/RobTillaart/I2C_HC4067  (1x16 mux - using I2C PCF8574)
 - https://tronixstuff.com/2013/08/05/part-review-74hc4067-16-channel-analog-multiplexerdemultiplexer/
 
 
@@ -85,6 +86,8 @@ Example multiplexing analog in.
      |             |              |             |
      +-------------+              +-------------+
 ```
+
+Note: one could add a LED (+resistor) to the Enable line to have visual feedback.
 
 
 ### Less Select lines
@@ -155,8 +158,9 @@ Also returns true if the enablePin is not set in the constructor.
 
 #### Could
 
-- next() and prev() as channel selector.
-  - what to do with range borders? ==> stop?
+- mask with valid channels? so subset of 16 can be used
+  - if (channel > 15) return false;
+  - allow(n), protect(n) to manage the set of allowed pins.
 
 #### Won't (unless requested)
 
@@ -164,6 +168,9 @@ Also returns true if the enablePin is not set in the constructor.
 - uint8_t channelCount() { return 16; };
 - cache enable status
 - inline the enable/disable
+- next() and prev() as channel selector
+  - what to do with range borders? ==> stop or wrap? (depends on project)
+  - what to do with disable flag? (depends on project)
 
 ## Support
 

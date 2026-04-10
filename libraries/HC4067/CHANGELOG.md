@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2026-04-10
+- fix #11, add example GRAY
+- update GitHub actions
+- minor edits 
+
 ## [0.3.1] - 2025-10-12
 - update GitHub actions
 - update examples
@@ -36,7 +41,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.2] - 2023-11-04
 - update readme.md
-
 
 ## [0.1.1] - 2023-01-25
 - fix bit mask

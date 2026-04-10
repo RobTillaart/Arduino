@@ -26,3 +26,5 @@ compile:
     # - mega2560
     - rpipico
 
+  libraries:
+    - "printHelpers"

@@ -38,14 +38,16 @@ To convert from one less known format to another just takes two calls, example:
 
 If you need to convert a lot of data between two formats, it is also possible to 
 pre-calculate a factor so the conversion is faster.
-On an UNO R3 the gain goes up to 20%, see example.
+On an UNO R3 the gain goes up almost 20%, see example below.
 
 
 ```cpp
   AngleConvertor AC;
 
   AC.setDegrees(1);  //  any non zero value will work.
+  //  factor to convert Pechus to AngularMil
   float factor = AC.getAngularMil() / AC.getPechus();
+  //  use the factor
   sum = 0;
   for (int i = 0; i < 1000; i++)
   {
@@ -54,18 +56,24 @@ On an UNO R3 the gain goes up to 20%, see example.
 
 ```
 
+### 0.3.0
+
+Add ADDERS, see below.
+These functions are meant especially to add different units more efficiently.
+Adding many times the same unit gives a lot of conversions which is far less 
+efficient than adding them first and convert only once.
+
 
 ### Formats
-
 
 |  name           |  full circle  |  notes  |
 |:----------------|--------------:|:--------|
 |  Degrees        |          360  |
-|  Radians        |         2 PI  |  2PI is aka MU
+|  Radians        |         2 PI  |  2 PI is aka MU = 6.283...
 |  Gradians       |          400  |
 |  AngularMil     |         6400  |
 |  BinaryRadians  |          256  |
-|  CentiTurn      |          100  |
+|  CentiTurn      |          100  |  equals percent
 |  DiameterPart   |          120  |
 |  Hexacontade    |           60  |
 |  HourAngle      |           24  |
@@ -83,6 +91,8 @@ On an UNO R3 the gain goes up to 20%, see example.
 |  Sign           |           12  |
 |  Turn           |            1  |
 
+If units are missing, please open an issue.
+
 
 ### Related
 
@@ -90,6 +100,11 @@ On an UNO R3 the gain goes up to 20%, see example.
 - https://github.com/RobTillaart/AverageAngle
 - https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/runningAngle
+- https://github.com/RobTillaart/AS5600 - magnetic angle measurements
+
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
 
 
 ## Interface
@@ -104,6 +119,8 @@ On an UNO R3 the gain goes up to 20%, see example.
 
 
 ### Setters
+
+Default value = 0 for all formats.
 
 - **void setDegrees(double value = 0)**
 - **void setRadians(double value = 0)**
@@ -128,8 +145,54 @@ On an UNO R3 the gain goes up to 20%, see example.
 - **void setSign(double value = 0)**
 - **void setTurn(double value = 0)**
 
+### Adders
+
+No default to add, functions do not return a value. 
+This could have been degrees, but why not radians or other.
+
+The adders allow to add/subtract different formats easily, as shown 
+in the extreme example below.
+
+```cpp
+  AngleConvertor AC;
+
+  AC.setDegrees();  //  start value
+  AC.addGRadians(125);
+  AC.addAngularMil(-34.56);
+  AC.addHexacontade(2.76);
+
+  result = AC.getPercent();
+```
+
+Please not that adding one type - e.g. only radians can 
+
+- **void addDegrees(double value)**
+- **void addRadians(double value)**
+- **void addGradians(double value)**
+- **void addAngularMil(double value)**
+- **void addBinaryRadians(double value)**
+- **void addCentiTurn(double value)**
+- **void addDiameterPart(double value)**
+- **void addHexacontade(double value)**
+- **void addHourAngle(double value)**
+- **void addMilliRadians(double value)**
+- **void addMilliTurn(double value)**
+- **void addMinuteTime(double value)**
+- **void addOctant(double value)**
+- **void addPechus(double value)**
+- **void addPercent(double value)**
+- **void addPoints(double value)**
+- **void addQuadrant(double value)**
+- **void addQuarterPoint(double value)**
+- **void addSecondsTime(double value)**
+- **void addSextant(double value)**
+- **void addSign(double value)**
+- **void addTurn(double value)**
 
 ### Getters
+
+The getters do not return a value "modulo full turns" so values
+can be e.g. above 2 PI or below 0 radians.
 
 - **double getDegrees()**
 - **double getRadians()**
@@ -175,6 +238,7 @@ degrees should be between 0 and 360, as function does no normalization.
 
 #### Should
 
+- investigate constexpr double constants?
 
 #### Could
 
@@ -182,9 +246,12 @@ degrees should be between 0 and 360, as function does no normalization.
 - integrate with **Angle class** ?
   - printing can be a lot of work
 - windrose array in PROGMEM
-
+- add add_SOME_UNIT(float), like in volumeConvertor class.
+- extend unit tests.
 
 #### Wont
+
+- investigate fmod full turns? (getters flag?)
 
 
 ## Support

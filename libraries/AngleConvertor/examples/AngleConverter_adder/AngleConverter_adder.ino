@@ -1,8 +1,9 @@
 //
-//    FILE: AngleConverter_performance.ino
+//    FILE: AngleConverter_adder.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo sketch to test angleConvertor class
+// PURPOSE: demo sketch
 //     URL: https://github.com/RobTillaart/AngleConvertor
+//
 
 
 #include "AngleConvertor.h"
@@ -10,8 +11,8 @@
 AngleConvertor conv;
 
 uint32_t start, stop;
-volatile float x;
-volatile char * wr;
+volatile float sum;
+
 
 void setup()
 {
@@ -21,28 +22,37 @@ void setup()
   Serial.print("ANGLECONVERTOR_LIB_VERSION: ");
   Serial.println(ANGLECONVERTOR_LIB_VERSION);
   Serial.println();
-
-  x = analogRead(A0);
-  while (x > 360) x -= 360;
-  delay(10);
-
-  start = micros();
-  conv.setDegrees(x);
-  x = conv.getTurn();
-  stop = micros();
-
-  Serial.print("getTurn: \t");
-  Serial.println(stop - start);  //  2 steps
   delay(100);
 
   start = micros();
-  wr = conv.windrose(x);
+  for (int i = 0; i < 1000; i++)
+  {
+    conv.addRadians(i);
+  }
   stop = micros();
-  Serial.print("windrose: \t");
+  sum = conv.getDegrees();
+  Serial.println("convert radians and add");
+  Serial.print("TIME: \t");
   Serial.println(stop - start);
+  Serial.println(sum);
+  Serial.println();
   delay(100);
 
-
+  sum = 0;
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    sum += i;
+  }
+  conv.setRadians(sum);
+  stop = micros();
+  sum = conv.getDegrees();
+  Serial.println("add radians and convert once");
+  Serial.print("TIME: \t");
+  Serial.println(stop - start);
+  Serial.println(sum);
+  Serial.println();
+  delay(100);
 
   Serial.println("\nDone...");
 }

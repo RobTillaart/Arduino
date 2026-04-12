@@ -32,6 +32,32 @@ setSign	KEYWORD2
 setTurn	KEYWORD2
 
 
+# adders
+
+addDegrees	KEYWORD2
+addRadians	KEYWORD2
+addGradians	KEYWORD2
+addAngularMil	KEYWORD2
+addBinaryRadians	KEYWORD2
+addCentiTurn	KEYWORD2
+addDiameterPart	KEYWORD2
+addHexacontade	KEYWORD2
+addHourAngle	KEYWORD2
+addMilliRadians	KEYWORD2
+addMilliTurn	KEYWORD2
+addMinuteTime	KEYWORD2
+addOctant	KEYWORD2
+addPechus	KEYWORD2
+addPercent	KEYWORD2
+addPoints	KEYWORD2
+addQuadrant	KEYWORD2
+addQuarterPoint	KEYWORD2
+addSecondsTime	KEYWORD2
+addSextant	KEYWORD2
+addSign	KEYWORD2
+addTurn	KEYWORD2
+
+
 # getters
 
 getDegrees	KEYWORD2

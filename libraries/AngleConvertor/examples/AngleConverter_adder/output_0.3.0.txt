@@ -1,0 +1,17 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+AngleConverter_adder.ino
+ANGLECONVERTOR_LIB_VERSION: 0.3.0
+
+convert radians and add
+TIME: 	20248
+28619240.00
+
+add radians and convert once
+TIME: 	13188
+28619240.00
+
+
+Done...

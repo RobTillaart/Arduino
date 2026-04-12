@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2026-04-12
+- add ADDERS e.g. **addRadians(double value)**
+- add AngleConverter_adder.ino example
+- update GitHub actions
+- improve AngleConverter_performance.ino by adding runtime randomness.
+- improve AngleConverter_fast_factor.ino.
+- minor edits
+
+----
+
 ## [0.2.2] - 2025-08-16
 - update readme.md
 - add AngleConverter_fast_factor.ino example

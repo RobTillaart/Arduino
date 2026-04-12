@@ -1,0 +1,17 @@
+IDE     1.8.19
+BOARD:  UNO R3
+
+AngleConverter_fast_factor\AngleConverter_fast_factor.ino
+ANGLECONVERTOR_LIB_VERSION: 0.3.0
+
+Two step conversion time: 	27676
+17760000.00
+
+One step conversion time: 	22208
+17760000.00
+
+Faster: 	19.76%
+
+
+Done...
+

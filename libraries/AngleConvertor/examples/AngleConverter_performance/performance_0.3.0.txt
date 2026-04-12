@@ -1,0 +1,17 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+AngleConverter_performance.ino
+ANGLECONVERTOR_LIB_VERSION: 0.3.0
+
+getTurn: 	16
+windrose: 	4
+
+Done...
+
+
+BOARD:    ESP32
+
+TODO
+

@@ -2,7 +2,7 @@
 //
 //    FILE: AngleConvertor.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2022-12-01
 // PURPOSE: Angle conversion class
 //     URL: https://github.com/RobTillaart/AngleConvertor
@@ -11,7 +11,11 @@
 #include "Arduino.h"
 
 
-#define ANGLECONVERTOR_LIB_VERSION        (F("0.2.2"))
+#define ANGLECONVERTOR_LIB_VERSION        (F("0.3.0"))
+
+//  TODO ?
+//  constexpr double RADIANS_TO_DEGREES = (180.0 / PI);
+//  constexpr double DEGREES_TO_RADIANS = (PI / 180.0);
 
 
 /////////////////////////////////////////////////////////////
@@ -29,7 +33,7 @@ public:
   void setGradians(double value = 0)      { _degrees = value * (180.0 / 200.0); };
   void setAngularMil(double value = 0)    { _degrees = value * (180.0 / 3200.0); };
   void setBinaryRadians(double value = 0) { _degrees = value * (180.0 / 128.0); };
-  void setCentiTurn(double value = 0)     { _degrees = value * (180.0 / 50.0); };
+  void setCentiTurn(double value = 0)     { _degrees = value * (180.0 / 50.0); };  //  equals percent
   void setDiameterPart(double value = 0)  { _degrees = value * (180.0 / 60.0); };
   void setHexacontade(double value = 0)   { _degrees = value * (180.0 / 30.0); };
   void setHourAngle(double value = 0)     { _degrees = value * (180.0 / 12.0); };
@@ -47,6 +51,32 @@ public:
   void setSextant(double value = 0)       { _degrees = value * (180.0 / 3.0); };
   void setSign(double value = 0)          { _degrees = value * (180.0 / 6.0); };
   void setTurn(double value = 0)          { _degrees = value * (180.0 / 0.5); };
+
+
+  //  ADDERS
+  void addDegrees(double value)       { _degrees += value; };
+  void addRadians(double value)       { _degrees += value * (180.0 / M_PI); };
+  void addGradians(double value)      { _degrees += value * (180.0 / 200.0); };
+  void addAngularMil(double value)    { _degrees += value * (180.0 / 3200.0); };
+  void addBinaryRadians(double value) { _degrees += value * (180.0 / 128.0); };
+  void addCentiTurn(double value)     { _degrees += value * (180.0 / 50.0); };
+  void addDiameterPart(double value)  { _degrees += value * (180.0 / 60.0); };
+  void addHexacontade(double value)   { _degrees += value * (180.0 / 30.0); };
+  void addHourAngle(double value)     { _degrees += value * (180.0 / 12.0); };
+  void addMilliRadians(double value)  { _degrees += value * (180.0 / (M_PI * 1000.0)); };
+  void addMilliTurn(double value)     { _degrees += value * (180.0 / 500.0); };
+
+  void addMinuteTime(double value)    { _degrees += value * (180.0 / 720.0); };
+  void addOctant(double value)        { _degrees += value * (180.0 / 4.0); };
+  void addPechus(double value)        { _degrees += value * (180.0 / 90.0); };
+  void addPercent(double value)       { _degrees += value * (180.0 / 50.0); };
+  void addPoints(double value)        { _degrees += value * (180.0 / 16.0); };
+  void addQuadrant(double value)      { _degrees += value * (180.0 / 2.0); };
+  void addQuarterPoint(double value)  { _degrees += value * (180.0 / 64.0); };
+  void addSecondsTime(double value)   { _degrees += value * (180.0 / 43200); };
+  void addSextant(double value)       { _degrees += value * (180.0 / 3.0); };
+  void addSign(double value)          { _degrees += value * (180.0 / 6.0); };
+  void addTurn(double value)          { _degrees += value * (180.0 / 0.5); };
 
 
   //  GETTERS

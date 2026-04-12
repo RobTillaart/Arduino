@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.7] - 2026-04-12
+- add PRINTSIZE_LIB_VERSION to replace PRINTSIZE_VERSION
+- update GitHub actions
+- minor edits
+
 ## [0.3.6] - 2025-08-25
 - update GitHub actions
 - minor edits

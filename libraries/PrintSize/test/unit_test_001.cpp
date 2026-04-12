@@ -38,7 +38,7 @@
 
 unittest_setup()
 {
-  fprintf(stderr, "PRINTSIZE_VERSION: %s\n", (char *) PRINTSIZE_VERSION);
+  fprintf(stderr, "PRINTSIZE_LIB_VERSION: %s\n", (char *) PRINTSIZE_LIB_VERSION);
 }
 
 unittest_teardown()

@@ -32,8 +32,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PRINTSIZE_VERSION: ");
-  Serial.println(PRINTSIZE_VERSION);
+  Serial.print("PRINTSIZE_LIB_VERSION: ");
+  Serial.println(PRINTSIZE_LIB_VERSION);
   Serial.println();
 
   Serial.println("\nType words < 20 chars in the Serial monitor\n");

@@ -17,12 +17,21 @@ Arduino library to determine the length of print statements.
 ## Description
 
 PrintSize is a minimal library to determine the length of a variable when printed.
-This includes printing of floats, integers in decimal or hex notation.
+This includes printing of floats, integers in decimal or HEX notation.
+
+PrintSize can be used e.g. to calculate the spaces needed for right aligning or
+centring numbers or text for a more readable layout.
+Right alignment would also enforce alignment of the decimal point of floats and 
+doubles if all printed with the same number of decimals.
+
+Another application is to see if a word would fit on a line (e.g. 80 characters),
+or need to be printed on the next line / page.
 
 Works for **print()**, **println()** and if supported **printf()** e.g. ESP32.
 
-Since **0.2.0** it has a total counter to add up the characters "printed" since
-the last **reset()** call. See examples.
+Since **0.2.0** the library has a total counter to add up the characters "printed" 
+since the last **reset()** call. See examples. 
+This is useful e.g. to count the position on a line .
 
 
 ### Related
@@ -32,6 +41,10 @@ the last **reset()** call. See examples.
 - https://github.com/RobTillaart/PrintSize counts length of a number of print commands.
 - https://github.com/RobTillaart/PrintString captures data in a String.
 
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
+
 
 ## Interface
 
@@ -40,12 +53,10 @@ the last **reset()** call. See examples.
 ```
 
 - **PrintSize()** Constructor
-- **size_t write(uint8_t c)** core.
-Note: gives a warning unused parameter.
+- **size_t write(uint8_t c)** core function of the Print interface.
 - **size_t write(uint8_t \* str, uint8_t length)**
-Note: gives a warning unused parameter.
 - **void reset()** reset the total counter.
-- **uint32_t total()** total bytes "printed".
+- **uint32_t total()** returns the total bytes "printed".
 
 
 ## Operational
@@ -82,7 +93,6 @@ Can be used to calculate the needed space characters (bytes),
 
 #### Could
 
-- PRINTSIZE_LIB_VERSION ?
 
 #### Wont
 

@@ -1,0 +1,42 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+
+PrintSize_centring.ino
+PRINTSIZE_LIB_VERSION: 0.3.7
+
+Determine length of 6 random numbers and left align, right 
+align or centre the numbers in a table with their sum.
+
+
+Left align
+78073
+944642
+15974
+7853198
+7238477
+5
+================ +
+16130369
+
+
+  Centring
+   4243154
+      3
+  16531729
+  43542644
+   4835521
+      7
+================ +
+  69153058
+
+
+  Right Align
+        82248
+      4282518
+    505795719
+     36808338
+       929368
+    704877633
+================ +
+   1252775824

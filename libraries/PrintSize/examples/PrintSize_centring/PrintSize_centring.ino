@@ -18,12 +18,12 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PRINTSIZE_VERSION: ");
-  Serial.println(PRINTSIZE_VERSION);
+  Serial.print("PRINTSIZE_LIB_VERSION: ");
+  Serial.println(PRINTSIZE_LIB_VERSION);
   Serial.println();
 
-  Serial.println("Determine length of 10 random numbers and right ");
-  Serial.println("align the numbers in a table with their sum.");
+  Serial.println("Determine length of 6 random numbers and left align, right ");
+  Serial.println("align or centre the numbers in a table with their sum.");
   Serial.println();
   ps.reset();
 }
@@ -34,8 +34,26 @@ void loop()
   uint32_t sum = 0;
 
   Serial.println();
+  Serial.println("Left align");
+  sum = 0;
+  for (int i = 0; i < 6; i++)
+  {
+    //  create different order of magnitude random numbers
+    uint32_t maxsize = pow(10, 1 + random(9));
+    uint32_t rn = random(maxsize);
+    sum += rn;
+    Serial.println(rn);
+  }
+  Serial.print("================ +\n");
+  ps.println(sum);
+  Serial.println(sum);
+  Serial.println();
+
+
+  Serial.println();
   Serial.println("  Centring");
-  for (int i = 0; i < 10; i++)
+  sum = 0;
+  for (int i = 0; i < 6; i++)
   {
     //  create different order of magnitude random numbers
     uint32_t maxsize = pow(10, 1 + random(9));
@@ -54,7 +72,8 @@ void loop()
 
   Serial.println();
   Serial.println("  Right Align");
-  for (int i = 0; i < 10; i++)
+  sum = 0;
+  for (int i = 0; i < 6; i++)
   {
     //  create different order of magnitude random numbers
     uint32_t maxsize = pow(10, 1 + random(9));
@@ -81,4 +100,3 @@ void printSpaces(uint8_t n)
 
 
 //  -- END OF FILE --
-

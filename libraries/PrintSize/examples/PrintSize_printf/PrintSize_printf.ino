@@ -17,8 +17,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PRINTSIZE_VERSION: ");
-  Serial.println(PRINTSIZE_VERSION);
+  Serial.print("PRINTSIZE_LIB_VERSION: ");
+  Serial.println(PRINTSIZE_LIB_VERSION);
   Serial.println();
 
   Serial.println("Determine length of 10 random numbers and right ");
@@ -33,7 +33,7 @@ void loop()
 
   for (int i = 0; i < 10; i++)
   {
-    uint32_t rn = random(100000000);
+    uint32_t rn = random(100000000UL);
     int length = ps.printf("%u\n", rn);
     printSpaces(15 - length);
     sum += rn;

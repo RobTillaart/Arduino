@@ -23,14 +23,14 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
 
-  if (uv.begin() == false)
+  while (uv.begin() == false)
   {
-    Serial.println("Could not connect, fix and reboot");
+    Serial.println("Could not find device, fix and reboot");
+    Serial.print("Address: ");
+    Serial.println(uv.getAddress(), HEX);
+    delay(5000);
   }
-  else
-  {
-    Serial.println("Device found.");
-  }
+  Serial.println("Device found.");
 
   //  register range according to DFrobotics
   for (uint8_t reg = 0x00; reg < 0x14; reg++)

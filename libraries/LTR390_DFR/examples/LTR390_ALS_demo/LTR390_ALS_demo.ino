@@ -22,12 +22,12 @@ void setup()
 
   Wire.begin();
 
-  uv.begin();
-
-  while (uv.isConnected() == false)
+  while (uv.begin() == false)
   {
-    Serial.println("Could not connect, fix and reboot");
-    delay(1000);
+    Serial.println("Could not find device, fix and reboot");
+    Serial.print("Address: ");
+    Serial.println(uv.getAddress(), HEX);
+    delay(5000);
   }
   Serial.println("Device found.");
 

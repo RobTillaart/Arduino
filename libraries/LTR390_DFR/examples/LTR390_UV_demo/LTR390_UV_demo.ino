@@ -21,14 +21,14 @@ void setup()
 
   Wire.begin();
 
-  if (uv.begin() == false)
+  while (uv.begin() == false)
   {
-    Serial.println("Could not connect, fix and reboot");
+    Serial.println("Could not find device, fix and reboot");
+    Serial.print("Address: ");
+    Serial.println(uv.getAddress(), HEX);
+    delay(5000);
   }
-  else
-  {
-    Serial.println("Device found.");
-  }
+  Serial.println("Device found.");
 
   Serial.print("PARTID:\t");
   Serial.println(uv.getPartID());

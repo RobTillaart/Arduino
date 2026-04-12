@@ -34,6 +34,25 @@ Operating voltage range: **3.0V .. 5.0V** (tolerant).
 
 To elaborate (when time permits and hardware)
 
+
+### 0.2.0 Changes
+
+0.2.0 major update C++, kudos to Chris0xdeadbeef.
+Details see changelog.md
+
+#### Compiler Warnings (Arduino IDE)
+
+This library uses [[nodiscard]] to help detect ignored return values.
+However, Arduino IDE disables compiler warnings by default.
+To benefit from this feature, enable warnings:
+
+> File > Preferences > Compiler warnings > Default (or higher)
+
+#### PlatformIO
+
+Warnings are enabled by default, no additional configuration required.
+
+
 ## I2C
 
 The break-out has a fixed address of 0x1C == 28 decimal.
@@ -66,9 +85,19 @@ too if they are behind the multiplexer.
 
 ### Related
 
-- https://github.com/RobTillaart/AS7331 UVA, UVB, UVC sensor
-- https://github.com/RobTillaart/LTR390_RT   (native LTR390)
+UV related
+
+- https://en.wikipedia.org/wiki/Ultraviolet
+- https://en.wikipedia.org/wiki/Ultraviolet_index
+- https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/AS7331 - profi UVA, UVB, UVC sensor.
 - https://github.com/RobTillaart/LTR390_DFR  (DF Robotics variant)
+- https://github.com/RobTillaart/LTR390_RT   (native LTR390)
+- https://github.com/RobTillaart/ML8511
+
+Other
+
+- https://github.com/RobTillaart/map2colour - for a continuous colour scale
 
 
 ## Interface   TODO elaborate...
@@ -98,7 +127,7 @@ As the device has a fixed I2C address it cannot be set.
 
 - **uint8_t setGain(uint8_t gain = 1)** gain = 0..4, values larger than 4 are
 clipped to 4. Default value = 1.
-Returns 0..4.
+Returns the gain set = 0..4.
 - **uint8_t getGain()** returns set value, 0..4.
 
 
@@ -116,11 +145,11 @@ Returns 0..4.
 - **bool setMeasurement(uint8_t resolution, uint8_t time)**
 Resolution = 0..5, Time = 0..7. See table below.
 Returns false if one of the parameters is out of range.
-- **uint8_t getResolution()** returns 0..5, default 2.
-- **uint8_t getTime()** returns 0..7, default 2.
+- **uint8_t getResolution()** returns set value 0..5, default 2.
+- **uint8_t getTime()** returns set value 0..7, default 2.
 
 
-|  Reso  |  bits  |   |  Time  |  millis  |  Notes  |
+|  reso  |  bits  |   |  time  |  millis  |  notes  |
 |:------:|:------:|:-:|:------:|:--------:|:-------:|
 |   0    |   20   |   |   0    |     25   |
 |   1    |   19   |   |   1    |     50   |
@@ -134,10 +163,11 @@ Returns false if one of the parameters is out of range.
 14, 15 bits is not supported.
 
 
-### UV sensitvity
+### UV sensitivity
 
-- **bool setUVsensitivity(float s)** Sets the UV sesitivity 
+- **bool setUVsensitivity(float sensitivity = 1.0f)** Sets the UV sensitivity 
 between 0..1. Returns false if the parameter s is out of range.
+Default value = 1.0f.
 - **float getUVsensitivity()** returns set value. default 1.0.
 
 
@@ -149,37 +179,77 @@ between 0..1. Returns false if the parameter s is out of range.
 
 ### Get data
 
-- **uint32_t getALSData()** returns 18 bit data
-- **float getLUX(float wfac = 1.0)** wfac = window factor, typical 0..1.0.
+- **uint32_t getALSData()** returns 18 bit data.
+- **float getLUX(float wFactor = 1.0f)** wFactor = window factor, typical between 0.0f and 1.0f.
 Returns the ambient light in LUX.
-- **uint32_t getUVSData()** returns 18 bit data
-- **float getUVI(float wfac = 1.0)** wfac = window factor, typical 0..1.0.
-Returns the UV index in ??? (TODO units).
+- **uint32_t getUVSData()** returns 18 bit data.
+- **float getUVI(float wFactor = 1.0f)** wFactor = window factor, typical between 0.0f and 1.0f.
+Returns the UV index in ? (TODO units).
+
+
+### Enable / Disable
+
+**Experimental**
+
+- **void enable()** idem.
+- **void disable()** idem.
+- **bool isEnabled()** returns current status.
+
+
+### Interrupts
+
+See datasheet for details.
+
+- **int setInterruptConfig(uint8_t value = 0x10)**
+- **uint8_t getInterruptConfig()** returns set value.
+
+
+### Threshold
+
+See datasheet for details.
+
+- **void setHighThreshold(uint32_t value = 0x000FFFFF)**
+- **uint32_t getHighThreshold()** returns set value.
+- **void setLowThreshold(uint32_t value = 0)**
+- **uint32_t getLowThreshold()** returns set value.
+
+### Error
+
+Not tested, to be elaborated (someday)
+
+- **int lastError()** returns last low level I2C status.
+Value LTR390_OK == 0 default.
+
+|  value  |  constant            |  meaning  |
+|:-------:|:---------------------|:----------|
+|    0    |  LTR390_OK           |  default value.
+|   -10   |  LTR390_I2C_REQUEST  |
+|  other  |                      |  I2C errors, board specific.
 
 
 ## Future
 
 #### Must
 
-- Elaborate and improve documentation a lot.
-  - add tables, ranges etc.
-- test with right hardware.
-- keep in sync with LTR390_RT when possible
+- Elaborate and improve documentation.
+- test with right (DFR) hardware.
 
 #### Should
 
 - add examples
-- add error codes
-- split **getStatus()** or ??
-- add **uint16_t getTimeMillis()** return time in millseconds.
-- add **uint8_t getResolutionBits()** idem.
-- add **uint8_t getGainFactor()** idem.
-
+  - threshold registers
+  - interrupt configuration register
+  - enable/disable
+  - performance measurements 
+- keep in sync with LTR390_RT when possible
 
 #### Could
 
-- add error handling
+- elaborate error handling
+  - error codes
 - unit test ==> test examples
+- move code to .cpp ?
+
 
 #### Wont
 

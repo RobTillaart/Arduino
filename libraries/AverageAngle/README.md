@@ -22,23 +22,31 @@ This is especially useful when angles are around 0 degrees,
 e.g. from a compass sensor or the resultant of a track.
 Example, the average angle of 359 and 1 is 0, not 179 (most of the time)
 
-Furthermore the AverageAngle can also include the **length (weight)** of the angle as if it is a vector. 
+Furthermore the AverageAngle can include the **length** of the angle as if it is a vector. 
 Default this length is set to 1 so all angles are by default of equal weight.
 
-Example: The average angle of 359 (length = 2) and 1 (length = 1) is 359.something not zero.
+Example: The average angle of 359 (length = 2) and 1 (length = 1) is 359.666... not zero.
 
 The average angle is calculated by converting the added angle (in DEGREES, etc) to polar coordinates.
-These (x,y) are added to a (sumX, sumY) and divided by the number of angles added so far. 
+These (x, y) are added to a (sumX, sumY) and divided by the number of angles added so far. 
+
+The accuracy of this class is limited to the used float type. 
+This might change to double in 0.3.0 (which apps need that accurate angles?).
 
 As always, feedback is welcome.
 
 
 ### Related
 
-- https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/AngleConvertor
 - https://github.com/RobTillaart/AverageAngle
+- https://github.com/RobTillaart/Angle
 - https://github.com/RobTillaart/runningAngle
+- https://github.com/RobTillaart/AS5600 - magnetic angle measurements
+
+For printing floats in scientific or engineering format
+
+https://github.com/RobTillaart/printHelpers
 
 
 ### AngleType
@@ -47,7 +55,7 @@ As always, feedback is welcome.
 
 |  value  |  name      |  range     |  notes  |
 |:-------:|:-----------|:----------:|:--------|
-|    0    |  DEGREES   |  0 .. 360  |
+|    0    |  DEGREES   |  0 .. 360  |  default
 |    1    |  RADIANS   |  0 .. 2PI  |
 |    2    |  GRADIANS  |  0 .. 400  |  100 GRADIANS == 90 DEGREES.
 
@@ -63,11 +71,12 @@ For lesser known angle-types, see - https://github.com/RobTillaart/AngleConverto
 
 ### Constructor
 
-- **AverageAngle(AngleType type = DEGREES)** constructor, defaults to degrees.
+- **AverageAngle(AngleType type = DEGREES)** constructor, defaults to DEGREES.
 - **AngleType type()** returns DEGREES, RADIANS or GRADIANS.
 - **void setType(AngleType type)** changes type DEGREES, RADIANS or GRADIANS.
-Type can be changed runtime and still continue to add.
-- **void reset()** clears internal counters.
+Type can be changed runtime and one can still continue to add values.
+- **void reset()** clears the internal sumX, sumY and angle counter.
+Also resets the last error.
 
 
 ### Core
@@ -101,18 +110,18 @@ If count == 0 the average length is set to 0.
 |  AVERAGE_ANGLE_SINGULARITY  |  -20    |
 
 
-### Experimental Overflow
+### Overflow
 
-(since 0.2.0)
+**Experimental** (since 0.2.0)
 
-When the internal sumx or sumy is large (> 10000) the accuracy of the addition
+When the internal sumX or sumY is large (> 10000) the accuracy of the addition
 becomes critical, leading to serious errors in the average and length functions.
 To detect this the function **add()** sets the error **AVERAGE_ANGLE_OVERFLOW**.
 This error can be checked with **lastError()**.
 The function **add()** will add the new angle as good as possible.
 
 Note this condition is independent of the **AngleType** as the internal math 
-uses radians. The condition will be triggered faster when the length parameter 
+uses RADIANS. The condition will be triggered faster when the length parameter 
 is used. 
 
 The overflow threshold of 10000 can be adjusted in the AverageAngle.cpp file if needed.
@@ -121,10 +130,10 @@ As this feature is **experimental**, the trigger condition for overflow will
 probably be redesigned in the future. See future section below.
 
 
-## Gradians
+## GRADIANS
 
-Gradians a.k.a. **gon**, is a less often used unit for angles. 
-There are 100 gradians in a right angle. A full circle = 400 gradians.
+GRADIANS a.k.a. **gon**, is a less often used unit for angles. 
+There are 100 GRADIANS in a right angle. A full circle = 400 GRADIANS.
 
 - https://en.wikipedia.org/wiki/Gradian
 
@@ -136,12 +145,13 @@ Other less used units for measuring angles:
 
 If you want to average 5 compass readings you can just add the angles and 
 do not use the length parameter.
+
 ```cpp
   AA.reset();
   for (int i = 0; i < 5; i++)
   {
     AA.add(compass.readHeading());
-    delay(100);    // e.g. compass read needs some time
+    delay(100);    //  e.g. compass read needs some time
   }
   Serial.println(AA.getAverage());
 ```
@@ -149,6 +159,7 @@ do not use the length parameter.
 
 If you want to average a track, e.g. 5 steps North, 3 steps west etc, 
 you need to include the length of each step.
+
 ```cpp
   AA.reset();
   AA.add(90, 5);     //  5 steps north  assuming east = 0
@@ -160,6 +171,7 @@ you need to include the length of each step.
 
 If you want to average an angle in DEGREES and an angle in RADIANS,
 just change the type runtime.
+
 ```cpp
   AA.reset();
   AA.setType(DEGREES);
@@ -175,28 +187,29 @@ just change the type runtime.
 #### Must
 
 - investigate if and how the internal math can be made more robust against overflow.
-  - use double instead of float (will work on certain platforms) (must) => 0.3.0
-  - uint32_t?
   - accuracy threshold depends on float / double usage.  (sizeof(double) == 8)
   - threshold depends on the units of length. 
-    if all add's are using 10000 as length they have equal weight.
+    if all add()'s are using 10000 as length they have equal weight.
     normalizing the weight? how? user responsibility?
   - get set threshold via API?
   - use of threshold versus error detection (sum - angle == previous or not)
-  - split OVERFLOW error in X and Y
-
+- 0.3.0
+  - remove GRAD_TO_RAD + RAD_TO_GRAD
+  - switch to double ?
+  
 
 #### Should
 
 - add overflow example
 - add singularity example
-
+- noise detection
+  - if every add() adds noise, then noise is order of sumX x 10-6 (float) x count?
 
 #### Could
 
-- **uint32_t addDegrees(float angle)** more explicit.
-- **uint32_t addRadians(float angle)** idem.
-- **uint32_t addGradians(float angle)** idem.
+- **uint32_t addDegrees(float angle, float length = 1.0)** more explicit.
+- **uint32_t addRadians(float angle, float length = 1.0)** idem.
+- **uint32_t addGradians(float angle, float length = 1.0)** idem.
 
 
 #### Wont
@@ -206,7 +219,7 @@ just change the type runtime.
   - can even be negative?
   - use cases? e.g 0..4 quadrant?
   - maybe better for the AngleConvertor class.
-
+- split OVERFLOW error in X and Y
 
 ## Support
 

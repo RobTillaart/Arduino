@@ -1,7 +1,7 @@
 //
 //    FILE: AverageAngle.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2017-11-21
 // PURPOSE: Arduino library to calculate correctly the average of multiple angles.
 //     URL: https://github.com/RobTillaart/AverageAngle
@@ -10,7 +10,7 @@
 #include "AverageAngle.h"
 
 
-const float AA_OVERFLOW_THRESHOLD = 10000;
+constexpr float AA_OVERFLOW_THRESHOLD = 10000;
 
 
 AverageAngle::AverageAngle(const enum AngleType type)
@@ -24,15 +24,15 @@ uint32_t AverageAngle::add(float alpha, float length)
 {
   if (_type == AverageAngle::DEGREES )
   {
-    alpha *= DEG_TO_RAD;              //  (PI / 180.0);
+    alpha *= DEGREES_TO_RADIAN;
   }
   else if (_type == AverageAngle::GRADIANS )
   {
-    alpha *= GRAD_TO_RAD;             //  (PI / 200.0);
+    alpha *= GRADIAN_TO_RADIAN;
   }
   float dx = cos(alpha);
   float dy = sin(alpha);
-  if (length != 1.0)
+  if (length != 1.0f)
   {
     dx *= length;
     dy *= length;
@@ -51,8 +51,8 @@ uint32_t AverageAngle::add(float alpha, float length)
 
 void AverageAngle::reset()
 {
-  _sumX  = 0;
-  _sumY  = 0;
+  _sumX  = 0.0f;
+  _sumY  = 0.0f;
   _count = 0;
   _error = AVERAGE_ANGLE_OK;
 }
@@ -76,15 +76,15 @@ float AverageAngle::getAverage()
   _error = AVERAGE_ANGLE_OK;
   if (angle < 0)
   {
-    angle += TWO_PI;                   //  (PI * 2);
+    angle += TWO_PI;  //  (PI * 2);
   }
   if (_type == AverageAngle::DEGREES )
   {
-    angle *= RAD_TO_DEG;               //  (180.0 / PI);
+    angle *= RADIAN_TO_DEGREES;  //  (180.0 / PI);
   }
   else if (_type == AverageAngle::GRADIANS )
   {
-    angle *= RAD_TO_GRAD;              //  (200.0 / PI);
+    angle *= RADIAN_TO_GRADIAN;  //  (200.0 / PI);
   }
   return angle;
 }

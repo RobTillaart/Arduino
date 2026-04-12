@@ -2,7 +2,7 @@
 //
 //    FILE: AverageAngle.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2017-11-21
 // PURPOSE: Arduino library to calculate correctly the average of multiple angles.
 //     URL: https://github.com/RobTillaart/AverageAngle
@@ -11,8 +11,16 @@
 #include "math.h"
 #include "Arduino.h"
 
-#define AVERAGE_ANGLE_LIB_VERSION             (F("0.2.3"))
+#define AVERAGE_ANGLE_LIB_VERSION             (F("0.2.4"))
 
+
+constexpr float GRADIAN_TO_RADIAN = (PI / 200.0);
+constexpr float DEGREES_TO_RADIAN = (PI / 180.0);
+constexpr float RADIAN_TO_GRADIAN = (200.0 / PI);
+constexpr float RADIAN_TO_DEGREES = (180.0 / PI);
+
+
+//  to be obsolete in 0.3.0
 #define GRAD_TO_RAD                           (PI / 200.0)
 #define RAD_TO_GRAD                           (200.0 / PI)
 
@@ -29,7 +37,7 @@ public:
 
   AverageAngle(const enum AngleType type = DEGREES);
 
-  uint32_t add(float alpha, float length = 1.0);
+  uint32_t add(float alpha, float length = 1.0f);
   void     reset();
   uint32_t count();
 

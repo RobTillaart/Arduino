@@ -1,5 +1,5 @@
 //
-//    FILE: averageAngle_getSum.ino
+//    FILE: AverageAngle_getSum.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demonstrates the usage of the AverageAngle Class
 //     URL: https://github.com/RobTillaart/AverageAngle
@@ -17,6 +17,11 @@ void setup()
   Serial.print("AVERAGE_ANGLE_LIB_VERSION: ");
   Serial.println(AVERAGE_ANGLE_LIB_VERSION);
   Serial.println();
+
+//  AverageAngle AA(AverageAngle::DEGREES);
+//  AA.add(359, 2);
+//  AA.add(1, 1);
+//  Serial.println(AA.getAverage(), 4);
 
   test0();
 }

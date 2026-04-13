@@ -1,0 +1,21 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+
+asyncAnalogTest3.ino
+ASYNCANALOG_LIB_VERSION: 0.2.2
+
+
+
+start: 416
+START: 	948
+READY: 	1704
+VALUE: 	504
+1
+411
+
+done...
+
+
+done...
+

@@ -1,0 +1,23 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+truncated for readability.
+
+asyncAnalogTest.ino
+ASYNCANALOG_LIB_VERSION: 0.2.2
+
+
+start: 419
+108	419	78
+112	418	81
+108	418	72
+112	417	75
+108	417	72
+112	417	75
+108	416	71
+112	416	75
+108	416	71
+112	415	75
+108	415	71
+
+....

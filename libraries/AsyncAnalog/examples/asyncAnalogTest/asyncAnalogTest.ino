@@ -3,6 +3,11 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/AsyncAnalog
+//
+//  shows that the conversion takes same amount of time, but the async
+//  allows one to do other things.
+//  including the printing to Serial in the background.
+
 
 #include "AsyncAnalog.h"
 
@@ -17,16 +22,17 @@ uint16_t count = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ASYNCANALOG_LIB_VERSION: ");
   Serial.println(ASYNCANALOG_LIB_VERSION);
+  Serial.println();
 
   Serial.print("\nstart: ");
   Serial.println(analogRead(0));
 
   //  request initial measurement
   AA.start();
-  start = micros();
 }
 
 
@@ -50,8 +56,6 @@ void loop()
     //  request a new measurement
     AA.start();
     start = micros();
-
-
     count = 0;
   }
 

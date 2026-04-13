@@ -18,9 +18,11 @@ uint32_t duration = 0;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ASYNCANALOG_LIB_VERSION: ");
   Serial.println(ASYNCANALOG_LIB_VERSION);
+  Serial.println();
 
   Serial.println("start: ");
   Serial.println(analogRead(0));

@@ -27,10 +27,13 @@ The library works only for AVR boards now, other platforms might be supported in
 (PR's are welcome).
 
 **WARNING**
+
 As the UNO has only one ADC that is multiplexed, one can only read one analog pin
 in async way simultaneously. Still it offers to about 100 micros to do something!
 
 **Use with care**
+
+As always feedback is welcome.
 
 
 ### Related
@@ -73,13 +76,21 @@ over Serial at 115200 baud.
 
 #### Should
 
-- create examples
-  - real world examples preferred.
-  - multi ADC, e.g. A0..A4
-
 
 #### Could
 
+- multi ADC, e.g. A0..A4  => 0.3.0 ?
+  - **AsyncAnalog()**
+  - **void start(uint8_t pin)**
+  - **bool ready()**
+  - **int activePin()**
+  - **uint16_t value()**
+  - **int status()** == activePin() + ready() in one call.
+    - = 0 not started yet
+    - < 0 pin N converting
+    - > 0 pin N ready
+- create examples
+  - real world examples preferred.
 - investigate the performance gain.
   - asyncAnalogTest2.ino is not a good test.
 - investigate other platforms

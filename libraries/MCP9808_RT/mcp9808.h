@@ -2,7 +2,7 @@
 //
 //    FILE: mcp9808.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -17,7 +17,7 @@
 //  24..31  ==  0x18..0x1F
 
 
-#define MCP9808_LIB_VERSION               (F("0.4.1"))
+#define MCP9808_LIB_VERSION               (F("0.4.2"))
 
 
 //  CONFIGURATION REGISTER MASKS
@@ -77,12 +77,12 @@ private:
   uint8_t   _address;
   TwoWire*  _wire;
 
-  void      writeFloat(uint8_t reg, float f);
+  int       writeFloat(uint8_t reg, float f);
   float     readFloat(uint8_t reg);
 
-  void      writeReg8(uint8_t reg, uint8_t value);
+  int       writeReg8(uint8_t reg, uint8_t value);
   uint8_t   readReg8(uint8_t reg);
-  void      writeReg16(uint8_t reg, uint16_t value);
+  int       writeReg16(uint8_t reg, uint16_t value);
   uint16_t  readReg16(uint8_t reg);
 };
 

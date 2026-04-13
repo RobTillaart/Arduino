@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: measure performance @different I2C speeds.
 //     URL: https://github.com/RobTillaart/MCP9808_RT
 
 
@@ -23,7 +23,7 @@ void setup()
 
   Wire.begin();
 
-  // UNO can do max 850 Kbits / sec
+  // UNO R3 can do max 850 Kbits / sec
   Serial.println("\nCLOCK\tTEMP\tMICROS");
   for (uint32_t speed = 50000; speed < 875000; speed += 25000)
   {

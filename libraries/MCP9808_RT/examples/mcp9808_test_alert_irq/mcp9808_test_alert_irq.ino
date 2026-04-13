@@ -1,10 +1,11 @@
 //
 //    FILE: mcp9808_test_alert_irq.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo alert to interrupt 0 = PIN2 of Arduino UNO.
+// PURPOSE: demo alert to interrupt 0 = PIN 2 of Arduino UNO R3.
 //     URL: https://github.com/RobTillaart/MCP9808_RT
 //
 //  MCP9808 breakout board
+//
 //  +----------+
 //  |0   ALERT |---------------+--[ 4K7 ]---- +5V
 //  |       A2 |---- GND       |

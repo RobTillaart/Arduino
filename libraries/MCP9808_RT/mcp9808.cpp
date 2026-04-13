@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino Library for I2C mcp9808 temperature sensor
 //    DATE: 2020-05-03
 //     URL: https://github.com/RobTillaart/MCP9808_RT
@@ -57,6 +57,10 @@ uint8_t MCP9808::getAddress()
 }
 
 
+//////////////////////////
+//
+//  CONFIGURATION
+//
 void MCP9808::setConfigRegister(uint16_t configuration)
 {
   writeReg16(MCP9808_CONFIG, configuration);
@@ -69,6 +73,10 @@ uint16_t MCP9808::getConfigRegister()
 }
 
 
+//////////////////////////
+//
+//  THRESHOLDS
+//
 void  MCP9808::setTupper(float temperature)
 {
   writeFloat(MCP9808_TUPPER, temperature);
@@ -105,16 +113,20 @@ float MCP9808::getTcritical()
 }
 
 
+//////////////////////////
+//
+//  OFFSET
+//
 void MCP9808::setOffset(float offset)
 {
   _offset = offset;
-};
+}
 
 
 float MCP9808::getOffset()
 {
   return _offset;
-};
+}
 
 
 float MCP9808::getTemperature()
@@ -129,6 +141,26 @@ uint8_t MCP9808::getStatus()
 }
 
 
+//////////////////////////
+//
+//  RESOLUTION
+//
+void MCP9808::setResolution(uint8_t resolution)
+{
+  if (resolution < 4) writeReg8(MCP9808_RES, resolution);
+}
+
+
+uint8_t MCP9808::getResolution()
+{
+  return readReg8(MCP9808_RES);
+}
+
+
+//////////////////////////
+//
+//  META
+//
 uint16_t MCP9808::getManufacturerID()
 {
   return readReg16(MCP9808_MID);
@@ -147,18 +179,6 @@ uint8_t MCP9808::getRevision()
 }
 
 
-void MCP9808::setResolution(uint8_t resolution)
-{
-  if (resolution < 4) writeReg8(MCP9808_RES, resolution);
-}
-
-
-uint8_t MCP9808::getResolution()
-{
-  return readReg8(MCP9808_RES);
-}
-
-
 uint16_t MCP9808::getRFU()
 {
   return readReg16(MCP9808_RFU);
@@ -169,13 +189,13 @@ uint16_t MCP9808::getRFU()
 //
 //  PRIVATE
 //
-void MCP9808::writeFloat(uint8_t reg, float f)
+int MCP9808::writeFloat(uint8_t reg, float f)
 {
   bool neg = (f < 0.0);
   if (neg) f = -f;
   uint16_t val = uint16_t(f * 4 + 0.5) * 4;
   if (neg) val |= 0x1000;
-  writeReg16(reg, val);
+  return writeReg16(reg, val);
 }
 
 
@@ -194,48 +214,75 @@ float MCP9808::readFloat(uint8_t reg)
 }
 
 
-void MCP9808::writeReg8(uint8_t reg, uint8_t value)
+int MCP9808::writeReg8(uint8_t reg, uint8_t value)
 {
-  if (reg > MCP9808_RES) return;      //  see p.16
+  if (reg > MCP9808_RES)  //  see p.16
+  {
+    //  error handling
+    return 0;
+  }
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value);
-  _wire->endTransmission();
+  int n = _wire->endTransmission();
+  //  error handling
+  return n;
 }
 
 
 uint8_t MCP9808::readReg8(uint8_t reg)
 {
-  if (reg > MCP9808_RES) return 0;    //  see p.16
+  if (reg > MCP9808_RES)  //  see p.16
+  {
+    //  error handling
+    return 0;
+  }
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->endTransmission();
-  _wire->requestFrom(_address, (uint8_t)1);
-  return _wire->read();
+  int n = _wire->requestFrom(_address, (uint8_t)1);
+  if (n == 1) return _wire->read();
+  //  error handling
+  return 0;
 }
 
 
-void MCP9808::writeReg16(uint8_t reg, uint16_t value)
+int MCP9808::writeReg16(uint8_t reg, uint16_t value)
 {
-  if (reg > MCP9808_RES) return;      //  see p.16
+  if (reg > MCP9808_RES)  //  see p.16
+  {
+    //  error handling
+    return 0;
+  }
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->write(value >> 8);       //  hi byte
   _wire->write(value & 0xFF);     //  lo byte
-  _wire->endTransmission();
+  int n = _wire->endTransmission();
+  //  error handling
+  return n;
 }
 
 
 uint16_t MCP9808::readReg16(uint8_t reg)
 {
-  if (reg > MCP9808_RES) return 0;    //  see p.16
+  if (reg > MCP9808_RES)  //  see p.16
+  {
+    //  error handling
+    return 0;
+  }
   _wire->beginTransmission(_address);
   _wire->write(reg);
   _wire->endTransmission();
-  _wire->requestFrom(_address, (uint8_t)2);
-  uint16_t val = _wire->read() << 8;
-  val += _wire->read();
-  return val;
+  int n = _wire->requestFrom(_address, (uint8_t)2);
+  if (n == 2)
+  {
+    uint16_t val = _wire->read() << 8;
+    val += _wire->read();
+    return val;
+  }
+  //  error handling
+  return 0;
 }
 
 

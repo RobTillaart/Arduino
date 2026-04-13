@@ -20,6 +20,25 @@ The MCP9808 is a temperature sensor that measures typically in 1/16th == 0.0625�
 What makes this sensor interesting is the **ALERT** pin, which allows triggering of any piece
 of electronics if the temperature hits a predefined value or temperature zone.
 
+This library allows configuration by means of a configuration mask. 
+This might be elaborated in the future although it would give many extra functions.
+
+The library allows to set the resolution of the temperature to 1/2, 1/4, 1/8 or 1/16
+of a degree C. 
+Higher resolution implies a longer conversion time, see Resolution section below.
+This is the same resolution as the well known DS18B20, the difference is a faster
+conversion time (factor 3 roughly).
+
+The library allows also to set three types of thresholds UPPER, LOWER and CRITICAL
+for the alert function.
+Furthermore one can set an offset for the temperature, although this is not used
+in the aforementioned thresholds.
+
+Finally the library allows to fetch meta info from the device like deviceID.
+
+As always feedback is welcome.
+
+
 
 ### MCP9808 breakout board
 
@@ -37,7 +56,7 @@ of electronics if the temperature hits a predefined value or temperature zone.
 //       |0     VCC |---- +5V
 //       +----------+
 //
-//       address above is 24
+//       address above is 24 (see I2C address section below)
 //
 ```
 
@@ -46,6 +65,17 @@ of electronics if the temperature hits a predefined value or temperature zone.
 The user must initialize the I2C bus in **setup()**, the library doesn't do that
 since 0.4.0. So one need to call **Wire.begin()** or **Wire.begin(SDA, SCL)**.
 
+
+### Related
+
+(and many more temp sensors)
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+- https://github.com/milesburton/Arduino-Temperature-Control-Library
+- https://github.com/RobTillaart/Temperature conversions, dewPoint, heat index etc.
+
+
+## I2C
 
 ### I2C address
 
@@ -85,15 +115,6 @@ too if they are behind the multiplexer.
 - https://github.com/RobTillaart/TCA9548
 
 
-### Related
-
-(and many more temp sensors)
-- https://github.com/RobTillaart/DHTNew DHT11/22 etc
-- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
-- https://github.com/milesburton/Arduino-Temperature-Control-Library
-- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
-
-
 ## Interface
 
 ```cpp
@@ -112,20 +133,23 @@ Default I2C bus is Wire.
 ### Temperature and status
 
 - **void setOffset(float offset = 0.0)** set an offset to calibrate or to correct for self heating. 
-The value of offset is not validated to keep footprint small.
+The value of offset is not validated to keep the footprint small.
 - **float getOffset()** return value of offset (default 0).
 - **float getTemperature()** read the ambient temperature.
 - **uint8_t getStatus()** returns the status bits of the last call to **getTemperature()**
 
-The value returned by **getStatus()** is the last value read by the call to **GetTemperature()**.  
-There are three bits, see table below. 
+The value returned by **getStatus()** is the last value read by the call to **getTemperature()**.  
+The status contains three bits, see table below. 
 A value of 6 == mask == 110 means that TA is above the upper AND above the critical temperature.
 
-|  Bit  |  Mask  |  Description  |  Notes           |
-|:-----:|:------:|:--------------|:-----------------|
-|   0   |  0x01  |  TA < TLOWER  |  lower           |
-|   1   |  0x02  |  TA > TUPPER  |  larger          |
-|   2   |  0x04  |  TA ≥ TCRIT   |  larger or equal |
+|  Bit  |  Mask  |  Description  |  Notes            |
+|:-----:|:------:|:--------------|:------------------|
+|   0   |  0x01  |  TA < TLOWER  |  lower            |
+|   1   |  0x02  |  TA > TUPPER  |  higher           |
+|   2   |  0x04  |  TA ≥ TCRIT   |  higher or equal  |
+
+
+If **getStatus()** returns zero (0) then no threshold is triggered.
 
 
 ### Resolution
@@ -203,21 +227,25 @@ The library prevents reading / writing them to keep sensors working.
 #### Must
 
 - improve documentation
-  - compare DS18B20 (?)
 
 #### Should
 
-- test more
+- test with hardware
   - negative temperatures
-- check for optimizations
+- add error handling/detection 
+  - different levels (register RW vs API)
+  - I2C
+  - return values of functions (success//fail)
+  - constants - table
 
 #### Could
 
-- implement unit test
+- check for optimizations
+- add **bool begin()** ?
 - add examples 
   - for the **ALERT**
   - multi sensor
-
+- implement unit test
 
 #### Wont
 

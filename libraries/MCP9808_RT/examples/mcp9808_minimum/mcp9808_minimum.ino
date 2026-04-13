@@ -1,7 +1,7 @@
 //
 //    FILE: mcp9808_minimum.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: minimal demo
 //     URL: https://github.com/RobTillaart/MCP9808_RT
 
 

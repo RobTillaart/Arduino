@@ -1,10 +1,11 @@
 //
 //    FILE: mcp9808_test_alert_polling.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo alert to PIN5 of Arduino UNO.
+// PURPOSE: demo alert to PIN 5 of Arduino UNO R3.
 //     URL: https://github.com/RobTillaart/MCP9808_RT
 //
 //  MCP9808 breakout board
+//
 //  +----------+
 //  |0   ALERT |---------------+--[ 4K7 ]---- +5V
 //  |       A2 |---- GND       |

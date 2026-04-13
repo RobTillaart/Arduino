@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2026-04-13
+- update readme.md
+- prep error handling (low level I2C)
+- update GitHub actions
+- minor edits
+
 ## [0.4.1] - 2025-08-18
 - update readme.md
 - fix version .cpp file

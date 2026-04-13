@@ -17,6 +17,9 @@ step	KEYWORD2
 resetSteps	KEYWORD2
 getSteps	KEYWORD2
 
+setPosition	KEYWORD2
+getPosition	KEYWORD2
+
 setStepPulseLength	KEYWORD2
 getStepPulseLength	KEYWORD2
 

@@ -43,7 +43,8 @@ void loop()
   if (fw && bw)  //  both buttons pressed
   {
      Serial.println("not allowed, please release both buttons.");
-     delay(1000);  //  block  
+     delay(1000);  //  block
+     return;
   }
   else if (fw)
   {

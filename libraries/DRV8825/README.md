@@ -18,7 +18,7 @@ Arduino library for DRV8825 stepper motor driver.
 
 **Experimental**
 
-**DRV8825** is a library for DRV8825 stepper motor driver.
+DRV8825 is a library for the DRV8825 stepper motor driver.
 
 The DRV8825 stepper motor library controls a stepper motor with
 a direction signal and a step pulse.
@@ -27,11 +27,33 @@ adjusted to the specific requirements of the motor.
 
 The library needs more testing e.g. with different boards, motors etc.
 
+Feedback as always is welcome.
+
 
 ### Compatible motor drivers
 
 The library will probably work for similar controllers.
 This is not tested. If you have some working, please let me know.
+
+https://www.pololu.com sells many motor drivers and provides 
+detailed specifications.
+
+TODO 
+- check devices
+- get amps per coil
+
+
+|  device     |  compatible  |  notes  |
+|:-----------:|:------------:|:-------:|
+|  A4988      |              |  https://www.pololu.com/product/1182
+|  DRV8824    |  obsolete    |  https://www.pololu.com/product/2131
+|  DRV8825    |              |  https://www.pololu.com/product/2133
+}  DRV8834    |              |  https://www.pololu.com/product/2134
+|  DRV8880    |              |
+|  STSPIN220  |              |  https://www.pololu.com/product/2879
+|  TMC2208    |              |
+|  TMC2209    |              |
+|             |              |
 
 
 ### Multiple drivers

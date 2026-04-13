@@ -2,7 +2,7 @@
 //
 //    FILE: DRV8825.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for DRV8825 stepper motor driver
 //    DATE: 2022-07-07
 //     URL: https://github.com/RobTillaart/DRV8825
@@ -11,12 +11,12 @@
 #include "Arduino.h"
 
 
-#define DRV8825_LIB_VERSION              (F("0.2.1"))
+#define DRV8825_LIB_VERSION              (F("0.2.2"))
 
 
 //  to set direction of the motor
-const uint8_t DRV8825_CLOCK_WISE        = 0;  //  LOW
-const uint8_t DRV8825_COUNTERCLOCK_WISE = 1;  //  HIGHT
+constexpr uint8_t DRV8825_CLOCK_WISE        = 0;  //  LOW
+constexpr uint8_t DRV8825_COUNTERCLOCK_WISE = 1;  //  HIGH
 
 
 class DRV8825

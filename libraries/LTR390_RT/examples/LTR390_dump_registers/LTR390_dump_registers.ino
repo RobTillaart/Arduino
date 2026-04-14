@@ -2,7 +2,7 @@
 //    FILE: LTR390_dump_registers.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: dump registers
-//     URL: https://github.com/RobTillaart/LTR390
+//     URL: https://github.com/RobTillaart/LTR390_RT
 
 
 #include "LTR390.h"

@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2024-04-29
 // PURPOSE: unit tests for the LTR390 library
-//     URL: https://github.com/RobTillaart/LTR390
+//     URL: https://github.com/RobTillaart/LTR390_RT
 //
 
 // supported assertions

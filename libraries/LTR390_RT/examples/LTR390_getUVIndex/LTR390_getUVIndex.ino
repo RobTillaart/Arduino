@@ -2,7 +2,7 @@
 //    FILE: LTR390_getUVIndex.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
-//     URL: https://github.com/RobTillaart/LTR390
+//     URL: https://github.com/RobTillaart/LTR390_RT
 
 
 #include "LTR390.h"

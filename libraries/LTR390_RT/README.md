@@ -30,13 +30,24 @@ When working with UV light, natural or artificial (TL LED laser a.o.) use approp
 This library is to read the LTR390 UV sensor directly.
 
 The library was written after ordering a LTR390 sensor (breakout) from DFRobotics.
-However that one had its own processor and its own interface. 
+However that one had its own processor and its own programming interface. 
 So the result was two libraries for the "same" product.
 
 **Warning:** Operating voltage range: **1.7V .. 3.6V**  
-So the LTR390 will not work on directly 5V boards.
+So the LTR390 will not work on directly 5V boards e.g. UNO R3.
 
 
+Feedback, as always, is welcome.
+
+
+### Breaking changes 0.2.0
+
+See changelog
+
+- remove internal cached state. All configuration getters now read directly from hardware registers.
+- register and constant definitions are now under the `LTR390RT` namespace.
+
+  
 ## I2C
 
 The LTR390 has a fixed address of 0x53 == 83 decimal according to datasheet.

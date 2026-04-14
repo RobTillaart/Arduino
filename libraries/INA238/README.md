@@ -388,6 +388,8 @@ Idem see my INA228 library.
 
 #### Shunt
 
+- **void setOverCurrentLimit(uint32_t milliamp)**
+- **float getOverCurrentLimit_mA()**
 - **void setShuntOvervoltageTH(uint16_t threshold)**
 - **uint16_t getShuntOvervoltageTH()**
 - **void setShuntUndervoltageTH(uint16_t threshold)**

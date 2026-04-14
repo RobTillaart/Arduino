@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA238.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-06-11
 // PURPOSE: Arduino library for the INA238, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA238
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define INA238_LIB_VERSION          (F("0.1.2"))
+#define INA238_LIB_VERSION          (F("0.1.3"))
 
 
 //  for setMode() and getMode()
@@ -190,6 +190,9 @@ public:
   //  read datasheet for details, section 7.3.6, page 16++
   //                              section 7.6.1.10, page 26++
   //
+  void     setOverCurrentLimit(uint32_t milliamp);
+  float    getOverCurrentLimit_mA();
+  
   void     setShuntOvervoltageTH(uint16_t threshold);
   uint16_t getShuntOvervoltageTH();
   void     setShuntUndervoltageTH(uint16_t threshold);

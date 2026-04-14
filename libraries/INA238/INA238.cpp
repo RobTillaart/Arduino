@@ -1,6 +1,6 @@
 //    FILE: INA238.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-06-11
 // PURPOSE: Arduino library for the INA238, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA238
@@ -146,9 +146,12 @@ float INA238::getPower()
 //  PAGE 24  CHECK
 float INA238::getTemperature()
 {
-  uint32_t value = _readRegister(INA238_TEMPERATURE, 2);
-  float LSB = 125e-3;  //  125 milli degree Celsius
-  return value * LSB;
+  //  INA238 uses two complements, so place 2 bytes in int16_t
+  int16_t value = (int16_t) _readRegister(INA238_TEMPERATURE, 2);
+  // shift 4 right as INA238 uses only bits 15-4
+  value >>= 4;
+  float LSB = 125e-3;   //  125 m°C/LSB
+  return (float)value * LSB;
 }
 
 
@@ -293,7 +296,8 @@ int INA238::setMaxCurrentShunt(float maxCurrent, float shunt)
   if (maxCurrent < 0.0) return -3;
   _maxCurrent = maxCurrent;
   _shunt = shunt;
-  _current_LSB = _maxCurrent * 3.0517578125e-5;  //  pow(2, -15);
+  _current_LSB = _maxCurrent / (float)(1UL << 15);  //  pow(2, -15);
+  // _current_LSB = _maxCurrent * 3.0517578125e-5;  //  pow(2, -15);
 
   //  PAGE 28-29 (8.1.2)
   float shunt_cal = 819.2e6 * _current_LSB * _shunt;  //  8.1.2  formula (1,2)
@@ -379,6 +383,42 @@ uint16_t INA238::getDiagnoseAlertBit(uint8_t bit)
 //  - API
 //  - return bool for setters?
 //  - float voltage interface instead of uint16_t?  breaking!
+void INA238::setOverCurrentLimit(uint32_t milliamp)
+{
+    // Convert mA → A
+    float current_A = milliamp / 1000.0f;
+
+    // Compute shunt voltage
+    float v_shunt = current_A * _shunt;
+
+    // Determine LSB based on ADCRANGE
+    float lsb = _ADCRange ? 0.00000125f : 0.000005f;
+
+    // Convert volts → register value
+    uint16_t raw = (uint16_t)(v_shunt / lsb + 0.5f);
+
+    // Write to SOVL register
+    _writeRegister(INA238_SOVL, raw);
+}
+
+float INA238::getOverCurrentLimit_mA()
+{
+    // Read raw threshold register
+    uint16_t raw = _readRegister(INA238_SOVL, 2);
+
+    // Determine LSB based on ADCRANGE
+    float lsb = _ADCRange ? 0.00000125f : 0.000005f;
+
+    // Convert raw register to shunt voltage
+    float v_shunt = raw * lsb;
+
+    // Convert shunt voltage → current (A)
+    float current_A = v_shunt / _shunt;
+
+    // Convert A → mA
+    return current_A * 1000.0f;
+}
+
 void INA238::setShuntOvervoltageTH(uint16_t threshold)
 {
   //  ADCRANGE DEPENDENT

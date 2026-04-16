@@ -1,0 +1,23 @@
+{
+  "name": "TCA6424A",
+  "keywords": "",
+  "description": "Arduino library for TCA6424A I2C 24 bits IO expander.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCA6424A_RT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TCA6424A.h"
+}

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.8.2] - 2026-01-10
+- merge #59, kudos to daT7F4
+- add interrupt flag for single port
+- add logic for reading interrupt flag for single port
+- add getInterruptFlagRegister8 keyword
+- add function descriptions for interrupt registers
+- added port value description
+
 ## [0.8.1] - 2026-01-10
 - update GitHub actions
 - minor edits

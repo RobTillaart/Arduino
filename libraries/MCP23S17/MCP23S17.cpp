@@ -1,7 +1,7 @@
 //
 //    FILE: MCP23S17.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.1
+// VERSION: 0.8.2
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -771,6 +771,16 @@ bool MCP23S17::disableInterrupt16(uint16_t mask)
 uint16_t MCP23S17::getInterruptFlagRegister()
 {
   return readReg16(MCP23x17_INTF_A);
+}
+
+uint8_t MCP23S17::getInterruptFlagRegister8(uint8_t port)
+{
+  if (port > 1)
+  {
+    _error = MCP23S17_PORT_ERROR;
+    return false;
+  }
+  return readReg(port == 0 ? MCP23x17_INTF_A : MCP23x17_INTF_B);
 }
 
 

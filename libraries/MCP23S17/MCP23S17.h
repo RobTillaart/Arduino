@@ -2,7 +2,7 @@
 //
 //    FILE: MCP23S17.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.8.1
+// VERSION: 0.8.2
 // PURPOSE: Arduino library for SPI MCP23S17 16 channel port expander
 //    DATE: 2021-12-30
 //     URL: https://github.com/RobTillaart/MCP23S17
@@ -13,7 +13,7 @@
 #include "MCP23x17_registers.h"
 
 
-#define MCP23S17_LIB_VERSION              (F("0.8.1"))
+#define MCP23S17_LIB_VERSION              (F("0.8.2"))
 
 //  ERROR CODES
 #define MCP23S17_OK                       0x00
@@ -117,6 +117,7 @@ public:
 
   //       which pins caused the INT?
   uint16_t getInterruptFlagRegister();
+  uint8_t getInterruptFlagRegister8(uint8_t port);
   uint16_t getInterruptCaptureRegister();
   uint8_t  getInterruptCaptureRegister8(uint8_t port);
 

@@ -233,6 +233,7 @@ mask = 0x0000..0xFFFF.
 
 Determine which pins caused the Interrupt. (datasheet).
 - **uint16_t getInterruptFlagRegister()** Reads all 16 pins.
+- **uint8_t getInterruptFlagRegister8()** Reads 8 pins of port. Port == 0, 1
 - **uint16_t getInterruptCaptureRegister()** Reads all 16 pins.
 Is used to detect if multiple pins triggered an interrupt.
 - **uint8_t getInterruptCaptureRegister8(uint8_t port)** reads 8 pins of port.

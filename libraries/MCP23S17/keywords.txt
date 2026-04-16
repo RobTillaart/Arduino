@@ -46,6 +46,7 @@ enableInterrupt16	KEYWORD2
 disableInterrupt16	KEYWORD2
 
 getInterruptFlagRegister	KEYWORD2
+getInterruptFlagRegister8	KEYWORD2
 getInterruptCaptureRegister	KEYWORD2
 getInterruptCaptureRegister8	KEYWORD2
 

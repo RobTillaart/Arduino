@@ -1,0 +1,26 @@
+{
+  "name": "TCA6408A",
+  "keywords": "",
+  "description": "Arduino library for TCA6408A I2C 8 bits IO expander.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    },
+    {
+      "name": "Dave Williams"
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCA6408A_RT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TCA6408A.h"
+}

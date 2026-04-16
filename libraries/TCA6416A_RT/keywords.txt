@@ -1,0 +1,34 @@
+# Syntax Colouring Map For TCA6416A
+
+# Data types (KEYWORD1)
+TCA6416A	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setPinMode16	KEYWORD2
+getPinMode16	KEYWORD2
+setPinMode1	KEYWORD2
+getPinMode1	KEYWORD2
+
+setPolarity16	KEYWORD2
+getPolarity16	KEYWORD2
+setPolarity1	KEYWORD2
+getPolarity1	KEYWORD2
+
+digitalWrite16	KEYWORD2
+digitalRead16	KEYWORD2
+digitalWrite1	KEYWORD2
+digitalRead1	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+TCA6416A_LIB_VERSION	LITERAL1
+
+TCA6416A_OK	LITERAL1
+TCA6416A_REQUEST_ERROR	LITERAL1

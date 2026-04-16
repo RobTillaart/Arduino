@@ -1,0 +1,23 @@
+{
+  "name": "TCA6416A",
+  "keywords": "",
+  "description": "Arduino library for TCA6416A I2C 16 bits IO expander.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/TCA6416A_RT.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "TCA6416A.h"
+}

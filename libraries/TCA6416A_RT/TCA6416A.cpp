@@ -2,7 +2,7 @@
 //    FILE: TCA6416A.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-14
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for TCA6416A I2C 16 bits IO expander.
 //     URL: https://github.com/RobTillaart/TCA6416A_RT
 

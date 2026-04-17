@@ -3,7 +3,7 @@
 //    FILE: TCA6408A.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-13
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for TCA6408A I2C 8 bits IO expander.
 //     URL: https://github.com/RobTillaart/TCA6408A_RT
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define TCA6408A_LIB_VERSION         (F("0.1.0"))
+#define TCA6408A_LIB_VERSION         (F("0.1.1"))
 
 //  ERROR CODES
 //  values <> 0 are errors.

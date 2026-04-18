@@ -1,12 +1,16 @@
 # Syntax Colouring Map For geomath
 
 # Data types (KEYWORD1)
-
+sphere	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 haverSine	KEYWORD2
 fastHaverSine	KEYWORD2
 
+gravity	KEYWORD2
+
+circumference	KEYWORD2
+angle	KEYWORD2
 
 
 # Constants (LITERAL1)

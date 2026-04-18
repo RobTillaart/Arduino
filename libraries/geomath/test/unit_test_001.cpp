@@ -40,7 +40,9 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqualFloat(1, 1,    0.001);
+  assertEqualFloat(GRAVITY_STANDARD, 9.80655, 0.001);
+  assertEqualFloat(GRAVITY_EQUATOR,  9.78033, 0.001);
+  assertEqualFloat(GRAVITY_POLES,    9.8337,  0.001);
 }
 
 

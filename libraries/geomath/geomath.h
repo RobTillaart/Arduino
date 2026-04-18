@@ -2,7 +2,7 @@
 //
 //    FILE: geomath.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2015-07-18
 // PURPOSE: Arduino library with geographic math functions
 //     URL: https://github.com/RobTillaart/geomath
@@ -11,10 +11,11 @@
 #include "Arduino.h"
 
 
-#define GEOMATH_LIB_VERSION        (F("0.1.2"))
+#define GEOMATH_LIB_VERSION        (F("0.1.3"))
 
-#define GRAVITY_STANDARD           (9.80655)
-#define GRAVITY_EQUATOR            (9.78033)
+constexpr double GRAVITY_STANDARD = 9.80655;
+constexpr double GRAVITY_EQUATOR  = 9.78033;
+constexpr double GRAVITY_POLES    = 9.8337;
 
 
 //  collection of Math with latitude  / longitude
@@ -30,6 +31,14 @@ double equator(double radius);
 double angle(double radius, double distance);  //  angle between a person standing right in Iceland and Zambia
 
 */
+
+//  latitude in degrees.
+double gravity(double latitude)
+{
+  double factor = sin(latitude * (PI/180.0));
+  double g = GRAVITY_EQUATOR + factor * (GRAVITY_POLES - GRAVITY_EQUATOR);
+  return g;
+}
 
 
 double fastHaverSine(double lat1, double long1, double lat2, double  long2)

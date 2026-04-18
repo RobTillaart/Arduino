@@ -26,11 +26,13 @@ The library act primary as a placeholder for these related functions.
 Wrote them long ago and share them because they might be useful e.g.
 for educational purposes.
 
+feedback as always is welcome.
+
 
 ### related
 
 - https://github.com/RobTillaart/AtomicWeight
-- https://github.com/RobTillaart/printHelpers (to print scientific notation)
+- https://github.com/RobTillaart/printHelpers to print scientific and engineering notation
 
 
 ## Interface
@@ -56,6 +58,19 @@ To calculate the distance between two points with longitude and latitude.
 
 - **double haverSine((double lat1, double lon1, double lat2, double lon2)**
 - **double fastHaverSine(double lat1, double lon1, double lat2, double lon2)**
+
+### Gravity
+
+To calculate the gravity acceleration at certain latitude.
+
+- **double gravity(double latitude)**
+
+Thee constants
+```
+constexpr double GRAVITY_STANDARD = 9.80655;
+constexpr double GRAVITY_EQUATOR  = 9.78033;
+constexpr double GRAVITY_POLES    = 9.8337;
+```
 
 
 ## Future

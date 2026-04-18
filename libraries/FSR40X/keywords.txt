@@ -1,0 +1,23 @@
+# Syntax Colouring Map For FSR40X
+
+# Data types (KEYWORD1)
+FSR40X	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+setVoltage	KEYWORD2
+
+readRaw	KEYWORD2
+readNewton	KEYWORD2
+
+getVout	KEYWORD2
+getNewton	KEYWORD2
+getKgf	KEYWORD2
+getLbf	KEYWORD2
+getFSR	KEYWORD2
+
+
+# Constants (LITERAL1)
+FSR40X_LIB_VERSION	LITERAL1
+

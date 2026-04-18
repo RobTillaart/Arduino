@@ -1,0 +1,23 @@
+{
+  "name": "FSR40X",
+  "keywords": "FSR400, FSR402, FSR404, FSR406, FSR408",
+  "description": "Arduino library for FSR40X Force Sensing Resistors.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/FSR40X.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "FSR40X.h"
+}

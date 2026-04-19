@@ -31,7 +31,7 @@ In this latter case the curve is approximated by only two linear interpolations.
 In short, choose the size that fits your application.
 
 The library has a **setGamma(float gamma)** function that allows an application
-to change the gamma value runtime.
+to change the GAMMA value runtime.
 This allows adjustments that are not possible with a fixed table.
 
 The class provides **dump()** to create a table e.g. to place in PROGMEM.
@@ -45,7 +45,7 @@ As always, feedback is welcome.
 ### Related
 
 - https://en.wikipedia.org/wiki/Gamma_correction
-- https://github.com/RobTillaart/map2colour
+- https://github.com/RobTillaart/map2colour - mapping a float to a colour spectrum.
 
 
 ## Interface
@@ -71,16 +71,16 @@ Returns false if allocation fails.
 ### Core functions
 
 - **void setGamma(float gamma)** calculates and fills the internal lookup array with new values.
-This can be done runtime, so adjustment of gamma mapping is possible anytime.
+This can be done runtime, so adjustment of GAMMA mapping is possible anytime.
 This calculation are relative expensive and takes quite some time (depending on size).
-If the internal array already is calculated for gamma, the calculation will be skipped.
-Returns false if gamma == 0 or if no array is allocated.
-- **float getGamma()** returns the set gamma value.
+If the internal array already is calculated for GAMMA, the calculation will be skipped.
+Returns false if GAMMA == 0 or if no array is allocated.
+- **float getGamma()** returns the set GAMMA value.
 - **uint8_t operator \[uint8_t index\]** allows the GAMMA object to be accessed as an array.
 like ```x = G[40];``` Makes it easy to switch with a real array.
 The value returned is in the range 0 .. 255, so the user may need to scale it e.g. to 0.0 - 1.0.
 Note: if internal array not allocated the function returns 0.
-As this is a legitimate value the user should take care.
+As this is a legitimate value the user should take care to handle the value 0 correctly.
 
 The parameter **gamma** normally must be > 0. The value 1 gives an 1:1 mapping.
 Since 0.5.0 the library supports a negative value of **gamma**.
@@ -97,7 +97,8 @@ Especially with larger internal arrays there will be more duplicate numbers.
 - **bool dump(Stream \*str = &Serial)** dumps the internal array to a stream, default Serial.
 Useful to create an array in RAM, PROGMEM, EEPROM, in a file or wherever.
 Returns false if no array is allocated.
-- **void dumpArray(Stream \*str = &Serial)** dumps the internal array to a stream, default Serial, as a C-style array. See example.
+- **bool dumpArray(Stream \*str = &Serial)** dumps the internal array to a stream, 
+default Serial, as a C-style array. See example.
 Returns false if no array is allocated.
 
 

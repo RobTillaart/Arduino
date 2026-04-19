@@ -1,7 +1,7 @@
 //
 //    FILE: gamma_dump_array.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo dumpArray()
 //     URL: https://github.com/RobTillaart/GAMMA
 
 #include "gamma.h"

@@ -1,7 +1,7 @@
 //
 //    FILE: gammaFast.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: experiment / test
+// PURPOSE: experimental / test
 //     URL: https://github.com/RobTillaart/GAMMA
 
 

@@ -1,10 +1,11 @@
 //
 //    FILE: gamma.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.0
+// VERSION: 0.5.1
 //    DATE: 2020-08-08
-// PURPOSE: Arduino Library to efficiently hold a gamma lookup table
+// PURPOSE: Arduino Library to efficiently hold a GAMMA lookup table
 //     URL: https://github.com/RobTillaart/GAMMA
+
 
 #include "gamma.h"
 

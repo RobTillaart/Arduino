@@ -1,7 +1,7 @@
 {
   "name": "GAMMA",
   "keywords": "gamma, LED, brightness, intensity",
-  "description": "Arduino Library for the GAMMA function.\nBalances between speed and size, can set the gamma factor runtime.",
+  "description": "Arduino Library for the GAMMA function.\nBalances between speed and size, can set the GAMMA factor runtime.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/GAMMA.git"
   },
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

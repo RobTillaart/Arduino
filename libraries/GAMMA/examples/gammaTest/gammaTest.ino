@@ -3,6 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/GAMMA
+//
+//  might look good on Serial plotter
 
 #include "gamma.h"
 

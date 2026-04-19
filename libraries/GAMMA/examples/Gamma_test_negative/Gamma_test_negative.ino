@@ -9,7 +9,7 @@
 
 #include "gamma.h"
 
-GAMMA gt(32);  //  uses default size 32
+GAMMA gt(32);  //  explicit uses default size 32
 
 
 void setup()

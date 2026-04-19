@@ -1,7 +1,7 @@
 //
 //    FILE: gammaPerformance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: performance test
 //     URL: https://github.com/RobTillaart/GAMMA
 
 

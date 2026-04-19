@@ -1,7 +1,7 @@
 //
 //    FILE: GammaErrorAnalysis.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: investigate impact different GAMMA sizes.
 //     URL: https://github.com/RobTillaart/GAMMA
 
 

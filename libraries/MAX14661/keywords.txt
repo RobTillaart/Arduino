@@ -8,6 +8,7 @@ MAX14661	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+getAddress	KEYWORD2
 
 connectPair	KEYWORD2
 disconnectPair	KEYWORD2

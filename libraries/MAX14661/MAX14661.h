@@ -3,7 +3,7 @@
 //    FILE: MAX14661.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define MAX14661_LIB_VERSION                (F("0.3.0"))
+#define MAX14661_LIB_VERSION                (F("0.3.1"))
 
 #define MAX14661_OK                         0x00
 #define MAX14661_ERR_I2C_READ               0x80
@@ -34,7 +34,7 @@ public:
 
   //  PAIR INTERFACE
   //  - there are 8 pairs { (0,1), (2,3), (4,5), ... (14,15) }
-  //  - connecting a pair connects one of the pair with COM-A 
+  //  - connecting a pair connects one of the pair with COM-A
   //    and the other with COM-B
   //  - keeps the A and B line in sync, ideal for an I2C bus or Serial.
   //  - returns false if channel > 7
@@ -103,7 +103,6 @@ public:
 
 
   //  ERROR HANDLING
-  //
   int      lastError();
 
 

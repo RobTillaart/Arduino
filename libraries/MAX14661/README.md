@@ -73,6 +73,17 @@ This reduces the dependency of processor dependent Wire implementations.
 The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
+### Related
+
+- https://github.com/RobTillaart/TCA9548 specific I2C multiplexer.
+- https://github.com/RobTillaart/HC4067 1x16 channel multiplexer.
+- https://github.com/RobTillaart/HC4051 1x8 channel multiplexer.
+- https://github.com/RobTillaart/HC4052 2x4 channel multiplexer.
+- https://github.com/RobTillaart/HC4053 2x3 channel multiplexer.
+- https://github.com/RobTillaart/I2C_HC4067 (1x16 mux - using I2C PCF8574)
+
+
+##I2C
 
 ### I2C address
 
@@ -102,15 +113,6 @@ Also note that switching between channels will slow down other devices
 too if they are behind the multiplexer.
 
 - https://github.com/RobTillaart/TCA9548
-
-
-### Related
-
-- https://github.com/RobTillaart/TCA9548 specific I2C multiplexer.
-- https://github.com/RobTillaart/HC4067 1x16 channel multiplexer.
-- https://github.com/RobTillaart/HC4051 1x8 channel multiplexer.
-- https://github.com/RobTillaart/HC4052 2x4 channel multiplexer.
-- https://github.com/RobTillaart/HC4053 2x3 channel multiplexer.
 
 
 ## Interface

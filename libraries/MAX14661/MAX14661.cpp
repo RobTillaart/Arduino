@@ -2,28 +2,26 @@
 //    FILE: MAX14661.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-01-29
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for MAX14661 16 channel I2C multiplexer
 //     URL: https://github.com/RobTillaart/MAX14661
 
 
-
 #include "MAX14661.h"
-
 
 //
 //  REGISTERS
 //
-#define MAX14661_DIR0       0x00
-#define MAX14661_DIR1       0x01
-#define MAX14661_DIR2       0x02
-#define MAX14661_DIR3       0x03
-#define MAX14661_SHDW0      0x10
-#define MAX14661_SHDW1      0x11
-#define MAX14661_SHDW2      0x12
-#define MAX14661_SHDW3      0x13
-#define MAX14661_CMD_A      0x14
-#define MAX14661_CMD_B      0x15
+constexpr uint8_t MAX14661_DIR0  = 0x00;
+constexpr uint8_t MAX14661_DIR1  = 0x01;
+constexpr uint8_t MAX14661_DIR2  = 0x02;
+constexpr uint8_t MAX14661_DIR3  = 0x03;
+constexpr uint8_t MAX14661_SHDW0 = 0x10;
+constexpr uint8_t MAX14661_SHDW1 = 0x11;
+constexpr uint8_t MAX14661_SHDW2 = 0x12;
+constexpr uint8_t MAX14661_SHDW3 = 0x13;
+constexpr uint8_t MAX14661_CMD_A = 0x14;
+constexpr uint8_t MAX14661_CMD_B = 0x15;
 
 
 MAX14661::MAX14661(const uint8_t deviceAddress, TwoWire *wire)

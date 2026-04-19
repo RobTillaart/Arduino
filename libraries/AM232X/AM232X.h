@@ -3,7 +3,7 @@
 //    FILE: AM232X.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: AM232X Temperature and Humidity sensor library for Arduino
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //     URL: https://github.com/RobTillaart/AM232X
 //
 //  AM232X PIN layout             AM2315 COLOR
@@ -23,7 +23,7 @@
 #include "Wire.h"
 
 
-#define AM232X_LIB_VERSION              (F("0.5.2"))
+#define AM232X_LIB_VERSION              (F("0.5.3"))
 
 
 #define AM232X_OK                        0
@@ -100,12 +100,12 @@ public:
   //  might introduce under- or overflow at the ends of the sensor range
   void     setHumOffset(float offset = 0)  { _humOffset = offset; };
   void     setTempOffset(float offset = 0) { _tempOffset = offset; };
-  float    getHumOffset()           { return _humOffset; };
-  float    getTempOffset()          { return _tempOffset; };
+  float    getHumOffset()   { return _humOffset; };
+  float    getTempOffset()  { return _tempOffset; };
 
   //  suppress error values of -999 => check return value of read() instead
-  bool     getSuppressError()         { return _suppressError; };
-  void     setSuppressError(bool b)   { _suppressError = b; };
+  bool     getSuppressError()        { return _suppressError; };
+  void     setSuppressError(bool b)  { _suppressError = b; };
 
   bool     wakeUp() { return isConnected(); };
 

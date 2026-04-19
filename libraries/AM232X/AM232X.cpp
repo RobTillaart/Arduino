@@ -1,7 +1,7 @@
 //
 //    FILE: AM232X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: AM232X library for AM2320 for Arduino.
 //     URL: https://github.com/RobTillaart/AM232X
 

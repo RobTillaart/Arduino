@@ -22,7 +22,10 @@ the AM232X has a fixed address **0x5C** so one need to implement a
 multiplexing strategy to have multiple sensors in practice. 
 See multiplexing below.
 
-This library works also for the **AM2315** which has a library of its own - https://github.com/RobTillaart/AM2315
+This library works also for the **AM2315** which has a library 
+of its own - https://github.com/RobTillaart/AM2315
+
+Feedback as always is welcome.
 
 
 ### Typical parameters
@@ -103,14 +106,14 @@ If problems arise with the "OneWire" protocol, please let me know and
 file the issues under DHTNew.
 
 
-
 ## Interface
 
 ```cpp
 #include "AM232X.h"
 ```
 
-Since 0.4.2 the library provides specific classes for the AM2320, AM2321 and AM2322 which have the same interface.
+Since 0.4.2 the library provides specific classes for the AM2320, AM2321 
+and AM2322 which have the same interface.
 
 
 ### Constructor
@@ -119,8 +122,10 @@ Since 0.4.2 the library provides specific classes for the AM2320, AM2321 and AM2
 optionally set to Wire0 .. WireN.
 - **bool begin()** initializer for class.
 Returns true if fixed device address 0x5C is connected.
-- **bool isConnected(uint16_t timeout = 3000)** returns true if the fixed device address 0x5C is found on I2C bus.
-As the device can be in sleep modus it will retry for the defined timeout (in micros) with a minimum of 1 try. 
+- **bool isConnected(uint16_t timeout = 3000)** returns true if the fixed 
+device address 0x5C is found on I2C bus.
+As the device can be in sleep modus it will retry for the defined timeout 
+(in micros) with a minimum of 1 try. 
 minimum = 800 us and maximum = 3000 us according to datasheet.
 
 
@@ -134,15 +139,18 @@ This error can be suppressed, see below.
 - **float getTemperature()** returns the last read temperature + optional offset,
 or **AM232X_INVALID_VALUE** == -999 in case of error. 
 This error can be suppressed, see below.
-- **uint32_t lastRead()** returns the timestamp in milliseconds since startup of the last successful read.
+- **uint32_t lastRead()** returns the timestamp in milliseconds since startup 
+of the last successful read.
 
 
 ### Offset
 
-- **void setHumOffset(float offset = 0)** set an offset for humidity to calibrate (1st order) the sensor.
+- **void setHumOffset(float offset = 0)** set an offset for humidity to 
+calibrate (1st order) the sensor.
 Default offset = 0, so no parameter will reset the offset to 0.
 - **float getHumOffset()** return the current humidity offset, default 0.
-- **void setTempOffset(float offset = 0)** set an offset for temperature to calibrate (1st order) the sensor.
+- **void setTempOffset(float offset = 0)** set an offset for temperature 
+to calibrate (1st order) the sensor.
 Default offset = 0, so no parameter will reset the offset to 0.
 - **float getTempOffset()** return the current temperature offset, default 0.
 
@@ -151,10 +159,12 @@ Default offset = 0, so no parameter will reset the offset to 0.
 
 Functions to adjust the communication with the sensor.
 
-- **void setReadDelay(uint16_t readDelay = 0)** Tunes the time it waits before actual read can be done.
+- **void setReadDelay(uint16_t readDelay = 0)** Tunes the time it waits 
+before actual read can be done.
 Set readDelay to 0 will reset it to 2000 ms effective the next **read()**.
 - **uint16_t getReadDelay()** returns the current readDelay in milliseconds. 
-Note that a value of zero (reset) will return 0 before the call and 2000 after the call to **read()**.
+Note that a value of zero (reset) will return 0 before the call and 2000 
+after the call to **read()**.
 - **bool wakeUp()** function that will try for 3 milliseconds to wake up the sensor.
 This can be done before an actual read to minimize the **read()** call.
 - **void setSuppressError(bool b)** suppress error values of **AM232X_INVALID_VALUE** == -999.
@@ -258,7 +268,6 @@ Which method fit your application depends on your requirements and constraints.
 
 - I2C performance measurements
   - clock speed > 170 - see AM2315
-
 
 #### Wont
 

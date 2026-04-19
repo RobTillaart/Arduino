@@ -33,8 +33,9 @@ AM232X AM2320(&I2C_DHT);
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
-  Serial.print("LIBRARY VERSION: ");
+  Serial.print("AM232X_LIB_VERSION: ");
   Serial.println(AM232X_LIB_VERSION);
   Serial.println();
 

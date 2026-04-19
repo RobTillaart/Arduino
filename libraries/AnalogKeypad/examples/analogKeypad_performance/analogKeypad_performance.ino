@@ -17,10 +17,10 @@ volatile int button;
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
   Serial.println(__FILE__);
   Serial.print("ANALOGKEYPAD_LIB_VERSION:\t");
   Serial.println(ANALOGKEYPAD_LIB_VERSION);
-
   Serial.println();
 
   start = micros();

@@ -16,13 +16,16 @@ Library for (Robotdyn) 4x4 and 4x3 analog keypad.
 
 ## Description
 
-AnalogKeypad is a simple library to read the keys from a (Robotdyn) 4x4 or 4x3 keypad.
+AnalogKeypad is a simple library to read the keys from a (Robotdyn) 4x4 or 4x3 analog keypad.
 No other keypads are tested, but they should work with this library after adjusting
 the **MAGIC NUMBERS** in the function **rawRead()**.
+
+Feedback as always is welcome.
 
 
 ### Related
 
+- https://github.com/RobTillaart/AnanlogKeypad
 - https://github.com/RobTillaart/I2CKeyPad    (based upon PCF8574)
 - https://github.com/RobTillaart/I2CKeyPad8x8 (based upon PCF8575)
 
@@ -104,6 +107,8 @@ See Examples
 
 #### Must
 
+- improve documentation
+
 #### Should
 
 - more examples
@@ -111,6 +116,8 @@ See Examples
 
 #### Could
 
+- update constants e.g. 
+  - constexpr int AKP_NOKEY = 0x00;
 - version for external ADC
   - see ADC712
 - derive class for 4x3, 4x2 and 4x1 analog keypads?

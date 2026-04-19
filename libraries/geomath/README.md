@@ -31,6 +31,7 @@ feedback as always is welcome.
 
 ### related
 
+- https://en.wikipedia.org/wiki/Gravity_of_Earth - Geodetic Reference System 1980
 - https://github.com/RobTillaart/AtomicWeight
 - https://github.com/RobTillaart/printHelpers to print scientific and engineering notation
 
@@ -63,13 +64,15 @@ To calculate the distance between two points with longitude and latitude.
 
 To calculate the gravity acceleration at certain latitude.
 
-- **double gravity(double latitude)**
+- **float gravity(float latitude)** reference formula from Wikipedia
+- **float gravityFast(float latitude)** linear interpolation between 
+equator and poles gravity.
 
-Thee constants
+Three constants
 ```
 constexpr double GRAVITY_STANDARD = 9.80655;
-constexpr double GRAVITY_EQUATOR  = 9.78033;
-constexpr double GRAVITY_POLES    = 9.8337;
+constexpr double GRAVITY_EQUATOR  = 9.780327;
+constexpr double GRAVITY_POLES    = 9.832185;
 ```
 
 
@@ -78,7 +81,6 @@ constexpr double GRAVITY_POLES    = 9.8337;
 #### Must
 
 - update documentation
-- need more math
 
 #### Should
 

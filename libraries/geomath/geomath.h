@@ -2,7 +2,7 @@
 //
 //    FILE: geomath.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2015-07-18
 // PURPOSE: Arduino library with geographic math functions
 //     URL: https://github.com/RobTillaart/geomath
@@ -11,11 +11,11 @@
 #include "Arduino.h"
 
 
-#define GEOMATH_LIB_VERSION        (F("0.1.3"))
+#define GEOMATH_LIB_VERSION        (F("0.1.4"))
 
 constexpr double GRAVITY_STANDARD = 9.80655;
-constexpr double GRAVITY_EQUATOR  = 9.78033;
-constexpr double GRAVITY_POLES    = 9.8337;
+constexpr double GRAVITY_EQUATOR  = 9.780327;
+constexpr double GRAVITY_POLES    = 9.832185;
 
 
 //  collection of Math with latitude  / longitude
@@ -32,12 +32,48 @@ double angle(double radius, double distance);  //  angle between a person standi
 
 */
 
+
+//  REFERENCE
 //  latitude in degrees.
-double gravity(double latitude)
+//  altitude in meters relative to sea level.
+float gravity(float latitude, float altitude = 0.0f)
 {
-  double factor = sin(latitude * (PI/180.0));
-  double g = GRAVITY_EQUATOR + factor * (GRAVITY_POLES - GRAVITY_EQUATOR);
+  //  see example Estimate_gravity.ino
+  //  https://en.wikipedia.org/wiki/Gravity_of_Earth
+  //  Geodetic Reference System 1980
+  float phi = latitude * (PI / 180.0f);
+  float s1 = sin(phi) * sin(phi);
+  float s2 = sin(2 * phi) * sin(2 * phi);
+  float g = GRAVITY_EQUATOR * (1.0f + 0.0053024f * s1 - 0.0000058f * s2);
+  
+  if (altitude != 0.0f)
+  {
+    g -= (3.086E-6 * altitude);
+  }
   return g;
+}
+
+
+float gravityFast(double latitude)
+{
+  //  see example Estimate_gravity.ino
+  //  linear interpolation, very fast and relative error < 0.06%
+  const float Gdelta = (GRAVITY_POLES - GRAVITY_EQUATOR) / 90.0f;
+  float glinear = GRAVITY_EQUATOR + Gdelta * latitude;
+  return glinear;
+
+  //  first version, as assumed not linear.
+  //  const float Gdelta = GRAVITY_POLES - GRAVITY_EQUATOR;
+  //  float phi = latitude * (PI / 180.0f);
+  //  float g = GRAVITY_EQUATOR + sin(phi) * Gdelta;
+  //  return g;
+
+  //  improved version - uses "weighted acceleration" due to rotation.
+  //  const float Gaverage = (GRAVITY_POLES + GRAVITY_EQUATOR) / 2;
+  //  const float Gdelta   = (GRAVITY_POLES - GRAVITY_EQUATOR) / 2;
+  //  float phi = latitude * (PI / 180.0f);
+  //  float g = Gaverage + Gdelta * (sin(phi2) - cos(phi2));
+  //  return g;
 }
 
 
@@ -85,7 +121,7 @@ double HaverSine(double lat1, double lon1, double lat2, double lon2)
 
 /////////////////////////////////////////////////
 //
-//  SPHERE CLASS
+//  SPHERE CLASS - should have two radii - equator vs poles
 //
 class sphere
 {

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2026-04-19
+- fix #2, add reference formula fpr gravity.
+- add gravityFast() linear interpolation
+- add estimate_gravity.ino with different estimators.
+- minor edits.
+
 ## [0.1.3] - 2026-04-17
 - fix #2, gravity estimator formula
 - update GitHub actions

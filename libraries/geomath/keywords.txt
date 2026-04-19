@@ -8,7 +8,9 @@ haverSine	KEYWORD2
 fastHaverSine	KEYWORD2
 
 gravity	KEYWORD2
+gravityFast	KEYWORD2
 
+# from sphere class
 circumference	KEYWORD2
 angle	KEYWORD2
 

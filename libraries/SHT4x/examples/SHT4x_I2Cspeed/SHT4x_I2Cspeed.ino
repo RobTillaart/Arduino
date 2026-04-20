@@ -38,7 +38,8 @@ SHT4x sht;
 void test()
 {
   start = micros();
-  sht.read(SHT4x_MEASUREMENT_FAST, false);  // default SHT4x_MEASUREMENT_SLOW and true for CRC check
+  //  default SHT4x_MEASUREMENT_SLOW and true for CRC check
+  sht.read(SHT4x_MEASUREMENT_FAST, false);
   stop = micros();
   Serial.print("\t");
   Serial.print(stop - start);

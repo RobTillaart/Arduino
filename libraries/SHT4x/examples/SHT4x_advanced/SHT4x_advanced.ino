@@ -13,16 +13,18 @@
 //  Note: The auto mode functions are in SHT4x_advancedFunctions.ino
 //        This file is automatically included when compiling with the Arduino IDE
 
+
 #include <Wire.h>
 #include <SHT4x.h>
 
-#define SHT4X_DEBUG           false    // true will display heat detection and equalibrium checking serial debug output
-#define SHT_DEFAULT_ADDRESS   0x44
+#define SHT4X_DEBUG                   false   //  true will display heat detection and equilibrium checking Serial debug output
+#define SHT_DEFAULT_ADDRESS           0x44
 
 //  Auto mode configuration
-#define EQUILIBRIUM_WINDOW_SIZE  8    // 8 samples = 2 seconds @ 250ms intervals
-#define DEFAULT_EQUILIBRIUM_TIMEOUT  60000 // In ms
-#define DEFAULT_DT_THRESHOLD  0.023    // °C/s max change rate to determine equilibrium
+#define EQUILIBRIUM_WINDOW_SIZE       8       //  8 samples = 2 seconds @ 250ms intervals
+#define DEFAULT_EQUILIBRIUM_TIMEOUT   60000   //  In milliseconds
+#define DEFAULT_DT_THRESHOLD          0.023f  //  °C/s max change rate to determine equilibrium
+
 
 SHT4x sht;
 
@@ -36,20 +38,21 @@ float getAutoHumidity();
 extern bool needsHeating;
 extern uint32_t autoStartTime;
 
+
 void setup()
 {
   Serial.begin(115200);
   while (!Serial) delay(500);
-  
+
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("SHT4x_LIB_VERSION: \t");
   Serial.println(SHT4x_LIB_VERSION);
   Serial.println();
-  
+
   //  Initialize I2C
   //  On supported microcontrollers, custom pins can be set using Wire.begin(SDA_PIN, SCL_PIN);
-  Wire.begin(); 
+  Wire.begin();
   Wire.setClock(100000);
 
   //  Initialize sensor
@@ -59,7 +62,7 @@ void setup()
     Serial.println("Check wiring or adjust Wire.begin pin assignments:");
     while (1) delay(1000);
   }
-  
+
   Serial.println("SHT4x sensor initialized successfully");
   Serial.println("\n--- Ready to start measurements ---");
 }
@@ -83,7 +86,7 @@ void loop()
     // Perform work here while waiting for results to be ready from the SHT4X sensor
     delay(10);
   }
-  
+
   //  Sample complete, display results
   if (sht.getError() == SHT4x_OK)
   {
@@ -96,7 +99,7 @@ void loop()
     Serial.println(" %RH");
     Serial.print("Heating required: ");
     Serial.println(needsHeating ? "Yes" : "No");
-    
+
     uint32_t elapsed = millis() - autoStartTime;
     Serial.print("Total time:  ");
     Serial.print(elapsed);

@@ -46,7 +46,7 @@ void setup()
   Wire.setClock(100000);
   sht.begin();
 
-  // Read initial temperature and humidity
+  //  Read initial temperature and humidity
   sht.read();
   Serial.print("Temperature:\t");
   Serial.print(sht.getTemperature(), 1);
@@ -64,7 +64,7 @@ void loop()
   Serial.print(sht.getTemperature(), 1);
   Serial.print("\tHumidity:\t");
   Serial.println(sht.getHumidity(), 1);
-  delay(1000); // Heater should not have a duty cycle more than 10% (section 4.9)
+  delay(1000);  //  Heater should not have a duty cycle more than 10% (section 4.9)
 }
 
 

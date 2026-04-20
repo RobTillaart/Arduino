@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.1] - 2026-04-21
+- merge #16, 
+- minor edits
+
 ## [0.1.0] - 2026-04-03
 - Merge #12, modernize code + unit tests
 - Merge #13, make _heatInterval consitent

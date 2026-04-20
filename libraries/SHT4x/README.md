@@ -251,17 +251,18 @@ CRCCheck == false, => no CRC check, faster.
 #### Must
 
 - get documentation right
-- test functionality with hardware
+- test functionality with hardware (see PR#16)
 
 #### Should
 
 - check error handling
   - missing or not used codes.
   - set error where needed.
+- add derived (wrapper) classes for SHT40,SHT41,SHT43,SHT45
 
 #### Could
 
-- extend unit-tests if possible.
+- extend unit-tests if possible and needed.
 
 #### Wont
 

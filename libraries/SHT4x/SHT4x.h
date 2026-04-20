@@ -3,7 +3,7 @@
 //    FILE: SHT4x.h
 //  AUTHOR: Samuel Cuerrier Auclair
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-08-11
 // PURPOSE: Arduino library for the SHT4x temperature and humidity sensor. High precision sensor with I2C interface.
 //          This is a fork of the SHT31 library by Rob Tillaart, modified to work with the SHT4x series.
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define SHT4x_LIB_VERSION                   (F("0.1.0"))
+#define SHT4x_LIB_VERSION                   (F("0.1.1"))
 
 #ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS                 0x44
@@ -123,4 +123,11 @@ protected:
 };
 
 
+/////////////////////////////////////////////
+//
+//  DERIVED classes wrappers (TODO?)
+//
+//  SHT40,SHT41,SHT43,SHT45
+
 //  -- END OF FILE --
+

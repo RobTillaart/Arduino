@@ -36,6 +36,8 @@ As the **ADS1015** and the **ADS1115** are both 4 channels these are the most
 interesting from functionality point of view as these can do
 differential measurements.
 
+As always feedback is welcome.
+
 
 ### Interrupts
 
@@ -295,6 +297,22 @@ Data rate in samples per second, based on datasheet is described on table below.
 |  ADS1X15_DATARATE_5  |     5       |   2400    |    250    |           |
 |  ADS1X15_DATARATE_6  |     6       |   3300    |    475    |           |
 |  ADS1X15_DATARATE_7  |     7       |   3300    |    860    |  fastest  |
+
+
+Since 0.6.2 additional defines exist to define the data rate in a more user
+friendly way (thanks to lukkass222).
+
+
+|  ADS111x          |  ADS101x             |  define              |  data rate  |
+|:-----------------:|:--------------------:|:--------------------:|:-----------:|
+|  ADS1115_8_SPS    |  ADS1015_128_SPS     |  ADS1X15_DATARATE_0  |     0       |
+|  ADS1115_16_SPS   |  ADS1015_250_SPS     |  ADS1X15_DATARATE_1  |     1       |
+|  ADS1115_32_SPS   |  ADS1015_490_SPS     |  ADS1X15_DATARATE_2  |     2       |
+|  ADS1115_64_SPS   |  ADS1015_920_SPS     |  ADS1X15_DATARATE_3  |     3       |
+|  ADS1115_128_SPS  |  ADS1015_1600_SPS    |  ADS1X15_DATARATE_4  |     4       |
+|  ADS1115_250_SPS  |  ADS1015_2400_SPS    |  ADS1X15_DATARATE_5  |     5       |
+|  ADS1115_475_SPS  |  ADS1015_3300_SPS    |  ADS1X15_DATARATE_6  |     6       |
+|  ADS1115_860_SPS  |  ADS1015_3300_SPS_2  |  ADS1X15_DATARATE_7  |     7       |
 
 
 ### ReadADC Single mode

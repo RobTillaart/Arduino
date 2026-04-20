@@ -53,7 +53,7 @@ unittest(test_constants_error_codes)
 }
 
 
-unittest(test_constants_parameters)
+unittest(test_constants_parameters_I)
 {
 //  PARAMETER setDataRate()
   assertEqual(0x00, ADS1X15_DATARATE_0);
@@ -65,6 +65,27 @@ unittest(test_constants_parameters)
   assertEqual(0x06, ADS1X15_DATARATE_6);
   assertEqual(0x07, ADS1X15_DATARATE_7);
 
+  assertEqual(0x00, ADS1015_128_SPS   );
+  assertEqual(0x01, ADS1015_250_SPS   );
+  assertEqual(0x02, ADS1015_490_SPS   );
+  assertEqual(0x03, ADS1015_920_SPS   );
+  assertEqual(0x04, ADS1015_1600_SPS  );
+  assertEqual(0x05, ADS1015_2400_SPS  );
+  assertEqual(0x06, ADS1015_3300_SPS  );
+  assertEqual(0x07, ADS1015_3300_SPS_2);
+
+  assertEqual(0x00, ADS1115_8_SPS  );
+  assertEqual(0x01, ADS1115_16_SPS );
+  assertEqual(0x02, ADS1115_32_SPS );
+  assertEqual(0x03, ADS1115_64_SPS );
+  assertEqual(0x04, ADS1115_128_SPS);
+  assertEqual(0x05, ADS1115_250_SPS);
+  assertEqual(0x06, ADS1115_475_SPS);
+  assertEqual(0x07, ADS1115_860_SPS);
+}
+
+unittest(test_constants_parameters_II)
+{
 //  PARAMETER setGain()
   assertEqual(0x00, ADS1X15_GAIN_6144MV);
   assertEqual(0x01, ADS1X15_GAIN_4096MV);

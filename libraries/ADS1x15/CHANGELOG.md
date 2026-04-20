@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.2] - 2026-04-20
+- merge #102, add data rate defines
+- update readme.md
+- update unit test
+- minor edits
+
 ## [0.6.1] - 2026-02-01
 - add meta fields in API - ADS1x15.h
 

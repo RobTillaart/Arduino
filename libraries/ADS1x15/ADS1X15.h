@@ -2,7 +2,7 @@
 //
 //    FILE: ADS1X15.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.1
+// VERSION: 0.6.2
 //    DATE: 2013-03-24
 // PURPOSE: Arduino library for ADS1015 and ADS1115
 //     URL: https://github.com/RobTillaart/ADS1X15
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ADS1X15_LIB_VERSION               (F("0.6.1"))
+#define ADS1X15_LIB_VERSION               (F("0.6.2"))
 
 //  allow compile time default address
 //  address in { 0x48, 0x49, 0x4A, 0x4B }, no test...
@@ -49,6 +49,24 @@
 #define ADS1X15_DATARATE_5                ( 0x05 )
 #define ADS1X15_DATARATE_6                ( 0x06 )
 #define ADS1X15_DATARATE_7                ( 0x07 )
+
+#define ADS1115_8_SPS                     (ADS1X15_DATARATE_0)
+#define ADS1115_16_SPS                    (ADS1X15_DATARATE_1)
+#define ADS1115_32_SPS                    (ADS1X15_DATARATE_2)
+#define ADS1115_64_SPS                    (ADS1X15_DATARATE_3)
+#define ADS1115_128_SPS                   (ADS1X15_DATARATE_4)
+#define ADS1115_250_SPS                   (ADS1X15_DATARATE_5)
+#define ADS1115_475_SPS                   (ADS1X15_DATARATE_6)
+#define ADS1115_860_SPS                   (ADS1X15_DATARATE_7)
+
+#define ADS1015_128_SPS                   (ADS1X15_DATARATE_0)
+#define ADS1015_250_SPS                   (ADS1X15_DATARATE_1)
+#define ADS1015_490_SPS                   (ADS1X15_DATARATE_2)
+#define ADS1015_920_SPS                   (ADS1X15_DATARATE_3)
+#define ADS1015_1600_SPS                  (ADS1X15_DATARATE_4)
+#define ADS1015_2400_SPS                  (ADS1X15_DATARATE_5)
+#define ADS1015_3300_SPS                  (ADS1X15_DATARATE_6)
+#define ADS1015_3300_SPS_2                (ADS1X15_DATARATE_7)
 
 //  PARAMETER setGain()    read MV as  miliVolt
 #define ADS1X15_GAIN_6144MV               ( 0x00 )

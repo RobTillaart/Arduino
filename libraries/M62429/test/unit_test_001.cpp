@@ -83,7 +83,7 @@ unittest(test_setVolume)
 }
 
 
-unittest(test_incr_decr)
+unittest(test_increment_decrement)
 {
   uint8_t dataPin = 6;
   uint8_t clockPin = 7;
@@ -91,36 +91,36 @@ unittest(test_incr_decr)
   M62429 AMP;
   AMP.begin(dataPin, clockPin);
 
-  fprintf(stderr, "\nincr decr channel 0\n");
+  fprintf(stderr, "\nincrement decrement channel 0\n");
   AMP.setVolume(2, 0);
-  for (int i = 0; i < 10; i++) AMP.incr(0);
+  for (int i = 0; i < 10; i++) AMP.increment(0);
   assertEqual(10, AMP.getVolume(0));
   assertEqual(0,  AMP.getVolume(1));
-  for (int i = 0; i < 5; i++) AMP.decr(0);
+  for (int i = 0; i < 5; i++) AMP.decrement(0);
   assertEqual(5, AMP.getVolume(0));
   assertEqual(0, AMP.getVolume(1));
 
-  fprintf(stderr, "\nincr decr channel 1\n");
+  fprintf(stderr, "\nincrement decrement channel 1\n");
   AMP.setVolume(2, 0);
-  for (int i = 0; i < 10; i++) AMP.incr(1);
+  for (int i = 0; i < 10; i++) AMP.increment(1);
   assertEqual(0,  AMP.getVolume(0));
   assertEqual(10, AMP.getVolume(1));
-  for (int i = 0; i < 5; i++) AMP.decr(1);
+  for (int i = 0; i < 5; i++) AMP.decrement(1);
   assertEqual(0, AMP.getVolume(0));
   assertEqual(5, AMP.getVolume(1));
 
-  fprintf(stderr, "\nincr decr channel 2\n");
+  fprintf(stderr, "\nincrement decrement channel 2\n");
   AMP.setVolume(2, 0);
-  for (int i = 0; i < 10; i++) AMP.incr();  // 2 is default
+  for (int i = 0; i < 10; i++) AMP.increment();  // 2 is default
   assertEqual(10, AMP.getVolume(0));
   assertEqual(10, AMP.getVolume(1));
-  for (int i = 0; i < 5; i++) AMP.decr();
+  for (int i = 0; i < 5; i++) AMP.decrement();
   assertEqual(5, AMP.getVolume(0));
   assertEqual(5, AMP.getVolume(1));
 
   fprintf(stderr, "\nincr decr channel error\n");
-  assertEqual(M62429_CHANNEL_ERROR, AMP.incr(3));
-  assertEqual(M62429_CHANNEL_ERROR, AMP.decr(3));
+  assertEqual(M62429_CHANNEL_ERROR, AMP.increment(3));
+  assertEqual(M62429_CHANNEL_ERROR, AMP.decrement(3));
 }
 
 
@@ -170,10 +170,10 @@ unittest(test_mute)
   assertEqual(M62429_MUTED, AMP.setVolume(0, 0));
   assertEqual(10, AMP.getVolume(0));
 
-  assertEqual(M62429_MUTED, AMP.incr());
+  assertEqual(M62429_MUTED, AMP.increment());
   assertEqual(10, AMP.getVolume(0));
 
-  assertEqual(M62429_MUTED, AMP.decr());
+  assertEqual(M62429_MUTED, AMP.decrement());
   assertEqual(10, AMP.getVolume(0));
 
   assertEqual(M62429_MUTED, AMP.average());

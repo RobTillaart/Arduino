@@ -9,8 +9,8 @@ M62429_RAW	KEYWORD1
 begin	KEYWORD2
 getVolume	KEYWORD2
 setVolume	KEYWORD2
-incr	KEYWORD2
-decr	KEYWORD2
+increment	KEYWORD2
+decrement	KEYWORD2
 average	KEYWORD2
 
 muteOn	KEYWORD2

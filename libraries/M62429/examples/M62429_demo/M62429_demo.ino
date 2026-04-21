@@ -17,8 +17,8 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("M62429_VERSION: ");
-  Serial.println(M62429_VERSION);
+  Serial.print("M62429_LIB_VERSION: ");
+  Serial.println(M62429_LIB_VERSION);
   Serial.println();
   Serial.println("Test takes a ~2 minutes.\n");
 

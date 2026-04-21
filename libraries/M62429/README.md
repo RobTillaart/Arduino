@@ -29,11 +29,34 @@ takes time enough.
 For faster processors this define can be overruled runtime by setting it 
 before including "M62429.h" or by defining it as command line parameter.
 
+Feedback as always is welcome.
+
+
+### Breaking change 0.4.0
+
+- removed incr() and decr(), use increment() and decrement() instead.
+- added M62429_LIB_VERSION for library version.
+
 
 ### M62429_RAW
 
 The library also implements a M62429_RAW class which has a minimalistic interface.
- 
+
+
+### Related
+
+Multiplexers to control multiple devices, by multiplexing the CLOCK-pin
+and optional the DATA-pin.
+
+- https://github.com/RobTillaart/HC4051 (1x8 mux)
+- https://github.com/RobTillaart/HC4052 (2x4 mux)
+- https://github.com/RobTillaart/HC4053 (3x2 mux)
+- https://github.com/RobTillaart/HC4067 (1x16 mux)
+- https://github.com/RobTillaart/MAX14661 (2x16 mux, I2C)
+
+Other
+- https://github.com/RobTillaart/AD9833 signal generator.
+
 
 ## Interface M62429
 
@@ -83,7 +106,7 @@ and therefore better fits other sensors and devices.
 
 ### Error codes
 
-The functions **getVolume(), setVolume(), incr(), decr()** and **average()**
+The functions **getVolume(), setVolume(), increment(), decrement()** and **average()**
 can return one of the  error codes.
 
 
@@ -92,12 +115,6 @@ can return one of the  error codes.
 |   0   | M62429_OK            | no error  |
 |  -1   | M62429_MUTED         | system is muted, use **muteOff()** |
 |  -10  | M62429_CHANNEL_ERROR | channel must be 0, 1 or 2          |
-
-
-## Operation
-
-See examples
-
 
 
 ## Interface M62429_RAW
@@ -124,17 +141,21 @@ In the latter case the attenuation of channel 0 is used as attenuation of both c
 
 #### Should
 
-- make incr() and decr() obsolete in future
+- remove M62429_VERSION => M62429_LIB_VERSION
+- setVolume(), should the cache be updated if muted?
+
 
 #### Could
 
 #### Mixer
 
 - Control multiple M62429 IC's 
+- see also related section above for multiplexers.
 - One shared dataPin and clockPin per IC. 
 - use a PCF8574 / PCF8575 as selector 
 - would allow for 16 stereo or 32 mono channels. 
 Runtime configuration mono / stereo would be cool.
+
 
 ```
   PCF8574 or PCF8575 is used as device selector
@@ -182,7 +203,7 @@ Does this model work better than 2 separate volume channels?
 would add a lot of extra testing. the user can implement a **setVolume(chan, 0)**
 - **mute50()** reduces levels with 50% (rounded down?).
   user can implement this **setVolume(chan, getVolume(chan)/2);**
-
+- **begin(...initialVolume = 0)** user can update volume explicitly.
 
 ## Support
 

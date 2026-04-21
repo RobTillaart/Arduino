@@ -2,14 +2,12 @@
 //    FILE: M62429.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.8
-// HISTORY: See M62429.cpp2
+// VERSION: 0.4.0
+//    DATE: 2019-01-17
 //     URL: https://github.com/RobTillaart/M62429
 
 
 #include "M62429.h"
-
-#define M62429_MAX_ATTN           87      //  decibel
 
 
 M62429::M62429()
@@ -37,7 +35,9 @@ void M62429::begin(uint8_t dataPin, uint8_t clockPin)
 int M62429::getVolume(uint8_t channel)
 {
   if (channel > 2) return M62429_CHANNEL_ERROR;
-  return _vol[channel & 1];
+  if (channel < 2) return _vol[channel];
+  if (_vol[0] > _vol[1]) return _vol[0];
+  return _vol[1];
 }
 
 
@@ -98,8 +98,8 @@ int M62429::decrement(uint8_t channel)
 int M62429::average()
 {
   if (_muted) return M62429_MUTED;
-  uint8_t v = (((int)_vol[0]) + _vol[1]) / 2;
-  setVolume(2, v);
+  uint8_t averageVolume = (((int)_vol[0]) + _vol[1]) / 2;
+  setVolume(2, averageVolume);
   return M62429_OK;
 }
 
@@ -108,8 +108,8 @@ void M62429::muteOn()
 {
   if (_muted) return;
   _muted = true;
-  //  if ((_vol[0] > 0) || (_vol[1] > 0)) _setAttn(2, 0);
-  _setAttn(2, 0);     //  mute must work unconditional.
+  //  mute works unconditional.
+  _setAttn(2, 0);     
 }
 
 
@@ -143,7 +143,7 @@ void M62429::_setAttn(uint8_t channel, uint8_t attn)
   if (channel == 0) databits |= 0x03;       //  D0  -  D1
   if (channel == 1) databits |= 0x02;       //  D0  -  D1
 
-  // write D0 - D9
+  //  dwrite D0 - D9
   for (uint8_t i = 0; i < 10; i++)
   {
     digitalWrite(_data, databits & 0x01);

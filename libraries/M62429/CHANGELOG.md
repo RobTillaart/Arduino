@@ -6,8 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2026-04-21
+- remove incr() and decr()
+- update keywords
+- update unit tests
+- update getVolume(2) to return the maximum of both channels.
+- added M62429_LIB_VERSION to replace M62429_VERSION
+- update GitHub actions
+- update readme.md
+- minor edits
+
+----
+
 ## [0.3.8] - 2025-08-21
-- update github actions
+- update GitHub actions
 - add **Increment()** and **decrement()** to replace incr() and decr().
 - minor edits
 

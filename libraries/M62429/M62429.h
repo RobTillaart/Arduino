@@ -3,19 +3,22 @@
 //    FILE: M62429.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for M62429 volume control IC
-// VERSION: 0.3.8
+// VERSION: 0.4.0
+//    DATE: 2019-01-17
 //     URL: https://github.com/RobTillaart/M62429
 
 
 #include "Arduino.h"
 
 
-#define M62429_VERSION              (F("0.3.8"))
+#define M62429_LIB_VERSION              (F("0.4.0"))
+//  obsolete in future
+#define M62429_VERSION                  (M62429_LIB_VERSION)
 
 
-// minimum pulse width CLOCK = 1.6 us (datasheet);
-// digitalWrite takes enough time on UNO / AVR so clock_delay == 0
-// Note that if clock pulses are long enough the data pulses are too.
+//  minimum pulse width CLOCK = 1.6 us (datasheet);
+//  digitalWrite takes enough time on UNO / AVR so clock_delay == 0
+//  Note that if clock pulses are long enough the data pulses are too.
 #ifndef M62429_CLOCK_DELAY
 #ifdef __AVR__
 #define M62429_CLOCK_DELAY          0
@@ -25,15 +28,16 @@
 #endif
 
 
-// ERROR CODES
-#define M62429_OK                    0
-#define M62429_MUTED                -1
-#define M62429_CHANNEL_ERROR        -10
+//  ERROR CODES
+constexpr int M62429_OK            =  0;
+constexpr int M62429_MUTED         = -1;
+constexpr int M62429_CHANNEL_ERROR = -10;
 
-// CHANNELS
-#define M62429_LEFT                  0
-#define M62429_RIGHT                 1
-#define M62429_BOTH                  2
+
+//  CHANNELS
+constexpr uint8_t M62429_LEFT  = 0;
+constexpr uint8_t M62429_RIGHT = 1;
+constexpr uint8_t M62429_BOTH  = 2;
 
 
 class M62429
@@ -43,19 +47,15 @@ public:
 
   void     begin(uint8_t dataPin, uint8_t clockPin);
 
-  //  channel = { 0, 1 }
+  //  channel = 0, 1, 2
+  //      2 = both returns maximum of both channels
   int     getVolume(uint8_t channel);
-  //  channel = { 0, 1, 2 = both;
-  //  volume  = {0 .. 255 }
+  //  channel = 0, 1, 2 = both
+  //  volume  = 0..255
   int     setVolume(uint8_t channel, uint8_t volume);
-  //  increment / decrement until min/max = 0..255
+  //  increment / decrement until minimum/maximum = 0..255
   int     increment(uint8_t channel = 2);
   int     decrement(uint8_t channel = 2);
-
-  //  [[deprecated("Use increment(channel)")]]
-  int     incr(uint8_t channel = 2) { return increment(channel); };
-  //  [[deprecated("Use decrement(channel)")]]
-  int     decr(uint8_t channel = 2) { return decrement(channel); };
 
   int     average();
 
@@ -73,6 +73,11 @@ private:
   void    _setAttn(uint8_t channel, uint8_t attn);
 };
 
+
+//////////////////////////////////////////
+
+//  M62429_RAW class only
+constexpr uint16_t M62429_MAX_ATTN = 87;  //  decibel
 
 class M62429_RAW
 {

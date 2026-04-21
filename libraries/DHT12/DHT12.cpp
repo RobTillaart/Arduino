@@ -1,7 +1,7 @@
 //
 //    FILE: DHT12.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library for I2C DHT12 temperature and humidity sensor.
 //     URL: https://github.com/RobTillaart/DHT12
 
@@ -9,7 +9,7 @@
 #include "DHT12.h"
 
 //  fixed address
-#define DHT12_ADDRESS           ((uint8_t)0x5C)
+constexpr uint8_t DHT12_ADDRESS = 0x5C;
 
 
 DHT12::DHT12(TwoWire *wire)
@@ -41,7 +41,7 @@ int8_t DHT12::read()
 {
   //  READ SENSOR
   int status = _readSensor();
-  if (status < 0) 
+  if (status < 0)
   {
     return status;
   }

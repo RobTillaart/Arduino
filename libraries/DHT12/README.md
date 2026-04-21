@@ -27,7 +27,9 @@ and with **getTemperature()** and **getHumidity()** to get the read values.
 Calling these latter again will return the same values until a new **read()** is called.
 
 For conversions and more functionality one could check:
-- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+- https://github.com/RobTillaart/Temperature conversions, dewPoint, heat index etc.
+
+Feedback as always is welcome.
 
 
 ### Related
@@ -42,7 +44,7 @@ Various temperature and humidity sensors.
 - https://github.com/RobTillaart/SHT31 Sensirion humidity / temperature sensor
 - https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
 - https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
-- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+- https://github.com/RobTillaart/Temperature conversions, dewPoint, heat index etc.
 
 
 ### I2C

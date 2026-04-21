@@ -110,6 +110,15 @@ Returns the cos(v)\*256 to keep all math integer (shift 8 later to correct value
 - **int isincos256(uint32_t v, int \*si, int \*co)** accepts only positive angles in degrees.
 returns both the sin(v)\*256 and the cos(v)\*256 of the same angle.
 Faster than both individual calls together.
+- **void threePhase256(uint32_t v, int \*a, int \*b, int \*c)** calculates the sine for
+value with three phases of 0, 120 and 240 degrees (experimental 0.3.6).
+Gain on UNO R3 is about a factor 2 compared to three isin256() calls.
+
+Notes on threePhase:  
+With a 180 degree lookup table one could reduce the math as one does not need 
+to "mirror" 90-180 => 90-0. 
+Furthermore keeping the angle between 0 and 360 could remove the expensive
+modulo operation.
 
 
 ### isincos

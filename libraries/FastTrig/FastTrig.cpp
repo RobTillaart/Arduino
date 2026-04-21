@@ -1,7 +1,7 @@
 //
 //    FILE: FastTrig.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 // PURPOSE: Arduino library for a faster approximation of sin() and cos()
 //    DATE: 2011-08-18
 //     URL: https://github.com/RobTillaart/FastTrig
@@ -133,6 +133,58 @@ void isincos256(uint32_t v, int *si, int *co)
   *co = sinTable16[90-y] >> 8;
   if (sneg) *si = - *si;
   if (cneg) *co = - *co;
+}
+
+
+void threePhase256(uint32_t v, int *a, int *b, int *c)
+{
+  bool negativeP = false;
+  bool negativeQ = false;
+  bool negativeR = false;
+
+  long whole = v;
+  if (whole >= 360) whole %= 360;
+
+  int p = whole;
+  int q = p + 120; if (q >= 360) q -= 360;
+  int r = p + 240; if (r >= 360) r -= 360;
+
+  if (p >= 180)
+  {
+    p -= 180;
+    negativeP = true;
+  }
+  if (p >= 90)
+  {
+    p = 180 - p;
+  }
+
+  if (q >= 180)
+  {
+    q -= 180;
+    negativeQ = true;
+  }
+  if (q >= 90)
+  {
+    q = 180 - q;
+  }
+
+  if (r >= 180)
+  {
+    r -= 180;
+    negativeR = true;
+  }
+  if (r >= 90)
+  {
+    r = 180 - r;
+  }
+
+  *a = sinTable16[p] >> 8;
+  *b = sinTable16[q] >> 8;
+  *c = sinTable16[r] >> 8;
+  if (negativeP) *a = - *a;
+  if (negativeQ) *b = - *b;
+  if (negativeR) *c = - *c;
 }
 
 

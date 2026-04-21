@@ -8,6 +8,7 @@ HMC6352	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin KEYWORD2
 isConnected KEYWORD2
+getAddress KEYWORD2
 
 getHeading KEYWORD2
 askHeading	KEYWORD2

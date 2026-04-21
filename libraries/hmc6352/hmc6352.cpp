@@ -1,7 +1,7 @@
 //
 //    FILE: hmc6352.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino library for HMC6352 digital compass sensor
 //     URL: https://github.com/RobTillaart/HMC6352
 
@@ -63,6 +63,11 @@ bool hmc6352::isConnected()
 {
   _wire->beginTransmission(_address);
   return (_wire->endTransmission() == 0);
+}
+
+uint8_t hmc6352::getAddress()
+{
+  return _address;
 }
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: hmc6352.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: HMC6352 library for Arduino
 //     URL: https://github.com/RobTillaart/HMC6352
 
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define HMC6352_LIB_VERSION                    (F("0.4.1"))
+#define HMC6352_LIB_VERSION                    (F("0.4.2"))
 
 //  status function calls
 #define HMC6532_OK                               0
@@ -46,6 +46,7 @@ public:
 
   bool begin();
   bool isConnected();
+  uint8_t getAddress();
 
 
   //  BASIC CALLS FOR STANDBY MODE

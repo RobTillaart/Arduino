@@ -1,0 +1,24 @@
+Board:  UNO R3
+IDE:    1.8.19
+
+
+divmod1000_performance.ino
+FASTMATH_LIB_VERSION: 0.2.6
+
+div + mod: 	40	16807	16	807
+divmod1000:  	20	16807	16	807
+
+Test 0 .. 1 million (2 minute UNO, < 2 second ESP32)
+0
+100000
+200000
+300000
+400000
+500000
+600000
+700000
+800000
+900000
+1000000
+58.00
+done...

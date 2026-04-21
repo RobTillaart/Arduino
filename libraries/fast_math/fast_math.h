@@ -2,7 +2,7 @@
 //
 //    FILE: fast_math.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: Arduino library for fast math algorithms
 //    DATE: 27 October 2013
 //     URL: https://github.com/RobTillaart/fast_math
@@ -16,13 +16,23 @@
 #include "Arduino.h"
 #endif
 
-#define FASTMATH_LIB_VERSION          (F("0.2.5"))
+#define FASTMATH_LIB_VERSION          (F("0.2.6"))
 
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+//  WORK IN PROGRESS
+//
+//  reduce an angle ( > 0)
+//  only marginally faster on UNO R3
+void divmod360(uint32_t in, uint32_t *div, uint16_t *mod);
+
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -42,6 +52,8 @@ void divmod12(uint32_t in, uint32_t *div, uint8_t *mod);
 void divmod24(uint32_t in, uint32_t *div, uint8_t *mod);
 void divmod60(uint32_t in, uint32_t *div, uint8_t *mod);
 
+//  split millis in seconds and real millis (decimal part)
+void divmod1000(uint32_t in, uint32_t *div, uint16_t *mod);
 
 
 //////////////////////////////////////////////////////////////////////////

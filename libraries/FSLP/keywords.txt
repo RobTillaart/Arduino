@@ -1,0 +1,25 @@
+# Syntax Colouring Map For FSLP
+
+# Data types (KEYWORD1)
+FSLP	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+readPosition	KEYWORD2
+readPressure	KEYWORD2
+isPressed	KEYWORD2
+
+getLastPosition	KEYWORD2
+getLastPressure	KEYWORD2
+
+setStabilizationDelay	KEYWORD2
+getStabilizationDelay	KEYWORD2
+setPressureFactor	KEYWORD2
+getPressureFactor	KEYWORD2
+
+
+# Constants (LITERAL1)
+FSLP_LIB_VERSION	LITERAL1
+

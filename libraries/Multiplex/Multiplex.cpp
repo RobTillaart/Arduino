@@ -1,7 +1,7 @@
 //
 //    FILE: Multiplex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 0.2.10
 // PURPOSE: Arduino Library implementing a Print stream multiplexer.
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
@@ -49,7 +49,7 @@ bool Multiplex::add(Print * stream)
   _enabled[_count]  = true;
   _stream[_count++] = stream;
   return true;
-};
+}
 
 
 bool Multiplex::remove(Print * stream)
@@ -57,7 +57,7 @@ bool Multiplex::remove(Print * stream)
   uint8_t idx = index(stream);
   if (idx >= _count) return false;
   return remove(idx);
-};
+}
 
 
 bool Multiplex::remove(uint8_t idx)
@@ -71,7 +71,7 @@ bool Multiplex::remove(uint8_t idx)
     idx++;
   }
   return true;
-};
+}
 
 
 uint8_t Multiplex::index(Print *stream)

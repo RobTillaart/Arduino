@@ -6,8 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.10] - 2026-04-22
+- update GitHub actions
+- minor edits
+
 ## [0.2.9] - 2025-08-21
-- update github actions
+- update GitHub actions
 - minor edits
 
 ## [0.2.8] - 2025-05-12

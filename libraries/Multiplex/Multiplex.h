@@ -2,7 +2,7 @@
 //
 //    FILE: Multiplex.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 0.2.10
 // PURPOSE: Arduino Library implementing a Print stream multiplexer.
 //    DATE: 2021-01-09
 //     URL: https://github.com/RobTillaart/Multiplex
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define MULTIPLEX_LIB_VERSION         (F("0.2.9"))
+#define MULTIPLEX_LIB_VERSION         (F("0.2.10"))
 
 
 //  MAX 254 (in theory) as 0xFF is a special value

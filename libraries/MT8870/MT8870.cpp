@@ -1,7 +1,7 @@
 //
 //    FILE: MT8870.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2019-02-11
 // PURPOSE: Arduino library for MT8870 DTMF decoder (breakout)
 //     URL: https://github.com/RobTillaart/MT8870
@@ -36,13 +36,13 @@ char MT8870::read()
 {
   uint8_t n = readRaw();
   if (n < 16) return "D1234567890*#ABC"[n];
-  return 255;
+  return MT8870_NOKEY;
 }
 
 
 uint8_t MT8870::readRaw()
 {
-  _val = 255;
+  _val = MT8870_NOKEY;
   if (available())
   {
     _val = 0;
@@ -59,13 +59,13 @@ uint8_t MT8870::readRaw()
 uint8_t MT8870::lastRaw()
 {
   return _val;
-};
+}
 
 
 uint32_t MT8870::lastTimeRead()
 {
   return _lastTimeRead;
-};
+}
 
 
 //  -- END OF FILE --

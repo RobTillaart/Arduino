@@ -22,7 +22,7 @@ If data is available one can read it raw or as text.
 DTMF = Dual Tones Multiple Frequency.
 These are the tones you hear when you press buttons on your phone. 
 
-DTMF tones, uses one from A..D and one from E..H.
+DTMF tones, uses one frequency from A..D and one frequency from E..H.
 
 |  Name  |  Frequency  |
 |:------:|------------:|
@@ -36,6 +36,30 @@ DTMF tones, uses one from A..D and one from E..H.
 |   H    |   1633 Hz   |
 
 
+### Character table
+
+|  char  |  low freq  |  high freq  |
+|:------:|-----------:|------------:|
+|   1    |    697 Hz  |    1209 Hz  |
+|   2    |    697 Hz  |    1336 Hz  |
+|   3    |    697 Hz  |    1477 Hz  |
+|   A    |    697 Hz  |    1633 Hz  |
+|   4    |    770 Hz  |    1209 Hz  |
+|   5    |    770 Hz  |    1336 Hz  |
+|   6    |    770 Hz  |    1477 Hz  |
+|   B    |    770 Hz  |    1633 Hz  |
+|   7    |    852 Hz  |    1209 Hz  |
+|   8    |    852 Hz  |    1336 Hz  |
+|   9    |    852 Hz  |    1477 Hz  |
+|   C    |    852 Hz  |    1633 Hz  |
+|   \*   |    941 Hz  |    1209 Hz  |
+|   0    |    941 Hz  |    1336 Hz  |
+|   \#   |    941 Hz  |    1477 Hz  |
+|   D    |    941 Hz  |    1633 Hz  |
+
+Feedback as always is welcome.
+
+
 ## Interface
 
 ```cpp
@@ -45,7 +69,8 @@ DTMF tones, uses one from A..D and one from E..H.
 ### Constructor
 
 - **MT8870()** constructor
-- **void begin(uint8_t STQ, uint8_t Q1, uint8_t Q2, uint8_t Q3, uint8_t Q4)** defines which pins to use. 
+- **void begin(uint8_t STQ, uint8_t Q1, uint8_t Q2, uint8_t Q3, uint8_t Q4)** 
+defines which pins to use. 
 Technically it is possible to have readout multiple decoders
 with one MT8870 object by calling **begin()** with other pins.
   - **STQ**    = data available signal
@@ -55,16 +80,15 @@ with one MT8870 object by calling **begin()** with other pins.
 ### Communication
 
 - **bool available()** returns true if there is a DMTF signal 
-- **char read()** reads the character available. Returns 255 if no signal available.
-- **uint8_t readRaw()** returns 0 .. 15 or 255 if no signal is available.
-- **uint8_t lastRaw()** returns the last code read 0 .. 15 or 255 if no signal available.
+- **char read()** reads the character available. 
+Returns **MT8870_NOKEY** == 255 if no signal available.
+- **uint8_t readRaw()** returns 0 .. 15 or **MT8870_NOKEY** == 255 
+if no signal is available.
+- **uint8_t lastRaw()** returns the last code read 0 .. 15 or 
+**MT8870_NOKEY** == 255 if no signal available.
 Note this is a cached value from a readRaw / read call.
-- **uint32_t lastTimeRead()** returns the timestamp of last **read()** or **readRaw()**. 
-
-
-## Operations
-
-See examples.
+- **uint32_t lastTimeRead()** returns the timestamp of last **read()** 
+or **readRaw()**. 
 
 
 ## Future
@@ -72,7 +96,7 @@ See examples.
 #### Must
 
 - improve documentation
-  - keypad matrix, which key generates which tones
+  - keypad matrix, which key generates which tones.
 
 #### Should
 

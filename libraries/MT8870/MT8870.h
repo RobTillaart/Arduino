@@ -2,7 +2,7 @@
 //
 //    FILE: MT8870.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2019-02-11
 // PURPOSE: Arduino library for MT8870 DTMF decoder (breakout)
 //     URL: https://github.com/RobTillaart/MT8870
@@ -11,7 +11,9 @@
 
 #include "Arduino.h"
 
-#define MT8870_LIB_VERSION          (F("0.1.7"))
+#define MT8870_LIB_VERSION          (F("0.1.8"))
+
+constexpr uint8_t MT8870_NOKEY = 255;
 
 
 class MT8870
@@ -28,7 +30,7 @@ public:
   uint32_t lastTimeRead();
 
 private:
-  uint8_t   _val = 255;
+  uint8_t   _val = MT8870_NOKEY;
   uint8_t   _STQ;
   uint8_t   _q[4];
   uint32_t  _lastTimeRead;

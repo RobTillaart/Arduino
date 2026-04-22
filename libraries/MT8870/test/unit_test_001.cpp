@@ -62,7 +62,7 @@ unittest(test_read)
 {
   GodmodeState* state = GODMODE();
   state->reset();
-  
+
   uint8_t STQ = 4, Q1 = 5, Q2 = 6, Q3 = 7, Q4 = 8;
   MT8870 DTMF;
 
@@ -77,10 +77,10 @@ unittest(test_read)
   state->digitalPin[Q4] = 1;
   assertEqual('9', DTMF.read());
 
-  state->digitalPin[Q1] = 1;        // 1 +
-  state->digitalPin[Q2] = 0;        // 
-  state->digitalPin[Q3] = 1;        // 4 +
-  state->digitalPin[Q4] = 1;        // 8 == 13
+  state->digitalPin[Q1] = 1;        //  1 +
+  state->digitalPin[Q2] = 0;        //
+  state->digitalPin[Q3] = 1;        //  4 +
+  state->digitalPin[Q4] = 1;        //  8 == 13
   assertEqual(13, DTMF.readRaw());
   assertEqual(13, DTMF.lastRaw());
 
@@ -90,7 +90,7 @@ unittest(test_read)
   state->digitalPin[Q3] = 1;
   state->digitalPin[Q4] = 1;
   assertEqual(255, DTMF.readRaw());
-  
+
   fprintf(stderr, "loop over 16 possible values\n");
   for (int i = 0; i < 16; i++)
   {
@@ -107,4 +107,6 @@ unittest(test_read)
 
 unittest_main()
 
-// --------
+
+//  -- END OF FILE --
+

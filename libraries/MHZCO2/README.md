@@ -30,6 +30,8 @@ This might change in the future as compatibles might differ on detail.
 
 Reference: user manual MHZ129B 2019-04-25 version 1.4
 
+Feedback as always is welcome.
+
 
 ### Pins
 
@@ -98,14 +100,14 @@ There exists different models of 400-2000 PPM and 400-5000 PPM and 400-10000 PPM
 As far as known these have the same interface as there is very little information to be found.
 
 
-|  type      | precision  |  notes  |
-|:-----------|:----------:|:--------|
-|  MHZ1311A  | 50ppm + 5% | energy saving version
-|  MHZ19     | 50ppm + 5% | 
-|  MHZ19B    | 50ppm + 3% | test device
-|  MHZ19C    | 50ppm + 5% | (1)
-|  MHZ19D    | 50ppm + 5% | 
-|  MHZ19E    | 50ppm + 5% |
+|  type      |  precision    |  notes  |
+|:-----------|:-------------:|:--------|
+|  MHZ1311A  |  50 ppm + 5%  |  energy saving version
+|  MHZ19     |  50 ppm + 5%  | 
+|  MHZ19B    |  50 ppm + 3%  |  test device
+|  MHZ19C    |  50 ppm + 5%  |  (1)
+|  MHZ19D    |  50 ppm + 5%  | 
+|  MHZ19E    |  50 ppm + 5%  |
 
 Note (1):
 There exists different models of the MHZ19C and probably others. 
@@ -150,7 +152,10 @@ In previous versions the MTP40F was incorrectly mentioned as compatible.
 - **void begin(Stream \* str)** resets all internal variables and 
 sets the Serial port to use, e.g Serial1, or a softwareSerial port.
 This stream has to be configured before the call to **begin()**.
-- **uint32_t uptime()** returns milliseconds since 'instantiation'.
+- **void reset()** resets ALL internal variables, including maxCO2, lastMeasurement, PPM and timeOut (but not the uptime counter).
+So one needs to reconfigure all settings of the device.
+- **uint32_t uptime()** returns milliseconds since the constructor 
+was called. This value will not be reset by **reset()**.
 
 
 ### Range
@@ -182,6 +187,9 @@ Note: check datasheet.
 - **int getMinCO2()** returns the minimum CO2 of the last measurement.
 Multiple calls will return the same value until a new measurement is made.
 Note: check datasheet.
+- **int getMaxCO2()** returns the maximum CO2 since the last **reset()** 
+or since start. So different time frame than getMinCO2().
+Multiple calls will return the same value until a new measurement is made.
 
 The latter two might not be supported by all MH sensors.
 
@@ -265,10 +273,6 @@ defaults to 1000 milliseconds.
 - save RAM? possible?
   - all arrays start with 0xFF, 0x01
   - reduce data types?
-- **uint16_t send()** could return bytes send?
-  - would allow higher level functions to check.
-- add **int maxCO2()** by keeping track myself?
-  - also need **void resetMaxCO2()**
 - extend unit tests if needed.
 - fix SoftwareSerial - https://github.com/Arduino-CI/arduino_ci/issues/346
 - flush Serial occasionally?
@@ -279,7 +283,8 @@ defaults to 1000 milliseconds.
 - should the PPM be a parameter of the constructor?
   - default to 2000? or model based?
   - no, as now it can (in theory) be changed/calibrated runtime.
-
+- **uint16_t send()** could return bytes send?
+  - would allow higher level functions to check; => only buffered, no receive ack)
 
 ## Support
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MHZCO2.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino Library for MHZ series CO2 sensors.
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define MHZCO2_LIB_VERSION        (F("0.2.3"))
+#define MHZCO2_LIB_VERSION        (F("0.2.4"))
 
 #define MHZCO2_OK                 0
 #define MHZCO2_TIMEOUT            -10
@@ -24,6 +24,7 @@ public:
   //  Stream is either a hardware or software serial.
   //  Hardware serial is most reliable.
   void     begin(Stream * str);
+  void     reset();
   uint32_t uptime();
 
 
@@ -41,6 +42,7 @@ public:
   int      getTemperature();
   int      getAccuracy();
   int      getMinCO2();
+  int      getMaxCO2();
 
 
   //  CALIBRATION
@@ -67,6 +69,7 @@ protected:
   int      _temperature = 0;
   int      _accuracy    = 0;
   int      _minCO2      = 0;
+  int      _maxCO2      = 0;
 
   void     send(uint8_t * data, uint8_t len);
   int      receive(uint8_t * answer);

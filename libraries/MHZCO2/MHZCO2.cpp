@@ -1,7 +1,7 @@
 //
 //    FILE: MHZCO2.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino Library for MHZ series CO2 sensors.
 //    DATE: 2020-05-05
 //     URL: https://github.com/RobTillaart/MHZCO2
@@ -19,6 +19,12 @@ MHZCO2::MHZCO2()
 void MHZCO2::begin(Stream * str)
 {
   _str = str;
+  reset();
+}
+
+
+void MHZCO2::reset()
+{
   _lastMeasurement = 0;
   _timeout         = 1000;
   _PPM             = 0;
@@ -26,7 +32,9 @@ void MHZCO2::begin(Stream * str)
   _temperature     = 0;
   _accuracy        = 0;
   _minCO2          = 0;
+  _maxCO2          = 0;
 }
+
 
 
 uint32_t MHZCO2::uptime()
@@ -69,6 +77,7 @@ int MHZCO2::measure()
     _temperature = data[4] - 40;
     _accuracy    = data[5];
     _minCO2      = data[6] * 256 + data[7];
+    if (_CO2 > _maxCO2) _maxCO2 = _CO2;
   }
   if (rv == MHZCO2_OK)
   {
@@ -105,7 +114,12 @@ int MHZCO2::getAccuracy()
 int MHZCO2::getMinCO2()
 {
   return _minCO2;
-};
+}
+
+int MHZCO2::getMaxCO2()
+{
+  return _maxCO2;
+}
 
 
 void MHZCO2::calibrateZero()
@@ -147,7 +161,6 @@ uint16_t MHZCO2::getTimeOut()
 }
 
 
-
 /////////////////////////////////////////////////
 //
 //  PROTECTED
@@ -174,7 +187,7 @@ int MHZCO2::receive(uint8_t * answer)
     }
     else
     {
-      //  default _timeout = 1000
+      //  default _timeout == 1000 == 1 second.
       if ((_timeout > 0) && (millis() - start > _timeout))
       {
         return MHZCO2_TIMEOUT;

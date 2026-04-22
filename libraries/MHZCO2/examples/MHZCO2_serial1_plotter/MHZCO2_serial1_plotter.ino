@@ -1,7 +1,7 @@
 //
 //    FILE: MHZCO2_serial1_plotter.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo for MEGA / 2560 etc with Serial1
+// PURPOSE: demo for MEGA / 2560 etc. with Serial1
 //     URL: https://github.com/RobTillaart/MHZCO2
 
 
@@ -26,7 +26,7 @@ void setup()
   Serial1.begin(9600);
 
   //  HEADER
-  Serial.println("CO2, MCO2, Temp, Accu");
+  Serial.println("CO2, MCO2, Temperature, Accuracy");
 }
 
 

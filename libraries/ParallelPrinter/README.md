@@ -99,9 +99,9 @@ These settings are pretty straightforward.
 - **uint8_t getPageNumber()** returns current page number.
 - **uint8_t getPosition()** returns the position on a line.
 - **uint8_t setTabSize(uint8_t tabsize)** tabs are replaced by spaces. n can be 0 or any size!
-- **uint8_t getTabSize()** returns tabSize set
+- **uint8_t getTabSize()** returns tabSize set.
 - **void setLineFeed(uint8_t lineFeeds)** lineFeeds = 1,2,3  1 = default. 
-- **uint8_t getLineFeed()** returns lineFeeds set
+- **uint8_t getLineFeed()** returns lineFeeds set.
 - **void printLineNr(bool b)** can be set to true, false.
 
 
@@ -131,6 +131,8 @@ data as they do not have large buffers.  (==> BUSY line)
   - Accepts the clocked bytes and print them e.g. over serial.
 - CamelCase
   - formFeed() + lineFeed()
+- pageCount 16 bit ?
+  - other counters
 
 #### Could
 

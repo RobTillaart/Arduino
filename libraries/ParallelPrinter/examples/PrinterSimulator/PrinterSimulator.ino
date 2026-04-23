@@ -4,8 +4,8 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/ParallelPrinter
 //
-// Simple parallel printer simulator, prints to serial...
-// version could be made with a shiftin register ....
+//  Simple parallel printer simulator, prints to serial...
+//  version could be made with a shiftin register ....
 
 
 #include "Arduino.h"
@@ -26,17 +26,17 @@ void setup()
 
   pinMode(PIN_STROBE, INPUT);
   pinMode(PIN_OOP,    OUTPUT);
-  pinMode(PIN_BUSY,   OUTPUT);  //  build in LED UNO.
+  pinMode(PIN_BUSY,   OUTPUT);   //  build in LED UNO.
 
   for (uint8_t i = 0; i < 8; i++)
   {
     pinMode(dataPins[i], INPUT);
   }
 
-  digitalWrite(PIN_OOP, HIGH);  //  HIGH is OK
-  digitalWrite(PIN_BUSY, HIGH); //  BUSY during startup
+  digitalWrite(PIN_OOP, HIGH);   //  HIGH is OK
+  digitalWrite(PIN_BUSY, HIGH);  //  BUSY during startup
 
-  delay(5000);                  //  do other startup actions.
+  delay(5000);                   //  do other startup actions.
 }
 
 

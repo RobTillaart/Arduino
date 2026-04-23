@@ -23,7 +23,7 @@ The stream is a parameter of the constructor and cannot be changed runtime.
 The library should work for the Parallax 27976 and Parallax 27977 display 
 although these are not tested.
 
-| Type    |   Size   |  Baudrate  |
+| Type    |   Size   |  Baud rate |
 |:-------:|:--------:|:----------:|
 |  27976  |  2 x 16  |    19200   |
 |  27977  |  2 x 16  |    19200   |

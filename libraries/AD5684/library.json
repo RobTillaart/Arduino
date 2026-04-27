@@ -1,0 +1,23 @@
+{
+  "name": "AD5684",
+  "keywords": "DAC, SPI",
+  "description": "Arduino library for AD5684/5/6 4 channel SPI-DAC (12/14/16 bit).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/AD5684.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "AD5684.h"
+}

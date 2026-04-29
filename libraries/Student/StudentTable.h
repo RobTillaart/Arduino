@@ -2,7 +2,7 @@
 //
 //    FILE: StudentTable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: See Student.h
 // PURPOSE: Arduino library for Student or T-distribution math.
 //    DATE: 2024-07-22
 

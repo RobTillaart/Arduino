@@ -6,8 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-04-29
+- add interpolation to **float intervalDelta(int confidence)**
+- add **Student_confidence.ino** to show interpolation.
+- update GitHub actions
+- minor edits
+
 ## [0.1.1] - 2025-08-25
-- update github actions
+- update GitHub actions
 - minor edits
 
 ## [0.1.0] - 2024-07-22

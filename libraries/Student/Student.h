@@ -2,7 +2,7 @@
 //
 //    FILE: Student.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 // PURPOSE: Arduino library for Student or T-distribution math.
 //    DATE: 2024-07-22
 //     URL: https://github.com/RobTillaart/Student
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "StudentTable.h"
 
-#define STUDENT_LIB_VERSION       (F("0.1.1"))
+#define STUDENT_LIB_VERSION       (F("0.1.2"))
 
 
 class Student
@@ -107,14 +107,33 @@ public:
     if (_count < 2) return NAN;
     //  degrees freedom
     int df = _count - 1;
-    int idx = 2;  //  95% default
-    if (confidence == 80) idx = 0;
-    if (confidence == 90) idx = 1;
-    if (confidence == 98) idx = 3;
-    if (confidence == 99) idx = 4;
-
-    //  interpolation possible
-    float t = StudentLUT[df][idx] * 0.001;
+    float t = 0;
+    int alpha = 0;
+    switch (confidence)
+    {
+      //  interpolating cases (linear interpolating).
+      //  note values are unsigned.
+      case 81 ... 89:
+         alpha = confidence - 80;
+         t = StudentLUT[df][0] + alpha * ((StudentLUT[df][1] - StudentLUT[df][0]) * (1.0 / 10));
+         break;
+      case 91 ... 94:
+         alpha = confidence - 90;
+         t = StudentLUT[df][1] + alpha * ((StudentLUT[df][2] - StudentLUT[df][1]) * (1.0 / 5));
+         break;
+      case 96 ... 97:
+         alpha = confidence - 95;
+         t = StudentLUT[df][2] + alpha * ((StudentLUT[df][3] - StudentLUT[df][2]) * (1.0 / 3));
+         break;
+      //  non interpolating cases
+      case 80: t = StudentLUT[df][0]; break;
+      case 90: t = StudentLUT[df][1]; break;
+      case 98: t = StudentLUT[df][3]; break;
+      case 99: t = StudentLUT[df][4]; break;
+      case 95:
+      default: t = StudentLUT[df][2]; break;
+    }
+    t = t * 0.001;
     return estimatedDeviation() * t;
   }
 

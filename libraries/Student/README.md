@@ -32,6 +32,8 @@ The table encodes the 100 floats as uint16_t to save 50% of the RAM needed.
 The library allows to calculate the interval after every addition until the internal buffer
 of 20 samples is full. Note that at least 2 samples are needed to calculate the interval.
 
+Feedback as always is welcome.
+
 
 ### StudentTable.h
 
@@ -70,14 +72,14 @@ Therefore this distribution is also known as the Student distribution.
 
 ### Accuracy / precision
 
-The version 0.1.x uses float for internal storage. This means precision is at most 6-7 digits.
+The version 0.1.0 uses float for internal storage. This means precision is at most 6-7 digits.
 
-The version 0.1.x lookup table has 20 x 5 values with 3 decimals, coded as an uint16_t (for RAM)
+The version 0.1.1 lookup table has 20 x 5 values with 3 decimals, coded as an uint16_t (for RAM)
 This allows about 3-4 digits precision for the found interval.
 
-The 0.1.x version does not interpolate the confidence level (yet), and only support 5 distinct levels.
-This interpolation (between 80-99) is planned to be implemented in the future.
-If a non supported confidence level is used, the library will use 95%.
+The 0.1.2 version does support linear interpolation of the confidence level between 80 and 99.
+If a non supported confidence level is used (<80 or >99), the library will use 95%.
+There is no error or range checking.
 
 If you need only one confidence interval you could strip the lookup table to one column.
 
@@ -101,7 +103,7 @@ If you need only one confidence interval you could strip the lookup table to one
 - https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_probability/bs704_probability9.html
 - https://github.com/RobTillaart/Gauss
 - https://github.com/RobTillaart/Multimap
-- https://github.com/RobTillaart/Statistic  (more stat links there).
+- https://github.com/RobTillaart/Statistic more stat links there.
 - https://github.com/RobTillaart/Student
 
 
@@ -137,11 +139,14 @@ estimated mean (based upon the samples).
 
 ### Interval
 
-Confidence should be 80, 90, 95, 98 or 99. 
-The confidence level is not interpolated and incorrect values are replaced by 95%.
+Confidence level is not interpolated for values 80, 90, 95, 98 or 99.
+Since 0.1.2 the confidence level is linear interpolated for integer values in between. Note this is not be 100% correct but good as first
+order approximation of the real value.
+Incorrect values ( < 80 and > 99) are replaced by 95%.
+There is no error / range checking.
 
 - **float intervalDelta(int confidence)** returns the delta to be added
-oor subtracted to the mean to determine the confidence interval.
+or subtracted to the mean to determine the confidence interval.
 - **float meanLower(int confidence)** returns mean - intervalDelta.
 - **float meanUpper(int confidence)** returns mean + intervalDelta.
 
@@ -162,13 +167,13 @@ oor subtracted to the mean to determine the confidence interval.
 - dynamic allocation for sizes > 20
   - or derived classes, student30, student40, student50, student100?
   - linear interpolation for values > 10 (performance?)
-- add interpolation to **intervalDelta()** so confidence level (0.2.x)
-  could be any integer value from 80-99 (maybe even float?)
 
 #### Could
 
 - add examples
+  - performance test
 - add unit tests
+  - interpolation.
 - replace look up table with a formula? (performance drop!!)
 - access function for internal array to access samples?
 - template class instead of STUDENT_MAX_SIZE? (becomes different types).

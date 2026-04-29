@@ -1,7 +1,7 @@
 {
   "name": "weight",
   "keywords": "weight,conversion,kilo,gram,stone,lbs,ounce,pound",
-  "description": "Library of weight conversion functions",
+  "description": "Library of weight conversion functions + weightConverter class",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/weight.git"
   },
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

@@ -21,6 +21,8 @@ Weight.h is a library containing weight conversion functions.
 Open for additions, including obscure weight metrics or
 weight related math functions and constants.
 
+Feedback, as always, is welcome.
+
 
 ### Overview of conversions:
 
@@ -37,7 +39,10 @@ weight related math functions and constants.
 ### Related
 
 - https://github.com/RobTillaart/AtomicWeight
-- https://github.com/RobTillaart/VolumeConverter
+- https://github.com/RobTillaart/Pressure converter
+- https://github.com/RobTillaart/Temperature converter
+- https://github.com/RobTillaart/VolumeConverter converter
+- https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP
 
@@ -77,16 +82,16 @@ See examples
 Since version 0.2.0 a weight convertor class is added to convert to and from
 other (less known) weight scales.
 The idea is to set a value in one scale and retrieve it in the other.
-As the converter holds the last value set, multiple conversions of the same 
+As the converter holds the last value set, multiple conversions of the same
 weight are easy.
 
-New conversions are possible by providing a setXYZ and getXYZ() function.
+New conversions are possible by providing a setXYZ() and getXYZ() function.
 These two should convert to and from grams respectively.
 Additions are welcome, please open an issue.
 
 Internal representation is the gram as it the ISO standard.
 
-Since version 0.3.0 the converter can also add different units.
+Since version 0.3.0 the weightConverter can also add different units.
 
 
 ### Example
@@ -100,7 +105,7 @@ To convert from one less known format to another just takes two calls, example:
   float x = wc.getRobie();
 ```
 
-If you need to convert a lot of data between two formats, it is also possible to 
+If you need to convert a lot of data between two formats, it is also possible to
 pre-calculate a factor so the conversion is faster.
 On an UNO R3 the gain goes up to 20%.
 
@@ -142,8 +147,8 @@ or with the functions.
 
 ### Setters
 
-- **void setKilogram(float value = 0)** 
-- **void setGram(float value = 0)** 
+- **void setKilogram(float value = 0)**
+- **void setGram(float value = 0)**
 - **void setLBS(float value = 0)**
 - **void setStone(float value = 0)**
 - **void setOunce(float value = 0)**
@@ -163,8 +168,8 @@ or with the functions.
 
 ### Adders
 
-- **void addKilogram(float value = 0)** 
-- **void addGram(float value = 0)** 
+- **void addKilogram(float value = 0)**
+- **void addGram(float value = 0)**
 - **void addLBS(float value = 0)**
 - **void addStone(float value = 0)**
 - **void addOunce(float value = 0)**

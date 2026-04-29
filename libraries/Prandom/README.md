@@ -25,6 +25,8 @@ This allows e.g. an exact rerun of a simulation.
 
 See Python Random library - https://docs.python.org/3/library/random.html
 
+Feedback as always is welcome.
+
 
 ### Related
 

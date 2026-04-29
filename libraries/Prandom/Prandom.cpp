@@ -1,7 +1,7 @@
 //
 //    FILE: Prandom.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 // PURPOSE: Arduino library for random number generation with Python random interface
 //     URL: https://github.com/RobTillaart/Prandom
 //

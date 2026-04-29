@@ -1,7 +1,7 @@
 //
 //    FILE: PinOutGroup.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
 //    DATE: 2017-04-26
 // PURPOSE: PinOutGroup library for Arduino
 //          goal is to easily change a group of pins that logically

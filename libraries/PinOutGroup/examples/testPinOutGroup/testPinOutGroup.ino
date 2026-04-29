@@ -47,7 +47,7 @@ void test0()
   //  CHANGE 1 PINS
   pinMode(2, OUTPUT);
   uint32_t t1 = micros();
-  digitalWrite(2, i++ % 2);
+  digitalWrite(2, i++ % 2);  //  compiler optimizes %
   digitalWrite(2, i++ % 2);
   digitalWrite(2, i++ % 2);
   digitalWrite(2, i++ % 2);
@@ -218,7 +218,7 @@ void test5()
   Serial.print(F("     ratio: "));
   Serial.println(1.0 * cnt / (len * 8), 3);
   Serial.println();
-  Serial.println(F("footnote: test 5 uses ascii that only change in 5-6 bits max, which decreases the average"));
+  Serial.println(F("footnote: test 5 uses ASCII that only change in 5-6 bits max, which decreases the average"));
   Serial.println(F("          That said, it is a real life application e.g. updating an LCD screen."));
 
   Serial.print(__FUNCTION__);

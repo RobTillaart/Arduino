@@ -26,6 +26,8 @@ So use with care.
 
 Default **PINOUTGROUP_MAXSIZE** = 16.
 
+Feedback as always is welcome.
+
 
 ### Related
 
@@ -75,7 +77,7 @@ Returns the number of pins added (1 or 0). value can be LOW (=0, default) or HIG
 ### Read / Write
 
 - **uint8_t write(uint16_t value)** writes a 16 bits unsigned int to max 16 pins.
-- **uint8_t write(uint8_t index, uint8_t value)** sets a single pin of the internal array with index  to value. 
+- **uint8_t write(uint8_t index, uint8_t value)** sets a single pin of the internal array with index to value. 
 This one is faster than writing to the whole group for a single change. 
 The user must keep track of the right index number.
 - **void allLOW** sets all pins to LOW (this is not same as clear).

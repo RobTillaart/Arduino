@@ -38,6 +38,8 @@ There are two points of attention:
 Note: The KT0803 library will be leading in development and this one will follow.
 The interface section below is identical except for the constructor.
 
+Feedback as always is welcome.
+
 
 ## Interface
 
@@ -79,7 +81,7 @@ The KT0803K has a **PGA_LSB** (2 bits) setting, which allows setting the gain
 with single (1) dB steps. This is not yet implemented in the library.
 
 - **bool setPGA(uint8_t pga)** sets gain according to table below.
-Returns false if pga is out of range (0..7).
+Returns false if PGA is out of range (0..7).
 - **uint8_t getPGA()** returns 0..7, default 0.
 
 
@@ -171,7 +173,7 @@ by muting the signal.
 
 ## Preference channels
 
-The device and library do not implement the persistant store of user 
+The device and library do not implement the persistent store of user 
 selectable preferences (frequencies or channels).
 This can be implemented by the user in EEPROM or another persistent medium.
 

@@ -16,6 +16,12 @@ void setup()
   //  Tiny only supports SWSerial 
   //  Serial.begin(115200);
   //  while(!Serial);
+  //  Serial.println();
+  //  Serial.println(__FILE__);
+  //  Serial.print("TINY_KT0803_LIB_VERSION: ");
+  //  Serial.println(TINY_KT0803_LIB_VERSION);
+  //  Serial.println();
+
 
   TinyWireM.begin();
   //  give I2C time to initialize (hard coded here)

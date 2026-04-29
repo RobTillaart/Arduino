@@ -1,7 +1,7 @@
 //
 //    FILE: TinyKT0803.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.2
 // PURPOSE: Arduino Library for KT0803 and KT0803K FM transmitter. Tiny edition.
 //     URL: https://github.com/RobTillaart/TinyKT0803
 //     URL: https://github.com/RobTillaart/KT0803

@@ -19,10 +19,12 @@ Arduino library for PID controller.
 The PID_RT class allows the user to instantiate a PID controller.
 
 This library allows one to 
-- adjust the K parameters (pid) runtime.
+- adjust the Kp, Ki and Kd parameters (PID) runtime.
 - stop / start computing runtime.
 
 (to be elaborated)
+
+Feedback as always is welcome.
 
 
 ### Some PID background
@@ -74,7 +76,7 @@ if not, it will return false, true otherwise.
 If the **PID_ENABLE_INTERVAL_CHECK** is set to false, the user has to ensure the interval 
 periodicity, e.g. by using a hardware timer, external interrupt, RTC or otherwise.
 
-Note that using a hardware timer can improve the accuracy of the PID control.
+Note that using a hardware timer can improve the accuracy of the PID controller.
 
 See the PID_RT.h file.
 

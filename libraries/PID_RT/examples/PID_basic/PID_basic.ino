@@ -13,7 +13,7 @@
 
 PID_RT PID;
 
-const int PWM_PIN = 3;  //  UNO PWM pin
+const int PWM_PIN = 3;  //  UNO R3 PWM pin
 
 int op = 0;
 float input = 0;
@@ -21,7 +21,6 @@ float input = 0;
 
 void setup()
 {
-  Serial.begin(115200);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);

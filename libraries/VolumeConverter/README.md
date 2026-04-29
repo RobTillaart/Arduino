@@ -33,6 +33,8 @@ The library is open for additions, including obscure volume metrics
 and volume related math functions and constants.
 Also good examples (e.g. educational) are welcome.
 
+Feedback as always is welcome.
+
 
 ### Accuracy
 
@@ -53,19 +55,18 @@ To convert from one less known format to another just takes two calls, example:
 ```
 
 If you need to convert a lot of data between two formats, it is also possible to 
-pre-calculate a factor so the conversion is faster.
-On an UNO R3 the gain goes up to 20%.
+pre-calculate a factor so the conversion might be faster.
 
 
 ```cpp
   VolumeConverter VC;
 
   VC.setLiters(1);  //  any non zero value will work.
-  float factor = VC.getGallons() / VC.getCubicMeters();
+  float CubicMeter2Gallons = VC.getGallons() / VC.getCubicMeters();
   sum = 0;
   for (int i = 0; i < 1000; i++)
   {
-    sum += i * factor;
+    sum += i * CubicMeter2Gallons;
   }
 
 ```
@@ -94,6 +95,8 @@ If units are missing, please open an issue.
 
 ### Related
 
+- https://github.com/RobTillaart/pressure - convertors
+- https://github.com/RobTillaart/temperature - convertors
 
 
 ## Interface

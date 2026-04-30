@@ -1,0 +1,22 @@
+# Syntax Colouring Map For US500
+
+# Data types (KEYWORD1)
+US500	KEYWORD1
+a
+
+# Methods and Functions (KEYWORD2)
+getDistance	KEYWORD2
+setMaxDistance	KEYWORD2
+getTemperature	KEYWORD2
+
+startMeasurement	KEYWORD2
+stopMeasurement	KEYWORD2
+
+
+# Constants (LITERAL1)
+US500_LIB_VERSION	LITERAL1
+
+US500_CMD_ERROR	LITERAL1
+US500_CRC_ERROR	LITERAL1
+US500_TIMEOUT_ERROR	LITERAL1
+

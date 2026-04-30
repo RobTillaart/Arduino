@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.1] - 2026-04-28
+- fix #9, add timeout handling
+- add **void set_timeout(uint32_t timeout)**
+- add **uint32_t get_timeout()**
+- add two sensor example
+- minor edits
+
 ## [0.3.0] - 2026-04-03
 - fix #7, **get_units(n = 1)** parameter default value
 - add **get_units(n)** parameter check (>=1)

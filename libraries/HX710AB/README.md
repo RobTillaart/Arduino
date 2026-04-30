@@ -40,6 +40,28 @@ These are not 1-to-1 replaceable devices.
 If problems occur or there are questions, please open an issue at GitHub.
 
 
+### Multiple devices
+
+The library allows to have multiple devices on different pins.
+When having an array of sensors the number of pins used adds up.
+
+One way of reducing pins is to add a multiplexer e.g. HC4052,
+which can select up to 4 devices allowing only 4 pins, or a 
+MAX14661 which allows up to 16 devices.
+
+- https://github.com/RobTillaart/HC4052 2 pins, 2x4 multiplexer.
+- https://github.com/RobTillaart/MAX14661 I2C, 2x16 multiplexer.
+
+Another way is to share the CLOCK pin for all devices and have an unique
+DATA pin per device. This allows one to control N devices with N+1 pin.
+
+In theory one could control (read) multiple devices in parallel,
+however this library does not support such feature.
+Seen a setup once having a shared CLOCK, and a 8 bit IO chip to read
+up to 8 channels in parallel. There was some "bit magic" to split the
+bits from the IO chips into the parallel DATA bytes.
+
+
 ### Breaking changes 0.2.0
 
 Some functions have been renamed to bring the API in line with the HX711 library.
@@ -67,6 +89,15 @@ interface to keep performance at maximum level.
 - https://http://www.aviaic.com/  (manufacturer)
 - https://github.com/RobTillaart/weight  conversions
 - https://github.com/RobTillaart/pressure  conversions
+
+
+HX710B library for the MPS20N0040D pressure sensor.
+
+- https://github.com/rppelayo/hx710B_pressure_sensor
+
+About calibration
+
+- https://makersportal.com/blog/2020/6/4/mps20n0040d-pressure-sensor-calibration-with-arduino
 
 
 ### Test
@@ -118,12 +149,33 @@ As the device might be blocking for up to 100 millis when using the synchronous
 This allows the user to do other tasks instead of active waiting.
 In fact the **read()** is implemented with this async interface.
 
+In fact the **read()** call might be blocking for an undetermined amount of time.
+If the data line is not pulled LOW due to a broken device or bad connection the
+**is_ready()** will never return true, causing an endless loop.
+The asynchronous API gives the user a way to detect this situation and to act
+in a project specific way to handle the problem.
+
 - **void request()** wakes up the device to make a measurement.
 - **bool is_ready()** checks if a measurement is ready.
 - **int32_t fetch(bool differential = true)** 
 reads from the device, sets the mode for the **next** read.
 The default parameter is true as differential readings are most used.
 See table above.
+
+
+### Timeout
+
+To prevent a blocking **read()** if a sensor is broken or due to a bad connection
+the library has a timeout function (since 0.3.1).
+If the timeout value is set to 0 (zero) the timeout will not be checked.
+The default value is 1000 milliseconds.
+
+Note that the sensor might need up to 100 millis to get ready, so setting the 
+timeout to a too small value might result in not reading the sensor at all.
+(getting series of zero's, optionally alternating, to investigate)
+
+- **void set_timeout(uint32_t timeout)**
+- **uint32_t get_timeout()** return set value.
 
 
 ### Calibration

@@ -2,7 +2,7 @@
 //
 //    FILE: HX710AB.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.3.1
 // PURPOSE: Arduino library for the HX710A and HX710B 24-Bit ADC.
 //    DATE: 2024-11-08
 //     URL: https://github.com/RobTillaart/HX710AB
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define HX710AB_LIB_VERSION              (F("0.3.0"))
+#define HX710AB_LIB_VERSION              (F("0.3.1"))
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -31,6 +31,7 @@ public:
     _fastProcessor = false;
     _offset = 0;
     _scale = 1;
+    _timeout = 1000;
   };
 
   void begin(bool fastProcessor = false)
@@ -68,7 +69,16 @@ public:
   int32_t read(bool differential = true)
   {
     request();
-    while (! is_ready()) yield();
+    uint32_t start = millis();
+    while (! is_ready())
+    {
+      if ((_timeout > 0) && (millis() - start >= _timeout))
+      {
+        // handle HX710AB_TIMEOUT;
+        return 0;
+      }
+      yield();
+    }
     return fetch(differential);
   }
 
@@ -80,6 +90,16 @@ public:
   int32_t last_value_read()
   {
     return _value;
+  }
+
+  void set_timeout(uint32_t timeout)
+  {
+    _timeout = timeout;
+  }
+  
+  uint32_t get_timeOut()
+  {
+    return _timeout;
   }
 
 
@@ -168,6 +188,7 @@ protected:
   bool     _fastProcessor;
   float    _offset;
   float    _scale;
+  uint32_t _timeout;
 };
 
 
@@ -203,7 +224,6 @@ public:
       //  Temperature out, 40 Hz
       clock_pulse();  //  26
     }
-
     _lastTimeRead = millis();
     //  extend sign if needed
     if (_value & 0x800000) _value |= 0xFF000000;

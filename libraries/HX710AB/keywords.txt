@@ -16,6 +16,9 @@ read	KEYWORD2
 lastTimeRead	KEYWORD2
 lastValueRead	KEYWORD2
 
+set_timeout	KEYWORD2
+get_timeout	KEYWORD2
+
 get_units	KEYWORD2
 
 calibrate	KEYWORD2

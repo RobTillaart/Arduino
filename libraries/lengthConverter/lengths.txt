@@ -1,0 +1,131 @@
+
+
+https://www.unitconverters.net/length-converter.html
+
+printHelpers
+
+meter
+1 kilometer [km]  = 1000 meter
+1 centimeter [cm] = 0.01 meter
+1 millimeter [mm] = 1.0E-3 meter
+1 micrometer [µm] = 1.0E-6 meter
+1 nanometer [nm]  = 1.0E-9 meter
+1 picometer [pm]  = 1.0E-12 meter
+1 femtometer [fm] = 1.0E-15 meter
+1 attometer [am]  = 1.0E-18 meter
+
+1 mile [mi, mi(Int)] = 1609.344 meter
+1 yard [yd] = 0.9144 meter
+1 foot [ft] = 0.3048 meter
+1 inch [in] = 0.0254 meter
+
+
+1 decimeter [dm]  = 0.1 meter            X
+1 exameter [Em] = 1.0E+18 meter          X
+1 petameter [Pm] = 1.0E+15 meter         X
+1 terameter [Tm] = 1.0E12 meter          X
+1 gigameter [Gm] = 1.0E9 meter           X
+1 megameter [Mm] = 1.0E6 meter           X
+1 hectometer [hm] = 100 meter            X
+1 dekameter [dam] = 10 meter             X
+1 micron [µ] = 1.0E-6 meter              X
+
+
+
+
+1 light year [ly] = 9.46073047258E+15 meter
+1 megaparsec [Mpc] = 3.08567758128E+22 meter
+1 kiloparsec [kpc] = 3.08567758128E+19 meter
+1 parsec [pc] = 3.08567758128E+16 meter
+1 astronomical unit [AU, UA] = 149597870691 meter
+
+
+1 league [lea] = 4828.032 meter
+1 nautical league (UK) = 5559.552 meter
+1 nautical league (int.) = 5556 meter
+1 league (statute) [st.league] = 4828.0416560833 meter
+1 nautical mile (UK) [NM (UK)] = 1853.184 meter
+1 nautical mile (international) = 1852 meter
+
+
+1 mile (statute) [mi, mi (US)] = 1609.3472186944 meter
+1 mile (US survey) [mi] = 1609.3472186944 meter
+1 mile (Roman) = 1479.804 meter
+1 kiloyard [kyd] = 914.4 meter
+
+1 furlong [fur] = 201.168 meter
+1 furlong (US survey) [fur] = 201.1684023368 meter
+
+
+1 chain [ch] = 20.1168 meter
+1 chain (US survey) [ch] = 20.1168402337 meter
+1 rope = 6.096 meter
+1 rod [rd] = 5.0292 meter
+1 rod (US survey) [rd] = 5.0292100584 meter
+1 perch = 5.0292 meter
+1 pole = 5.0292 meter
+1 fathom [fath] = 1.8288 meter
+1 fathom (US survey) [fath] = 1.8288036576 meter
+1 ell = 1.143 meter
+1 foot (US survey) [ft] = 0.3048006096 meter
+1 link [li] = 0.201168 meter
+1 link (US survey) [li] = 0.2011684023 meter
+1 cubit (UK) = 0.4572 meter
+
+
+1 hand = 0.1016 meter
+1 span (cloth) = 0.2286 meter
+1 finger (cloth) = 0.1143 meter
+1 nail (cloth) = 0.05715 meter
+1 inch (US survey) [in] = 0.0254000508 meter
+
+------------
+
+1 barleycorn = 0.0084666667 meter
+1 mil [mil, thou] = 2.54E-5 meter
+1 microinch = 2.54E-8 meter
+
+
+//  ATOMIC
+1 angstrom [A] = 1.0E-10 meter
+1 a.u. of length [a.u., b] = 5.2917724900001E-11 meter     // atomic unit
+1 X-unit [X] = 1.00208E-13 meter
+1 fermi [F, f] = 1.0E-15 meter
+1 Planck length = 1.61605E-35 meter
+1 Electron radius (classical) = 2.81794092E-15 meter
+1 Bohr radius [b, a.u.] = 5.2917724900001E-11 meter
+
+
+1 arpent = 58.5216 meter
+1 pica = 0.0042333333 meter
+1 point = 0.0003527778 meter
+1 twip = 1.76389E-5 meter
+1 aln = 0.5937777778 meter
+1 famn = 1.7813333333 meter
+1 caliber [cl] = 0.000254 meter
+1 centiinch [cin] = 0.000254 meter
+
+
+1 ken = 2.11836 meter
+1 Russian archin = 0.7112 meter
+1 Roman actus = 35.47872 meter
+1 vara de tarea = 2.505456 meter
+1 vara conuquera = 2.505456 meter
+1 vara castellana = 0.835152 meter
+
+1 cubit (Greek) = 0.462788 meter
+1 long reed = 3.2004 meter
+1 reed = 2.7432 meter
+1 long cubit = 0.5334 meter
+
+1 handbreadth = 0.0762 meter
+1 fingerbreadth = 0.01905 meter
+
+
+//  ASTRO
+1 Earth's equatorial radius = 6378160 meter
+1 Earth's polar radius = 6356776.9999999 meter
+1 Earth's distance from sun = 149600000000 meter
+1 Sun's radius = 696000000 meter
+
+

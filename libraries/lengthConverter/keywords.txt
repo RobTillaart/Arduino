@@ -1,0 +1,13 @@
+# Syntax Colouring Map For lengthConverter
+
+# Data types (KEYWORD1)
+lengthConverter	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+
+
+
+# Constants (LITERAL1)
+LENGTHCONVERTOR_LIB_VERSION	LITERAL1
+

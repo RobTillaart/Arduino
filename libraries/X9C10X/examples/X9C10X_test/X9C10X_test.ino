@@ -44,7 +44,7 @@ void setup()
 
   Serial.print("POS:\t0\t");
   Serial.println(pot.getPosition());
-  Serial.print("VAL:\t\t");
+  Serial.print("OHM:\t\t");
   Serial.print(pot.getOhm());
   Serial.println(" Ω");
   Serial.println();
@@ -52,7 +52,7 @@ void setup()
   pot.setPosition(50);
   Serial.print("POS:\t50\t");
   Serial.println(pot.getPosition());
-  Serial.print("VAL:\t\t");
+  Serial.print("OHM:\t\t");
   Serial.print(pot.getOhm());
   Serial.println(" Ω");
   Serial.println();
@@ -60,10 +60,10 @@ void setup()
   pot.setPosition(110);
   Serial.print("POS:\t110\t");
   Serial.println(pot.getPosition());
-  Serial.print("VAL:\t\t");
+  Serial.print("OHM:\t\t");
   Serial.print(pot.getOhm());
   Serial.println(" Ω");
-  Serial.print("OHM:\t\t");
+  Serial.print("MAX:\t\t");
   Serial.print(pot.getMaxOhm());
   Serial.println(" Ω");
   Serial.println();
@@ -71,10 +71,10 @@ void setup()
   pot.setPosition(0);
   Serial.print("POS:\t0\t");
   Serial.println(pot.getPosition());
-  Serial.print("VAL:\t\t");
+  Serial.print("OHM:\t\t");
   Serial.print(pot.getOhm());
   Serial.println(" Ω");
-  Serial.print("OHM:\t\t");
+  Serial.print("MAX:\t\t");
   Serial.print(pot.getMaxOhm());
   Serial.println(" Ω");
   Serial.println();

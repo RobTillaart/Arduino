@@ -31,6 +31,7 @@ uint32_t start, stop;
 volatile uint8_t pos;
 volatile uint32_t ohm;
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -43,7 +44,7 @@ void setup()
   delay(100);
 
   pot.begin(8, 9, 10);  //  pulse, direction, select
-  pot.setPosition(0);  //  position
+  pot.setPosition(0);   //  position
 
   start = micros();
   pos = pot.getPosition();

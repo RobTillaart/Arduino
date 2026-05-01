@@ -1,7 +1,7 @@
 //
 //    FILE: X9C10X.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //    DATE: 2022-01-26
 //     URL: https://github.com/RobTillaart/X9C10X

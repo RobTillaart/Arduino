@@ -2,7 +2,7 @@
 //
 //    FILE: X9C10X.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.4
+// VERSION: 0.2.5
 // PURPOSE: Arduino Library for X9C10X series digital potentiometer.
 //    DATE: 2022-01-26
 //     URL: https://github.com/RobTillaart/X9C10X
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define X9C10X_LIB_VERSION        (F("0.2.4"))
+#define X9C10X_LIB_VERSION        (F("0.2.5"))
 
 
 /////////////////////////////////////////////////////////

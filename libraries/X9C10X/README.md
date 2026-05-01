@@ -43,6 +43,8 @@ Since 0.2.1 the library also supports **restoreInternalPosition(position)**
 to set the internal position with the value from the latest **store()** call.
 See the examples.
 
+Feedback as always is welcome.
+
 
 ### Multiple devices
 

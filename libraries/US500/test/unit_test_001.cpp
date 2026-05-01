@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-29
-// PURPOSE: unit tests for the US500 library
+// PURPOSE: unit tests for the Arduino library for US500 and US4000 underwater distance sensor.
 //     URL: https://github.com/RobTillaart/US500
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

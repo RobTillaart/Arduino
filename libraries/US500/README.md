@@ -11,39 +11,57 @@
 
 # US500
 
-Arduino library for US500 underwater distance sensor.
+Arduino library for US500 and US4000 underwater distance sensor.
 
 
 ## Description
 
 **Experimental**
 
-This library is to use the US500 underwater (IP67) distance sensor.
+This library is to use the US500 and US4000 underwater distance sensors.
 The sensor communicates over Serial at 9600 baud.
 The MCU sends a command and depending on the command the device answers.
 
-The device can read a distance in the range from 0.5 to 50 centimetre (0.2 - 20 inch). 
-The accuracy is ±2mm (~0.1 inch).
-The field of view is ±5°.
-The US500 can also read the temperature of the water typical 0-100°C.
+The devices can read the distance and the temperature.
 Furthermore the device has a start and stop function. 
-These functions are straight forward.
+These functions are pretty straight forward.
 
-The library is not tested with hardware (order pending).
+Check latest data-sheets for the details:
 
-It is unknown how the device behaves in other liquids, at least the distance
-measurements are expected to be incorrect (other speed of sound).
+|  Feature         |  US500             |  US4000              |
+|:-----------------|:-------------------|:---------------------|
+|  DISTANCE        |                    |                      |
+|  range           |  -50 cm            |  -400 cm = ~13 feet  |
+|  accuracy        |  ±2mm = ~0.1 inch  |  ±4cm = ~1.6 inch    |
+|  field of view   |  90±5°             |  90±4°               |
+|  frequency       |  3 MHz             |  1 MHz               |
+|                  |                    |                      |
+|  TEMPERATURE     |                    |                      |
+|  range           |  -10..70° Celsius  |  -10..60° Celsius    |
+|                  |                    |                      |
+|  MISCELANEOUS    |                    |                      |
+|  waterproof      |  IP67              |  IP68                |
+|  voltage         |  5-12 V            |  5V                  |
+|  Serial          |  9600,N,8,1 TTL    |  9600,N,8,1 TTL      |
 
-The device might need a separate power supply (75mW @ 5V).
+
+The library is not tested with hardware yet (order pending).
+
+It is unknown how the device behaves in other liquids.
+Assumption is that the distance measurements incorrect as most liquids
+have an other speed of sound.
+
+The devices might need a separate power supply.
 
 Feedback, as always is welcome.
 
 
 ### Connections US500
 
-The US500 device is connected to a controller board (which is NOT waterproof).
+The US500 device is connected to a **controller board** (which is NOT waterproof).
+This controller board is connected over Serial with the MCU.
 
-|  Colour       |  Connection  |  Notes  |
+|  Colour       |  Controller  |  Notes  |
 |:--------------|:-------------|:--------|
 |  Gray core    |  D signal +  |  polarity !!
 |  Gray shield  |  D signal -  |  polarity !!
@@ -53,12 +71,30 @@ The US500 device is connected to a controller board (which is NOT waterproof).
 The temperature sensor has no preferred orientation, however the GRAY
 distance cable can only be connected in one way.
 
+Multiple devices can be connected to an MCU with multiple (hardware) 
+Serial ports, or by means of a multiplexer e.g. MAX14661.
+
+
+### Connections US4000
+
+The US4000 device is connected directly to TTL Serial of the MCU.
+
+|  Colour       |  Connection  |  Notes  |
+|:--------------|:-------------|:--------|
+|  Red          |  Power +12V  |
+|  White        |  UART TX     |  TTL
+|  Yellow       |  UART RX     |  TTL
+|  Black        |  Power GND   |
+
+Multiple devices can be connected to an MCU with multiple (hardware) 
+Serial ports, or by means of a multiplexer e.g. MAX14661.
+
 
 ### Compatible
 
 The US4000 (up to 4 meter, IP68) is almost compatible with the US500.
 Main difference is the address and the setDistance() call is not supported.
-A future update is planned to support the US4000.
+A separate class in this library exists for the US4000.
 
 
 ### About hardware
@@ -74,7 +110,8 @@ Assumption is it will send a short pulse and waits for the echo.
 ### Speed of sound in water
 
 It is unknown if the US500 compensates for the temperature of the water.
-One may assume it does.
+The assumption is it does.
+The US4000 does compensate for temperature drift (datasheet page 2).
 
 From - https://www.engineeringtoolbox.com/sound-speed-water-d_598.html
 (has also a Fahrenheit => feet/sec table)
@@ -96,9 +133,10 @@ From - https://www.engineeringtoolbox.com/sound-speed-water-d_598.html
 |    100    |     1543     |              |          |
 
 Values in between can be interpolated.
+Note the graph is not linear and maxes out around 75°C.
 
 Assumption is that the distance can be adjusted to other liquids
-by using right formula.
+by using the right formula, or by using multiMap.
 
 
 ### Warnings from datasheet
@@ -118,11 +156,14 @@ Supplier
 - https://www.positive-inno.com - supplier of the US500 (US4000 and more).
 - https://positive-inno.com/wp-content/uploads/2026/04/US500-Manual.pdf - datasheet
 - https://positive-inno.com/wp-content/uploads/2026/04/US4000LSG-M20-TTL-Manual.pdf - datasheet
+- https://www.tinytronics.nl/nl/sensoren/afstand/pono-us500-hx-onderwater-ultrasone-afstandssensor-uart-50cm
 
 Libraries:
 - https://github.com/RobTillaart/US500 - this library
 - https://github.com/RobTillaart/SRF05 - library for SRF05 distance sensor with temperature and humidity compensation.
-- https://www.tinytronics.nl/nl/sensoren/afstand/pono-us500-hx-onderwater-ultrasone-afstandssensor-uart-50cm
+- https://github.com/RobTillaart/MultiMap - library for non linear mapping
+- https://github.com/RobTillaart/printHelpers - scientific notation / printInch() / printFeet()
+- https://github.com/RobTillaart/MAX14661 - 16x2 channel multiplexer
 
 
 ### Tested
@@ -136,12 +177,15 @@ TODO test with hardware.
 #include "US500.h"
 ```
 
-### Constructor
+### Constructors
 
 - **US500(Stream \* str)** Typical Serial1 or Serial2.
+Should be initialized at 9600,N,8,1.
+- **US4000(Stream \* str)** idem
 It is not known if software serial will work (not tested).
-- **uint16_t getAddress()** returns 0x0005. Convenience function.
-
+- **uint16_t getAddress()** Convenience function.
+  - returns 0x0005 for US500
+  - returns 0x000A for US4000
 
 ### Core
 
@@ -151,6 +195,7 @@ If the functions return a value < 0, it is an error code.
 - **int setMaxDistance(uint16_t distance)** set the maximum range in 0.1 mm
 Must be between 1500 and 5000.
 returns 0 = false or 1 = true (or error code).
+This function is not supported by the US40000.
 - **float getTemperature()** returns the temperature in degrees Celsius.
 (or error code).
 The resolution is in steps of 0.1 degree, supports negative values.
@@ -160,11 +205,15 @@ The resolution is in steps of 0.1 degree, supports negative values.
 
 ### Error codes
 
-|  name                 |  value  |
-|:----------------------|:-------:|
-|  US500_CMD_ERROR      |    -1   |
-|  US500_CRC_ERROR      |    -2   |
-|  US500_TIMEOUT_ERROR  |    -3   |
+|  name                  |  value  |
+|:-----------------------|:-------:|
+|  US500_CMD_ERROR       |    -1   |
+|  US500_CRC_ERROR       |    -2   |
+|  US500_TIMEOUT_ERROR   |    -3   |
+|                        |         |
+|  US4000_CMD_ERROR      |    -1   |
+|  US4000_CRC_ERROR      |    -2   |
+|  US4000_TIMEOUT_ERROR  |    -3   |
 
 
 ### Helper
@@ -183,18 +232,19 @@ one can flush int input buffer.
 
 #### Should
 
-- support US4000
-- improve error handling
-- add range check for setMaxDistance or constrain.
-- verify software serial works / not.
-- test temperature range (water is typical > 0).
-- do we need to compensate distance for temperature?
-  or is this done in the factory / device.
-- time for measurement after start.
-- performance indication. per function.
+- verify Software Serial works / not.
 
 #### Could
 
+- improve error handling
+- add range check for setMaxDistance or constrain.
+- test temperature range (water is typical > 0).
+- test other liquids (?)
+  - water with sugar / oil / ...
+- do we need to compensate distance for temperature?
+  or is this done in the factory / device. (US4000 is for sure)
+- time for measurement after start.
+- performance indication. per function.
 - create unit tests if possible
 
 #### Wont

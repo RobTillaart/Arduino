@@ -1,7 +1,7 @@
 {
   "name": "US500",
   "keywords": "",
-  "description": "Arduino library for US500 underwater distance sensor.",
+  "description": "Arduino library for US500 and US4000 underwater distance sensor.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/US500.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

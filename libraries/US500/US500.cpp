@@ -2,8 +2,8 @@
 //    FILE: US500.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-29
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for US500 underwater distance sensor.
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for US500 and US4000 underwater distance sensor.
 //     URL: https://github.com/RobTillaart/US500
 
 

@@ -39,6 +39,8 @@ It is written on the datasheet as I have no hardware yet to test it.
 Of course I am very interested in your experiences and feedback to improve
 the library.
 
+Feedback as always is welcome.
+
 
 ### Related
 

@@ -70,21 +70,27 @@ void loop()
     {
       detachInterrupt(irq_select);  //  0
       Serial.print("irradiance (0):\t");
-      Serial.print(mySensor_450.irradiance(pulses));   //  assumption 1 second
-      Serial.println(" uW/cm2");
+
+      uint32_t t = pulses;
       pulses = 0;
       irq_select = 1;
       attachInterrupt(irq_select, count_irq, FALLING);
+
+      Serial.print(mySensor_450.irradiance(t));   //  assumption 1 second
+      Serial.println(" uW/cm2");
     }
     else
     {
       detachInterrupt(irq_select);  //  1
       Serial.print("irradiance (1):\t");
-      Serial.print(mySensor_650.irradiance(pulses));   //  assumption 1 second
-      Serial.println(" uW/cm2");
+
+      uint32_t t = pulses;
       pulses = 0;
       irq_select = 0;
       attachInterrupt(irq_select, count_irq, FALLING);
+
+      Serial.print(mySensor_650.irradiance(t));   //  assumption 1 second
+      Serial.println(" uW/cm2");
     }
     lastMeasurement = millis();
   }

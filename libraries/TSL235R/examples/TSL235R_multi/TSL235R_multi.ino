@@ -74,14 +74,18 @@ void loop()
   {
     lastMeasurement = now;
 
+    noInterrupts();
     t = cnt1;
+    interrupts();
     uint32_t Hz = t - oldcnt1;
     oldcnt1 = t;
     Serial.print("irradiance 450 nm:\t");
     Serial.print(mySensor_450.irradiance(Hz));
     Serial.println(" uW/cm2");
 
+    noInterrupts();
     t = cnt2;
+    interrupts();
     Hz = t - oldcnt2;
     oldcnt2 = t;
     Serial.print("irradiance 650 nm:\t");
@@ -92,4 +96,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

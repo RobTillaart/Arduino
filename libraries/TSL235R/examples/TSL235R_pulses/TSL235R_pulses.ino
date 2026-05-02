@@ -56,8 +56,9 @@ void loop()
   uint32_t now = millis();
   if (now - lastMeasurement >= 1000)
   {
-
+    noInterrupts();
     t = cnt1;
+    interrupts();
     uint32_t Hz = t - oldcnt1;
     oldcnt1 = t;
 
@@ -75,4 +76,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

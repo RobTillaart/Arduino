@@ -33,6 +33,8 @@ Note that for longer and shorter measurements than 1 second one must
 convert the value to Hz, which is the number of pulses in 1 second.
 The library provides two **irradiance()** functions to do that for you.
 
+Feedback as always welcome.
+
 
 ### Related
 
@@ -119,6 +121,7 @@ See examples for typical usage.
 
 - investigate hardware solutions for e.g. divide by 100 or 1000 or so.
 - investigate correction factor for white light and mixed light sources.
+- investigate correction factor for angle of the light?
 - investigate calibration factor for timing of processor used.
 
 #### Wont

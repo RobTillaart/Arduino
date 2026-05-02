@@ -2,13 +2,13 @@
 //
 //    FILE: TSL235R.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2020-05-29
 // PURPOSE: library for the TSL235R light to frequency convertor
 //     URL: https://github.com/RobTillaart/TSL235R
 
 
-#define TSL235R_LIB_VERSION             (F("0.1.6"))
+#define TSL235R_LIB_VERSION             (F("0.1.7"))
 
 #include "Arduino.h"
 

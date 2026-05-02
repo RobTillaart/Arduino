@@ -56,7 +56,9 @@ void loop()
   if (now - lastMeasurement >= 1000)
   {
     lastMeasurement = now;
+    noInterrupts();
     t = count;
+    interrupts();
     uint32_t Hz = t - oldCount;
     oldCount = t;
 
@@ -70,4 +72,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

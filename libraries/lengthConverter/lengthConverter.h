@@ -3,7 +3,7 @@
 //    FILE: lengthConverter.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-30
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for to convert units of length.
 //     URL: https://github.com/RobTillaart/lengths
 //
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define LENGTHCONVERTER_LIB_VERSION         (F("0.1.0"))
+#define LENGTHCONVERTER_LIB_VERSION         (F("0.1.1"))
 
 
 class lengthConverter

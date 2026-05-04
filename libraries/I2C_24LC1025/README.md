@@ -16,7 +16,7 @@ Arduino library for 24LC1025 (1 Mbit) I2C EEPROM and equivalents e.g. 24AA1025/2
 
 ## Description
 
-This library is to access the external I2C EEPROM of 128 KB = 1 Mbit in size.
+This library is to access the external I2C EEPROM of 1 Mbit = 128 KB = 131064 bytes in size.
 Typically the 24LC1025 and equivalents e.g. 24AA1025/24FC1025.
 
 The user is responsible to verify the used memoryAddress (range) exists in the used EEPROM. 
@@ -34,7 +34,7 @@ This library follows the I2C_EEPROM library, see links below.
 Feedback, as always, is welcome.
 
 
-### Breaking change
+### Breaking change 0.3.0
 
 Version 0.3.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -48,6 +48,7 @@ before calling **begin()**.
 - https://github.com/RobTillaart/I2C_24LC1025
 - https://github.com/RobTillaart/I2C_CAT24M01
 - https://github.com/RobTillaart/I2C_EEPROM
+- https://github.com/RobTillaart/I2C_FRAM_I2C - alternative for EEPROM
 
 
 ## Schematic

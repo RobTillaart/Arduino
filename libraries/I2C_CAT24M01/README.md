@@ -16,7 +16,7 @@ Arduino library for CAT24M01 1Mbit I2C EEPROM.
 
 ## Description
 
-This library is to access the external CAT24M01 I2C EEPROM of 128 KB = 1 Mbit in size.
+This library is to access the external CAT24M01 I2C EEPROM of 1 Mbit = 128 KB = 131064 bytes in size.
 
 The user is responsible to verify the used memoryAddress (range) exists in the used EEPROM. 
 (read / write / verify functions).
@@ -40,6 +40,7 @@ Feedback, as always, is welcome.
 - https://github.com/RobTillaart/I2C_24LC1025
 - https://github.com/RobTillaart/I2C_CAT24M01
 - https://github.com/RobTillaart/I2C_EEPROM
+- https://github.com/RobTillaart/I2C_FRAM_I2C - alternative for EEPROM
 
 
 ## Schematic

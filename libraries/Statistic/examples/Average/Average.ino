@@ -17,7 +17,6 @@ uint32_t stop;
 void setup(void)
 {
   Serial.begin(115200);
-  Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("STATISTIC_LIB_VERSION: ");

@@ -2,7 +2,6 @@
 //    FILE: datetime_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo seconds2clock
-//    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/datetimeHelpers
 
 

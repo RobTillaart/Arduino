@@ -40,6 +40,7 @@ unittest_teardown()
 unittest(test_constants)
 {
   assertEqual(60,     SECONDS_MINUTE);
+  assertEqual(900,    SECONDS_QUARTER);
   assertEqual(3600,   SECONDS_HOUR);
   assertEqual(86400,  SECONDS_DAY);
   assertEqual(604800, SECONDS_WEEK);

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.5] - 2026-05-04
+- replace defines with constexpr
+- implement seconds2clock24() with seconds2duration(_,_,false)
+- add micros2duration()
+- update readme.md.
+- update GitHub actions
+- minor edits
+
 ## [0.1.4] - 2025-09-04
 - update GitHub actions
 - add hourAngle(), minuteAngle(), secondAngle()
@@ -19,7 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.2] - 2023-01-18
 - fix build  (PM is a reserved word on M4 / samd platform)
 - minor fix changelog.md
-
 
 ## [0.1.1] - 2023-01-07
 - initial release

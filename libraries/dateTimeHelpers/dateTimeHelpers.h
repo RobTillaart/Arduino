@@ -2,26 +2,29 @@
 //
 //    FILE: datetimeHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
-// PURPOSE: Arduino library with date time helper functions.
+// VERSION: 0.1.5
 //    DATE: 2020-07-01
+// PURPOSE: Arduino library with date time helper functions.
 //     URL: https://github.com/RobTillaart/dateTimeHelpers
 
 
 #include "Arduino.h"
 
 
-#define DATETIMEHELPER_LIB_VERSION      (F("0.1.4"))
+#define DATETIMEHELPER_LIB_VERSION      (F("0.1.5"))
 
-#define SECONDS_MINUTE                  60UL
-#define SECONDS_HOUR                    3600UL
-#define SECONDS_DAY                     86400UL
-#define SECONDS_WEEK                    604800UL
+//  constants to calculate the seconds in a unit of time.
+//  month and year are not fixed so not supported.
+constexpr uint32_t SECONDS_MINUTE  = 60;
+constexpr uint32_t SECONDS_QUARTER = 900;
+constexpr uint32_t SECONDS_HOUR    = 3600;
+constexpr uint32_t SECONDS_DAY     = 86400;
+constexpr uint32_t SECONDS_WEEK    = 604800;
 
 
 //  shared internal buffer.
 //  increase size to 20 or 24 if needed.
-static char __dateTimeHelperBuffer[16];
+static char __dateTimeHelperBuffer[20];
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -43,7 +46,7 @@ void secondsSplit( uint32_t seconds, uint16_t * days, uint8_t * hours, uint8_t *
 
 //  (true)  days 00:00:00 .. 23:59:59
 //  (false) days 00:00 ..    23:59
-char * seconds2duration(uint32_t seconds, bool displaySeconds = false)
+char * seconds2duration(uint32_t seconds, bool displaySeconds = false, bool displayDay = true)
 {
   char * buf = __dateTimeHelperBuffer;
 
@@ -52,9 +55,12 @@ char * seconds2duration(uint32_t seconds, bool displaySeconds = false)
   secondsSplit(seconds, &days, &hours, &minutes, &sec);
 
   uint8_t pos = 0;
-  itoa(days, buf, 10);
-  pos = strlen(buf);
-  buf[pos++]  = ' ';
+  if (displayDay)
+  {
+    itoa(days, buf, 10);
+    pos = strlen(buf);
+    buf[pos++]  = ' ';
+  }
 
   uint8_t t = hours / 10;
   buf[pos++] = t + '0';
@@ -81,31 +87,7 @@ char * seconds2duration(uint32_t seconds, bool displaySeconds = false)
 //  (false)  00:00 ..    23:59
 char * seconds2clock24(uint32_t seconds, bool displaySeconds = false)
 {
-  char * buf = __dateTimeHelperBuffer;
-  uint8_t pos = 0;
-
-  uint16_t days;
-  uint8_t hours, minutes, sec;
-  secondsSplit(seconds, &days, &hours, &minutes, &sec);
-
-  uint8_t t = hours / 10;
-  buf[pos++] = t + '0';
-  buf[pos++] = hours - (t * 10) + '0';
-  buf[pos++]  = ':';
-
-  t = minutes / 10;
-  buf[pos++] = t + '0';
-  buf[pos++] = minutes - (t * 10) + '0';
-  if (displaySeconds)
-  {
-    buf[pos++]  = ':';
-    t = sec / 10;
-    buf[pos++] = t + '0';
-    buf[pos++] = sec - (t * 10) + '0';
-  }
-  buf[pos]  = '\0';
-
-  return buf;
+  return seconds2duration(seconds, displaySeconds, false);
 }
 
 
@@ -230,53 +212,80 @@ char * millis2clock(uint32_t millis)
 }
 
 
+char * micros2duration(uint32_t micros)
+{
+  char * buf = __dateTimeHelperBuffer;
+
+  uint32_t t = micros / 1000;
+  millis2duration(t);
+  uint8_t pos = strlen(buf);
+
+  uint16_t m = micros - t * 1000;
+  buf[pos++]  = '.';
+  uint8_t d = m / 100;
+  buf[pos++] = d + '0';
+  m = m - d * 100;
+  d = m / 10;
+  buf[pos++] = d + '0';
+  d = m - d * 10;
+  buf[pos++] = d + '0';
+  buf[pos++]  = '\0';
+
+  return buf;
+}
+
 ///////////////////////////////////////////////////////////////////////////
 //
 //  CONVERTORS
 //
 float seconds2weeks(uint32_t seconds)
 {
-  return seconds * (1.0 / SECONDS_WEEK);  //  1.653439153439e-6;
+  return seconds * (1.0f / SECONDS_WEEK);  //  1.653439153439e-6;
 }
 
 float seconds2days(uint32_t seconds)
 {
-  return seconds * (1.0 / SECONDS_DAY);  //  1.157407407407e-5;
+  return seconds * (1.0f / SECONDS_DAY);  //  1.157407407407e-5;
 }
 
 float seconds2hours(uint32_t seconds)
 {
-  return seconds * (1.0 / SECONDS_HOUR);  //  2.777777777778e-4;
+  return seconds * (1.0f / SECONDS_HOUR);  //  2.777777777778e-4;
+}
+
+float seconds2quarters(uint32_t seconds)
+{
+  return seconds * (1.0f / SECONDS_QUARTER);
 }
 
 float seconds2minutes(uint32_t seconds)
 {
-  return seconds * (1.0 / SECONDS_MINUTE);  //  1.666666666667e-2;
+  return seconds * (1.0f / SECONDS_MINUTE);  //  1.666666666667e-2;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
-//  ANGLE FOR CLOCK
+//  ANGLE FOR CLOCK HANDS
 //
 float hourAngle(uint8_t hh, uint8_t mm, uint8_t ss)
 {
-  float angle = (hh % 12) * 30;
-  angle += (mm * 30.0 / 60.0);
-  angle += (ss * 0.5 / 60.0);
+  float angle = (hh % 12) * 30.0f;
+  angle += (mm * (30.0f / 60.0f));
+  angle += (ss * (0.5f / 60.0f));
   return angle;
 }
 
 float minuteAngle(uint8_t mm, uint8_t ss)
 {
-  float angle = (mm * 6.0);
-  angle += (ss * 6.0 / 60.0);
+  float angle = (mm * 6.0f);
+  angle += (ss * (6.0f / 60.0f));
   return angle;
 }
 
 float secondAngle(uint8_t ss)
 {
-  float angle = (ss * 6.0);
+  float angle = (ss * 6.0f);
   return angle;
 }
 

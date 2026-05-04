@@ -2,7 +2,6 @@
 //    FILE: datetime_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo seconds2clock
-//    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/datetimeHelpers
 
 
@@ -36,6 +35,7 @@ void setup()
 
 void loop()
 {
+  //  simulate fast clock
   uint32_t seconds = micros();
   //  print only major functions.
   Serial.println(seconds2clock24(seconds, false));

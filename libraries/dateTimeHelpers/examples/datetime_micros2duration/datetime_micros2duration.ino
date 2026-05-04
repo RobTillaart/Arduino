@@ -1,0 +1,31 @@
+//
+//    FILE: datetime_micros2duration.ino
+//  AUTHOR: Rob Tillaart
+// PURPOSE: demo millis2duration
+//     URL: https://github.com/RobTillaart/dateTimeHelpers
+
+
+#include "dateTimeHelpers.h"
+
+
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println(__FILE__);
+  Serial.print("DATETIMEHELPER_LIB_VERSION: ");
+  Serial.println(DATETIMEHELPER_LIB_VERSION);
+  Serial.println();
+}
+
+
+void loop()
+{
+  uint32_t mic = micros();
+
+  Serial.println(micros2duration(mic) + 2);
+  delay(12);
+}
+
+
+//  -- END OF FILE --

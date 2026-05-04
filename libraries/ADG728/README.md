@@ -33,6 +33,8 @@ The device works with 2.3 V to 5.5 V so it should work with most MCU's.
 
 The library is not tested with hardware yet.
 
+Feedback as always welcome.
+
 
 ### I2C
 

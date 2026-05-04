@@ -42,6 +42,8 @@ Feedback welcome!
 - https://github.com/RobTillaart/HC4067 (1x16 mux)
 - https://github.com/RobTillaart/ADG725 (2x16 mux)
 - https://github.com/RobTillaart/ADG726 (2x16 mux)
+- https://github.com/RobTillaart/ADG728  (1x8 mux)
+- https://github.com/RobTillaart/ADG729  (2x4 mux)
 - https://github.com/RobTillaart/ADG731 (1x32 mux)
 - https://github.com/RobTillaart/ADG732 (1x32 mux)
 

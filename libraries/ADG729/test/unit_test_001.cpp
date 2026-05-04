@@ -1,7 +1,7 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.3
 //    DATE: 2024-07-03
 // PURPOSE: unit tests for the ADG729 I2C matrix switch. 2x4 Multiplexer.
 //          https://github.com/RobTillaart/ADG729

@@ -2,7 +2,7 @@
 //
 //    FILE: dht2pin.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHT2pin
 //          http://arduino.cc/playground/Main/DHTLib
@@ -11,7 +11,7 @@
 #include <Arduino.h>
 
 
-#define DHT2PIN_LIB_VERSION               (F("0.2.2"))
+#define DHT2PIN_LIB_VERSION               (F("0.2.3"))
 
 
 //  note reuse of DHTLIB constants. (Possible conflict!)

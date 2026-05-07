@@ -1,7 +1,6 @@
 //
-//    FILE: DHT2pin.ino
+//    FILE: dht2pin.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
 // PURPOSE: demo reading an DHT with 2 pins instead of 1
 //    DATE: 2016 sep 5
 //     URL: https://github.com/RobTillaart/DHT2pin

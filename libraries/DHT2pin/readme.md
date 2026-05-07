@@ -43,6 +43,8 @@ https://web.archive.org/web/20180510215445/http://bigdinotech.com/tutorials/gali
 
 **NOTE: THIS LIB IS NOT TESTED EXTENSIVELY YET SO USE WITH CARE**
 
+Feedback as always is welcome.
+
 
 ### Related
 

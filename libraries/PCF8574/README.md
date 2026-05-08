@@ -33,6 +33,8 @@ Be sure to have a well dimensioned power supply.
 The library allows to read and write both single pins or 8 pins at once.
 Furthermore some additional functions are implemented that are playful and useful.
 
+Feedback is as always welcome.
+
 
 ### Interrupts intro
 

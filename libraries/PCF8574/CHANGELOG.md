@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.5] - 2026-05-08
+- update GitHub actions
+- minor edits
+
 ## [0.4.4] - 2025-09-01
 - add **writeArray(array, size)** and **readArray(array, size)**.
 - add PCF8574_writeArray.ino

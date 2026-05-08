@@ -70,12 +70,12 @@ Furthermore the basic math is implemented, "+, -, \*, /, +=, -=, \*=, /="
 
 ### Set like functions
 
-- **bool in(FLE y)** x.in(y) returns true if x lies completely in y  (range is a subset)
+- **bool in(FLE y)** x.in(y) returns true if x lies completely in y (range is a subset)
 - **FLE shared(FLE y)** returns the overlapping range.
 
 ### Weak propositions
 
-Experimental.
+**Experimental**
 
 - **bool peq(FLE &y)** possible equal.
 - **bool pne(FLE &y)** possible not equal.

@@ -21,6 +21,9 @@ Smaller keypads, meaning less columns or rows (4x3) can be read with it too.
 
 Since 0.3.2 the library allows a 5x3, 6x2 or 8x1 or smaller keypad to be connected too.
 
+Feedback as always is welcome.
+
+
 ### Breaking change
 
 Since 0.5.0 the library can set a debounce threshold.
@@ -37,6 +40,7 @@ Relates strongly to https://github.com/RobTillaart/I2CKeyPad8x8. which is an 8x8
 - https://github.com/RobTillaart/I2CKeyPad
 - https://github.com/RobTillaart/I2CKeyPad8x8
 - https://github.com/WK-Software56/AdvKeyPad (derived work with keyboard alike interface)
+- https://www.gammon.com.au/forum/?id=14175
 
 
 ## Connection

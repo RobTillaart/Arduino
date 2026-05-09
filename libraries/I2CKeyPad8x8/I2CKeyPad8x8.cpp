@@ -1,7 +1,7 @@
 //
 //    FILE: I2CKeyPad8x8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 // PURPOSE: Arduino library for 8x8 or smaller KeyPad connected to an I2C PCF8575.
 //     URL: https://github.com/RobTillaart/I2CKeyPad8x8
 

@@ -1,10 +1,16 @@
-# Change Log GST
+# Change Log GST (Gold Standard Test)
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.1.6] - 2026-05-12
+- add percentage functions for TP TN FP and FN
+- update GitHub actions
+- redo keywords.txt
+- minor edits
 
 ## [0.1.5] - 2025-09-07
 - update GitHub actions
@@ -24,8 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update changelog.md
 
 ## [0.1.1] - 2022-06-08
-- add **addTruePositive()** etc functions.
-- add defaults for **setTruePositive(value = 0)** etc functions
+- add **addTruePositive()** etc. functions.
+- add defaults for **setTruePositive(value = 0)** etc. functions
 - add long descriptive names for the short functions.
 - add derived class GoldenStandardTest, for descriptive name
 - added some documentation

@@ -11,7 +11,7 @@
 
 # GST
 
-Arduino library for Gold Standard Test metrics.
+Arduino library for Gold Standard Test (GST) metrics.
 
 
 ## Description
@@ -22,6 +22,7 @@ The GST library is an experimental implementation of the **Gold Standard Test**.
 
 Usable for educational purposes.
 
+Feedback as always is welcome.
 
 
 ### Links
@@ -41,7 +42,7 @@ These sites describe the functions in more detail.
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
 - https://github.com/RobTillaart/statHelpers - combinations & permutations
-- https://github.com/RobTillaart/Statistic
+- https://github.com/RobTillaart/Statistic - more links there
 
 
 ### Performance
@@ -78,7 +79,7 @@ If the parameter is omitted, the default 0 will be used to reset the value.
 - **void clearAll()** reset all the above to 0.
 
 In tests one often want to increase / change the numbers.
-This can be done with the **addTruePositive()** etc functions. 
+This can be done with the **addTruePositive()** etc. functions. 
 After every addition all output functions can be called.
 
 - **float addTruePositive(float value)** increases the internal TP value.
@@ -116,12 +117,20 @@ Basic output
 - **float specificity()** equals trueNegativeRate()
 
 
-**Rate** functions can be multiplied by 100.0 to get percentage.
+#### Rate functions
 
-- **float truePositiveRate()** returns value between 0.0 and 1.0
+- **float truePositiveRate()** returns value between 0.0 and 1.0  aka TPR().
 - **float trueNegativeRate()** returns value between 0.0 and 1.0
 - **float falseNegativeRate()** returns value between 0.0 and 1.0
 - **float falsePositiveRate()** returns value between 0.0 and 1.0
+
+Same functions as above but now returning percentage.
+
+- **float truePositivePercentage()** returns value between 0.0 and 100.0
+- **float trueNegativePercentage()** returns value between 0.0 and 100.0
+- **float falseNegativePercentage()** returns value between 0.0 and 100.0
+- **float falsePositivePercentage()** returns value between 0.0 and 100.0
+
 
 
 ### Output functions II
@@ -168,8 +177,6 @@ Read the Wikipedia pages for their uses.
 
 #### Should
 
-- add functions
-  - percentage functions for TP TN FP and FN?
 - test
   - complete the CI test coverage.
 

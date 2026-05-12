@@ -1,6 +1,6 @@
 //
 //    FILE: GST.cpp
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2022-02-25
 // PURPOSE: Arduino library for Gold Standard Test metrics
 //     URL: https://github.com/RobTillaart/GST
@@ -113,6 +113,7 @@ float GST::getTestedNegative() { return TN + FN; };
 float GST::sensitivity()       { return TPR(); };
 float GST::specificity()       { return TNR(); };
 
+//  RATE
 
 float GST::truePositiveRate()  { return TPR(); };
 float GST::TPR() { return TP / AP; };
@@ -122,6 +123,17 @@ float GST::falseNegativeRate() { return FNR(); };
 float GST::FNR() { return FN / AP; };
 float GST::falsePositiveRate() { return FPR(); };
 float GST::FPR() { return FP / AN; };
+
+//  PERCENTAGE
+
+float GST::truePositivePercentage()  { return 100.0 * TPR() ; };
+float GST::TPP() { return 100.0 * TPR(); };
+float GST::trueNegativePercentage()  { return 100.0 * TNR(); };
+float GST::TNP() { return 100.0 * TNR(); };
+float GST::falseNegativePercentage() { return 100.0 * FNR(); };
+float GST::FNP() { return 100.0 * FNR(); };
+float GST::falsePositivePercentage() { return 100.0 * FPR(); };
+float GST::FPP() { return 100.0 * FPR(); };
 
 
 ///////////////////////////////////////////////////////

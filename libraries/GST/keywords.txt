@@ -30,22 +30,28 @@ getTestedNegative	KEYWORD2
 sensitivity	KEYWORD2
 specificity	KEYWORD2
 
-
+truePositiveRate	KEYWORD2
+trueNegativeRate	KEYWORD2
+falseNegativeRate	KEYWORD2
+falsePositiveRate	KEYWORD2
 TPR	KEYWORD2
 TNR	KEYWORD2
 FNR	KEYWORD2
 FPR	KEYWORD2
 
-
+positivePredictiveValue	KEYWORD2
+negativePredictiveValue	KEYWORD2
+falseDiscoveryRate	KEYWORD2
+falseOmissionRate	KEYWORD2
 PPV	KEYWORD2
 NPV	KEYWORD2
 FDR	KEYWORD2
 FOR	KEYWORD2
 
-
+positiveLikelihoodRatio	KEYWORD2
+negativeLikelihoodRatio	KEYWORD2
 LRplus	KEYWORD2
 LRminus	KEYWORD2
-
 
 prevalenceThreshold	KEYWORD2
 threatScore	KEYWORD2
@@ -56,37 +62,22 @@ accuracy	KEYWORD2
 balancedAccuracy	KEYWORD2
 F1Score	KEYWORD2
 
-
+MatthewsCorrelationCoefficient	KEYWORD2
 MCC	KEYWORD2
 phi	KEYWORD2
+
+FowlkesMallowsIndex	KEYWORD2
 FM	KEYWORD2
+
+BookmakerInformedness	KEYWORD2
 BM	KEYWORD2
+
+markedness	KEYWORD2
 MK	KEYWORD2
 deltaP	KEYWORD2
-DOR	KEYWORD2
 
-
-truePositiveRate	KEYWORD2
-trueNegativeRate	KEYWORD2
-falseNegativeRate	KEYWORD2
-falsePositiveRate	KEYWORD2
-
-
-positivePredictiveValue	KEYWORD2
-negativePredictiveValue	KEYWORD2
-falseDiscoveryRate	KEYWORD2
-falseOmissionRate	KEYWORD2
-
-
-positiveLikelihoodRatio	KEYWORD2
-negativeLikelihoodRatio	KEYWORD2
-
-
-MatthewsCorrelationCoefficient	KEYWORD2
-FowlkesMallowsIndex	KEYWORD2
-BookmakerInformedness	KEYWORD2
-markedness	KEYWORD2
 diagnosticOddsRatio	KEYWORD2
+DOR	KEYWORD2
 
 
 # Constants (LITERAL1)

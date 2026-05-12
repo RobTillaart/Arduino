@@ -1,7 +1,7 @@
 #pragma once
 //
 //    FILE: GST.h
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2022-02-25
 // PURPOSE: Arduino library for Gold Standard Test metrics
 //     URL: https://github.com/RobTillaart/GST
@@ -11,7 +11,7 @@
 //  formula's based upon Wikipedia.
 
 
-#define GST_LIB_VERSION           (F("0.1.5"))
+#define GST_LIB_VERSION           (F("0.1.6"))
 
 
 #include "Arduino.h"
@@ -51,7 +51,7 @@ public:
   float sensitivity();
   float specificity();
 
-
+  //  rate
   float truePositiveRate();
   float TPR();
   float trueNegativeRate();
@@ -60,6 +60,16 @@ public:
   float FNR();
   float falsePositiveRate();
   float FPR();
+
+  //  percentage
+  float truePositivePercentage();
+  float TPP();
+  float trueNegativePercentage();
+  float TNP();
+  float falseNegativePercentage();
+  float FNP();
+  float falsePositivePercentage();
+  float FPP();
 
 
   //  Output functions II
@@ -90,18 +100,25 @@ public:
   float F1Score();
 
 
+  //  Next three are identical (long and short name)
   float MatthewsCorrelationCoefficient();
   float phi();
   float MCC();
+
+  //  Next two are identical (long and short name)
   float FowlkesMallowsIndex();
   float FM();
+
+  //  Next two are identical (long and short name)
   float BookmakerInformedness();
   float BM();
 
-
+  //  Next three are identical (long and short name)
   float markedness();
   float deltaP();
   float MK();
+
+  //  Next two are identical (long and short name)
   float diagnosticOddsRatio();
   float DOR();
 

@@ -24,6 +24,21 @@ As this library is tested minimally please consider it experimental.
 
 The sensor is hard to get however still available on the Internet.
 
+feedback as always is welcome.
+
+
+### Related
+
+This library is related to
+
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc.
+- https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B21 OneWire temperature sensor (8 bit)
+- https://github.com/milesburton/Arduino-Temperature-Control-Library
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
+- https://github.com/RobTillaart/map2colour mapping a value (temp) to a colour.
+
 
 ## Interface (temperature sensor)
 
@@ -77,6 +92,7 @@ is exceeded and switches OFF when the low level is reached.
 This prevents too frequent toggling which would happen if only one temperature was used.
 To configure the thermostat mode please check the example.
 
+
 ### Mode
 
 The library provides the following functions for configuring the Thermostat mode
@@ -85,8 +101,9 @@ The library provides the following functions for configuring the Thermostat mode
 This function puts a DS1821 in Thermostat mode back into oneWire mode.
 DQ must be the same as oneWire(pin). 
 VDD is the voltage controlling pin of the sensor. 
-- **int setThermostatMode()** sets the flag in the config register to start in 
+- **int setThermostatMode()** sets the flag in the configuration register to start in 
 Thermostat mode next restart.
+
 
 ### Polarity
 

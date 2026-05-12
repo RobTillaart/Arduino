@@ -24,7 +24,7 @@ class US4000 : public US500
 public:
   US4000(Stream * str) : US500(str)
   {
-    _address = 0x0A;
+    _address = 0x000A;
   }
 
   // int setMaxDistance(uint16_t distance) { return (distance > 0); };  //  not supported => stub...

@@ -1,5 +1,5 @@
 //
-//    FILE: US500_demo_distance.ino
+//    FILE: US500_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/US500
@@ -12,6 +12,7 @@
 
 US500 US(&Serial1);
 
+uint32_t start, stop;
 
 void setup()
 {
@@ -32,20 +33,27 @@ void setup()
 
 void loop()
 {
-  float dist = US.getDistance();
-  Serial.println(dist, 2);
-  if (dist < 0)
-  {
-    if (dist == US500_CMD_ERROR) Serial.println("CMD_ERROR");
-    if (dist == US500_CRC_ERROR) Serial.println("CRC_ERROR");
-    if (dist == US500_TIMEOUT_ERROR) Serial.println("TIMEOUT_ERROR");
-    //  flush after error
-    US.flush();
+  /*
     delay(1000);
-    return;
-  }
+    start = millis();
+    float dist = US.getDistance();
+    stop = millis();
 
-  delay(2000);
+    Serial.print(stop - start);
+    Serial.print("\t");
+    Serial.println(dist, 2);
+  */
+
+  delay(1000);
+  start = millis();
+  float temp = US.getTemperature();
+  stop = millis();
+
+  Serial.print(stop - start);
+  Serial.print("\t");
+  Serial.println(temp, 2);
+
+
 }
 
 

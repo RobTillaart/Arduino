@@ -24,22 +24,25 @@ void setup()
 
   //  initialize sensor
   Serial1.begin(9600);
+  delay(100);
   US.startMeasurement();
 }
 
 
 void loop()
 {
-  float dist = US.getTemperature();
-  if (dist < 0)
+  float temp = US.getTemperature();
+  Serial.println(temp, 2);
+  if (temp < 0)
   {
-    if (dist == US500_CMD_ERROR) Serial.println("CMD_ERROR");
-    if (dist == US500_CRC_ERROR) Serial.println("CRC_ERROR");
-    if (dist == US500_TIMEOUT_ERROR) Serial.println("TIMEOUT_ERROR");
+    if (temp == US500_CMD_ERROR) Serial.println(" CMD_ERROR");
+    if (temp == US500_CRC_ERROR) Serial.println(" CRC_ERROR");
+    if (temp == US500_TIMEOUT_ERROR) Serial.println(" TIMEOUT_ERROR");
+    //  flush after error
+    US.flush();
     delay(1000);
     return;
   }
-  Serial.println(dist, 2);
 
   delay(2000);
 }

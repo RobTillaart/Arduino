@@ -8,7 +8,7 @@
 //
 //  DHT PIN layout from left to right
 //  =================================
-//  FRONT : DESCRIPTION  
+//  FRONT : DESCRIPTION
 //  pin 1 : VCC
 //  pin 2 : DATA
 //  pin 3 : Not Connected
@@ -142,7 +142,7 @@ void test()
       dht_delay += 100;
       break;
   }
-  
+
   dht_delay = constrain(dht_delay, 100, 5000);
   //  DISPLAY DATA
   Serial.print(mySensor.getHumidity());

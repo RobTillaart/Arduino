@@ -46,10 +46,10 @@ unittest(test_constants)
   assertEqual(-6, DHTLIB_ERROR_TIMEOUT_D       );
   assertEqual(-7, DHTLIB_ERROR_TIMEOUT_B       );
   assertEqual(-8, DHTLIB_WAITING_FOR_READ      );
-  
+
   assertEqual(-100, DHTLIB_HUMIDITY_OUT_OF_RANGE   );
   assertEqual(-101, DHTLIB_TEMPERATURE_OUT_OF_RANGE);
-  
+
   assertEqual(-999, DHTLIB_INVALID_VALUE);
 }
 
@@ -83,7 +83,7 @@ unittest(test_hum_temp)
   assertEqual(0, dht.getHumOffset());
   dht.setHumOffset(2);
   assertEqual(2, dht.getHumOffset());
-  
+
   assertEqual(0, dht.getTemperature());
   assertEqual(0, dht.getTempOffset());
   dht.setTempOffset(-3);
@@ -99,17 +99,17 @@ unittest(test_process_flags)
   assertEqual(11, dht.getType());
   dht.setType(22);
   assertEqual(22, dht.getType());
-  
+
   dht.setDisableIRQ(true);
   assertTrue(dht.getDisableIRQ());
   dht.setDisableIRQ(false);
   assertFalse(dht.getDisableIRQ());
-  
+
   dht.setWaitForReading(true);
   assertTrue(dht.getWaitForReading());
   dht.setWaitForReading(false);
   assertFalse(dht.getWaitForReading());
-  
+
   dht.setReadDelay(1500);
   assertEqual(1500, dht.getReadDelay());
   dht.setType(11);
@@ -118,7 +118,7 @@ unittest(test_process_flags)
   dht.setType(22);
   dht.setReadDelay();
   assertEqual(0, dht.getReadDelay());
-  
+
   dht.setSuppressError(true);
   assertTrue(dht.getSuppressError());
   dht.setSuppressError(false);
@@ -133,7 +133,7 @@ unittest(test_read)
   fprintf(stderr, "\tread() cannot be tested  GODMODE?\n");
   // int rc = dht.read();
   // fprintf(stderr, "%d\n", rc);
-  
+
   long lr = dht.lastRead();
   fprintf(stderr, "\ttime since lastRead %ld\n", lr);
 }

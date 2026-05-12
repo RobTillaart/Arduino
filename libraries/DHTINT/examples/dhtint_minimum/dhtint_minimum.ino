@@ -6,7 +6,7 @@
 
 //  DHT PIN layout from left to right
 //  =================================
-//  FRONT : DESCRIPTION  
+//  FRONT : DESCRIPTION
 //  pin 1 : VCC
 //  pin 2 : DATA
 //  pin 3 : Not Connected

@@ -4,7 +4,7 @@
 // PURPOSE: DHTINT library test sketch for Arduino
 //     URL: https://github.com/RobTillaart/DHTINT
 
-// 
+//
 //  DHT PIN layout from left to right
 //  =================================
 //  FRONT : DESCRIPTION

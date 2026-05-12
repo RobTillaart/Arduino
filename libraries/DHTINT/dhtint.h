@@ -2,7 +2,7 @@
 //
 //    FILE: dhtint.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for DHT sensors - integer only
 //     URL: https://github.com/RobTillaart/DHTINT
 //
@@ -18,7 +18,7 @@
 #include "Arduino.h"
 
 
-#define DHTINT_LIB_VERSION                (F("0.1.5 experimental"))
+#define DHTINT_LIB_VERSION                (F("0.1.6 experimental"))
 
 
 //  NOte reuse of DHTLIB constants, possible conflict.

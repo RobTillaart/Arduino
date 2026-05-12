@@ -49,10 +49,10 @@ void setup()
 
 void loop()
 {
-  float pressure = 950 + random(100);  //  add your sensor
+  float pressure = 950 + random(100);  //  add your pressure sensor
   uint32_t rgb = mcp.map2RGB(pressure);
   Serial.print("P: ");
-  Serial.println(rgb, HEX);            //  replace with PWM-RGB led 
+  Serial.println(rgb, HEX);            //  replace with PWM-RGB led
   delay(1000);
 }
 

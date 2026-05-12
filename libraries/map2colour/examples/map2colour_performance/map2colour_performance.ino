@@ -4,7 +4,8 @@
 // PURPOSE: map2colour demo
 //     URL: https://github.com/RobTillaart/map2colour
 
-//  NOTE: performance depends on colours used (amount of interpolation!)
+//  NOTE: performance depends on number of colours used (amount of interpolation!)
+
 
 #include "Arduino.h"
 #include "map2colour.h"

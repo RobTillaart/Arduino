@@ -41,7 +41,8 @@ void setup()
 
 void loop()
 {
-  int x = analogRead(0);          //  UNO returns between 0..1023; adapt if needed.
+  //  UNO R3 returns between 0..1023; adapt if needed.
+  int x = analogRead(0);
   uint32_t rgb = mc.map2_565(x);
   Serial.print(x);
   Serial.print("\t");

@@ -12,7 +12,7 @@
 map2colour mc(12);
 
 
-//  must be in increasing order
+//  must be in increasing order, not per se equidistant.
 float values[12] = { 0, 33, 66, 100, 150, 200, 250, 300, 400, 600, 800, 1024 };
 
 //  arbitrary colours

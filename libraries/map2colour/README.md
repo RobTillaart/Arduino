@@ -21,9 +21,11 @@ The float value can be the result of a calculation or read from a sensor,
 e.g. temperature, humidity, light, distance, direction or pressure. 
 
 This function can be used to colour an element on a graphical display,
-drive an RGB LED, or a LED string etc to indicate some sort of state visually.
+drive an RGB LED, or a LED string etc. to indicate some sort of state visually.
+A more elaborate application might be mappings for pixels of a heat cameras,
+although the performance might be a point of attention.
 
-The first releases used a fixed number of 7 floats values that describe the range being mapped.
+The first releases used a fixed number of 7 floats values that describe the input range being mapped.
 With version 0.2.0 one can define the size as a parameter of the constructor.
 There is no limit (except RAM) in theory, but in practice 16 or 32 entries is a lot.
 
@@ -62,11 +64,16 @@ If returned false the code might behave in unexpected ways.
 
 Please note that the colourMap can have duplicate entries even side by side.
 
+Feedback as always is welcome.
+
 
 ### Related
 
 - https://github.com/RobTillaart/Kelvin2RGB
 - https://github.com/RobTillaart/map2colour
+
+Application example
+- https://github.com/leoherzog/michigan-temp-map
 
 
 ## Interface
@@ -87,6 +94,7 @@ boundary values and the associated array of **size** colours packed in uint32_t 
 If the colour array is not given the last given (or the default) colour array is used.
 **begin()** can be called multiple times to change the mapping.
 The function returns false if the array of values is not in non-decreasing order.
+
 
 ### Functions
 
@@ -183,7 +191,7 @@ Indicative performance figures measured with the performance example.
 Performance depends on colours chosen, platform etc.
 
 Note: time in microseconds
-Note: UNO at 16 MHz, ESP32 at 240 MHz
+Note: UNO R# at 16 MHz, ESP32 at 240 MHz
 
 
 ### version 0.1.2
@@ -255,6 +263,9 @@ Note that the larger the size the more time it takes to find the correct interva
 
 - look for optimizations.
   - cache last value?
+- integer version 
+  - 8 / 16 / 32 bit input range
+  - performance
 
 #### Could
 

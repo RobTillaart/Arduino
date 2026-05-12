@@ -4,7 +4,7 @@
 // PURPOSE: map2colour demo rainbow
 //     URL: https://github.com/RobTillaart/map2colour
 
-//  demo simulates a conversion of wavelength in nanometer to RGB color 
+//  demo simulates a conversion of wavelength in nanometer to RGB color
 //  think of it as a rainbow.
 //  note the mapping is not exact as not all colors exist in RGB space.
 
@@ -24,22 +24,22 @@ uint32_t colours[14] =
   //  COLOR        wavelength (nm) + descriptive color
   0x00000000,  //  400  black
   0x002500FF,  //  415  purple
-  
+
   0x000800FF,  //  460
   0x000003FF,  //  465  blue
-  
+
   0x0000E9FF,  //  490
   0x0000FFD7,  //  495  cyan
-  
+
   0x0000FF19,  //  545  green
   0x0004FF00,  //  550
-  
+
   0x00C2FF00,  //  575  yellow
   0x00FFEA00,  //  580
-  
+
   0x00FF0300,  //  610  red
   0x00FF0008,  //  615
-  
+
   0x00FF002C,  //  675
   0x00000000,  //  780  black
 };

@@ -38,13 +38,16 @@ This library is based upon millis() and micros() and therefore has the same
 restrictions and limitations as these functions with respect to overflow and precision.
 This means minutes and seconds will overflow also after about 49 days.
 
+Feedback as always is welcome.
+
 
 ### Related
 
-- https://github.com/RobTillaart/printHelpers
-- https://github.com/RobTillaart/stopWatch_RT
-- https://github.com/RobTillaart/CountDown
-- https://github.com/RobTillaart/timing wrappers around millis() and microc()
+- https://github.com/RobTillaart/printHelpers - print time formats and more
+- https://github.com/RobTillaart/stopWatch_RT - this library
+- https://github.com/RobTillaart/CountDown - idem
+- https://github.com/RobTillaart/timing - wrappers around millis() and micros()
+- https://github.com/RobTillaart/map2Colour - mapping a value (time left) to a colour
 
 
 ## Interface

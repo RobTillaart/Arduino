@@ -2,7 +2,6 @@
 //    FILE: stopwatch_resolution.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: sample demo stopwatch class
-//    DATE: 2020-05-08
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 
 
@@ -41,7 +40,7 @@ void loop()
 
 void simple_test(StopWatch::Resolution res)
 {
-  MySW.setResolution(res);  //  note: includes an automatic reset() 
+  MySW.setResolution(res);  //  note: includes an automatic reset()
   MySW.start();
   delay(2500);
   Serial.print("TIME: ");

@@ -1,12 +1,12 @@
 //
 //    FILE: StopWatch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2011-01-04
 // PURPOSE: Arduino Library implementing a stopwatch including seconds, milliseconds microseconds
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 //
-//  The library is based upon millis() and therefore
+//  The library is based upon millis() and micros() and therefore
 //  has the same restrictions as millis() has with respect to overflow.
 
 

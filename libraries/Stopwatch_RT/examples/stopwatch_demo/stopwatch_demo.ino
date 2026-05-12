@@ -2,7 +2,6 @@
 //    FILE: stopwatch_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: sample demo stopwatch class
-//    DATE: 2022-09-08
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 
 

@@ -2,9 +2,9 @@
 //
 //    FILE: StopWatch.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
+//    DATE: 2011-01-04
 // PURPOSE: Arduino Library implementing a stopwatch including seconds, milliseconds microseconds
-// HISTORY: See StopWatch.cpp
 //     URL: https://github.com/RobTillaart/StopWatch_RT
 //          http://playground.arduino.cc/Code/StopWatchClass
 
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define STOPWATCH_LIB_VERSION             (F("0.4.0"))
+#define STOPWATCH_LIB_VERSION             (F("0.4.1"))
 
 
 //  NOTE: adjust divider can fix timing inaccuracies (to some extend)
@@ -39,7 +39,7 @@ public:
 
   //  elapsed() made const as printTo expect a const object.
   uint32_t elapsed() const;
-  char     getUnits();  //  returns u, s, m , M
+  char     getUnits();  //  returns u, s, m, M
 
   bool     isRunning();
   bool     isStopped();
@@ -48,11 +48,13 @@ public:
   enum     State state() { return _state; };
   void     setResolution(const enum Resolution resolution);
   enum     Resolution getResolution() { return _resolution; };
-  //  to be made obsolete in future.
-  enum     Resolution resolution() { return _resolution; };
 
   //  PRINTABLE
   size_t   printTo(Print& p) const;
+
+  //  OBSOLETE in future
+  [[deprecated("use getResolution() instead.")]]
+  enum     Resolution resolution() { return _resolution; };
 
 
 private:
@@ -63,7 +65,7 @@ private:
   uint32_t _stopTime;
 
   uint32_t (*_gettime)(void);
-  static uint32_t _micros()     { return micros(); };   //  wrapper for ESP proc.
+  static uint32_t _micros()     { return micros(); };   //  wrapper for ESP processor.
   static uint32_t _millis()     { return millis(); };
   static uint32_t seconds()     { return millis() / STOPWATCH_SECONDS_DIVIDER; };
   static uint32_t minutes()     { return millis() / STOPWATCH_MINUTES_DIVIDER; };

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.38] - 2026-05-13
+- update GitHub actions
+- minor edits
+
 ## [0.1.37] - 2025-09-06
 - update GitHub actions
 - minor edits
@@ -47,13 +51,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - explicit support for AM23XX series and DHT12
 
 # [0.1.25] - 2017-09-20
-- FIX https://github.com/RobTillaart/Arduino/issues/80
+- fix https://github.com/RobTillaart/Arduino/issues/80
 
 # [0.1.24] - 2017-07-27
-- FIX https://github.com/RobTillaart/Arduino/issues/33  double -> float
+- fix https://github.com/RobTillaart/Arduino/issues/33  double -> float
 
 # [0.1.23] - 2017-07-24
-- FIX https://github.com/RobTillaart/Arduino/issues/31
+- fix https://github.com/RobTillaart/Arduino/issues/31
 
 
 ----

@@ -93,7 +93,7 @@ See examples
 
 ## Versions
 
-- See changelog.md
+- See CHANGELOG.md
 - See DHTNEW or DHTStable library for latest stable version for all platforms.
 
 
@@ -105,7 +105,6 @@ See examples
 
 #### Should
 
-- separate history versions CHANGELOG.md file ?
 
 #### Could
 

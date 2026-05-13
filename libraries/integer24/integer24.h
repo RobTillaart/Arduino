@@ -2,7 +2,7 @@
 //
 //    FILE: integer24.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2023-06-22
 // PURPOSE: Arduino library for the uint24_t and int24_t
 //     URL: https://github.com/RobTillaart/integer24
@@ -11,8 +11,8 @@
 //  only tested on AVR for now
 
 
-#define INTEGER24_LIB_VERSION             (F("0.1.3"))
-
+#define INTEGER24_LIB_VERSION             (F("0.1.4"))
+  
 
 #include "Arduino.h"
 
@@ -32,6 +32,10 @@ typedef uint32_t  uint24_t;
 typedef int32_t   int24_t;
 
 #endif
+
+//  use 32 bits (4 byte) to allow print()
+constexpr uint32_t UINT24_MAX = 16777215;
+constexpr int32_t  INT24_MAX =   8388607;
 
 
 /*
@@ -79,7 +83,7 @@ public:
   uint32_t _value;
 #endif
 
-}
+};
 */
 
 

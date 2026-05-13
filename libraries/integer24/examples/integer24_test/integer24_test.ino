@@ -18,6 +18,7 @@ void setup()
   Serial.println(INTEGER24_LIB_VERSION);
   Serial.println();
 
+  test_sizeOf();
   test_uint24_t();
   test_int24_t();
 }
@@ -25,6 +26,23 @@ void setup()
 
 void loop()
 {
+}
+
+
+void test_sizeOf()
+{
+  uint24_t a = 3;
+
+  Serial.println();
+  Serial.println(__FUNCTION__);
+  Serial.println(sizeof(uint24_t));
+  Serial.println(sizeof(int24_t));
+  Serial.println(sizeof(a));
+
+  Serial.print("INT24_MAX: \t");
+  Serial.println(INT24_MAX);
+  Serial.print("UINT24_MAX: \t");
+  Serial.println(UINT24_MAX);
 }
 
 

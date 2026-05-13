@@ -16,7 +16,9 @@ Arduino library for the integer24 data types uint24_t and int24_t.
 
 ## Description
 
-The integer24 is an **experimental** library to implement support
+**Experimental**
+
+The integer24 is an experimental library to implement support
 for the following two 24 bit data types:
 - **int24_t**
 - **uint24_t**
@@ -24,12 +26,14 @@ for the following two 24 bit data types:
 Version 0.1.0 implements a **typedef** for both types.
 
 Note: AVR does support __uint24 and __int24 which uses only 3 bytes.
-This allows an UNO to have ~30% more elements (in theory) in an array
-with the same memory usage as an uint32_t array.
+This allows a processor e.g. UNO R3 to have ~30% more elements (in theory) 
+in an array with the same memory usage as an uint32_t array.
 
 This library is only (limited) tested with AVR - UNO.
 
 So use with care.
+
+Feedback as always is welcome.
 
 
 ### Range
@@ -73,7 +77,15 @@ https://github.com/RobTillaart/fraction
 #include "integer24.h"
 ```
 
-All math is possible with the **uint24** and **int24**
+All math is possible with the **uint24** and **int24**, however printing is not.
+
+
+### Constants
+
+```
+constexpr uint32_t UINT24_MAX = 16777215;
+constexpr int32_t  INT24_MAX =   8388607;
+```
 
 
 ## Future

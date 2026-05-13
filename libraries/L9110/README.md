@@ -31,7 +31,7 @@ and a function to read the state.
 The library was written for some small tests and might be useful for
 other applications. There are some ideas to extend it.
 
-Read the datasheet for details
+Read the datasheet for details.
 
 Feedback as always is welcome.
 
@@ -69,6 +69,11 @@ Check datasheet
 |   6   |   GND  |  Ground          |  0
 
 
+### Compatibles
+
+- The HG8771 motor driver seems to be compatible. To be verified.
+
+
 ### Related
 
 - https://www.pololu.com/category/11/brushed-dc-motor-drivers
@@ -91,6 +96,7 @@ Tested on Arduino UNO R3
 ### Constructor
 
 - **L9110(uint8_t forwardPin, uint8_t reversePin)** set the direction pins.
+- **HG7881(uint8_t forwardPin, uint8_t reversePin)** set the direction pins.
 - **void begin()** initializes pins, and puts the state in STOP mode.
 - **void swapPins()** software switching the forward and reverse pin
 to prevent soldering (again).
@@ -107,6 +113,15 @@ to prevent soldering (again).
 |    0    |  L9110_STOP     |  default start after begin().
 |    1    |  L9110_REVERSE  |
 |    2    |  L9110_FORWARD  |
+
+### MicroDelay
+
+0.1.1 allows setting a microseconds delay in the forward() and reverse() 
+commands to prevent voltage hiccups due to too fast switching. 
+The default delay is set to 100 us.
+
+- **void setMicroDelay(uint16_t del = 20)** default delayMicroseconds of 20.
+- **uint16_t getMicroDelay()** return set value (convenience).
 
 
 ## Missing ENable pin
@@ -133,7 +148,7 @@ TODO
   - a first test worked (not for low PWM values) however it is not included in the library
     as there were some effects I did not understood / investigate.
   - would allow "speed adjustments", e.g. void forward(uint8_t speed);
-  - only PWM pins allowed, TODO how to handle "non PWM pins"
+  - only PWM pins allowed, how to handle "non PWM pins"?
 - counters
   - how long it runs? wear indication?
   - how often switched?

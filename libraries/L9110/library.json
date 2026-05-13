@@ -1,6 +1,6 @@
 {
   "name": "L9110",
-  "keywords": "motor",
+  "keywords": "motor,HG7881",
   "description": "Arduino library for L9110 motor driver.",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/L9110.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

@@ -25,8 +25,7 @@ void setup()
   Serial.println(sizeof(float));
   Serial.println(sizeof(double));
 
-
-  double c = 2.99792458E8;   //  speed of light;
+  double c = 2.99792458E8;   //  speed of light
   double m = 7.34767309E20;  //  mass of moon
   double E = m * c * c;
 

@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.1"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.2"))
 #endif
 
 
@@ -167,7 +167,7 @@ class scieng
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        strcpy(buffer, "inf");
+        else strcpy(buffer, "inf");
         return;
       }
 

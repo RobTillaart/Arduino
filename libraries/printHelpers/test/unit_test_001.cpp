@@ -66,6 +66,13 @@ unittest(test_sci)
 
   assertEqual(0, strcmp("3.141593E+01", sci(PI * 10, 6)) );
   assertEqual(0, strcmp("2.718282E+01", sci(EULER * 10, 6)) );
+
+  float f = 1.0 / 0.0;
+  assertEqual(0, strcmp("inf", sci(f, 4)) );
+  f = -1.0 / 0.0;
+  assertEqual(0, strcmp("-inf", sci(f, 4)) );
+  f = 0.0 / 0.0;
+  assertEqual(0, strcmp("nan", sci(f, 4)) );
 }
 
 

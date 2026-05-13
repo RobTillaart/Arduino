@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -142,7 +142,7 @@ char * print64(uint64_t value, uint8_t base)
 //
 //  typical buffer size for 8 byte double is 22 bytes (max 15 decimals)
 //  15 bytes mantissa, sign dot E-xxx
-//  em = exponentMultiple == step size exponent.
+//  em = exponentMultiple == step size exponent (typical 1 or 3)
 char * scieng(double value, uint8_t decimals, uint8_t em)
 {
   char *  buffer   = __printbuffer;
@@ -168,7 +168,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    strcpy(buffer, "inf");
+    else strcpy(buffer, "inf");
     return buffer;
   }
 
@@ -187,7 +187,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
     value *= e2;
     exponent += em;
   }
-  while (value < 1 && value != 0.0)
+  while ((value < 1) && (value != 0.0))
   {
     value *= e1;
     exponent -= em;
@@ -212,7 +212,6 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   uint32_t d = (uint32_t)value;
   double remainder = value - d;
 
-
   //  print whole part
 #if defined(ESP32)
   //  ESP32 does not support %ld  or ltoa()
@@ -220,6 +219,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 #else
   sprintf(&buffer[pos], "%ld", d);
 #endif
+  //  how far is the buffer filled?
   pos = strlen(buffer);
 
 

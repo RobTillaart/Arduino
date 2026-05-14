@@ -8,9 +8,11 @@ Interval	KEYWORD1
 # Methods and Functions (KEYWORD2)
 setDecimals	KEYWORD2
 value	KEYWORD2
+middle	KEYWORD2
 range	KEYWORD2
 high	KEYWORD2
 low	KEYWORD2
+
 relAccuracy	KEYWORD2
 setRange	KEYWORD2
 

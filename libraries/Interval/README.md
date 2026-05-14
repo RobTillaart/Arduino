@@ -30,6 +30,17 @@ The data type Interval was created to do some experiments.
 It was inspired by the **frink** language which has an interval data type.
 Frink itself is not investigated, so semantics are not necessary similar.
 
+Feedback as always is welcome.
+
+
+### Related
+
+- https://github.com/RobTillaart/Interval
+- https://github.com/RobTillaart/Set
+
+Inspiration from:
+- https://frinklang.org/
+
 
 ## Interface
 
@@ -58,8 +69,9 @@ This allows you to print an Interval in human readable form.
 
 The basic functions are used to get and set some core attributes.
 
-- **setDecimals()** set nr of decimals for printing.
+- **setDecimals()** set number of decimals for printing.
 - **value()** is the middle of the interval (as we do not know distribution)
+- **middle()** is the middle of the interval
 - **range()** = high() - low()
 - **high()** idem
 - **low()** idem
@@ -79,8 +91,10 @@ Math operators
 
 ### Functions 
 
-Functions are not implemented yet as these need **to be investigated**.
-For a monotonous function it is relative easy
+**To investigate**
+
+Functions are not implemented yet as these need to be investigated.
+For a monotonous (rising) function it is relative easy
 
 ```
 Interval v = F( [a, b] );         ==> [ F(a), F(b)]
@@ -106,7 +120,9 @@ Interval t = sqr( [-5,  3] ) ;    ==> [0, 25]
 
 ### Comparison operators
 
-**To be investigated**. The semantics make at least a difference between when
+**To investigate**
+
+The semantics make at least a difference between when
 an interval is Certainly Less Equal or Probably Less or Equal.
 The Certainly group will be boolean math as we know it.
 The Probably group will be more like fuzzy logic so a float between 0..100%.
@@ -121,7 +137,9 @@ The Probably group will be more like fuzzy logic so a float between 0..100%.
 
 ### Set operators
 
-**To be investigated** include:
+**To investigate**
+
+includes:
 - If you have two or more intervals, what is the 'super interval' that includes all?
 - How to subtract elements of an interval from another Interval?  
 This is different than the subtraction above,  
@@ -151,10 +169,11 @@ See example
 
 #### Should
 
+#### Could
+
 - play and extend the library.
 - check all to be investigated above.
-
-#### Could
+- check TODO.md
 
 #### Wont
 

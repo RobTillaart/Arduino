@@ -2,7 +2,6 @@
 //    FILE: interval_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: minimal demo
-//    DATE: 2020-07-21
 //     URL: https://github.com/RobTillaart/Interval
 
 

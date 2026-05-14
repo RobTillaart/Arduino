@@ -3,14 +3,14 @@
 //    FILE: Interval.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for Interval data type
 //     URL: https://github.com/RobTillaart/Interval
 
 
 #include "Arduino.h"
 
-#define INTERVAL_LIB_VERSION                (F("0.1.5"))
+#define INTERVAL_LIB_VERSION                (F("0.1.6"))
 
 
 class Interval: public Printable
@@ -23,10 +23,11 @@ public:
 
   //  PRINTABLE
   size_t printTo(Print& p) const;
-  void setDecimals(uint8_t n) { _decimals = n; };
+  void   setDecimals(uint8_t n) { _decimals = n; };
 
   //  BASE FUNCTIONS
-  float value()       { return (_hi /2 + _lo /2); };   //  assumption / estimation
+  float middle()      { return (_hi /2 + _lo /2); };
+  float value()       { return middle(); };   //  assumption / estimation
   float range()       { return _hi -_lo; };
   float high()        { return _hi; };
   float low()         { return _lo; };

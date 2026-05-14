@@ -2,7 +2,7 @@
 //    FILE: Interval.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-21
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 // PURPOSE: Arduino library for Interval data type
 //     URL: https://github.com/RobTillaart/Interval
 
@@ -48,7 +48,7 @@ float Interval::relAccuracy()
 
 void Interval::setRange(float r)
 {
-  float f = value();
+  float f = middle();
   _lo = f - r / 2;
   _hi = f + r / 2;
 }

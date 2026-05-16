@@ -1,10 +1,10 @@
 #pragma once
 //
 //    FILE: SPIKeyPad.h
-//  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+//  AUTHOR: Rob Tillaart, Chris0xdeadbeef
+// VERSION: 0.1.1
 //    DATE: 2026-04-09
-// PURPOSE: Arduino library for 4x4 KeyPad connected to an SPI MCP23S08
+// PURPOSE: Arduino library for 4x4 KeyPad using an SPI MCP23S08
 //     URL: https://github.com/RobTillaart/SPIKeyPad
 
 
@@ -12,12 +12,14 @@
 #include "SPI.h"
 
 
-#define SPI_KEYPAD_LIB_VERSION    (F("0.1.0"))
-
+#define SPI_KEYPAD_LIB_VERSION    (F("0.1.1"))
 
 //  KEYPAD SPECIAL "KEY VALUES"
+/// @brief Returned when no key is pressed
 constexpr uint8_t SPI_KEYPAD_NOKEY     = 16;
+/// @brief Returned when multiple keys are pressed or other error
 constexpr uint8_t SPI_KEYPAD_FAIL      = 17;
+/// @brief Returned when requested a key too fast
 constexpr uint8_t SPI_KEYPAD_THRESHOLD = 255;
 
 
@@ -40,44 +42,55 @@ constexpr uint8_t SPI_KEYPAD_8x1 = 81;
 #endif
 
 
+/// @brief SPI based 4x4 (et al) keypad driver using an MCP23S08
 class SPIKeyPad
 {
 public:
-  //       SOFTWARE SPI
+  /// @brief Construct a SPIKeyPad object using software SPI.
+  /// @param select = Chip Select pin used for MCP23S08
   SPIKeyPad(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock, uint8_t address = 0x00);
-  //       HARDWARE SPI
+  /// @brief Construct a SPIKeyPad object using hardware SPI.
+  /// @param select = Chip Select pin used for MCP23S08
   SPIKeyPad(int select, __SPI_CLASS__* spi);
+  /// @brief Construct a SPIKeyPad object using hardware SPI.
+  /// @param select = Chip Select pin used for MCP23S08
   SPIKeyPad(int select, int address = 0x00, __SPI_CLASS__* spi = &SPI);
 
   //  call SPI.begin() first if HW SPI is used
-  bool     begin();
-  uint8_t  getAddress();
+  /// @brief Initialize keypad and underlying MCP23S08
+  /// @return true if initialization succeeded
+  [[nodiscard]] bool     begin();
+  [[nodiscard]] uint8_t  getAddress();
 
   //  get raw key's 0..15
-  uint8_t  getKey();
-  uint8_t  getLastKey();
-  bool     isPressed();
+  /// @brief Get the currently pressed key
+  /// @return key index (0–15) or (16) NO_KEY
+  [[nodiscard]] uint8_t  getKey();
+  [[nodiscard]] uint8_t  getLastKey();
+  /// @brief Check if any key is currently pressed
+  /// @return true if a key is pressed
+  [[nodiscard]] bool     isPressed();
 
   //  get 'translated' keys
   //  user must load KeyMap, there is no check.
-  uint8_t  getChar();
-  uint8_t  getLastChar();
+  [[nodiscard]] uint8_t  getChar();
+  [[nodiscard]] uint8_t  getLastChar();
   void     loadKeyMap(char * keyMap);   //  char[19]
 
   //  mode functions - experimental
   void     setKeyPadMode(uint8_t mode = SPI_KEYPAD_4x4);
-  uint8_t  getKeyPadMode();
+  [[nodiscard]] uint8_t  getKeyPadMode();
 
   //  value in milliseconds, max 65535 ms
   void     setDebounceThreshold(uint16_t value = 0);
-  uint16_t getDebounceThreshold();
-  uint32_t getLastTimeRead();
+  [[nodiscard]] uint16_t getDebounceThreshold();
+  [[nodiscard]] uint32_t getLastTimeRead();
 
   //       SPI
   //       speed in Hz
   void     setSPIspeed(uint32_t speed);
-  uint32_t getSPIspeed() { return _SPIspeed; };
-  bool     usesHWSPI()   { return _hwSPI; };
+  [[nodiscard]] uint32_t getSPIspeed() { return _SPIspeed; };
+  [[nodiscard]] bool     usesHWSPI()   { return _hwSPI; };
 
 
 protected:

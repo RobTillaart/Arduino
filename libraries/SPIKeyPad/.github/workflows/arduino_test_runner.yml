@@ -10,7 +10,10 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
-      - run: |
-          gem install arduino_ci
-          arduino_ci.rb
+          ruby-version: 3.1
+
+      - name: Install arduino_ci
+        run: gem install arduino_ci
+
+      - name: Run tests
+        run: arduino_ci.rb

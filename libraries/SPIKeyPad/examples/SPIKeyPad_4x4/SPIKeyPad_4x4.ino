@@ -1,12 +1,11 @@
-//
-//    FILE: I2Ckeypad_8x1.ino
-//  AUTHOR: Rob Tillaart
-// PURPOSE: demo 8x1 or smaller keypad
+//    FILE: SPIKeyPad_4x4.ino
+//  AUTHOR: Rob Tillaart, Chris0xdeadbeef
+// PURPOSE: demo 4x4 keypad
 //     URL: https://github.com/RobTillaart/SPIKeyPad
 //
-//  MCP23S08
-//    pin p0-p7 rows
-
+//  MCP23S08 (SPI)
+//    GP0–GP3 rows
+//    GP4–GP7 columns
 
 #include "SPIKeyPad.h"
 
@@ -20,7 +19,6 @@ SPIKeyPad keyPad(SELECT);
 
 uint32_t start, stop;
 uint32_t lastKeyPressed = 0;
-
 
 
 void setup()
@@ -39,7 +37,7 @@ void setup()
 
   keyPad.begin();
 
-  keyPad.setKeyPadMode(SPI_KEYPAD_8x1);
+  keyPad.setKeyPadMode(SPI_KEYPAD_4x4);
 }
 
 
@@ -47,7 +45,7 @@ void loop()
 {
   uint32_t now = millis();
   //  adjust keyMap if needed
-  char keys[] = "12345678        NF";  //  N = NoKey, F = Fail
+  char keys[] = "1234567890ABCDE NF";  //  N = NoKey, F = Fail
 
   if (now - lastKeyPressed >= 100)
   {

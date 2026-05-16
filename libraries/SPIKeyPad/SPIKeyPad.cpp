@@ -1,7 +1,7 @@
 //
 //    FILE: SPIKeyPad.cpp
-//  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+//  AUTHOR: Rob Tillaart, Chris0xdeadbeef
+// VERSION: 0.1.1
 //    DATE: 2026-04-09
 // PURPOSE: Arduino library for 4x4 KeyPad connected to an SPI MCP23S08
 //     URL: https://github.com/RobTillaart/SPIKeyPad

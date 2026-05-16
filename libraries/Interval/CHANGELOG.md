@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.6] - 2025-05-13
+## [0.1.6] - 2026-05-13
 - update GitHub actions
 - add middle() function.
 - add ideas to TODO.md.

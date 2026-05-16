@@ -1,0 +1,23 @@
+{
+  "name": "SPIKeyPad",
+  "keywords": "SPI,KeyPad, 4x4, 5x3, 6x2, 8x1, MCP23S08",
+  "description": "Arduino library for 4x4 (or smaller) keypad connected to an SPI MCP23S08. 4x4, 5x3, 6x2, 8x1.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/SPIKeyPad.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "SPIKeyPad.h"
+}

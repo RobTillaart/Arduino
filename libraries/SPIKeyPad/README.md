@@ -36,6 +36,7 @@ occur open an issue (or PR) on GitHub.
 
 Feedback as always is welcome.
 
+
 ### Related
 
 Relates strongly to https://github.com/RobTillaart/I2CKeyPad. which is an 4x4 version using **PCF8574**.
@@ -265,7 +266,10 @@ See examples.
 
 - test more
 
+
 #### Could
+
+- improve **SPIkeypad_readKeyUntil.ino** => no blocking readUntil(...) function.
 
 
 #### Wont

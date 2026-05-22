@@ -86,7 +86,7 @@ unittest(test_mode)
   assertEqual(SPI_KEYPAD_8x1, keyPad.getKeyPadMode());
 */
   //  invalid are mapped to 4x4
-  keyPad.setKeyPadMode(00);
+  keyPad.setKeyPadMode(SPI_KEYPAD_INVALID);
   assertEqual(SPI_KEYPAD_4x4, keyPad.getKeyPadMode());
 }
 

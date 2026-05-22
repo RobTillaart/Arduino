@@ -38,7 +38,10 @@ void setup()
     SPI.begin();
   }
 
-  keyPad.begin();
+  if (keyPad.begin() == false)
+  {
+    Serial.println("Could not initialize");
+  }
 }
 
 
@@ -67,4 +70,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

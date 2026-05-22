@@ -38,7 +38,11 @@ void setup()
     SPI.begin();
   }
 
-  keyPad.begin();
+  if (keyPad.begin() == false)
+  {
+    Serial.println("Could not initialize");
+  }
+
   keyPad.loadKeyMap(keymap);
 }
 
@@ -83,7 +87,6 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
 {
   uint8_t bufferIndex = 0;
   uint32_t start = millis();
-  char lastChar = '\0';
 
   //  empty the return buffer
   buffer[bufferIndex] = 0;
@@ -104,7 +107,6 @@ int readKeyPadUntil(char until, char * buffer, uint8_t length, uint16_t timeout)
     }
     if (ch == 'F')   return -1;
     if (ch == until) return 0;
-    lastChar = ch;
     if ( bufferIndex == length ) return -3;  //  overflow
     //  add key to buffer
     buffer[bufferIndex++] = ch;

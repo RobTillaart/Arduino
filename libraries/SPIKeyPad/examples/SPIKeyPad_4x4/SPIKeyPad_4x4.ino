@@ -35,7 +35,10 @@ void setup()
     SPI.begin();
   }
 
-  keyPad.begin();
+  if (keyPad.begin() == false)
+  {
+    Serial.println("Could not initialize");
+  }
 
   keyPad.setKeyPadMode(SPI_KEYPAD_4x4);
 }

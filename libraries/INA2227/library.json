@@ -1,0 +1,23 @@
+{
+  "name": "INA2227",
+  "keywords": "power,ampere,voltage,volts,current,joule",
+  "description": "Arduino library for the INA2227, I2C, 16 bit, dual channel, voltage, current, power and energy sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA2227.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "INA2227.h"
+}

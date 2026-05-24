@@ -1,0 +1,18 @@
+# Syntax Colouring Map For TSW10
+
+# Data types (KEYWORD1)
+TSW10	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+getVoltage	KEYWORD2
+getNTU	KEYWORD2
+volts2NTU	KEYWORD2
+lastRead	KEYWORD2
+
+
+# Constants (LITERAL1)
+TSW10_LIB_VERSION	LITERAL1
+

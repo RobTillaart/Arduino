@@ -18,7 +18,7 @@ Arduino library for A02YYUW Serial distance sensor.
 
 **Experimental**
 
-This library is to use the DFRobotics **A02YYUW** Serial distance sensor.
+This library is to use the DFRobotics **A02YYU and A02YYUW** Serial distance sensor.
 
 The A02YYUW has a range of max 3.0 to 4.5 meter (10 to 15 feet).
 It has an IP67 coating so it can be used outdoors in most weather conditions.
@@ -26,24 +26,19 @@ It has an IP67 coating so it can be used outdoors in most weather conditions.
 The library is expected to work for the **UART AUTO** types devices.
 These seem to use the same protocol, see table below.
 
-NOTE: The library is not tested with any hardware yet.
-All feedback is welcome, please open an issue on GitHub.
-
+The library is confirmed to work, see tested section below.
 
 Furthermore the library is expected to work for the **UART CONTROLLED**
-types devices. 
+types devices (A02YYT, A02YYTW). 
 These devices need a trigger pulse on the RX line.
-
-
-
-
+This is not tested yet.
 
 Feedback as always is welcome.
 
 
 ### Hardware
 
-The connector of the A02YYUW is a 4-pin JST-PH (2.0mm pitch) 
+The connector of the A02YYU(W) is a 4-pin JST-PH (2.0mm pitch) 
 with the following pins.
 
 |  colour  |  name  |  description      |  Notes  |
@@ -86,13 +81,16 @@ Missing devices? please open an issue on GitHub.
 - https://github.com/RobTillaart/SRF05 - distance sensor
 - https://github.com/RobTillaart/US500 - US500 + US4000 underwater distance sensor.
 - https://github.com/RobTillaart/lengthConverter
-- https://github.com/RobTillaart/printHelpers - conversion.
+- https://github.com/RobTillaart/printHelpers - printing.
 - https://wiki.dfrobot.com/sen0311/docs/21654
 
 
 ### Tested
 
-TODO: Test
+The library is confirmed to work.
+- https://forum.arduino.cc/t/a02yyuws-measurement-results-are-unstable/1442997/16
+
+More feedback is welcome, please open an issue on GitHub.
 
 
 ## Interface
@@ -105,6 +103,7 @@ TODO: Test
 
 - **A02YYUW(Stream \* str, uint8_t TX)** Set the hardware serial port to use,
 and the TX pin of MCU == RX of device.
+Note one has to call Serial.begin() before using the A02YYUW object.
 - **void begin()** reset internals.
 
 
@@ -125,6 +124,7 @@ The RX pin is used to set mode.
 ### UART controlled specific
 
 The A02YYT and A02YYTW need a trigger before they will send data.
+This is doen by sending a pulse on the RX pin defined.
 
 - **void request()** triggers a measurement for UART CONTROLLED
 type devices.
@@ -132,21 +132,40 @@ type devices.
 
 ### Distance
 
-- **bool newDistance()** workhorse, checks for new byte arrivals.
-Syncs with the header byte so it knows which bytes to convert to 
-a distance in millimetres. 
+- **bool newDistance()** the workhorse, checks for new byte arrivals.
+Syncs with the header byte so it knows which following bytes to 
+convert to a distance in millimetres. 
 Returns true if a new distance is available.
 Returns false otherwise.
-- **uint16_t getDistanceMM()** returns the distance in millimetres.
-- **float getDistanceCM()** returns the distance in centimetres.
-- **float getDistanceINCH()** returns the distance in inches.
+This function can set the **A02YY_ERR_CRC** however the read distance
+can still be valid as the CRC does not indicate which byte(s) failed.
+- **uint16_t getDistanceMM()** returns the last read distance in millimetres.
+- **float getDistanceCM()** returns the last read distance in centimetres.
+- **float getDistanceINCH()** returns the last read distance in inches.
 Uses decimal inches e.g. 4.2, does not use 1/8th or 1/16th.
+
+Note: the printHelpers class can help formatting the print e.g. in inches.
+
 
 ### Control
 
 - **uint32_t lastRead()** time in millis of last successful read.
+Can be used to read new distances at regular intervals.
 - **void flush()** empties the input buffer of the Stream so next
 value is a recent one.
+Can be used after a restart or if communication is out of sync
+(although it should auto recover).
+
+
+### Error
+
+- **int getLastError()** returns error flag. 
+For now only a CRC error is detected.
+
+|  error state    |  value  |
+|:----------------|--------:|
+|  A02YY_OK       |      0  |
+|  A02YY_ERR_CRC  |   -100  |
 
 
 ## Future
@@ -154,11 +173,11 @@ value is a recent one.
 #### Must
 
 - improve documentation
-- get hardware to test
+- get hardware to test (see tested section).
 
 #### Should
 
-- add checks
+- add sanity checks (improve error handling?)
   - add checksum check => error flag or just false?
   - add high check < 0x12 (max for 4500 mm; 0x1F ~8191 mm)
 - clean up class hierarchy.
@@ -166,8 +185,8 @@ value is a recent one.
 #### Could
 
 - create unit tests if possible
-- create a library for the PWM devices
-- create a library for the SWITCH devices
+- create a library for the PWM devices A02YYM, A02YYMW
+- create a library for the SWITCH devices A02YYGD, A02YYGD
 
 #### Wont
 

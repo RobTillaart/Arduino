@@ -1,6 +1,6 @@
 {
   "name": "A02YYUW",
-  "keywords": "IP67, A02YYU, AO2YYT, A02YYUT",
+  "keywords": "IP67,A02YYU,AO2YYT,A02YYUT,SEN0311",
   "description": "Arduino library for A02YYUW serial distance sensor",
   "authors":
   [
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/A02YYUW.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

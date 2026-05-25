@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.1] - 2026-05-24
+- update readme.md (confirmation lib works)
+- implement CRC check
+- add getLastError() to track CRC error
+- add A02YYM_PWM_demo.ino example
+- minor edits
+
 ## [0.1.0] - 2026-05-07
 - initial version
 

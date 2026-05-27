@@ -10,6 +10,8 @@
 //  due to a mix of signed and unsigned math.
 //  If you need this mapping and it fails for you 
 //  the interpolation in MultiMap.h needs the casting line.
+//
+//  0.4.0 seems to have solved this bug
 
 
 #include "MultiMap.h"

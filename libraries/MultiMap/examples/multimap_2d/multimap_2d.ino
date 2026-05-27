@@ -32,7 +32,7 @@ void setup()
 
   for (int i = 0; i <= 360; i++)
   {
-    //  2D mapping is doen by mapping twice (not too efficient but it works sort of.
+    //  2D mapping is done by mapping twice (not too efficient but it works sort of.
     float x = multiMap<float>(i, in, xc, size);
     float y = multiMap<float>(i, in, yc, size);
     // Serial.print(i);

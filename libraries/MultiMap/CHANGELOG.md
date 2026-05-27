@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2026-05-25
+- fix #15, decreasing unsigned out array's cause underflow
+- add multimap_decr_unsigned_test.ino test for #15
+- minor edits
+
+----
+
 ## [0.3.0] - 2026-02-23
 - fix #13, allow size to be 65535 (uint16_t)
-- add patch for possible interpolation under/overflows. 
+- add patch for possible interpolation under/overflows.
 - add multi type **multiMapCache<T1, T2>** as it was missing.
 - update readme.md
 - update GitHub actions

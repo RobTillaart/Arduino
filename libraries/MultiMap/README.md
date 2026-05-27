@@ -43,9 +43,9 @@ multiple linear line segments.
 Of course this approximation introduces an error.
 By increasing the number of points and choose their position strategically the average error
 can and will be reduced.
-An important feature of the **multiMap()** is that the points do not need to have the same
-distance (non-equidistant). This allows to have more pointe where needed (curvy line) and
-less point where possible (straight lines).
+An important feature of the **multiMap()** is that the input points do not need to have the same
+distance (non-equidistant). This allows to have more data pointe where needed (curvy segments) and
+less point where possible (straight segments).
 
 Note: some functions are hard to approximate even with **multiMap()** as they go to infinity
 or have a singularity.
@@ -57,13 +57,13 @@ However there might be more than one input value mapping onto the same output va
 See - https://en.wikipedia.org/wiki/Bijection,_injection_and_surjection
 
 
-### Math problems in interpolation (rare).
+### Math problems in interpolation. (rare)
 
 In multiMap the interpolation math can fail. This happens when integer types are used 
-that are too small to handle the multiplication in the interpolation (e.g. 8 or 16 bit)
-Also when a mixed signed / unsigned types are used this can happen.
+that are **too small** to handle the multiplication in the interpolation (e.g. 8 or 16 bit)
+Also when a **mixed signed / unsigned** types are used failure can happen.
 
-There are two solutions to handle this.
+There are solutions to handle this.
 - (preferred) use float (double) as either input or output type.
 This forces casting to float in the interpolation solving the math problem.
 Drawback is it might take extra memory (e.g. int16_t => float).
@@ -71,10 +71,10 @@ Drawback is it might take extra memory (e.g. int16_t => float).
 during the interpolation only.
 Comment the existing interpolation and uncomment the other line.
 This saves memory as the arrays used do not "grow". 
+- The use of **decreasing unsigned** variables for the output array causes overflow
+due to subtraction in the formula used. (issue #15, solved in 0.4.0)
 
-Note both solutions have a performance penalty
-
-See the sketch **multimap_demo_fail.ino** (UNO R3) to show the problem.
+Note some solutions have a performance penalty
 
 
 ### 0.3.0 Breaking change

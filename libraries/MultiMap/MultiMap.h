@@ -2,7 +2,7 @@
 //
 //    FILE: MultiMap.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.0
+// VERSION: 0.4.0
 //    DATE: 2011-01-26
 // PURPOSE: Arduino library for fast non-linear mapping or interpolation of values
 //     URL: https://github.com/RobTillaart/MultiMap
@@ -10,7 +10,7 @@
 
 
 
-#define MULTIMAP_LIB_VERSION                (F("0.3.0"))
+#define MULTIMAP_LIB_VERSION                (F("0.4.0"))
 
 
 #include "Arduino.h"
@@ -36,7 +36,16 @@ T multiMap(T value, T* _in, T* _out, uint16_t size)
   if (value == _in[pos]) return _out[pos];
 
   //  interpolate in the right segment for the rest
-  return (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
+  //  use a modified formula for decreasing output array segment
+  //  to prevent unsigned "underflow/overflow" (issue #15)
+  if (_out[pos] >= _out[pos-1])
+  {
+    return _out[pos-1] + (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]);
+  }
+  else
+  {
+    return _out[pos-1] - (value - _in[pos-1]) * (_out[pos-1] - _out[pos]) / (_in[pos] - _in[pos-1]);
+  }
   //  if interpolation overflows use this line
   //  return T(float(value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1])) + _out[pos-1];
 }
@@ -85,9 +94,16 @@ T multiMapCache(T value, T* _in, T* _out, uint16_t size)
     else
     {
       //  interpolate in the right segment for the rest
-      cache = (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
-      //  if interpolation overflows use this line
-      //  cache = T(float(value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1])) + _out[pos-1];
+      //  use a modified formula for decreasing output array segment
+      //  to prevent unsigned "underflow/overflow" (issue #15)
+      if (_out[pos] >= _out[pos-1])
+      {
+        cache = _out[pos-1] + (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]);
+      }
+      else
+      {
+        cache = _out[pos-1] - (value - _in[pos-1]) * (_out[pos-1] - _out[pos]) / (_in[pos] - _in[pos-1]);
+      }
     }
   }
   return cache;
@@ -119,7 +135,16 @@ T multiMapBS(T value, T* _in, T* _out, uint16_t size)
     else upper = mid;
   }
   //  interpolate in the right segment for the rest
-  return (value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower]) + _out[lower];
+  //  use a modified formula for decreasing output array segment
+  //  to prevent unsigned "underflow/overflow" (issue #15)
+  if (_out[upper] >= _out[lower])
+  {
+    return _out[lower] + (value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower]);
+  }
+  else
+  {
+    return _out[lower] - (value - _in[lower]) * (_out[lower] - _out[upper]) / (_in[upper] - _in[lower]);
+  }
   //  if interpolation overflows use this line
   //  return T(float(value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower])) + _out[lower];
 }
@@ -145,7 +170,16 @@ T2 multiMap(T1 value, T1* _in, T2* _out, uint16_t size)
   if (value == _in[pos]) return _out[pos];
 
   //  interpolate in the right segment for the rest
-  return (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
+  //  use a modified formula for decreasing output array segment
+  //  to prevent unsigned "underflow/overflow" (issue #15)
+  if (_out[pos] >= _out[pos-1])
+  {
+    return _out[pos-1] + (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]);
+  }
+  else
+  {
+    return _out[pos-1] - (value - _in[pos-1]) * (_out[pos-1] - _out[pos]) / (_in[pos] - _in[pos-1]);
+  }
   //  if interpolation overflows use this line
   //  return T2(float(value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1])) + _out[pos-1];
 }
@@ -194,7 +228,17 @@ T2 multiMapCache(T1 value, T1* _in, T2* _out, uint16_t size)
     else
     {
       //  interpolate in the right segment for the rest
-      cache = (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]) + _out[pos-1];
+      //  use a modified formula for decreasing output array segment
+      //  to prevent unsigned "underflow/overflow" (issue #15)
+      if (_out[pos] >= _out[pos-1])
+      {
+        cache = _out[pos-1] + (value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1]);
+
+      }
+      else
+      {
+        cache = _out[pos-1] - (value - _in[pos-1]) * (_out[pos-1] - _out[pos]) / (_in[pos] - _in[pos-1]);
+      }
       //  if interpolation overflows use this line
       //  return T2(float(value - _in[pos-1]) * (_out[pos] - _out[pos-1]) / (_in[pos] - _in[pos-1])) + _out[pos-1];
     }
@@ -227,7 +271,16 @@ T2 multiMapBS(T1 value, T1* _in, T2* _out, uint16_t size)
     else upper = mid;
   }
   //  interpolate in the right segment for the rest
-  return (value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower]) + _out[lower];
+  //  use a modified formula for decreasing output array segment
+  //  to prevent unsigned "underflow/overflow" (issue #15)
+  if (_out[upper] >= _out[lower])
+  {
+    return _out[lower] + (value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower]);
+  }
+  else
+  {
+    return _out[lower] - (value - _in[lower]) * (_out[lower] - _out[upper]) / (_in[upper] - _in[lower]);
+  }
   //  if interpolation overflows use this line
   //  return T2(float(value - _in[lower]) * (_out[upper] - _out[lower]) / (_in[upper] - _in[lower])) + _out[lower];
 }

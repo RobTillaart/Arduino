@@ -1,7 +1,7 @@
 //
 //    FILE: m5angle8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for M5 8ANGLE 8x12 bit potentiometers
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 
@@ -10,12 +10,12 @@
 
 
 //  REGISTERS
-#define M5ANGLE8_REG_ADDRESS            0xFF
-#define M5ANGLE8_REG_VERSION            0xFE
-#define M5ANGLE8_REG_BASE_ANA12         0x00
-#define M5ANGLE8_REG_BASE_ANA8          0x10
-#define M5ANGLE8_REG_SWITCH             0x20
-#define M5ANGLE8_REG_RGB                0x30
+constexpr uint8_t M5ANGLE8_REG_ADDRESS    = 0xFF;
+constexpr uint8_t M5ANGLE8_REG_VERSION    = 0xFE;
+constexpr uint8_t M5ANGLE8_REG_BASE_ANA12 = 0x00;
+constexpr uint8_t M5ANGLE8_REG_BASE_ANA8  = 0x10;
+constexpr uint8_t M5ANGLE8_REG_SWITCH     = 0x20;
+constexpr uint8_t M5ANGLE8_REG_RGB        = 0x30;
 
 
 M5ANGLE8::M5ANGLE8(uint8_t address, TwoWire *wire)

@@ -39,23 +39,7 @@ One has to poll all channels for changes which is not efficient.
 A single byte register that showed change since last read would allow to monitor 
 all 8 potentiometers in one call.  
 
-Feedback is welcome!
-
-
-### I2C
-
-The address range is in theory from 0..127, however the I2C specification
-states it should be between 8 and 119 as some addresses are reserved.
-The default address is **0x43** or **67**.
-
-|  clock  |  works  |  notes  |
-|:-------:|:-------:|:--------|
-| 100 KHz |   yes   |
-| 200 KHz |   yes   |
-| 400 KHz |   yes   |  max speed advised
-| 600 KHz |    no   |
-
-See log file performance sketch.
+Feedback as always is welcome!
 
 
 ### Accuracy
@@ -68,7 +52,7 @@ that makes it pretty difficult to set a value exactly.
 
 The update performance of LEDs looks stable up to 40x per second in total.
 Beyond that frequency some blocking effects occur. 
-Roughly determined with led_demo.
+Roughly determined with led_demo.ino.
 
 
 ### Related
@@ -77,6 +61,44 @@ Roughly determined with led_demo.
 - https://github.com/RobTillaart/map2colour
 - https://github.com/RobTillaart/M5Angle8
 - https://github.com/RobTillaart/M5ROTATE8
+
+
+## I2C
+
+### I2C Address
+
+The address range is in theory from 0..127, however the I2C specification
+states it should be between 8 and 119 as some addresses are reserved.
+The default address is **0x43** or **67** decimal.
+
+### I2C Performance
+
+|  clock  |  works  |  notes  |
+|:-------:|:-------:|:--------|
+| 100 KHz |   yes   |
+| 200 KHz |   yes   |
+| 400 KHz |   yes   |  max speed advised
+| 600 KHz |    no   |
+
+See log file performance sketch.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface

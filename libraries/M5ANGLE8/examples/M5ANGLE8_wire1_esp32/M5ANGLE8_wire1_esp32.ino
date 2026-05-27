@@ -22,7 +22,7 @@ void setup()
   Serial.println();
   delay(100);
 
-  Wire1.begin(22, 23);  //  adjust pins 
+  Wire1.begin(22, 23);  //  adjust pins
 
   MM.begin();
 }

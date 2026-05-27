@@ -2,7 +2,7 @@
 //
 //    FILE: m5angle8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino library for M58ANGLE 8x12 bit potentiometers
 //     URL: https://github.com/RobTillaart/M5ANGLE8
 
@@ -10,7 +10,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define M5ANGLE8_LIB_VERSION          (F("0.3.1"))
+#define M5ANGLE8_LIB_VERSION          (F("0.3.2"))
 
 #define M5ANGLE8_DEFAULT_ADDRESS      0x43
 

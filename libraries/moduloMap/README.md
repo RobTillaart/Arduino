@@ -64,6 +64,7 @@ Other mapping libraries
 - https://github.com/RobTillaart/map2colour
 - https://github.com/RobTillaart/moduloMap
 - https://github.com/RobTillaart/MultiMap
+- https://github.com/RobTillaart/AngleConvertor convert rotations to degrees etc.
 
 
 ## Interface
@@ -78,14 +79,15 @@ Other mapping libraries
 - **moduloMap()** constructor, identical
 - **bool begin(float minimum, float maximum)** define the range the numbers should be mapped to.
 Returns true if minimum < maximum, false otherwise.
-If false the minimum and maximum are not set.
+If false the minimum and maximum are not overwritten.
+Note that if minimum == maximum all numbers would be mapped upon the same number (minimum).
 - **bool begin(float maximum)** wrapper for **begin(0, maximum)** above.
 
 ### Map
 
 - **float map(float value)** actual mapping of a value to a number within the range.
 - **float rotations(float value)** how many ranges (maximum - minimum) fit in a given length.  
-Think of it as how many rotations must a hoist must make to "free" a rope of given length.
+Think of it as how many rotations must a hoist make to "free" a rope of given length.
 Or how many rotations a hoist has to make to roll up a rope of given length.
 This includes the minimum that already has rolled off / should stay rolled off.
 
@@ -101,11 +103,12 @@ Get internal parameters (for debug)
 
 Tested with moduloMap_performance.ino on UNO R3 (AVR).
 
-|  version  |  1000 x map  |  notes  |
-|:---------:|:------------:|:-------:|
-|  0.1.0    |  44120 us    |
-|  0.1.1    |  36340 us    |
-|  0.1.3    |  36340 us    |
+|  version  |  1000 x map  |  1000 x rotations  |  notes  |
+|:---------:|:------------:|:------------------:|:-------:|
+|  0.1.0    |  44120 us    |                    |
+|  0.1.1    |  36340 us    |                    |
+|  0.1.3    |  36340 us    |      39108 us      |
+|  0.1.4    |  36340 us    |      16476 us      |
 
 
 ## Operation

@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.4] - 2026-05-27
+- improve performance rotations
+- update GitHub actions
+- minor edits
+
 ## [0.1.3] - 2025-09-09
 - add begin(float maximum) wrapper
 - add moduloMap as (derived) class

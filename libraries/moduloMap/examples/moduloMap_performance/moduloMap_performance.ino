@@ -1,7 +1,7 @@
 //
-//    FILE: moduloMap_demo.ino
+//    FILE: moduloMap_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: measure performance
 //     URL: https://github.com/RobTillaart/moduloMap
 
 
@@ -12,7 +12,7 @@ MODMAP mm;
 
 uint32_t start, stop;
 volatile float f;
-volatile float t = 5;
+volatile float t = 5;  //  param 2nd test loop, is in range.
 
 
 void setup()
@@ -58,19 +58,31 @@ void setup()
   Serial.println(stop - start);
   delay(1000);
 
-/*
-  t = 500;
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {
-    f = mm.map(t);
+    f = mm.rotations(t);
   }
   stop = micros();
 
-  Serial.print("1000 map() calls:\t");
+  Serial.print("1000 rotations() calls:\t");
   Serial.println(stop - start);
   delay(1000);
-*/
+
+  /*
+    t = 500;
+    start = micros();
+    for (int i = 0; i < 1000; i++)
+    {
+      f = mm.map(t);
+    }
+    stop = micros();
+
+    Serial.print("1000 map() calls:\t");
+    Serial.println(stop - start);
+    delay(1000);
+  */
 
   Serial.println();
 

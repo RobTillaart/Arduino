@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.2] - 2026-05-28
+- update GitHub actions
+- rename examples
+- minor edits
+
 ## [0.3.1] - 2025-11-25
 - update GitHub actions
 - update readme.md (performance ESP32)

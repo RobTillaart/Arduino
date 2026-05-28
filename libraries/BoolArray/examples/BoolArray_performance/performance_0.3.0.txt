@@ -3,7 +3,7 @@
 //
 //  BOOLARRAY
 //
-BOOLARRAY_LIB_VERSION:	0.2.7
+BOOLARRAY_LIB_VERSION:	0.3.0
 Bool array size:	1000
 
 get

@@ -1,7 +1,7 @@
 //
-//  FILE: BoolArray.cpp
+//    FILE: BoolArray.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2015-12-06
 // PURPOSE: BoolArray library for Arduino
 //     URL: https://github.com/RobTillaart/BoolArray
@@ -25,7 +25,10 @@ BoolArray::BoolArray()
 
 BoolArray::~BoolArray()
 {
-  if (_array) free(_array);
+  if (_array)
+  {
+    free(_array);
+  }
 }
 
 
@@ -73,7 +76,7 @@ uint8_t BoolArray::setAll(const uint8_t value)
 {
   if (_array == NULL) return BOOLARRAY_INIT_ERROR;
   uint8_t *p = _array;
-  uint8_t t = _bytes;
+  uint16_t t = _bytes;
   if (value == 0)
   {
     while(t--) *p++ = 0;
@@ -96,7 +99,7 @@ uint8_t BoolArray::get(const uint16_t index)
 {
   if (_array == NULL) return BOOLARRAY_INIT_ERROR;
   if (index >= _size) return BOOLARRAY_SIZE_ERROR;
-  uint8_t by = index / 8;
+  uint16_t by = index / 8;
   uint8_t bi = index & 7;
   return (_array[by] & _masks[bi]) > 0;
 }
@@ -106,7 +109,7 @@ uint8_t BoolArray::set(const uint16_t index, const uint8_t value)
 {
   if (_array == NULL) return BOOLARRAY_INIT_ERROR;
   if (index >= _size) return BOOLARRAY_SIZE_ERROR;
-  uint8_t by = index / 8;
+  uint16_t by = index / 8;
   uint8_t bi = index & 7;
   if (value == 0) _array[by] &= ~_masks[bi];
   else _array[by] |= _masks[bi];
@@ -118,12 +121,11 @@ uint8_t BoolArray::toggle(const uint16_t index)
 {
   if (_array == NULL) return BOOLARRAY_INIT_ERROR;
   if (index >= _size) return BOOLARRAY_SIZE_ERROR;
-  uint8_t by = index / 8;
+  uint16_t by = index / 8;
   uint8_t bi = index & 7;
   _array[by] ^= _masks[bi];
   return BOOLARRAY_OK;
 }
-
 
 
 /////////////////////////////////////////////////////////
@@ -140,7 +142,10 @@ BoolArray32::BoolArray32()
 
 BoolArray32::~BoolArray32()
 {
-  if (_array) free(_array);
+  if (_array)
+  {
+    free(_array);
+  }
 }
 
 

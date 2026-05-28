@@ -1,5 +1,5 @@
 //
-//    FILE: boolArrayDemo2.ino
+//    FILE: BoolArray_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo performance boolean array
 //     URL: https://github.com/RobTillaart/BoolArray

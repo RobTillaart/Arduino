@@ -39,14 +39,17 @@ The library is tested on AVR architecture only.
 
 Since 0.3.0 a **BoolArray32** class is added - **experimental** for now.
 
-Where the **BoolArray** class can have max 65535 booleans, the **BoolArray32** class
+Where the **BoolArray** class can have a maximum of 65535 booleans, the **BoolArray32** class
 has a 32 bit interface allowing up to 4 billion++ booleans in theory. 
 Although most IOT devices would not have enough memory, it allows one to have more than
-65535 booleans. 
+65535 booleans.
 
 Also it might be that the **BoolArray32** class is faster on some platforms
-that are native 32 bit (not verified yet). 
-On an Arduino UNO the **BoolArray32** class is slower.(verified).
+that are native 32 bit. 
+On an Arduino UNO the **BoolArray32** class is slower.
+See performance section below.
+
+Be aware that **BOOLARRAY_MAXSIZE** need to be adjusted to go beyond 10000 default.
 
 
 ### Related
@@ -128,7 +131,7 @@ So one need to check these carefully.
 |  BOOLARRAY_OK          |   0x00   |
 |  BOOLARRAY_ERROR       |   0xFF   |
 |  BOOLARRAY_SIZE_ERROR  |   0xFE   |  index out of range
-|  BOOLARRAY_INIT_ERROR  |   0xFD   |  allocation error  |
+|  BOOLARRAY_INIT_ERROR  |   0xFD   |  allocation error
 
 
 ## Future
@@ -139,11 +142,14 @@ So one need to check these carefully.
 
 #### Should
 
+- add index operator []
 - investigate template class 
 
 #### Could
 
-- add examples.
+- add examples
+- remove the BOOLARRAY_MAXSIZE as it is user responsibility?
+  - add flag to begin() to ignore size check?
 - investigate **uint32_t array[N]** for BoolArray32 (ESP32?)
   - adjust math 
 
@@ -153,6 +159,8 @@ So one need to check these carefully.
 - strip tests in the functions for performance.
 - performance for **clear()** dedicated loop vs **setAll(0)** call
   - not faster.
+- make BOOLARRAY_MAXSIZE conditional of board type.
+  - too lengthy code => user is responsible
 
 ## Support
 

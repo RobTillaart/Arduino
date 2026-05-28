@@ -2,7 +2,7 @@
 //
 //    FILE: nibbleArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
 // PURPOSE: Arduino library for a compact array of nibbles (4 bits)
 //     URL: https://github.com/RobTillaart/nibbleArray
 
@@ -10,12 +10,12 @@
 #include "Arduino.h"
 
 
-#define NIBBLEARRAY_LIB_VERSION         (F("0.2.7"))
+#define NIBBLEARRAY_LIB_VERSION         (F("0.2.8"))
 
 
 #ifndef NIBBLEARRAY_MAXSIZE
-//  UNO R3 BASED MAXSIZE
-#define NIBBLEARRAY_MAXSIZE             510
+//  UNO R3 BASED MAXSIZE = 2500 ==> 1250 bytes 
+#define NIBBLEARRAY_MAXSIZE             2500
 #endif
 
 #define NIBBLEARRAY_OK                  0x00
@@ -28,7 +28,7 @@ public:
   nibbleArray(const uint16_t size);
   ~nibbleArray();
 
-  //  return 0..F if ok
+  //  return 0x00..0x0F if OK
   //  returns 0xFF for index error.
   uint8_t   get(const uint16_t index);
   //  returns 0xFF for index error.
@@ -43,7 +43,7 @@ public:
 private:
   uint8_t  * _arr;
   uint16_t _size;
-  uint8_t  _bytes = 0;
+  uint16_t _bytes = 0;
 };
 
 

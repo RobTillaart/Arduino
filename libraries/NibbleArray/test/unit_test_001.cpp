@@ -50,7 +50,7 @@ unittest_teardown()
 
 unittest(test_constants)
 {
-  assertEqual(NIBBLEARRAY_MAXSIZE    , 510 );
+  assertEqual(NIBBLEARRAY_MAXSIZE    , 2500);
   assertEqual(NIBBLEARRAY_OK         , 0x00);
   assertEqual(NIBBLEARRAY_ERROR_INDEX, 0xFF);
 }

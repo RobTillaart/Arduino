@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.8] - 2026-05-27
+- change NIBBLEARRAY_MAXSIZE => 2500 (UNO R3 limit)
+- update GitHub actions
+- minor edits
+
 ## [0.2.7] - 2025-09-09
 - update GitHub actions
 - minor edits

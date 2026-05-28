@@ -8,7 +8,7 @@
 #include "nibbleArray.h"
 
 
-//  AVR UNO can handle only 510
+//  AVR UNO R3 can handle only 510
 //  ESP32 can do more but depends on RTOS limits
 
 

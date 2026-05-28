@@ -7,7 +7,9 @@
 
 #include "nibbleArray.h"
 
-nibbleArray na(500);
+//  max size UNO R3 = 2500
+//  but this program uses too much
+nibbleArray na(2500);  
 
 
 void setup()
@@ -18,6 +20,10 @@ void setup()
   Serial.print("NIBBLEARRAY_LIB_VERSION: ");
   Serial.println(NIBBLEARRAY_LIB_VERSION);
   Serial.println();
+
+  Serial.println();
+  Serial.println(na.size());
+  Serial.println(na.memory());
 
   test_1();
 
@@ -33,7 +39,7 @@ void test_1()
   na.clear();
 
   //  500 throws with 3 dices (3..18 ==> 0..15)
-  for (int i = 0; i < 500; i++)
+  for (int i = 0; i < 2500; i++)
   {
     uint8_t sum = random(6);  //  0..5
     sum += random(6);
@@ -41,7 +47,7 @@ void test_1()
     na.set(i, sum);           //  diff from na.set(i, random(16));
   }
 
-  for (int i = 0; i < 500; i++)
+  for (int i = 0; i < 2500; i++)
   {
     ar[na.get(i)]++;
     Serial.print(" ");
@@ -84,7 +90,7 @@ void test_1()
 void play(uint8_t octave, uint8_t note, uint8_t duration)
 {
   Serial.print("Play: ");
-  //  Serial.print(octave);
+  Serial.print(octave);
   Serial.print(" ");
   switch (note)
   {
@@ -148,4 +154,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

@@ -1,0 +1,29 @@
+# Syntax Colouring Map For I2C_ABP2
+
+# Data types (KEYWORD1)
+I2C_ABP2	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+request	KEYWORD2
+read	KEYWORD2
+lastRead	KEYWORD2
+
+getState	KEYWORD2
+getBar	KEYWORD2
+getMilliBar	KEYWORD2
+getCelsius	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+I2C_ABP2_LIB_VERSION	LITERAL1
+
+I2C_ABP2_OK	LITERAL1
+I2C_ABP2_NOT_READY	LITERAL1
+I2C_ABP2_REQUEST_ERROR	LITERAL1

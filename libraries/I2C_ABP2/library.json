@@ -1,0 +1,23 @@
+{
+  "name": "I2C_ABP2",
+  "keywords": "pressure",
+  "description": "Arduino library for the Honeywell I2C ABP2 pressure sensors.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2C_ABP2.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "I2C_ABP2.h"
+}

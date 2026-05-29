@@ -2,7 +2,7 @@
 //    FILE: demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: search the longest palindrome
-//     URL: https://github.com/RobTillaart/
+//     URL: https://github.com/RobTillaart/palindrome
 
 
 #include "Arduino.h"
@@ -16,22 +16,21 @@ uint32_t start, stop;
 #define PLEN  1600
 char str[PLEN];
 
-
-
-
 void setup()
 {
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-  Serial.print("PALINDROME_LIB_VERSION: ");
+  Serial.print(F("PALINDROME_LIB_VERSION: "));
   Serial.println(PALINDROME_LIB_VERSION);
   Serial.println();
   delay(100);
 
+  Serial.println(F("build a fake DNA string..."));
+  Serial.println();
   for (int i = 0; i < PLEN - 1; i++)
   {
-    str[i] = 'a' + random(4);
+    str[i] = "ACGT"[random(4)];
   }
   str[PLEN - 1] = 0;
 

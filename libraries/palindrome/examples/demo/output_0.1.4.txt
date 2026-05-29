@@ -1,0 +1,16 @@
+IDE:    1.8.19
+board:  UNO R3
+
+
+palindrome\examples\demo\demo.ino
+PALINDROME_LIB_VERSION: 0.1.4
+
+build a fake DNA string...
+
+4848	871	11	TGGCGCGCGGT
+
+2860	163	8	GGGAAGGG
+
+7700	871	11	TGGCGCGCGGT
+
+done...

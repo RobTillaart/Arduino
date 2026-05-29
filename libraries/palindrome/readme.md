@@ -11,7 +11,7 @@
 
 # Palindrome
 
-Library for palindrome search
+Arduino library to do palindrome experiments, including search in char arrays.
 
 
 ## Description
@@ -22,15 +22,47 @@ the longest palindrome within a character string.
 Writing the library was triggered by a friend Reinier who was proud his name
 was a palindrome.
 
-This library is mainly for educational purpose, however other
-applications are possible. Please share your ideas.
+The library is mainly written for educational purpose, however other
+applications are possible, e.g. a palindrome game. Please share your ideas.
+
+Feedback as always is welcome.
 
 
-### tests
+### Performance
 
-The library is tested with an Arduino UNO R3, random string of 1600 characters.
+The algorithm of finding a palindrome in a string is based upon the observation 
+that every character can be the middle character of a palindrome. 
+From that middle character we start comparing the characters on the left and right.
+As long as these match the palindrome "grows".
 
-(TODO performance compare)
+This algorithm has at most **n = strlen(s)** starting points for the search.
+From every starting point one might at most need to compare p positions to the 
+left and right, where **p = 1 to 0.5 strlen(s)**.
+So worst case one need **O(n^2)** comparisons. However depending on the number 
+of different characters in the string the search left and right will stop after 
+more or less comparisons. Assumption is that palindromes are Poisson distributed, 
+a lot of short ones and much less longer ones.
+
+Note the algorithm can be optimized by stopping when the mid-point is about 
+"0.5 maxLengthSoFar" from the end of the string. 
+NB no longer palindrome will fit in the last part.
+Furthermore it could be ideal to start the search from the middle of the string 
+and then going outwards alternating left right. Rationale is that the longest 
+possible palindrome is in the middle.
+
+
+### Tests
+
+The library is tested with an Arduino UNO R3, random string of 1600 characters
+(only 4 different characters).
+
+Indicative performance figures, based upon demo.ino.
+
+| function           | time (us) | pos | len | palindrome  |
+|:-------------------|:---------:|:---:|:---:|:------------|
+| findOddPalindrome  |   4848    | 871 |  11 | TGGCGCGCGGT |
+| findEvenPalindrome |   2860    | 163 |   8 | GGGAAGGG    |
+| findPalindrome     |   7700    | 871 |  11 | TGGCGCGCGGT |
 
 
 ## Interface
@@ -72,8 +104,17 @@ The examples show the basic working of the functions.
 
 #### Should
 
+- investigate merging Even and Odd code.
+- investigate case (in)sensitive flag?
+- use the palindrome algorithm to match DNA
+  - Adenine + Thymine, Guanine + Cytosine
+  - thus ATTGCA.TGCAAT could be seen as an DNA-palindrome (always even)
+  
 #### Could
 
+- add histogram of length palindrome per position.
+  - learn about distributions
+  - need longestPalindromePosition(str, pos, & length);
 - function names?
   - palindromeCount -- symmetryCount?
   - palindromePercentage -- symmetryPercentage?
@@ -81,7 +122,7 @@ The examples show the basic working of the functions.
   - merge odd / even find algorithms?
 - investigate Print interface?
 - investigate palindrome for numbers - radix 2..16 (36?)
-- investigate case (in)sensitive flag?
+  - String(number).toCharArray();
 - investigate ignore spaces flag?
 
 #### Wont

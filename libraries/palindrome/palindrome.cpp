@@ -1,7 +1,7 @@
 //
 //    FILE: palindrome.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.4
+// VERSION: 0.1.5
 //    DATE: 2021-12-02
 // PURPOSE: Arduino library to do palindrome experiments.
 //     URL: https://github.com/RobTillaart/palindrome
@@ -56,7 +56,12 @@ int palindrome::findEvenPalindrome(const char * str, int & position, int & lengt
 {
   if (str == NULL) return 0;
   int sl = strlen(str);
-  if (sl == 0) return -1;
+  if (sl == 0) 
+  {
+    position = 0;
+    length = 0;
+    return -1;
+  }
 
   int newpos = 0;
   int newlen = 1;
@@ -89,11 +94,16 @@ int palindrome::findOddPalindrome(const char * str, int & position, int & length
 {
   if (str == NULL) return 0;
   int sl = strlen(str);
-  if (sl == 0) return -1;
+  if (sl == 0) 
+  {
+    position = 0;
+    length = 0;
+    return -1;
+  }
 
   int newpos = 0;
   int newlen = 1;
-  for (int i = 1; i < sl; i++)
+  for (int i = 1; i < (sl - 1); i++)
   {
     int j = i - 1;
     int k = i + 1;

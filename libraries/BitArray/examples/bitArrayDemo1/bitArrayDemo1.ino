@@ -24,30 +24,29 @@ void setup()
   //  shows reclaiming memory
   test(10, 1000);  //  1024 steps
   test(6, 1000);   //  64 steps
-  test(4, 3000);   //  16 steps
+  test(4, 1000);   //  16 steps
 }
 
 
 void test(byte bits, uint16_t samples)
 {
-  b.begin(bits, samples);
+  int x = b.begin(bits, samples);
+  Serial.println(x);
 
   Serial.print("CAPACITY:\t");
   Serial.println(b.capacity());
   Serial.print("  MEMORY:\t");
   Serial.println(b.memory());
   Serial.print("    BITS:\t");
-  Serial.println(b.bits());
-  Serial.print("SEGMENTS:\t");
-  Serial.println(b.segments());
+  Serial.println(b.elementSize());
 
-  for (int i = 0; i < samples; i++)
+  for (uint16_t i = 0; i < samples; i++)
   {
     uint16_t x = analogRead(A0) >> (10 - bits);  //  note resized sample!
     b.set(i, x);
   }
   Serial.println("\nSAMPLES:\t");
-  for (int i = 0; i < samples; i++)
+  for (uint16_t i = 0; i < samples; i++)
   {
     if (i % 10 == 0)
     {
@@ -58,7 +57,7 @@ void test(byte bits, uint16_t samples)
     Serial.print(b.get(i));
     Serial.print("\t");
   }
-  Serial.println("\n\nDone...");
+  Serial.println("\n\nDone...\n");
 }
 
 
@@ -68,4 +67,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

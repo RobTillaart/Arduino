@@ -41,9 +41,7 @@ void test(uint8_t bits, uint16_t cnt)
   Serial.print("  MEMORY:\t");
   Serial.println(b.memory());
   Serial.print("    BITS:\t");
-  Serial.println(b.bits());
-  Serial.print("SEGMENTS:\t");
-  Serial.println(b.segments());
+  Serial.println(b.elementSize());
   delay(100);
 
 
@@ -124,7 +122,7 @@ void test(uint8_t bits, uint16_t cnt)
   delay(100);
 
 
-  Serial.println("Done...");
+  Serial.println("Done...\n\n");
 }
 
 
@@ -134,4 +132,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

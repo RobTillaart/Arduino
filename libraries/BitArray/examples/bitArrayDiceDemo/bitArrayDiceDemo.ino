@@ -26,7 +26,10 @@ void setup()
 
   //  3 bits can hold any value 1..6
   int x = diceRolls.begin(3, SAMPLES);
-  if (x == BA_NO_MEMORY_ERR) Serial.println("no memory");
+  if (x == BA_NO_MEMORY_ERR) 
+  {
+    Serial.println("no memory");
+  }
 
   diceRolls.clear();
 
@@ -35,9 +38,7 @@ void setup()
   Serial.print("  MEMORY:\t");
   Serial.println(diceRolls.memory());
   Serial.print("    BITS:\t");
-  Serial.println(diceRolls.bits());
-  Serial.print("SEGMENTS:\t");
-  Serial.println(diceRolls.segments());
+  Serial.println(diceRolls.elementSize());
 
   for (int i = 0; i < SAMPLES; i++)
   {
@@ -55,7 +56,6 @@ void setup()
   }
   Serial.println();
 
-
   Serial.println();
   for (int i = 0; i < SAMPLES; i++)
   {
@@ -70,6 +70,25 @@ void setup()
   }
   Serial.println();
   Serial.println();
+
+
+  for (int i = 0; i < 7; i++)
+  {
+    count[i] = 0;
+  }
+  for (int i = 0; i < SAMPLES; i++)
+  {
+    count[diceRolls.get(i)]++;
+  }
+  for (int i = 0; i < 7; i++)
+  {
+    Serial.print(i, DEC);
+    Serial.print(")\t");
+    Serial.println(count[i]);
+  }
+  Serial.println();
+  Serial.println();
+
 
   diceRolls.clear();
 
@@ -89,6 +108,10 @@ void setup()
   Serial.println();
 
 
+  for (int i = 0; i < 7; i++)
+  {
+    count[i] = 0;
+  }
   for (int i = 0; i < SAMPLES; i++)
   {
     count[diceRolls.get(i)]++;
@@ -99,7 +122,10 @@ void setup()
     Serial.print(")\t");
     Serial.println(count[i]);
   }
-  Serial.println("\n finish test...\n");
+  Serial.println();
+  Serial.println();
+
+  Serial.println("finish test...\n");
 }
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: bitArray.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 0.3.0
 // PURPOSE: BitArray library for Arduino
 //     URL: https://github.com/RobTillaart/BitArray
 
@@ -20,79 +20,94 @@
 
 #include "Arduino.h"
 
-#define BITARRAY_LIB_VERSION              (F("0.2.9"))
+#define BITARRAY_LIB_VERSION              (F("0.3.0"))
 
-
-#define BA_SEGMENT_SIZE                   200
-
-
-//  max memory is board type dependent
-//  note the bitArray does not use all of the RAM
-//  1K - max 600
-#if defined(__AVR_ATmega168__)
-#define BA_MAX_SEGMENTS 3
-//  2K - max 1600
-#elif defined(__AVR_ATmega328P__)
-#define BA_MAX_SEGMENTS 8
-//  8K - max 7000
-#elif defined(__AVR_ATmega1280__)
-#define BA_MAX_SEGMENTS 35
-//  8K - max 7000
-#elif defined(__AVR_ATmega2560__)
-#define BA_MAX_SEGMENTS 35
-//  1.25K - max 800
-#elif defined(__AVR_ATmega16U4__)
-#define BA_MAX_SEGMENTS 4
-//  2.5K - max 2000
-#elif defined(__AVR_ATmega32U4__)
-#define BA_MAX_SEGMENTS 10
-//  96K (64 + 32) DUE...
-#elif defined(__SAM3X8E__)
-#define BA_MAX_SEGMENTS 100
-//  default max 1000
-#else
-#define BA_MAX_SEGMENTS 5
+//  adjust BITARRAY_MAXSIZE to your needs and board used.
+//  BITARRAY_MAXSIZE is in bytes...
+#ifndef BITARRAY_MAXSIZE
+#define BITARRAY_MAXSIZE         1250
 #endif
 
 
-#define BA_ERR                            0xFFFFFFFF
-#define BA_OK                             0x00
-#define BA_NO_MEMORY_ERR                  0x01
-#define BA_IDX_RANGE_ERR                  0x02
-#define BA_ELEMENT_SIZE_ERR               0x03
-#define BA_SIZE_ERR                       0x04
+//  ERROR CODES
+constexpr int BA_ERR              = -1;
+constexpr int BA_OK               = 0;
+constexpr int BA_NO_MEMORY_ERR    = 1;
+constexpr int BA_IDX_RANGE_ERR    = 2;
+constexpr int BA_ELEMENT_SIZE_ERR = 3;
+constexpr int BA_SIZE_ERR         = 4;
 
 
+/////////////////////////////////////////////////////////
+//
+//  16 bit version
+//  max memory that can be allocated is 64 KB.
+//
 class BitArray
 {
 public:
   BitArray();
   ~BitArray();
 
-  uint8_t  begin(const uint8_t bits, const uint16_t size);
+  int      begin(const uint8_t elementSize, const uint16_t elementCount);
 
-  uint16_t capacity() { return _bytes * 8 / _bits; };
-  uint16_t memory()   { return _bytes; };
-  uint16_t bits()     { return _bits; };
-  uint16_t segments() { return _segments; };
-  uint8_t  getError() { return _error; };
+  uint16_t capacity()    { return _bytes * 8 / _bits; };
+  uint16_t memory()      { return _bytes; };
+  uint8_t  elementSize() { return _bits; };
+  int      getError()    { return _error; };
 
-  void     clear();
-  uint32_t get(const uint16_t index);
-  uint32_t set(const uint16_t index, uint32_t value);
-  void     setAll(uint32_t value);
-  uint32_t toggle(const uint16_t index);
+  int      clear();
+  uint16_t get(const uint16_t index);
+  uint16_t set(const uint16_t index, uint16_t value);
+  int      setAll(uint16_t value);
+  uint16_t toggle(const uint16_t index);
 
 private:
-  uint8_t   _bitget(const uint16_t index);
-  void      _bitset(const uint16_t index, const uint8_t value);
-  uint8_t   _bittoggle(const uint16_t index);
+  uint8_t   _bitget(const uint32_t pos);
+  void      _bitset(const uint32_t pos, const uint8_t value);
+  uint8_t   _bittoggle(const uint32_t pos);
 
+  uint8_t * _array;
+  uint16_t  _size = 0;
   uint16_t  _bytes = 0;
   uint8_t   _bits = 0;
-  uint8_t   _segments = 0;
-  uint8_t * _ar[BA_MAX_SEGMENTS];
-  uint8_t   _error = BA_NO_MEMORY_ERR;
+  uint8_t   _error = BA_OK;
+};
+
+
+/////////////////////////////////////////////////////////
+//
+//  32 bit version
+//
+class BitArray32
+{
+public:
+  BitArray32();
+  ~BitArray32();
+
+  int      begin(const uint8_t elementSize, const uint32_t elementCount);
+
+  uint32_t capacity()    { return _bytes * 8 / _bits; };
+  uint32_t memory()      { return _bytes; };
+  uint8_t  elementSize() { return _bits; };
+  int      getError()    { return _error; };
+
+  int      clear();
+  uint32_t get(const uint32_t index);
+  uint32_t set(const uint32_t index, uint32_t value);
+  int      setAll(uint32_t value);
+  uint32_t toggle(const uint32_t index);
+
+private:
+  uint8_t   _bitget(const uint32_t pos);
+  void      _bitset(const uint32_t pos, const uint8_t value);
+  uint8_t   _bittoggle(const uint32_t pos);
+
+  uint8_t * _array;
+  uint32_t  _size = 0;
+  uint32_t  _bytes = 0;
+  uint8_t   _bits = 0;
+  uint8_t   _error = BA_OK;
 };
 
 

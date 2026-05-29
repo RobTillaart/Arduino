@@ -10,68 +10,68 @@
 #include "BitArray.h"
 
 
+/////////////////////////////////////////////////////////
+//
+//  16 bit version
+//  max memory that can be allocated is 64 KB.
+//
 BitArray::BitArray()
 {
-  for (uint8_t i = 0; i < BA_MAX_SEGMENTS; i++)
-  {
-    _ar[i] = NULL;
-  }
+  _array = nullptr;
+  _size  = 0;
+  _bytes = 0;
+  _bits  = 0;
 }
 
 
 BitArray::~BitArray()
 {
-  for (uint8_t i = 0; i < BA_MAX_SEGMENTS; i++)
+  if (_array)
   {
-    if (_ar[i]) free(_ar[i]);
+    free(_array);
   }
 }
 
 
-uint8_t BitArray::begin(const uint8_t bits, const uint16_t size)
+int BitArray::begin(const uint8_t elementSize, const uint16_t elementCount)
 {
-  if ((bits == 0) || (bits > 32))
+  if ((elementSize == 0) || (elementSize > 32))
   {
     _error = BA_ELEMENT_SIZE_ERR;
     return _error;
   }
-  if (((1UL * bits * size)/8) > (1UL * BA_MAX_SEGMENTS * BA_SEGMENT_SIZE))
+  if (((1UL * elementSize * elementCount + 7) / 8) > BITARRAY_MAXSIZE)
   {
     _error = BA_SIZE_ERR;
     return _error;
   }
 
-  for (uint8_t i = 0; i < BA_MAX_SEGMENTS; i++)
+  _bits = elementSize;
+  _size = elementCount;
+  _bytes = (1UL * _bits * _size + 7) / 8;
+  if (_array != nullptr)
   {
-    if (_ar[i]) free(_ar[i]);
+    free(_array);
+  }
+  _array = (uint8_t *) malloc(_bytes);
+  if (_array == nullptr)
+  {
+    _bits = 0;
+    _size = 0;
+    _bytes = 0;
+    _error = BA_NO_MEMORY_ERR;
+    return _error;
   }
 
-  _segments = 0;
-  _bits = bits;
-  _bytes = (_bits * size + 7) / 8;
-  uint16_t b = _bytes;
-  while (b > 0)
-  {
-    _ar[_segments] = (uint8_t*) malloc(min(b, (uint16_t) BA_SEGMENT_SIZE));
-    if (_ar[_segments] == NULL)
-    {
-      _error = BA_NO_MEMORY_ERR;
-      return _error;
-    }
-    b = b - min(b, (uint16_t) BA_SEGMENT_SIZE);
-    _segments++;
-  }
   _error = BA_OK;
   return _error;
 }
 
 
-uint32_t BitArray::get(const uint16_t index)
+uint16_t BitArray::get(const uint16_t index)
 {
-  //  if (_error != BA_OK) return BA_ERR;
-  //  if (index >= _size) return BA_IDX_RANGE;
-  uint32_t v = 0;
-  uint16_t pos = index * _bits;
+  uint16_t v = 0;
+  uint32_t pos = index * _bits;
 
   for (uint8_t i = _bits; i-- > 0;)
   {
@@ -82,11 +82,172 @@ uint32_t BitArray::get(const uint16_t index)
 }
 
 
-uint32_t BitArray::set(const uint16_t index, uint32_t value)
+uint16_t BitArray::set(const uint16_t index, uint16_t value)
 {
-  //  if (_error != BA_OK) return BA_ERR;
-  //  if (index >= _size) return BA_IDX_RANGE;
-  uint16_t pos = index * _bits;
+  uint32_t pos = index * _bits;
+  uint16_t mask = 1UL;
+  for (uint8_t i = 0; i < _bits; i++)
+  {
+    uint8_t v = (value & mask) > 0 ? 1 : 0;
+    _bitset(pos + i, v);
+    mask <<= 1;
+  }
+  return value;
+}
+
+
+uint16_t BitArray::toggle(const uint16_t index)
+{
+  uint16_t v = 0;
+  uint32_t pos = index * _bits;
+  for (uint8_t i = _bits; i-- > 0;)
+  {
+    v <<= 1;
+    v += _bittoggle(pos + i);
+  }
+  return v;
+}
+
+
+int BitArray::clear()
+{
+  if (_array == NULL)
+  {
+    _error = BA_NO_MEMORY_ERR;
+    return _error;
+  }
+  uint8_t *p = _array;
+  uint16_t t = _bytes;
+  while (t--)
+  {
+    *p++ = 0;
+  }
+  _error = BA_OK;
+  return _error;
+}
+
+
+int BitArray::setAll(uint16_t value)
+{
+  if (_array == NULL)
+  {
+    _error = BA_NO_MEMORY_ERR;
+    return _error;
+  }
+  for (uint16_t i = 0; i < capacity(); i++)
+  {
+    set(i, value);
+  }
+  _error = BA_OK;
+  return _error;
+}
+
+
+/////////////////////////////////////////////////
+//
+//  PRIVATE
+//
+inline uint8_t BitArray::_bitget(uint32_t pos)
+{
+  uint16_t by = pos / 8;
+  uint8_t  bi = pos & 7;
+  return (_array[by] >> bi) & 0x01;
+}
+
+
+inline void BitArray::_bitset(uint32_t pos, uint8_t value)
+{
+  uint16_t by = pos / 8;
+  uint8_t  bi = pos & 7;
+  if (value == 0) _array[by] &= ~(1 << bi);
+  else _array[by] |= (1 << bi);
+}
+
+
+inline uint8_t BitArray::_bittoggle(const uint32_t pos)
+{
+  uint16_t by = pos / 8;
+  uint8_t  bi = pos & 7;
+  uint8_t mask = 1 << bi;
+  _array[by] ^= mask;
+  return ((_array[by] & mask) > 0);
+}
+
+
+/////////////////////////////////////////////////////////
+//
+//  32 bit version
+//
+BitArray32::BitArray32()
+{
+  _array = nullptr;
+  _size  = 0;
+  _bytes = 0;
+  _bits  = 0;
+}
+
+
+BitArray32::~BitArray32()
+{
+  if (_array)
+  {
+    free(_array);
+  }
+}
+
+
+int BitArray32::begin(const uint8_t elementSize, const uint32_t elementCount)
+{
+  if ((elementSize == 0) || (elementSize > 32))
+  {
+    _error = BA_ELEMENT_SIZE_ERR;
+    return _error;
+  }
+  if (((1UL * elementSize * elementCount + 7) / 8) > BITARRAY_MAXSIZE)
+  {
+    _error = BA_SIZE_ERR;
+    return _error;
+  }
+
+  _bits = elementSize;
+  _size = elementCount;
+  _bytes = (1UL * _bits * _size + 7) / 8;
+  if (_array != nullptr)
+  {
+    free(_array);
+  }
+  _array = (uint8_t *) malloc(_bytes);
+  if (_array == nullptr)
+  {
+    _bits = 0;
+    _size = 0;
+    _bytes = 0;
+    _error = BA_NO_MEMORY_ERR;
+    return _error;
+  }
+
+  _error = BA_OK;
+  return _error;
+}
+
+
+uint32_t BitArray32::get(const uint32_t index)
+{
+  uint32_t v = 0;
+  uint32_t pos = index * _bits;
+
+  for (uint8_t i = _bits; i-- > 0;)
+  {
+    v <<= 1;
+    v += _bitget(pos + i);
+  }
+  return v;
+}
+
+
+uint32_t BitArray32::set(const uint32_t index, uint32_t value)
+{
+  uint32_t pos = index * _bits;
   uint32_t mask = 1UL;
   for (uint8_t i = 0; i < _bits; i++)
   {
@@ -98,10 +259,8 @@ uint32_t BitArray::set(const uint16_t index, uint32_t value)
 }
 
 
-uint32_t BitArray::toggle(const uint16_t index)
+uint32_t BitArray32::toggle(const uint32_t index)
 {
-  //  if (_error != BA_OK) return BA_ERR;
-  //  if (index >= _size) return BA_IDX_RANGE;
   uint32_t v = 0;
   uint16_t pos = index * _bits;
   for (uint8_t i = _bits; i-- > 0;)
@@ -113,114 +272,68 @@ uint32_t BitArray::toggle(const uint16_t index)
 }
 
 
-void BitArray::clear()
+int BitArray32::clear()
 {
-  uint16_t b = _bytes;
-  for (uint8_t s = 0; s < _segments; s++)
+  if (_array == NULL)
   {
-    uint8_t *p = _ar[s];
-    if (p)
-    {
-      uint8_t t = min(b, (uint16_t) BA_SEGMENT_SIZE);
-      b -= t;
-      while(t--)
-      {
-        *p++ = 0;
-      }
-    }
-    if (b == 0) break;
+    _error = BA_NO_MEMORY_ERR;
+    return _error;
   }
+  uint8_t *p = _array;
+  uint32_t t = _bytes;
+  while (t--)
+  {
+    *p++ = 0;
+  }
+  _error = BA_OK;
+  return _error;
 }
 
 
-
-void BitArray::setAll(uint32_t value)
+int BitArray32::setAll(uint32_t value)
 {
-  for (uint16_t i = 0; i < capacity(); i++)
+  if (_array == NULL)
+  {
+    _error = BA_NO_MEMORY_ERR;
+    return _error;
+  }
+  for (uint32_t i = 0; i < capacity(); i++)
   {
     set(i, value);
   }
+  _error = BA_OK;
+  return _error;
 }
-
-
-//      16 bit address usage is faster
-//  TODO verify correctness
-//
-// void BitArray::clear()
-// {
-    // uint16_t b = _bytes;
-    // for (uint8_t s = 0; s < _segments; s++)
-    // {
-        // uint8_t *q = _ar[s];
-        // uint16_t *p = (uint16_t*)q;
-        // if (p)
-        // {
-            // for (uint8_t t = 0; t < BA_SEGMENT_SIZE/2; t++)
-            // {
-              // *p++ = 0;    // might be bug @ edge..
-            // }
-        // }
-        // if (b == 0) break;
-    // }
-// }
 
 
 /////////////////////////////////////////////////
 //
 //  PRIVATE
 //
-inline uint8_t BitArray::_bitget(uint16_t pos)
+inline uint8_t BitArray32::_bitget(uint32_t pos)
 {
-  uint8_t se = 0;
-  uint16_t re = pos;
-  while (re >= (BA_SEGMENT_SIZE * 8))  //  8 == #bits in uint8_t
-  {
-    se++;
-    re -= (BA_SEGMENT_SIZE * 8);
-  }
-  uint8_t by = re / 8;
-  uint8_t bi = re & 7;
-  uint8_t * p = _ar[se];
-
-  return (p[by] >> bi) & 0x01;          //  bitRead(p[by], bi);
+  uint32_t by = pos / 8;
+  uint8_t  bi = pos & 7;
+  return (_array[by] >> bi) & 0x01;
 }
 
 
-inline void BitArray::_bitset(uint16_t pos, uint8_t value)
+inline void BitArray32::_bitset(uint32_t pos, uint8_t value)
 {
-  uint8_t se = 0;
-  uint16_t re = pos;
-  while (re >= (BA_SEGMENT_SIZE * 8))   //  8 == #bits in uint8_t
-  {
-    se++;
-    re -= (BA_SEGMENT_SIZE * 8);
-  }
-  uint8_t by = re / 8;
-  uint8_t bi = re & 7;
-  uint8_t * p = _ar[se];
-
-  if (value == 0) p[by] &= ~(1 << bi);  //  bitClear(p[by], bi);
-  else p[by] |= (1 << bi);              //  bitSet(p[by], bi);
+  uint32_t by = pos / 8;
+  uint8_t  bi = pos & 7;
+  if (value == 0) _array[by] &= ~(1 << bi);
+  else _array[by] |= (1 << bi);
 }
 
 
-inline uint8_t BitArray::_bittoggle(const uint16_t pos)
+inline uint8_t BitArray32::_bittoggle(const uint32_t pos)
 {
-  uint8_t se = 0;
-  uint16_t re = pos;
-  while (re >= (BA_SEGMENT_SIZE * 8))   //  8 == #bits in uint8_t
-  {
-    se++;
-    re -= (BA_SEGMENT_SIZE * 8);
-  }
-  uint8_t by = re / 8;
-  uint8_t bi = re & 7;
-  uint8_t * p = _ar[se];
-
+  uint32_t by = pos / 8;
+  uint8_t  bi = pos & 7;
   uint8_t mask = 1 << bi;
-  p[by] ^= mask;
-  return (mask > 0);
-  //  return ((p[by] & mask) > 0);  0.3.0
+  _array[by] ^= mask;
+  return ((_array[by] & mask) > 0);
 }
 
 

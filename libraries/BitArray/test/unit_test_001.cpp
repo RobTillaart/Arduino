@@ -41,7 +41,7 @@ unittest(test_constructor)
 {
   BitArray ba;
 
-  assertEqual(BA_NO_MEMORY_ERR, ba.getError());
+  assertEqual(BA_OK, ba.getError());
 
   ba.begin(0, 1000);
   assertEqual(BA_ELEMENT_SIZE_ERR, ba.getError());
@@ -50,10 +50,9 @@ unittest(test_constructor)
   ba.begin(1, 1000);
   assertEqual(BA_OK, ba.getError());
 
-  assertEqual(1, ba.bits());
+  assertEqual(1, ba.elementSize());
   assertEqual(1000, ba.capacity());
   assertEqual(125, ba.memory());
-  fprintf(stderr, "\tSEGMENTS:\t %d\n", ba.segments());
 }
 
 

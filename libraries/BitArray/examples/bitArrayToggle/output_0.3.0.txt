@@ -1,0 +1,15 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+bitArrayToggle.ino
+BITARRAY_LIB_VERSION: 0.3.0
+
+SET: 32
+GET: 32
+17
+TOGGLE: 32
+14
+GET: 32
+14
+Done...

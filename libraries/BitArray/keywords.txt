@@ -2,15 +2,15 @@
 
 # Data types (KEYWORD1)
 BitArray	KEYWORD1
+BitArray32	KEYWORD1
 
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+
 capacity	KEYWORD2
 memory	KEYWORD2
-
-bits	KEYWORD2
-segments	KEYWORD2
+elementSize	KEYWORD2
 getError	KEYWORD2
 
 clear	KEYWORD2

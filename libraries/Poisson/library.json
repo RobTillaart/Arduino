@@ -1,0 +1,23 @@
+{
+  "name": "Poisson",
+  "keywords": "probability, statistic",
+  "description": "Arduino library for Poisson distribution math.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/Poisson.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "Poisson.h"
+}

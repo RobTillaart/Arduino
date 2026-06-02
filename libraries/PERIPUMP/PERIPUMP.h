@@ -2,9 +2,10 @@
 //
 //    FILE: PERIPUMP.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-10-13
 // PURPOSE: Arduino library for peristaltic pump
+//     URL: https://github.com/RobTillaart/PERIPUMP
 //
 // Tested with dfrobot peristaltic pump DFR0523
 //
@@ -13,7 +14,7 @@
 #include "Arduino.h"
 #include "Servo.h"
 
-#define PERIPUMP_LIB_VERSION                  (F("0.1.3"))
+#define PERIPUMP_LIB_VERSION                  (F("0.1.4"))
 
 
 class PERIPUMP

@@ -1,9 +1,10 @@
 //
 //    FILE: PERIPUMP.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2022-10-13
 // PURPOSE: Arduino library for peristaltic pump
+//     URL: https://github.com/RobTillaart/PERIPUMP
 
 
 #include "PERIPUMP.h"

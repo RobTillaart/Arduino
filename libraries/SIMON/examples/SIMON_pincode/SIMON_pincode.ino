@@ -1,7 +1,7 @@
 //
 //    FILE: SIMON_pincode.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo: how many tries for breaking a 4 digit code randomly
+// PURPOSE: demo how many tries for breaking a 4 digit code randomly
 //     URL: https://github.com/RobTillaart/SIMON
 
 

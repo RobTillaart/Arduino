@@ -1,8 +1,7 @@
 //
 //    FILE: SIMON_letters.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo:
-//    DATE: 2022-05-26
+// PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SIMON
 
 #include "simon.h"

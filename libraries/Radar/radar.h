@@ -2,7 +2,8 @@
 //
 //    FILE: radar.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.9
+// VERSION: 0.1.10
+//    DATE: 2013-09-30
 // PURPOSE: Arduino library for a pan tilt radar.
 //     URL: https://github.com/RobTillaart/RADAR
 
@@ -10,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define RADAR_LIB_VERSION         (F("0.1.9"))
+#define RADAR_LIB_VERSION         (F("0.1.10"))
 
 
 //  TODO # positions in a begin() or constructor?

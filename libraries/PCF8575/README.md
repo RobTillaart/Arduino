@@ -90,6 +90,11 @@ A minimal example that shows catching missed interrupts:
 
 ### 0.2.0 Breaking change
 
+Version 0.3.0 fixed a bug in rotateRight() and rotateLeft().
+
+
+### 0.2.0 Breaking change
+
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
@@ -128,8 +133,17 @@ Based upon data sheets. PCA967x is a follow up replacement.
 - https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
 - https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
 
+Other
+
+- https://github.com/RobTillaart/I2CKeyPad8x8 8x8 (or smaller) keypad based upon PCF8575
+- https://github.com/RobTillaart/PIR8575 16 channel PIR detection system based upon PCF8575
+- https://github.com/RobTillaart/rotaryDecoder8 8 channel rotary decoder based upon PCF8575
+- https://github.com/RobTillaart/rotaryDecoderSwitch5 5 channel rotary decoder + switch
+
 
 ## I2C
+
+### I2C Address
 
 The device has 8 possible addresses.
 

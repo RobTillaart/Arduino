@@ -2,7 +2,7 @@
 //
 //    FILE: rain.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2022-11-23
 // PURPOSE: Arduino library for rain sensor (analog).
 //     URL: https://github.com/RobTillaart/RAIN
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define RAIN_LIB_VERSION         (F("0.1.5 experimental"))
+#define RAIN_LIB_VERSION         (F("0.1.6"))
 
 
 class RAIN

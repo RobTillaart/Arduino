@@ -77,7 +77,7 @@ returned value is the average number of ADC steps.
 This voltage is returned, and also cached for **percentage()** and **getLevel()**.
 
 
-### powerControl
+### Power control
 
 Will only work if the **powerPin** is set in the constructor.
 

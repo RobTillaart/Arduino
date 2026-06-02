@@ -19,20 +19,21 @@ Arduino library for SWSerialOut, supports only data out (TX).
 **Experimental**
 
 SWSerialOut is a library that only implements the transmit function.
-There are devices that do not send back information, or in some cases
-you do not use the "returned" information.
-In those cases there is no need for the receive function, interrupt
+There are devices that do not send back information, or in some projects
+you are not interested in the "returned" information.
+In those cases there is no need for the RX pin, receive function, interrupt
 handling, buffers etc.
 
 This is where SWSerialOut comes in, it can only transmit data and does
 that by implementing the **public Stream** interface.
 So its interface is similar to any Stream like Serial or SoftwareSerial,
-as the user can use **print()** and **println()** for al the output.
+as the user can use **wrtite(), print()** and **println()** for all the output.
 
 The input side of the Stream interface, **available()**, **peek()**,
-and **read()** are stubs returning 0.
+and **read()** are just stubs returning 0 (for now).
 
-The library does not need to buffer incoming data, and it does not buffer outgoing data either. Therefore it can be blocking.
+The library does not need to buffer incoming data, and it does not buffer 
+outgoing data either. Therefore the library can be blocking.
 So use the library with care.
 
 
@@ -99,11 +100,12 @@ parameters is e.g. "8N1" = 8 bit, None parity, 1 stop-bit
 The SWSerialOut implements the **public Stream** interface, so
 it will support the following functions (indirect from Print):
 
-- **size_t write(char c)** idem.
+- **size_t write(uint8_t c)** idem.
+- **size_t write(uint8_t \* arr, uint8_t length)** idem.
 - **size_t print(...)** idem.
 - **size_t println(...)** idem.
 
-The input functions are stubs, just returning 0.
+The input functions of Stream are just stubs returning 0.
 
 
 ### Interrupts

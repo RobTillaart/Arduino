@@ -100,6 +100,11 @@ public:
     return 1;
   }
 
+  size_t write(uint8_t *arr, uint8_t length)
+  {
+    for (uint8_t i = 0; i < length; i++) write(arr[i]);
+    return length;
+  }
 
   void disableInterrupts(bool b)
   {

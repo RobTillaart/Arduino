@@ -1,7 +1,7 @@
 //
 //    FILE: SWSO_minimal.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: HX711 demo
+// PURPOSE: demo
 //     URL: https://github.com/RobTillaart/SWSerialOut
 
 

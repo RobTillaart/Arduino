@@ -1,7 +1,7 @@
 //
 //    FILE: SWSO_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: HX711 demo
+// PURPOSE: demo testing the baud rate accuracy.
 //     URL: https://github.com/RobTillaart/SWSerialOut
 
 
@@ -14,7 +14,7 @@ SWSerialOut SWS(7);
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(19200);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("SWSERIALOUT_LIB_VERSION: ");

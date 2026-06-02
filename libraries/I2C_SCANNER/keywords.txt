@@ -20,6 +20,7 @@ diag	KEYWORD2
 pingTime	KEYWORD2
 count	KEYWORD2
 
+hasWireTimeout	KEYWORD2
 setWireTimeout	KEYWORD2
 getWireTimeout	KEYWORD2
 
@@ -28,6 +29,8 @@ getSDA	KEYWORD2
 getSCL	KEYWORD2
 
 getDeviceID	KEYWORD2
+
+releaseI2CBus	KEYWORD2
 
 
 # Constants (LITERAL1)

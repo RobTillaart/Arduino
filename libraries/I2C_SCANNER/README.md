@@ -130,8 +130,9 @@ Experimental
 
 Not all platforms support this functionality, you need to patch I2C_SCANNER.cpp file to get 
 this working for your platform.
-- **bool setWireTimeout(uint32_t timeOut)**
-- **uint32_t getWireTimeout()**
+- **bool hasWireTimeout()** returns true if **setWireTimeout()** is supported.
+- **bool setWireTimeout(uint32_t timeOut)** wrapper around wire.setTimeout().
+- **uint32_t getWireTimeout()** returns the set timeout.
 
 
 ### getDeviceID
@@ -141,6 +142,8 @@ Experimental (to be confirmed)
 - **uint32_t getDeviceID(uint8_t address)** Returns 24 bits, see table below.
 Returns 0xFFxxxxxx in case of an error, board dependent.
 
+Seen this layout (no source)
+
 |   bits   |  meaning       |  notes  |
 |:--------:|:---------------|:--------|
 |  00..02  |  Revision      |
@@ -149,30 +152,54 @@ Returns 0xFFxxxxxx in case of an error, board dependent.
 |  16..23  |  Manufacturer  |  no details known
 |  24..31  |  error flag    |  0xFFxxxxxx
 
-TODO: need to be split, or helper functions e.g. **uint8_t revision()**
 
-No known fields yet.
+Texas instruments has this layout
+
+|   bits   |  meaning       |  notes  |
+|:--------:|:---------------|:--------|
+|  00..02  |  Revision      |
+|  03..11  |  Part ID       |
+|  12..23  |  Manufacturer  |  no details known
+|  24..31  |  error flag    |  0xFFxxxxxx
+
+TODO: need to be split, but no known "official" field layout confirmed.
+
+- **uint8_t revision()** only field function that seems possible.
+
+
+### releaseI2CBus
+
+Experimental (to be confirmed)
+
+If the I2C bus is locked there are several methods to try to unlock it.
+The releaseI2CBus sends 16 LOW bits over SDA. 
+Might not work in all cases, but might solve some locks.
+(feedback welcome).
+
+- **void releaseI2CBus(uint8_t SDA, uint8_t SCL)** as not all boards
+support **getSDA()** and **getSCL()** the user must provide the pins.
+
+```cpp
+//  ideal call ?
+scanner.releaseI2CBus(getSDA(), getSCL());
+```
+
+See also - https://www.ti.com/lit/an/scpa069/scpa069.pdf
 
 
 ## Future ideas
 
 #### Must
 
-- documentation.
+- improve documentation.
 
 #### Should
 
+- test experimental code.
 
 #### Could
 
 - investigate ESP8266 does have a **setClockStretchLimit(timeout)**
-- add **bool hardwareReset()** 
-  - keep data HIGH for X clock pulses - google this.
-  - (needs investigation)
-  - https://github.com/esp8266/Arduino/issues/1025
-- read the state of the I2C pins
-  - **uint8_t readSDA()** diagnose the I2C bus. Board specific!
-  - **uint8_t readSCL()** diagnose the I2C bus. Board specific!
 - implement **getClock()** for AVR based platforms
   - reverse calculate TWBR and pre-scaler.
   - needs investigation
@@ -194,6 +221,13 @@ No known fields yet.
   - No
 - implement a **SW_I2C**
   - No, user may use a SW_I2C that derives from TwoWire.
+- add **bool hardwareReset()** 
+  - keep data HIGH for X clock pulses - google this.
+  - (needs investigation)
+  - https://github.com/esp8266/Arduino/issues/1025
+- read the state of the I2C pins
+  - **uint8_t readSDA()** diagnose the I2C bus. Board specific!
+  - **uint8_t readSCL()** diagnose the I2C bus. Board specific!
 
 
 ## Support

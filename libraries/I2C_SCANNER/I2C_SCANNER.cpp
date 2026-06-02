@@ -1,7 +1,7 @@
 //
 //    FILE: I2C_SCANNER.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2022-08-29
 // PURPOSE: Arduino class to implement an I2C scanner.
 //     URL: https://github.com/RobTillaart/I2C_SCANNER
@@ -160,6 +160,16 @@ uint8_t I2C_SCANNER::count(uint8_t start, uint8_t end)
 
 
 //  known warning: "reset not used"
+bool I2C_SCANNER::hasWireTimeout()
+{
+#if defined(WIRE_HAS_TIMEOUT)
+  return true;
+#endif
+  return false;
+}
+
+
+//  known warning: "reset not used"
 bool I2C_SCANNER::setWireTimeout(uint32_t timeOut, bool reset)
 {
   if (_timeout != timeOut)
@@ -182,6 +192,50 @@ bool I2C_SCANNER::setWireTimeout(uint32_t timeOut, bool reset)
 uint32_t I2C_SCANNER::getWireTimeout()
 {
   return _timeout;
+}
+
+
+////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
+uint32_t I2C_SCANNER::getDeviceID(uint8_t address)
+{
+  uint8_t DEVICEID_ADDRESS = 0x7C;
+  _wire->beginTransmission(DEVICEID_ADDRESS);
+  _wire->write(address << 1);                //  address shifted one bit
+  int code = _wire->endTransmission(false);  //  explicit send a restart.
+  if (code != 0)
+  {
+    return 0xFF000000 + code;
+  }
+  if (_wire->requestFrom(DEVICEID_ADDRESS, (uint8_t)3) != 3)
+  {
+    return 0xFFFFFFFF;
+  }
+  //  build up return code
+  uint32_t deviceId = _wire->read();
+  deviceId <<= 8;
+  deviceId |= _wire->read();
+  deviceId <<= 8;
+  deviceId |= _wire->read();
+  return deviceId;
+}
+
+
+//  #14
+void I2C_SCANNER::releaseI2CBus(uint8_t SDA, uint8_t SCL)
+{
+  pinMode(SCL, OUTPUT);
+  pinMode(SDA, OUTPUT);
+  digitalWrite(SDA, LOW);
+  for (int i = 0; i < 16; i++)
+  {
+    digitalWrite(SCL, HIGH);
+    delayMicroseconds(5);
+    digitalWrite(SCL, LOW);
+    delayMicroseconds(5);
+  }
 }
 
 
@@ -215,30 +269,6 @@ int I2C_SCANNER::_init()
   _wirePortCount++;
 #endif
   return _wirePortCount;
-}
-
-
-uint32_t I2C_SCANNER::getDeviceID(uint8_t address)
-{
-  uint8_t DEVICEID_ADDRESS = 0x7C;
-  _wire->beginTransmission(DEVICEID_ADDRESS);
-  _wire->write(address << 1);             //  address shifted one bit
-  int code = _wire->endTransmission(false);  //  explicit send a restart.
-  if (code != 0)
-  {
-    return 0xFF000000 + code;
-  }
-  if (_wire->requestFrom(DEVICEID_ADDRESS, (uint8_t)3) != 3)
-  {
-    return 0xFFFFFFFF;
-  }
-  //  build up return code
-  uint32_t deviceId = _wire->read();
-  deviceId <<= 8;
-  deviceId |= _wire->read();
-  deviceId <<= 8;
-  deviceId |= _wire->read();
-  return deviceId;
 }
 
 

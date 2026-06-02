@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2026-06-01
+- add **bool hasWireTimeout()**
+- add **void releaseI2CBus(uint8_t SDA, uint8_t SCL)**
+- update readme.md
+
 ## [0.3.2] - 2026-01-16
 - update GitHub actions
 - minor edits

@@ -28,6 +28,8 @@ For the future two (derived) classes are planned:
 
 MAX7221 derived class is identical (for now).
 
+Feedback as always is welcome.
+
 
 ### Tests
 

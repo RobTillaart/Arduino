@@ -7,14 +7,28 @@ Poisson	KEYWORD1
 
 begin	KEYWORD2
 
+add	KEYWORD2
+
 equal	KEYWORD2
 smallerEqual	KEYWORD2
 smaller	KEYWORD2
 largerEqual	KEYWORD2
 larger	KEYWORD2
+
 between	KEYWORD2
+outside	KEYWORD2
+
+PMF	KEYWORD2
+CDF	KEYWORD2
+
 average	KEYWORD2
+variance	KEYWORD2
 stddev	KEYWORD2
+
+median	KEYWORD2
+mode	KEYWORD2
+skewness	KEYWORD2
+kurtosis	KEYWORD2
 
 
 # Constants (LITERAL1)

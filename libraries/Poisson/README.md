@@ -58,27 +58,28 @@ This means precision is at most 6-7 digits.
 
 As the formula uses faculty (k!) the chances drop to zero fast
 when the parameter k grows. Also this faculty causes math overflow
-quite fast.
+quite fast in the integer domain and accuracy loss in the float domain.
 
 Therefore an iterative implementation is used for most functions. 
 These are reasonably fast and can handle a wider range of the parameter k.
 This parameter is now an uint8_t as for now it is large enough. 
-Large values of k (50++) are not tested.
+Values of k above 50 are not tested.
 
-In short there is room for improvement.
+In short there is room for improvement. (feedback welcome).
 
 
 ### Performance
 
-The functions are optimized as the reference versions were
-quite slow. See Poisson_performance.ino.
+The functions are optimized as the reference versions were quite slow. 
+See Poisson_performance.ino (has some logs).
 
 
 ### Character
 
-|  parameter  |   name   |  ALT-code  |  char |
-|:-----------:|:--------:|:----------:|:-----:|
+|  parameter  |   name   |  ALT-code  |  char |  notes  |
+|:-----------:|:--------:|:----------:|:-----:|:--------|
 |  mean       |  mu      |  ALT-230   |   µ   |
+|  lambda     |          |            |       |  unknown.
 |  plus minus |          |  ALT-0177  |   ±   |
 
 - https://altcodesguru.com/greek-alt-codes.html
@@ -111,11 +112,19 @@ Related libs
 
 ### Constructor
 
-Note: mu is a.k.a. lambda.
+Note: mu is also known as lambda.
 
-- **Poisson()** constructor, default mu == 1. mu is sometimes called lambda.
-- **Poisson(double mu)** constructor.
-- **void begin(double mu)** runtime change mu (mean/average).
+- **Poisson(double mu = 1)** constructor, default mu == 1.
+- **void begin(double mu)** allows runtime change of mu (mean/average).
+
+Typical use of begin() is if one has an array of events and calculates
+the average of those events.
+
+```cpp
+double avg = average(array, length);
+P.begin(avg);
+```
+
 
 ### P chance
 
@@ -127,31 +136,58 @@ Core functions implemented.
 - **double largerEqual(uint8_t k)** P(X >= k)
 - **double larger(uint8_t k)** P(X > k)
 - **double between(uint8_t k1, uint8_t k2)** P(k1 <= X < k2)
+- **double outside(uint8_t k1, uint8_t k2)** P(X < k1) + P(X >= k2)
 
-### Other
+Alternative names to be used.
+
+- **double PMF(uint8_t k)** <==> equal(k)
+- **double CDF(uint8_t k)** <==> smallerEqual(k)
+
+
+### Meta info
+
+See - https://en.wikipedia.org/wiki/Poisson_distribution
 
 - **double average()** idem.
-- **double stdev()** idem, returns sqrt(mu).
+- **double variance()** idem.
+- **double stdev()** idem. = standard deviation.
+- **double median()** idem.
+- **double mode()** idem.
+- **double skewness()** idem.
+- **double kurtosis()** idem.
+
+
+### Add
+
+The add function allows to runtime adjust the mu / lambda parameter.
+This allows to start with an estimation for mu and adjust its value 
+while new events come in.
+
+- **double add(double value, double alpha = 0.05)** adjusts the 
+average mu with value with the given weight alpha.
+This weight alpha must be between 0 and 1. 
+The higher alpha the more mu will change.
+Think of it as percentage change.
+
+It is possible to **add()** a data set in a loop to determine mu.
 
 
 ## Future
 
 #### Must
 
-- documentation
-- improve function names.
-- test
+- improve documentation
 
 #### Should
 
-- add examples.
-  - performance test
-- optimize code(possible?)
+- add examples
 
 #### Could
 
 - add unit tests
-
+- optimize code(more possible?)
+- inverse CDF - search.
+  - Smallest k for which P(X <= k) >= N (0..1);
 
 #### Won't (unless requested)
 

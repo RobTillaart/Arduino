@@ -36,6 +36,8 @@ Note: the sync interface is implemented with the async interface.
 
 Note: versions prior to 0.2.0 are obsolete due to a bug in **setBaseline()**.
 
+Feedback as always is welcome.
+
 
 ### 0.3.0 Breaking change
 
@@ -53,7 +55,10 @@ Ethanol and H2, the raw data can be sampled up to 40 Hz.
 
 The first 15 seconds the sensor needs to stabilize. Thereafter one gets real data.
 
+
 ## I2C
+
+### I2C Address
 
 
 ### I2C performance

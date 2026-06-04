@@ -38,7 +38,7 @@ void setup()
     Serial.print("\t ");
     Serial.print(R.factor(v), 6);
     Serial.print("\t ");
-    Serial.print(R.gamma(v ), 6);
+    Serial.print(R.gamma(v), 6);
     Serial.println();
   }
   Serial.println("done...");

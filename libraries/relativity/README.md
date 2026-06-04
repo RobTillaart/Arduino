@@ -26,6 +26,11 @@ Goal: Educational purposes or when one puts a cube-sat into space :)
 Feedback is as always welcome.
 
 
+### Related
+
+- https://github.com/RobTillaart/printHelpers - print scientific / engineering format.
+
+
 ## Interface
 
 ```cpp
@@ -35,8 +40,8 @@ Feedback is as always welcome.
 - **relativity()** constructor.
 - **double getC()** returns speed of light.
 - **double getG()** returns gravitational constant.
-- **double factor(double speed)** returns sqrt(1-v2/c2).
-- **double gamma(double speed)** returns 1/sqrt(1-v2/c2).
+- **double factor(double speed)** returns sqrt(1-v^2/c^2).
+- **double gamma(double speed)** returns 1/sqrt(1-v^2/c^2).
 - **double relativeTime(double time, double speed)** returns the relative time for given time and speed.
 - **double relativeLength(double length, double speed)** returns the relative length for given length and speed.
 - **double relativeMass(double mass, double speed)** returns the relative mass for given mass and speed.
@@ -79,7 +84,7 @@ See examples for typical usage.
 
 #### Must
 
-- documentation
+- improve documentation
 
 #### Should
 

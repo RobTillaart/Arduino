@@ -41,6 +41,8 @@ Please post an issue if there are problems with a specific device.
 The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
+Feedback as always is welcome.
+
 
 ### 0.5.0 Breaking change
 
@@ -273,6 +275,7 @@ See examples
 
 #### Should
 
+- add performance section => see MCP_ADC ESP32 performance hack.
 
 #### Could
 

@@ -15,10 +15,10 @@ DS18B20 sensor(&oneWire);
 
 uint32_t start, stop;
 
+volatile float t;
 
 uint32_t run(int runs)
 {
-  float t;
   start = millis();
   for (int i = 0; i < runs; i++)
   {
@@ -73,4 +73,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

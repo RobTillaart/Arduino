@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.6
+// VERSION: 0.2.7
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor with minimal footprint
 //     URL: https://github.com/RobTillaart/DS18B20_RT
@@ -12,28 +12,28 @@
 
 
 //  OneWire commands
-#define STARTCONVO              0x44
-#define READSCRATCH             0xBE
-#define WRITESCRATCH            0x4E
+constexpr uint8_t STARTCONVO   = 0x44;
+constexpr uint8_t READSCRATCH  = 0xBE;
+constexpr uint8_t WRITESCRATCH = 0x4E;
 
 
 //  ScratchPad locations
-#define TEMP_LSB                 0
-#define TEMP_MSB                 1
-#define HIGH_ALARM_TEMP          2
-#define LOW_ALARM_TEMP           3
-#define CONFIGURATION            4
-#define INTERNAL_BYTE            5
-#define COUNT_REMAIN             6
-#define COUNT_PER_C              7
-#define SCRATCHPAD_CRC           8
+constexpr uint8_t TEMP_LSB        = 0;
+constexpr uint8_t TEMP_MSB        = 1;
+constexpr uint8_t HIGH_ALARM_TEMP = 2;
+constexpr uint8_t LOW_ALARM_TEMP  = 3;
+constexpr uint8_t CONFIGURATION   = 4;
+constexpr uint8_t INTERNAL_BYTE   = 5;
+constexpr uint8_t COUNT_REMAIN    = 6;
+constexpr uint8_t COUNT_PER_C     = 7;
+constexpr uint8_t SCRATCHPAD_CRC  = 8;
 
 
 //  Device resolution
-#define TEMP_9_BIT              0x1F    //   9 bit
-#define TEMP_10_BIT             0x3F    //  10 bit
-#define TEMP_11_BIT             0x5F    //  11 bit
-#define TEMP_12_BIT             0x7F    //  12 bit
+constexpr uint8_t TEMP_9_BIT  = 0x1F;  //   9 bit
+constexpr uint8_t TEMP_10_BIT = 0x3F;  //  10 bit
+constexpr uint8_t TEMP_11_BIT = 0x5F;  //  11 bit
+constexpr uint8_t TEMP_12_BIT = 0x7F;  //  12 bit
 
 
 DS18B20::DS18B20(OneWire* ow, uint8_t resolution)
@@ -139,7 +139,7 @@ float DS18B20::getTempC(bool checkConnect)
   }
   int16_t rawTemperature = (((int16_t)scratchPad[TEMP_MSB]) << 8) | scratchPad[TEMP_LSB];
   float temp = 0.0625 * rawTemperature;
-  if (temp < -55)
+  if (temp < DS18B20_MINIMUM)
   {
     return DEVICE_DISCONNECTED;
   }

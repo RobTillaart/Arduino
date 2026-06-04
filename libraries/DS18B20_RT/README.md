@@ -74,6 +74,7 @@ This library is related to
 - https://github.com/RobTillaart/DS18B21 OneWire temperature sensor (8 bit)
 - https://github.com/milesburton/Arduino-Temperature-Control-Library
 - https://github.com/milesburton/Arduino-Temperature-Control-Library/issues/244#event-9253126638
+- https://github.com/RobTillaart/MCP9808_RT
 - https://github.com/RobTillaart/PCT2075 11 bit I2C temperature sensor with thermal watchdog.
 - https://github.com/RobTillaart/SHT31 Sensirion humidity / temperature sensor
 - https://github.com/RobTillaart/SHT85 Sensirion humidity / temperature sensor
@@ -153,6 +154,19 @@ Not checking the CRC is a few milliseconds faster.
 |:----------------|:-------:|:----------|
 |  DS18B20_CLEAR  |    0    |  only 2 bytes read from scratchPad.
 |  DS18B20_CRC    |    1    |  all bytes read from scratchPad.
+
+
+### DS18B20_MINIMUM
+
+Since 0.2.7 the library allows to change **DS18B20_MINIMUM** in the .h file.
+This is default set to -55°C but in (DTCL #290) it became clear that sensors
+can report temperatures below this.
+
+By changing **DS18B20_MINIMUM** the temperature where a **DEVICE_DISCONNECTED**
+error is given is changed, so it allows the library to report lower temperatures.
+
+Use at your own risk, as it is not clear how reliable temperature measurements
+are below -55 (datasheet specification).
 
 
 ## Operation

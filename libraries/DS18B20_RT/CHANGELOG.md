@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.7] - 2026-06-04
+- add DS18B20_MINIMUM (DTCL #290) and DS18B20_MAXIMUM
+- replaced defines with constexpr (type check)
+- minor edits
+
 ## [0.2.6] - 2026-01-23
 - fix #37, implement POR error (DCTL #289)
 - minor edits

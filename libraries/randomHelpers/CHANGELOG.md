@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.9] - 2026-06-03
+- add Fisher-Yates shuffleArray function.
+- add randomHelpers_shuffle_array.ino
+- add getRandom9() + getRandom10()
+- update GitHub actions
+- fix examples
+- minor edits
+
 ## [0.2.8] - 2025-09-09
 - update GitHub actions
 - minor edits

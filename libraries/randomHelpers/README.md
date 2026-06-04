@@ -38,6 +38,7 @@ platform than on a much faster ESP32.
 - https://github.com/RobTillaart/DEVRANDOM
 - https://github.com/RobTillaart/Prandom
 - https://github.com/RobTillaart/randomHelpers
+- http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf - JKISS code
 
 
 ## Interface
@@ -61,11 +62,14 @@ platform than on a much faster ESP32.
 - **uint8_t getRandom6()** returns 0 .. 63.
 - **uint8_t getRandom7()** returns 0 .. 127.
 - **uint8_t getRandom8()** returns 0 .. 255 typically a byte.
+- **uint16_t getRandom9()** returns 0 .. 511 (2 bytes).
+- **uint16_t getRandom10()** returns 0 .. 1023 (2 bytes).
 - **uint16_t getRandom16()** returns 0 .. 65535 (2 bytes).
 - **uint32_t getRandom24()** returns 0 .. 16777215  (3 bytes), e.g. random RGB colour.
 - **uint32_t getRandom32()** returns 0 .. 2^32 - 1 (4 bytes) this is the core random generator
 - **uint64_t getRandom64()** returns 0.. 2^64 - 1 (8 bytes).
 - **uint32_t getRandomBits(n)** returns 0.. 2^n - 1  This works well for 1..16 bits but above 16 it is slower than the standard way. 
+
 
 ### Typical wrappers.
 
@@ -76,7 +80,7 @@ The examples show how to use these and how their performance gain relative to
 calling **random()** for every random number.
 
 
-## Performance
+### Performance getRandom N bits
 
 Output from randomHelpers_test.ino (UNO R3, 1.8.19, 0.2.8)
 
@@ -94,32 +98,64 @@ Times in micros over 10000 calls
 |                    |          |          |         |
 
 
+## JKISS
+
+A first investigation showed JKISS was about 2x slower than Marsaglia.
+So for now it will not be in this library.
+
+
+## Fisher-Yates shuffle
+
+Fast way to randomize elements of an array is this (modified) Fisher Yates.
+This function uses Marsaglia() as RNG, and shuffles an array of length
+in length steps.
+
+- **template <typename T> T shuffleArrayFY(T \* arr, int length)**
+
+```
+float ar[10] = {0,1,2,3,4,5,6,7,8,9};
+shuffleArrayFY <float> (ar, 10);
+```
+
+Output from randomHelpers_shuffleArray.ino (UNO R3, 1.8.19, 0.2.9)
+
+Indicative times in micros over 1000 calls (array size 10)
+
+|  test                          |   time   |  notes  |
+|:------------------------------:|:--------:|:-------:|
+| shuffleArrayFY<float>(ar, 10)  |  412224  |  RNG calls take ~90000 micros.
+| shuffleArrayFY<int>(ar, 10)    |  397044  |
+|                                |          |
+
+
 ## Future
 
 #### Must
 
+- wrap all up in a class (0.3.0)
+  - rename getRandom64() ==> get64()  etc.
+  - rename getRandomBits() ==> getN(uint8_t)  etc.
 - improve/update documentation
   - add performance figures
-- wrap all up in a class.
-  - rename getRandom64() ==> get64()  etc.
 
 #### Should
 
-- improve performance getRandomBits(n) for n = 17..31
-  - how to preserve bits if idx too small.
-- add JKISS? other RNG's
+- improve performance **getRandomBits(n)** for n = 17..31
+  - how to preserve bits if we have too few. 
+  - Move them into new buffer until we have 32++? reseed?
+  - performance penalty?
 - test if the functions are uniform.
 
 #### Could
 
 - improve performance getRandomBits(n) for n = 17..31
 - investigate new tricks :)
-- add **getRandom9() 10()** can be done 3x from 32 bits.
-- 11..16 => 2x from 32 bits
-- add **getRandom12()** clipping get16 is equally fast.
 
-#### Wont
+#### Wont (on request)
+
 - RANDOM_HELPERS_LIB_VERSION?
+- add JKISS and other RNG's
+- add **getRandom11..16()** => 2x from 32 bits
 
 
 ## Support

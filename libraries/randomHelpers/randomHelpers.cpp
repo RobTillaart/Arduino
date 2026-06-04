@@ -1,7 +1,7 @@
 //
 //    FILE: randomHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 
@@ -19,8 +19,8 @@
 //  TBD: put it in a class ?
 
 
-uint32_t  __randomBuffer = 0;
-uint8_t   __randomIdx = 0;
+uint32_t  __randomBuffer   = 0;
+uint8_t   __randomBitsLeft = 0;
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,6 @@ uint32_t Marsaglia()
   return (m_z << 16) + m_w;  /* 32-bit result */
 }
 
-
 bool seedMarsaglia(uint32_t a, uint32_t b)
 {
   if (a == 0 || b == 0)
@@ -57,147 +56,161 @@ bool seedMarsaglia(uint32_t a, uint32_t b)
 
 //////////////////////////////////////////////////////////
 //
-//  GETTERS
+//  getRandom N bits
 //
 bool getRandom1()
 {
-  if (__randomIdx < 1)
+  if (__randomBitsLeft < 1)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   bool rv = __randomBuffer & 0x01;
   __randomBuffer >>= 1;
-  __randomIdx--;
+  __randomBitsLeft--;
   return rv;
 }
-
 
 uint8_t getRandom2()
 {
-  if (__randomIdx < 2)
+  if (__randomBitsLeft < 2)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0x03;
   __randomBuffer >>= 2;
-  __randomIdx -= 2;
+  __randomBitsLeft -= 2;
   return rv;
 }
-
 
 uint8_t getRandom3()
 {
-  if (__randomIdx < 3)
+  if (__randomBitsLeft < 3)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0x07;
   __randomBuffer >>= 3;
-  __randomIdx -= 3;
+  __randomBitsLeft -= 3;
   return rv;
 }
-
-
 
 uint8_t getRandom4()
 {
-  if (__randomIdx < 4)
+  if (__randomBitsLeft < 4)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0x0F;
   __randomBuffer >>= 4;
-  __randomIdx -= 4;
+  __randomBitsLeft -= 4;
   return rv;
 }
-
 
 uint8_t getRandom5()
 {
-  if (__randomIdx < 5)
+  if (__randomBitsLeft < 5)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0x1F;
   __randomBuffer >>= 5;
-  __randomIdx -= 5;
+  __randomBitsLeft -= 5;
   return rv;
 }
-
 
 uint8_t getRandom6()
 {
-  if (__randomIdx < 6)
+  if (__randomBitsLeft < 6)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0x3F;
   __randomBuffer >>= 6;
-  __randomIdx -= 6;
+  __randomBitsLeft -= 6;
   return rv;
 }
-
 
 uint8_t getRandom7()
 {
-  if (__randomIdx < 7)
+  if (__randomBitsLeft < 7)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0x7F;
   __randomBuffer >>= 7;
-  __randomIdx -= 7;
+  __randomBitsLeft -= 7;
   return rv;
 }
-
 
 uint8_t getRandom8()
 {
-  if (__randomIdx < 8)
+  if (__randomBitsLeft < 8)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint8_t rv = __randomBuffer & 0xFF;
   __randomBuffer >>= 8;
-  __randomIdx -= 8;
+  __randomBitsLeft -= 8;
   return rv;
 }
 
+uint16_t getRandom9()
+{
+  if (__randomBitsLeft < 9)
+  {
+    __randomBuffer = getRandom32();
+    __randomBitsLeft = 32;
+  }
+  uint16_t rv = __randomBuffer & 0x01FF;
+  __randomBuffer >>= 9;
+  __randomBitsLeft -= 9;
+  return rv;
+}
+
+uint16_t getRandom10()
+{
+  if (__randomBitsLeft < 10)
+  {
+    __randomBuffer = getRandom32();
+    __randomBitsLeft = 32;
+  }
+  uint16_t rv = __randomBuffer & 0x03FF;
+  __randomBuffer >>= 10;
+  __randomBitsLeft -= 10;
+  return rv;
+}
 
 uint16_t getRandom16()
 {
-  if (__randomIdx < 16)
+  if (__randomBitsLeft < 16)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint16_t rv = __randomBuffer & 0xFFFF;
   __randomBuffer >>= 16;
-  __randomIdx -= 16;
+  __randomBitsLeft -= 16;
   return rv;
 }
-
 
 uint32_t getRandom24()
 {
   return getRandom32() & 0xFFFFFF;
 }
 
-
 uint32_t getRandom32()
 {
   //  return random(0xFFFFFFFF);  //  use the built in
   return Marsaglia();
 }
-
 
 uint64_t getRandom64()
 {
@@ -217,7 +230,6 @@ bool inline flipCoin()
   return getRandom1();
 }
 
-
 //  div3() derived from divmod3() from fast_math.h
 //
 uint32_t div3(uint32_t in)
@@ -232,43 +244,40 @@ uint32_t div3(uint32_t in)
     return q;
 }
 
-
 uint8_t throwDice()
 {
-  if (__randomIdx < 16)
+  if (__randomBitsLeft < 16)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint32_t tmp = div3(__randomBuffer) >> 1;    //  divide by 6
   uint8_t rv = __randomBuffer - tmp * 6 + 1;   //  remainder + 1
   __randomBuffer >>= 3;
-  __randomIdx -= 3;
+  __randomBitsLeft -= 3;
   return rv;
   //  previous.
   // uint8_t rv = __randomBuffer % 6 + 1;     //  remainder + 1
   // __randomBuffer >>= 3;
-  // __randomIdx -= 3;
+  // __randomBitsLeft -= 3;
   // return rv;
 }
-
 
 /*
 //  works well for 1..16; but above it is worse
 uint32_t getRandomBits(uint8_t n)
 {
-  if (__randomIdx < n)
+  if (__randomBitsLeft < n)
   {
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   uint32_t rv = __randomBuffer & ((1UL << n) - 1);
   __randomBuffer >>= n;
-  __randomIdx -= n;
+  __randomBitsLeft -= n;
   return rv;
 }
 */
-
 
 //  n = 1..31
 //  TODO: performance gain too low for n > 16
@@ -280,21 +289,21 @@ uint32_t getRandomBits(uint8_t n)
   if (n > 32) n = 32;
   if (n >= 20) return getRandom32() >> (32 - n);
 
-  if (n >= __randomIdx)
+  if (n >= __randomBitsLeft)
   {
-    if (__randomIdx > 0)
+    if (__randomBitsLeft > 0)
     {
-      n -= __randomIdx;
+      n -= __randomBitsLeft;
       rv = __randomBuffer << n;
     }
     __randomBuffer = getRandom32();
-    __randomIdx = 32;
+    __randomBitsLeft = 32;
   }
   if (n > 0)  //  more bits needed?
   {
     rv |= __randomBuffer & ((1UL << n) - 1);
     __randomBuffer >>= n;
-    __randomIdx -= n;
+    __randomBitsLeft -= n;
   }
   return rv;
 }

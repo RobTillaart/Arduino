@@ -2,14 +2,14 @@
 //
 //    FILE: randomHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.2.9
 // PURPOSE: Arduino library with helper function for faster random bits
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 
 #include "Arduino.h"
 
-#define RANDOM_HELPERS_VERSION                (F("0.2.8"))
+#define RANDOM_HELPERS_VERSION                (F("0.2.9"))
 
 
 //  the idea is to have one buffer ( __randomBuffer) which holds 32 random bits.
@@ -28,11 +28,15 @@
 //  it has two initializers (not zero) which can be changed
 //  to seed the generator.
 //
-
 uint32_t Marsaglia();
 
 bool seedMarsaglia(uint32_t a, uint32_t b);
 
+
+/////////////////////////////////////////////////
+//
+//  getRandom N bits - optimized.
+//
 bool getRandom1();
 
 uint8_t getRandom2();
@@ -49,6 +53,10 @@ uint8_t getRandom7();
 
 uint8_t getRandom8();
 
+uint16_t getRandom9();
+
+uint16_t getRandom10();
+
 uint16_t getRandom16();
 
 uint32_t getRandom24();
@@ -56,16 +64,6 @@ uint32_t getRandom24();
 uint32_t getRandom32();
 
 uint64_t getRandom64();
-
-
-/////////////////////////////////////////////////
-//
-//  TYPICAL USES
-//
-bool inline flipCoin();  //  0..1
-
-uint8_t throwDice();     //  1..6
-
 
 
 /*
@@ -84,10 +82,39 @@ uint32_t getRandomBits(uint8_t n)
 }
 */
 
-
 //  n = 1..31
 //  TODO: performance gain too low for n > 16
 uint32_t getRandomBits(uint8_t n);
+
+
+
+/////////////////////////////////////////////////
+//
+//  TYPICAL USES
+//
+bool inline flipCoin();  //  0..1
+
+uint8_t throwDice();     //  1..6
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+//  shuffleArray Fisher-Yates - modified
+//
+template <typename T> T shuffleArrayFY(T * array, int length)
+{
+  int r = length - 1;
+  T t = array[r];
+  for (int i = length - 2; i > 0; i--)
+  {
+    int n = (double) Marsaglia() * (i + 1) * (1.0 / 4294967296.0);
+    array[r] = array[n];
+    r = n;
+  }
+  array[r] = t;
+  return array[0];
+}
 
 
 //  -- END OF FILE --

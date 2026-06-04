@@ -2,7 +2,6 @@
 //    FILE: getRandomBits_test.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/randomHelpers
 
 

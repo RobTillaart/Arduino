@@ -13,7 +13,7 @@
 //  RPIPICO - Serial1 = (0,1), Serial2 = (8,9), SerialPIO = (x,y)
 
 
-A02YYTW mySensor(&Serial1, 19);
+A02YYT mySensor(&Serial1);
 
 
 void setup()
@@ -45,8 +45,14 @@ void loop()
     Serial.print("\n");
     mySensor.request();
   }
+  else
+  {
+    Serial.print("status: ");
+    Serial.println(mySensor.getLastError());
+  }
 
   //  other code here.
+  delay(40);
 }
 
 

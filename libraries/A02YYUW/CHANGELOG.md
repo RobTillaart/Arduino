@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-06-01
+- redo class hierarchy - add A02YY base class
+  - functions only in derived class where needed.
+- fix #3, CRC checksum
+- add A02YY_ERR_TIMEOUT error code.
+- minor edits
+
 ## [0.1.1] - 2026-05-24
 - update readme.md (confirmation lib works)
 - implement CRC check

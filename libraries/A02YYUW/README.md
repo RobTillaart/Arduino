@@ -18,27 +18,27 @@ Arduino library for A02YYUW Serial distance sensor.
 
 **Experimental**
 
-This library is to use the DFRobotics **A02YYU and A02YYUW** Serial distance sensor.
+This library is to use the DFRobotics **A02YYU** and **A02YYUW** Serial distance sensor.
 
-The A02YYUW has a range of max 3.0 to 4.5 meter (10 to 15 feet).
-It has an IP67 coating so it can be used outdoors in most weather conditions.
-
-The library is expected to work for the **UART AUTO** types devices.
-These seem to use the same protocol, see table below.
+The A02YYU(W) has a range of max 3.0 to 4.5 meter (10 to 15 feet).
+The UW version has an IP67 coating so it can be used outdoors in most 
+weather conditions.
 
 The library is confirmed to work, see tested section below.
 
-Furthermore the library is expected to work for the **UART CONTROLLED**
-types devices (A02YYT, A02YYTW). 
+Furthermore the library has (derived) classes for the **UART CONTROLLED**
+types devices (A02YYT, A02YYTW).
 These devices need a trigger pulse on the RX line.
-This is not tested yet.
+This is not tested yet, but is expected to work.
+
+These devices work with a hardware Serial only.
 
 Feedback as always is welcome.
 
 
 ### Hardware
 
-The connector of the A02YYU(W) is a 4-pin JST-PH (2.0mm pitch) 
+The connector of the A02YYU(W) is a 4-pin JST-PH (2.0mm pitch)
 with the following pins.
 
 |  colour  |  name  |  description      |  Notes  |
@@ -53,27 +53,29 @@ The device draws 8 mA average (see DFRobotic website).
 
 ### Compatible or not
 
-The A02YYUW is one from a series, these are not all compatible. 
-From a datasheet. 
+The A02YYUW is one from a series, these are not all compatible.
+From a datasheet.
 
-|  Model            |  Output interface  |  Supported (1)  |
-|:-----------------:|:-------------------|:----------------|
-| DYP-A02YYU-V2.0   |  UART Auto         |  yes
-| DYP-A02YYT-V2.0   |  UART Controlled   |  trigger with requestUC()
-| DYP-A02YYM-V2.0   |  PWM Output        |  no
-| DYP-A02YYGD-V2.0  |  Switch output     |  no
+|  Model            |  Output interface  |  Supported  |
+|:-----------------:|:-------------------|:------------|
+| DYP-A02YYU-V2.0   |  UART Auto         |  yes, confirmed
+| DYP-A02YYUW-V2.0  |  UART Auto         |  yes, confirmed
 |                   |                    |
-| DYP-A02YYUW-V2.0  |  UART Auto         |  yes 
-| DYP-A02YYTW-V2.0  |  UART Controlled   |  trigger with requestUC()
-| DYP-A02YYMW-V2.0  |  PWM Output        |  no
+| DYP-A02YYT-V2.0   |  UART Controlled   |  trigger with request()
+| DYP-A02YYTW-V2.0  |  UART Controlled   |  trigger with request()
+|                   |                    |
+| DYP-A02YYM-V2.0   |  PWM Output        |  no, example might work
+| DYP-A02YYMW-V2.0  |  PWM Output        |  no, example might work
+|                   |                    |
+| DYP-A02YYGD-V2.0  |  Switch output     |  no
 | DYP-A02YYGDW-V2.0 |  Switch output     |  no
+|                   |                    |
 | DYP-A02YY4W-V2.0  |  RS485 output      |  no
 
-(1) Note the devices are not verified yet.
 
 Details see - https://www.dypcn.com/uploads/A02-Output-Interfaces.pdf
 
-Missing devices? please open an issue on GitHub.
+Missing (compatible) devices? Other remarks? Please open an issue on GitHub.
 
 
 ### Related
@@ -101,9 +103,13 @@ More feedback is welcome, please open an issue on GitHub.
 
 ### Constructor
 
-- **A02YYUW(Stream \* str, uint8_t TX)** Set the hardware serial port to use,
+- **A02YYU(Stream \* str, uint8_t TX)** Set the hardware serial port to use,
 and the TX pin of MCU == RX of device.
-Note one has to call Serial.begin() before using the A02YYUW object.
+Note one has to call Serial.begin() before using the A02YYU object.
+- **A02YYUW(Stream \* str, uint8_t TX)** idem A02YYU.
+- **A02YYT(Stream \* str)** Set the hardware serial port to use.
+Note one has to call Serial.begin() before using the A02YYT object.
+- **A02YYTW(Stream \* str, uint8_t TX)** idem A02YYT.
 - **void begin()** reset internals.
 
 
@@ -124,7 +130,7 @@ The RX pin is used to set mode.
 ### UART controlled specific
 
 The A02YYT and A02YYTW need a trigger before they will send data.
-This is doen by sending a pulse on the RX pin defined.
+This is done by sending a pulse on the RX pin.
 
 - **void request()** triggers a measurement for UART CONTROLLED
 type devices.
@@ -133,12 +139,11 @@ type devices.
 ### Distance
 
 - **bool newDistance()** the workhorse, checks for new byte arrivals.
-Syncs with the header byte so it knows which following bytes to 
-convert to a distance in millimetres. 
+Syncs with the header byte so it knows which following bytes to
+convert to a distance in millimetres.
 Returns true if a new distance is available.
-Returns false otherwise.
-This function can set the **A02YY_ERR_CRC** however the read distance
-can still be valid as the CRC does not indicate which byte(s) failed.
+Returns false if not all bytes have arrived.
+The user should **always** check the error flag with **getLastError** as this can be set. See below.
 - **uint16_t getDistanceMM()** returns the last read distance in millimetres.
 - **float getDistanceCM()** returns the last read distance in centimetres.
 - **float getDistanceINCH()** returns the last read distance in inches.
@@ -159,13 +164,24 @@ Can be used after a restart or if communication is out of sync
 
 ### Error
 
-- **int getLastError()** returns error flag. 
-For now only a CRC error is detected.
+- **int getLastError()** returns error flag.
 
-|  error state    |  value  |
-|:----------------|--------:|
-|  A02YY_OK       |      0  |
-|  A02YY_ERR_CRC  |   -100  |
+|  error state        |  value  |
+|:--------------------|--------:|
+|  A02YY_OK           |      0  |
+|  A02YY_ERR_CRC      |   -100  |
+|  A02YY_ERR_TIMEOUT  |   -101  |
+
+- **A02YY_OK** => no action required.
+- **A02YY_ERR_CRC** => CRC error in a new measurement, however
+the read distance can still be valid as the CRC does not indicate
+which byte(s) failed. A comparison with the last returned distance
+should be done.
+- **A02YY_ERR_TIMEOUT** => communication failure.
+Too few bytes arrived since the last header byte was detected,
+or since start of program.
+This error will occur too if bytes arrive and there is no header detected.
+
 
 
 ## Future
@@ -177,10 +193,11 @@ For now only a CRC error is detected.
 
 #### Should
 
+- clean up class hierarchy.
+  - not all need the TX pin
 - add sanity checks (improve error handling?)
   - add checksum check => error flag or just false?
   - add high check < 0x12 (max for 4500 mm; 0x1F ~8191 mm)
-- clean up class hierarchy.
 
 #### Could
 

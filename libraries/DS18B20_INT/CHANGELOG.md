@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.6] - 06-04
+- add DS18B20_MINIMUM (DTCL #290) and DS18B20_MAXIMUM
+- replaced defines with constexpr (type check)
+- minor edits
+
 ## [0.3.5] - 2026-01-24
 - sync DS18B20_RT  (GND error)
 

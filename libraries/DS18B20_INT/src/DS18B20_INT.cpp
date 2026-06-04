@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -12,23 +12,23 @@
 
 
 //  OneWire commands
-#define STARTCONVO              0x44
-#define READSCRATCH             0xBE
-#define WRITESCRATCH            0x4E
+constexpr uint8_t STARTCONVO   = 0x44;
+constexpr uint8_t READSCRATCH  = 0xBE;
+constexpr uint8_t WRITESCRATCH = 0x4E;
 
 
 //  Device resolution
-#define TEMP_9_BIT              0x1F    //   9 bit
-#define TEMP_10_BIT             0x3F    //  10 bit
-#define TEMP_11_BIT             0x5F    //  11 bit
-#define TEMP_12_BIT             0x7F    //  12 bit
+constexpr uint8_t TEMP_9_BIT  = 0x1F;  //   9 bit
+constexpr uint8_t TEMP_10_BIT = 0x3F;  //  10 bit
+constexpr uint8_t TEMP_11_BIT = 0x5F;  //  11 bit
+constexpr uint8_t TEMP_12_BIT = 0x7F;  //  12 bit
 
 
 DS18B20_INT::DS18B20_INT(OneWire* ow)
 {
   _oneWire      = ow;
   _addressFound = false;
-  _resolution   = 9;
+  _resolution   = TEMP_9_BIT;
 }
 
 
@@ -105,7 +105,7 @@ int16_t DS18B20_INT::getTempC(bool checkConnect)
 
   int16_t rawTemperature = (((int16_t)scratchPad[1]) << 8) | scratchPad[0];
   rawTemperature >>= 4;
-  if (rawTemperature < -55)
+  if (rawTemperature < DS18B20_MINIMUM)
   {
     return DEVICE_DISCONNECTED;
   }
@@ -149,7 +149,7 @@ int16_t DS18B20_INT::getTempCentiC(void)
   rawTemperature *= 25;
   rawTemperature >>= 4;
   //  use at own risk. (not tested)
-  if (rawTemperature < -5500)
+  if (rawTemperature < (DS18B20_MINIMUM * 100))
   {
     return DEVICE_DISCONNECTED;
   }

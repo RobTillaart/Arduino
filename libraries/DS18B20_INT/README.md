@@ -158,6 +158,19 @@ Connect a pull-up resistor 4.7 KOhm between pin3 and pin2.
 When the wires are longer this resistor needs to be smaller.
 
 
+### DS18B20_MINIMUM
+
+Since 0.2.7 the library allows to change **DS18B20_MINIMUM** in the .h file.
+This is default set to -55°C but in (DTCL #290) it became clear that sensors
+can report temperatures below this.
+
+By changing **DS18B20_MINIMUM** the temperature where a **DEVICE_DISCONNECTED**
+error is given is changed, so it allows the library to report lower temperatures.
+
+Use at your own risk, as it is not clear how reliable temperature measurements
+are below -55 (datasheet specification).
+
+
 ### -127 and 85
 
 Two specific return values from reading the sensor:

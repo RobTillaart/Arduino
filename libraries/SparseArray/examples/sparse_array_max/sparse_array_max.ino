@@ -24,6 +24,7 @@ void setup()
   Serial.println(SPARSEARRAY_LIB_VERSION);
   Serial.println();
 
+  Serial.println("BEFORE (size, count)");
   Serial.println(sar.size());
   Serial.println(sar.count());
   Serial.println();
@@ -35,8 +36,16 @@ void setup()
     sar.set(random(2000), random(1000));
   }
 
+  Serial.println("AFTER (size, count)");
+  Serial.println(sar.size());
+  Serial.println(sar.count());
+  Serial.println();
+  delay(100);
+
   //  this dump takes a while !
   dump(2000);
+
+  Serial.println("\ndone...");
 }
 
 

@@ -24,6 +24,9 @@ SparseArray::SparseArray(uint16_t sz)
   if (_x && _value) return;
   //  if malloc error set size to zero.
   _size = 0;
+  //  free partial allocated space.
+  if (_x) free(_x);
+  if (_value) free(_value);
 }
 
 
@@ -65,7 +68,7 @@ float SparseArray::sum()
 
 bool SparseArray::set(uint16_t x, float value)
 {
-  int32_t pos = findPos(x);
+  int32_t pos = findPosition(x);
   //  existing element
   if (pos > -1)
   {
@@ -81,7 +84,7 @@ bool SparseArray::set(uint16_t x, float value)
 
 bool SparseArray::add(uint16_t x, float value)
 {
-  int32_t pos = findPos(x);
+  int32_t pos = findPosition(x);
   //  existing element
   if (pos > -1)
   {
@@ -97,7 +100,7 @@ bool SparseArray::add(uint16_t x, float value)
 
 float SparseArray::get(uint16_t x)
 {
-  int32_t pos = findPos(x);
+  int32_t pos = findPosition(x);
   if (pos > -1)
   {
     return _value[pos];
@@ -123,7 +126,7 @@ void SparseArray::boundingSegment(uint16_t &minX, uint16_t &maxX)
 //
 //  PRIVATE
 //
-int32_t SparseArray::findPos(uint16_t x)
+int32_t SparseArray::findPosition(uint16_t x)
 {
   //  linear search - not optimized.
   for (uint16_t i = 0; i < _count; i++)

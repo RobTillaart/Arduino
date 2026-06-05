@@ -34,11 +34,15 @@ Note: 255 non-zero elements would fit in an UNO's 2K memory.
 
 Note: this library is derived from SparseMatrix.
 
+Feedback as always is welcome.
+
 
 ### Related
 
 - https://github.com/RobTillaart/SparseMatrix
 - https://github.com/RobTillaart/distanceTable
+- https://github.com/RobTillaart/SET
+- https://github.com/RobTillaart/printHelpers - scientific notation.
 
 
 ### Implementation
@@ -51,8 +55,7 @@ given as parameter to the constructor.
 If the space cannot be allocated the size is set to zero.
 
 In the future other data types should be possible.
-
-Relates to https://github.com/RobTillaart/SET
+(Think Template).
 
 
 ### Performance
@@ -111,29 +114,43 @@ This can be useful for printing or processing the non zero elements.
 
 - improve documentation
 
+
 #### Should
 
-- do test
+- Template class for the data type { uint32_t, T } => (0.2.0)
+  - better than SparseArray64 SparseArray32 SparseArray16 SparseArray8  (signed / unsigned?)
+- test
 - investigate optimizations
   - derived sorted class ==> insertSort
+  - sort() and isSorted()...
+  - swap searched element with element before it
+    => sort of cache strategy
 - keep in sync with SparseMatrix where possible
   - merge into one class hierarchy?
-- Template class for the data type
-  - better than SparseArray64 SparseArray32 SparseArray16 SparseArray8  (signed / unsigned?)
 
 #### Could
 
 - dump should be in the class?
   - or as static function...
-  - stream as parameter **dump(Stream str, ...)**
+  - stream as parameter **dump(Stream str, int columns, char separator)**
+  - printTo() ?!
 
 #### ideas
 
-- array { uint32_t, float }; for logging  millis/micros + measurement
   delta coding of time stamp? if it fit in 16 bit?
   => sounds like a class on its own.
+- some sensors use a serious subset of float 
+  - humidity = max 1000 unique values (16 bit)
+  - temperature = -55-125 => max 1800 unique values (16 bit) 
+- ring buffer behaviour
 - investigate index \[\] operator for **get()** and **set()**
   - would break with sparse matrix
+
+#### Won't
+
+- SparseArray32 { uint32_t, float }; for logging  millis/micros + measurement
+  no added value?
+
 
 ## Support
 

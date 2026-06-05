@@ -31,6 +31,14 @@ As long as there is no urgency (need a valid value) one does not need to resampl
 
 See also https://en.wikipedia.org/wiki/Three-valued_logic
 
+Feedback as always is welcome.
+
+
+### Related
+
+- https://github.com/RobTillaart/logic
+- https://github.com/RobTillaart/Troolean
+
 
 ## Interface
 
@@ -72,9 +80,8 @@ See examples
 
 #### Must
 
-- fix **isTrue()** to allow internal values to be anything except 0 and -1  (0.2.0)
-- check logical operators.
 - update documentation
+- check logical operators.
 
 #### Should
 
@@ -85,12 +92,13 @@ See examples
 
 - Troolean operator &&=
 - Troolean operator ||=
-- bool toBool(); // returns random true/false if unknown....
 
 #### Wont
 
 - extend with don't care ?  ==> four state logic ?  Foolean?
   - => new class.
+- bool toBool();  //  returns random true/false if unknown 
+ - bit quantum mechanics alike
 
 
 ## Support

@@ -34,11 +34,16 @@ overflow and accuracy. Depending on e.g. interrupts, millis() and micros() can d
 |  milliSeconds  |  49 days, 17:02:47.297     |  based upon millis()  |
 |  microSeconds  |  00 days  01:11:34.967296  |  based upon micros()  |
 
+Feedback as always is welcome.
+
 
 ### Related
 
 - https://github.com/RobTillaart/dateTimeHelpers
+- https://github.com/RobTillaart/millis64
 - https://github.com/RobTillaart/printHelpers
+- https://github.com/RobTillaart/timing
+- https://github.com/RobTillaart/CountDown
 - https://github.com/RobTillaart/stopWatch_RT
 
 

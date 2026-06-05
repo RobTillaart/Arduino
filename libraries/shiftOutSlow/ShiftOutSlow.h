@@ -2,16 +2,16 @@
 //
 //    FILE: ShiftOutSlow.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.
-// PURPOSE: Arduino library for shiftOut with build-in delay
+// VERSION: 0.1.7
 //    DATE: 2021-05-11
+// PURPOSE: Arduino library for shiftOut with build-in delay
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
 
 
 #include "Arduino.h"
 
 
-#define SHIFTOUTSLOW_LIB_VERSION            (F("0.1.6"))
+#define SHIFTOUTSLOW_LIB_VERSION            (F("0.1.7"))
 
 
 class ShiftOutSlow : public Print
@@ -33,6 +33,9 @@ public:
   void     setDelay(uint16_t microSeconds = 0);
   uint16_t getDelay();
 
+  void     setInvert(bool invert = false);
+  bool     getInvert();
+
 
 private:
   uint8_t  _clockPin = 0;
@@ -40,6 +43,7 @@ private:
   uint8_t  _bitOrder = LSBFIRST;
   uint16_t _delay    = 0;
   uint8_t  _value    = 0;
+  bool     _invert   = false;
 };
 
 

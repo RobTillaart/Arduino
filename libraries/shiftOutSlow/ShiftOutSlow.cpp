@@ -1,9 +1,9 @@
 //
 //    FILE: ShiftOutSlow.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
-// PURPOSE: Arduino library for shiftOut with build-in delay
+// VERSION: 0.1.7
 //    DATE: 2021-05-11
+// PURPOSE: Arduino library for shiftOut with build-in delay
 //     URL: https://github.com/RobTillaart/ShiftOutSlow
 
 
@@ -28,6 +28,11 @@ size_t ShiftOutSlow::write(const uint8_t data)
   uint8_t   val = data;
   uint16_t  d1  = _delay/2;
   uint16_t  d2  = _delay - d1;
+  if (_invert)
+  {
+    val ^= 0xFF;
+  }
+  _value = val;
   for (uint8_t i = 0; i < 8; ++i)
   {
     if (d1) delayMicroseconds(d1);
@@ -43,7 +48,6 @@ size_t ShiftOutSlow::write(const uint8_t data)
     yield();
     digitalWrite(_clockPin, LOW);
   }
-  _value = data;
   return 1;
 }
 
@@ -90,6 +94,18 @@ void ShiftOutSlow::setDelay(uint16_t microSeconds)
 uint16_t ShiftOutSlow::getDelay()
 {
   return _delay;
+}
+
+
+void ShiftOutSlow::setInvert(bool invert)
+{
+  _invert = invert;
+}
+
+
+bool ShiftOutSlow::getInvert()
+{
+  return _invert;
 }
 
 

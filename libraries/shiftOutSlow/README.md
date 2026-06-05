@@ -18,12 +18,16 @@ Arduino library for shiftOut with build-in delay - e.g. for 74HC595
 
 **Experimental**
 
-ShiftOutSlow is an experimental library that has a build in delay (in microseconds) that allows tuning the time per bit.
+ShiftOutSlow is an experimental library that has a build in delay 
+(in microseconds) that allows tuning the time per bit.
 This allows one to improve reliability e.g. when using longer lines.
 
-The data pin and clock pin are set in the constructor, the delay can be set per byte send to be able to optimize runtime.
+The data pin and clock pin are set in the constructor, the delay 
+can be set per byte send to be able to optimize runtime.
 
 ShiftOutSlow implements the print interface.
+
+Feedback as always is welcome.
 
 
 #### Related
@@ -37,11 +41,11 @@ ShiftOutSlow implements the print interface.
 
 ## Performance
 
-The performance of **write()** with a delay of 0 microseconds is slower than the default Arduino
-**shiftOut()** due to some overhead.
+The performance of **write()** with a delay of 0 microseconds is slower
+than the default Arduino **shiftOut()** due to some overhead.
 
-The delay requested is divided by two to minimize disruption of the duty cycle of the clock pulse,
-resulting in "better" pulses.
+The delay requested is divided by two to minimize disruption of the 
+duty cycle of the clock pulse, resulting in "better" pulses.
 
 Performance measurements are meaningless, as the purpose of this library is to 
 slow the pulse train to a working level.
@@ -57,7 +61,7 @@ slow the pulse train to a working level.
 
 - **ShiftOutSlow(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** constructor.
 
-### Functions
+### Write
 
 The interface exists of the following functions:
 
@@ -67,14 +71,30 @@ Returns the bytes written.
 Uses **write(uint8_t)** so expect about equal performance.
 Returns the bytes written.
 - **uint8_t lastWritten()** returns last value written.
+
+### Delay
+
 - **void setDelay(uint16_t microSeconds = 0)** set delay per **bit** from 0 .. 65535 microseconds. 
 Note: the delay is not the time per bit but an additional time per bit.
 Note: the delay can be set runtime per write / print call.
 - **uint16_t getDelay()** returns the set delay in microseconds.
+
+### BitOrder
+
 - **bool setBitOrder(uint8_t bitOrder = LSBFIRST)** set LSBFIRST or MSBFIRST.
 Returns false for other values.
 Note: bit order can be changed runtime per write / print call.
 - **uint8_t getBitOrder()** returns LSBFIRST or MSBFIRST (typical 0 and 1).
+
+### Invert
+
+(new in 0.1.7)
+
+- **void setInvert(bool invert = false)** invert the data written.
+- **uint16_t getInvert()** idem.
+
+If the byte written is inverted, the **lastWritten()** will return 
+the inverted value too.
 
 
 ### Print interface

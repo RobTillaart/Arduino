@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.7] - 2026-06-05
+- add setInvert(bool) and getInvert()
+- update GitHub actions
+- minor edits
+
 ## [0.1.6] - 2025-09-12
 - update GitHub actions
 - minor edits

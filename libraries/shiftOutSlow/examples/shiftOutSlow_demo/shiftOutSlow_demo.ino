@@ -37,7 +37,7 @@ void setup()
     delay(20);
   }
 
-  Serial.println("done...");
+  Serial.println("\ndone...");
 }
 
 

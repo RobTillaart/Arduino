@@ -37,7 +37,7 @@ void setup()
     Serial.print("\n");
   }
 
-  Serial.println("done...");
+  Serial.println("\ndone...");
 }
 
 
@@ -46,4 +46,4 @@ void loop()
 }
 
 
-// -- END OF FILE --
+//  -- END OF FILE --

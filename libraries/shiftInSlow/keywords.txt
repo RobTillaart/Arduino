@@ -15,6 +15,9 @@ getBitOrder	KEYWORD2
 setDelay	KEYWORD2
 getDelay	KEYWORD2
 
+setInvert	KEYWORD2
+getInvert	KEYWORD2
+
 
 # Constants (LITERAL1)
 SHIFTINSLOW_LIB_VERSION	LITERAL1

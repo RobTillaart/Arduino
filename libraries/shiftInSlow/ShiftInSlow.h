@@ -2,16 +2,16 @@
 //
 //    FILE: ShiftInSlow.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.5
-// PURPOSE: Arduino library for shiftIn with build-in delay
+// VERSION: 0.1.6
 //    DATE: 2021-05-11
+// PURPOSE: Arduino library for shiftIn with build-in delay
 //     URL: https://github.com/RobTillaart/ShiftInSlow
 
 
 #include "Arduino.h"
 
 
-#define SHIFTINSLOW_LIB_VERSION           (F("0.1.5"))
+#define SHIFTINSLOW_LIB_VERSION           (F("0.1.6"))
 
 
 class ShiftInSlow
@@ -29,6 +29,9 @@ public:
   void     setDelay(uint16_t microseconds = 0);
   uint16_t getDelay();
 
+  void     setInvert(bool invert = false);
+  uint16_t getInvert();
+
 
 private:
   uint8_t  _clockPin = 0;
@@ -36,6 +39,7 @@ private:
   uint8_t  _bitOrder = LSBFIRST;
   uint16_t _delay    = 0;
   uint8_t  _value    = 0;
+  bool     _invert   = false;
 };
 
 

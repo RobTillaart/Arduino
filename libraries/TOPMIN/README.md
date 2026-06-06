@@ -36,8 +36,10 @@ The library can be used for different applications:
 - track top N minimum number of visitors during a day.
 
 The 32 bit tag, can be filled with a 32 bit number like a timestamp, bit can also
-be used more creatively e.g. 2x 16 bit numbers or even 32 booleans.
-Any mapping is possible (but not part of the library).
+be used more creatively e.g. 2x 16 bit numbers or even 32 booleans. 
+Any mapping is possible but not part of the library.
+
+Feedback as always is welcome.
 
 
 ### 0.2.0 breaking change
@@ -72,7 +74,7 @@ index to access both.
 Default number of elements is 5. If **size** < 3 it will be set to 3.
 The maximum size is currently 255, or less if there is not enough memory.
 - **uint8_t count()** returns the number of elements in the internal array. 0.. size.
-- **uint8_t size()** returns the maximum number of elements in the internal array.
+- **uint8_t size()** returns the maximum number of elements in the internal array. 
 - **void reset()** reset the internal counter to 0, logical clearing of the system.
 - **bool add(float value)** add a value to the TOPMIN object if it is in the top N of minima.
 If so the largest element is removed.
@@ -80,7 +82,7 @@ Returns false if not added or if there was an allocation error.
 - **float getValue(uint8_t index)** get an element of the internal array.
 The index must be <= **count()**, if not the function currently returns **NaN**.
 This may or may not be a valid value, so the user should guard the **index** parameter carefully.
-- **bool fill(float value)** convenience function to fill the internal array
+- **bool fill(float value)** convenience function to fill the internal array 
 with a single value e.g. 0. Returns true on success.
 
 
@@ -97,7 +99,7 @@ The 32-bit **tag** is typical an index, counter or timestamp, but any semantic i
 - **uint32_t getTag(uint8_t index)** get the tag from an element of the internal array.
 The index must be <= **count()**, if not the function currently returns **0xFFFFFFFF**.
 This may or may not be a valid value, so the user should guard the **index** parameter carefully.
-- **bool fill(float value, uint32_t tag)** convenience function to fill the internal array
+- **bool fill(float value, uint32_t tag)** convenience function to fill the internal array 
 with a single value e.g. 0. (tag idem).
 
 
@@ -112,6 +114,7 @@ with a single value e.g. 0. (tag idem).
 
 - add unit tests.
   - for extended version if possible.
+- investigate performance FILLext.
 
 #### Could
 

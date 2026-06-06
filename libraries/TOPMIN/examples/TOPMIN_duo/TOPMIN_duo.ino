@@ -1,7 +1,7 @@
 //
 //    FILE: TOPMIN_duo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: TOPMAX demo
+// PURPOSE: TOPMIN demo
 //     URL: https://github.com/RobTillaart/TOPMIN
 
 //  demo tracking the top 20 and 

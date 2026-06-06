@@ -1,7 +1,7 @@
 //
 //    FILE: TOPMIN.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2023-05-18
 // PURPOSE: Arduino library to track top n minima.
 //     URL: https://github.com/RobTillaart/TOPMIN
@@ -112,7 +112,7 @@ TOPMINext::TOPMINext(uint8_t size) : TOPMIN(size)
 }
 
 
-TOPMINext::TOPMINext()
+TOPMINext::~TOPMINext()
 {
   if (_tag) free(_tag);
 }

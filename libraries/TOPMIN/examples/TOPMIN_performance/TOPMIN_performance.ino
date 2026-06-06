@@ -1,8 +1,8 @@
 //
 //    FILE: TOPMIN_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: TOPMAX demo
-//     URL: https://github.com/RobTillaart/TOPMAX
+// PURPOSE: TOPMIN demo
+//     URL: https://github.com/RobTillaart/TOPMIN
 
 
 #include "TOPMIN.h"

@@ -2,7 +2,7 @@
 //
 //    FILE: TOPMIN.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.3.0
 //    DATE: 2023-05-18
 // PURPOSE: Arduino library to track top n minima.
 //     URL: https://github.com/RobTillaart/TOPMIN
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define TOPMIN_LIB_VERSION             (F("0.2.2"))
+#define TOPMIN_LIB_VERSION             (F("0.3.0"))
 
 
 class TOPMIN
@@ -43,7 +43,7 @@ class TOPMINext : public TOPMIN
 {
 public:
   TOPMINext(uint8_t size = 5);
-  TOPMINext();
+  ~TOPMINext();
 
   bool     add(float value, uint32_t tag);
   bool     fill(float value, uint32_t tag);

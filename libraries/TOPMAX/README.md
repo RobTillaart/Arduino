@@ -15,7 +15,7 @@ Arduino library to track the top N maxima.
 
 ## Description
 
-**Experimental **
+**Experimental**
 
 This experimental library tracks the top N maxima of a series of values. 
 
@@ -38,7 +38,9 @@ The library can be used for different applications:
 
 The 32 bit tag, can be filled with a 32 bit number like a timestamp, bit can also
 be used more creatively e.g. 2x 16 bit numbers or even 32 booleans. 
-Any mapping is possible (but not part of the library).
+Any mapping is possible but not part of the library.
+
+Feedback as always is welcome.
 
 
 ### 0.2.0 breaking change
@@ -113,6 +115,7 @@ with a single value e.g. 0. (tag idem).
 
 - add unit tests.
   - for extended version if possible.
+- investigate performance FILLext.
 
 #### Could
 

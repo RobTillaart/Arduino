@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 //    DATE: 2017-07-25
 // PURPOSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -25,7 +25,7 @@
 #include "OneWire.h"
 
 
-#define DS18B20_INT_LIB_VERSION       (F("0.3.6"))
+#define DS18B20_INT_LIB_VERSION       (F("0.4.0"))
 
 //  adjust if you need values outside guaranteed range
 //  (See DTCL #290)

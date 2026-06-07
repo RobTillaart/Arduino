@@ -1,7 +1,7 @@
 //
 //    FILE: DS18B20_INT.cpp
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.3.6
+// VERSION: 0.4.0
 //    DATE: 2017-07-25
 // PURPOSE: library for DS18B20 temperature sensor - integer only.
 //     URL: https://github.com/RobTillaart/DS18B20_INT
@@ -146,8 +146,8 @@ int16_t DS18B20_INT::getTempCentiC(void)
   }
   int16_t rawTemperature = (((int16_t)scratchPad[1]) << 8) | scratchPad[0];
   //  rawTemperature = rawTemperature * 100 / 16;
-  rawTemperature *= 25;
-  rawTemperature >>= 4;
+  //  Fix #23 + add rounding.
+  rawTemperature = (rawTemperature * 25 + 2) / 4;
   //  use at own risk. (not tested)
   if (rawTemperature < (DS18B20_MINIMUM * 100))
   {

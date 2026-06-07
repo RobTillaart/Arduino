@@ -38,6 +38,12 @@ boards or IC's with small memory footprint.
 Feedback, as always, is welcome.
 
 
+### Breaking change - 0.4.0
+
+The math of **getTempCentiC()** was incorrect (#23) => fixed in 0.4.0.
+Remaining code not changed.
+
+
 ### Footprint OneWire
 
 This library depends (is build) upon the **OneWire** library of Paul Stoffregen.

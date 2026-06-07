@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.6] - 06-04
+## [0.4.0] - 2026-06-07
+- fix #23 - math getTempCentiC()
+- minor edits
+
+----
+
+## [0.3.6] - 2026-06-04
 - add DS18B20_MINIMUM (DTCL #290) and DS18B20_MAXIMUM
 - replaced defines with constexpr (type check)
 - minor edits

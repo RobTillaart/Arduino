@@ -28,6 +28,8 @@ Differences
 - simpler algorithm
 - WaveMix works on streams of measurements too.
 
+Feedback as always is welcome.
+
 
 ## Interface
 
@@ -130,9 +132,6 @@ More channels will be much slower, so upon request the 16 and 32 variant? other 
   - add **decrement(float)**
   - percentages? hard for multichannel?
 - default parameters
-  - gain = 1.0
-  - percentage 50%
-  - offset = 0.0
   - **reset()** needed?
 
 #### Wont

@@ -3,7 +3,7 @@
 //    FILE: PT2314.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PT2314_LIB_VERSION                   (F("0.2.1"))
+#define PT2314_LIB_VERSION                   (F("0.2.2"))
 
 
 class PT2314
@@ -22,6 +22,7 @@ public:
 
   bool    begin();
   bool    isConnected();
+  uint8_t getAddress();
 
   //  CHANNEL = 0..3
   void    setChannel(uint8_t channel = 0);

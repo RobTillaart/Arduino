@@ -11,7 +11,7 @@
 
 # PT2314
 
-Arduino library for PT2314 i2C 4 channel audio processor.
+Arduino library for PT2314 I2C 4 channel audio processor.
 
 
 ## Description
@@ -57,7 +57,17 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
+### Related
+
+- https://github.com/RobTillaart/HC4052 (multiplexer for more inputs)
+- https://github.com/RobTillaart/TCA9548 (I2C multiplexer)
+- https://github.com/RobTillaart/PT2257 I2C 2 channel volume controller
+- https://github.com/RobTillaart/PT2314 I2C 4 channel audio processor
+
+
 ## I2C
+
+### I2C Performance
 
 |  processor  |  MAX KHz |  tested  |
 |:-----------:|:--------:|:--------:|
@@ -91,12 +101,6 @@ too if they are behind the multiplexer.
 (not tested, feedback welcome).
 
 
-### Related
-
-- https://github.com/RobTillaart/HC4052 (multiplexer for more inputs)
-- https://github.com/RobTillaart/TCA9548 (I2C multiplexer)
-
-
 ## Interface PT2314 PT7314
 
 ```cpp
@@ -109,7 +113,8 @@ too if they are behind the multiplexer.
 - **PT7314(TwoWire \*wire = &Wire)** constructor, optional set Wire interface.
 - **bool begin()** initialized library.
 Returns true if device can be seen on the I2C bus.
-- **bool isConnected()** returns true if device (0x44) can be seen on I2C bus.
+- **bool isConnected()** returns true if device address (0x44) can be seen on I2C bus.
+- **uint8_t getAddress()** returns device address (0x44).
 
 ### Channel
 

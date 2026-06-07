@@ -2,7 +2,7 @@
 //    FILE: PT2314.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-30
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for PT2314 i2C 4 channel audio processor.
 //     URL: https://github.com/RobTillaart/PT2314
 
@@ -28,6 +28,12 @@ bool PT2314::begin()
   setGain();
   //  setAttn(31, 31);  //  already muted
   return true;
+}
+
+
+uint8_t PT2314::getAddress()
+{
+  return _address;
 }
 
 

@@ -3,7 +3,7 @@
 //    FILE: NeumannCorrector.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-11-23
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for a NeumannCorrector. (randomizing streams of bits).
 //     URL: https://github.com/RobTillaart/NeumannCorrector
 
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define NEUMANNCORRECTOR_LIB_VERSION         (F("0.1.2"))
+#define NEUMANNCORRECTOR_LIB_VERSION         (F("0.1.3"))
 
 #ifndef NEUMANNCORRECTOR_MAX_SIZE
 #define NEUMANNCORRECTOR_MAX_SIZE            32

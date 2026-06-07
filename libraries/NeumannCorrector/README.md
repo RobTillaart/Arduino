@@ -75,7 +75,7 @@ even if these are not (all) available.
 
 #### Must
 
-- documentation
+- improve documentation
 
 #### Should
 

@@ -19,6 +19,7 @@ void setup()
   Serial.println(__FILE__);
   Serial.print("NEUMANNCORRECTOR_LIB_VERSION: ");
   Serial.println(NEUMANNCORRECTOR_LIB_VERSION);
+  Serial.println();
   delay(100);
 
 

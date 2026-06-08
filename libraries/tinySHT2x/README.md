@@ -25,6 +25,9 @@ The library is meant for AVR only, tiny platform, so it is minimal (== not?) por
 
 The tinySHT2x lib is based upon the SHT2x lib, see related section below.
 
+Feedback as always is welcome.
+
+
 ### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
@@ -37,6 +40,26 @@ The user has to call **Wire.begin()** before calling **begin()**.
 - https://github.com/RobTillaart/SHT2x tinySHT2x lib is based upon SHT2x lib
 - https://github.com/RobTillaart/SHT31 not tested with tinyXX
 - https://github.com/RobTillaart/SHT85 not tested with tinyXX
+
+
+## I2C
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -92,7 +115,6 @@ It uses a delay of30 milliseconds which can be tuned by the user.
 - Check the status bit (temperature / humidity flag)
   - datasheet page 8, LSB bit 1 - bit 0 not used)
   - needed?
-- Move Wire parameter to constructor?
 
 
 #### Wont

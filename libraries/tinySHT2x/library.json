@@ -9,13 +9,17 @@
       "email": "Rob.Tillaart@gmail.com",
       "maintainer": true
     }
+    ,
+    {
+      "name": "Victor Balint"
+    }
   ],
   "repository":
   {
     "type": "git",
     "url": "https://github.com/RobTillaart/tinySHT2x.git"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "frameworks": "arduino",
   "platforms": "avr",

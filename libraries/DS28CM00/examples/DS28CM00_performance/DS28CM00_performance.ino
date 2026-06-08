@@ -1,5 +1,5 @@
 //
-//    FILE: DS28CM00_perf.ino
+//    FILE: DS28CM00_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: performance test DS28CM00 lib
 //    DATE: 2017-07-24
@@ -38,7 +38,7 @@ void loop()
 {
   if (DS28.getUID(uid))
   {
-    perf_test();
+    performance_test();
     Serial.println();
   }
   else
@@ -49,7 +49,7 @@ void loop()
 }
 
 
-void perf_test()
+void performance_test()
 {
   Serial.println(F("DS28CM00 performance. Times in milliseconds,"));
   delay(100);
@@ -102,4 +102,3 @@ void perf_test()
 
 
 //  -- END OF FILE --
-

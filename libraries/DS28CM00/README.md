@@ -47,13 +47,35 @@ before calling **begin()**.
 - https://github.com/RobTillaart/DS18B20_RT - library for the DS18B20 sensor.
 
 
+## I2C
+
+### I2C Address
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
+
+
 ## Interface
 
 ```cpp
 #include "DS28CM00.h"
 ```
 
-### COnstructor
+### Constructor
 
 - **DS28CM00(TwoWire \*wire = &Wire)** Constructor, with default Wire as I2C bus.
 The device has a fixed address of 0x50.
@@ -106,6 +128,7 @@ An example sketch for ESP32 exist and compiles. Feedback welcome.
 
 - only extend on request / bugs
 - measure performance I2C 400 500 600 kHz ...
+  - cache
 
 #### Could
 

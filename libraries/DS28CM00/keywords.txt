@@ -7,6 +7,7 @@ DS28CM00	KEYWORD1
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 isConnected	KEYWORD2
+
 getUID	KEYWORD2
 setI2CMode	KEYWORD2
 setSMBusMode	KEYWORD2

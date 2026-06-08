@@ -2,7 +2,7 @@
 //    FILE: DS28CM00.cpp
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Library for the DS28CM00 unique identification chip.
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2017-07-15
 //     URL: https://github.com/RobTillaart/DS28CM00
 
@@ -10,9 +10,9 @@
 #include "DS28CM00.h"
 
 
-#define DS28CM00_DEVICE_ADDRESS      0x50
-#define DS28CM00_UID_REGISTER        0x00
-#define DS28CM00_CONTROL_REGISTER    0x08
+constexpr uint8_t DS28CM00_DEVICE_ADDRESS   = 0x50;
+constexpr uint8_t DS28CM00_UID_REGISTER     = 0x00;
+constexpr uint8_t DS28CM00_CONTROL_REGISTER = 0x08;
 
 
 DS28CM00::DS28CM00(TwoWire *wire)
@@ -100,7 +100,6 @@ bool DS28CM00::setMode(uint8_t mode)
   int rv = _wire->endTransmission();
   return rv == 0;
 }
-
 
 
 //  -- END OF FILE --

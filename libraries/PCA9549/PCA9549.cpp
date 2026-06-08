@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9549.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-12-12
 // PURPOSE: Arduino Library for PCA9549 I2C octal bus switch.
 //     URL: https://github.com/RobTillaart/PCA9549
@@ -33,6 +33,12 @@ bool PCA9549::isConnected()
 {
   _wire->beginTransmission(_address);
   return ( _wire->endTransmission() == 0);
+}
+
+
+uint8_t PCA9549::getAddress()
+{
+  return _address;
 }
 
 

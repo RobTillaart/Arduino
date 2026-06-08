@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9549_demo.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo PCA9543 I2C multiplexer
+// PURPOSE: demo PCA9549 I2C multiplexer
 //     URL: https://github.com/RobTillaart/PCA9549
 
 

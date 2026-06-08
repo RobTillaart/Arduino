@@ -31,19 +31,38 @@ it will not be enabled again (low level) to optimize performance.
 Feedback, as always is welcome!
 
 
-### I2C 
-
-I2C address of the device itself is 0x70 .. 0x77.
-
-
 ### Related
 
 - https://github.com/RobTillaart/TCA9549 - strong interface and code similarity
-- https://github.com/RobTillaart/TCA9548 (PCA9548) 
+- https://github.com/RobTillaart/TCA9548 (PCA9548)
 - https://github.com/RobTillaart/HC4051  (1x8 mux)
 - https://github.com/RobTillaart/HC4052  (2x4 mux)
 - https://github.com/RobTillaart/HC4053  (3x2 mux)
 - https://github.com/RobTillaart/HC4067  (1x16 mux)
+
+
+## I2C
+
+### I2C Address
+
+I2C address of the device itself is 0x70 .. 0x77.
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -58,6 +77,7 @@ I2C address of the device itself is 0x70 .. 0x77.
 deviceAddress = 0x70 .. 0x77, wire = Wire or WireN.
 - **bool begin(uint8_t mask = 0x00)**  set mask of channels to be enabled, default all disabled.
 - **bool isConnected()** returns true if address of the multiplexer is found on I2C bus.
+- **uint8_t getAddress()** returns address set in constructor. Convenience.
 
 
 ### Channel functions
@@ -94,7 +114,7 @@ Note that writes are only optimized if the channels are already set.
 
 ### Error
 
-- **int getError()** returns the last I2C error.
+- **int getError()** returns the last (low level) I2C error.
 
 ## Error Codes
 

@@ -2,7 +2,7 @@
 //
 //    FILE: PCA9549.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2023-12-12
 // PURPOSE: Arduino Library for PCA9549 I2C octal bus switch.
 //     URL: https://github.com/RobTillaart/PCA9549
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCA9549_LIB_VERSION             (F("0.1.1"))
+#define PCA9549_LIB_VERSION             (F("0.1.2"))
 
 #define PCA9549_OK                       0x00
 
@@ -25,6 +25,7 @@ public:
 
   bool    begin(uint8_t mask = 0x00);         //  default no channels enabled
   bool    isConnected();                      //  find multiplexer on I2C bus
+  uint8_t getAddress();                       //  convenience function
 
 
   //  channel = 0..channelCount()-1
@@ -36,7 +37,7 @@ public:
 
 
   //  mask = 0x00 .. 0xFF - every bit is a channel.
-  //  note 1:  these are set simultaneously.
+  //  note:  these are set simultaneously.
   bool    setChannelMask(uint8_t mask);
   uint8_t getChannelMask();
 

@@ -3,7 +3,7 @@
 //    FILE: PCF8591.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-03-12
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 // PURPOSE: Arduino Library for PCF8591 I2C 4 channel 8 bit ADC + 1 channel 8 bit DAC.
 //     URL: https://github.com/RobTillaart/PCF8591
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PCF8591_LIB_VERSION                 (F("0.4.1"))
+#define PCF8591_LIB_VERSION                 (F("0.4.2"))
 
 
 //  ERROR CODES

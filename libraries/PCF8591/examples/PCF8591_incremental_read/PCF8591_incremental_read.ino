@@ -9,7 +9,7 @@
 
 PCF8591 dev(0x48);
 
-uint32_t start, stop, dura1, dura2;
+uint32_t start, stop, duration1, duration2;
 
 
 void setup()
@@ -52,8 +52,8 @@ void setup()
     dev.read(i);
   }
   stop = micros();
-  dura2 = stop - start;
-  Serial.println(dura2);
+  duration2 = stop - start;
+  Serial.println(duration2);
 
 
   Serial.println("Read 4 with auto increment");
@@ -65,12 +65,12 @@ void setup()
     Serial.print(dev.lastRead(i));
     Serial.print('\t');
   }
-  dura1 = stop - start;
-  Serial.println(dura1);
+  duration1 = stop - start;
+  Serial.println(duration1);
   delay(10);
 
   Serial.print("\t\t\tRatio:\t");
-  Serial.println((1.0 * dura2) / dura1);
+  Serial.println((1.0 * duration2) / duration1);
 
   Serial.println("\nDone...\n");
 }

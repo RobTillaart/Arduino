@@ -2,8 +2,8 @@
 //    FILE: DCT532.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-06-03
-// VERSION: 0.1.0
-// PURPOSE: Arduino library for DCT532
+// VERSION: 0.1.1
+// PURPOSE: Arduino library for the DCT532, an I2C industrial pressure and temperature sensor.
 //     URL: https://github.com/RobTillaart/DCT532
 
 
@@ -19,8 +19,8 @@ DCT532::DCT532(uint8_t address, TwoWire *wire)
   _lastRead = 0;
   _pressure = 0;
   _temperature = 0;
-  P = 0;
-  T = 0;
+  _rawPressure = 0;
+  _rawTemperature = 0;
 }
 
 
@@ -31,8 +31,8 @@ bool DCT532::begin(float maxPressure, float minPressure)
   _lastRead = 0;
   _pressure = 0;
   _temperature = 0;
-  P = 0;
-  T = 0;
+  _rawPressure = 0;
+  _rawTemperature = 0;
   _minPressure = minPressure;
   _maxPressure = maxPressure;
 
@@ -71,24 +71,24 @@ int DCT532::readSensor()
   _lastRead = millis();
 
   //  read the raw pressure
-  P = _wire->read() << 8;
-  P |= _wire->read();
-  P &= 0x3FFF;  //  mask unused bits.
+  _rawPressure = _wire->read() << 8;
+  _rawPressure |= _wire->read();
+  _rawPressure &= 0x3FFF;  //  mask unused bits.
   //  read the raw temperature.
-  T = _wire->read() << 8;
-  T |= _wire->read();
+  _rawTemperature = _wire->read() << 8;
+  _rawTemperature |= _wire->read();
 
   //  raw convert to float pressure
-  //  (P - 1638)/13106 * (Pmax - Pmin) - Pmin
-  _pressure = ((P - 1638) * (_maxPressure - _minPressure));
+  //  (_rawPressure - 1638)/13106 * (Pmax - Pmin) - Pmin
+  _pressure = ((_rawPressure - 1638) * (_maxPressure - _minPressure));
   _pressure *= 7.630093e-5;  //  MUL faster than DIV
   _pressure -= _minPressure;
 
   //  raw convert to float temperature
-  //  ((T >> 5)/2048) * 165 - 40
+  //  ((_rawTemperature >> 5)/2048) * 165 - 40
   //  >> 5 = 1/32 = 0.03125
   //  1 / 2048 = 4.8828125e-4
-  _temperature = T * (0.03125 * 4.8828125e-4 * 165.0) - 40.0;
+  _temperature = _rawTemperature * (0.03125 * 4.8828125e-4 * 165.0) - 40.0;
   _error = DCT532_OK;
   return _error;
 }
@@ -116,6 +116,16 @@ uint32_t DCT532::lastRead()
 //
 //  DEBUG
 //
+float DCT532::getMaxPressure()
+{
+  return _maxPressure;
+}
+
+float DCT532::getMinPressure()
+{
+  return _minPressure;
+}
+
 int DCT532::getLastError()
 {
   int e = _error;

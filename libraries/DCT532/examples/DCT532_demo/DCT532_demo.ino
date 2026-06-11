@@ -7,8 +7,12 @@
 
 #include "DCT532.h"
 
-//  adjust address if needed
-DCT532 DCT(0x50);
+//  adjust address (fixed?)
+DCT532 DCT(0x28);
+
+//  explicit parameters for begin()
+const float maxPressure = 10.0;
+const float minPressure = 0.0;
 
 
 void setup()
@@ -21,7 +25,7 @@ void setup()
   Serial.println();
 
   Wire.begin();
-  if (DCT.begin(10.0, 0.0) == false)   //  explicit configuration
+  if (DCT.begin(maxPressure, minPressure) == false)   //  explicit configuration
   {
     Serial.print("Could not connect to ");
     Serial.println(DCT.getAddress(), HEX);

@@ -18,11 +18,11 @@ Arduino library for the DCT532, an I2C industrial pressure and temperature senso
 
 **Experimental**
 
-This library is to use the I2C DCT532 industrial pressure and temperature sensor. 
-The library does not support the RS485 / MODbus version.
+This DCT532 library is to use the I2C DCT532 industrial pressure and temperature sensor. 
+It does not support the RS485 / MODbus version of the sensor.
 
 The DCT532 is a range of industrial pressure sensors made by BD SENSORS GmbH, 
-www.bdsensors.de. The pressure ranges vary from 0..100 mbar up to 0..60 bar.
+www.bdsensors.de. The pressure ranges vary from 0..100 mBar up to 0..60 Bar.
 These sensors have an accuracy (IEC 61298-2) ≤ ± 0.25 % FSO (Full Scale Output).
 
 This library only support the I2C interface, there exists also an RS485 version 
@@ -32,16 +32,16 @@ The library is not tested with hardware yet.
 
 TODO: extend info here.
 
-For details read the datasheet (www.bdsensors.de).
+Be sure to read the datasheet (www.bdsensors.de) before using this device.
 
 Feedback as always is welcome.
 
 
 ### Types and range
 
-Pressure range from 100 mbar .. 60 bar.
+Pressure range from 100 mBar .. 60 Bar.
 
-|  type  |  bar   |  peak  |  type  |  bar   |  peak  |  type  |  bar   |  peak  |
+|  type  |  Bar   |  peak  |  type  |  Bar   |  peak  |  type  |  Bar   |  peak  |
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 |  1000  |  0.10  |        |  1001  |  1.00  |        |  1002  |  10.0  |        |
 |  1600  |  0.16  |        |  1601  |  1.60  |        |  1602  |  16.0  |        |
@@ -49,12 +49,17 @@ Pressure range from 100 mbar .. 60 bar.
 |  4000  |  0.40  |        |  4001  |  4.00  |        |  4002  |  40.0  |        |
 |  6000  |  0.60  |        |  6001  |  6.00  |        |  6002  |  60.0  |        |
 
-Note: absolute pressure possible from 0.4 bar
+The type number has 4 digits, the first three is "mantissa" and the fourth
+is the power of 10. Units are in mBar.
+- 2500 = 250 x 10^0 = 250 mBar.
+- 1602 = 160 x 10^2 = 16000 mBar = 16 Bar.
 
-Note: type x102 = -1..0 bar, type 9999 = custom.
+
+Note: absolute pressure possible from 0.4 Bar
+
+Note: type x102 = -1..0 Bar, type 9999 = custom.
 
 TODO add peak to table.
-
 
 ### Related
 
@@ -127,7 +132,7 @@ Returns true if device address is visible on the I2C bus.
 
 - **int readSensor()** does the actual reading of the sensor, 
 returns DCT532_OK (0) or an error code.
-- **float getPressure()** returns the last pressure in BAR.
+- **float getPressure()** returns the last pressure in Bar.
 - **float getTemperature()** returns the last temperature in degrees Celsius.
 - **uint32_t lastRead()** timestamp in millis of last read.
 Can be used for schedule timed measurements.
@@ -148,13 +153,15 @@ DCT532_OK = 0
 
 - improve documentation
 - get hardware to test proper working of the library 
+- verify fixed address
 
 #### Should
 
 - improve error handling
-- other registers accesible over I2C?
-- do performance test
-- remove P and T as private variables when library works.
+- other registers accessible over I2C?
+- measure performance
+- remove P and T as private variables when library works?
+  - raw values can be interesting for efficient storage.
 - write examples
 
 
@@ -162,12 +169,11 @@ DCT532_OK = 0
 
 - create unit tests if possible
 - derived classes for specific P sensors?
-- do we need minimum pressure?
 - do we need offsets to calibrate?
-- float getPmin(), float getPmax() for debugging?  
-- setType() getType() function ?
 
 #### Wont
+
+- setType() getType() function ?
 
 
 ## Support

@@ -1,7 +1,7 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2025-xx-xx
+//    DATE: 2025-06-03
 // PURPOSE: unit tests for the DCT532 library
 //     URL: https://github.com/RobTillaart/DCT532
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md

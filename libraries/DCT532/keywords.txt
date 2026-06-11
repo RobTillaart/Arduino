@@ -14,6 +14,8 @@ getPressure	KEYWORD2
 getTemperature	KEYWORD2
 lastRead	KEYWORD2
 
+getMaxPressure	KEYWORD2
+getMinPressure	KEYWORD2
 getLastError	KEYWORD2
 
 

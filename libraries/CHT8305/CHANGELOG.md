@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.4] - 2026-06-10
+- update GitHub actions
+- minor edits
+
 ## [0.2.3] - 2025-10-11
 - update GitHub actions
 - fix **readHumidity()**

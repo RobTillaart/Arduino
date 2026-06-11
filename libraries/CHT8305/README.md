@@ -13,11 +13,6 @@
 
 Arduino library for CHT8305 temperature and humidity sensor.
 
-**EXPERIMENTAL** minimal tested.
-
-If you are able to test this library, please let me know
-your experiences.
-
 
 ## Description
 
@@ -35,6 +30,11 @@ More exact details for smaller ranges, see datasheet (page 8).
 
 One of the interesting functions is the support of an ALERT function.
 This prevents the need for continuous polling of the sensor.
+
+If you are able to test this library, please let me know
+your experiences.
+
+Feedback as always is welcome.
 
 
 ### 0.2.0 Breaking change
@@ -61,6 +61,14 @@ The ALERT functions are not tested.
 The reason is that the sensor I have does not expose the ALERT pin.
 
 If you are able to test the ALERT functions, please let me know your experiences.
+
+
+### Related
+
+- https://github.com/RobTillaart/Temperature (e.g. heatIndex)
+- https://github.com/RobTillaart/CHT8305
+- https://github.com/RobTillaart/CHT8310
+- https://github.com/RobTillaart/CHT832X
 
 
 ## Hardware
@@ -112,12 +120,12 @@ So a higher I2C speed does not help to read this sensor.
 See - HT8305_performance.ino
 
 
-|  SPEED   |  READ   |  READ_T  |  READ_H  |
-|:--------:|:-------:|:--------:|:--------:|
+|  SPEED   |  READ   |  READ_T  |  READ_H  |  Notes  |
+|:--------:|:-------:|:--------:|:--------:|:-------:|
 |  100000  |  14824  |   14604  |    376   |
 |  200000  |  14476  |   14360  |    224   |
 |  300000  |  14368  |   14276  |    172   |
-|  400000  |  14324  |   14244  |    148   |
+|  400000  |  14324  |   14244  |    148   |  max advised speed.
 |  500000  |  14300  |   14224  |    140   |
 |  600000  |  14276  |   14212  |    132   |
 |  700000  |  14272  |   14204  |    124   |
@@ -170,7 +178,7 @@ Constructor with default address (0x40) and I2C bus.
 - **int begin()** initializes internals.
 Returns error status.
 - **bool isConnected()** checks if address (default 0x40) can be seen on the I2C bus.
-
+- **uint8_t getAddress()** returns address set in constructor.
 
 ### Core
 
@@ -371,7 +379,7 @@ See datasheet page 10 for details
 
 #### Must
 
-- elaborate documentation.
+- improve documentation.
 
 #### Should
 

@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8305.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 // PURPOSE: Arduino library for CHT8305 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8305
 //
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define CHT8305_LIB_VERSION              (F("0.2.3"))
+#define CHT8305_LIB_VERSION              (F("0.2.4"))
 
 //  DEFAULT ADDRESS
 #ifndef CHT8305_DEFAULT_ADDRESS
@@ -31,28 +31,28 @@
 
 
 //  REGISTERS (in .h for build-CI test)
-#define CHT8305_REG_TEMPERATURE         0x00
-#define CHT8305_REG_HUMIDITY            0x01
-#define CHT8305_REG_CONFIG              0x02
-#define CHT8305_REG_ALERT               0x03
-#define CHT8305_REG_VOLTAGE             0x04
-#define CHT8305_REG_MANUFACTURER        0xFE
-#define CHT8305_REG_VERSION             0xFF
+constexpr uint8_t CHT8305_REG_TEMPERATURE  = 0x00;
+constexpr uint8_t CHT8305_REG_HUMIDITY     = 0x01;
+constexpr uint8_t CHT8305_REG_CONFIG       = 0x02;
+constexpr uint8_t CHT8305_REG_ALERT        = 0x03;
+constexpr uint8_t CHT8305_REG_VOLTAGE      = 0x04;
+constexpr uint8_t CHT8305_REG_MANUFACTURER = 0xFE;
+constexpr uint8_t CHT8305_REG_VERSION      = 0xFF;
 
 //  REGISTER MASKS (in .h for build-CI test)
-#define CHT8305_CFG_SOFT_RESET          0x8000
-#define CHT8305_CFG_CLOCK_STRETCH       0x4000
-#define CHT8305_CFG_HEATER              0x2000
-#define CHT8305_CFG_MODE                0x1000
-#define CHT8305_CFG_VCCS                0x0800
-#define CHT8305_CFG_TEMP_RES            0x0400
-#define CHT8305_CFG_HUMI_RES            0x0300
-#define CHT8305_CFG_ALERT_MODE          0x00C0
-#define CHT8305_CFG_ALERT_PENDING       0x0020
-#define CHT8305_CFG_ALERT_HUMI          0x0010
-#define CHT8305_CFG_ALERT_TEMP          0x0008
-#define CHT8305_CFG_VCC_ENABLE          0x0004
-#define CHT8305_CFG_VCC_RESERVED        0x0003
+constexpr uint16_t CHT8305_CFG_SOFT_RESET    = 0x8000;
+constexpr uint16_t CHT8305_CFG_CLOCK_STRETCH = 0x4000;
+constexpr uint16_t CHT8305_CFG_HEATER        = 0x2000;
+constexpr uint16_t CHT8305_CFG_MODE          = 0x1000;
+constexpr uint16_t CHT8305_CFG_VCCS          = 0x0800;
+constexpr uint16_t CHT8305_CFG_TEMP_RES      = 0x0400;
+constexpr uint16_t CHT8305_CFG_HUMI_RES      = 0x0300;
+constexpr uint16_t CHT8305_CFG_ALERT_MODE    = 0x00C0;
+constexpr uint16_t CHT8305_CFG_ALERT_PENDING = 0x0020;
+constexpr uint16_t CHT8305_CFG_ALERT_HUMI    = 0x0010;
+constexpr uint16_t CHT8305_CFG_ALERT_TEMP    = 0x0008;
+constexpr uint16_t CHT8305_CFG_VCC_ENABLE    = 0x0004;
+constexpr uint16_t CHT8305_CFG_VCC_RESERVED  = 0x0003;
 
 
 class CHT8305

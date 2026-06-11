@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.1] - 2026-06-10
+- update Readme.md
+- remove DATE: field from examples (not informative)
+- remove Experimental (no new issues for 9 months)
+- update GitHub actions
+- minor edits.
+
 ## [0.4.0] - 2025-09-30
 - fix **SetBucket()** overflow
 - add **get/setMinBucket()** and add to functions.

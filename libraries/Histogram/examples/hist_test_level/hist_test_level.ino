@@ -1,7 +1,6 @@
 //
 //    FILE: hist_test_level.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-11-04
 // PURPOSE: test histogram library
 //     URL: https://github.com/RobTillaart/Histogram
 

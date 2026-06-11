@@ -1,7 +1,6 @@
 //
 //    FILE: hist_test.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-12-23
 // PURPOSE: test histogram frequency
 //     URL: https://github.com/RobTillaart/Histogram
 
@@ -13,7 +12,8 @@
 
 //  boundaries does not need to be equally distributed.
 float b[] = {
-  0, 100, 200, 300, 325, 350, 375 };
+  0, 100, 200, 300, 325, 350, 375
+};
 
 Histogram hist(7, b);
 

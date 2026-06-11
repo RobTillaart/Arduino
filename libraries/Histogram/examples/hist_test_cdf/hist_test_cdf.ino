@@ -1,7 +1,6 @@
 //
 //    FILE: hist_test_cdf.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-11-10
 // PURPOSE: test histogram library
 //     URL: https://github.com/RobTillaart/Histogram
 

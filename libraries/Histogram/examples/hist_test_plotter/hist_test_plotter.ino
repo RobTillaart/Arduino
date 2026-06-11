@@ -9,6 +9,7 @@
 //  the columns in the plot are
 //  There is a 0 value between the plots to get the (almost) vertical lines.
 
+
 #include "histogram.h"
 
 
@@ -20,6 +21,7 @@ Histogram hist(14, bounds);
 uint32_t lastTime = 0;
 const uint32_t threshold = 5000;  //  in milliseconds, for updating display
 const int SERIAL_PLOTTER_WIDTH = 500;
+
 
 void setup()
 {

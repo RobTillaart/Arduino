@@ -1,0 +1,35 @@
+Board: UNO
+IDE:   1.8.19
+
+hist_test_performance.ino
+
+HISTOGRAM_LIB_VERSION: 0.4.1
+
+# buckets: 101
+BELOW 0: 0
+LEVEL 0: 101
+ABOVE 0: 0
+COUNT  : 0
+
+add 1000 random numbers
+1000 ADD: 343464
+
+    PMF: 0.01
+   TIME: 280
+    CDF: 0.47
+   TIME: 336
+    VAL: 910.00
+   TIME: 912
+
+FINDMIN: 19
+   TIME: 220
+FINDMAX: 88
+   TIME: 224
+
+BELOW 0: 0
+   TIME: 96
+LEVEL 0: 0
+   TIME: 112
+ABOVE 0: 101
+   TIME: 124
+done...

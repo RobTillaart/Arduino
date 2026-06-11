@@ -1,9 +1,9 @@
 //
 //    FILE: Histogram.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.4.1
 //    DATE: 2012-11-10
-// VERSION: 0.4.0
-// PURPOSE: Histogram library for Arduino
+// PURPOSE: Arduino library for creating histograms
 //     URL: https://github.com/RobTillaart/Histogram
 
 
@@ -157,7 +157,6 @@ float Histogram::frequency(const uint16_t index)
 }
 
 
-//  EXPERIMENTAL
 //  returns the probability of the bucket of a value
 float Histogram::PMF(const float value)
 {
@@ -168,7 +167,6 @@ float Histogram::PMF(const float value)
 }
 
 
-//  EXPERIMENTAL
 //  returns the cumulative probability of
 //  values <= value
 float Histogram::CDF(const float value)
@@ -186,7 +184,6 @@ float Histogram::CDF(const float value)
 }
 
 
-//  EXPERIMENTAL
 //  returns the value of the original array for
 //  which the CDF is at least probability.
 //  must start at 0.
@@ -346,9 +343,8 @@ uint16_t Histogram::countBelow(const int32_t level)
 
 ///////////////////////////////////////////////////
 //
-//  Experimental
+//  Helpers, use with care
 //
-//  use with care
 float Histogram::saturation()
 {
   if ((_count == 0) || (_length == 0)) return NAN;

@@ -1,7 +1,6 @@
 //
 //    FILE: hist_test_big.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-12-23
 // PURPOSE: test histogram library
 //     URL: https://github.com/RobTillaart/Histogram
 //

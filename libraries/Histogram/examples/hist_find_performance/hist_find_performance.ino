@@ -1,7 +1,6 @@
 //
 //    FILE: hist_find_performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-11-03
 // PURPOSE: indication histogram find performance
 //     URL: https://github.com/RobTillaart/Histogram
 

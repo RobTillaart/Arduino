@@ -21,9 +21,13 @@ We often want to make a histogram of this data to get insight of the distributio
 measurements. This is where this Histogram library comes in.
 
 The Histogram distributes the values added to it into buckets and keeps count per bucket.
+The borders of the buckets do not need to be equidistant so one has a lot of freedom to 
+classify. E.g. all temperatures between -273..0 in one bucket and the rest per 5°C. 
 
 If you need more quantitative analysis, you might need the statistics library, 
 - https://github.com/RobTillaart/Statistic
+
+Feedback as always is welcome.
 
 
 ### Related
@@ -34,6 +38,7 @@ Statistic related libraries
 - https://github.com/RobTillaart/GST - Golden standard test metrics
 - https://github.com/RobTillaart/Histogram
 - https://github.com/RobTillaart/Kurtosis
+- https://github.com/RobTillaart/Poisson
 - https://github.com/RobTillaart/RunningAngle
 - https://github.com/RobTillaart/RunningAverage
 - https://github.com/RobTillaart/RunningMedian
@@ -71,11 +76,8 @@ one stream **add()** and the other **sub()**. If the histogram of both streams i
 similar they should cancel each other out (more or less), and the value of all buckets 
 should be around 0. \[not tried\].
 
-The **frequency()** function may be removed to reduce footprint as it can be calculated 
-with the formula **(1.0 \* bucket(i))/count()**.
 
-
-### Experimental: Histogram8 Histogram16
+### Histogram8 Histogram16
 
 Histogram8 and Histogram16 are derived classes with same interface but smaller buckets. 
 Histogram can count to ± 2^31 while often ± 2^15 or even ± 2^7 is sufficient. 
@@ -93,7 +95,12 @@ The difference is the **\_data** array, to reduce the memory footprint.
 Note: max memory is without the boundary array.
 
 Performance optimizations are possible too however not essential for 
-the experimental version.
+the current version.
+
+
+## Special characters
+
+Alt 0177 = ±  
 
 
 ## Interface 
@@ -115,8 +122,8 @@ Length should be less than 65534.
 
 ### MaxBucket
 
-Default the minBucket and maxBucket size is defined as (-)255 (8 bit), (-)65535 (16 bit) or
-(-)2147483647 (32 bit) depending on class used.
+Default the minBucket and maxBucket size is defined as ±255 (8 bit), ±65535 (16 bit) or
+±2147483647 (32 bit) depending on class used.
 The functions below allow to set and get the maxBucket and minBucket so 
 the **add()** and **sub()** function will reach **FULL** faster.
 Useful in some applications e.g. games.
@@ -183,7 +190,7 @@ Some notes about **frequency()**
 
 ### Probability Distribution Functions
 
-There are three experimental functions:
+There are three functions:
 
 - **float PMF(float value)** Probability Mass Function. 
 Quite similar to **frequency()**, but uses a value as parameter.
@@ -191,7 +198,7 @@ Quite similar to **frequency()**, but uses a value as parameter.
 Returns the sum of frequencies <= value. Always between 0.0 and 1.0.
 - **float VAL(float probability)** Value Function, is **CDF()** inverted. 
 Returns the value of the original array for which the CDF is at least probability.
-- **int32_t sum()** returns the sum of all buckets. (not experimental).
+- **int32_t sum()** returns the sum of all buckets.
 Just as with **frequency()** it is affected by the use of **sub()**,
 including possibly returning a negative value.
 
@@ -207,16 +214,16 @@ Note **PDF()** is a continuous function and therefore not applicable in a discre
 - https://en.wikipedia.org/wiki/Probability_density_function  PDF()
 
 
-### Experimental
+### Saturation
 
-An additional helper function.
+- **float saturation()** returns the **count()** / **number of bins**.
+This is an indicator of how far the histogram is filled on average.
 
-- **float saturation()** returns the **count()** / **nr of bins**.
-Is an indicator of how "filled" the histogram is.
+More informative might be the **uint16_t findMax()** function that gives an 
+indication of the "filling" of the topmost individual bucket compared to
+the maximum count per bucket.
 
-Might need to calculate the average level.
-
-Note: **findMax()** gives an indication for the topmost individual bucket.
+In code ``` S = Hist.findMax() / getMaxBucket()```
 
 
 ## Future

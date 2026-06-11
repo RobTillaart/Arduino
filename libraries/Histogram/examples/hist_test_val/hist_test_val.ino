@@ -1,7 +1,6 @@
 //
 //    FILE: hist_test_val.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2012-11-11
 // PURPOSE: test histogram library
 //     URL: https://github.com/RobTillaart/Histogram
 
@@ -12,7 +11,8 @@
 float b[] = {
   0, 50, 100, 150, 200, 250,
   300, 350, 400, 450, 500,
-  600, 700, 800, 900, 1000 };
+  600, 700, 800, 900, 1000
+};
 
 Histogram hist(16, b);
 

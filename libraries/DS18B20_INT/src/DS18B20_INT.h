@@ -2,7 +2,7 @@
 //
 //    FILE: DS18B20_INT.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2017-07-25
 // PURPOSE: Minimalistic library for DS18B20 temperature sensor
 //          uses only integer math (no float to minimize footprint)
@@ -25,14 +25,14 @@
 #include "OneWire.h"
 
 
-#define DS18B20_INT_LIB_VERSION       (F("0.4.0"))
+#define DS18B20_INT_LIB_VERSION       (F("0.4.1"))
 
 //  adjust if you need values outside guaranteed range
 //  (See DTCL #290)
 constexpr int DS18B20_MINIMUM = -55;
 constexpr int DS18B20_MAXIMUM = +125;
 
-//  Error Codes (not all used)
+//  Error Codes (not all used, library specific)
 constexpr int DEVICE_DISCONNECTED = -127;
 constexpr int DEVICE_CRC_ERROR    = -128;
 constexpr int DEVICE_POR_ERROR    = -129;

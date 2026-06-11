@@ -16,9 +16,10 @@ Arduino library for the DS18B20 temperature sensor - restricted to one sensor pe
 
 ## Arduino Temperature Control Library (ATCL)
 
-This DS18B20 library is not a full featured library for the DS18B20 family.
+This DS18B20_INT library is not a full featured library for the DS18B20 family.
 This library supports only one DS18B20 per Arduino/ MCU pin.
-Furthermore this library will give only temperatures in whole degrees C.
+Furthermore this library will give only temperatures in whole degrees C and 
+since 0.2.0 so called degrees CentiC (temp times 100).
 Goal is to minimize footprint.
 
 If you need more functions or control over the DS18B20 family I refer to the library
@@ -128,9 +129,9 @@ Is faster when connectCheck is set to false. Default true = backwards compatible
 
 ### CentiC part
 
-The following functions are experimental since 0.2.0 and not tested a lot by me.
-They allow to use a higher resolution while **not using floats**. 
+The following functions allow to use a higher resolution while **not using floats**. 
 Goal is to keep the footprint of the library small.
+A fix is made in the math in 0.4.0 and the CentiC now supports proper rounding.
 
 - **bool setResolution(uint8_t resolution = 9)** sets the internal resolution to 9, 10, 11 or 12 bits. 
 Other numbers will be mapped on 9. 
@@ -139,9 +140,12 @@ Internally it will call **begin()** to set the new resolution.
 Returns false if no address / device can be found.
 - **void getResolution()** returns the resolution set, default 9.
 Convenience function.
-- **getTempCentiC(void)** returns the measured temperature times 100. -5500..12500
-So 10.62°C will be returned as 1062.
+- **getTempCentiC(void)** returns the measured temperature times 100. -5500..12500.
+Since 0.4.0 it includes rounding, so 10.625°C will be returned as 1063.
 Note one might need to set the resolution to get more "decimals".
+
+When the resolution is set to 10 bits one gets steps of 25:
+1000, 1025, 1050, 1075 and 1100
 
 
 ## Operation
@@ -166,7 +170,7 @@ When the wires are longer this resistor needs to be smaller.
 
 ### DS18B20_MINIMUM
 
-Since 0.2.7 the library allows to change **DS18B20_MINIMUM** in the .h file.
+Since 0.3.6 the library allows to change **DS18B20_MINIMUM** in the .h file.
 This is default set to -55°C but in (DTCL #290) it became clear that sensors
 can report temperatures below this.
 
@@ -174,10 +178,10 @@ By changing **DS18B20_MINIMUM** the temperature where a **DEVICE_DISCONNECTED**
 error is given is changed, so it allows the library to report lower temperatures.
 
 Use at your own risk, as it is not clear how reliable temperature measurements
-are below -55 (datasheet specification).
+are below -55 (datasheet specifies only -55 to +125).
 
 
-### -127 and 85
+### -127 and +85
 
 Two specific return values from reading the sensor:
 
@@ -217,7 +221,7 @@ In fact, only the two temperature registers are read.
 Table of known "strange values" and actions one could take.
 It is meant to start some diagnosis.
 
-(note these are all known errors, not perse for this library)
+(note these are all known errors, not all for this library)
 
 | value   | possible cause                      |  optional action  |
 |:--------|:------------------------------------|:------------------|

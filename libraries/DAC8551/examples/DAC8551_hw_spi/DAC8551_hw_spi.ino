@@ -2,9 +2,7 @@
 //    FILE: DAC8551_hw_spi.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo DAC8551 library Arduino with hardware SPI
-// VERSION: 0.2.0
 //     URL: https://github.com/RobTillaart/DAC8551
-//
 
 
 #include "DAC8551.h"

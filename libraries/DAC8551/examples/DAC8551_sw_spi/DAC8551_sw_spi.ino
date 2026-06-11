@@ -8,7 +8,7 @@
 #include "DAC8551.h"
 
 
-// SW SPI pins select, data, clock
+//  SW SPI pins select, data, clock
 DAC8551 mydac(4, 5, 6);
 
 

@@ -25,6 +25,8 @@ The library supports both hardware SPI as software SPI (bit banging).
 
 **Warning** this library is not tested extensively.
 
+Feedback as always is welcome.
+
 
 ## [0.4.0] - 2024-01-20
 - Fix #19, improve handling SPI dependency.

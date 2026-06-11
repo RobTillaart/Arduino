@@ -73,7 +73,7 @@ unittest(test_SW_constructor)
 {
   DAC8554 mydac(4, 5, 6);  // not used address parameter
   mydac.begin();
-  
+
   for (uint8_t channel = 0; channel < 4; channel++)
   {
     fprintf(stderr, "Channel %d\t", channel);

@@ -22,6 +22,8 @@ The library supports both hardware SPI as software SPI (bit banging).
 
 **Warning** This library is not tested extensively.
 
+Feedback as always is welcome.
+
 
 ### 0.4.0 Breaking change
 

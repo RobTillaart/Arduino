@@ -13,6 +13,6 @@
    Arduino will estimate the angle based upon the
    Lux level compared to the references.
 
-   First trials are not not too bad, roughly within 15° accuracy
+   First trials are not too bad, roughly within 15° accuracy
 
 */

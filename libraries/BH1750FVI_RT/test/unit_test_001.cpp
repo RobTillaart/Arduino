@@ -83,7 +83,7 @@ unittest(test_constants)
   assertEqual(0x00, BH1750FVI_MODE_LOW);
   assertEqual(0x01, BH1750FVI_MODE_HIGH);
   assertEqual(0x02, BH1750FVI_MODE_HIGH2);
-  
+
   assertEqual(   0, BH1750FVI_OK);
   assertEqual( -10, BH1750FVI_ERROR_WIRE_REQUEST);
 }
@@ -117,7 +117,7 @@ unittest(test_parameters)
   myLux.setAngle(30);
   assertEqual(30, myLux.getAngle());
 
-  // 
+  //
   myLux.setTemperature(42);
   assertEqual(42, myLux.getTemperature());
 

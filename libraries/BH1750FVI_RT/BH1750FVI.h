@@ -2,7 +2,7 @@
 //
 //    FILE: BH1750FVI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for BH1750FVI (GY-30) lux sensor
 //     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
@@ -27,11 +27,11 @@
 #include "Arduino.h"
 
 
-#define BH1750FVI_LIB_VERSION                 (F("0.3.3"))
+#define BH1750FVI_LIB_VERSION                 (F("0.3.4"))
 
 //  const uint8_t?
-#define BH1750FVI_DEFAULT_ADDRESS             0x23
-#define BH1750FVI_ALT_ADDRESS                 0x5C
+constexpr uint8_t BH1750FVI_DEFAULT_ADDRESS = 0x23;
+constexpr uint8_t BH1750FVI_ALT_ADDRESS     = 0x5C;
 
 
 #ifndef BH1750FVI_REFERENCE_TIME
@@ -40,9 +40,9 @@
 
 
 //  mode enum / const int ?
-#define BH1750FVI_MODE_LOW                    0x00
-#define BH1750FVI_MODE_HIGH                   0x01
-#define BH1750FVI_MODE_HIGH2                  0x02
+constexpr uint8_t BH1750FVI_MODE_LOW   = 0x00;
+constexpr uint8_t BH1750FVI_MODE_HIGH  = 0x01;
+constexpr uint8_t BH1750FVI_MODE_HIGH2 = 0x02;
 
 
 // ERROR CODES
@@ -55,9 +55,11 @@ class BH1750FVI
 public:
 
   BH1750FVI(const uint8_t address, TwoWire *wire = &Wire);
-  //  returns true if isConnected()
+
+  //  begin() returns true if isConnected()
   bool    begin();        //  resets to constructor defaults. (use with care)
   bool    isConnected();  //  returns true if address is on I2C bus
+  uint8_t getAddress();   //  returns address set in constructor
 
 
   float   getRaw();       //  no HIGH2 mode + no sensitivity factor.

@@ -1,7 +1,7 @@
 //
 //    FILE: BH1750FVI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: library for BH1750FVI lux sensor Arduino
 //     URL: https://github.com/RobTillaart/BH1750FVI_RT
 
@@ -10,15 +10,15 @@
 
 
 // COMMANDS P5
-#define BH1750FVI_POWER_ON                    0x00
-#define BH1750FVI_POWER_OFF                   0x01
-#define BH1750FVI_RESET                       0x07
-#define BH1750FVI_CONT_HIGH                   0x10
-#define BH1750FVI_CONT_HIGH2                  0x11
-#define BH1750FVI_CONT_LOW                    0x13
-#define BH1750FVI_ONCE_HIGH                   0x20
-#define BH1750FVI_ONCE_HIGH2                  0x21
-#define BH1750FVI_ONCE_LOW                    0x23
+const uint8_t BH1750FVI_POWER_ON   = 0x00;
+const uint8_t BH1750FVI_POWER_OFF  = 0x01;
+const uint8_t BH1750FVI_RESET      = 0x07;
+const uint8_t BH1750FVI_CONT_HIGH  = 0x10;
+const uint8_t BH1750FVI_CONT_HIGH2 = 0x11;
+const uint8_t BH1750FVI_CONT_LOW   = 0x13;
+const uint8_t BH1750FVI_ONCE_HIGH  = 0x20;
+const uint8_t BH1750FVI_ONCE_HIGH2 = 0x21;
+const uint8_t BH1750FVI_ONCE_LOW   = 0x23;
 
 
 BH1750FVI::BH1750FVI(const uint8_t address, TwoWire *wire)
@@ -47,6 +47,12 @@ bool BH1750FVI::isConnected()
   _wire->beginTransmission(_address);
   _error = _wire->endTransmission();
   return (_error == 0);
+}
+
+
+uint8_t BH1750FVI::getAddress()
+{
+  return _address;
 }
 
 

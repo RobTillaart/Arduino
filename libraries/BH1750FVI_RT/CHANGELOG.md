@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+##[0.3.4] - 2026-06-10
+- add **uint8_t getAddress()** convenience function.
+- update GitHub actions
+- minor edits
+
 ##[0.3.3] - 2025-10-11
 - update GitHub actions
 - add example BH1750FVI_two_devices.ino

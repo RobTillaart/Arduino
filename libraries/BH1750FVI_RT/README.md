@@ -36,6 +36,8 @@ Another application is to correct the transparency of material, or the type of l
 Note that the typical integration time will differ if the correction factor is changed.
 The **isReady()** and **getLux()** functions keep track of the adjustment needed.
 
+Feedback as always is welcome.
+
 
 ### 0.3.0 Breaking change
 
@@ -50,16 +52,16 @@ before calling **begin()**.
 
 The following table is an indication for Lux levels.
 These might differ due to angle of incoming light or other causes.
-Note that the table is not linear.
+Note that the table is not linear but exponential.
 
-|  LUX     |  Description        |
-|:--------:|:--------------------|
-|  1       |  Night              |
-|  10      |  Twilight           |
-|  100     |  Dark day           |
-|  1000    |  Cloudy day         |
-|  10000   |  Indirect sunlight  |
-|  100000  |  Direct sunlight    |
+|  LUX     |  Description        |  use mode  |
+|:--------:|:--------------------|:----------:|
+|  1       |  Night              |    HIGH2   |
+|  10      |  Twilight           |    HIGH2   |
+|  100     |  Dark day           |    HIGH2   |
+|  1000    |  Cloudy day         |    HIGH    |
+|  10000   |  Indirect sunlight  |    LOW     |
+|  100000  |  Direct sunlight    |    LOW     |
 
 More elaborated table, e.g https://en.wikipedia.org/wiki/Lux
 
@@ -67,17 +69,23 @@ More elaborated table, e.g https://en.wikipedia.org/wiki/Lux
 ### Related
 
 - https://en.wikipedia.org/wiki/Lux
-- https://github.com/RobTillaart/BH1750FVI_RT
-- https://github.com/RobTillaart/Max44007
-- https://github.com/RobTillaart/Max44009
-- https://github.com/RobTillaart/TSL235R  pulse based irradiance variant.
+- https://github.com/RobTillaart/BH1750FVI_RT (GY-30) 16 bit I2C Lux sensor
+- https://github.com/RobTillaart/Max44007 range 0.025 lux to 104,448 lux
+- https://github.com/RobTillaart/Max44009 range 0.045 lux to 188,000 lux
+- https://github.com/RobTillaart/TSL235R pulse based irradiance variant.
 
 UV sensors
 - https://github.com/RobTillaart/AnalogUVSensor
+- https://github.com/RobTillaart/LTR390_DFR UV sensor (DF Robotics edition)
+- https://github.com/RobTillaart/LTR390_RT UV sensor
 - https://github.com/RobTillaart/ML8511
 
 IR sensor
-- https://github.com/RobTillaart/TSL260R  analog IR irradiance variant.
+- https://github.com/RobTillaart/TSL260R analog IR irradiance variant.
+
+Helpers
+- https://github.com/RobTillaart/map2colour - 
+- https://github.com/RobTillaart/printHelpers
 
 
 ## Interface hardware
@@ -142,6 +150,7 @@ too if they are behind the multiplexer.
 - **bool begin()** resets some internal variables to default. Use with care.
 Returns true if address can be found on I2C bus.
 - **bool isConnected()** returns true if address can be found on I2C bus.
+- **uint8_t getAddress()** returns address set in constructor.
 
 
 ### Base
@@ -265,6 +274,8 @@ Default wavelength will be 580 as that gives 100%.
 ## Future
 
 #### Must
+
+- improve documentation
 
 #### Should
 

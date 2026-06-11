@@ -44,7 +44,7 @@ void loop()
     Serial.print("\t");
     Serial.println(val / myLux.getCorrectionFactor(), 1);
 
-    //  note correctionfactor are steps of 1/69 internally, see datasheet
+    //  note correction factor are steps of 1/69 internally, see datasheet
     myLux.setCorrectionFactor(correctionFactor);  //  0.45 .. 3.68
     correctionFactor += 0.05f;
     if (correctionFactor > 3.68f)

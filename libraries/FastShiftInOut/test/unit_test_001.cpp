@@ -66,7 +66,7 @@ unittest(test_constructor_MSB)
   FastShiftInOut FSIO(8,9,10, MSBFIRST);
 
   assertEqual(MSBFIRST, FSIO.getBitOrder());
-  
+
   FSIO.setBitOrder(LSBFIRST);
   assertEqual(LSBFIRST, FSIO.getBitOrder());
 }

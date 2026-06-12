@@ -32,6 +32,8 @@ The library provides wrapper functions to write multi-byte variables.
 These are write16(), write24(), write32() and write(array, size).
 The latter is used to shift out any size object.
 
+Feedback as always is welcome.
+
 
 ### 0.4.0 breaking changes
 

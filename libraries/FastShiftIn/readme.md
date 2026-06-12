@@ -32,6 +32,8 @@ The library provides wrapper functions to read multi-byte variables.
 These are read16(), read24(), read32() and read(array, size).
 The latter is used to shift in any size object.
 
+Feedback as always is welcome.
+
 
 ### 0.4.0 breaking changes
 
@@ -95,7 +97,7 @@ bitOrder = { LSBFIRST, MSBFIRST };
 
 - **FastShiftIn(uint8_t dataIn, uint8_t clockPin, uint8_t bitOrder = LSBFIRST)** Constructor
 
-### Functions
+### Read functions
 
 - **uint16_t read(void)** reads a new value, 8 bit.
 - **uint16_t read16(void)** reads a new value, 16 bit.
@@ -104,7 +106,8 @@ bitOrder = { LSBFIRST, MSBFIRST };
 - **uint32_t lastRead()** returns last value read.
 - **uint16_t readLSBFIRST(void)**  optimized LSB read(), 8 bit.
 - **uint16_t readMSBFIRST(void)**  optimized MSB read(), 8 bit.
-
+- **void read(uint8_t \*array, uint8_t size)** read an array of values.
+The order in the array follows as BYTE order MSB / LSB. 
 
 ### BitOrder
 
@@ -112,15 +115,6 @@ bitOrder = { LSBFIRST, MSBFIRST };
 Returns false for other values ==> no change.
 - **uint8_t getBitOrder(void)** returns LSBFIRST or MSBFIRST as set in the constructor
 or latest set from **setBitOrder()**.
-
-
-### Experimental
-
-- **void read(uint8_t \*array, uint8_t size)** read an array of values.
-The order in the array follows as BYTE order MSB / LSB, that is why this function
-is made experimental. This might change in the future, and fill the array
-in arrival order.
-
 
 ### Byte order
 
@@ -160,15 +154,17 @@ pull up resistors, especially if wires are exceeding 10 cm (4").
 #### Could
 
 - investigate ESP32 optimization readLSBFIRST readMSBFIRST
+  - see MCP_ADC issue 26  (does it work for all ESP32)
 - performance ESP32
 - example schema
-- add invert flag?
-  - value = value ^ 0xFF;
+- add invertClock()?  => more difficult for user.
+  - penalty performance
 - would it be interesting to make a fastShiftIn16() etc?
   - squeeze performance but more maintenance.?           
 
 #### Wont
 
+- add invertData()? => use can do value = value ^ 0xFF
 - investigate separate **BYTE**-order, 
   - only MSBFirst and LSBFirst
   - **void setByteOrder()** + **uint8_t getByteOrder()**

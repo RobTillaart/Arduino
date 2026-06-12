@@ -1,0 +1,51 @@
+Arduino UNO R3
+IDE 1.8.19
+
+fastShiftIn_test.ino
+0.4.1
+
+ 8 bits HIGH
+
+
+Performance - time in us : read()
+FastShiftIn1: 13.96
+FastShiftIn2: 26.66
+       Delta: 12.70
+
+
+Performance - time in us : read16()
+FastShiftIn1: 26.16
+FastShiftIn2: 51.56
+       Delta: 25.40
+
+
+Performance - time in us : read24()
+FastShiftIn1: 39.88
+FastShiftIn2: 78.97
+       Delta: 39.10
+
+
+Performance - time in us : read32()
+FastShiftIn1: 52.20
+FastShiftIn2: 103.62
+       Delta: 51.42
+
+
+Performance - time in us : readLSBFIRST()
+FastShiftIn1: 12.83
+FastShiftIn2: 24.77
+       Delta: 11.94
+
+
+Performance - time in us : readMSBFIRST()
+FastShiftIn1: 12.82
+FastShiftIn2: 24.77
+       Delta: 11.95
+
+
+Performance - time in us : reference shiftIn()
+Standard shiftIn1: 108.98
+Standard shiftIn2: 217.04
+            Delta: 108.06
+
+done...

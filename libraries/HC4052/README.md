@@ -34,12 +34,25 @@ The channel selection is done with two select lines **A, B** or **S0, S1**.
 
 The device can be enabled/disabled by the enable line **INH** or **E**.
 
+Feedback as always is welcome.
+
 
 ### Compatibles
 
 - https://assets.nexperia.com/documents/data-sheet/74HC_HCT4052.pdf
-  - 74HC4052 (CMOS level)
-  - 74HCT4052 (TTL level)
+
+Some compatible types, only one explicitly tested.
+Check data sheets for details.
+
+|  name        |  verified  |  Notes  |
+|:-------------|:----------:|:-------:|
+|  74HC4052    |     Y      |  CMOS
+|  74HCT4052   |     n      |  TTL
+|  CD74HC4052  |     n      |
+|  CD4052BE    |     n      |  up to 20 Volts
+
+
+If you have experience with any variant, please let me know.
 
 
 ### Related
@@ -129,7 +142,7 @@ Also returns true if the enablePin is not set in the constructor.
 #### Could
 
 - add examples
-  - i2c scan
+  - i2c scanner using this multiplexer?
 
 #### Wont
 

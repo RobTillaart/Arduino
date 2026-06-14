@@ -33,10 +33,25 @@ The independent channel selection is done with three select lines **A, B, C**.
 
 The device can be enabled/disabled by the enable line **INH**.
 
+Feedback as always is welcome.
+
 
 ### Compatibles
 
-To elaborate.
+
+- https://assets.nexperia.com/documents/data-sheet/74HC_HCT4053.pdf
+
+Some compatible types, only one explicitly tested.
+Check data sheets for details.
+
+|  name         |  verified  |  Notes  |
+|:--------------|:----------:|:-------:|
+|  74HC4053     |     Y      |  CMOS
+|  74HCT4053    |     n      |  TTL
+|  CD74HC4053   |     n      |
+|  CD4053BE     |     n      |  up to 20 Volts
+
+If you have experience with any variant, please let me know.
 
 
 ### Related

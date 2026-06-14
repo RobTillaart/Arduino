@@ -50,6 +50,8 @@ Finally the library supports setting and getting from the 10 **EEPROM** location
 Only 9 bits, so the values 0..511 are supported. 
 E.g. one could use these to store 5 x 2 wiper states or something more exciting.
 
+Feedback as always is welcome.
+
 
 ### Breaking changes 0.2.0
 
@@ -117,19 +119,20 @@ Table 4.1 from datasheet (p 29)
 
 Is this overview needed?
 
+
 ## Performance indication
 
 See performance example.
 
 Indicative times in microseconds, version 0.2.0
 
-|       |  function        |  1 MHz  |  2 MHz  |  4 MHz  |  8 MHz  |  SW SPI  |
-|:-----:|:-----------------|:-------:|:-------:|:-------:|:-------:|:--------:|
-|  UNO  |  setValue        |  34.4   |  26.4   |  22.3   |  20.3   |  312.5   |
-|  UNO  |  getValue        |   0.8   |   0.8   |   0.8   |   0.8   |    0.8   |
-|  UNO  |  getValueDevice  |  36.4   |  28.34  |  24.4   |  22.3   |  314.3   |
-|  UNO  |  incrValue       |  24.2   |  20.2   |  18.2   |  17.2   |  162.9   |
-|  UNO  |  decrValue       |  23.9   |  20.0   |  17.9   |  16.9   |  162.6   |
+|  board  |  function        |  1 MHz  |  2 MHz  |  4 MHz  |  8 MHz  |  SW SPI  |
+|:-------:|:-----------------|:-------:|:-------:|:-------:|:-------:|:--------:|
+|  UNO R3 |  setValue        |  34.4   |  26.4   |  22.3   |  20.3   |  312.5   |
+|  UNO R3 |  getValue        |   0.8   |   0.8   |   0.8   |   0.8   |    0.8   |
+|  UNO R3 |  getValueDevice  |  36.4   |  28.34  |  24.4   |  22.3   |  314.3   |
+|  UNO R3 |  incrValue       |  24.2   |  20.2   |  18.2   |  17.2   |  162.9   |
+|  UNO R3 |  decrValue       |  23.9   |  20.0   |  17.9   |  16.9   |  162.6   |
 
 Other boards might be added.
 

@@ -1,7 +1,7 @@
 //
 //    FILE: MCP4261.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-02-21
 // PURPOSE: Arduino library for MCP4261 SPI based digital potentiometers.
 //     URL: https://github.com/RobTillaart/MCP4261

@@ -2,8 +2,8 @@
 //
 //    FILE: HC4051.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.3.2
 //    DATE: 2023-01-25
-// VERSION: 0.3.1
 // PURPOSE: Arduino library for CD74HC4051 1 x 8 channel multiplexer and compatibles.
 //     URL: https://github.com/RobTillaart/HC4051
 
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define HC4051_LIB_VERSION         (F("0.3.1"))
+#define HC4051_LIB_VERSION         (F("0.3.2"))
 
 
 class HC4051

@@ -31,6 +31,9 @@ The channel selection is done with four select lines **A, B, C**
 
 The device can be enabled/disabled by the enable line **INH**
 
+Feedback as always is welcome.
+
+
 ### 0.3.0 breaking change
 
 Version 0.3.0 has a bugfix for **setChannel()** which obsolete all previous versions.
@@ -38,7 +41,20 @@ Version 0.3.0 has a bugfix for **setChannel()** which obsolete all previous vers
 
 ### Compatibles
 
-To elaborate.
+- https://assets.nexperia.com/documents/data-sheet/74HC_HCT4051.pdf
+
+Some compatible types, only one explicitly tested.
+Check data sheets for details.
+
+|  name         |  verified  |  Notes  |
+|:--------------|:----------:|:-------:|
+|  74HC4051     |     Y      |  CMOS
+|  74HCT4051    |     n      |  TTL
+|  CD74HC4051   |     n      |
+|  MC74HC4051A  |     n      |  up to 10 Volts
+|  CD4051BE     |     n      |  up to 20 Volts
+
+If you have experience with any variant, please let me know.
 
 
 ### Related

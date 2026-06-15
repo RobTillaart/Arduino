@@ -19,7 +19,7 @@ Arduino library to implement float16ext data type.
 
 This library defines the float16ext (2 byte) data type, including conversion
 function to and from float32 type. It is an extension to the float16 library.
-Reference -https://en.wikipedia.org/wiki/Half-precision_floating-point_format#ARM_alternative_half-precision
+Reference - https://en.wikipedia.org/wiki/Half-precision_floating-point_format#ARM_alternative_half-precision
 
 The primary usage of the float16ext data type is to efficiently store and transport
 a floating point number. As it uses only 2 bytes where float and double have typical
@@ -30,13 +30,12 @@ Note that float16ext only has ~3 significant digits.
 To print a float16, one need to convert it with toFloat(), toDouble() or toString(decimals). 
 The latter allows concatenation and further conversion to an char array.
 
-In pre 0.3.0 version the Printable interface was implemented, but it has been removed
-as it caused excessive memory usage when declaring arrays of float16.
+Feedback as always is welcome.
 
 
 ### ARM alternative half-precision
 
--https://en.wikipedia.org/wiki/Half-precision_floating-point_format#ARM_alternative_half-precision
+- https://en.wikipedia.org/wiki/Half-precision_floating-point_format#ARM_alternative_half-precision
 
 _ARM processors support (via a floating point control register bit) 
 an "alternative half-precision" format, which does away with the 
@@ -57,14 +56,18 @@ the largest positive, the largest negative and the largest positive number.
 
 The -0 and 0 values will both exist.
 
-
 Although they share a lot of code float16 and float16ext should not be mixed.
 In the future these libraries might merge / derive one from the other.
 
 
+### Breaking change 0.3.0
+
+Version 0.3.0 has fixed sign() which gave incorrect results for 0 and -0.
+
+
 ### Breaking change 0.2.0
 
-Version 0.3.0 has a breaking change. The **Printable** interface is removed as 
+Version 0.2.0 has a breaking change. The **Printable** interface is removed as 
 it causes larger than expected arrays of float 16 (See #16). On ESP8266 every
 float16 object was 8 bytes and on AVR it was 5 bytes instead of the expected 2 bytes.
 
@@ -81,6 +84,7 @@ This keeps printing relative easy.
 The footprint of the library is now smaller and one can now create compact array's
 of float16 elements using only 2 bytes per element.
 
+
 ## Specifications
 
 layout is same as float16, however the range is different.
@@ -94,6 +98,7 @@ layout is same as float16, however the range is different.
 |  minimum    |  ±5.96046 E−8   |  smallest number.
 |             |  ±1.0009765625  |  1 + 2^−10 = smallest number larger than 1.
 |  maximum    |  ±131008        |
+|  range      |                 |  12 orders of magnitude
 |             |                 |
 
 ± = ALT 0177
@@ -105,21 +110,22 @@ Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
 ```cpp
 /*
-   SIGN  EXP     MANTISSA
-    0    01111    0000000000 = 1
-    0    01111    0000000001 = 1 + 2−10 = 1.0009765625 (next smallest float after 1)
-    1    10000    0000000000 = −2
+   SIGN  EXPONENT     MANTISSA
+    0    01111        0000000000 = 1
+    0    01111        0000000001 = 1 + 2−10 = 1.0009765625 (next smallest float after 1)
+    1    10000        0000000000 = −2
 
-    0    11110    1111111111 = 65504  (max half precision)
+    0    11110        1111111111 = 65504   (max float16)
+    0    11111        1111111111 = 131008  (max float16ext)
 
-    0    00001    0000000000 = 2−14 ≈ 6.10352 × 10−5 (minimum positive normal)
-    0    00000    1111111111 = 2−14 - 2−24 ≈ 6.09756 × 10−5 (maximum subnormal)
-    0    00000    0000000001 = 2−24 ≈ 5.96046 × 10−8 (minimum positive subnormal)
+    0    00001        0000000000 = 2−14 ≈ 6.10352 × 10−5 (minimum positive normal)
+    0    00000        1111111111 = 2−14 - 2−24 ≈ 6.09756 × 10−5 (maximum subnormal)
+    0    00000        0000000001 = 2−24 ≈ 5.96046 × 10−8 (minimum positive subnormal)
 
-    0    00000    0000000000 = 0
-    1    00000    0000000000 = −0
+    0    00000        0000000000 = 0
+    1    00000        0000000000 = −0
 
-    0    01101    0101010101 = 0.333251953125 ≈ 1/3
+    0    01101        0101010101 = 0.333251953125 ≈ 1/3
 */
 ```
 
@@ -129,6 +135,7 @@ Source: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 - https://github.com/RobTillaart/float16
 - https://github.com/RobTillaart/float16ext
 - https://github.com/RobTillaart/fraction
+- https://github.com/RobTillaart/printHelpers - scientific format a.o.
 - https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 
 

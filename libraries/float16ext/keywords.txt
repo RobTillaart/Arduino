@@ -12,7 +12,6 @@ toString	KEYWORD2
 getBinary	KEYWORD2
 setBinary	KEYWORD2
 
-
 sign	KEYWORD2
 isZero	KEYWORD2
 

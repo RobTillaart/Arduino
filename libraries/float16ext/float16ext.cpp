@@ -1,7 +1,7 @@
 //
 //    FILE: float16ext.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.3.0
 //    DATE: 2024-03-06
 // PURPOSE: library for Float16s for Arduino
 //     URL: http://en.wikipedia.org/wiki/Half-precision_floating-point_format
@@ -151,9 +151,12 @@ float16ext& float16ext::operator /= (const float16ext &f)
 //
 int float16ext::sign()
 {
-  if (_value & 0x8000) return -1;
-  if (_value & 0xFFFF) return 1;
-  return 0;
+  //  zero test matches 0x8000 too
+  if ((_value & 0x7FFF) == 0x0000) return 0;
+  //  positive test including positive infinity 
+  if (_value <= 0x7FFF) return 1;
+  //  remaining is negative
+  return -1;
 }
 
 bool float16ext::isZero()

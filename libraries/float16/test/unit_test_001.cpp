@@ -95,6 +95,28 @@ unittest(test_sizeof)
 }
 
 
+unittest(test_sign)
+{
+  float16 a(0);
+  assertEqual( 0, a.sign());
+  
+  a.setBinary(0x0000);  //  +0
+  assertEqual( 0, a.sign());
+  a.setBinary(0x8000);  //  -0
+  assertEqual( 0, a.sign());
+  
+  a.setBinary(0x0100);
+  assertEqual( 1, a.sign());
+  a.setBinary(0x8100);
+  assertEqual(-1, a.sign());
+  
+  a.setBinary(0x7C00);  //  positive infinity
+  assertEqual( 1, a.sign());
+  a.setBinary(0xFC00);  //  negative infinity
+  assertEqual(-1, a.sign());
+}
+
+
 unittest(test_compare_equal)
 {
   float16 a(1);

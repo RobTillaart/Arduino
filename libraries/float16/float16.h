@@ -2,7 +2,7 @@
 //
 //    FILE: float16.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2015-03-10
 // PURPOSE: Arduino library to implement float16 data type.
 //          half-precision floating point format,
@@ -12,7 +12,7 @@
 
 #include "Arduino.h"
 
-#define FLOAT16_LIB_VERSION                 (F("0.3.1"))
+#define FLOAT16_LIB_VERSION                 (F("0.4.0"))
 
 
 class float16

@@ -42,6 +42,20 @@ void setup()
 
   Serial.println("Start ");
 
+  //  //  sign test
+  //  float16 a(0);
+  //  Serial.println(a.sign());
+  //  Serial.println(a.getBinary(), HEX);
+  //  a.setBinary(0x8000);
+  //  Serial.println(a.sign());
+  //  a.setBinary(0x0000);
+  //  Serial.println(a.sign());
+  //  a.setBinary(0x8100);
+  //  Serial.println(a.sign());
+  //  a.setBinary(0x0100);
+  //  Serial.println(a.sign());
+  //  while (1);
+
   Serial.println();
 
   test_constructors();
@@ -133,7 +147,7 @@ void test_numbers()
   float16 c(1 / 2000.0);
   Serial.println(c.toDouble(), 9);
 
-  c = 1/3.0;
+  c = 1 / 3.0;
   Serial.println(c.toDouble(), 9);
 
   float16 d(1);

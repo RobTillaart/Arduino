@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test float16 size
 //     URL: https://github.com/RobTillaart/float16
-//  See #12
+//          See issue #12
 
 #include "Arduino.h"
 #include "float16.h"
@@ -35,7 +35,7 @@ void setup()
   Serial.println(sizeof(test32[0]));
   Serial.println();
 
-  // set some values to make sure the compiler doesn't optimise out the arrays.
+  //  set some values to make sure the compiler doesn't optimise out the arrays.
   test16[5] = 32;
   test32[4] = 32;
 

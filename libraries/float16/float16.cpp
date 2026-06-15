@@ -1,7 +1,7 @@
 //
 //    FILE: float16.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.4.0
 //    DATE: 2015-03-10
 // PURPOSE: library for Float16s for Arduino
 //     URL: http://en.wikipedia.org/wiki/Half-precision_floating-point_format
@@ -43,6 +43,7 @@ String float16::toString(unsigned int decimals) const
 //
 bool float16::operator == (const float16 &f)
 {
+  //  if ((_value & 0x7FFF) == 0x0000) return (f._value & 0x7FFF) == 0x0000;
   return (_value == f._value);
 }
 
@@ -151,9 +152,12 @@ float16& float16::operator /= (const float16 &f)
 //
 int float16::sign()
 {
-  if (_value & 0x8000) return -1;
-  if (_value & 0xFFFF) return 1;
-  return 0;
+  //  zero test matches 0x8000 too
+  if ((_value & 0x7FFF) == 0x0000) return 0;
+  //  positive test including positive infinity 
+  if (_value <= 0x7FFF) return 1;
+  //  remaining is negative
+  return -1;
 }
 
 bool float16::isZero()
@@ -225,7 +229,7 @@ float float16::f16tof32(uint16_t _value) const
 
 uint16_t float16::f32tof16(float f) const
 {
-  uint32_t t = *(uint32_t *) &f;
+  uint32_t t = *((uint32_t *) &f);
   //  man bits = 10; but we keep 11 for rounding
   uint16_t man = (t & 0x007FFFFF) >> 12;
   int16_t  exp = (t & 0x7F800000) >> 23;

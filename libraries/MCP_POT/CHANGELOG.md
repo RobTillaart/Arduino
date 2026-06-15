@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.2.4] - 2026-06-16
+- update GitHub actions
+- minor edits
+
 ## [0.2.3] - 2025-10-13
 - update GitHub actions
 - update examples
@@ -26,7 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.2.0] - 2024-01-19
-- Fix #2, improve SPI dependency.
+- fix #2, improve SPI dependency.
 
 ----
 

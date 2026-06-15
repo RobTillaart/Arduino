@@ -16,8 +16,6 @@ Arduino library for MCP41xxx and MCP42xxx SPI based digital potentiometers.
 
 ## Description
 
-**Experimental**
-
 The MCP_POT library implements access to MCP digital potentiometers.
 These devices have 1 or 2 potentiometers, 10 KΩ, 50 KΩ and 100 KΩ and communicates over SPI.
 The library supports both hardware SPI and software SPI.
@@ -38,6 +36,8 @@ This might be implemented in the future.
 Alt-234 = Ω
 
 The library allows manual override of the HW and SW SPI clock speed (different ways).
+
+Feedback as always is welcome.
 
 
 ### Rheostat mode
@@ -113,9 +113,10 @@ For MCP41xxx this means just single potmeter, for MCP42xxx both.
 Note that the MCP41xxx only accepts pm == 0.
 - **uint8_t getValue(uint8_t pm = 0)**
 
+
 ### Experimental Ohm interface
 
-The experimental Ohm interface is a wrapper around **setVale()** et al.
+The experimental Ohm interface is a wrapper around **setValue()** et al.
 It can be used to adjust the value in an SI unit kind of way.
 It allows you to set the maximum resistance more exact.
 
@@ -172,10 +173,10 @@ The SPI code is based upon my MCP_ADC library.
 The default SPI speed is reduced to 1 MHz. 
 This is the value recommended in the datasheet for 2.7 Volt.
 
-|  Board  |  Voltage  |  Safe   |   Max   |
-|:-------:|:---------:|:-------:|:-------:|
-|  ESP32  |   2.7V    |  1 MHz  |  4 MHz  |
-|  UNO    |   5.0V    |  2 MHz  |  4 MHz  |
+|  Board   |  Voltage  |  Safe   |   Max   |
+|:--------:|:---------:|:-------:|:-------:|
+|  ESP32   |   2.7V    |  1 MHz  |  4 MHz  |
+|  UNO R3  |   5.0V    |  2 MHz  |  4 MHz  |
 
 For hardware SPI the ESP32 uses the VSPI pins. (see ESP examples).
 
@@ -230,7 +231,7 @@ updated too. However the device allows a **NONE** command, see figure 5.2.
 
 #### Could
 
-- improve SWSPI for AVR (code is under test for MCP23S17)
+- improve SWSPI for AVR (see MCP23S17)
 - percentage interface (another wrapper).
 - free format wrapper - user can define units is more flex
   - **setMaxUnit(float mu)**, **setUnit(float unit)**, **getUnit()** etc.

@@ -30,17 +30,20 @@ setHold	KEYWORD2
 getHoldTemp	KEYWORD2
 
 reset	KEYWORD2
-iterationsLeft	KEYWORD2
 process	KEYWORD2
+
+iterationsLeft	KEYWORD2
+iterationsTotal	KEYWORD2
+timeLeft	KEYWORD2
+timeIteration	KEYWORD2
+timeTotal	KEYWORD2
+getPCRState	KEYWORD2
 
 heat	KEYWORD2
 cool	KEYWORD2
 off	KEYWORD2
 setHeatPulseLength	KEYWORD2
 getHeatPulseLength	KEYWORD2
-
-timeLeft	KEYWORD2
-getPCRState	KEYWORD2
 
 setSignalLength	KEYWORD2
 getSignalLength	KEYWORD2

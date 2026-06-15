@@ -16,9 +16,6 @@ Arduino library for PCR process control.
 
 ## Description
 
-
-**Experimental**
-
 From Wikipedia:
 
 _The polymerase chain reaction (PCR) is a method widely used to make millions to 
@@ -32,9 +29,26 @@ main PCR cycles.
 In short a PCR cycle is a process of controlled heating and cooling to let DNA "reproduce"
 to get large quantities. Roughly the amount doubles in every cycle (of step 2, 3, 4).
 
+Furthermore the library can roughly calculate how much time is left until all the PCR
+cycles are done.
+
+Feedback as always is welcome.
+
+
+### Warning
+
+This library should be able to do a decent PCR job (heating cooling cycles) as intended. 
+However it is not developed as a replacement for professional laboratory equipment.
+Furthermore its working also depends on the quality and accuracy of the used heating 
+and cooling equipment, PCR liquids etc.
+
+In short, use with care. 
+
+
 ### Steps
 
-This process exists of repeated cycles of the three main steps. (times and temp from Wikipedia)
+The PCR process exists of repeated cycles of the three main steps. 
+The time range and temperature mentioned are based upon Wikipedia.
 
 | step | cycle |  name           |  temperature range    |  time range  |  notes  |
 |:----:|:-----:|:----------------|:----------------------|:------------:|:--------|
@@ -98,32 +112,50 @@ This latter can be an DS18B20 especially the waterproof version.
      +---------------+                    +---------------+
 ```
 
+(X) can be a buzzer of a LED.
+
 
 ### Other applications
 
 The PCR class can be used to manage other temperature control processes.
 Some examples:
 - control an oven with a thermocouple, (e.g. glass melting)
-- control the temperature of a tropic aquarium to simulate day and night.
-- control an ice making machine.
+- control the temperature of an aquarium to simulate day and night.
+- making perfect home made ice.
+- making chocolate 
+- boiling the ideal egg :)
+
+
+### Breaking change 0.5.0
+
+In issue #5 it is stated that reset(0) does not work correctly.
+It did not test for zero at the start and it decremented (underflow)
+before testing. 
+
+Version 0.5.0 improved the timing accuracy, removing a drift 
+of about 0.1%. 
+
+This fix makes pre 0.5.0 versions obsolete.
 
 
 ### Breaking change 0.3.0
 
 Since 0.3.0 the timing of the 6 steps is done in seconds instead of milliseconds.
 As the steps take up to 15 minutes of more, defining the time in seconds is a more
-natural order of magnitude than milliseconds.
+natural unit of magnitude than milliseconds.
 Note however that the internal math still is done in milliseconds so one can define
 a step as taking 15.75 seconds = 15750 milliseconds.
 
-Pre 0.3.0 versions are now obsolete.
+This fix makes pre 0.3.0 versions obsolete.
+
 
 ### Related
 
-- https://en.wikipedia.org/wiki/Polymerase_chain_reaction
-- https://github.com/RobTillaart/PCR
-- https://github.com/RobTillaart/Temperature  scale conversions.
-- https://github.com/RobTillaart/HeartBeat  to add "process is alive" indication
+- https://en.wikipedia.org/wiki/Polymerase_chain_reaction backgrounder
+- https://github.com/RobTillaart/PCR this library
+- https://github.com/RobTillaart/Temperature temperature scale conversions.
+- https://github.com/RobTillaart/HeartBeat to add "process is alive" indication
+- https://github.com/RobTillaart/printHelpers scientific notation a.o.
 - https://forum.arduino.cc/t/problem-with-arduino-pcr-amplifies-of-dna/314808 
 - https://www.scientificamerican.com/article/the-unusual-origin-of-the-polymeras/ (paid site)
 
@@ -138,7 +170,9 @@ Pre 0.3.0 versions are now obsolete.
 
 - **PCR(uint8_t heatPin, uint8_t coolPin, uint8_t signalPin = 255)** constructor defines the 
 hardware pins to which the heater and cooler are connected.
-Also defines a signal pin to connect a buzzer / LED to indicate phase transitions (heartbeat).
+Also defines a signal pin to connect a buzzer / LED to indicate phase transitions.
+You might think of the transitions as phase heart beats.
+
 
 ### PCR Process
 
@@ -146,27 +180,51 @@ Also defines a signal pin to connect a buzzer / LED to indicate phase transition
 resets the state to IDLE and defines the number of iterations for the next run.
 The parameter iterations must be >= 0 so it changed to unsigned int in 0.3.0.
 The process (re)starts by calling **process()**.
+Note when iterations is set to zero (0), state 2,3,4 are skipped.
 - **uint8_t process(float temperature)** The worker core. This function runs the main process 
-and iterates over the **DENATURE**, **ANNEALING** and **EXTENSION** phase. 
+and iterates over the **DENATURE**, **ANNEALING** and **EXTENSION** phases. 
 The function returns the current state.
 The user **MUST** provide the actual temperature of the sample so process can heat and cool
 the sample on a need to basis.  
-The user **MUST** call this function as often as possible in a tight loop. 
+The user **MUST** call this function as often as possible in a tight loop.
+
+|  nr  |  PCR state             |  Notes  |
+|:----:|:-----------------------|:--------|
+|   0  |  PCR_STATE_IDLE        |  set in reset()
+|   1  |  PCR_STATE_INITIAL     |  starts with first call to process()
+|   2  |  PCR_STATE_DENATURE    |
+|   3  |  PCR_STATE_ANNEALING   |
+|   4  |  PCR_STATE_EXTENSION   |
+|   5  |  PCR_STATE_ELONGATION  |  starts when no iterations are left
+|   6  |  PCR_STATE_HOLD        |  when done.
+
 
 ### State
 
-- **int iterationsLeft()** returns the number of iterations left.
-- **float timeLeft()** estimator of the time left to reach the HOLD state.
-Since 0.3.0 returns its value in seconds. 
-The function assumes it is at the start of a cycle.
-Furthermore it assumes that the duration per phase does not change runtime,
-however it will adapt its estimate after changes are made with a new call.
+- **uint16_t iterationsLeft()** returns the number of iterations left.
+- **uint16_t iterationsTotal()** total iterations set in **reset()**.
 - **uint8_t getPCRState()** returns current state.
 Note one cannot set the state, except by **reset()**.
 
+
+### Timing
+
+- **float timeLeft()** estimator of the time left to reach the HOLD state.
+Since 0.3.0 returns its value in seconds. 
+The function assumes it is at the start of an iteration.
+Furthermore it assumes that the duration per phase does not change runtime,
+however it will adapt its estimate after changes are made with a new call.
+- **float timeIteration()** duration in seconds of one iteration, DENATURE, ANNEALING plus EXTENSION time.
+- **float timeTotal()** duration of the total PCR job with current settings.
+The value is calculated in reset() call.
+
+One can use the **timeLeft()** and **timeTotal()** to calculate the 
+percentage done.
+
+
 ### About phases (state)
 
-Temperatures are defined in **°Celsius**, timing is in **seconds** (since 0.3.0 version).  
+Temperatures are defined in degrees **Celsius**, timing is in **seconds**.  
 
 The timing is the time that the process will be in this state, so it includes
 the time to heat / cool to reach the temperature defined.
@@ -292,18 +350,35 @@ Users can patch this function when needed, or make it empty.
 
 - improve documentation
   - description of the phases.
-- build hardware setup to test
 
 #### Should
 
-- investigate the blocking version
-  - void keepTempTime(temp, time, getTemperature());
+- build hardware setup to test (long runs)
+- investigate PCR scripting language?
+
 
 #### Could
 
-- PCR scripting language, simple example?
+- overload **setAnnealing(temp, hours = 0, minutes = 0, seconds = 0)**
+  - convenience
+  - idem for other functions.
+- investigate adding **setTempAccuracy(0.5)**
+  - to reduce switching heat / cool too often.
+- investigate split reset() => major break... 
+  - setIterations(uint16_t iterations); + getIterations();
+  - stop();
+  - start();
+- investigate runtime adjustment of iterations.
+  - get/setIterations() would be sufficient.
+- investigate the blocking version
+  - void keepTempTime(temp, time, getTemperature());
+- improve heartbeat (see it is still running)
+- add **getCoolPulseLength()**?
 - add examples
 - add stir pin, to control the stirring of the PCR device.
+  - different speed / direction per phase? 
+  - speed depending on temperature?
+  - decoupled from phases?
 - Elaborate debug() ?
   - void **debugStream(Stream str = &Serial)** define the stream used.
   - void **debugOn()** enable.

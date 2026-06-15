@@ -65,7 +65,7 @@ void setup()
 
 void loop()
 {
-  // One needs to call next two lines to ensure temperature in HOLD state
+  //  One needs to call next two lines to ensure temperature in HOLD state
   float temp = getTemperature();
   pcr.process(temp);
 

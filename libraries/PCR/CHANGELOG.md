@@ -6,9 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2026-06-14
+- fix #5, reset(0) bug
+- improved timing accuracy
+- add **float timeIteraton()**
+- add **float timeTotal()**
+- add **uint16_t iterationsTotal()**
+- add iterationsTotal() in debug() function = informative.
+- update readme.md
+- update GitHub actions
+- minor edits
+
+----
+
 ## [0.4.0] - 2025-10-14
 - add signalPin in constructor for feedback
-- add **void setSignalLength(uint16_t ms)** 
+- add **void setSignalLength(uint16_t ms)**
 - add **uint16_t getSignalLength()**
 - add **uint8_t getPCRState()**
 - catch unknown state in process() and debug() - (should not happen)

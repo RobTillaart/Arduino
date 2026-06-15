@@ -2,7 +2,7 @@
 //
 //    FILE: PCR.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.0
+// VERSION: 0.5.0
 //    DATE: 2015-06-10
 // PURPOSE: Arduino library for PCR process control.
 //     URL: https://github.com/RobTillaart/PCR
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define PCR_LIB_VERSION         (F("0.4.0"))
+#define PCR_LIB_VERSION         (F("0.5.0"))
 
 //  comment next line if no debug output is needed.
 #define PCR_DEBUG   1
@@ -98,8 +98,10 @@ public:
   void reset(uint16_t iterations)
   {
     _startTime = millis();
+    _iterations = iterations;
     _cycles = iterations;
     _state = PCR_STATE_IDLE;
+    _totalTime = timeLeft();
     off();
     debug();
   }
@@ -107,6 +109,11 @@ public:
   uint16_t iterationsLeft()
   {
     return _cycles;
+  }
+
+  uint16_t iterationsTotal()
+  {
+    return _iterations;
   }
 
 
@@ -130,7 +137,15 @@ public:
     switch(_state)
     {
       case PCR_STATE_IDLE:
-        _state = PCR_STATE_INITIAL;
+        if (_cycles > 0)
+        {
+          _state = PCR_STATE_INITIAL;
+        }
+        else
+        {
+          _state = PCR_STATE_ELONGATION;
+        }
+        _startTime = now;
       break;
 
       case PCR_STATE_INITIAL:
@@ -139,9 +154,9 @@ public:
         else off();
         if (now - _startTime >= _initialTime)
         {
+          _startTime += _initialTime;
           _state = PCR_STATE_DENATURE;
         }
-
       break;
 
       case PCR_STATE_DENATURE:
@@ -150,6 +165,7 @@ public:
         else off();
         if (now - _startTime >= _denatureTime)
         {
+          _startTime += _denatureTime;
           _state = PCR_STATE_ANNEALING;
         }
       break;
@@ -160,6 +176,7 @@ public:
         else off();
         if (now - _startTime >= _annealingTime)
         {
+          _startTime += _annealingTime;
           _state = PCR_STATE_EXTENSION;
         }
       break;
@@ -170,6 +187,7 @@ public:
         else off();
         if (now - _startTime >= _extensionTime)
         {
+          _startTime += _extensionTime;
           _cycles--;
           if (_cycles > 0) _state = PCR_STATE_DENATURE;
           else _state = PCR_STATE_ELONGATION;
@@ -182,6 +200,7 @@ public:
         else off();
         if (now - _startTime >= _elongationTime)
         {
+          _startTime += _elongationTime;
           _state = PCR_STATE_HOLD;
         }
       break;
@@ -199,7 +218,6 @@ public:
     //  new state ? => actions.
     if (prevState != _state)
     {
-      _startTime = now;
       if (_signalPulseLength > 0)
       {
         _pulse = true;
@@ -250,17 +268,32 @@ public:
     digitalWrite(_signalPin, LOW);
   }
 
-  //  estimator timeLeft, assumes process is not stopped.
+  //  estimator timeLeft
   //  returns value in seconds
   float timeLeft()
   {
     uint32_t sum = 0;
+    //  if RUNNING is done
+    if (_state == PCR_STATE_HOLD) return 0.0f;
+    //  if IDLE or RUNNING
     if (_state < PCR_STATE_DENATURE) sum += _initialTime;
     sum += _denatureTime  * _cycles;
     sum += _annealingTime * _cycles;
     sum += _extensionTime * _cycles;
     if (_state <= PCR_STATE_ELONGATION) sum += _elongationTime;
     return sum * 0.001f;
+  }
+
+
+  float timeTotal()
+  {
+    return _totalTime;
+  }
+
+  float timeIteraton()
+  {
+    uint32_t cycle = _denatureTime + _annealingTime + _extensionTime;
+    return cycle * 0.001f;
   }
 
   //  signal pulses at phase change.
@@ -284,8 +317,10 @@ protected:
 #ifdef PCR_DEBUG
     //  log for seeing state transitions.
     Serial.print(_startTime);
-    Serial.print("\t");
+    Serial.print('\t');
     Serial.print(_cycles);
+    Serial.print('/');
+    Serial.print(_iterations);
     //  use an array?
     if (_state == PCR_STATE_DENATURE)        Serial.println(F("\tDenature"));
     else if (_state == PCR_STATE_ANNEALING)  Serial.println(F("\tAnnealing"));
@@ -314,6 +349,7 @@ protected:
   float    _holdTemp = 14;
 
   float    _temperature = 0;
+  float    _totalTime = 0;
 
   //  IO pins
   uint8_t  _heatPin = 255;
@@ -322,6 +358,7 @@ protected:
 
   PCRSTATE _state = PCR_STATE_IDLE;
   uint16_t _cycles = 0;
+  uint16_t _iterations = 0;
   uint32_t _startTime = 0;
   uint16_t _heatPulseLength = 10;  //  milliseconds
 

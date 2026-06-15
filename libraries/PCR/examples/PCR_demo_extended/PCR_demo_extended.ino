@@ -46,7 +46,7 @@ void setup()
     pcr.process(temp);
   }
 
-  Serial.println("PCR done");
+  Serial.println("\nPCR done");
 }
 
 

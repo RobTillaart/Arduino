@@ -1,7 +1,7 @@
 //
 //    FILE: TCA9548.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2021-03-16
 // PURPOSE: Arduino Library for TCA9548 I2C multiplexer and compatibles.
 

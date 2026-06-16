@@ -1,0 +1,48 @@
+# Syntax Colouring Map For M5SWITCH8
+
+# Data types (KEYWORD1)
+M5SWITCH8	KEYWORD1
+M5BUTTON8	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+readAll	KEYWORD2
+readSwitch	KEYWORD2
+readButton	KEYWORD2
+
+setBrightness	KEYWORD2
+getBrightness	KEYWORD2
+
+setMode	KEYWORD2
+getMode	KEYWORD2
+
+setColor	KEYWORD2
+getColor	KEYWORD2
+
+setOffColor	KEYWORD2
+getOffColor	KEYWORD2
+setOnColor	KEYWORD2
+getOnColor	KEYWORD2
+
+enableInterrupts	KEYWORD2
+disableInterrupts	KEYWORD2
+isEnabled	KEYWORD2
+
+writeToFlash	KEYWORD2
+
+getFirmwareVersion	KEYWORD2
+setAddress	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+M5SWITCH8_LIB_VERSION	LITERAL1
+
+M5SWITCH8_OK	LITERAL1
+M5SWITCH8_NO_DATA	LITERAL1
+M5SWITCH8_REQUEST_ERROR	LITERAL1

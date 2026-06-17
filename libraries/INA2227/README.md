@@ -53,6 +53,11 @@ _This library and documentation is based upon the INA236 and INA228 library,
 and may contain information not updated (or removed) yet.
 Please open an issue if needed._
 
+### 0.1.1
+
+Fixes #2 the register addresses for POWER and CURRENT. 
+This fix obsoletes 0.1.0.
+
 
 ### Special characters
 

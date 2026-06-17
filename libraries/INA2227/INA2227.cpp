@@ -1,6 +1,6 @@
 //    FILE: INA2227.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-05-18
 // PURPOSE: Arduino library for the INA2227, I2C, 16 bit, dual channel, voltage, current, power and energy sensor.
 //     URL: https://github.com/RobTillaart/INA2227
@@ -11,11 +11,11 @@
 #include "INA2227.h"
 
 
-//  REGISTERS                              ADDR  (+8 for channel 1)
+//  REGISTERS                              ADDRESS  (+8 for channel 1)
 #define INA2227_SHUNT_VOLTAGE              0x00
 #define INA2227_BUS_VOLTAGE                0x01
-#define INA2227_POWER                      0x02
-#define INA2227_CURRENT                    0x03
+#define INA2227_CURRENT                    0x02
+#define INA2227_POWER                      0x03
 #define INA2227_ENERGY                     0x04
 #define INA2227_CALIBRATION                0x05
 #define INA2227_ALERT_LIMIT                0x06

@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA2227.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-05-18
 // PURPOSE: Arduino library for the INA2227, I2C, 16 bit, dual channel, voltage, current, power and energy sensor.
 //     URL: https://github.com/RobTillaart/INA2227
@@ -17,7 +17,7 @@
 //  FEEDBACK WELCOME
 
 
-#define INA2227_LIB_VERSION                (F("0.1.0"))
+#define INA2227_LIB_VERSION                (F("0.1.1"))
 
 
 //  set by setAlertRegister

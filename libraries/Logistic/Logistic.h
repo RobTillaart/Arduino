@@ -2,7 +2,7 @@
 //
 //    FILE: logistic.h
 //  AUTHOR: Rob.Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2024-01-03
 // PURPOSE: Arduino library to explore the logistic formula. (chaos, bifurcation)
 //     URL: https://github.com/RobTillaart/Logistic
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define LOGISTIC_LIB_VERSION      (F("0.2.0"))
+#define LOGISTIC_LIB_VERSION      (F("0.2.1"))
 
 //  https://en.wikipedia.org/wiki/Feigenbaum_constants
 const double FEIGENBAUM = 4.66920160910299067185320382046620161;

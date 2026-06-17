@@ -1,7 +1,7 @@
 //
 //    FILE: CHT8310.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-02-04
 // PURPOSE: Arduino library for CHT8310 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8310
@@ -11,22 +11,22 @@
 
 
 //  REGISTERS
-#define CHT8310_REG_TEMPERATURE          0x00
-#define CHT8310_REG_HUMIDITY             0x01
-#define CHT8310_REG_STATUS               0x02
-#define CHT8310_REG_CONFIG               0x03
-#define CHT8310_REG_CONVERT_RATE         0x04
-#define CHT8310_REG_TEMP_HIGH_LIMIT      0x05
-#define CHT8310_REG_TEMP_LOW_LIMIT       0x06
-#define CHT8310_REG_HUM_HIGH_LIMIT       0x07
-#define CHT8310_REG_HUM_LOW_LIMIT        0x08
-#define CHT8310_REG_ONESHOT              0x0F
+constexpr uint8_t CHT8310_REG_TEMPERATURE     = 0x00;
+constexpr uint8_t CHT8310_REG_HUMIDITY        = 0x01;
+constexpr uint8_t CHT8310_REG_STATUS          = 0x02;
+constexpr uint8_t CHT8310_REG_CONFIG          = 0x03;
+constexpr uint8_t CHT8310_REG_CONVERT_RATE    = 0x04;
+constexpr uint8_t CHT8310_REG_TEMP_HIGH_LIMIT = 0x05;
+constexpr uint8_t CHT8310_REG_TEMP_LOW_LIMIT  = 0x06;
+constexpr uint8_t CHT8310_REG_HUM_HIGH_LIMIT  = 0x07;
+constexpr uint8_t CHT8310_REG_HUM_LOW_LIMIT   = 0x08;
+constexpr uint8_t CHT8310_REG_ONESHOT         = 0x0F;
 
-#define CHT8310_REG_SWRESET              0xFC
-#define CHT8310_REG_MANUFACTURER         0xFF
+constexpr uint8_t CHT8310_REG_SWRESET         = 0xFC;
+constexpr uint8_t CHT8310_REG_MANUFACTURER    = 0xFF;
 
 
-/////////////////////////////////////////////////////
+//;///////////////////////////////////////////////////
 //
 // PUBLIC
 //

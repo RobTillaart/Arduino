@@ -25,7 +25,7 @@
 
 #include "CHT8310.h"
 
-CHT8310 CHT(0x40);   //  CHT8310_DEFAULT_ADDRESS = 0x40 TODO
+CHT8310 CHT(0x40);
 
 
 void setup()
@@ -40,7 +40,7 @@ void setup()
   Wire.begin();
   Wire.setClock(100000);
   CHT.begin();
-  CHT.setConvertRate(7);  // fastest, expect more noisy readings
+  CHT.setConvertRate(7);  //  fastest, expect more noisy readings
 
   delay(1000);
 }
@@ -48,7 +48,7 @@ void setup()
 
 void loop()
 {
-  //  READ DATA at full speed to show "noisyness"
+  //  READ DATA at full speed to show "noisiness"
   CHT.read();
 
   Serial.print(millis());

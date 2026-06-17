@@ -2,7 +2,7 @@
 //
 //    FILE: CHT8310.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 //    DATE: 2024-02-04
 // PURPOSE: Arduino library for CHT8310 temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/CHT8310
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define CHT8310_LIB_VERSION              (F("0.2.1"))
+#define CHT8310_LIB_VERSION              (F("0.2.2"))
 
 
 //  DEFAULT ADDRESS

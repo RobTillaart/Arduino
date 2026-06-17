@@ -18,11 +18,11 @@ Arduino library for CHT8310 temperature and humidity sensor.
 
 **Experimental**
 
-This library is **experimental** and implements a minimal subset of the functionality of the sensor.
-Version 0.1.0 includes reading the temperature and humidity register and the manufacturer-ID register.
+This library is experimental and implements a minimal subset of the functionality of the sensor.
+The library includes reading the temperature and humidity register and the manufacturer-ID register.
 Furthermore one can set an offset for temperature and humidity.
 
-Version 0.1.0 does support reading or writing other registers by generic wrappers.
+The library supports reading or writing other registers by generic wrappers.
 Read the datasheet for the register details.
 
 |  sensor       |  range        |  accuracy\*  |  resolution  |
@@ -38,10 +38,12 @@ which is a simpler and unfortunately not an compatible sensor.
 
 If you are able to test this library, please share your experiences.
 
+Feedback as always is welcome.
+
 
 ### Tests
 
-Many initial tests performed by YouCanNotBeSerious. Thanks.
+Many initial tests are performed by YouCanNotBeSerious (issue #3). Thanks!!
 
 
 ### Related
@@ -258,7 +260,7 @@ See also **getStatusRegister()**
 
 Check datasheet for details.
 
-- ** uint16_t getStatusRegister()**
+- **uint16_t getStatusRegister()**
 
 |  bit  |  name   | description  |
 |:-----:|:-------:|:-------------|

@@ -27,7 +27,7 @@
 
 //  check all valid addresses
 //  if not connected ==> fail
-CHT8310 CHT(0x40);    //  CHT8310_DEFAULT_ADDRESS = 0x40
+CHT8310 CHT(0x40);
 CHT8310 CHT1(0x44);
 CHT8310 CHT2(0x48);
 CHT8310 CHT3(0x4C);

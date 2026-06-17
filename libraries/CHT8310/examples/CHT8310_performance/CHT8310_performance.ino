@@ -25,7 +25,7 @@
 
 #include "CHT8310.h"
 
-CHT8310 CHT(0x40);   //  CHT8310_DEFAULT_ADDRESS = 0x40 TODO
+CHT8310 CHT(0x40);
 uint32_t start, stop;
 
 void setup()

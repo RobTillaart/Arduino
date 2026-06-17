@@ -19,7 +19,7 @@ Arduino library for calculating skewness and kurtosis of a dataset  (statistics)
 **Experimental**
 
 This library was written after a request how to calculate the kurtosis of a histogram.
-Diving into this question I learned Kurtosis is a statistical metric, somewhat 
+Diving into this question I learned kurtosis is a statistical metric, somewhat 
 related to the skewness ("is balanced") of that data set.
 The goal or kurtosis is to detect outliers (as far as I understand) in the data set.
 
@@ -81,7 +81,7 @@ First order interpretation.
 
 ## Performance
 
-Time in us, platform UNO, 
+Time in us, platform UNO R3, 
 
 0.0.0 is non optimized version.
 

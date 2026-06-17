@@ -1,5 +1,5 @@
 //
-//    FILE: const.ino
+//    FILE: complex_const.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-11-15
 // PURPOSE: test complex math - https://github.com/RobTillaart/Complex/issues/7

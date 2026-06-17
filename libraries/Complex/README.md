@@ -23,6 +23,8 @@ These functions include basic = "+ - \* /" and also power and goniometric functi
 The library implements the **Printable** interface so one can directly print the complex values
 in any stream e.g. Serial.
 
+Feedback as always is welcome.
+
 
 ## Interface
 
@@ -37,9 +39,10 @@ Reasons are memory and performance, see also Future section below.
 
 The library implements the constant **one** as this value is often used in the code.
 
+
 ## Note
 
-The library has a big footprint so it fills up the memory of an UNO quite fast,
+The library has a big footprint so it fills up the memory of an UNO R3 quite fast,
 especially if all functionality is used.
 
 

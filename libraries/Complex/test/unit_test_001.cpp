@@ -2,7 +2,7 @@
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-12-16
-// PURPOSE: unit tests for the Complex datatype Library
+// PURPOSE: unit tests for the Complex data type Library
 //          https://github.com/RobTillaart/Complex
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //

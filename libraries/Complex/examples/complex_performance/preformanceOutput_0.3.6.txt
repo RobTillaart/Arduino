@@ -1,0 +1,73 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+
+COMPLEX_LIB_VERSION: 0.3.6
+
+  Complex numbers performance test for Arduino: 
+
+5 constructors	8
+set(0,0)	0
+c1 + 1  	1836
+c1 + c2		1840
++= c2		1468
+c5 = -c1	628
+c1 - 3		1308
+c1 - c2		1916
+c5 -= c2	1456
+c1 * 3		5652
+c1 * c2		5520
+c5 *= c2	4328
+c1 / 3		12276
+c1 / c2		12152
+c5 /= c2	6260
+
+real()		4
+imag()		4
+modulus()	5764
+phase		188
+polar()		244
+conjugate()	616
+reciprocal();	7916
+
+c_sqr()		4544
+c_exp()		42508
+c_log()		39556
+c_pow(2)	88292
+c_sqrt()	8436
+c_logn(c4)	72564
+c_pow(c5)	61796
+c_log10()	40692
+
+c_sin()		57860
+c_asin()	75464
+c_cos()		57988
+c_acos()	73888
+c_tan()		129068
+c_atan()	66780
+
+c_csc()		70272
+c_acsc()	85732
+c_sec()		70344
+c_asec()	87456
+c_cot()		141572
+c_acot()	74332
+
+c_sinh()	57860
+c_asinh()	64528
+c_cosh()	57984
+c_acosh()	62124
+c_tanh()	129064
+c_atanh()	91292
+
+c_csch()	70344
+c_acsch()	66376
+c_sech()	70336
+c_asech()	77468
+c_coth()	141496
+c_acoth()	98452
+
+2332388
+
+.. Complex done
+

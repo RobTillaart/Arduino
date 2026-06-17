@@ -1,7 +1,7 @@
 //
 //    FILE: Complex.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.5
+// VERSION: 0.3.6
 //    DATE: 2013-09-23
 // PURPOSE: Arduino library for Complex math
 //     URL: https://github.com/RobTillaart/Complex

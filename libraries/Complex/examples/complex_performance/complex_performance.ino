@@ -1,7 +1,6 @@
 //
 //    FILE: performance.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2013-09-23
 // PURPOSE: test complex math
 //     URL: https://github.com/RobTillaart/Complex
 //
@@ -22,7 +21,7 @@ void setup()
   Serial.print("COMPLEX_LIB_VERSION: ");
   Serial.println(COMPLEX_LIB_VERSION);
   Serial.println();
-  Serial.print("  Complex numbers performance test for Arduino: ");
+  Serial.println("  Complex numbers performance test for Arduino");
   delay(100);
 
   start = micros();

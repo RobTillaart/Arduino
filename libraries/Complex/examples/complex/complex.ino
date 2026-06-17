@@ -1,7 +1,6 @@
 //
 //    FILE: complex.ino
 //  AUTHOR: Rob Tillaart
-//    DATE: 2013-09-23
 // PURPOSE: demo complex
 //     URL: https://github.com/RobTillaart/Complex
 //
@@ -217,7 +216,7 @@ void setup()
   c2 = c2 * c2;
   c3 = c1.c_cos();
   c3 = c3 * c3;
-  Serial.println(c2 + c3);   // should print 1, 0i
+  Serial.println(c2 + c3);   //  should print 1, 0i
 
   Serial.println("\n.. Complex done");
 

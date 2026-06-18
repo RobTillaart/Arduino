@@ -52,6 +52,8 @@ or the HEX equivalent **LOGIC.setTable(0x16)** to set the truth table.
 The **neval()** function can be used to differentiate between the cases that would return true.
 In code one could use this for e.g. a switch case. 
 
+Feedback as always is welcome.
+
 
 ### Related
 
@@ -100,10 +102,10 @@ Note this table can be changed runtime to another value.
 
 ### Eval
 
-The eval(...) functions do a lookup in the configured truth table and 
+The **eval(...)** functions do a lookup in the configured truth table and 
 if the combination equals 1, it returns true.
 
-Note: the parameters must always be evaluated in the same order.
+Note: the parameters **must** always be evaluated in the same order.
 
 - **bool eval(bool a, bool b)**
 - **bool eval(bool a, bool b, bool c)**
@@ -115,11 +117,11 @@ Note: the parameters must always be evaluated in the same order.
 
 neval = numeric eval.
 
-The neval(...) functions do a lookup in truth table and if the combination equals 1, 
+The **neval(...)** functions do a lookup in truth table and if the combination equals 1, 
 it returns its numeric value, and **0xFFFF** otherwise. 
 This makes it useful if you need to handle different cases with the same N booleans expressions.
 
-Note: the parameters must always be evaluated in the same order.
+Note: the parameters **must** always be evaluated in the same order.
 
 - **uint16_t neval(bool a, bool b)** Can return {0,1,2,3, 0xFFFF}
 - **uint16_t neval(bool a, bool b, bool c)** Can return {0,1,2,3...7, 0xFFFF}
@@ -147,9 +149,13 @@ Helper function made public.
 
 - investigate how to support more than five bool expressions.
   - split in 2 LOGIC parts to handle 10? does that work? (would allow short circuit eval).
+    works only if eval_1(...) == true is needed for all eval_2(...)
   - array of booleans + array of bits for the answers?
-  - how many bool expressions max? 8? 10? 16?
-  - 4 bytes support 5 expressions. 8 bytes will support 6... 32 bytes support 8. grows exponential.
+  - how many bool expressions max? 8? 10? 16? Grows exponential!
+    - 4 bytes support 5 expressions. 
+    - 8 bytes will support 6 expressions. 
+    - 16 bytes will support 7 expressions. 
+    - 32 bytes support 8 expressions. 
   - or another strategy, sparse true list, uses uint16_t per true, scales linear.
 
 

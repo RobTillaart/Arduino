@@ -1,14 +1,14 @@
 //
 //    FILE: logic_neval.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic behaviour 
+// PURPOSE: test basic behaviour
 //     URL: https://github.com/RobTillaart/logic
 //
-//  in this sketch there are three conditions and 
+//  in this sketch there are three conditions and
 //  there are two out of 8 combinations that need action.
 //  The neval() function converts the bools to the index of the truth table
 //  which can be used in a switch() statement.
- 
+
 
 #include "logic.h"
 
@@ -42,7 +42,7 @@ void loop()
   Serial.print(b);
   Serial.print(c);
   Serial.print("\t");
-  
+
   switch (LGC.neval(a, b, c))
   {
     case 4:  //  handle case 100

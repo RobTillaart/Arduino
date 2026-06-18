@@ -86,7 +86,49 @@ void setup()
   Serial.println(LGC.eval(1, 1, 1, 0, 1));
   Serial.println(LGC.eval(1, 1, 1, 1, 0));
   Serial.println(LGC.eval(1, 1, 1, 1, 1));
+
+  LGC.setTable(0x0117177F);
+  Serial.println("\nTEST 5 bit - at least 3 out of 5");
+  Serial.println(LGC.eval(0, 0, 0, 0, 0));
+  Serial.println(LGC.eval(0, 0, 0, 0, 1));
+  Serial.println(LGC.eval(0, 0, 0, 1, 0));
+  Serial.println(LGC.eval(0, 0, 0, 1, 1));
   
+  Serial.println(LGC.eval(0, 0, 1, 0, 0));
+  Serial.println(LGC.eval(0, 0, 1, 0, 1));
+  Serial.println(LGC.eval(0, 0, 1, 1, 0));
+  Serial.println(LGC.eval(0, 0, 1, 1, 1));
+  
+  Serial.println(LGC.eval(0, 1, 0, 0, 0));
+  Serial.println(LGC.eval(0, 1, 0, 0, 1));
+  Serial.println(LGC.eval(0, 1, 0, 1, 0));
+  Serial.println(LGC.eval(0, 1, 0, 1, 1));
+  
+  Serial.println(LGC.eval(0, 1, 1, 0, 0));
+  Serial.println(LGC.eval(0, 1, 1, 0, 1));
+  Serial.println(LGC.eval(0, 1, 1, 1, 0));
+  Serial.println(LGC.eval(0, 1, 1, 1, 1));
+  
+  Serial.println(LGC.eval(1, 0, 0, 0, 0));
+  Serial.println(LGC.eval(1, 0, 0, 0, 1));
+  Serial.println(LGC.eval(1, 0, 0, 1, 0));
+  Serial.println(LGC.eval(1, 0, 0, 1, 1));
+  
+  Serial.println(LGC.eval(1, 0, 1, 0, 0));
+  Serial.println(LGC.eval(1, 0, 1, 0, 1));
+  Serial.println(LGC.eval(1, 0, 1, 1, 0));
+  Serial.println(LGC.eval(1, 0, 1, 1, 1));
+  
+  Serial.println(LGC.eval(1, 1, 0, 0, 0));
+  Serial.println(LGC.eval(1, 1, 0, 0, 1));
+  Serial.println(LGC.eval(1, 1, 0, 1, 0));
+  Serial.println(LGC.eval(1, 1, 0, 1, 1));
+  
+  Serial.println(LGC.eval(1, 1, 1, 0, 0));
+  Serial.println(LGC.eval(1, 1, 1, 0, 1));
+  Serial.println(LGC.eval(1, 1, 1, 1, 0));
+  Serial.println(LGC.eval(1, 1, 1, 1, 1));
+
 }
 
 

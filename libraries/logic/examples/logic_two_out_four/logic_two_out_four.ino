@@ -23,7 +23,7 @@ void setup()
   //  LGC.setTable(0b0001011001101000);
   LGC.setTable(0x1668);
   Serial.println("\nTEST exact two out of four (0x1668)");
-  Serial.println(LGC.eval(0, 0, 0, 0)); 
+  Serial.println(LGC.eval(0, 0, 0, 0));
   Serial.println(LGC.eval(0, 0, 0, 1));
   Serial.println(LGC.eval(0, 0, 1, 0));
   Serial.println(LGC.eval(0, 0, 1, 1));
@@ -43,7 +43,7 @@ void setup()
   //  LGC.setTable(0b1111111011101000);
   LGC.setTable(0xFEE8);
   Serial.println("\nTEST at least two out of four (0xFEE8)");
-  Serial.println(LGC.eval(0, 0, 0, 0)); 
+  Serial.println(LGC.eval(0, 0, 0, 0));
   Serial.println(LGC.eval(0, 0, 0, 1));
   Serial.println(LGC.eval(0, 0, 1, 0));
   Serial.println(LGC.eval(0, 0, 1, 1));

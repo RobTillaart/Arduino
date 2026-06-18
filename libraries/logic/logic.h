@@ -2,7 +2,7 @@
 //
 //    FILE: logic.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for evaluation of larger logic conditions.
 //    DATE: 2025-04-24
 //     URL: https://github.com/RobTillaart/logic
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define LOGIC_LIB_VERSION       (F("0.1.0"))
+#define LOGIC_LIB_VERSION       (F("0.1.1"))
 
 
 class logic
@@ -32,6 +32,18 @@ public:
   {
     return _table;
   }
+
+/*
+  void add(uint8_t idx)
+  {
+    _table |= (1UL << idx);
+  }
+
+  void remove(uint8_t idx)
+  {
+    _table &= ~(1UL << idx);
+  }
+*/
 
 
   ////////////////////////////////////////////////////

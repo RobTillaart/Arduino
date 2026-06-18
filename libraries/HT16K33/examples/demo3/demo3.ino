@@ -2,8 +2,8 @@
 //    FILE: 4x7segmentI2C.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo 3
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"
@@ -151,5 +151,6 @@ void displayVUStereo(uint8_t left, uint8_t right)
   seg.displayColon(t);
   t = !t;
 }
+
 
 //  -- END OF FILE --

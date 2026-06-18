@@ -2,8 +2,8 @@
 //    FILE: demo_dual1.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo 2 I2C 4x7segment displays one uint32_t unsigned long
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"

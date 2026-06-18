@@ -2,8 +2,8 @@
 //    FILE: demo_displayUnit.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"
@@ -28,13 +28,13 @@ void setup()
   seg.setDigits(4);
 
   //  default followed by HT16K33_SPACE
-  seg.displayUnit(1.23, 0);             //  no unit
+  seg.displayUnit(1.23, 0);              //  no unit
   seg.displayUnit(1.23, 1);
   seg.displayUnit(1.23, 2);
   Serial.println();
 
   //  now followed by HT16K33_A
-  seg.displayUnit(1.23, 0, HT16K33_A);  //   Ampere
+  seg.displayUnit(1.23, 0, HT16K33_A);   //   Ampere
   seg.displayUnit(1.23, 1, HT16K33_A);
   seg.displayUnit(1.23, 2, HT16K33_A);
   Serial.println();

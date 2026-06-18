@@ -44,9 +44,8 @@ unittest(test_constructor)
   HT16K33 seg(0x70);
 
   Wire.begin();
-  fprintf(stderr, "None of the functions return anything...\n");
 
-  assertEqual(1, 1);
+  assertEqual(seg.getAddress(), 0x70);
 }
 
 
@@ -72,6 +71,9 @@ unittest(test_constants)
   assertEqual(HT16K33_MINUS ,  17);
   assertEqual(HT16K33_TOP_C ,  18);
   assertEqual(HT16K33_DEGREE,  19);
+  assertEqual(HT16K33_P     ,  20);
+  assertEqual(HT16K33_J     ,  21);
+  assertEqual(HT16K33_H     ,  22);
 
   assertEqual(HT16K33_NONE  ,  99);
 }

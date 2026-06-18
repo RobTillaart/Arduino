@@ -2,7 +2,7 @@
 //
 //    FILE: HT16K33.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //          http://www.adafruit.com/products/1002
@@ -13,34 +13,34 @@
 #include "Wire.h"
 
 
-#define HT16K33_LIB_VERSION         (F("0.4.2"))
+#define HT16K33_LIB_VERSION         (F("0.4.3"))
 
 
 //  Supported characters
-#define HT16K33_0                0
-#define HT16K33_1                1
-#define HT16K33_2                2
-#define HT16K33_3                3
-#define HT16K33_4                4
-#define HT16K33_5                5
-#define HT16K33_6                6
-#define HT16K33_7                7
-#define HT16K33_8                8
-#define HT16K33_9                9
-#define HT16K33_A                10
-#define HT16K33_B                11
-#define HT16K33_C                12
-#define HT16K33_D                13
-#define HT16K33_E                14
-#define HT16K33_F                15
-#define HT16K33_SPACE            16
-#define HT16K33_MINUS            17
-#define HT16K33_TOP_C            18     //  c
-#define HT16K33_DEGREE           19     //  °
-#define HT16K33_P                20
-#define HT16K33_J                21
-#define HT16K33_H                22
-#define HT16K33_NONE             99
+const uint8_t HT16K33_0      = 0;
+const uint8_t HT16K33_1      = 1;
+const uint8_t HT16K33_2      = 2;
+const uint8_t HT16K33_3      = 3;
+const uint8_t HT16K33_4      = 4;
+const uint8_t HT16K33_5      = 5;
+const uint8_t HT16K33_6      = 6;
+const uint8_t HT16K33_7      = 7;
+const uint8_t HT16K33_8      = 8;
+const uint8_t HT16K33_9      = 9;
+const uint8_t HT16K33_A      = 10;
+const uint8_t HT16K33_B      = 11;
+const uint8_t HT16K33_C      = 12;
+const uint8_t HT16K33_D      = 13;
+const uint8_t HT16K33_E      = 14;
+const uint8_t HT16K33_F      = 15;
+const uint8_t HT16K33_SPACE  = 16;
+const uint8_t HT16K33_MINUS  = 17;
+const uint8_t HT16K33_TOP_C  = 18;     //  c
+const uint8_t HT16K33_DEGREE = 19;     //  °
+const uint8_t HT16K33_P      = 20;     //  P = Pascal / Pressure
+const uint8_t HT16K33_J      = 21;     //  J = Joule
+const uint8_t HT16K33_H      = 22;     //  H = Humidity
+const uint8_t HT16K33_NONE   = 99;
 
 
 //  Raw 7 segment display, See #28
@@ -53,6 +53,7 @@
 //  E     C        0x10    0x04
 //     D    dp         0x08      0x80
 //
+
 
 const uint8_t SEG_NONE = 0x00;
 const uint8_t SEG_A    = 0x01;

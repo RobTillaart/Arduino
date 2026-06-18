@@ -2,8 +2,8 @@
 //    FILE: test_float_decimals.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test decimal point for floats.
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"

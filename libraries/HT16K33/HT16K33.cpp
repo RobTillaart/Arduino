@@ -1,7 +1,7 @@
 //
 //    FILE: HT16K33.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2019-02-07
 // PURPOSE: Arduino Library for HT16K33 4x7segment display
 //     URL: https://github.com/RobTillaart/HT16K33
@@ -11,24 +11,24 @@
 
 
 //  Commands
-#define HT16K33_ON              0x21  //  0 = off   1 = on
-#define HT16K33_STANDBY         0x20  //  bit xxxxxxx0
+const uint8_t HT16K33_ON      = 0x21;  //  0 = off   1 = on
+const uint8_t HT16K33_STANDBY = 0x20;  //  bit xxxxxxx0
 
 
 //  bit pattern 1000 0xxy
 //  y    =  display on / off
 //  xx   =  00=off     01=2Hz     10 = 1Hz     11 = 0.5Hz
-#define HT16K33_DISPLAYON       0x81
-#define HT16K33_DISPLAYOFF      0x80
-#define HT16K33_BLINKON0_5HZ    0x87
-#define HT16K33_BLINKON1HZ      0x85
-#define HT16K33_BLINKON2HZ      0x83
-#define HT16K33_BLINKOFF        0x81
+const uint8_t HT16K33_DISPLAYON    = 0x81;
+const uint8_t HT16K33_DISPLAYOFF   = 0x80;
+const uint8_t HT16K33_BLINKON0_5HZ = 0x87;
+const uint8_t HT16K33_BLINKON1HZ   = 0x85;
+const uint8_t HT16K33_BLINKON2HZ   = 0x83;
+const uint8_t HT16K33_BLINKOFF     = 0x81;
 
 
 //  bit pattern 1110 xxxx
 //  xxxx    =  0000 .. 1111 (0 - F)
-#define HT16K33_BRIGHTNESS      0xE0
+const uint8_t HT16K33_BRIGHTNESS   = 0xE0;
 
 
 //

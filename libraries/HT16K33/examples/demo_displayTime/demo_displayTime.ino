@@ -2,11 +2,11 @@
 //    FILE: demo_displayTime.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
-// sketch will work correctly up to 99:99
+//  sketch will work correctly up to 99:99
 
 #include "HT16K33.h"
 

@@ -2,8 +2,8 @@
 //    FILE: demo_cache.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"

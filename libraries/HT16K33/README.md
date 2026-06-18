@@ -19,10 +19,12 @@ Arduino Library for HT16K33 I2C 4x7segment display.
 This library is for the Adafruit 4x7segment display with HT16K33 driver,
 http://www.adafruit.com/products/1002
 
-This library is functionally less capable than Adafruits. 
+This library is functionally less capable than Adafruit's library.
 However as it caches the values written to the display per position 
 it is faster for writing on average. The actual gain depends on the
 application and of course the values. 
+
+Feedback as always is welcome.
 
 
 ### 0.4.0 Breaking change
@@ -64,6 +66,8 @@ display more than 4 digits must done by the user - see **demo_dual1.ino**.
 With dual display it is important to **setDigits()** for the displays correctly to
 get leading/trailing zero's correctly.
 
+
+## I2C
 
 ### I2C multiplexing
 
@@ -190,7 +194,6 @@ Prints to Serial.
 - **void dumpSerial()** print HEX codes equivalent of the display to Serial.
 
 
-
 ### Obsolete soon
 
 - brightness() use setBrightness()
@@ -202,38 +205,33 @@ Prints to Serial.
 from .h file, elaborate
 
 ```cpp
-#define HT16K33_0                0
-#define HT16K33_1                1
-#define HT16K33_2                2
-#define HT16K33_3                3
-#define HT16K33_4                4
-#define HT16K33_5                5
-#define HT16K33_6                6
-#define HT16K33_7                7
-#define HT16K33_8                8
-#define HT16K33_9                9
-#define HT16K33_A                10
-#define HT16K33_B                11
-#define HT16K33_C                12
-#define HT16K33_D                13
-#define HT16K33_E                14
-#define HT16K33_F                15
-#define HT16K33_SPACE            16
-#define HT16K33_MINUS            17
-#define HT16K33_TOP_C            18     //  c
-#define HT16K33_DEGREE           19     //  °
-#define HT16K33_P                20
-#define HT16K33_J                21
-#define HT16K33_H                22
-#define HT16K33_NONE             99
+const uint8_t HT16K33_0      = 0;
+const uint8_t HT16K33_1      = 1;
+const uint8_t HT16K33_2      = 2;
+const uint8_t HT16K33_3      = 3;
+const uint8_t HT16K33_4      = 4;
+const uint8_t HT16K33_5      = 5;
+const uint8_t HT16K33_6      = 6;
+const uint8_t HT16K33_7      = 7;
+const uint8_t HT16K33_8      = 8;
+const uint8_t HT16K33_9      = 9;
+const uint8_t HT16K33_A      = 10;
+const uint8_t HT16K33_B      = 11;
+const uint8_t HT16K33_C      = 12;
+const uint8_t HT16K33_D      = 13;
+const uint8_t HT16K33_E      = 14;
+const uint8_t HT16K33_F      = 15;
+const uint8_t HT16K33_SPACE  = 16;
+const uint8_t HT16K33_MINUS  = 17;
+const uint8_t HT16K33_TOP_C  = 18;     //  c
+const uint8_t HT16K33_DEGREE = 19;     //  °
+const uint8_t HT16K33_P      = 20;     //  P = Pascal / Pressure
+const uint8_t HT16K33_J      = 21;     //  J = Joule
+const uint8_t HT16K33_H      = 22;     //  H = Humidity
+const uint8_t HT16K33_NONE   = 99;
 ```
 
 If other chars are needed please file an issue.
-
-
-## Operation
-
-See examples
 
 
 ## Future

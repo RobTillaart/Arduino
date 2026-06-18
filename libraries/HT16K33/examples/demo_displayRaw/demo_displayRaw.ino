@@ -2,8 +2,8 @@
 //    FILE: demo_displayRaw.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"
@@ -55,7 +55,7 @@ void loop()
   seg.displayRaw(x, false);
   delay(1000);
 
-  test_elsa();  // limited text possible
+  test_elsa();  //  limited text possible
   delay(1000);
   test_random();
   delay(1000);

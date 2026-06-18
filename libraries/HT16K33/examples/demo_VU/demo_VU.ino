@@ -2,10 +2,10 @@
 //    FILE: demo_VU.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
-// connect potentiometer or so to A0 and A1 for the VU tests
+//  connect potentiometer or so to A0 and A1 for the VU tests
 
 
 #include "HT16K33.h"
@@ -78,8 +78,8 @@ void test_VUStereo()
 {
   for (uint8_t run = 0; run < 50; run++)
   {
-    //  uint8_t left = analogRead(A0) / 240;   // 0..4
-    //  uint8_t right = analogRead(A1) / 240;  // 0..4
+    //  uint8_t left = analogRead(A0) / 240;   //  0..4
+    //  uint8_t right = analogRead(A1) / 240;  //  0..4
     uint8_t left = random(5);
     uint8_t right = random(5);
     displayVUStereo(left, right);

@@ -2,8 +2,8 @@
 //    FILE: 4x7segmentI2C.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo 2
-//     URL: http://www.adafruit.com/products/1002
 //     URL: https://github.com/RobTillaart/HT16K33
+//     URL: http://www.adafruit.com/products/1002
 
 
 #include "HT16K33.h"
@@ -36,6 +36,7 @@ void setup()
   delay(1000);
   seg.displayOn();
 }
+
 
 void loop()
 {

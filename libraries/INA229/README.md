@@ -149,9 +149,12 @@ Not tested with hardware, feedback welcome.
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
-- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
+- https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA2227  48 Volt, I2C, 16 bit, (2 channel)
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm

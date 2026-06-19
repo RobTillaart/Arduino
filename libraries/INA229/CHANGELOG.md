@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2026-06-19
+- update INA_comparison_table.md
+- add example INA229_setBusVoltageConversionTime.ino
+- replace defines with constexpr
+- update readme.md
+- update GitHub actions
+- minor edits
+
 ## [0.6.0] - 2025-10-19
 - fix #15, setSPISpeed()
 - minor edits

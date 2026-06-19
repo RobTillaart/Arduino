@@ -1,6 +1,6 @@
 //    FILE: INA229.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 //    DATE: 2025-01-22
 // PURPOSE: Arduino library for the INA229, SPI, 20 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA229
@@ -10,44 +10,44 @@
 
 #include "INA229.h"
 
-//      REGISTERS                   ADDRESS    BITS  RW   //  names same as in INA228
-#define INA229_CONFIG               0x00    //  16   RW
-#define INA229_ADC_CONFIG           0x01    //  16   RW
-#define INA229_SHUNT_CAL            0x02    //  16   RW
-#define INA229_SHUNT_TEMP_CO        0x03    //  16   RW
-#define INA229_SHUNT_VOLTAGE        0x04    //  24   R-
-#define INA229_BUS_VOLTAGE          0x05    //  24   R-
-#define INA229_TEMPERATURE          0x06    //  16   R-
-#define INA229_CURRENT              0x07    //  24   R-
-#define INA229_POWER                0x08    //  24   R-
-#define INA229_ENERGY               0x09    //  40   R-
-#define INA229_CHARGE               0x0A    //  40   R-
-#define INA229_DIAG_ALERT           0x0B    //  16   RW
-#define INA229_SOVL                 0x0C    //  16   RW
-#define INA229_SUVL                 0x0D    //  16   RW
-#define INA229_BOVL                 0x0E    //  16   RW
-#define INA229_BUVL                 0x0F    //  16   RW
-#define INA229_TEMP_LIMIT           0x10    //  16   RW
-#define INA229_POWER_LIMIT          0x11    //  16   RW
-#define INA229_MANUFACTURER         0x3E    //  16   R-
-#define INA229_DEVICE_ID            0x3F    //  16   R-
+//      REGISTERS                        ADDRESS     BITS  RW   //  names same as in INA228
+constexpr uint8_t INA229_CONFIG        = 0x00;    //  16   RW
+constexpr uint8_t INA229_ADC_CONFIG    = 0x01;    //  16   RW
+constexpr uint8_t INA229_SHUNT_CAL     = 0x02;    //  16   RW
+constexpr uint8_t INA229_SHUNT_TEMP_CO = 0x03;    //  16   RW
+constexpr uint8_t INA229_SHUNT_VOLTAGE = 0x04;    //  24   R-
+constexpr uint8_t INA229_BUS_VOLTAGE   = 0x05;    //  24   R-
+constexpr uint8_t INA229_TEMPERATURE   = 0x06;    //  16   R-
+constexpr uint8_t INA229_CURRENT       = 0x07;    //  24   R-
+constexpr uint8_t INA229_POWER         = 0x08;    //  24   R-
+constexpr uint8_t INA229_ENERGY        = 0x09;    //  40   R-
+constexpr uint8_t INA229_CHARGE        = 0x0A;    //  40   R-
+constexpr uint8_t INA229_DIAG_ALERT    = 0x0B;    //  16   RW
+constexpr uint8_t INA229_SOVL          = 0x0C;    //  16   RW
+constexpr uint8_t INA229_SUVL          = 0x0D;    //  16   RW
+constexpr uint8_t INA229_BOVL          = 0x0E;    //  16   RW
+constexpr uint8_t INA229_BUVL          = 0x0F;    //  16   RW
+constexpr uint8_t INA229_TEMP_LIMIT    = 0x10;    //  16   RW
+constexpr uint8_t INA229_POWER_LIMIT   = 0x11;    //  16   RW
+constexpr uint8_t INA229_MANUFACTURER  = 0x3E;    //  16   R-
+constexpr uint8_t INA229_DEVICE_ID     = 0x3F;    //  16   R-
 
 
 //  CONFIG MASKS (register 0)
-#define INA229_CFG_RST              0x8000
-#define INA229_CFG_RSTACC           0x4000
-#define INA229_CFG_CONVDLY          0x3FC0
-#define INA229_CFG_TEMPCOMP         0x0020
-#define INA229_CFG_ADCRANGE         0x0010
-#define INA229_CFG_RESERVED         0x000F  //  all unused bits
+constexpr uint16_t INA229_CFG_RST      = 0x8000;
+constexpr uint16_t INA229_CFG_RSTACC   = 0x4000;
+constexpr uint16_t INA229_CFG_CONVDLY  = 0x3FC0;
+constexpr uint16_t INA229_CFG_TEMPCOMP = 0x0020;
+constexpr uint16_t INA229_CFG_ADCRANGE = 0x0010;
+constexpr uint16_t INA229_CFG_RESERVED = 0x000F;  //  all unused bits
 
 
 //  ADC MASKS (register 1)
-#define INA229_ADC_MODE             0xF000
-#define INA229_ADC_VBUSCT           0x0E00
-#define INA229_ADC_VSHCT            0x01C0
-#define INA229_ADC_VTCT             0x0038
-#define INA229_ADC_AVG              0x0007
+constexpr uint16_t INA229_ADC_MODE     = 0xF000;
+constexpr uint16_t INA229_ADC_VBUSCT   = 0x0E00;
+constexpr uint16_t INA229_ADC_VSHCT    = 0x01C0;
+constexpr uint16_t INA229_ADC_VTCT     = 0x0038;
+constexpr uint16_t INA229_ADC_AVG      = 0x0007;
 
 
 ////////////////////////////////////////////////////////

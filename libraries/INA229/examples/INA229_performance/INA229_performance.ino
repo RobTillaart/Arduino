@@ -4,7 +4,9 @@
 // PURPOSE: test - performance
 //     URL: https://github.com/RobTillaart/INA229
 
+
 #include "INA229.h"
+
 
 //  select, dataIn, dataOut, clock == SOFTWARE SPI
 INA229 INA(5, 6, 7, 8);

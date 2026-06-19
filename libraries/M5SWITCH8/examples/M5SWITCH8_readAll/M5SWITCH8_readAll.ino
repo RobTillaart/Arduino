@@ -8,7 +8,7 @@
 #include "M5SWITCH8.h"
 
 
-M5SWITCH8 mySwitch(70);
+M5BUTTON8 mySwitch(70);
 //  M5SWITCH8 myButton(71);
 
 
@@ -32,7 +32,8 @@ void setup()
 void loop()
 {
   uint8_t x = mySwitch.readAll();
-  Serial.print(x, HEX);
+  if (x < 0x10) Serial.print(0);
+  Serial.println(x, HEX);
   delay(1000);
 }
 

@@ -46,6 +46,7 @@ void setup()
     mySwitch.setOffColor(i, 0x00FF00);
   }
   mySwitch.setMode(1);
+  mySwitch.writeToFlash();
 }
 
 

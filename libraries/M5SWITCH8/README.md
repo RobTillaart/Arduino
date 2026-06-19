@@ -31,9 +31,9 @@ The devices have 9 LEDs, 8 of them (index 0..7) are coupled 1 to 1
 with the switches, where the 9th led (index 8) is more like a "power" LED.
 
 The 8 LEDs can be set manually or automatic. In manual mode the
-user has to set the LEDs manually (using 0x00BBGGRR color).
+user has to set the LEDs manually (using 0x00BBGGRR colours).
 
-In automatic mode the user defines the ON and OFF colors per switch and 
+In automatic mode the user defines the ON and OFF colours per switch and 
 the internal processor of the devices automatically follows the switch.
 This is faster and saves communication, however the user still has to 
 read the switches manually.
@@ -46,7 +46,9 @@ Feedback as always is welcome.
 ### Test
 
 The library is (quick) tested with UNO R3.
-Note the devices are labelled as 3.3 V so use a voltage converter.
+The devices are labelled as 5.0 V but seem to work at 3.3 V too.
+
+Standby power consumption 9mA@5V
 
 
 ### Related
@@ -61,7 +63,8 @@ Note the devices are labelled as 3.3 V so use a voltage converter.
 ### I2C Address
 
 The M5 SWITCH and M5 BUTTON devices have a configurable address.
-This allows one to set 100+ different I2C addresses.
+This allows one to set 100+ different I2C addresses, implying 
+over 800 buttons / switches (in theory).
 
 If one needs more devices there are some options.
 - One could use an I2C multiplexer (see below)
@@ -106,13 +109,15 @@ TODO: create and run performance sketch
 
 ```cpp
 #include "M5SWITCH8.h"
+or
+#include "M5BUTTON8.h"
 ```
 
 ### Constructor
 
-- **M5SWITCH8(uint8_t address, TwoWire \*wire = &Wire)** optional select I2C bus.
-- **M5BUTTON8(uint8_t address, TwoWire \*wire = &Wire)** optional select I2C bus.
-- **bool begin()** checks if device is visible on the I2C bus.
+- **M5SWITCH8(uint8_t address, TwoWire \*wire = &Wire)** set address, optional select I2C bus.
+- **M5BUTTON8(uint8_t address, TwoWire \*wire = &Wire)** set address, optional select I2C bus.
+- **bool begin()** Checks if device address can be found on I2C bus.
 - **bool isConnected()** Checks if device address can be found on I2C bus.
 - **uint8_t getAddress()** Returns the address set in constructor.
 
@@ -121,20 +126,34 @@ TODO: create and run performance sketch
 
 - **uint8_t readAll()** returns 1 byte with the state of the 8 switches / buttons.
 - **uint8_t readSwitch(uint8_t sw)** returns the state of switch / button sw, where
-sw = 0..7. If sw is out of range it returns 0.
+sw = 0..7. If sw is out of range the function returns 255.
+
+M5BUTTON8 class only:
+
+- **uint8_t readButton(uint8_t button)** returns the state of button where 
+1 = not pressed, and 0 = pressed. 
+button = 0..7. If button is out of range the function returns 255.
+- **bool isPressed(uint8_t button)** returns the state of button.
 
 
-### LED
+### LED brightness
 
+- **void setBrightnessAll(uint8_t value)** idem.
 - **void setBrightness(uint8_t led, uint8_t value)** idem.
 - **uint8_t getBrightness(uint8_t led)** idem.
+
+
+### LED mode
+
 - **void setMode(uint8_t mode)** see table below.
 - **uint8_t getMode()**
 
 |  Mode  |  description  |
 |:------:|:--------------|
 |    0   |  manual mode  
-|    1   |  automatic (system) mode
+|    1   |  automatic / system mode
+
+All non zero modes are mapped upon system mode (1).
 
 
 ### Manual mode
@@ -143,7 +162,27 @@ Led 8 is the "power LED" near connector.
 Note the colour is in BGR format.
 
 - **void setColor(uint8_t led, uint32_t bgr)** led = 0..8
+- **void setColorRGB(uint8_t led, uint8_t R, uint8_t G, uint8_t B)** led = 0..8
 - **uint32_t getColor(uint8_t led)** read back.
+If led is out of range it returns 0.
+
+Some colours to indicate the BGR colour-scheme
+
+|  colour  |  bgr code  |  notes  |
+|:---------|:----------:|:--------|
+|  RED     |  0x0000FF  |  other intensities possible 
+|  GREEN   |  0x00FF00  |
+|  BLUE    |  0xFF0000  |
+|  YELLOW  |  0x00FFFF  |
+|  WHITE   |  0xFFFFFF  |
+|  BLACK   |  0x000000  |
+
+The device support a one byte colour space, which is encoded
+as a byte ```BBGGGRRR```
+
+- **void setColor233(uint8_t led, uint8_t value)** led = 0..8
+- **uint8_t getColor233(uint8_t led)** read back.
+If led is out of range it returns 0.
 
 
 ### Automatic mode
@@ -151,7 +190,7 @@ Note the colour is in BGR format.
 In automatic mode the LEDs follow the switches automatically.
 Note that one still has to read the status of the switches.
 
-- **void setOffColor(uint8_t led, uint32_t bgr)** led = 0..7, color in BGR format.
+- **void setOffColor(uint8_t led, uint32_t bgr)** led = 0..7, colours in BGR format.
 - **uint32_t getOffColor(uint8_t led)** read back.
 - **void setOnColor(uint8_t led, uint32_t bgr)** idem.
 - **uint32_t getOnColor(uint8_t led)** idem.
@@ -159,8 +198,11 @@ Note that one still has to read the status of the switches.
 
 ### Interrupts
 
-(not tested yet)  
-Unknown how interrupts work with these devices.
+No documentation about interrupts is found except the existance of a register.
+So this function is / can not tested. 
+It is unknown how interrupts work with these devices.
+Assumption the IRQ might be used internally in the firmware as no IRQ line is 
+exposed by the devices.
 
 - **void enableInterrupts()** idem.
 - **void disableInterrupts()** idem.
@@ -168,8 +210,6 @@ Unknown how interrupts work with these devices.
 
 
 ### Miscellaneous
-
-(not tested yet)
 
 - **void writeToFlash()** write settings to flash (restart defaults)
 - **uint8_t getFirmwareVersion()** returns firmware version number.
@@ -190,18 +230,24 @@ Unknown how interrupts work with these devices.
 
 #### Should
 
-- add RGB233 API (reg 0x50) = faster - smaller color space.
+- add RGB233 API (reg 0x50) = faster - smaller colours space.
+  - **setColor233(led, value)** and **getolor233(led)**
 - investigate interrupts.
 
 #### Could
 
-- add **setInvert(bool on)** + **bool getInvert()** for M5BUTTON8 ?
+- add **getColors(LED, &R, &G, &B)**
 - add examples
+  - BUTTON 8 game, follow the LED (sort SIMON)
+  - knight rider LED
+  - VU meter LED.
 - create unit tests if possible
 - add **void setBrightnessAll(uint8_t value)**
 
 #### Wont 
 
+- add **setInvert(bool on)** + **bool getInvert()** for M5BUTTON8 ?
+  - solved with **bool isPressed(button)**
 
 
 ## Support

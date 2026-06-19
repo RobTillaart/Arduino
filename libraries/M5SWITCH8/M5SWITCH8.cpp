@@ -1,7 +1,7 @@
 //
 //    FILE: M5SWITCH8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-06-16
 // PURPOSE: Arduino library for M5STACK SWITCH8 and BUTTON8 devices.
 //     URL: https://github.com/RobTillaart/M5SWITCH8
@@ -54,7 +54,7 @@ uint8_t M5SWITCH8::readAll()
 
 uint8_t M5SWITCH8::readSwitch(uint8_t sw)
 {
-  if (sw > 7) return 0;
+  if (sw > 7) return 255;
   uint8_t value = 0;
   _request(0x60 + sw, &value, 1);
   return value;
@@ -65,6 +65,12 @@ uint8_t M5SWITCH8::readSwitch(uint8_t sw)
 //
 //  LED
 //
+void M5SWITCH8::setBrightnessAll(uint8_t B)
+{
+  uint8_t bright[9] = {B,B,B, B,B,B, B,B,B};
+  _command(0x10, bright, 9);
+}
+
 void M5SWITCH8::setBrightness(uint8_t led, uint8_t value)
 {
   if (led > 8) return;
@@ -91,11 +97,22 @@ uint8_t M5SWITCH8::getMode()
   return value;
 }
 
+//
+//  MANUAL MODE
+//
 void M5SWITCH8::setColor(uint8_t led, uint32_t bgr)
 {
   if (led > 8) return;
   uint8_t reg = 0x20 + 4 * led;
   _command(reg, (uint8_t *) &bgr, 3);
+}
+
+void M5SWITCH8::setColorRGB(uint8_t led, uint8_t R, uint8_t G, uint8_t B)
+{
+  if (led > 8) return;
+  uint8_t colors[3] = {R, G, B};
+  uint8_t reg = 0x20 + 4 * led;
+  _command(reg, colors, 3);
 }
 
 uint32_t M5SWITCH8::getColor(uint8_t led)
@@ -107,6 +124,25 @@ uint32_t M5SWITCH8::getColor(uint8_t led)
   return bgr;
 }
 
+void M5SWITCH8::setColor233(uint8_t led, uint8_t value)
+{
+  if (led > 8) return;
+  uint8_t reg = 0x50 + led;
+  _command(reg, value);
+}
+
+uint8_t M5SWITCH8::getColor233(uint8_t led)
+{
+  if (led > 8) return 0;
+  uint8_t value = 0;
+  uint8_t reg = 0x50 + led;
+  _request(reg, (uint8_t *) &value, 1);
+  return value;
+}
+
+//
+//  SYSTEM MODE
+//
 void M5SWITCH8::setOffColor(uint8_t led, uint32_t bgr)
 {
   if (led > 7) return;

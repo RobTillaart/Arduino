@@ -21,7 +21,11 @@ setMode	KEYWORD2
 getMode	KEYWORD2
 
 setColor	KEYWORD2
+setColorRGB	KEYWORD2
 getColor	KEYWORD2
+
+setColor233	KEYWORD2
+getColor233	KEYWORD2
 
 setOffColor	KEYWORD2
 getOffColor	KEYWORD2

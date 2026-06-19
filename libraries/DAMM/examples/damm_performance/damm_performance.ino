@@ -7,6 +7,7 @@
 
 #include "DAMM.h"
 
+
 DAMM damm;
 DAMM_small ds;
 
@@ -14,6 +15,7 @@ uint32_t start, stop;
 
 //  132 digits
 char pi[] = "3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825";
+
 
 void setup()
 {

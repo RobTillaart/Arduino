@@ -111,8 +111,6 @@ Even when it overflows one gets the correct **DAMM** checksum.
 
 #### Should
 
-- can we make the faster version faster?
-  - local lookup per function to squeeze
 - add parameter check in the slower version (as it is already slower).
   - or interpret any char "mod 10" e.g. A = 0x61 ==> 0x01
   - new options / scope for DAMM check  (LUHN too?)
@@ -124,6 +122,9 @@ Even when it overflows one gets the correct **DAMM** checksum.
 - investigate small / slow version as derived class
 
 #### Wont
+
+- can we make the faster version faster?  (not found)
+  - local lookup per function to squeeze
 
 
 ## Support

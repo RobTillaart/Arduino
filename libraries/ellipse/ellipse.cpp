@@ -1,8 +1,8 @@
 //
 //    FILE: ellipse.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.1
 //    DATE: 2021-10-31
-// VERSION: 0.2.0
 // PURPOSE: Arduino library for ellipse maths
 //     URL: https://github.com/RobTillaart/ellipse
 // TRIGGER: https://www.youtube.com/watch?v=5nW3nJhBHL0
@@ -15,6 +15,12 @@ ellipse::ellipse(float a, float b)
 {
   _a = abs(a);
   _b = abs(b);
+  if (_b > _a)  //  swap if needed.
+  {
+    float t = _a;
+    _a = _b;
+    _b = t;
+  }
 }
 
 
@@ -88,13 +94,13 @@ float ellipse::perimeter_binomial()
   float y = _a + _b;
   float h = (x * x) / (y * y);
   float hh = h;
-  float p =  1 + hh * (1.0/4.0);
-  hh *= h;  p += hh * (1.0/ 64.0);
-  hh *= h;  p += hh * (1.0/ 256.0);
-  hh *= h;  p += hh * (25.0/16384.0);
-  hh *= h;  p += hh * (49.0/65536.0);
-  hh *= h;  p += hh * (441.0/1048576.0);
-  hh *= h;  p += hh * (1089.0/4194304.0);
+  float p =  1 + hh * (1.0 / 4.0);
+  hh *= h;  p += hh * (1.0 / 64.0);
+  hh *= h;  p += hh * (1.0 / 256.0);
+  hh *= h;  p += hh * (25.0 / 16384.0);
+  hh *= h;  p += hh * (49.0 / 65536.0);
+  hh *= h;  p += hh * (441.0 / 1048576.0);
+  hh *= h;  p += hh * (1089.0 / 4194304.0);
   //  7 terms seems adequate for float precision.
   //  additional terms possible (see math is fun link),
   return p * PI * (_a + _b);
@@ -169,7 +175,7 @@ float ellipse::eccentricity()
   float x = _a * _a - _b * _b;
   if (x < 0) x = -x;
   return sqrt(x)/ _a;
-  //  alternative formula has same nr of operator
+  //  alternative formula has same number of operators
   //  float x = sqrt(1 - (_b*_b)/(_a*_a));
 }
 
@@ -178,6 +184,13 @@ float ellipse::ratio()
 {
   if (_a == 0) return -1;
   return _b / _a;
+}
+
+
+bool ellipse::isGoldenRatio(float epsilon)
+{
+  if (_a >= _b) return abs(_a /_b - 1.61803398875) < epsilon;
+  return abs(_b /_a - 1.61803398875) < epsilon;
 }
 
 
@@ -191,9 +204,10 @@ bool ellipse::isCircle(float epsilon)
 
 bool ellipse::isFlat()
 {
-  if (_a > _b) return (_a > (4 * _b));
+  if (_a >= _b) return (_a > (4 * _b));
   return (_b > (4 * _a));
 }
+
 
 
 void ellipse::setA(float a)
@@ -251,10 +265,20 @@ float ellipse::getShortRadius()
 }
 
 
+////////////////////////////////////////////////////
+//
+//  EXPERIMENTAL
+//
 float ellipse::angle()
 {
   float c = (_b < _a) ? _b/_a : _a/_b;
   return acos(c) * (180 / PI);
+}
+
+
+float ellipse::latusRectum()
+{
+  return (2 * _b * _b) / _a;
 }
 
 

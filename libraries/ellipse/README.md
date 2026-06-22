@@ -30,6 +30,7 @@ or a relevant link to add, let me know.
 
 As always feedback is welcome.
 
+
 ###  Formula
 
 Typical an ellipse is defined as the set of points for which 
@@ -39,7 +40,7 @@ Typical an ellipse is defined as the set of points for which
 ```
 
 Another definition states that the sum of the distances from every point 
-of the ellipse to the focal points is constant (2x longest axis).
+of the ellipse to the focal points is constant (== longest axis).
 
 
 ### Related
@@ -59,7 +60,8 @@ of the ellipse to the focal points is constant (2x longest axis).
 ### Constructor
 
 - **ellipse(float a, float b)** constructor.
-The user is responsible that A >= B.
+The user is responsible that A >= B, although constructor will
+swap them if needed.
 
 ### Area Circumference
 
@@ -68,17 +70,18 @@ The user is responsible that A >= B.
 
 ### Attributes
 
-The user is responsible that A >= B.
+The user is responsible that A >= B, although constructor swaps 
+A and B if needed.
 
 - **float eccentricity()** return the eccentricity e.
 This is an indication of flatness of the ellipse. 
 0 is a circle and 1 is flat line.
 - **float ratio()** returns B / A.
-- **void  setA(float a)** change the long radius.
-- **void  setB(float b)** change the short radius.
+- **void  setA(float a)** change the long radius. (A must be >= B).
+- **void  setB(float b)** change the short radius. (A must be >= B).
 - **float getA()** returns value set in constructor or setA().
 - **float getB()** returns value set in constructor or setB().
-- **float getC()** distance to focus point form centre along the longer axis.
+- **float getC()** distance to focus point from centre along the longer axis.
 Compares A and B to find longest radius. 
 A.k.a. linear eccentricity.
 - **float getH()** often used parameter in ellipses math, no physical meaning known.
@@ -103,25 +106,24 @@ Higher accuracy possible by adding more terms.
 Formula is a quadratic approximation of Ramanujan2.
 
 
-
 Numbers from version 0.1.4
 
-|   A  |   B  |   ecc.     |  algorithm   |  time  |  circumference  |
-|:----:|:----:|:----------:|:-------------|:------:|:---------------:|
-|  10  |  10  |  0.000000  |  Ramanujan1  |   104  |  62.8319        |
-|  10  |  10  |  0.000000  |  Ramanujan2  |   120  |  62.8319        |
-|  10  |  10  |  0.000000  |  Kepler      |    36  |  62.8319        |
-|  10  |  10  |  0.000000  |  Parker      |   160  |  62.8296        |
-|      |      |            |              |        |                 |
-|  10  |   5  |  0.866025  |  Ramanujan1  |   104  |  48.4421        |
-|  10  |   5  |  0.866025  |  Ramanujan2  |   188  |  48.4422        |
-|  10  |   5  |  0.866025  |  Kepler      |    32  |  48.4422        |
-|  10  |   5  |  0.866025  |  Parker      |   160  |  48.4411        |
-|      |      |            |              |        |                 |
-|  10  |   1  |  0.994987  |  Ramanujan1  |   108  |  40.6055        |
-|  10  |   1  |  0.994987  |  Ramanujan2  |   188  |  40.6393        |
-|  10  |   1  |  0.994987  |  Kepler      |    36  |  34.5575        |
-|  10  |   1  |  0.994987  |  Parker      |   164  |  40.5942        |
+|   A  |   B  |  eccentricity  |  algorithm   |  time  |  circumference  |
+|:----:|:----:|:--------------:|:-------------|:------:|:---------------:|
+|  10  |  10  |      0.000000  |  Ramanujan1  |   104  |        62.8319  |
+|  10  |  10  |      0.000000  |  Ramanujan2  |   120  |        62.8319  |
+|  10  |  10  |      0.000000  |  Kepler      |    36  |        62.8319  |
+|  10  |  10  |      0.000000  |  Parker      |   160  |        62.8296  |
+|      |      |                |              |        |                 |
+|  10  |   5  |      0.866025  |  Ramanujan1  |   104  |        48.4421  |
+|  10  |   5  |      0.866025  |  Ramanujan2  |   188  |        48.4422  |
+|  10  |   5  |      0.866025  |  Kepler      |    32  |        48.4422  |
+|  10  |   5  |      0.866025  |  Parker      |   160  |        48.4411  |
+|      |      |                |              |        |                 |
+|  10  |   1  |      0.994987  |  Ramanujan1  |   108  |        40.6055  |
+|  10  |   1  |      0.994987  |  Ramanujan2  |   188  |        40.6393  |
+|  10  |   1  |      0.994987  |  Kepler      |    36  |        34.5575  |
+|  10  |   1  |      0.994987  |  Parker      |   164  |        40.5942  |
 
 Note the failing Kepler function for high eccentricity.
 
@@ -132,13 +134,14 @@ Run ellipse_performance.ino example for latest version.
 
 - **bool isCircle(float epsilon = 0.0)**  | a - b | < eps.
 - **bool isFlat()** true if a > 4b, where a = longest radius.
-
+- **bool isGoldenRatio(float epsilon = 0.00001)** ratio is golden 
+ratio ~1.61803398875... Has special properties with respect to area.
 
 ### Experimental
 
 - **float angle()** returns the angle in degrees if the ellipse was the
 shadow of a circle. Returns 0..90°, 0° == circle, 90° == line.
-
+- **float latusRectum()** returns (2b^2/a). See Wikipedia.
 
 ## Operation
 
@@ -154,17 +157,16 @@ See examples.
 
 #### Should
 
-- make constructor symmetric (a < b or a > b ==> all possible.
-- make other code symmetric.
-- force A is long radius, so it is clear.
+- make code symmetric.
+  - force A is long radius, so it is clear.
 - implement unit tests
 
 #### Could
 
 - add math checks like DIV_ZERO
 - replace float by double? (performance penalty!).
-- additional functions (See wikipedia)
-  - e.g. float latusRectum() = (bxb)/a
+- additional functions (See Wikipedia)
+  - e.g. float latusRectum() = (b x b)/a
   
 
 #### Wont

@@ -22,6 +22,7 @@ eccentricity	KEYWORD2
 ratio	KEYWORD2
 isCircle	KEYWORD2
 isFlat	KEYWORD2
+isGoldenRatio	KEYWORD2
 
 setA	KEYWORD2
 setB	KEYWORD2
@@ -34,6 +35,7 @@ getLongRadius	KEYWORD2
 getShortRadius	KEYWORD2
 
 angle	KEYWORD2
+latusRectum	KEYWORD2
 
 
 # Constants (LITERAL1)

@@ -2,15 +2,15 @@
 //
 //    FILE: ellipse.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.1
 //    DATE: 2021-10-31
-// VERSION: 0.2.0
 // PURPOSE: Arduino library for ellipse maths
 //     URL: https://github.com/RobTillaart/ellipse
 
 
 #include "Arduino.h"
 
-#define ELLIPSE_LIB_VERSION           (F("0.2.0"))
+#define ELLIPSE_LIB_VERSION           (F("0.2.1"))
 
 
 class ellipse
@@ -30,8 +30,8 @@ public:
   float perimeter_binomial();    //  very slow, very good.
 
   //  not as good, mainly for approximations.
-  //  error < 2.5% for a/b < 14
-  //  error < 5%   for a/b < 75
+  //  error < 2.5%   for a/b < 14
+  //  error < 5%     for a/b < 75
   float perimeter_Parker_fast();  //  very fast
   //  error < 0.6%   for a/b < 20
   float perimeter_polynome();     //  very fast
@@ -43,6 +43,8 @@ public:
   //  convenience functions.
   bool  isCircle(float epsilon = 0.0);
   bool  isFlat();       //  factor 4 ==>  < 15°
+  //  golden ratio = 1.61803398875...
+  bool  isGoldenRatio(float epsilon = 0.00001);
 
   void  setA(float a);
   void  setB(float b);
@@ -59,7 +61,7 @@ public:
   //  EXPERIMENTAL
   //  returns the angle if the ellipse was the shadow of a circle.
   float angle();
-
+  float latusRectum();  //  from Wikipedia
 
 private:
   float _a;

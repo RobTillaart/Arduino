@@ -24,7 +24,7 @@ void setup()
   Serial.println();
 
   LA.configPins(dataPins, 4);
-  LA.setChannels(10);  //  4 datachannels + 2 empty lines + 4 inject.
+  LA.setChannels(10);  //  4 data channels + 2 empty lines + 4 inject.
 }
 
 

@@ -2,8 +2,8 @@
 //
 //    FILE: logicAnalyzer.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2025-10-20
-// VERSION: 0.1.0
 // PURPOSE: Arduino library for building a logicAnalyzer. (non performant).
 //     URL: https://github.com/RobTillaart/logicAnalyzer
 //
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 
 
-#define LOGICANALYZER_LIB_VERSION         (F("0.1.0"))
+#define LOGICANALYZER_LIB_VERSION         (F("0.1.1"))
 
 //  board dependent but 32 seems OK for now.
 #define LA_MAX_CHANNEL                    (32)

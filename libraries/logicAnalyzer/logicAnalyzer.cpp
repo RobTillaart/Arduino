@@ -1,8 +1,8 @@
 //
 //    FILE: logicAnalyzer.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2025-10-20
-// VERSION: 0.1.0
 // PURPOSE: Arduino library for building a logicAnalyzer. (non performant).
 //     URL: https://github.com/RobTillaart/logicAnalyzer
 
@@ -143,16 +143,16 @@ void logicAnalyzer::plot()
 {
   uint32_t mask = 1UL << (_channels - 1);
   uint32_t base = 0;
-  while (mask)
+  while (true)
   {
     _stream->print((_data & mask) ? base + PULSE_HEIGHT : base);
+     mask >>= 1;
+    if (mask == 0) break;
     _stream->print('\t');
-    mask >>= 1;
     base += BASE_STEP;
   }
   _stream->print('\n');
 }
-
 
 void logicAnalyzer::plotRaw()
 {
@@ -180,7 +180,6 @@ void logicAnalyzer::setCount(uint32_t count)
 {
   _count = count;
 }
-
 
 
 ///////////////////////////////////////

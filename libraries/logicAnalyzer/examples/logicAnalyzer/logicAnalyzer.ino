@@ -1,12 +1,11 @@
 //
 //    FILE: logicAnalyzer.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
-// PURPOSE: Very simple Arduino logicAnalyzer
-//    DATE: 2025-10-20
-//     URL: 
-//
-//
+// PURPOSE: Very simple Arduino logicAnalyzer - stand alone
+//     URL: https://github.com/RobTillaart/logicAnalyzer
+
+
+bool flag = false;
 
 void setup()
 {
@@ -23,6 +22,9 @@ void setup()
 
 void loop()
 {
+  digitalWrite(13, flag);
+  flag = !flag;
+
   int a = digitalRead(8)  * 16 + 0;
   int b = digitalRead(9)  * 16 + 32;
   int c = digitalRead(10) * 16 + 64;
@@ -37,5 +39,6 @@ void loop()
   Serial.print(d);
   Serial.print('\n');
 }
+
 
 //  -- END OF FILE --

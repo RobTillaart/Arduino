@@ -22,18 +22,18 @@ This library is to create a logicAnalyzer, although a non performant one.
 
 The library was written after a question on the Arduino forum and the OP did not
 have a logic analyser or scope. 
-The library allows to build (and tune) a very simple logic analyzer and is therefore 
+The library allows to build (and tune) a very simple logicAnalyzer and is therefore 
 useful for educational purposes.
 
 The library is working but has (severe) limitations and cannot be compared to a full 
-hardware logic analyzer with PC software with a giga buffer for data.
+hardware logicAnalyzer with PC software with a giga buffer for data.
 The samples made by the library must be processed immediately otherwise the RAM of e.g. 
 an Arduino UNO R3 is filled up in no time. 
 Performance is also not superb but it still is a useful tool to detect and possibly 
 analyse (slow) communication. An ESP32 or other fast board is recommended.
 
 The library has a few examples how the library can be used to make a dedicated
-logic analyzer.
+logicAnalyzer.
 
 The library can monitor up to 32 data pins, although performance drops linearly with the
 number of channels monitored.
@@ -55,7 +55,7 @@ As always feedback is welcome!
 - https://github.com/RobTillaart/MultiSpeedI2CScanner
 
 
-### Performance
+### Performance (0.1.0)
 
 Performance test are done in a tight loop of sampling and printing it to Serial,
 e.g. think the Serial plotter. Speed of Serial during test = 1.000.000 baud
@@ -82,18 +82,39 @@ Performance wise the "live view" in the serial plotter is pretty slow,
 mainly due the time it takes to send the data over Serial. 
 At the same time the serial plotter only holds the last 500 points so data
 even from 8 channels will only be visible for (a part of) a second.
-Still a serial uart up to 9600 baud is in theory just within the "live view" scope,
+Still a serial UART up to 9600 baud is in theory just within the "live view" scope,
 although in practice live view (Serial plotter).
 
 Dedicated sampling, directly with registers especially on AVR is faster.
 However the plotting would still be "blocking".
 
 Storing samples in a buffer and analyse the buffer afterwards would allow much
-higher sampling rate. Furthermore it would allow to gow through the data in a 
+higher sampling rate. Furthermore it would allow to go through the data in a 
 pace humans can see. RAM might fill up easily, however run length compression 
 could be worth investigating.
 
 In short, it is worth to elaborate in the future when needed and time permits.
+
+
+### Performance (0.1.1)
+
+logicAnalyzer_performance, BOARD UNO R3, 16 MHz, 1000 sample + plots at 1 Mbaud.
+
+0.1.1 removes the trailing TAB character per line
+This improves performance if there are only a few channels.
+
+|  channels   |   0.1.0  |   0.1.1  |
+|:-----------:|:--------:|:--------:|
+|      1      |   78216  |   72620  |
+|      2      |  191640  |  186044  |
+|      3      |  305624  |  300032  |
+|      4      |  419300  |  413708  |
+
+Removing the TAB char from the line and have fixed (binary) data lengths
+per channel could in theory improve throughput.
+Using a buffer to hold a line and print it does not improve throughput.
+More intelligence in the protocol / plotter, e.g. use a special character for 
+repeating last line would reduce a
 
 
 ## Interface
@@ -118,7 +139,8 @@ Channels = 1..32, the function returns false if channels is out of range.
 
 - **uint32_t sample()** sample all channels once an put the HIGH/LOW values together
 in one uint32_t variable. This value is returned but also kept internally.
-- **void inject(uint32_t data)** injects generated data that plot() can send as plotter values. (e.g. output control lines or boolean states)
+- **void inject(uint32_t data)** injects generated data that plot() can send as 
+plotter values, e.g. output control lines or boolean states.
 - **void plot()** plots the latest internal value for the serial plotter, with a
 defined offset per channel. Value can be patched in the logicAnalyzer.cpp file
 - **void plotRaw()** plot the latest internal value as 0 and 1
@@ -130,7 +152,8 @@ and one can add / inject some higher bits. See example.
 ### Clock
 
 - **bool configClock(uint8_t clockPin)** set the optional clockPin.
-- **bool clockChanged()** returns true when the pin has changed since last call. Function to monitor the clockPin so one knows when to sample
+- **bool clockChanged()** returns true when the pin has changed since last call. 
+Function to monitor the clockPin so one knows when to sample
 the data pins (channels). This reduces the amount of data in a buffer.
 - **bool clockFalling()** returns true when the clock pin went from HIGH to LOW since last call.
 - **bool clockRising()** returns true when the clock pin went from LOW to HIGH since last call. 

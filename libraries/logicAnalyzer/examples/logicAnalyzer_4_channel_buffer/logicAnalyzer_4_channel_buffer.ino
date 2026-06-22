@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: experimental time length compression (TEST)
 //     URL: https://github.com/RobTillaart/logicAnalyzer
+//          https://github.com/RobTillaart/TLCBuffer
 //
 //  EXPERIMENTAL
 //  a circular buffer measures the duration in millis() + value
@@ -13,7 +14,7 @@
 #include "logicAnalyzer.h"
 
 //  hardcoded simple circular buffer with internal duration counter.
-//  might be a library of its own.
+//  See https://github.com/RobTillaart/TLCBuffer
 class TLC_Buffer
 {
   public:

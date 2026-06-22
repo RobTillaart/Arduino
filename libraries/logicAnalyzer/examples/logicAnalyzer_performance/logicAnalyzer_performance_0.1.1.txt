@@ -1,0 +1,58 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+------------------------------------------
+
+1 channel
+
+logicAnalyzer_1_channel_performance.ino
+LOGICANALYZER_LIB_VERSION: 0.1.1
+
+0
+...
+0
+TIME:	72620
+COUNT:	1000
+
+
+------------------------------------------
+
+2 channel
+
+logicAnalyzer_1_channel_performance.ino
+LOGICANALYZER_LIB_VERSION: 0.1.1
+
+0	32
+...
+0	32
+TIME:	186044
+COUNT:	1000
+
+
+------------------------------------------
+
+3 channel
+
+logicAnalyzer_1_channel_performance.ino
+LOGICANALYZER_LIB_VERSION: 0.1.1
+
+0	32	64
+...
+0	32	64
+TIME:	300032
+COUNT:	1000
+
+
+------------------------------------------
+
+4 channel
+
+logicAnalyzer_1_channel_performance.ino
+LOGICANALYZER_LIB_VERSION: 0.1.1
+
+0	32	64	96
+...
+0	32	64	96
+TIME:	413708
+COUNT:	1000
+

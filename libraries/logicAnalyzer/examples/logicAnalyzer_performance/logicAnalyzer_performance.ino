@@ -1,5 +1,5 @@
 //
-//    FILE: logicAnalyzer_1_channel.ino
+//    FILE: logicAnalyzer_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/logicAnalyzer
@@ -10,7 +10,9 @@
 
 logicAnalyzer LA;
 
-uint8_t dataPins[] = { 8 };
+uint8_t dataPins[] = { 8, 9, 10, 11 };
+
+uint32_t start, stop;
 
 
 void setup()
@@ -21,20 +23,27 @@ void setup()
   Serial.print("LOGICANALYZER_LIB_VERSION: ");
   Serial.println(LOGICANALYZER_LIB_VERSION);
   Serial.println();
+  delay(100);
 
-  LA.configPins(dataPins, 1);
+  LA.configPins(dataPins, 4);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    LA.sample();
+    LA.plot();
+  }
+  stop = micros();
+  Serial.print("TIME:\t");
+  Serial.println(stop - start);
+  Serial.print("COUNT:\t");
+  Serial.println(LA.getCount());
+  delay(5000);
 }
 
 
 void loop()
 {
-  LA.sample();
-  LA.plot();
-  //  if (millis() >= 10000)
-  //  {
-  //    Serial.println(LA.getCount());
-  //    while (1);
-  //  }
 }
 
 

@@ -25,17 +25,23 @@ data as possible in limited RAM.
 
 The library works best for measurements that stay stable for longer times.
 If the measurements fluctuate a lot, the library is not suitable for the job.
+In fact the run length compression would cost more bytes to store.
+The average run length should exceed 2.0 to have a net gain.
 
 The data elements of the initial version are uint32_t as that matches my needs for now.
 In the future the library will be a template class supporting any data type.
 
 This library is strongly related to TLCBuffer, that uses time length compression.
 
+Feedback as always is welcome.
+
+
 #### Application Measurements
 
 One has to make measurements and those measurements stays stable for long time and
 then has some short fluctuations.
-Instead of storing many times the same values in the buffer, the library stores how many measurements stays the same.
+Instead of storing many times the same values in the buffer, the library stores 
+how many measurements stays the same.
 
 An example
 
@@ -47,7 +53,7 @@ The data stream has 100 times the value 15 and then 200 times the value 16, foll
 
 #### Application IO
 
-One has to monitor several IO lines (e.g. sensors or buttons etc) and there is little
+One has to monitor several IO lines (e.g. sensors or buttons etc.) and there is little
 change for long time. One can merge multiple IO lines into a byte / uint32_t and store
 that as one data unit. As long as the IO Lines stay the same only the duration is
 increased. When a button is pressed the value changes for a short time.
@@ -55,13 +61,16 @@ increased. When a button is pressed the value changes for a short time.
 ```
 RLCBuffer = { (500, 0x0000), (10, 0x0200), (5, 0x0300), (5000, 0x0000), ...
 ```
-very long time no change, then suddenly 10 measurements 1 pin HIGH, 3 measurements 
+very long time no change, then suddenly 10 measurements 1 pin HIGH, 5 measurements 
 2 pins HIGH, followed by a long time no activity.
+
+The example **RLCBuffer_DS18B20.ino** which uses integer temperatures only shows this.
 
 
 ### Notes
 
-The first element of the buffer has default the value 0. Might affect the working.
+The first element of the buffer has default the value 0. Might affect the working
+of your project.
 
 
 ### Circular Buffer
@@ -69,12 +78,13 @@ The first element of the buffer has default the value 0. Might affect the workin
 The first version of the **Run Length Compressed Buffer** is not a circular buffer,
 again as I do not need that yet. It might be implemented in the future.
 
+
 ### Related
 
 - https://github.com/RobTillaart/LogicAnalyzer
   - see logicAnalyzer_4_channel_buffer.ino example
-- https://github.com/RobTillaart/RLCBuffer uses counter to compress data
-- https://github.com/RobTillaart/TLCBuffer uses duration to compress data
+- https://github.com/RobTillaart/RLCBuffer uses a counter to compress data
+- https://github.com/RobTillaart/TLCBuffer uses the duration to compress data
 
 
 ### Tested
@@ -116,33 +126,45 @@ One could change the counter to an uint16_t to save some RAM.
 - **bool full()** returns true if buffer has no space left.
 - **uint32_t available()** returns number of available free slots.
 
+A "fill" percentage can be calculated: 100% x count() / size();
+However due to the run lengths this value is not useful as far
+as I can see.
+
+The number of free slots = size() - count() is more meaningful
+as that is the minimum elements one still can add.
+
+
 ### Read Write
 
 - **void writeData(uint32_t value)** add an element to buffer.
 - **uint32_t readData(uint32_t index)** read an element.
-- **uint32_t readDuration(uint32_t index)** read the duration of an element.
+- **uint32_t readCount(uint32_t index)** read the counter of an element.
 
-**writeData()** will increase the duration if the value equals the previous one. Otherwise it uses a new entry.
+**writeData()** will increase the counter if the value equals the previous one. 
+Otherwise it uses a new entry.
+
 
 ### Error
 
+to elaborate.
 
 ## Future
 
 #### Must
 
 - improve documentation
-- test functionality
-- keep in sync with TLCBuffer.
 
 #### Should
 
+- test functionality
+- keep in sync with TLCBuffer.
 - add examples.
 - investigate template version,
   - first get one simple version working.
 - implement circular behaviour
   - first get base buffer right (derived class circular?)
-  - readValue() reads oldest.
+  - readValue() reads oldest
+  - API -> add(value) + fetch()
   - need head / tail index.
 - implement error handling (?)
 

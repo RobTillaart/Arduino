@@ -9,7 +9,7 @@ begin	KEYWORD2
 
 writeData	KEYWORD2
 readData	KEYWORD2
-readDuration	KEYWORD2
+readCount	KEYWORD2
 
 size	KEYWORD2
 count	KEYWORD2

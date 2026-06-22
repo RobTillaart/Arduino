@@ -2,17 +2,16 @@
 //
 //    FILE: RLCBuffer.h
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.1.1
 //    DATE: 2025-10-26
-// VERSION: 0.1.0
 // PURPOSE: Arduino library for a Run Length Compressed circular buffer.
 //     URL: https://github.com/RobTillaart/RLCBuffer
-//
 
 
 #include "Arduino.h"
 
 
-#define RLCBUFFER_LIB_VERSION         (F("0.1.0"))
+#define RLCBUFFER_LIB_VERSION         (F("0.1.1"))
 
 //  ERROR CODES
 //  values <> 0 are errors.
@@ -37,7 +36,7 @@ public:
   ~RLCBuffer()
   {
     if (_data != NULL) free(_data);
-    if (_cnt != NULL) free(_cnt);
+    if (_cnt != NULL)  free(_cnt);
   }
 
   bool begin()
@@ -62,6 +61,7 @@ public:
     //  do we have same data?
     if (data == _lastData)
     {
+      //  check for overflow here
       _cnt[_index]++;
       return;
     }

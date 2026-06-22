@@ -28,3 +28,4 @@ compile:
 
   libraries:
     - "printHelpers"
+    - "DS18B20_RT"

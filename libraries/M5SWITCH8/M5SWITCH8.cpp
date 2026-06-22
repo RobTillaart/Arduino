@@ -1,7 +1,7 @@
 //
 //    FILE: M5SWITCH8.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2026-06-16
 // PURPOSE: Arduino library for M5STACK SWITCH8 and BUTTON8 devices.
 //     URL: https://github.com/RobTillaart/M5SWITCH8
@@ -10,17 +10,32 @@
 #include "M5SWITCH8.h"
 
 
+//  REGISTERS
+constexpr uint8_t M5SWITCH8_REG_READALL      = 0x00;
+constexpr uint8_t M5SWITCH8_REG_BRIGHTNESS   = 0x10;
+constexpr uint8_t M5SWITCH8_REG_MODE         = 0x19;
+constexpr uint8_t M5SWITCH8_REG_COLOR        = 0x20;
+constexpr uint8_t M5SWITCH8_REG_COLOR233     = 0x50;
+constexpr uint8_t M5SWITCH8_REG_READSWITCH   = 0x60;
+constexpr uint8_t M5SWITCH8_REG_AUTOCOLOROFF = 0x70;
+constexpr uint8_t M5SWITCH8_REG_AUTOCOLORON  = 0x90;
+constexpr uint8_t M5SWITCH8_REG_WRITETOFLASH = 0xF0;
+constexpr uint8_t M5SWITCH8_REG_INTERRUPTS   = 0xF1;
+constexpr uint8_t M5SWITCH8_REG_FIRMWARE     = 0xFE;
+constexpr uint8_t M5SWITCH8_REG_ADDRESS      = 0xFF;
+
+
 M5SWITCH8::M5SWITCH8(uint8_t address, TwoWire *wire)
 {
   _address = address;
   _wire = wire;
-  _error = 0;
+  _error = M5SWITCH8_OK;
 }
 
 bool M5SWITCH8::begin()
 {
   //  reset variables
-  _error = 0;
+  _error = M5SWITCH8_OK;
 
   if (! isConnected())
   {
@@ -48,7 +63,7 @@ uint8_t M5SWITCH8::getAddress()
 uint8_t M5SWITCH8::readAll()
 {
   uint8_t value = 0;
-  _request(0x00, &value, 1);
+  _request(M5SWITCH8_REG_READALL, &value, 1);
   return value;
 }
 
@@ -56,7 +71,7 @@ uint8_t M5SWITCH8::readSwitch(uint8_t sw)
 {
   if (sw > 7) return 255;
   uint8_t value = 0;
-  _request(0x60 + sw, &value, 1);
+  _request(M5SWITCH8_REG_READSWITCH + sw, &value, 1);
   return value;
 }
 
@@ -68,32 +83,32 @@ uint8_t M5SWITCH8::readSwitch(uint8_t sw)
 void M5SWITCH8::setBrightnessAll(uint8_t B)
 {
   uint8_t bright[9] = {B,B,B, B,B,B, B,B,B};
-  _command(0x10, bright, 9);
+  _command(M5SWITCH8_REG_BRIGHTNESS, bright, 9);
 }
 
 void M5SWITCH8::setBrightness(uint8_t led, uint8_t value)
 {
   if (led > 8) return;
-  _command(0x10 + led, value);
+  _command(M5SWITCH8_REG_BRIGHTNESS + led, value);
 }
 
 uint8_t M5SWITCH8::getBrightness(uint8_t led)
 {
   if (led > 8) return 0;
   uint8_t value = 0;
-  _request(0x10 + led, &value, 1);
+  _request(M5SWITCH8_REG_BRIGHTNESS + led, &value, 1);
   return value;
 }
 
 void M5SWITCH8::setMode(uint8_t mode)
 {
-  _command(0x19, mode == 0 ? 0 : 1);
+  _command(M5SWITCH8_REG_MODE, mode == 0 ? 0 : 1);
 }
 
 uint8_t M5SWITCH8::getMode()
 {
   uint8_t value = 0;
-  _request(0x19, &value, 1);
+  _request(M5SWITCH8_REG_MODE, &value, 1);
   return value;
 }
 
@@ -103,7 +118,7 @@ uint8_t M5SWITCH8::getMode()
 void M5SWITCH8::setColor(uint8_t led, uint32_t bgr)
 {
   if (led > 8) return;
-  uint8_t reg = 0x20 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_COLOR + 4 * led;
   _command(reg, (uint8_t *) &bgr, 3);
 }
 
@@ -111,7 +126,7 @@ void M5SWITCH8::setColorRGB(uint8_t led, uint8_t R, uint8_t G, uint8_t B)
 {
   if (led > 8) return;
   uint8_t colors[3] = {R, G, B};
-  uint8_t reg = 0x20 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_COLOR + 4 * led;
   _command(reg, colors, 3);
 }
 
@@ -119,7 +134,7 @@ uint32_t M5SWITCH8::getColor(uint8_t led)
 {
   if (led > 8) return 0;
   uint32_t bgr = 0;
-  uint8_t reg = 0x20 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_COLOR + 4 * led;
   _request(reg, (uint8_t *) &bgr, 3);
   return bgr;
 }
@@ -127,7 +142,7 @@ uint32_t M5SWITCH8::getColor(uint8_t led)
 void M5SWITCH8::setColor233(uint8_t led, uint8_t value)
 {
   if (led > 8) return;
-  uint8_t reg = 0x50 + led;
+  uint8_t reg = M5SWITCH8_REG_COLOR233 + led;
   _command(reg, value);
 }
 
@@ -135,7 +150,7 @@ uint8_t M5SWITCH8::getColor233(uint8_t led)
 {
   if (led > 8) return 0;
   uint8_t value = 0;
-  uint8_t reg = 0x50 + led;
+  uint8_t reg = M5SWITCH8_REG_COLOR233 + led;
   _request(reg, (uint8_t *) &value, 1);
   return value;
 }
@@ -146,7 +161,7 @@ uint8_t M5SWITCH8::getColor233(uint8_t led)
 void M5SWITCH8::setOffColor(uint8_t led, uint32_t bgr)
 {
   if (led > 7) return;
-  uint8_t reg = 0x70 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_AUTOCOLOROFF + 4 * led;
   _command(reg, (uint8_t *) &bgr, 3);
 }
 
@@ -154,7 +169,7 @@ uint32_t M5SWITCH8::getOffColor(uint8_t led)
 {
   if (led > 7) return 0;
   uint32_t bgr = 0;
-  uint8_t reg = 0x70 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_AUTOCOLOROFF + 4 * led;
   _request(reg, (uint8_t *) &bgr, 3);
   return bgr;
 }
@@ -162,7 +177,7 @@ uint32_t M5SWITCH8::getOffColor(uint8_t led)
 void M5SWITCH8::setOnColor(uint8_t led, uint32_t bgr)
 {
   if (led > 7) return;
-  uint8_t reg = 0x90 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_AUTOCOLORON + 4 * led;
   _command(reg, (uint8_t *) &bgr, 3);
 }
 
@@ -170,7 +185,7 @@ uint32_t M5SWITCH8::getOnColor(uint8_t led)
 {
   if (led > 7) return 0;
   uint32_t bgr = 0;
-  uint8_t reg = 0x90 + 4 * led;
+  uint8_t reg = M5SWITCH8_REG_AUTOCOLORON + 4 * led;
   _request(reg, (uint8_t *) &bgr, 3);
   return bgr;
 }
@@ -182,36 +197,36 @@ uint32_t M5SWITCH8::getOnColor(uint8_t led)
 //
 void M5SWITCH8::writeToFlash()
 {
-  _command(0xF0, 1);
+  _command(M5SWITCH8_REG_WRITETOFLASH, 1);
 }
 
 void M5SWITCH8::enableInterrupts()
 {
-  _command(0xF1, 1);
+  _command(M5SWITCH8_REG_INTERRUPTS, 1);
 }
 
 void M5SWITCH8::disableInterrupts()
 {
-  _command(0xF1, 0);
+  _command(M5SWITCH8_REG_INTERRUPTS, 0);
 }
 
 uint8_t M5SWITCH8::isEnabled()
 {
   uint8_t value = 0;
-  _request(0xF1, &value, 1);
+  _request(M5SWITCH8_REG_INTERRUPTS, &value, 1);
   return value;
 }
 
 uint8_t M5SWITCH8::getFirmwareVersion()
 {
   uint8_t value = 0;
-  _request(0xFE, &value, 1);
+  _request(M5SWITCH8_REG_FIRMWARE, &value, 1);
   return value;
 }
 
 void M5SWITCH8::setAddress(uint8_t addr)
 {
-  _command(0xFF, addr);
+  _command(M5SWITCH8_REG_ADDRESS, addr);
 }
 
 
@@ -222,7 +237,7 @@ void M5SWITCH8::setAddress(uint8_t addr)
 int M5SWITCH8::getLastError()
 {
   int e = _error;
-  _error = 0;
+  _error = M5SWITCH8_OK;
   return e;
 }
 
@@ -273,7 +288,7 @@ int M5SWITCH8::_request(uint8_t reg, uint8_t * arr, uint8_t size)
   {
     arr[i] = _wire->read();
   }
-  _error = 0;
+  _error = M5SWITCH8_OK;
   return _error;
 }
 

@@ -16,7 +16,7 @@ volatile float f = 3.14159265;
 
 void setup()
 {
-  while(!Serial);
+  while (!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);

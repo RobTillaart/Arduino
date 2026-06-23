@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.0] - 2026-06-22
+- fix #38, rounding in displayFloat(value, fixPoint).
+- minor edits
+
+----
+
 ## [0.4.3] - 2026-01-12
 - update GitHub actions
 - minor edits

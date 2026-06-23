@@ -1,0 +1,15 @@
+BOARD:    UNO R3
+IDE:      1.8.19
+
+TM1637_float_point.ino
+TM1637_LIB_VERSION: 0.5.0
+
+TIME:	1954 ms
+TIME:	1967 ms
+TIME:	1967 ms
+TIME:	1967 ms
+TIME:	1967 ms
+TIME:	1967 ms
+
+
+...

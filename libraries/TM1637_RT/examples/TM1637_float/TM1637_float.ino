@@ -16,7 +16,7 @@ volatile float f = 3.14159265;
 
 void setup()
 {
-  while(!Serial);
+  while (!Serial);
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
@@ -37,6 +37,15 @@ void setup()
   TM.displayClear();
   //  TM.dumpCache();
   delay(2000);
+
+
+  //  DEBUG - displayRaw
+  TM.displayFloat(0.0000, 4);
+  TM.displayFloat(0.0000);
+  TM.displayFloat(1.99999, 4);
+  TM.displayFloat(1.99999);
+  TM.displayFloat(0.09999, 4);
+  TM.displayFloat(0.09999);
 }
 
 

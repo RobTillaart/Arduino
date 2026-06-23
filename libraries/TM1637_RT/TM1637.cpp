@@ -25,12 +25,14 @@
 #define TM1637_CMD_SET_ADDR        0xC0
 #define TM1637_CMD_DISPLAY         0x88
 
+
 //  Special chars
-#define TM1637_SPACE               16
-#define TM1637_MINUS               17
-#define TM1637_DEGREE              18
 #define TM1637_CELSIUS             12   //  C
 #define TM1637_FAHRENHEIT          15   //  F
+#define TM1637_SPACE               16
+#define TM1637_MINUS               17   //  -
+#define TM1637_DEGREE              18   //  °
+
 
 //  not used
 #define TM1637_AMPERE              10   //  A
@@ -152,7 +154,7 @@ void TM1637::displayFloat(float value)
 
   while (v >= 10)
   {
-    v /= 10;
+    v *= 0.1;
     dpos--;
   }
   for (int i = last-1; i > -1; i--)
@@ -182,12 +184,12 @@ void TM1637::displayFloat(float value, uint8_t fixedPoint)
     dpos--;
     last--;
   }
-  //  v += 0.0001; //  Bug fix for 12.999 <> 13.000
-  v += 0.001;      //  Bug fix for 12.99 <> 13.00
+  //  proper rounding
+  v += pow(10, -fixedPoint) / 2.0;
 
   while (v >= 10)
   {
-    v /= 10;
+    v *= 0.1;
     dpos--;
     point++;
   }

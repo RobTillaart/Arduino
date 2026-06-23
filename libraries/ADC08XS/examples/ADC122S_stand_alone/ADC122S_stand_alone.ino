@@ -3,7 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test
 //     URL: https://github.com/RobTillaart/ADC08XS
-
+//
+//  read device without library (debug).
 
 #include "Arduino.h"
 #include "SPI.h"

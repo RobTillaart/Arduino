@@ -1,7 +1,7 @@
 //
 //    FILE: ADC08XS.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 //    DATE: 2024-01-13
 // PURPOSE: Arduino library for ADC082S, ADC084S, ADC102S, ADC104S, ADC122S, ADC124S,
 //                              8, 10, 12 bits, 2 or 4 channel ADC (SPI).

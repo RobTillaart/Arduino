@@ -102,13 +102,13 @@ protocol: S == SPI, C == I2C.
 
 ### Related
 
+- https://github.com/RobTillaart/ADC08XS  2 + 4 channel library
 - https://github.com/RobTillaart/ADC081S  single channel version of this series.
 - https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 - https://github.com/RobTillaart/MCP_ADC
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
 - https://github.com/RobTillaart/MCP_DAC
-
 - https://www.mikroe.com/adc-19-click
 
 
@@ -133,7 +133,7 @@ depending on number of bits of the actual ADC.
 
 ### Read
 
-- **uint16_t read(uint8_t channel)** reads a value of the device.
+- **uint16_t read(uint8_t channel)** reads a value from the device.
 The parameter channel must be 0,1,2,3, depending on device.
 Invalid channel numbers will return zero 0.
 - **int deltaRead(uint8_t channelA, uint8_t channelB)** read channel A and B 
@@ -177,7 +177,7 @@ Alternative way to wake up the device is to do a dummy **read()** call.
 
 - improve documentation
 - get hardware to test / verify working
-- align with ADC081S where possible
+- align with ADC081S/ADC08XS where possible
 
 #### Should
 

@@ -2,7 +2,6 @@
 //    FILE: MS5611_adjust_pressure_math.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2022-10-27
 //     URL: https://github.com/RobTillaart/MS5611
 
 

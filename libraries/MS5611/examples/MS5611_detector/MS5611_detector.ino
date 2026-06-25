@@ -2,7 +2,6 @@
 //    FILE: MS5611_DETECTOR.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: detect an MS5611 on a NANO33 BLE
-//    DATE: 2022-01-13
 //     URL: https://github.com/RobTillaart/MS5611
 
 

@@ -2,7 +2,6 @@
 //    FILE: MS5611_test_two.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application for two sensors
-//    DATE: 2022-01-15
 //     URL: https://github.com/RobTillaart/MS5611
 
 

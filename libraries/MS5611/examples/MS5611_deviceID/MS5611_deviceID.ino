@@ -2,7 +2,6 @@
 //    FILE: MS5611_deviceID.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2022-01-22
 //     URL: https://github.com/RobTillaart/MS5611
 
 

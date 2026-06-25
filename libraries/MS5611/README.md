@@ -91,6 +91,8 @@ sensor for this (e.g. DS18B20).
 
 ## I2C
 
+### I2C Address
+
 The device address is 0x76 or 0x77 depending on the CSB/CSO pin.
 
 

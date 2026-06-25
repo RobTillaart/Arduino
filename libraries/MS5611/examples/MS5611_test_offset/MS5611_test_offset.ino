@@ -2,7 +2,6 @@
 //    FILE: MS5611_test_offset.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2022-01-15
 //     URL: https://github.com/RobTillaart/MS5611
 
 

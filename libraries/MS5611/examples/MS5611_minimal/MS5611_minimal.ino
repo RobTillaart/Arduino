@@ -2,7 +2,6 @@
 //    FILE: MS5611_minimal.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2021-12-24
 //     URL: https://github.com/RobTillaart/MS5611
 
 

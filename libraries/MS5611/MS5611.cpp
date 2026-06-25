@@ -2,7 +2,7 @@
 //    FILE: MS5611.cpp
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library for MS5611 (I2C) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 

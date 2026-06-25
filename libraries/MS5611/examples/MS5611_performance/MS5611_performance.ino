@@ -2,7 +2,6 @@
 //    FILE: MS5611_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2020-06-21
 //     URL: https://github.com/RobTillaart/MS5611
 
 

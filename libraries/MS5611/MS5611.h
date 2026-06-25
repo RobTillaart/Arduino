@@ -3,7 +3,7 @@
 //    FILE: MS5611.h
 //  AUTHOR: Rob Tillaart
 //          Erni - testing/fixes
-// VERSION: 0.5.1
+// VERSION: 0.5.2
 // PURPOSE: Arduino library for MS5611 (I2C) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611
 
@@ -31,7 +31,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_LIB_VERSION                    (F("0.5.1"))
+#define MS5611_LIB_VERSION                    (F("0.5.2"))
 
 #ifndef MS5611_DEFAULT_ADDRESS
 #define MS5611_DEFAULT_ADDRESS                0x77

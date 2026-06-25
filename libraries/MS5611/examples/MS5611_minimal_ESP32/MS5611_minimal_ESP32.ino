@@ -2,7 +2,6 @@
 //    FILE: MS5611_minimal_ESP32.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
-//    DATE: 2023-11-14
 //     URL: https://github.com/RobTillaart/MS5611
 
 

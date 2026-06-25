@@ -143,6 +143,8 @@ data as they do not have large buffers.  (==> BUSY line)
   - might not really add to performance..  (able to send a line at once)
 - fix blocking TODO in sendByte
 - StrobeDelay should be in milliseconds or uint32_t?
+- Make a parallel printer class based upon MCP23S017. See #8).
+  - 2 bytes, one for byte IO, the other for control lines.
 
 #### Wont
 

@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.0] - 2026-06-24
+- fix #8, add PP595 derived class, 
+  - uses a 74HC595 instead of 8 data pins
+- add PP595_test.ino
+- renamed formFeed() lineFeed() to camelCase
+- minor edits
+
+----
+
 ## [0.2.8] - 2026-04-22
 - update GitHub actions
 - minor edits

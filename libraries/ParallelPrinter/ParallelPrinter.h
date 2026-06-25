@@ -2,7 +2,7 @@
 //
 //    FILE: ParallelPrinter.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.3.0
 //    DATE: 2013-09-30
 // PURPOSE: parallel printer class that implements the Print interface
 //     URL: https://github.com/RobTillaart/ParallelPrinter
@@ -13,7 +13,7 @@
 #include "Arduino.h"
 
 
-#define PARALLELPRINTER_VERSION               (F("0.2.8"))
+#define PARALLELPRINTER_VERSION               (F("0.3.0"))
 
 #define FORMFEED                              12
 #define LINEFEED                              10
@@ -50,8 +50,8 @@ public:
   uint8_t  getLineFeed()           { return _lineFeed; };
 
   void     printLineNumber(bool b) { _printLineNumber = b; };
-  size_t   formfeed()              { return write(FORMFEED); };
-  size_t   linefeed()              { return write(LINEFEED); };
+  size_t   formFeed()              { return write(FORMFEED); };
+  size_t   lineFeed()              { return write(LINEFEED); };
   bool     isOutOfPaper()          { return digitalRead(_busyPin) == LOW; };
   bool     isBusy()                { return digitalRead(_oopPin) == HIGH; };
 
@@ -60,7 +60,14 @@ public:
   uint16_t getStrobeDelay()        { return _strobeDelay; };
 
 
-private:
+  //  DEPRECATED
+  [[deprecated("use formFeed() instead")]]
+  size_t   formfeed() { return formFeed(); };
+  [[deprecated("use lineFeed() instead")]]
+  size_t   linefeed() { return lineFeed(); };
+  
+
+protected:
   //  COMMUNICATION
   uint8_t  _strobePin;   //  inform printer new data on the line.
   uint8_t  _busyPin;     //  feedback from printer
@@ -81,6 +88,26 @@ private:
 
   bool     _printLineNumber;
   uint16_t _strobeDelay;
+};
+
+
+///////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS PP595
+//
+//  uses a 74HC595 shift register
+//
+class PP595 : public ParallelPrinter
+{
+public:
+  PP595(uint8_t STROBE, uint8_t BUSY, uint8_t OOP, uint8_t DATA, uint8_t LATCH, uint8_t CLOCK);
+
+protected:
+  void    sendByte(uint8_t c);
+
+  uint8_t _dataPin;
+  uint8_t _latchPin;
+  uint8_t _clockPin;
 };
 
 

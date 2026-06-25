@@ -2,6 +2,8 @@
 
 # Data types (KEYWORD1)
 ParallelPrinter	KEYWORD1
+PP595	KEYWORD1
+
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
@@ -23,8 +25,8 @@ setLineFeed	KEYWORD2
 getLineFeed	KEYWORD2
 
 printLineNumber	KEYWORD2
-formfeed	KEYWORD2
-linefeed	KEYWORD2
+formFeed	KEYWORD2
+lineFeed	KEYWORD2
 
 isOutOfPaper	KEYWORD2
 isBusy	KEYWORD2

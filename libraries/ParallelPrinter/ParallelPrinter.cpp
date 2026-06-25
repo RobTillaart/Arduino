@@ -1,7 +1,7 @@
 //
 //    FILE: ParallelPrinter.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.8
+// VERSION: 0.3.0
 //    DATE: 2013-09-30
 // PURPOSE: parallel printer class that implements the Print interface
 //     URL: https://github.com/RobTillaart/ParallelPrinter
@@ -27,11 +27,14 @@ ParallelPrinter::ParallelPrinter(uint8_t STROBE, uint8_t BUSY, uint8_t OOP, uint
   pinMode(_busyPin, INPUT);
   pinMode(_strobePin, OUTPUT);
 
-  //  DATA LINES
-  for (uint8_t i = 0; i < 8; i++)
+  if (p != nullptr)
   {
-    _pin[i] = p[i];
-    pinMode(_pin[i], OUTPUT);
+    //  INIT DATA LINES
+    for (uint8_t i = 0; i < 8; i++)
+    {
+      _pin[i] = p[i];
+      pinMode(_pin[i], OUTPUT);
+    }
   }
   setLineLength(80);
   setPageLength(60);
@@ -83,6 +86,10 @@ size_t ParallelPrinter::write(uint8_t c)
 }
 
 
+///////////////////////////////////////////////////////////
+//
+//  PROTECTED
+//
 void ParallelPrinter::processSingleChar(uint8_t c)
 {
   _pos++;
@@ -149,6 +156,45 @@ void ParallelPrinter::sendByte(uint8_t c)
   }
   digitalWrite(_strobePin, LOW);
   //  time consuming part
+  if (_strobeDelay) delayMicroseconds(_strobeDelay);
+  digitalWrite(_strobePin, HIGH);
+
+  //  wait till data is read by printer.
+  while (digitalRead(_busyPin) == LOW) yield();
+}
+
+
+///////////////////////////////////////////////////////////
+//
+//  DERIVED CLASS PP595
+//
+PP595::PP595(uint8_t STROBE, uint8_t BUSY, uint8_t OOP, uint8_t DATA, uint8_t LATCH, uint8_t CLOCK)
+  : ParallelPrinter(STROBE, BUSY, OOP, nullptr)
+{
+  _dataPin = DATA;
+  _latchPin = LATCH;
+  _clockPin = CLOCK;
+  pinMode(_dataPin, OUTPUT);
+  pinMode(_latchPin, OUTPUT);
+  pinMode(_clockPin, OUTPUT);
+}
+
+void PP595::sendByte(uint8_t c)
+{
+  Serial.write(c);  //  debugging + needed for unit tests
+  return;
+  
+  
+  //  wait until printer is ready.
+  while (digitalRead(_busyPin) == HIGH) yield();
+
+  // set data pins of shift register
+  digitalWrite(_latchPin, LOW);
+  shiftOut(_dataPin, _clockPin, LSBFIRST, c);  //  MSBFIRST ?
+  digitalWrite(_latchPin, HIGH);
+
+  //  signal printer there is new data
+  digitalWrite(_strobePin, LOW);
   if (_strobeDelay) delayMicroseconds(_strobeDelay);
   digitalWrite(_strobePin, HIGH);
 

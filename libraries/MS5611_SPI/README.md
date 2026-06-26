@@ -25,7 +25,7 @@ This library only implements the SPI interface.
 It is based upon the 0.3.6 version of the I2C library, 
 see - https://github.com/RobTillaart/MS5611
 
-If you know a cause or better a solution to the self heating effect, 
+If you know a cause or better a solution for the self heating effect, 
 please let me know (open an issue).
 
 Feedback as always is welcome.
@@ -302,8 +302,6 @@ Disabling the compensation will be slightly faster but you loose precision.
 
 
 ### SPI functions
-
-// to be tested.
 
 - **void setSPIspeed(uint32_t speed)**
 - **uint32_t getSPIspeed()**

@@ -1,7 +1,8 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
+//    DATE: 2022-01-18
 // PURPOSE: Arduino library for MS5611 (SPI) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611_SPI
 
@@ -484,6 +485,7 @@ uint8_t MS5611_SPI::swSPI_transfer(uint8_t val)
   {
     digitalWrite(dao,(val & mask));
     digitalWrite(clk, HIGH);
+    //  if (digitalRead(dai) != 0) value |= mask;  // faster?
     value <<= 1;
     if (digitalRead(dai) != 0) value += 1;
     digitalWrite(clk, LOW);

@@ -63,7 +63,7 @@ unittest(test_new_operator)
 unittest(test_constants)
 {
   assertEqual(MS5611_READ_OK , 0);
-  assertEqual(MS5611_ERROR_2 , 2); 
+  assertEqual(MS5611_ERROR_2 , 2);
   assertEqual(MS5611_NOT_READ, -999);
 }
 

@@ -37,7 +37,8 @@ although this effect is expected to be relative small as the 32 bit floats have 
 
 The library (.cpp) has a 2nd order compensation which is not tested.
 This needs reference devices and equipment to verify which I do not have.
-Feedback is welcome.
+
+Feedback as always is welcome.
 
 
 ### 0.2.0
@@ -148,6 +149,9 @@ too if they are behind the multiplexer.
 
 See also .h file
 
+Alternative libraries for MS5803-series
+- https://github.com/millerlp/MS5803_01
+
 
 ## Interface MS5837
 
@@ -226,7 +230,7 @@ It depends e.g. on the salinity (sea water) and temperature.
 
 The pressure is in fact the sum of the air pressure and the weight of the
 liquid above the sensor.
-If the density of the is larger than water the maximum depth at which the
+If the density of the liquid is larger than water the maximum depth at which the
 sensor will work will decrease. Denser liquids give more pressure.
 
 - **void setDensity(float density = 0.99802)** set liquid density.

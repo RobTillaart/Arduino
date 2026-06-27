@@ -1,7 +1,7 @@
 //
 //    FILE: MS5837.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -10,11 +10,11 @@
 #include "MS5837.h"
 
 //  commands  (MS5611 alike)
-#define MS5837_CMD_READ_ADC       0x00
-#define MS5837_CMD_READ_PROM      0xA0
-#define MS5837_CMD_RESET          0x1E
-#define MS5837_CMD_CONVERT_D1     0x40
-#define MS5837_CMD_CONVERT_D2     0x50
+constexpr uint8_t MS5837_CMD_READ_ADC   = 0x00;
+constexpr uint8_t MS5837_CMD_READ_PROM  = 0xA0;
+constexpr uint8_t MS5837_CMD_RESET      = 0x1E;
+constexpr uint8_t MS5837_CMD_CONVERT_D1 = 0x40;
+constexpr uint8_t MS5837_CMD_CONVERT_D2 = 0x50;
 
 
 //  CONSTRUCTOR

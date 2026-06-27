@@ -61,7 +61,7 @@ void loop()
   }
   Serial.print(MS.getTemperature(), 2);
   Serial.print("\t");
-  //Serial.print(MS.getPressure(), 2);
+  // Serial.print(MS.getPressure(), 2);
   Serial.print("\t");
   Serial.print(MS.getAltitude(1023.45), 2);
   Serial.println();

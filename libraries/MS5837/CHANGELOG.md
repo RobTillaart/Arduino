@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.3] - 2026-06-27
+- update GitHub actions
+- minor edits
+
 ## [0.3.2] - 2025-11-20
 - add **float getSeaLevelPressure(float pressure, float altitude)**
 - update keywords.txt

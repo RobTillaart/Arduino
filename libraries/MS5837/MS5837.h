@@ -2,7 +2,7 @@
 //
 //    FILE: MS5837.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2023-11-12
 // PURPOSE: Arduino library for MS5837 temperature and pressure sensor.
 //     URL: https://github.com/RobTillaart/MS5837
@@ -11,21 +11,21 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define MS5837_LIB_VERSION        (F("0.3.2"))
+#define MS5837_LIB_VERSION        (F("0.3.3"))
 
 
 //  TYPES
-#define MS5837_TYPE_UNKNOWN       255
-#define MS5803_TYPE_01              1
-#define MS5837_TYPE_02              2
-#define MS5837_TYPE_30             30
+constexpr uint8_t MS5837_TYPE_UNKNOWN = 255;
+constexpr uint8_t MS5803_TYPE_01      =   1;
+constexpr uint8_t MS5837_TYPE_02      =   2;
+constexpr uint8_t MS5837_TYPE_30      =  30;
 
 
 //  ERROR CODES
-#define MS5837_OK                   0
 //  I2C twoWire can return 1..5 (AVR)
-#define MS5837_ERROR_I2C          -10
-#define MS5837_ERROR_REQUEST      -11
+constexpr int MS5837_OK             = 0;
+constexpr int MS5837_ERROR_I2C      = -10;
+constexpr int MS5837_ERROR_REQUEST  = -11;
 
 
 class MS5837

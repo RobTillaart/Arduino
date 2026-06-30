@@ -1,7 +1,8 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.3
+// VERSION: 0.6.4
+//    DATE: 2019-09-04
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -54,6 +55,7 @@ void HX711::reset()
   _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
   _price    = 0;
+  read();  //  force settings.
 }
 
 

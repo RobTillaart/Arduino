@@ -2,7 +2,8 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.3
+// VERSION: 0.6.4
+//    DATE: 2019-09-04
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -15,7 +16,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.6.3"))
+#define HX711_LIB_VERSION               (F("0.6.4"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -54,7 +55,7 @@ public:
   bool     is_ready();
 
   //  wait until ready,
-  //  check every ms
+  //  check every ms milliseconds.
   void     wait_ready(uint32_t ms = 0);
   //  max # retries
   bool     wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0);

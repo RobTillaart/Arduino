@@ -35,6 +35,8 @@ interpolate beyond the calibration data points.**
 
 If problems occur or there are questions, please open an issue at GitHub.
 
+Feedback as always is welcome.
+
 
 ### 10 or 80 SPS
 
@@ -64,11 +66,13 @@ This is a close "relative" of the HX711 that allows to set the SPS to
 
 ### Related
 
-- https://github.com/bogde/HX711
+- https://github.com/bogde/HX711 
+- https://github.com/bogde/HX711/issues/172 - hx711 module design fault fix
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX710AB
-- https://github.com/RobTillaart/HX711
-- https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
+- https://github.com/RobTillaart/HX711 
+- https://github.com/RobTillaart/HX711_MP MP = multipoint calibration version.
+- https://github.com/RobTillaart/printHelpers engineering and scientific notation.
 
 Discussion about resolution of the ADC
 - https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
@@ -303,7 +307,7 @@ If not configured the other functions won't work.
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
 
-Colour scheme wires of two devices.
+Colour scheme wires of two devices. Check the datasheet of your device! 
 
 |  HX711 Pin  |  Colour dev 1   |  Colour dev 2   |
 |:-----------:|:---------------:|:---------------:|

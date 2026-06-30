@@ -1,5 +1,5 @@
 //
-//    FILE: HX_MP_calibrate.ino
+//    FILE: HX711_MP_calibrate.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: HX711_MP sketch to help calibration.
 //     URL: https://github.com/RobTillaart/HX711_MP

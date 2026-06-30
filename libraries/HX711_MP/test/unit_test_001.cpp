@@ -1,9 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2020-12-28
-// PURPOSE: unit tests for the HX711 library (24 bit ADC for loadcells)
-//          https://github.com/RobTillaart/HX711
+//    DATE: 2023-03-10
+// PURPOSE: unit tests for the HX711_MP library (24 bit ADC for loadcells)
+//          https://github.com/RobTillaart/HX711_MP
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 

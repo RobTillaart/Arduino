@@ -1,5 +1,5 @@
 //
-//    FILE: HX_MP_runtime_calibration.ino
+//    FILE: HX711_MP_runtime_calibration.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711_MP

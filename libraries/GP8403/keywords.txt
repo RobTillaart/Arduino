@@ -1,0 +1,33 @@
+# Syntax Colouring Map For GP8403
+
+# Data types (KEYWORD1)
+GP8403	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setRange	KEYWORD2
+getRange	KEYWORD2
+channels	KEYWORD2
+maxValue	KEYWORD2
+
+setValue	KEYWORD2
+getValue	KEYWORD2
+increment	KEYWORD2
+decrement	KEYWORD2
+
+setPercentage	KEYWORD2
+getPercentage	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+GP8403_LIB_VERSION	LITERAL1
+
+GP8403_DEFAULT_ADDRESS	LITERAL1
+
+GP8403_OK	LITERAL1

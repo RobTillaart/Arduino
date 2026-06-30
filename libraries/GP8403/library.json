@@ -1,0 +1,23 @@
+{
+  "name": "GP8403",
+  "keywords": "",
+  "description": "Arduino library for GP8403, I2C 12 bit two channel DAC.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/GP8403.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "GP8403.h"
+}

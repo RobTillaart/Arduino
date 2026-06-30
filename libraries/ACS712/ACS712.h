@@ -2,7 +2,7 @@
 //
 //    FILE: ACS712.h
 //  AUTHOR: Rob Tillaart, Pete Thompson
-// VERSION: 0.4.0
+// VERSION: 0.4.1
 //    DATE: 2020-08-02
 // PURPOSE: ACS712 library - current measurement
 //     URL: https://github.com/RobTillaart/ACS712
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 
 
-#define ACS712_LIB_VERSION              (F("0.4.0"))
+#define ACS712_LIB_VERSION              (F("0.4.1"))
 
 
 //  ACS712_FF_SINUS == 1.0/sqrt(2) == 0.5 * sqrt(2)
@@ -53,7 +53,7 @@ class ACS712
     //  works with peak2peak level and (crest) Form Factor.
     //  lower frequencies block longer.
     //  does NOT call yield() as that would disrupt measurement
-    float    mA_AC(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
+    float mA_AC(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
 
 
     //  returns mA
@@ -61,13 +61,19 @@ class ACS712
     //  works with sampling.
     //  lower frequencies block longer.
     //  does NOT call yield() as that would disrupt measurement
-    float    mA_AC_sampling(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
+    float mA_AC_sampling(float frequency = ACS712_DEFAULT_FREQ, uint16_t cycles = 1);
 
 
     //  returns mA
     //  blocks < 1 ms (depending on # cycles and ADC used)
     //  does call yield() for RTOS.
-    float    mA_DC(uint16_t cycles = 1);
+    float mA_DC(uint16_t cycles = 1);
+
+    //  TODO THRESHOLD 50 mA in .cpp how to handle.
+    //  returns mA
+    //  blocks < 1 ms (depending on # cycles and ADC used)
+    //  does call yield() for RTOS.
+    float mA_DC_PWM(float threshold, uint16_t cycles = 1);
 
 
     //  midPoint functions

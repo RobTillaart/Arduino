@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.6] - 2026-07-01
+- fix version number
+- reset error flag in **reset()**
+- add constants for error handling
+- improve readme.md (remove some incorrect info)
+- replace defines with constexpr (type checking)
+- update GitHub actions
+- minor edits
+
 ## [0.1.5] - 2025-11-17
 - sync INA226, 0.6.5
 - improvements on ALERT register functions

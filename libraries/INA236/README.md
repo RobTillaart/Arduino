@@ -47,20 +47,27 @@ A few important maxima, see datasheet, chapter 6.
 
 ### Related
 
+Specifications
 - https://www.ti.com/product/INA236#tech-docs
 - https://www.ti.com/product/INA236#params
 - https://www.ti.com/document-viewer/INA236/datasheet
+
+INAxxx libraries
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
 - https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
-- https://github.com/RobTillaart/INA260  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA2227  48 Volt, I2C, 16 bits (2 channel)
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
+
+Other
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
-- https://github.com/RobTillaart/printHelpers  (for scientific notation)
+- https://github.com/RobTillaart/printHelpers scientific and units notation
 
 
 ## I2C
@@ -74,12 +81,12 @@ the A0 address line is connected to the SCL, SDA, GND and VCC pins.
 
 See table - from datasheet table 7.1, page 16.
 
-|  A0   |  INA236A  |  HEX   |  INA236B  |  HEX   |
-|:-----:|:---------:|:------:|:---------:|:------:|
-|  GND  |     64    |  0x40  |     72    |  0x48  |
-|  VS   |     65    |  0x41  |     73    |  0x49  |
-|  SDA  |     66    |  0x42  |     74    |  0x4A  |
-|  SCL  |     67    |  0x43  |     75    |  0x4B  |
+|  A0   |  INA236A  |  HEX   | |  INA236B  |  HEX   |
+|:-----:|:---------:|:------:|-|:---------:|:------:|
+|  GND  |     64    |  0x40  | |     72    |  0x48  |
+|  VS   |     65    |  0x41  | |     73    |  0x49  |
+|  SDA  |     66    |  0x42  | |     74    |  0x4A  |
+|  SCL  |     67    |  0x43  | |     75    |  0x4B  |
 
 
 ### Performance
@@ -89,6 +96,24 @@ To be elaborated, example sketch available.
 (From Datasheet 7.5.1)  
 _The INA236 supports the transmission protocol for fast mode up to 
 400 kHz and high-speed mode up to 2.94 MHz._
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## About Measurements
@@ -143,7 +168,7 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 
 Main function + wrappers.
 
-- **float getBusVoltage()** idem. Returns value in volts. Max 85 Volt.
+- **float getBusVoltage()** idem. Returns value in volts. Max 48 Volt.
 This value is always positive.
 - **float getBusVolt()**
 - **float getBusMilliVolt()**
@@ -152,17 +177,15 @@ This value is always positive.
 ### Shunt voltage
 
 - **float getShuntVoltage()** idem, Returns value in volts.
-Note the value can be positive or negative as the INA229 is bidirectional.
+Note the value can be positive or negative as the INA236 is bidirectional.
 - **float getShuntVolt()**
 - **float getShuntMilliVolt()**
 - **float getShuntMicroVolt()**
-- **int32_t getShuntVoltageRAW()** integer version requested in issue #3.
-Returns raw ADC value, 20 bits with sign extended.
 
 ### Shunt current
 
 - **float getCurrent()** returns the current through the shunt in Ampere.
-Note this value can be positive or negative as the INA229 is bidirectional.
+Note this value can be positive or negative as the INA236 is bidirectional.
 - **float getAmpere()**
 - **float getMilliAmpere()**
 - **float getMicroAmpere()**
@@ -450,6 +473,9 @@ Be aware that
 #### Should
 
 #### Could
+
+- setMaxCurrentShunt(), if normalize fails should we set current_LSB = 0.0f?
+  or continue with non normalized value.
 
 #### Won't
 

@@ -2,7 +2,7 @@
 //    FILE: INA236.h
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -14,39 +14,46 @@
 #include "Wire.h"
 
 
-#define INA236_LIB_VERSION                (F("0.1.5"))
+#define INA236_LIB_VERSION                (F("0.1.6"))
 
 
 //  set by setAlertRegister
-#define INA236_SHUNT_OVER_VOLTAGE         0x8000
-#define INA236_SHUNT_UNDER_VOLTAGE        0x4000
-#define INA236_BUS_OVER_VOLTAGE           0x2000
-#define INA236_BUS_UNDER_VOLTAGE          0x1000
-#define INA236_POWER_OVER_LIMIT           0x0800
-#define INA236_CONVERSION_READY           0x0400
-
+constexpr uint16_t INA236_SHUNT_OVER_VOLTAGE  = 0x8000;
+constexpr uint16_t INA236_SHUNT_UNDER_VOLTAGE = 0x4000;
+constexpr uint16_t INA236_BUS_OVER_VOLTAGE    = 0x2000;
+constexpr uint16_t INA236_BUS_UNDER_VOLTAGE   = 0x1000;
+constexpr uint16_t INA236_POWER_OVER_LIMIT    = 0x0800;
+constexpr uint16_t INA236_CONVERSION_READY    = 0x0400;
 
 //  returned by getAlertFlag
-#define INA236_ALERT_FUNCTION_FLAG        0x0010
-#define INA236_CONVERSION_READY_FLAG      0x0008
-#define INA236_MATH_OVERFLOW_FLAG         0x0004
-#define INA236_ALERT_POLARITY_FLAG        0x0002
-#define INA236_ALERT_LATCH_ENABLE_FLAG    0x0001
-
+constexpr uint16_t INA236_ALERT_FUNCTION_FLAG     = 0x0010;
+constexpr uint16_t INA236_CONVERSION_READY_FLAG   = 0x0008;
+constexpr uint16_t INA236_MATH_OVERFLOW_FLAG      = 0x0004;
+constexpr uint16_t INA236_ALERT_POLARITY_FLAG     = 0x0002;
+constexpr uint16_t INA236_ALERT_LATCH_ENABLE_FLAG = 0x0001;
 
 //  returned by setMaxCurrentShunt
-#define INA236_ERR_NONE                   0x0000
-#define INA236_ERR_SHUNTVOLTAGE_HIGH      0x8000
-#define INA236_ERR_MAXCURRENT_LOW         0x8001
-#define INA236_ERR_SHUNT_LOW              0x8002
-#define INA236_ERR_NORMALIZE_FAILED       0x8003
+constexpr uint16_t INA236_ERR_NONE              = 0x0000;
+constexpr uint16_t INA236_ERR_SHUNTVOLTAGE_HIGH = 0x8000;
+constexpr uint16_t INA236_ERR_MAXCURRENT_LOW    = 0x8001;
+constexpr uint16_t INA236_ERR_SHUNT_LOW         = 0x8002;
+constexpr uint16_t INA236_ERR_NORMALIZE_FAILED  = 0x8003;
+
+//  Error flags
+constexpr uint16_t INA236_OK                    = 0x0000;
+constexpr uint16_t INA236_ERR_I2C_READ          = 0xFFFF;
+constexpr uint16_t INA236_ERR_I2C_REQUEST       = 0xFFFE;
+constexpr uint16_t INA236_ERR_I2C_WRITE         = 0xFFFD;
+
 
 //  See INA226 issue #26 + INA236 issue #8
+//  Can be overruled command line
 #ifndef INA236_MINIMAL_SHUNT
 #define INA236_MINIMAL_SHUNT              0.001
 #endif
 
-#define INA236_MAX_WAIT_MS                600   //  millis
+//  waiting time in milliseconds
+constexpr uint16_t INA236_MAX_WAIT_MS = 600;
 
 
 //  for setAverage() and getAverage()
@@ -101,9 +108,6 @@ public:
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
   float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
 
-  //  raw integer interface.
-  int32_t  getShuntVoltageRAW();
-
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
   float    getAmpere()          { return getCurrent(); };
@@ -142,8 +146,8 @@ public:
   //  shunt * maxCurrent < 81 mV  (or 20mV depends on ADCrange set)
   //  maxCurrent >= 0.001
   //  shunt      >= 0.001
-  int      setMaxCurrentShunt(float maxCurrent = 20.0, float shunt = 0.002, bool normalize = true);
-  bool     isCalibrated()     { return _current_LSB != 0.0; };
+  int      setMaxCurrentShunt(float maxCurrent = 20.0f, float shunt = 0.002f, bool normalize = true);
+  bool     isCalibrated()     { return _current_LSB != 0.0f; };
 
   //  These functions return zero if not calibrated!
   float    getCurrentLSB()    { return _current_LSB;       };
@@ -198,7 +202,7 @@ public:
 
   //  OBSOLETE
   [[deprecated("Use getAlertRegister()")]]
-  uint16_t getAlertFlag();
+  uint16_t getAlertFlag() { return getAlertRegister(); };
 
 
 private:

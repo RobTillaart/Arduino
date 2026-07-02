@@ -1,7 +1,7 @@
 //    FILE: INA236.cpp
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.5
+// VERSION: 0.1.6
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -13,25 +13,25 @@
 
 
 //  REGISTERS
-#define INA236_CONFIGURATION              0x00
-#define INA236_SHUNT_VOLTAGE              0x01
-#define INA236_BUS_VOLTAGE                0x02
-#define INA236_POWER                      0x03
-#define INA236_CURRENT                    0x04
-#define INA236_CALIBRATION                0x05
-#define INA236_MASK_ENABLE                0x06
-#define INA236_ALERT_LIMIT                0x07
-#define INA236_MANUFACTURER               0x3E
-#define INA236_DIE_ID                     0x3F
+constexpr uint8_t INA236_CONFIGURATION = 0x00;
+constexpr uint8_t INA236_SHUNT_VOLTAGE = 0x01;
+constexpr uint8_t INA236_BUS_VOLTAGE   = 0x02;
+constexpr uint8_t INA236_POWER         = 0x03;
+constexpr uint8_t INA236_CURRENT       = 0x04;
+constexpr uint8_t INA236_CALIBRATION   = 0x05;
+constexpr uint8_t INA236_MASK_ENABLE   = 0x06;
+constexpr uint8_t INA236_ALERT_LIMIT   = 0x07;
+constexpr uint8_t INA236_MANUFACTURER  = 0x3E;
+constexpr uint8_t INA236_DIE_ID        = 0x3F;
 
 
 //  CONFIGURATION MASKS
-#define INA236_CONF_RESET_MASK            0x8000
-#define INA236_CONF_ADCRANGE_MASK         0x1000
-#define INA236_CONF_AVERAGE_MASK          0x0E00
-#define INA236_CONF_BUSVC_MASK            0x01C0
-#define INA236_CONF_SHUNTVC_MASK          0x0038
-#define INA236_CONF_MODE_MASK             0x0007
+constexpr uint16_t INA236_CONF_RESET_MASK    = 0x8000;
+constexpr uint16_t INA236_CONF_ADCRANGE_MASK = 0x1000;
+constexpr uint16_t INA236_CONF_AVERAGE_MASK  = 0x0E00;
+constexpr uint16_t INA236_CONF_BUSVC_MASK    = 0x01C0;
+constexpr uint16_t INA236_CONF_SHUNTVC_MASK  = 0x0038;
+constexpr uint16_t INA236_CONF_MODE_MASK     = 0x0007;
 
 
 ////////////////////////////////////////////////////////
@@ -43,10 +43,10 @@ INA236::INA236(const uint8_t address, TwoWire *wire)
   _address     = address;
   _wire        = wire;
   //  no calibrated values by default.
-  _current_LSB = 0;
-  _maxCurrent  = 0;
-  _shunt       = 0;
-  _error       = 0;
+  _current_LSB = 0.0f;
+  _maxCurrent  = 0.0f;
+  _shunt       = 0.0f;
+  _error       = INA236_OK;
 }
 
 
@@ -141,11 +141,15 @@ bool INA236::reset()
   mask |= INA236_CONF_RESET_MASK;
   uint16_t result = _writeRegister(INA236_CONFIGURATION, mask);
   //  Serial.println(result);
-  if (result != 0) return false;
+  if (result != INA236_OK)
+  {
+    return false;
+  }
   //  reset calibration
-  _current_LSB = 0;
-  _maxCurrent  = 0;
-  _shunt       = 0;
+  _current_LSB = 0.0f;
+  _maxCurrent  = 0.0f;
+  _shunt       = 0.0f;
+  _error       = INA236_OK;
   return true;
 }
 
@@ -159,6 +163,7 @@ bool INA236::setADCRange(bool flag)
   _ADCRange = flag;
   if (flag) value |= INA236_CONF_ADCRANGE_MASK;
   else      value &= ~INA236_CONF_ADCRANGE_MASK;
+  //  Error handling
   _writeRegister(INA236_CONFIGURATION, value);
   //  INA228, #26
   bool rv = setMaxCurrentShunt(getMaxCurrent(), getShunt()) == 0;
@@ -180,6 +185,7 @@ bool INA236::setAverage(uint8_t avg)
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
   mask &= ~INA236_CONF_AVERAGE_MASK;
   mask |= (avg << 9);
+  //  Error handling
   _writeRegister(INA236_CONFIGURATION, mask);
   return true;
 }
@@ -200,6 +206,7 @@ bool INA236::setBusVoltageConversionTime(uint8_t bvct)
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
   mask &= ~INA236_CONF_BUSVC_MASK;
   mask |= (bvct << 6);
+  //  Error handling
   _writeRegister(INA236_CONFIGURATION, mask);
   return true;
 }
@@ -220,6 +227,7 @@ bool INA236::setShuntVoltageConversionTime(uint8_t svct)
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
   mask &= ~INA236_CONF_SHUNTVC_MASK;
   mask |= (svct << 3);
+  //  Error handling
   _writeRegister(INA236_CONFIGURATION, mask);
   return true;
 }
@@ -253,14 +261,14 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   //            rounded value to 80 mV
 
   float shuntVoltage = maxCurrent * shunt;
-  if (shuntVoltage > 0.080)
+  if (shuntVoltage > 0.080f)
   {
 #ifdef printdebug
     Serial.print("[Error] max current too large for measurement range");
 #endif
     return INA236_ERR_SHUNTVOLTAGE_HIGH;
   }
-  if (maxCurrent < 0.001)
+  if (maxCurrent < 0.001f)
   {
 #ifdef printdebug
     Serial.print("[Error] current to low for measurement");
@@ -277,12 +285,12 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 
   bool adcRange = false;
   int adcRangeFactor = 1;
-  if (shuntVoltage <= 0.020)  //  20 mV
+  if (shuntVoltage <= 0.020f)  //  20 mV
   {
     adcRange = true;
     adcRangeFactor = 4;
   }
-  else if (shuntVoltage <= 0.080)  //  80 mV
+  else if (shuntVoltage <= 0.080f)  //  80 mV
   {
     adcRange = false;
     adcRangeFactor = 1;
@@ -343,9 +351,10 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 #endif
 
     //  normalize _current_LSB to a value of 1, 2 ,4,or 5 * 1e-6 to 1e-3
-    //  convert float to int
-    uint16_t currentLSB_uA = float(_current_LSB * 1e+6);
-    currentLSB_uA++;  //  ceil() would be more precise, but uses 176 bytes of flash.
+    //  convert float to uint16_t
+    //  ceil() would be more precise, but uses 176 bytes of flash (AVR)
+    uint16_t currentLSB_uA = uint16_t(_current_LSB * 1e+6);
+    currentLSB_uA++;
 
     uint16_t factor = 1;  //  1uA to 1000uA
     uint8_t i = 0;        //  1 byte loop reduces footprint
@@ -374,7 +383,9 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 
     if (result == false)  //  not succeeded to normalize.
     {
-      _current_LSB = 0;
+      //  strong signal that normalize failed is to set _current_LSB = 0.0f;
+      //  but would keep non-normalized _current_LSB not be better?
+      _current_LSB = 0.0f;
       return INA236_ERR_NORMALIZE_FAILED;
     }
 
@@ -387,12 +398,13 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   }
 
   //  auto scale calibration if needed.
-  uint32_t calib = round(0.00512 / (_current_LSB * shunt * adcRangeFactor));
+  uint32_t calib = round(0.00512f / (_current_LSB * shunt * adcRangeFactor));
   while (calib > 32767)  // was 32768 (?)
   {
     _current_LSB *= 2;
     calib >>= 1;
   }
+  //  Error handling
   _writeRegister(INA236_CALIBRATION, calib);
 
   _maxCurrent = _current_LSB * 32768;
@@ -429,6 +441,7 @@ bool INA236::setMode(uint8_t mode)
   uint16_t config = _readRegister(INA236_CONFIGURATION);
   config &= ~INA236_CONF_MODE_MASK;
   config |= mode;
+  //  Error handling
   _writeRegister(INA236_CONFIGURATION, config);
   return true;
 }
@@ -450,19 +463,12 @@ bool INA236::setAlertRegister(uint16_t mask)
 {
   uint16_t result = _writeRegister(INA236_MASK_ENABLE, mask);
   //  Serial.println(result);
-  if (result != 0) return false;
+  if (result != INA236_OK) return false;
   return true;
 }
 
 
 uint16_t INA236::getAlertRegister()
-{
-  return _readRegister(INA236_MASK_ENABLE);
-}
-
-
-//  OBSOLETE
-uint16_t INA236::getAlertFlag()
 {
   return _readRegister(INA236_MASK_ENABLE) & 0x001F;
 }
@@ -474,7 +480,7 @@ bool INA236::setAlertLatchEnable(bool latch)
   if (latch) mask |= INA236_ALERT_LATCH_ENABLE_FLAG;
   else       mask &= ~INA236_ALERT_LATCH_ENABLE_FLAG;
   uint16_t result = _writeRegister(INA236_MASK_ENABLE, mask);
-  if (result != 0) return false;
+  if (result != INA236_OK) return false;
   return true;
 }
 
@@ -492,7 +498,7 @@ bool INA236::setAlertPolarity(bool inverted)
   if (inverted) mask |= INA236_ALERT_POLARITY_FLAG;
   else          mask &= ~INA236_ALERT_POLARITY_FLAG;
   uint16_t result = _writeRegister(INA236_MASK_ENABLE, mask);
-  if (result != 0) return false;
+  if (result != INA236_OK) return false;
   return true;
 }
 
@@ -508,7 +514,7 @@ bool INA236::setAlertLimit(uint16_t limit)
 {
   uint16_t result = _writeRegister(INA236_ALERT_LIMIT, limit);
   //  Serial.println(result);
-  if (result != 0) return false;
+  if (result != INA236_OK) return false;
   return true;
 }
 
@@ -542,7 +548,7 @@ uint16_t INA236::getDieID()
 int INA236::getLastError()
 {
   int e = _error;
-  _error = 0;
+  _error = INA236_OK;
   return e;
 }
 
@@ -559,7 +565,7 @@ uint16_t INA236::_readRegister(uint8_t reg)
   int n = _wire->endTransmission();
   if (n != 0)
   {
-    _error = -1;
+    _error = INA236_ERR_I2C_READ;
     return 0;
   }
 
@@ -572,7 +578,7 @@ uint16_t INA236::_readRegister(uint8_t reg)
   }
   else
   {
-    _error = -2;
+    _error = INA236_ERR_I2C_REQUEST;
     return 0;
   }
   return value;
@@ -589,7 +595,7 @@ uint16_t INA236::_writeRegister(uint8_t reg, uint16_t value)
   int n = _wire->endTransmission();
   if (n != 0)
   {
-    _error = -1;
+    _error = INA236_ERR_I2C_WRITE;
   }
   return n;
 }

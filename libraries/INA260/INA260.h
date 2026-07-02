@@ -17,31 +17,32 @@
 
 
 //  set by setAlertRegister
-#define INA260_SHUNT_OVER_CURRENT         0x8000
-#define INA260_SHUNT_UNDER_CURRENT        0x4000
-#define INA260_BUS_OVER_VOLTAGE           0x2000
-#define INA260_BUS_UNDER_VOLTAGE          0x1000
-#define INA260_POWER_OVER_LIMIT           0x0800
-#define INA260_CONVERSION_READY           0x0400
+const uint16_t INA260_SHUNT_OVER_CURRENT  = 0x8000;
+const uint16_t INA260_SHUNT_UNDER_CURRENT = 0x4000;
+const uint16_t INA260_BUS_OVER_VOLTAGE    = 0x2000;
+const uint16_t INA260_BUS_UNDER_VOLTAGE   = 0x1000;
+const uint16_t INA260_POWER_OVER_LIMIT    = 0x0800;
+const uint16_t INA260_CONVERSION_READY    = 0x0400;
 
 
 //  returned by getAlertRegister
-#define INA260_ALERT_FUNCTION_FLAG        0x0010
-#define INA260_CONVERSION_READY_FLAG      0x0008
-#define INA260_MATH_OVERFLOW_FLAG         0x0004
-#define INA260_ALERT_POLARITY_FLAG        0x0002
-#define INA260_ALERT_LATCH_ENABLE_FLAG    0x0001
+const uint16_t INA260_ALERT_FUNCTION_FLAG     = 0x0010;
+const uint16_t INA260_CONVERSION_READY_FLAG   = 0x0008;
+const uint16_t INA260_MATH_OVERFLOW_FLAG      = 0x0004;
+const uint16_t INA260_ALERT_POLARITY_FLAG     = 0x0002;
+const uint16_t INA260_ALERT_LATCH_ENABLE_FLAG = 0x0001;
 
 
 // //  returned by setMaxCurrentShunt
-// #define INA260_ERR_NONE                   0x0000
-// #define INA260_ERR_SHUNTVOLTAGE_HIGH      0x8000
-// #define INA260_ERR_MAXCURRENT_LOW         0x8001
-// #define INA260_ERR_SHUNT_LOW              0x8002
-// #define INA260_ERR_NORMALIZE_FAILED       0x8003
+// const uint16_t INA260_ERR_NONE              = 0x0000;
+// const uint16_t INA260_ERR_SHUNTVOLTAGE_HIGH = 0x8000;
+// const uint16_t INA260_ERR_MAXCURRENT_LOW    = 0x8001;
+// const uint16_t INA260_ERR_SHUNT_LOW         = 0x8002;
+// const uint16_t INA260_ERR_NORMALIZE_FAILED  = 0x8003;
 
 
-#define INA260_MAX_WAIT_MS                600   //  millis
+//  wait time in milliseconds
+const uint16_t INA260_MAX_WAIT_MS = 600;
 
 
 //  for setAverage() and getAverage()

@@ -1,6 +1,6 @@
 //    FILE: INA260.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-02-18
 // PURPOSE: Arduino library for INA260 power sensor
 //     URL: https://github.com/RobTillaart/INA260
@@ -11,23 +11,23 @@
 #include "INA260.h"
 
 //  REGISTERS
-#define INA260_CONFIGURATION              0x00
-#define INA260_CURRENT                    0x01
-#define INA260_BUS_VOLTAGE                0x02
-#define INA260_POWER                      0x03
+const uint8_t INA260_CONFIGURATION = 0x00;
+const uint8_t INA260_CURRENT       = 0x01;
+const uint8_t INA260_BUS_VOLTAGE   = 0x02;
+const uint8_t INA260_POWER         = 0x03;
 
-#define INA260_MASK_ENABLE                0x06
-#define INA260_ALERT_LIMIT                0x07
-#define INA260_MANUFACTURER               0xFE
-#define INA260_DIE_ID                     0xFF
+const uint8_t INA260_MASK_ENABLE   = 0x06;
+const uint8_t INA260_ALERT_LIMIT   = 0x07;
+const uint8_t INA260_MANUFACTURER  = 0xFE;
+const uint8_t INA260_DIE_ID        = 0xFF;
 
 
 //  CONFIGURATION MASKS
-#define INA260_CONF_RESET_MASK            0x8000
-#define INA260_CONF_AVERAGE_MASK          0x0E00
-#define INA260_CONF_BUSVC_MASK            0x01C0
-#define INA260_CONF_SHUNTCC_MASK          0x0038
-#define INA260_CONF_MODE_MASK             0x0007
+const uint16_t INA260_CONF_RESET_MASK   = 0x8000;
+const uint16_t INA260_CONF_AVERAGE_MASK = 0x0E00;
+const uint16_t INA260_CONF_BUSVC_MASK   = 0x01C0;
+const uint16_t INA260_CONF_SHUNTCC_MASK = 0x0038;
+const uint16_t INA260_CONF_MODE_MASK    = 0x0007;
 
 
 ////////////////////////////////////////////////////////

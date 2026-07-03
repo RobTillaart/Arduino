@@ -13,7 +13,7 @@
 
 **Experimental**
 
-Arduino library to investigate the heap of an AVR processor, e.g. UNO (AVR328).
+Arduino library to investigate the heap of an AVR processor, e.g. UNO R3 (AVR328).
 
 **Note**: this is an **experimental** library and very specific, not for beginners.
 

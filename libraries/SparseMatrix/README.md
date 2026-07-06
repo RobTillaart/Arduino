@@ -21,17 +21,19 @@ Arduino library for sparse matrices.
 SparseMatrix is an experimental library to implement
 two dimensional sparse matrices of floats on an Arduino.
 A sparse matrix is a matrix with mostly zeros and a low percentage non-zero values.
-The purpose of this library is efficient storage in memory.
+The purpose of this library is **efficient storage** in memory.
 
 The maximum matrix that can be represented is 255 x 255 in size 
 with a theoretical maximum of 65535 non-zero elements.
 In practice the library limits this to 1000 non-zero elements.
-Note: The 2K memory of an UNO R3 would be filled with about 300 elements.
+Note: The 2K memory of an UNO R3 would be filled 100% with about 300 elements.
 
 Note: the library does not do matrix / vector math operations.
 
 Note: the library does not hold the dimensions of the sparse matrix
 and cannot check these.
+
+Feedback as always is welcome.
 
 
 ### Related
@@ -39,6 +41,7 @@ and cannot check these.
 - https://github.com/RobTillaart/SparseArray
 - https://github.com/RobTillaart/distanceTable
 - https://github.com/RobTillaart/SET
+- https://github.com/RobTillaart/printHelpers scientific and engineering format
 
 
 ### Implementation
@@ -77,11 +80,11 @@ Check the .h file for **SPARSEMATRIX_MAX_SIZE 1000**
 ### Constructor + meta
 
 - **SparseMatrix(uint16_t size)** constructor.
-Parameter is the maximum number of elements in the sparse matrix.
+Parameter size is the maximum number of elements in the sparse matrix.
 Note this number is limited to **SPARSEMATRIX_MAX_SIZE 1000**.
-If the space requested cannot be allocated size will be set to 0.
+If the space requested cannot be allocated the size will be set to 0.
 - **uint16_t size()** maximum number of elements.
-If this is zero, a problem occurred with allocation happened.
+If this is zero, a problem with the allocation of memory occurred.
 - **uint16_t count()** current number of elements in the matrix.
 Should be between 0 and size.
 - **float sum()** sum of all elements ( not zero ) in the matrix.
@@ -143,7 +146,7 @@ by an add() or set() command.
 
 Note one cannot create new elements with these functions. use **set(x,y,value)**.
 
-- **int32_t findPosition(uint8_t x, uint8_t y)** find it an (x,y) position) is 
+- **int32_t findPosition(uint8_t x, uint8_t y)** find if an (x,y) position is 
 in the internal (non zero) storage.
 Returns -1 if **NOT** in the internal storage.
 - **float getValue(uint16_t position)** Get the value from the given position. 
@@ -181,9 +184,11 @@ for (int position = 0; position < sm.count(); position++)
 - support other data types
   - Template class?
   - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
-  - struct, complex number, etc.
+  - struct, complex number, float16, etc.
   - effect on math ?
 - add LOW level API example
+- let x and y be uint16_t or even uint32_t ?
+  - uses more RAM (x2 or x4) for X and Y arrays.
 
 
 #### Could
@@ -201,6 +206,9 @@ for (int position = 0; position < sm.count(); position++)
   - all take extra overhead => KISS 
 - class tree - Sparse1D <- Sparse2D <- Sparse3D ...
   - ultimately all can be mapped unto a 1D sparse array.
+- mirror symmetry flag if (X,Y) then (Y,X) - from distanceTable
+  - or if (X,Y) then -(Y,X)
+  - allows more elements without additional memory.
 
 #### Won't
 
@@ -219,6 +227,7 @@ for (int position = 0; position < sm.count(); position++)
   - N queens game.
   - battleship game
   - minesweeper game
+  - 2D histogram?
 - dump should be in the class?
   - or as static function...
   - stream as parameter **dump(Stream str, ...)**

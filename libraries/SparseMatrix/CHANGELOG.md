@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.1.7] - 2025-11-19
+## [0.2.1] - 2026-07-03
+- update GitHub actions
+- fix CHANGELOG.md
+- fix keywords.txt
+- minor edits
+
+## [0.2.0] - 2025-11-19
 - fix #8, readme.md badges and more
 - add bounding box functions
   - **bool boundingBoxX(uint8_t &minX, uint8_t &maxX)**
@@ -23,6 +29,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - **bool setValue(uint16_t position, float value);
   - **int compact()**
 - minor edits
+
+----
 
 ## [0.1.6] - 2025-09-15
 - update GitHub actions

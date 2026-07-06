@@ -30,7 +30,7 @@ void setup()
     uint8_t x = random(10);
     uint8_t y = random(10);
     float value = EULER * PI * random(37);
-    bool b = sm.set(x, y, value);  // check full
+    bool b = sm.set(x, y, value);  //  check full
     if (b) Serial.print('.');
   }
   Serial.println();

@@ -59,7 +59,7 @@ void setup()
   Serial.print(minY);
   Serial.print("\t");
   Serial.print(maxY);
-  Serial.println();  
+  Serial.println();
 }
 
 

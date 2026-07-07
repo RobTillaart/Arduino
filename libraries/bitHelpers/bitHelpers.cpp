@@ -1,7 +1,7 @@
 //
 //    FILE: bitHelpers.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2015-11-07
 // PURPOSE: Arduino library with functions on bit level
 //     URL: https://github.com/RobTillaart/bitHelpers

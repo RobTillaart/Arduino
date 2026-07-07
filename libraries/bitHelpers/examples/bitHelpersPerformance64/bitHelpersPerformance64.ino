@@ -22,11 +22,14 @@ void setup()
   Serial.println();
 
   Serial.println("BITSET");
+  delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) mbitSet64(x, i);
   d1 = micros() - start;
   Serial.println(d1 / 64.0);
   delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) bitSet64(x, i);
   d1 = micros() - start;
@@ -34,11 +37,14 @@ void setup()
   delay(10);
 
   Serial.println("BITCLEAR");
+  delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) mbitClear64(x, i);
   d1 = micros() - start;
   Serial.println(d1 / 64.0);
   delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) bitClear64(x, i);
   d1 = micros() - start;
@@ -46,11 +52,14 @@ void setup()
   delay(10);
 
   Serial.println("BITTOGGLE");
+  delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) mbitToggle64(x, i);
   d1 = micros() - start;
   Serial.println(d1 / 64.0);
   delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) bitToggle64(x, i);
   d1 = micros() - start;
@@ -61,11 +70,14 @@ void setup()
   x = (1ULL << 63);
   Serial.println(bitsNeededRef(x));
   Serial.println(bitsNeeded(x));
+  delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) bitsNeededRef(x);
   d1 = micros() - start;
   Serial.println(d1 / 64.0);
   delay(10);
+
   start = micros();
   for (int i = 0; i < 64; i++) bitsNeeded(x);
   d1 = micros() - start;
@@ -82,4 +94,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

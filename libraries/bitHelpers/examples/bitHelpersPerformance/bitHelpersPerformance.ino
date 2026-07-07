@@ -45,6 +45,7 @@ void test_bitCount1_32_bits_variations()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
+  delay(10);
 
   volatile uint8_t cnt;
   volatile uint32_t x = 0xFFFFFFFF;
@@ -119,6 +120,7 @@ void test_bitCount2()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
+  delay(10);
 
   volatile uint8_t cnt;
   volatile uint8_t a = 0xFF;
@@ -204,6 +206,7 @@ void test_bitReverse()
   Serial.println(x, HEX);
   x = bitReverse(x);
   Serial.println(x, HEX);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -242,6 +245,7 @@ void test_nybbleReverse()
   Serial.println(x, HEX);
   x = nybbleReverse(x);
   Serial.println(x, HEX);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -274,6 +278,7 @@ void test_byteReverse()
   Serial.println(x, HEX);
   x = byteReverse(x);
   Serial.println(x, HEX);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -312,6 +317,7 @@ void test_swap()
   Serial.println(x, HEX);
   x = swap(x);
   Serial.println(x, HEX);
+  delay(10);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -332,6 +338,7 @@ void test_bitFlip()
 {
   Serial.println();
   Serial.println(__FUNCTION__);
+  delay(10);
 
   uint32_t x = 0xFFFFFFFF;
   start = micros();
@@ -363,6 +370,7 @@ void test_bitRotateLeft()
     x = bitRotateLeft(x, 4);
     Serial.println(x, HEX);
   }
+  delay(10);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -393,6 +401,7 @@ void test_bitRotateRight()
     x = bitRotateRight(x, 4);
     Serial.println(x, HEX);
   }
+  delay(10);
 
   start = micros();
   for (int i = 0; i < 1000; i++)
@@ -426,6 +435,8 @@ void test_bitRot()
   x = 0xFFFFFFFF;
   Serial.print("    X:\t");
   Serial.println(x, HEX);
+  delay(10);
+
   start = micros();
   for (int i = 0; i < 1000; i++)
   {

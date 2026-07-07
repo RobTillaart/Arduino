@@ -3,22 +3,22 @@ IDE:      1.8.19
 
 
 bitHelpersPerformance.ino
-BITHELPER_LIB_VERSION: 0.2.0
+BITHELPER_LIB_VERSION: 0.2.1
 
 
 test_bitCount1_32_bits_variations
-32	27.980	bitCountReference
-32	39.556	bitCountKR
+32	27.480	bitCountReference
+32	39.552	bitCountKR
 32	34.836	bitCountArray
-32	6.924	bitCountF1
+32	6.920	bitCountF1
 32	11.132	bitCountF2
 
 
 test_bitCount2
-8	1.596	bitCount 8 bit
-16	3.716	bitCount 16 bit
-32	7.172	bitCount 32 bit
-64	33.196	bitCount 64 bit
+8	1.448	bitCount 8 bit
+16	3.712	bitCount 16 bit
+32	7.168	bitCount 32 bit
+64	33.200	bitCount 64 bit
 
 
 test_bitReverse
@@ -29,7 +29,7 @@ ACE8
 1E6A2C48
 12345678
     X:	12345678
- Time:	11.508
+ Time:	11.196
 
 
 test_nybbleReverse
@@ -40,7 +40,7 @@ test_nybbleReverse
 87654321
 12345678
     X:	12345678
- Time:	6.196
+ Time:	5.720
 
 
 test_byteReverse
@@ -49,7 +49,7 @@ test_byteReverse
 78563412
 12345678
     X:	12345678
- Time:	1.532
+ Time:	1.392
 
 
 test_swap
@@ -60,12 +60,12 @@ test_swap
 56781234
 12345678
    X:	12345678
- Time:	0.488
+ Time:	0.448
 
 
 test_bitFlip
     X:	FFFFFFFF
- Time:	7.916
+ Time:	7.901
 
 
 test_bitRotateLeft
@@ -78,7 +78,7 @@ test_bitRotateLeft
 81234567
 12345678
     X:	12345678
- Time:	16.398
+ Time:	16.382
 
 
 test_bitRotateRight
@@ -91,7 +91,7 @@ test_bitRotateRight
 23456781
 12345678
     X:	12345678
- Time:	15.392
+ Time:	15.376
 
 
 test_bitRot
@@ -105,7 +105,8 @@ test_bitRot
 1234577C
     X:	FFFFFFFF
     X:	FFFFBBFD
- Time:	96.320
+ Time:	95.824
 
 
 Done...
+

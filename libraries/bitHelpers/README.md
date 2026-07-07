@@ -18,7 +18,9 @@ Arduino library with functions on bit level.
 
 This library contains functions to manipulate bits and bit patterns in an 
 efficient way. 
-For most functions a 8 - 64 bit optimized version exist. 
+For most functions a 8 - 64 bit optimized version exist.
+
+The library can be used for educational purpose too.
 
 The library is tested on ESP32 and Arduino UNO but not for all possible values. 
 other platforms are expected to work without modification. 
@@ -26,8 +28,10 @@ If they don't please file an issue on GitHub.
 
 New bit functions can be added or investigated, please file an issue on GitHub.
 
+Feedback as always is welcome.
 
-#### Related
+
+### Related
 
 - https://github.com/RobTillaart/BitArray
 
@@ -50,10 +54,10 @@ several implementations to compare performance.
 
 BitCount - fastest version, SWAG algorithm
 
-- **uint8_t  bitCount(uint8_t value)**
-- **uint8_t  bitCount(uint16_t value)**
-- **uint8_t  bitCount(uint32_t value)**
-- **uint8_t  bitCount(uint64_t value)**
+- **uint8_t bitCount(uint8_t value)**
+- **uint8_t bitCount(uint16_t value)**
+- **uint8_t bitCount(uint32_t value)**
+- **uint8_t bitCount(uint64_t value)**
 
 
 ### Reverse
@@ -97,6 +101,7 @@ BitRot: uint8_t .. uint64_t
 - **T bitRot(T value, float chance = 0.5, uint8_t times = 1)** random damage to a single bit of a value,
 chance = float 0.0 .. 1.0 that one random bit is toggled. 
 The times parameter allows to apply this n times.
+
 **bitRot()** is a function that can be used to mimic (single) bit errors in communication protocols.  
 *Note: a chance of 50% for 2 uint8_t is not equal to 50% chance for 1 uint16_t.*
 
@@ -105,8 +110,8 @@ The times parameter allows to apply this n times.
 
 How many bits are needed to store / transmit a number?
 
-- **bitsNeededReference(n)** reference implementation for uint8_t to uint64_t.
-- **bitsNeeded(n)** A 'recursive strategy' for uint8_t .. uint64_t provides a fast answer. 
+- **uint8_t bitsNeededReference(n)** reference implementation for uint8_t to uint64_t.
+- **uint8_t bitsNeeded(n)** A 'recursive strategy' for uint8_t .. uint64_t provides a fast answer. 
 
 
 ### BitSet64 et al.

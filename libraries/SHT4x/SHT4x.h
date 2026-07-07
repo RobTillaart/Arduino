@@ -3,7 +3,7 @@
 //    FILE: SHT4x.h
 //  AUTHOR: Samuel Cuerrier Auclair
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2025-08-11
 // PURPOSE: Arduino library for the SHT4x temperature and humidity sensor. High precision sensor with I2C interface.
 //          This is a fork of the SHT31 library by Rob Tillaart, modified to work with the SHT4x series.
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define SHT4x_LIB_VERSION                   (F("0.1.1"))
+#define SHT4x_LIB_VERSION                   (F("0.1.2"))
 
 #ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS                 0x44
@@ -125,9 +125,45 @@ protected:
 
 /////////////////////////////////////////////
 //
-//  DERIVED classes wrappers (TODO?)
+//  DERIVED classes 
 //
-//  SHT40,SHT41,SHT43,SHT45
+//
+//  ADDRESS: 0x44, 0x45, 0x46
+class SHT40 : public SHT4x
+{
+  public:
+  SHT40(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire *wire = &Wire) : SHT4x(address, wire)
+  {
+  };
+};
+
+//  ADDRESS: 0x44 only
+class SHT41 : public SHT4x
+{
+  public:
+  SHT41(TwoWire *wire = &Wire) : SHT4x(0x44, wire)
+  {
+  };
+};
+
+//  ADDRESS 0x44, 0x45
+class SHT43 : public SHT4x
+{
+  public:
+  SHT43(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire *wire = &Wire) : SHT4x(address, wire)
+  {
+  }
+};
+
+//  ADDRESS: 0x44 only
+class SHT45 : public SHT4x
+{
+  public:
+  SHT45(TwoWire *wire = &Wire) : SHT4x(0x44, wire)
+  {
+  }
+};
+
 
 //  -- END OF FILE --
 

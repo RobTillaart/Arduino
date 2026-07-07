@@ -44,6 +44,8 @@ Datasheet used: Version 7.1 – March 2025.
 |   SHT45  |     ~0.1 °C   |     1.0%   |     N      |
 
 
+Derived classes exist for these 4 devices, please note that the SHT41 and SHT45 have a fixed address (0x44).
+
 The datasheet states 3 different accuracies for the SHT43.
 
 For more details, please read the datasheet (check https://sensirion.com )
@@ -74,6 +76,18 @@ synchronous **read()** call will block much longer.
 The SHT4x sensors have a fixed I2C address, however they can be ordered with
 one of three addresses, 0x44, 0x45 or 0x46. Not all addresses seem to be available
 for all the different SHT4x sensors. Check latest datasheet for details.
+
+|  device  |  addresses         |  notes  |
+|:---------|:-------------------|:--------|
+|  SHT4x   |  0x44, 0x45, 0x46  |  use right address!
+|  SHT40   |  0x44, 0x45, 0x46  |
+|  SHT41   |  0x44              |
+|  SHT43   |  0x44, 0x45        |
+|  SHT45   |  0x44              |
+
+(datasheet table 12)
+
+When using the SHT4x class one should be aware that not all addresses are allowed for all sensors.
 
 
 ### I2C multiplexing
@@ -132,11 +146,16 @@ Other, including Dew-point, heat-index, related functions and conversions.
 
 - **SHT4x(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor.
 Optional select address and the I2C bus (Wire, Wire1 etc.).
-The SHT_DEFAULT_ADDRESS = 0x44.
+The SHT_DEFAULT_ADDRESS = 0x44, optional 0x45 or 0x46. Datasheet table 12.
+- **SHT40(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor, idem.
+- **SHT41(TwoWire \*wire = &Wire)** constructor, fixed address 0x44
+- **SHT43(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire \*wire = &Wire)** constructor, idem.
+Address = 0x44 or 0x45.
+- **SHT45(TwoWire \*wire = &Wire)** constructor, idem, fixed address 0x44.
 - **bool begin()**
 Returns false if device address is incorrect or device cannot be reset.
 - **bool isConnected()** checks if device address can be seen on I2C bus. Returns false if not connected.
-- **uint8_t getAddress()** returns device address set in the constructor.
+- **uint8_t getAddress()** returns device address set in the constructor, or the fixed address (SHT41/SHT45)
 
 
 ### Read (synchronous)
@@ -258,13 +277,13 @@ CRCCheck == false, => no CRC check, faster.
 - check error handling
   - missing or not used codes.
   - set error where needed.
-- add derived (wrapper) classes for SHT40,SHT41,SHT43,SHT45
 
 #### Could
 
 - extend unit-tests if possible and needed.
 
 #### Wont
+- type indicator derived classes (00=BASE, 40,41,43,45)?
 
 
 ## Support

@@ -33,7 +33,7 @@ read(uint8_t measurementType = SHT4x_MEASUREMENT_SLOW, bool errorCheck = true);
 uint32_t start;
 uint32_t stop;
 
-SHT4x sht;
+SHT41 sht;
 
 
 void setup()
@@ -69,4 +69,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

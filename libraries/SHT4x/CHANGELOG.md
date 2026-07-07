@@ -6,8 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-07-06
+- fix #18, warning in setHeatInterval()
+- add derived classes SHT40, SHT41, SHT43 and SHT45 (wrappers)
+- minor edits
+
 ## [0.1.1] - 2026-04-21
-- merge #16, 
+- merge #16,
 - minor edits
 
 ## [0.1.0] - 2026-04-03

@@ -2,7 +2,7 @@
 //
 //    FILE: MAX471.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2024-01-30
 // PURPOSE: Arduino library for MAX471 current sensor.
 //     URL: https://github.com/RobTillaart/MAX471_RT
@@ -11,7 +11,7 @@
 
 #include "Arduino.h"
 
-#define MAX471_LIB_VERSION        (F("0.1.2"))
+#define MAX471_LIB_VERSION        (F("0.1.3"))
 
 
 class MAX471
@@ -31,6 +31,7 @@ public:
   float readCurrentMilliAmpere(uint8_t times = 1);
   float readVoltage(uint8_t times = 1);
   float readVoltageMilliVolts(uint8_t times = 1);
+
   //  power = last current x last voltage
   float calcPower();
   float calcPowerMilliWatt();
@@ -51,7 +52,7 @@ protected:
   uint8_t  _signPin;
   float    _current;
   float    _voltage;
-  float    _units;  //  volts per step
+  float    _voltsPerStep;
 };
 
 

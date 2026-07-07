@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2026-07-06
+- update GitHub actions
+- minor edits
+
 ## [0.1.2] - 2025-11-21
 - improve documentation
 - add **setFixedVoltage(float v)**

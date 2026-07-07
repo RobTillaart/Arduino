@@ -49,9 +49,10 @@ the peak is about 90% of the ADC range.
 
 ### Related
 
-- https://wolles-elektronikkiste.de/en/max471-current-sensor (excellent explanation)
-- https://github.com/RobTillaart/ACS712
-- https://github.com/RobTillaart/INA226
+- https://wolles-elektronikkiste.de/en/max471-current-sensor excellent explanation.
+- https://github.com/RobTillaart/ACS712 
+- https://github.com/RobTillaart/INA226 several current sensors mentioned there
+- https://github.com/RobTillaart/printHelpers for scientific or engineering notation
 
 
 ## Connection
@@ -128,10 +129,9 @@ the current measurement to calculate the power.
 ### Experimental
 
 By setting a fixed voltage one does not need to call **readVoltage()**.
-Use getLastVoltage() to read back the value set..
+Use getLastVoltage() to read back the value set.
 
 - **void setFixedVoltage(float volts)** sets the internal voltage variable.
-
 
 
 ## Future

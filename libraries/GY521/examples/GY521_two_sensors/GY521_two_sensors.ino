@@ -81,9 +81,9 @@ void loop()
 
   //  READ SENSOR 2
   sensor2.read();
-  float x2 = sensor1.getAngleX();
-  float y2 = sensor1.getAngleY();
-  float z2 = sensor1.getAngleZ();
+  float x2 = sensor2.getAngleX();
+  float y2 = sensor2.getAngleY();
+  float z2 = sensor2.getAngleZ();
 
   //  OPTIONAL TIME / NR
   //  Serial.print(millis);

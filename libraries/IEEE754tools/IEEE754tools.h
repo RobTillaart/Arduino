@@ -2,7 +2,8 @@
 //
 //    FILE: IEEE754tools.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.7
+// VERSION: 0.2.8
+//    DATE: 2013-09-08
 // PURPOSE: manipulate IEEE754 float numbers fast
 //     URL: https://github.com/RobTillaart/IEEE754tools
 //
@@ -12,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define IEEE754_LIB_VERSION                 (F("0.2.7"))
+#define IEEE754_LIB_VERSION                 (F("0.2.8"))
 
 
 //  (un)comment lines to configure functionality / size

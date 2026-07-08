@@ -21,6 +21,9 @@ Arduino library to manipulate IEEE754 float numbers fast.
 IEEE754tools.h contains a collection of experimental bit-hacks to speed up 
 a number of operations on floating point numbers on the **Arduino UNO**.
 These bit-hacks started in 2010 (oldest code found), maybe even earlier.
+The hacks were merged into a library in 2013.
+
+Feedback as always is welcome.
 
 
 ### Related 
@@ -33,7 +36,8 @@ These bit-hacks started in 2010 (oldest code found), maybe even earlier.
 
 ## WARNING
 
-- **do not use** this lib for production code unless you verified the correctness.
+- **do not use** this lib for production code unless you verified the correctness
+on the board of your choice.
 Code is experimental, so use with care at your own risk.
 - If you don't need micro-second speed ups **do not use** these code snippets.
 - **do not use for ESP32** ESP32 does things differently ==> not all code works.
@@ -74,11 +78,12 @@ See examples
 
 - improve documentation
 - test with double
-- test on ESP23
+- test on ESP32
 
 #### Should
 
 - investigate other speed ups
+  - 32 bit masking iso byte masking.
 - bring more structure in this library
 
 #### Could

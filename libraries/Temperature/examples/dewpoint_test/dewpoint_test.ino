@@ -30,6 +30,8 @@ void setup()
   Serial.println(dewPointFast(25, 50), 2);
 
   Serial.println("\ndewPoint()");
+  delay(100);
+
   start = millis();
   for (int cel = -40; cel < 80; cel++)
   {
@@ -42,6 +44,8 @@ void setup()
   Serial.println(duration1);
 
   Serial.println("\ndewPointFast()");
+  delay(100);
+
   start = millis();
   for (int cel = -40; cel < 80; cel++)
   {

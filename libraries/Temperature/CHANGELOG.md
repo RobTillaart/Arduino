@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.2] - 2026-07-09
+- replace division by multiplication (performance).
+- add Precipitation intensity table (rainfall)
+- improve documentation
+- minor edits
+
 ## [0.4.1] - 2026-02-17
 - add set/getLeiden()
 - add set/getWedgwood()

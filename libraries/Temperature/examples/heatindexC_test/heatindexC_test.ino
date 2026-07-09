@@ -24,6 +24,7 @@ void setup()
   Serial.println();
 
   Serial.println(heatIndexC(25, 50), 2);
+  delay(100);
 
   start = micros();
   int cnt = 0;

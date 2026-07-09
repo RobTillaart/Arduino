@@ -23,6 +23,7 @@ void setup()
   Serial.println();
 
   Serial.println(heatIndex(100, 50), 2);
+  delay(100);
 
   start = millis();
   for (int t = 40; t < 110; t++)

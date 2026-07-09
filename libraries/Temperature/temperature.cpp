@@ -33,11 +33,11 @@ float Kelvin(float Celsius)
 //  [2] https://web.archive.org/web/20100528030817/https://www.colorado.edu/geography/weather_station/Geog_site/about.htm
 //  dewPoint function based on code of [2]
 //  calculation of the saturation vapour pressure part is based upon NOAA ESGG(temp)
-float dewPoint(float celsius, float humidity)
+float dewPoint(float Celsius, float humidity)
 {
   //  Calculate saturation vapour pressure
   //  ratio 100C and actual temp in Kelvin
-  float AA0 = 373.15 / (273.15 + celsius);
+  float AA0 = 373.15 / (273.15 + Celsius);
   //  SVP = Saturation Vapor Pressure - based on ESGG() NOAA
   float SVP = -7.90298 * (AA0 - 1.0);
   SVP +=  5.02808 * log10(AA0);
@@ -48,7 +48,7 @@ float dewPoint(float celsius, float humidity)
   //  calculate actual vapour pressure VP;
   //  note to convert to KPa the -3 is used
   float VP = pow(10, SVP - 3) * humidity;
-  float T = log( VP / 0.61078);   // temp var
+  float T = log( VP / 0.61078);     //  T = temporary variable
   return (241.88 * T) / (17.558 - T);
 }
 
@@ -57,28 +57,30 @@ float dewPoint(float celsius, float humidity)
 //  delta mdewPointFastax with dewPoint() - run dewpoint_test.ino ==> ~0.347
 //  (earlier version mentions ~0.6544 but that test code is gone :(
 //  http://en.wikipedia.org/wiki/Dew_point
-float dewPointFast(float celsius, float humidity)
+float dewPointFast(float Celsius, float humidity)
 {
   float a = 17.271;
   float b = 237.7;
-  float temp = (a * celsius) / (b + celsius) + log(humidity/100);
+  //  float temp = (a * Celsius) / (b + Celsius) + log(humidity/100);
+  float temp = (a * Celsius) / (b + Celsius) + log(humidity * 0.01);
   float Td = (b * temp) / (a - temp);
   return Td;
 }
 
 
 //  https://en.wikipedia.org/wiki/Humidex
-float humidex(float celsius, float dewPoint)
+float humidex(float Celsius, float dewPoint)
 {
   float e = 19.833625 - 5417.753 /(273.16 + dewPoint);
-  float h = celsius + 3.3941 * exp(e) - 5.555;
+  float h = Celsius + 3.3941 * exp(e) - 5.555;
   return h;
 }
 
 
 //  0.3.0 => https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
 //           previous  https://en.wikipedia.org/wiki/Heat_index
-//  TF = temp in Fahrenheit
+//
+//  TF = temperature in Fahrenheit
 //  RH = relative humidity in %
 float heatIndex(float TF, float RH)
 {
@@ -108,11 +110,13 @@ float heatIndex(float TF, float RH)
     HI = A + B + C;
     if ((RH < 13) && (TF <= 112))
     {
-      HI -= ((13 - RH) / 4) * sqrt((17 - abs(TF - 95.0)) / 17);
+      //  HI -= ((13 - RH) / 4) * sqrt((17 - abs(TF - 95.0)) / 17);
+      HI -= ((13 - RH) * 0.25 ) * sqrt((17 - abs(TF - 95.0)) / 17);
     }
     if ((RH > 87) && (TF < 87))
     {
-      HI += ((RH - 85) / 10) * ((87 - TF) / 5);
+      //  HI += ((RH - 85) / 10) * ((87 - TF) / 5);
+      HI += ((RH - 85) * 0.1) * ((87 - TF) * 0.2);
     }
   }
 

@@ -24,6 +24,7 @@ void setup()
   Serial.println();
 
   Serial.println(humidex(25, 50), 2);
+  delay(100);
 
   start = millis();
   for (int t = 25; t <= 45; t++)

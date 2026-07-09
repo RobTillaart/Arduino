@@ -22,17 +22,25 @@ These functions are approximations based on work of NOAA a.o.
 These functions can be used with temperature and humidity sensors e.g.
 DHT22 or Sensirion, to make a weather station application.
 
-Note: pre-0.3.1 versions have incorrect heat-index.
+Feedback, as always, is welcome.
 
-Feedback as always is welcome.
+
+### Breaking change
+
+Note: pre-0.3.1 versions have incorrect heat-index.
 
 
 ### Related
 
-- https://en.wikipedia.org/wiki/Heat_index.
+Weather related
+- https://en.wikipedia.org/wiki/Heat_index - wikipedia has many pages
 - https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
-- https://wahiduddin.net/calc/density_algorithms.htm
-- https://github.com/RobTillaart/pressure - conversion
+
+Other
+- https://github.com/RobTillaart/pressure - conversions
+- https://github.com/RobTillaart/VolumeConvertor - conversions
+- https://github.com/RobTillaart/weight - conversions
+- https://github.com/RobTillaart/map2colour - colour mapping 
 - https://temperatures.com/  just a lot of interesting stuff
 - https://curiousnotions.com/temperature-converter - online converter 
 
@@ -82,6 +90,8 @@ Indicative table
 |   105-129    |   40-54   |  very hot     |       red     |
 |   > 130      |   > 54    |  extreme hot  |    purple     |
 
+Colour could be implemented with - https://github.com/RobTillaart/map2colour
+
 
 ### Absolute Humidity
 
@@ -102,13 +112,15 @@ else ==> formula assumes wind speed @ 1.5 meter
 
 Indicative table (subjective).
 
-|  wind chill °C  |  description           |
-|:---------------:|:-----------------------|
-|    > -10        |  cold                  |
-|    -10 .. -25   |  very cold !           |
-|    -25 .. -35   |  very very cold !      |
-|    -35 .. -55   |  chance of frostbite   |
-|    < -55        |  serious dangerous     |
+|  wind chill  |  description          |  colour code  |  frostbite time  |
+|:------------:|:----------------------|--------------:|:----------------:|
+|  above  -10  |  cold                 |     green     |                  |
+|  -10 .. -25  |  very cold !          |    yellow     |   < 30 minutes   |
+|  -25 .. -35  |  very very cold !     |    orange     |   < 20 minutes   |
+|  -35 .. -55  |  fast frostbite       |       red     |   < 10 minutes   |
+|  below  -55  |  serious dangerous    |    purple     |   <  5 minutes   |
+
+Colour could be implemented with - https://github.com/RobTillaart/map2colour
 
 
 ### Boiling temperature water
@@ -119,9 +131,9 @@ This can be so much that you can't boil an egg on mount Everest.
 Temperature in F and C at which water cooks.
 Based upon: https://en.wikipedia.org/wiki/High-altitude_cooking
 
-- **boilingFahrenheit(feet)** boiling temperature Fahrenheit at height in feet.
-- **boilingCelsius(meter)** boiling temperature Celsius at height in meter.
-- **boilingMeter(Celsius)** returns height in meters for a given the boiling point in Celsius.
+- **float boilingFahrenheit(float feet)** boiling temperature Fahrenheit at height in feet.
+- **float boilingCelsius(float meter)** boiling temperature Celsius at height in meter.
+- **float boilingMeter(float Celsius)** returns height in meters for a given the boiling point in Celsius.
 Note this is an approximation by reversing the formula.
 Do not expect it to be very exact.
 
@@ -152,6 +164,21 @@ F = boilingFahrenheit(meter * 3.2808);  //  * 3.280839895  == / 0.3048
 |    > 32   |  black   |  extreme D. (emergency)
 
 Colour could be implemented with - https://github.com/RobTillaart/map2colour
+
+
+### Precipitation intensity
+
+Indicative table rainfall intensity, (no functions)
+
+|  Intensity  |  mm/hour    |  mm/day      |  inch/hour  |  inch/day   |  colour  |
+|:------------|:-----------:|:------------:|:-----------:|:-----------:|:--------:|
+|  None       |  0.0        |  0.0         |  0.0        |  0.0        |  green   |
+|  Light      |  below 2.5  |  below 60    |  below 0.1  |  below 2.4  |  yellow  |
+|  Moderate   |  2.5 - 7.6  |  60 - 180    |  0.1 - 0.3  |  2.4 - 7.2  |  orange  |
+|  Heavy      |  7.6 - 50   |  180 - 1200  |  0.3 - 2.0  |  7.2 - 48   |  red     |
+|  Violent    |  above 50   |  above 1200  |  above 2.0  |  above 48   |  purple  |
+
+Note for snow intensity one typical multiply factor 10.
 
 ----
 
@@ -211,7 +238,7 @@ Saint-Patrice, Stufe, Sue de Lyon, Sulzer, Thermostat, Wedgwood [Original], and 
 - **temperatureConverter()** Constructor sets the default to zero degrees C.
 
 
-### setters
+### Setters
 
 - **void setKelvin(float value = 0)**
 - **void setCelsius(float value = 0)**
@@ -224,7 +251,7 @@ Saint-Patrice, Stufe, Sue de Lyon, Sulzer, Thermostat, Wedgwood [Original], and 
 - **void setLeiden(float value = 0)**
 - **void setWedgwood(float value = 0)**
 
-### getters
+### Getters
 
 - **void getKelvin()**
 - **void getCelsius()**
@@ -253,17 +280,19 @@ See examples for typical usage.
 #### Must
 
 - split of TemperatureConversion class as a library of its own.
-  - 0.4.0
+  - 0.5.0
 
 #### Should
 
 - improve documentation
   - add short explanation per conversion unit? 
-  - freeze/boil temps.
 - unit tests
   - absoluteHumidity
   - boiling tests.
 - add function freezing point shift due to pressure.
+- add examples
+  - Wedgwood + Thermocouple ?
+
 
 #### Could
 

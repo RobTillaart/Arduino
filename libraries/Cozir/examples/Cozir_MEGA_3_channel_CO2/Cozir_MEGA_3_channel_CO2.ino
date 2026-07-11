@@ -4,7 +4,7 @@
 // PURPOSE: demo of Cozir lib
 //     URL: https://github.com/RobTillaart/Cozir
 //
-//    NOTE: this sketch needs a MEGA or another board that supports three 
+//    NOTE: this sketch needs a MEGA or another board that supports three
 //          hardware serial ports named Serial1, Serial2, Serial3.
 
 
@@ -25,7 +25,7 @@ void setup()
   Serial.print("COZIR_LIB_VERSION: ");
   Serial.println(COZIR_LIB_VERSION);
   Serial.println();
-  
+
   Serial.println("...initializing serial ports...");
   Serial1.begin(9600);
   Serial2.begin(9600);
@@ -33,12 +33,12 @@ void setup()
 
   Serial.print("...initializing COZIR objects...");
   for (int i = 0; i < 3; i++)
-  { 
+  {
     Serial.print(i);
     czr[i].init();
   }
   Serial.println();
-  
+
   //  set to polling explicitly.
   Serial.print("...set POLLING mode...");
   for (int i = 0; i < 3; i++)

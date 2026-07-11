@@ -96,7 +96,7 @@ void loop()
       Serial.print("\t");
       Serial.print(czrp.CO2Raw());
       Serial.println();
-      
+
       updateLEDS(czrp.CO2());
     }
   }

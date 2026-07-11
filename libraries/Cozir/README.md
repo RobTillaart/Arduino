@@ -32,6 +32,8 @@ The library (since 0.3.4) a separate class to parse the STREAMING data.
 See COZIRParser below. 
 The COZIR class is focussed on polling and sending commands.
 
+Feedback as always is welcome.
+
 
 ### Notes
 

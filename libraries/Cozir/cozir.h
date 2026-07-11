@@ -1,7 +1,9 @@
 #pragma once
 //
 //    FILE: Cozir.h
-// VERSION: 0.3.9
+//  AUTHOR: DirtGambit & Rob Tillaart
+// VERSION: 0.3.10
+//    DATE: 2012-??-??
 // PURPOSE: library for COZIR range of sensors for Arduino
 //          Polling Mode + stream parser
 //     URL: https://github.com/RobTillaart/Cozir
@@ -14,44 +16,45 @@
 #include "Arduino.h"
 
 
-#define COZIR_LIB_VERSION           (F("0.3.9"))
+#define COZIR_LIB_VERSION           (F("0.3.10"))
 
 
 //  OUTPUT FIELDS
 //  See datasheet for details.
 //  These defines can be OR-ed for the SetOutputFields command
 //
-#define CZR_UNKNOWN_2               0x8000     // returns  P 00128  ?
-#define CZR_UNKNOWN_1               0x4000     // returns  E 00016  ?
-#define CZR_LIGHT                   0x2000
-#define CZR_HUMIDITY                0x1000
-#define CZR_FILTLED                 0x0800
-#define CZR_RAWLED                  0x0400
-#define CZR_MAXLED                  0x0200
-#define CZR_ZEROPOINT               0x0100
-#define CZR_RAWTEMP                 0x0080
-#define CZR_FILTTEMP                0x0040
-#define CZR_FILTLEDSIGNAL           0x0020
-#define CZR_RAWLEDSIGNAL            0x0010
-#define CZR_SENSTEMP                0x0008
-#define CZR_FILTCO2                 0x0004
-#define CZR_RAWCO2                  0x0002
+//             NAME                MASKS          COMMENTS
+const uint16_t CZR_UNKNOWN_2     = 0x8000;     // returns  P 00128  ?
+const uint16_t CZR_UNKNOWN_1     = 0x4000;     // returns  E 00016  ?
+const uint16_t CZR_LIGHT         = 0x2000;
+const uint16_t CZR_HUMIDITY      = 0x1000;
+const uint16_t CZR_FILTLED       = 0x0800;
+const uint16_t CZR_RAWLED        = 0x0400;
+const uint16_t CZR_MAXLED        = 0x0200;
+const uint16_t CZR_ZEROPOINT     = 0x0100;
+const uint16_t CZR_RAWTEMP       = 0x0080;
+const uint16_t CZR_FILTTEMP      = 0x0040;
+const uint16_t CZR_FILTLEDSIGNAL = 0x0020;
+const uint16_t CZR_RAWLEDSIGNAL  = 0x0010;
+const uint16_t CZR_SENSTEMP      = 0x0008;
+const uint16_t CZR_FILTCO2       = 0x0004;
+const uint16_t CZR_RAWCO2        = 0x0002;
 
-#define CZR_NONE                    0x0001
+const uint16_t CZR_NONE          = 0x0001;
 
 
 //  factory default
-#define CZR_DEFAULT                 (CZR_FILTCO2 | CZR_RAWCO2)
+const uint16_t CZR_DEFAULT       = (CZR_FILTCO2 | CZR_RAWCO2);
 //  easy default setting for streaming
-#define CZR_HTC                     (CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2)
+const uint16_t CZR_HTC           = (CZR_HUMIDITY | CZR_RAWTEMP | CZR_RAWCO2);
 //  not in datasheet for debug only
-#define CZR_ALL                     0x3FFE
+const uint16_t CZR_ALL           = 0x3FFE;
 
 
 //  OPERATING MODES
-#define CZR_COMMAND                 0x00
-#define CZR_STREAMING               0x01
-#define CZR_POLLING                 0x02
+const uint8_t CZR_COMMAND       = 0x00;
+const uint8_t CZR_STREAMING     = 0x01;
+const uint8_t CZR_POLLING       = 0x02;
 
 
 class COZIR

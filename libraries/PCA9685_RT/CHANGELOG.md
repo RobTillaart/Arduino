@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.4] - 2026-07-12
+- update GitHub actions
+- minor edits
+
 ## [0.7.3] - 2025-11-13
 - fix #29, add read1()
 - fix mask in setPWM()
@@ -16,7 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update readme.md
 - update keywords.txt
 - minor edits
-
 
 ## [0.7.2] - 2025-05-08
 - fix #30, Sync with PCA9634
@@ -123,6 +126,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.1] - 2019-01-30
 - testing && fixing
 
-## [0.1.0] - 2021-12-02
+## [0.1.0] - 2016-04-24
 - initial BETA version
 

@@ -1,0 +1,23 @@
+{
+  "name": "I2C_MPRLS",
+  "keywords": "MPRLS,PSI,mBar,Pressure,I2C",
+  "description": "Arduino library for MPRLS pressure sensors. (Honeywell).",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/I2C_MPRLS.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "I2C_MPRLS.h"
+}

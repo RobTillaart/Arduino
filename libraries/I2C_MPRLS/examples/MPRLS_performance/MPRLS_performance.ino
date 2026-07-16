@@ -52,6 +52,12 @@ void setup()
   Serial.print("                     Pressure :  ");
   Serial.println(pressure);
 
+
+  for (uint32_t speed = 100000; speed < 500000; speed += 100000)
+  {
+    test(speed);
+  }
+
   Serial.println("\nDone...");
 }
 
@@ -60,5 +66,26 @@ void loop()
 {
 }
 
+
+void test(uint32_t speed)
+{
+  delay(100);
+  Wire.setClock(speed);
+  start = millis();
+  for (int i = 0; i < 1000; i++)
+  {
+    sensor.read();                    //  note no error handling
+    pressure = sensor.getPressure();
+  }
+  stop = millis();
+  Serial.print("I2C speed : ");
+  Serial.println(speed);
+  Serial.print("1000 x    : ");
+  Serial.println(stop - start);
+  Serial.print("E-Count   : ");
+  Serial.println(sensor.errorCount());
+  Serial.print(" Pressure : ");
+  Serial.println(pressure);
+}
 
 //  -- END OF FILE --

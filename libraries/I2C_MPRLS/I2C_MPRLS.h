@@ -2,11 +2,11 @@
 //
 //    FILE: I2C_MPRLS.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2025-09-03
 // PURPOSE: Arduino library for MPRLS pressure sensors. (Honeywell).
 //     URL: https://github.com/RobTillaart/MPRLS
-//          https://github.com/RobTillaart/pressure   (conversions)
+//          https://github.com/RobTillaart/pressure (conversions)
 //
 //  I2C only
 
@@ -14,7 +14,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define I2C_MPRLS_LIB_VERSION              (F("0.1.0"))
+#define I2C_MPRLS_LIB_VERSION              (F("0.1.1"))
 
 
 //  ADDRESS = 0x30  fixed?
@@ -45,12 +45,12 @@ public:
     reset();
     _address     = address;
     _wire        = wire;
-  };
+  }
 
   bool begin(float maxPressure)
   {
     return begin(0, maxPressure);
-  }; 
+  }
 
   bool begin(float minPressure, float maxPressure)
   {
@@ -64,7 +64,7 @@ public:
     }
     _error = I2C_MPRLS_OK;
     return true;
-  };
+  }
 
   void reset()
   {
@@ -73,66 +73,80 @@ public:
     _pressure   = 0;
     _error      = I2C_MPRLS_INIT;
     _state      = I2C_MPRLS_NONE;
-  };
+  }
 
   uint8_t getAddress()
   {
     return _address;
-  };
+  }
 
   bool isConnected()
   {
     _wire->beginTransmission(_address);
     return (_wire->endTransmission() == 0);
-  };
+  }
 
 
   //  TRANSFER FUNCTION
   void setTransferFunction(char tff)
   {
     _transferFunction = tff;
-  };
+  }
 
   char getTransferFunction()
   {
     return _transferFunction;
-  };
+  }
 
 
-  //  ASYNC API TODO
-  //  int request()
-  //  bool conversionReady() - read status field only
-  //  bool endOfConversion() - use EOC pin
-  //  readData() - status + pressure field 
-
-
-
-  //  BLOCKING API
-  int read()
+  //  ASYNC API == work in progress
+  int request()
   {
-    //  new read() invalidates last state.
-    _state = I2C_MPRLS_NONE;
-
-    //  REQUEST CONVERSION
     _wire->beginTransmission(_address);
     _wire->write(0xAA);
     _wire->write(0x00);
     _wire->write(0x00);
-    if (_wire->endTransmission() != 0)
+    int n = _wire->endTransmission();
+    if (n != 0)
     {
+      //  handle n ...
       _errorCount++;
       _error = I2C_MPRLS_WRITE_ERROR;
       return _error;
     }
+    _error = I2C_MPRLS_OK;
+    return _error;
+  }
 
 
-    //  CONVERSION READY
-    //  hard coded delay 5 milliseconds (see datasheet)
-    //  EOC (end of conversion) pin check is a future option.
-    delay(5);
+  //  check status field
+  bool conversionReady()
+  {
+    _wire->requestFrom(_address, (uint8_t)1);
+    if (_wire->available() != 1)
+    {
+      _errorCount++;
+      _error = I2C_MPRLS_READ_ERROR;
+      return false;
+    }
+    //  READ STATUS
+    _error = I2C_MPRLS_OK;
+    _state = _wire->read();
+    //  need to check power flag too?
+    return (_state & I2C_MPRLS_BUSY) > 0;
+  }
 
 
-    //  read status + raw data
+  //  use EOC pin (not supported yet)
+  //  bool endOfConversion()
+  //  {
+  //    return digitalRead(_EOC) == HIGH / LOW;
+  //  }
+
+
+  //  status + pressure field
+  int getData()
+  {
     _wire->requestFrom(_address, (uint8_t)4);
     if (_wire->available() != 4)
     {
@@ -141,20 +155,19 @@ public:
       return _error;
     }
 
-    //  READ STATUS
+    //  READ STATUS & PRESSURE BYTES
     _state = _wire->read();
-    //  TODO check state here
-    //  - add error code
-    //  - set pressure to something
-    
-    //  PROCESS PRESSURE
     _rpc = _wire->read();
     _rpc <<= 8;
     _rpc += _wire->read();
     _rpc <<= 8;
     _rpc += _wire->read();
 
-    _lastRead = millis();
+    //  TODO check state here  (user can always do that)
+    //  - int readData(&state, &pressure) ?
+    //  - add error code
+    //  - set pressure to something or not ?
+
 
     //  _transferFunction is default A.
     _pressure = 0;
@@ -177,19 +190,42 @@ public:
         if (_minPressure != 0) _pressure += _minPressure;
         break;
     }
+
+    //  update status
+    _lastRead = millis();
     _error = I2C_MPRLS_OK;
     return _error;
-  };
+  }
+
+
+  //  BLOCKING API
+  int read()
+  {
+    //  new read() invalidates last state.
+    _state = I2C_MPRLS_NONE;
+
+    //  REQUEST CONVERSION
+    request();
+    if (_error != I2C_MPRLS_OK) return _error;
+
+    //  CONVERSION READY
+    //  hard coded delay 5 milliseconds (see datasheet)
+    //  EOC (end of conversion) pin check is a future option.
+    delay(5);
+
+    getData();
+    return _error;
+  }
 
 
   //  returns same value with each call until read() is called.
-  float getPressure()  { return _pressure; };
+  float getPressure() { return _pressure; };
 
   //  timestamp of last good read
-  uint32_t lastRead()   { return _lastRead; };
+  uint32_t lastRead() { return _lastRead; };
 
   //  get the last state
-  int  getState() { return _state; };
+  uint8_t  getState() { return _state; };
 
   //  ERROR
   int getLastError()
@@ -200,10 +236,7 @@ public:
   };
 
   //  # errors since last reset
-  uint16_t errorCount()
-  {
-    return _errorCount;
-  };
+  uint16_t errorCount() { return _errorCount; };
 
   //  debugging / own conversion.
   int   rawPressureCount() { return _rpc; };
@@ -220,7 +253,7 @@ protected:
   float    _pressure;
   int      _rpc;  //  raw counter for debugging.
 
-  int      _state;
+  uint8_t  _state;
   int      _error;
   uint16_t _errorCount;
   uint32_t _lastRead;

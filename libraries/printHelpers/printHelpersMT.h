@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.2"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.3"))
 #endif
 
 
@@ -124,9 +124,13 @@ class print64
       }
     }
 
-    inline operator char *() __attribute__((always_inline)) {
+    //  implicit cast
+    inline operator char *()  __attribute__((always_inline)) {
       return buffer;
     }
+
+    //  see issue #32, alternative option.
+    //  inline char * c_str() { return buffer; }
 };
 
 
@@ -194,8 +198,8 @@ class scieng
 
       //  Round correctly so that print(1.999, 2) prints as "2.00"
       double rounding = 0.5;
-      //  TODO: can optimize loop to reduce rounding errors?
-      //        additional loop that steps per 1000?
+      //  can optimize loop to reduce rounding errors?
+      //  additional loop that steps per 1000?
       for (uint8_t i = 0; i < decimals; ++i)
       {
         rounding *= 0.1;
@@ -260,7 +264,7 @@ class scieng
 class eng : public scieng
 {
   public:
-    eng(double value, uint8_t decimals, bool rightAlign = false) 
+    eng(double value, uint8_t decimals, bool rightAlign = false)
        : scieng(value, decimals, 3)
     {
       if (rightAlign == false) return;

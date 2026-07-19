@@ -91,8 +91,27 @@ More details see sections below and in the code.
 The thread safe version is minimally tested, feedback is welcome.
 
 
+### Note on printf() variants
+
+See issue #32.
+
+When a printf() or similar call is made and a printHelper is called twice or more, 
+the shared internal buffer will be overwritten. 
+To solve this the **printHelpersMT.h** version must be used as
+this does not have a shared internal buffer.
+
+However the **printHelpersMT.h** version does not work well with printf(),
+there is a warning - type mismatch - so an explicit cast is needed.
+
+```
+Serial.printf("%s\n", print64(value64));  //  fails
+Serial.printf("%s\n", (char *) print64(value64));  //  works
+```
+
+
 ### Related
 
+- https://github.com/RobTillaart/Angle - formats angles output
 - https://github.com/RobTillaart/Currency formats currency layout
 - https://github.com/RobTillaart/dateTimeHelpers date/time layout
 - https://github.com/RobTillaart/Fraction
@@ -100,6 +119,7 @@ The thread safe version is minimally tested, feedback is welcome.
 - https://github.com/RobTillaart/PrintCharArray captures data in a char array buffer.
 - https://github.com/RobTillaart/PrintSize counts length of a number of print commands. (right alignment)
 - https://github.com/RobTillaart/PrintString captures data in a String.
+- https://github.com/RobTillaart/SHEX - transform Serial in a HEX dump
 - https://en.wikipedia.org/wiki/Metric_prefix
 
 Where it started ...
@@ -227,6 +247,55 @@ To enable this patch the function in the **printHelpers.cpp** file.
 
 Note that from the ZETTA prefix all higher prefixes are starting with the
 previous letter of the alphabet ZYXWVUtsrqponml
+
+
+### hexDumpLine
+
+**Experimental 0.5.3**
+
+Note: not available in **printHelpersMT.h** (yet).
+
+
+Hex dumps are useful to analyse communication, binary objects or RAM content.
+ 
+The hexDumpLine functions generate only one single line of a three column 
+hex dump output and it looks like: (header added for clarity)
+
+```
+ADDRESS    BYTES AS HEX                                       BYTES AS TEXT
+--------------------------------------------------------------------------------
+00000180:  6E 7F 20 6B 0C 08 05 2A 6B 74 16 3E 7C 47 08 4E => n. k...* kt.>|G.N
+00000190:  0D 4E 09 23 66 67 17 12 28 23 32 3B 4D 6E 32 1B => .N.#fg.. (#2;Mn2.
+000001A0:  3E 15 38 0C 54 1E 70 13 08 08 16 1F 74 57 2F 61 => >.8.T.p. ....tW/a
+000001B0:  05 08 02 6A 41 1D 58 31 1C 17 04 35 48 4E 6C 5B => ...jA.X1 ...5HNl[
+```
+
+The ASCII part prints a dot when the byte is not a printable character.
+
+The user can combine multiple lines for printing larger objects as HEX dump.
+
+
+The functions print the data directly to the defined stream
+as they use no internal buffer.
+The boolean field **showASCII** is used to print the last column "BYTES AS TEXT".
+If **showASCII** is set to false the output becomes: (more a pure hex dump)
+
+```
+00000180:  6E 7F 20 6B 0C 08 05 2A 6B 74 16 3E 7C 47 08 4E
+00000190:  0D 4E 09 23 66 67 17 12 28 23 32 3B 4D 6E 32 1B
+000001A0:  3E 15 38 0C 54 1E 70 13 08 08 16 1F 74 57 2F 61
+000001B0:  05 08 02 6A 41 1D 58 31 1C 17 04 35 48 4E 6C 5B
+```
+
+
+- **void hexDumpLine8(Stream &str, uint32_t address, uint8_t \*arr, uint8_t length, bool showASCII)**
+- **void hexDumpLine16(Stream &str, uint32_t address, uint8_t \*arr, uint8_t length, bool showASCII)**
+
+See the examples - print_hexDumpLine16.ino and print_hexDumpLine8.ino
+
+These functions can be used to generate larger hex dumps e.g. of a file.
+
+Relates to - https://github.com/RobTillaart/SHEX
 
 
 ### hex() bin()
@@ -479,7 +548,6 @@ This version needs more testing / verification e.g. in RTOS.
 
 #### Must
 
-- check TODO's in the code / documentation
 - improve documentation
 
 #### Should
@@ -508,7 +576,12 @@ This version needs more testing / verification e.g. in RTOS.
   - type debase64(type, string);
   - needs investigation
 - implement **roman2integer()**?
-
+- hexDumpLine features
+  - add XOR checksum per line
+  - make address optional.
+  - split in 2 functions - array as HEX, array as TEXT
+    and make hexDumpLine a wrapper.
+  - column ADDRESS only 4 positions 0x0000..0xFFFF
 
 #### Wont
 

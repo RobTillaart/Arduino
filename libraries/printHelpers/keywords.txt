@@ -12,6 +12,9 @@ scieng	KEYWORD2
 
 toBytes	KEYWORD2
 
+hexDumpLine8	KEYWORD2
+hexDumpLine16	KEYWORD2
+
 hex	KEYWORD2
 bin	KEYWORD2
 

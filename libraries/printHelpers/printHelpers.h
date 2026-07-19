@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -13,7 +13,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.2"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.5.3"))
 #endif
 
 
@@ -77,6 +77,15 @@ size_t sci(Stream &str, double value, uint8_t decimals);
 //  To have some support the code uses lowercase for the next 8 levels
 //  treda sorta rinta quexa pepta ocha nena minga luma (1024 ^21 ~~ 10^63)
 char * toBytes(double value, uint8_t decimals = 2);
+
+
+////////////////////////////////////////////////////////////
+//
+//  hexDumpLine8()
+//  hexDumpLine16()
+//
+void hexDumpLine8(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, bool showASCII);
+void hexDumpLine16(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, bool showASCII);
 
 
 ////////////////////////////////////////////////////////////

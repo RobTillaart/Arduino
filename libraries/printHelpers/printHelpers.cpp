@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -195,8 +195,8 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
-  //  TODO: can optimize loop to reduce rounding errors?
-  //        additional loop that steps per 1000?
+  //  can optimize loop to reduce rounding errors?
+  //  additional loop that steps per 1000?
   for (uint8_t i = 0; i < decimals; ++i)
   {
     rounding *= 0.1;
@@ -362,6 +362,75 @@ char * toBytes(double value, uint8_t decimals)
     //  no units available
   }
   return buffer;
+}
+
+
+////////////////////////////////////////////////////////////
+//
+//  hexDumpLine()
+//
+void hexDumpLine8(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, bool showASCII)
+{
+  uint8_t pos = 0;
+  str.print(hex(address));
+  str.print(":  ");
+  pos = 11;
+  //  print HEX values
+  for (int i = 0; i < length; i++)
+  {
+    str.print(hex(arr[i]));
+    str.print(" ");
+    pos += 3;
+  }
+  //  fill remainder of the block.
+  for (; pos < 35; pos += 3)
+  {
+    str.print("   ");
+  }
+  if (showASCII)
+  {
+    str.print("=> ");
+    pos = 38;
+    //  print ASCII values
+    for (int i = 0; i < length; i++)
+    {
+      if (isprint(arr[i])) str.print((char)arr[i]);
+      else str.print(".");
+    }
+  }
+  str.println();
+}
+
+
+void hexDumpLine16(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, bool showASCII)
+{
+  uint8_t pos = 0;
+  str.print(hex(address));
+  str.print(":  ");
+  pos = 11;
+  //  print HEX values
+  for (int i = 0; i < length; i++)
+  {
+    str.print(hex(arr[i]));
+    str.print(" ");
+    pos += 3;
+  }
+  for (; pos < 59; pos += 3)
+  {
+    str.print("   ");
+  }
+  if (showASCII)
+  {
+    str.print("=> ");
+    //  print ASCII values
+    for (int i = 0; i < length; i++)
+    {
+      if (isprint(arr[i])) str.print((char)arr[i]);
+      else str.print(".");
+      if (i == 7) str.print(" ");
+    }
+  }
+  str.println();
 }
 
 
@@ -767,7 +836,7 @@ char * fraction(double value)
   }
 
   //  find nearest fraction
-  float Precision = 0.000001;
+  float precision = 0.000001;
 
   //  low = (0,1), high = (1,1)
   int32_t lowN = 0;
@@ -780,10 +849,10 @@ char * fraction(double value)
   {
     float testLow = lowD * value - lowN;
     float testHigh = highN - highD * value;
-    if (testHigh < Precision * highD)
+    if (testHigh < precision * highD)
       break;  //  high is answer
 
-    if (testLow < Precision * lowD)
+    if (testLow < precision * lowD)
     { //  low is answer
       highD = lowD;
       highN = lowN;

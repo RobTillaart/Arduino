@@ -2,7 +2,7 @@
 //
 //    FILE: statHelpers.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: Arduino library with a number of statistic helper functions.
 //    DATE: 2020-07-01
 //     URL: https://github.com/RobTillaart/statHelpers
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 
 
-#define STATHELPERS_LIB_VERSION               (F("0.2.2"))
+#define STATHELPERS_LIB_VERSION               (F("0.2.3"))
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -148,6 +148,28 @@ double dSemiFactorial(uint16_t n);
 uint32_t skipFactorial(uint32_t n, uint32_t skip);
 uint64_t skipFactorial64(uint32_t n, uint32_t skip);
 double dSkipFactorial(uint32_t n, uint32_t skip);
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+//  TERMIAL  (e.g. 5? = 5+4+3+2+1)
+//
+
+//  exact up to n = 2^16 = 65.535
+uint32_t termial(uint16_t n);
+
+//  exact up to n = 2^32 = 4.294.967.295
+uint64_t termial64(uint32_t n);
+
+//  float  = 4 bit exact up to n = ~2^12 = ±5.792
+float termialFloat(float n);
+
+//  only if double (8 bit) is supported
+//  double = 8 bit exact up to n = ~2^26 = ±94.906.265
+double termialDouble(double n);
+
+//  option
+//  skipTermial(n, skip);  //  skip typical smaller than n
 
 
 ///////////////////////////////////////////////////////////////////////////

@@ -137,6 +137,31 @@ Note that for the function the **max / skip** is decreasing when **skip grows**.
 Expectation is that **max** roughly doubles when **skip** doubles (to be investigated).
 
 
+### Termial
+
+The termial operator is defined by Donald Knuth as the sum of integers from n to zero.
+It is written with a question mark in math ``` x = 34?``` a bit like factorial-ish.
+The termial can be calculated with a relative simple formula.
+Note: there exist a generic formula for determining the sum of powers of integers 0.. n.
+See - https://en.wikipedia.org/wiki/Faulhaber%27s_formula
+
+For different ranges different functions are defined. 
+
+- **uint32_t termial(uint16_t n)**    - exact up to 2^16 = 65.535
+- **uint64_t termial64(uint32_t n)** - exact up to 2^32 = 4.294.967.295
+- **float termialFloat(float n)**    - float = 4 bit exact up to ±5.792
+- **double termialDouble(double n)** - double = 8 bit exact up to ±94.906.265
+
+For negative numbers one can use```int32_t x = -termial(-n)```.
+Float and double variants can handle negative input.
+
+The float and double variation of the **termial()** function allows to use 
+all real numbers, making it a continuous functions. 
+The actual exact ranges for the double version need to be verified.
+
+The **termial()** function is added mainly for recreational and educational purposes.
+
+
 ### Combinations
 
 Returns how many different ways one can choose a set of k elements from a set of n. 
@@ -152,7 +177,8 @@ The limits mentioned is the n for which all k still work.
 
 If you need a larger n but k is near 0 the functions will still work.
 To which value of k the formulas work differs per value for n. 
-No formula found, and build in an overflow detection takes overhead, so that is not done.
+No formula found, and build in an overflow detection takes overhead, so that is not
+implemented (yet).
 
 
 - **combPascal(n, k)** n = 0 .. 30 but due to double recursion per iteration it takes
@@ -227,7 +253,7 @@ See examples
 - investigate a bigFloat class to do math for permutations and combinations to substantially larger values.
 - Look for ways to extend the scope
 - fill table for skipFactorial for **double**
-
+- investigate **skipTermial()** e.g. st(16,3) = sum of 16,13,10,7,4,1
 
 #### Wont
 

@@ -1,0 +1,34 @@
+# Syntax Colouring Map For PT2323
+
+# Data types (KEYWORD1)
+PT2323	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setChannel	KEYWORD2
+getChannel	KEYWORD2
+
+muteFrontLeft	KEYWORD2
+muteFrontRight	KEYWORD2
+muteCenter	KEYWORD2
+muteSubWoofer	KEYWORD2
+muteRearLeft	KEYWORD2
+muteRearRight	KEYWORD2
+muteAll	KEYWORD2
+
+setSurround	KEYWORD2
+getSurround	KEYWORD2
+
+setMixedChannel	KEYWORD2
+getMixedChannel	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+PT2323_LIB_VERSION	LITERAL1
+

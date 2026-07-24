@@ -1,0 +1,23 @@
+{
+  "name": "PT2323",
+  "keywords": "Audio",
+  "description": "Arduino library for PT2323 I2C 6 channel audio processor / selector.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/PT2323.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "PT2323.h"
+}

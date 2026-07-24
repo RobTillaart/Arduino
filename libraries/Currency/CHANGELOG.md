@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.1] - 2026-07-22
+- update GitHub actions
+- add issue #32 printHelpers to readme.md future section
+- update keywords.txt (add TLA + remove deprecated)
+- minor edits
+
 ## [0.2.0] - 2025-11-25
 - fix derived functions (symbols).
 - add "acronym"-wrappers e.g. USD(value) and USD64(value)

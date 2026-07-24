@@ -1,7 +1,7 @@
 //
 //    FILE: currency.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 

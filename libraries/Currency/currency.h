@@ -2,7 +2,7 @@
 //
 //    FILE: currency.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Currency library for Arduino
 //     URL: https://github.com/RobTillaart/Currency
 
@@ -10,12 +10,15 @@
 #include "Arduino.h"
 
 
-#define CURRENCY_LIB_VERSION              (F("0.2.0"))
+#define CURRENCY_LIB_VERSION              (F("0.2.1"))
 
 
 //  TODO
 //  optimize this 99% same code currency - currency64
 //  print to string and "merge" with formatters?
+//
+//  make a currency class like print64 from printHelpers library
+//  See issue https://github.com/RobTillaart/printHelpers/issues/32
 //
 //  ALT-0165 = ¥
 //  ALT-0128 = €
@@ -27,7 +30,7 @@ char * currency(int32_t value, int decimals, char decimalSeparator, char thousan
 char * currency64(int64_t value, int decimals, char decimalSeparator, char thousandSeparator, char symbol);
 
 //
-//  DERIVED FUNCTIONS
+//  WRAPPER FUNCTIONS
 //
 char * bitcoin(int32_t value);
 char * dollar(int32_t value);

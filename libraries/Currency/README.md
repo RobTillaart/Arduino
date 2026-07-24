@@ -22,7 +22,7 @@ The currency library contains a number of functions that help to print
 integers as currency.
 
 The currency functions assume you do the currency math in integer units.
-For dollars and euro's this would be cents. For numbers with more decimals
+For dollars and euro's this would be cents. For currencies with more decimals
 it is a smaller unit.
 
 Using integers makes addition, subtraction and multiplication of currency exact.
@@ -34,6 +34,7 @@ upon int64_t numbers.
 
 The 0.2.0 version added wrapper functions in the form of a TLA (Three Letter Acronym).
 The TLA's are international used acronyms for currency e.g. CNY(value) or GBP(value).
+If TLA's are missing, please open an issue, or a PR.
 
 There is a relation with the printHelpers class - https://github.com/RobTillaart/printHelpers
 When this currency library has matured it might be merged with printHelpers.
@@ -53,7 +54,7 @@ of the API is deprecated.
 
 Not all symbol codes work on all platforms, so you need to test for your platform.
 
-|  name              |  sign  |  code        |  Notes  |
+|  name              |  sign  |  code        |  notes  |
 |:-------------------|:------:|:-------------|:--------|
 |  Euro              |   €    |  Alt + 0128  |
 |  Pound             |   £    |  Alt + 0163  |
@@ -122,13 +123,13 @@ The following functions are implemented:
 
 ### int64_t TLA Wrapper functions
 
-- **char \* BTC64(int32_t value)**
-- **char \* USD64(int32_t value)**
-- **char \* EUR64(int32_t value)**
-- **char \* GBP64(int32_t value)**
-- **char \* RUB64(int32_t value)**
-- **char \* JPY64(int32_t value)**
-- **char \* CNY64(int32_t value)**
+- **char \* BTC64(int64_t value)**
+- **char \* USD64(int64_t value)**
+- **char \* EUR64(int64_t value)**
+- **char \* GBP64(int64_t value)**
+- **char \* RUB64(int64_t value)**
+- **char \* JPY64(int64_t value)**
+- **char \* CNY64(int64_t value)**
 
 
 ### Deprecated float/double Wrapper functions
@@ -165,11 +166,16 @@ The **divmod10()** function from my fast_math library might be an option.
 #### Must
 
 - update documentation.
+- investigate usage of currency with printf()
+  - https://github.com/RobTillaart/printHelpers/issues/32
+  - bug implies to currency too => class implementation (0.3.0)
 
 #### Should
 
 - investigate a better double/float API
 - investigate impact **divmod10()** for int32 and int64.
+- extend the symbol parameter to a TLA string e.g. "USD"
+  - class implementation?
 
 #### Could
 

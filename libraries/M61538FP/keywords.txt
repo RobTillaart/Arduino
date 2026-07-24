@@ -1,0 +1,32 @@
+# Syntax Colouring Map For M61538FP
+
+# Data types (KEYWORD1)
+M61538FP	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+setVolumeFrontLeftRight	KEYWORD2
+setVolumeRearLeftRight	KEYWORD2
+setVolumeCenterWoofer	KEYWORD2
+setVolumeAll	KEYWORD2
+
+setVolumeFrontLeft	KEYWORD2
+setVolumeFrontRight	KEYWORD2
+setVolumeCenter	KEYWORD2
+setVolumeWoofer	KEYWORD2
+setVolumeRearLeft	KEYWORD2
+setVolumeRearRight	KEYWORD2
+
+getVolumeFrontLeft	KEYWORD2
+getVolumeFrontRight	KEYWORD2
+getVolumeCenter	KEYWORD2
+getVolumeWoofer	KEYWORD2
+getVolumeRearLeft	KEYWORD2
+getVolumeRearRight	KEYWORD2
+
+
+# Constants (LITERAL1)
+M61538FP_LIB_VERSION	LITERAL1
+

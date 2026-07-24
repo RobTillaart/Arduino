@@ -1,0 +1,14 @@
+IDE:    1.8.19
+BOARD:  UNO R3
+
+Arduino\libraries\M61538FP\examples\M61538FP_performance\M61538FP_performance.ino
+M61538FP_LIB_VERSION: 0.1.0
+
+SET ALL:	911.03
+SET PAIR:	303.74
+SET SINGLE:	304.62
+GET SINGLE:	0.51
+
+Done...
+
+

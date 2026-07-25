@@ -1,0 +1,27 @@
+# Syntax Colouring Map For PT2258
+
+# Data types (KEYWORD1)
+PT2258	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setVolumeAll	KEYWORD2
+setVolume	KEYWORD2
+getVolume	KEYWORD2
+
+setAttenuationAll	KEYWORD2
+setAttenuation	KEYWORD2
+getAttenuation	KEYWORD2
+
+mute	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+PT2323_LIB_VERSION	LITERAL1
+

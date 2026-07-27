@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.2] - 2026-07-27
+- add map8() for completeness
+- improve performance
+- update readme.md
+- update GitHub actions
+- minor edits
+
 ## [0.1.1] - 2025-11-26
 - add map64(float) and map32() for "clean API"
 - add map16() for investigation, (~equal in performance).

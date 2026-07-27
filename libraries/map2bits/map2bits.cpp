@@ -1,7 +1,7 @@
 //
 //    FILE: map2bits.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2024-01-02
 // PURPOSE: Arduino library for mapping a float to a number of bits.
 //     URL: https://github.com/RobTillaart/map2bits
@@ -9,7 +9,9 @@
 
 #include "map2bits.h"
 
-#define MB_MAX_SIZE       (64)
+
+const int MB_MAX_SIZE = 64;
+
 
 map2bits::map2bits()
 {
@@ -27,7 +29,7 @@ bool map2bits::init(float inMin, float inMax, uint8_t size)
   _inMax = inMax;
 
   _factor = _outMax /_inRange;
-  _base = - _inMin * _factor;
+  _base = - _inMin * _factor + 0.5;
   return true;
 }
 
@@ -37,8 +39,18 @@ uint32_t map2bits::map(float value)
   if (value <= _inMin) return 0;
   if (value >= _inMax) return (uint32_t(1) << _outMax) - uint32_t(1);
 
-  uint8_t count = round(_base + value * _factor);
+  uint8_t count = (_base + value * _factor);
   uint32_t bits = (uint32_t(1) << count) - uint32_t(1);
+  return bits;
+}
+
+uint8_t map2bits::map8(float value)
+{
+  if (value <= _inMin) return 0;
+  if (value >= _inMax) return (uint16_t(1) << _outMax) - uint16_t(1);
+
+  uint8_t count = (_base + value * _factor);
+  uint8_t bits = (uint16_t(1) << count) - uint16_t(1);
   return bits;
 }
 
@@ -47,7 +59,8 @@ uint16_t map2bits::map16(float value)
   if (value <= _inMin) return 0;
   if (value >= _inMax) return (uint16_t(1) << _outMax) - uint16_t(1);
 
-  uint8_t count = round(_base + value * _factor);
+  uint8_t count = (_base + value * _factor);
+  //  uint8_t count = round(_base + value * _factor);
   uint16_t bits = (uint16_t(1) << count) - uint16_t(1);
   return bits;
 }
@@ -57,7 +70,7 @@ uint32_t map2bits::map32(float value)
   if (value <= _inMin) return 0;
   if (value >= _inMax) return (uint32_t(1) << _outMax) - uint32_t(1);
 
-  uint8_t count = round(_base + value * _factor);
+  uint8_t count = (_base + value * _factor);
   uint32_t bits = (uint32_t(1) << count) - uint32_t(1);
   return bits;
 }
@@ -67,7 +80,7 @@ uint64_t map2bits::map64(float value)
   if (value <= _inMin) return 0;
   if (value >= _inMax) return (uint64_t(1) << _outMax) - uint64_t(1);
 
-  uint8_t count = round(_base + value * _factor);
+  uint8_t count = (_base + value * _factor);
   uint64_t bits = (uint64_t(1) << count) - uint64_t(1);
   return bits;
 }

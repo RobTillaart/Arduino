@@ -6,7 +6,10 @@ map2bits	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 init	KEYWORD2
+
 map	KEYWORD2
+
+map8	KEYWORD2
 map16	KEYWORD2
 map32	KEYWORD2
 map64	KEYWORD2

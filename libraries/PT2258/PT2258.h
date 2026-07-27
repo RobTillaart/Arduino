@@ -3,7 +3,7 @@
 //    FILE: PT2258.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-07-24
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for PT2258 I2C 6 channel audio volume processor.
 //     URL: https://github.com/RobTillaart/PT2258
 
@@ -12,7 +12,7 @@
 #include "Wire.h"
 
 
-#define PT2258_LIB_VERSION                   (F("0.1.0"))
+#define PT2258_LIB_VERSION                   (F("0.1.1"))
 
 
 class PT2258

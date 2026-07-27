@@ -1,7 +1,7 @@
 //
 //    FILE: AnalogPin.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.10
+// VERSION: 0.3.0
 //    DATE: 2013-09-09
 // PURPOSE: wrapper for analogRead with smoothing and noise filtering
 

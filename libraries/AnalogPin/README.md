@@ -11,7 +11,7 @@
 
 # AnalogPin
 
-Arduino library to add functionality on top of analogRead().
+Arduino library to add smoothing functionality on top of analogRead().
 
 
 ## Description
@@ -21,10 +21,17 @@ AnalogPin is an Arduino class that adds noise filtering and smoothing to analogR
 The library holds the last read value and the previous value. These are needed for the
 smoothing and allows the users to implement their own smoothing functions.
 
-Furthermore it can speed up the analogRead() function by tuning the pre-scaler.
-This latter is AVR only.
+Furthermore the library can speed up the analogRead() function by tuning the pre-scaler.
+This latter is for AVR only.
 
 Feedback as always is welcome.
+
+
+### Related
+
+- https://github.com/RobTillaart/runningAverage alternative smoothing
+- https://github.com/RobTillaart/runningMedian alternative smoothing
+
 
 ## Interface
 
@@ -49,7 +56,7 @@ internal ADC after multiplexing.
 The parameter twice is used to force analogRead() to be executed twice to reduce the noise from the multiplexing of the internal ADC.
 
 
-### Prescaler, AVR only
+### Pre-scaler, AVR only
 
 - **void setPrescaler(uint8_t prescaler = 7)** AVR only pre-scaler.
 - **uint8_t getPrescaler()** return pre-scaler set.

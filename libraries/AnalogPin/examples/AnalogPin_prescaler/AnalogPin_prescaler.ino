@@ -1,10 +1,10 @@
 //
 //    FILE: AnalogPin_prescaler.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: example sketch use of prescaler on AVR
+// PURPOSE: example sketch use of pre-scaler on AVR
 //     URL: https://github.com/RobTillaart/AnalogPin
 //
-//  prescaler works only on AVR
+//  pre-scaler works only on AVR
 
 
 #include "AnalogPin.h"

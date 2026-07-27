@@ -23,7 +23,7 @@ void setup()
   Serial.println(ANALOGPIN_LIB_VERSION);
   Serial.println();
 
-  Serial.println("time in msec");
+  Serial.println("time in milliseconds");
 
   INB.setPrescaler(5);  //  fast sampling
 
@@ -100,4 +100,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

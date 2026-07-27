@@ -9,7 +9,9 @@
 //  change noise level with + -
 //  change smooth alpha with * /
 
+
 #include "AnalogPin.h"
+
 
 AnalogPin INA(A0);
 
@@ -23,6 +25,7 @@ uint32_t interval = 10;
 uint8_t mode = 0;
 uint8_t noise = 3;
 uint8_t alpha = 16;
+
 
 void setup()
 {

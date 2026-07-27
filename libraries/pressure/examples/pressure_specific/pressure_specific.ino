@@ -2,7 +2,6 @@
 //    FILE: pressure_specific.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-11-26
 //     URL: https://github.com/RobTillaart/pressure
 
 

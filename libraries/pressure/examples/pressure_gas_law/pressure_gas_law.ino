@@ -2,7 +2,6 @@
 //    FILE: pressure_gas_law.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo ideal gas law
-//    DATE: 2021-12-23
 //     URL: https://github.com/RobTillaart/pressure
 
 

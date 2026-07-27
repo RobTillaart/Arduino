@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.2] - 2025-11-26
+## [0.3.4] - 2025-11-26
+- replace defines with constexpr float
+- update GitHub actions
+- update readme.md
+- minor edits
+
+## [0.3.3] - 2025-11-26
 - add setKGCM2() + getKGCM2()
 - update GitHub actions
 - minor edits

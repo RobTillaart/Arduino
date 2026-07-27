@@ -2,45 +2,45 @@
 //
 //    FILE: pressure.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Arduino library for pressure conversion
 //     URL: https://github.com/RobTillaart/pressure
 
 
 
-#define PRESSURE_LIB_VERSION        (F("0.3.3"))
+#define PRESSURE_LIB_VERSION        (F("0.3.4"))
 
 
 //  CONSTANTS NEED TO BE VERIFIED
 //  Temperature 25°C ?
 
 //  CONSTANTS SETTERS
-#define BAR2MILLIBAR           1000
-#define ATM2MILLIBAR           1013.25
-#define PSI2MILLIBAR           68.9475729318
-#define DYNES2MILLIBAR         0.001
-#define INHG2MILLIBAR          33.85355
-#define INH2O2MILLIBAR         2.4908890833333
-#define PASCAL2MILLIBAR        0.01
-#define TORR2MILLIBAR          1.33322368
-#define CMHG2MILLIBAR          13.3322368
-#define CMH2O2MILLIBAR         0.980665
-#define MSW2MILLIBAR           0.01
-#define KGCM22MILLIBAR         980.4
+constexpr float BAR2MILLIBAR    = 1000;
+constexpr float ATM2MILLIBAR    = 1013.25;
+constexpr float PSI2MILLIBAR    = 68.9475729318;
+constexpr float DYNES2MILLIBAR  = 0.001;
+constexpr float INHG2MILLIBAR   = 33.85355;
+constexpr float INH2O2MILLIBAR  = 2.4908890833333;
+constexpr float PASCAL2MILLIBAR = 0.01;
+constexpr float TORR2MILLIBAR   = 1.33322368;
+constexpr float CMHG2MILLIBAR   = 13.3322368;
+constexpr float CMH2O2MILLIBAR  = 0.980665;
+constexpr float MSW2MILLIBAR    = 0.01;
+constexpr float KGCM22MILLIBAR  = 980.4;
 
 //  CONSTANTS GETTERS
-#define MILLIBAR2BAR           (1.0 / BAR2MILLIBAR)
-#define MILLIBAR2ATM           (1.0 / ATM2MILLIBAR)
-#define MILLIBAR2PSI           (1.0 / PSI2MILLIBAR)
-#define MILLIBAR2DYNES         (1.0 / DYNES2MILLIBAR)
-#define MILLIBAR2INHG          (1.0 / INHG2MILLIBAR)
-#define MILLIBAR2INH2O         (1.0 / INH2O2MILLIBAR)
-#define MILLIBAR2PASCAL        (1.0 / PASCAL2MILLIBAR)
-#define MILLIBAR2TORR          (1.0 / TORR2MILLIBAR)
-#define MILLIBAR2CMHG          (1.0 / CMHG2MILLIBAR)
-#define MILLIBAR2CMH2O         (1.0 / CMH2O2MILLIBAR)
-#define MILLIBAR2MSW           (1.0 / MSW2MILLIBAR)
-#define MILLIBAR2KGCM2         (1.0 / KGCM22MILLIBAR)
+constexpr float MILLIBAR2BAR    = (1.0 / BAR2MILLIBAR);
+constexpr float MILLIBAR2ATM    = (1.0 / ATM2MILLIBAR);
+constexpr float MILLIBAR2PSI    = (1.0 / PSI2MILLIBAR);
+constexpr float MILLIBAR2DYNES  = (1.0 / DYNES2MILLIBAR);
+constexpr float MILLIBAR2INHG   = (1.0 / INHG2MILLIBAR);
+constexpr float MILLIBAR2INH2O  = (1.0 / INH2O2MILLIBAR);
+constexpr float MILLIBAR2PASCAL = (1.0 / PASCAL2MILLIBAR);
+constexpr float MILLIBAR2TORR   = (1.0 / TORR2MILLIBAR);
+constexpr float MILLIBAR2CMHG   = (1.0 / CMHG2MILLIBAR);
+constexpr float MILLIBAR2CMH2O  = (1.0 / CMH2O2MILLIBAR);
+constexpr float MILLIBAR2MSW    = (1.0 / MSW2MILLIBAR);
+constexpr float MILLIBAR2KGCM2  = (1.0 / KGCM22MILLIBAR);
 
 /*
 //  was
@@ -80,7 +80,7 @@ public:
   void  setCmH2O(float value)     { _pressure = value * CMH2O2MILLIBAR; }
   void  setMSW(float value)       { _pressure = value * MSW2MILLIBAR; }
   void  setKGCM2(float value)     { _pressure = value * KGCM22MILLIBAR; }
-
+  void  setNm2(float value)       { _pressure = value * PASCAL2MILLIBAR; }
 
   float getMilliBar()  { return _pressure; };
   float getBar()       { return _pressure * MILLIBAR2BAR; };
@@ -95,6 +95,7 @@ public:
   float getCmH2O()     { return _pressure * MILLIBAR2CMH2O; }
   float getMSW()       { return _pressure * MILLIBAR2MSW; }
   float getKGCM2()     { return _pressure * MILLIBAR2KGCM2; }
+  float getNm2()       { return _pressure * MILLIBAR2PASCAL; }
 
 
   ////////////////////////////////////////////////////////////

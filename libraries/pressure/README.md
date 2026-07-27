@@ -18,7 +18,7 @@ Arduino library for pressure conversion.
 
 Arduino library to convert between several pressure units (formats).
 The class consists of a number of setters and getters. 
-Internally the class uses millibar, although Pascal is the **SI** unit. 
+Internally the class uses millibar, although Pascal (==N/m^2) is the **SI** unit. 
 In fact the class just hides all conversion constants to and from millibar.
 
 Pressure is implemented as a float so this limits in theory the precision of the value.
@@ -31,16 +31,27 @@ than in a single conversion step as there are two multiplications involved.
 
 Note: constants need to be verified.
 
-As always, feedback is welcome.
+Feedback, as always, is welcome.
 
 
 ### Related
 
+Convertors
 - https://github.com/RobTillaart/pressure - pressure conversions
 - https://github.com/RobTillaart/Temperature - temperature conversions 
-- https://github.com/RobTillaart/MS5837 - temperature pressure sensor  (incl pressure to altitude)
-- https://github.com/RobTillaart/MS5611 - temperature pressure sensor  (incl pressure to altitude)
-- https://github.com/RobTillaart/MSP300 - industrial pressure transducer
+- https://github.com/RobTillaart/VolumeConvertor - conversions
+- https://github.com/RobTillaart/weight - conversions
+
+Sensors
+- https://github.com/RobTillaart/I2C_ABP2 (I2C) pressure sensor
+- https://github.com/RobTillaart/I2C_ASDX (I2C) pressure + conversions 
+- https://github.com/RobTillaart/I2C_MPRLS (I2C) pressure
+- https://github.com/RobTillaart/MS4525DO - (I2C) temperature pressure sensor 
+- https://github.com/RobTillaart/MS5837 - (I2C) temperature pressure sensor  (incl pressure to altitude)
+- https://github.com/RobTillaart/MS5611 - (I2C) temperature pressure sensor  (incl pressure to altitude)
+- https://github.com/RobTillaart/MSP300 - (I2C) industrial pressure transducer
+
+Other
 - https://swharden.com/blog/2017-04-29-precision-pressure-meter-project/
 
 
@@ -64,12 +75,14 @@ As always, feedback is welcome.
 - **void setDynes(float value)** sets pressure in Dynes.
 - **void setInchHg(float value)** sets pressure in inches mercury.
 - **void setInchH2O(float value)** sets pressure in inches water.
-- **void setPascal(float value)** sets pressure in Pascal. Note this is the **SI** unit.
+- **void setPascal(float value)** sets pressure in Pascal == N/m^2. Note this is the **SI** unit.
 - **void setTORR(float value)** sets pressure in TORR.
 - **void setCmHg(float value)** sets pressure in centimetre mercury.
 - **void setCmH2O(float value)** sets pressure in centimetre water.
 - **void setMSW(float value)** sets pressure in Meters of Sea Water. (under water pressure unit).
 - **void setKGCM2(float value)** sets pressure in Kg per square cm.
+- **void setNm2(float value)** sets pressure in Pascal == N/m^2. Note this is the **SI** unit.
+
 
 ### Getters
 
@@ -80,12 +93,13 @@ As always, feedback is welcome.
 - **float getDynes()** returns pressure in Dynes.
 - **float getInchHg()** returns pressure in inches mercury.
 - **float getInchH2O()** returns pressure in inches water.
-- **float getPascal()** returns pressure in Pascal. Note this is the **SI** unit.
+- **float getPascal()** returns pressure in Pascal == N/m^2. Note this is the **SI** unit.
 - **float getTORR()** returns pressure in TORR.
 - **float getCmHg()** returns pressure in centimetre mercury.
 - **float getCmH2O()** returns pressure in centimetre water.
 - **float getMSW()** returns pressure in Meters of Sea Water. (under water pressure unit).
 - **float getKGCM2()** returns pressure in Kg per square cm.
+- **float getNm2()** returns pressure in Pascal == N/m^2. Note this is the **SI** unit.
 
 ### Gas law, applied
 
@@ -191,19 +205,23 @@ Serial.println(P.getTORR());     // 1000 Dynes in Torr
 
 #### Should
 
+- add void multiply(double factor) 
+- add void divide(double factor)
 - test with gas law.
 - optimize code if possible.
 
 #### Could
 
-- **float AddMillibar(float value)** simple math with all units (12x)
+- **float AddMillibar(float value)** simple math with all units (X times)
   - ```return _pressure += value * factor;```
   - does **subtractMillibar()** make more sense?
-- **float setMillibar(float value)** return pressure in millibar all setters
+- **float setMillibar(float value)** (iso void) to return pressure in millibar all setters
   - ```return _pressure = value * factor;```
 
 Possible additional interface
 - **changeTemperatureKelvin(float factor)**  Heat it with 10% => factor = 1.1
+
+- PressureToAltitude => see MS5837 library
 
 
 #### Wont (unless requested)

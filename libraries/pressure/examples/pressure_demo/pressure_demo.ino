@@ -2,7 +2,6 @@
 //    FILE: pressure_demo.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
-//    DATE: 2021-11-25
 //     URL: https://github.com/RobTillaart/pressure
 
 

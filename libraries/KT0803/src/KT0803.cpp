@@ -1,7 +1,7 @@
 //
 //    FILE: KT0803.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino Library for KT0803 and KT0803K FM transmitter.
 //     URL: https://github.com/RobTillaart/KT0803
 
@@ -14,7 +14,7 @@
 
 KT0803::KT0803(TwoWire * wire)
 {
-  _address  = 0x3E;
+  _address  = 0x3E;  //  fixed address
   _wire = wire;
 }
 

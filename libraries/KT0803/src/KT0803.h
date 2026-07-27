@@ -2,7 +2,7 @@
 //
 //    FILE: KT0803.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.1
+// VERSION: 0.3.2
 // PURPOSE: Arduino Library for KT0803 and KT0803K FM transmitter
 //     URL: https://github.com/RobTillaart/KT0803
 
@@ -11,7 +11,7 @@
 #include "Wire.h"
 
 
-#define KT0803_LIB_VERSION          (F("0.3.1"))
+#define KT0803_LIB_VERSION          (F("0.3.2"))
 
 
 class KT0803

@@ -17,10 +17,12 @@ Arduino Library for KT0803 and KT0803K FM transmitter.
 
 ### Legal point of attention
 
-In different countries there are different laws with respect to using transmitting devices 
-and their range. 
+In different countries there are different laws with respect to using FM transmitting
+devices and their range. 
 Please inform yourself of the local rules and laws if and how you may or may not use a 
 device like the KT0803 in your projects, either hobby, commercial or otherwise.
+
+See also Region selection below.
 
 
 ## Description
@@ -45,6 +47,8 @@ These will work for L and M devices too.
 
 For ATTinyX5 series there exists the TinyKT0803 class which is derived from this one.
 It uses a different I2C implementation. See - https://github.com/RobTillaart/TinyKT0803
+
+Feedback as always is welcome.
 
 
 ### Hardware
@@ -122,12 +126,36 @@ Some examples:
 
 ### Related
 
+FM broadcasting
 - https://github.com/RobTillaart/KT0803
 - https://github.com/RobTillaart/TinyKT0803
+
+Other
 - https://www.hackster.io/hesam-moshiri/stereo-digital-fm-transmitter-circuit-arduino-code-2dbd8d
 - https://www.hackster.io/hesam-moshiri/full-digital-fm-receiver-with-arduino-and-tea5767-52be37
 - https://www.hackerstore.nl/Artikel/388
 - https://en.wikipedia.org/wiki/FM_broadcasting
+
+
+## I2C
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface KT0803
@@ -328,6 +356,7 @@ Added functions in 0.3.0 (not tested), check datasheet.
   - call begin () again? => default
   - explain well doc.
 
+
 #### Could
 
 - improve error handling
@@ -364,6 +393,7 @@ Added functions in 0.3.0 (not tested), check datasheet.
   - only writing is needed. 
 - send binary data over FM?
 - preset frequency array in .h file (hardcoded)
+  - not as freq but as channel.
 - enums for parameters - readability?
 
 

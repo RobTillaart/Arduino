@@ -1,7 +1,7 @@
 {
   "name": "LUHN",
   "keywords": "checksum,validation",
-  "description": "Arduino Library for calculating LUHN checksum.",
+  "description": "Arduino library for calculating LUHN checksum.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/LUHN.git"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

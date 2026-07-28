@@ -46,6 +46,8 @@ As always, feedback is welcome.
 
 ### Related
 
+Checksum algorithms
+
 - https://github.com/RobTillaart/Adler
 - https://github.com/RobTillaart/CRC
 - https://github.com/RobTillaart/DAMM
@@ -92,8 +94,9 @@ If this value is zero, a new LUHN can be calculated, otherwise call **reset()** 
 
 The internal counter for the stream interface is 32 bit.
 This limits the number of add() calls to about 4 billion.
-For current implementation the counter is used for even/odd detection,
-and even when it overflows one gets the correct **LUHN**.
+For current implementation the counter is used for even/odd detection.
+Even when the counter overflows one gets the correct **LUHN**, as it 
+essentially only the last bit.
 
 
 ## Future

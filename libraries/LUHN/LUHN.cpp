@@ -1,7 +1,7 @@
 //
 //    FILE: LUHN.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2022-12-24
 // PURPOSE: Arduino Library for calculating LUHN checksum.
 //     URL: https://github.com/RobTillaart/LUHN
@@ -151,9 +151,9 @@ uint32_t LUHN::count()
 //
 uint8_t LUHN::_Marsaglia_mod10()
 {
-    m_z = 36969L * (m_z & 65535L) + (m_z >> 16);
-    m_w = 18000L * (m_w & 65535L) + (m_w >> 16);
-    return (m_z ^ m_w) % 10;   //  changed
+  m_z = 36969L * (m_z & 65535L) + (m_z >> 16);
+  m_w = 18000L * (m_w & 65535L) + (m_w >> 16);
+  return (m_z ^ m_w) % 10;   //  changed
 }
 
 

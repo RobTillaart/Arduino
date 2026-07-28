@@ -2,7 +2,7 @@
 //
 //    FILE: LUHN.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.3
+// VERSION: 0.2.4
 //    DATE: 2022-12-24
 // PURPOSE: Arduino Library for calculating LUHN checksum.
 //     URL: https://github.com/RobTillaart/LUHN
@@ -10,7 +10,7 @@
 
 #include "Arduino.h"
 
-#define LUHN_LIB_VERSION                      (F("0.2.3"))
+#define LUHN_LIB_VERSION                      (F("0.2.4"))
 
 
 class LUHN

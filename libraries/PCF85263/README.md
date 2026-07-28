@@ -24,10 +24,20 @@ The functionality implemented is just basic date time retrieval.
 
 More functionality upon request (if time permits)
 
+Feedback as always is welcome.
+
+
 #### Not implemented but interesting:
 
 The device can run in a stop-watch mode. The range goes up to 999 999 hours,
 which is about 41666 days is about 114 years.
+
+
+### Release 0.2.2
+
+Somehow I entered an incorrect version number 0.2.1, which lives in the Arduino library manager.
+Therefore I bumped the version to 0.2.2 so the library manager does not states that 
+an update is needed.
 
 
 ### Related
@@ -39,6 +49,8 @@ which is about 41666 days is about 114 years.
 
 
 ## I2C
+
+### I2C Address 
 
 The device has a fixed I2C address of 0x51 (81) so only one RTC per I2C bus can be used.
 The I2C communication supports 0.9-5.0 V so any 3.3V MCU should be able to connect.

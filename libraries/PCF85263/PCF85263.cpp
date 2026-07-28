@@ -2,7 +2,7 @@
 //    FILE: PCF85263.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2025-02-17
-// VERSION: 0.1.1
+// VERSION: 0.2.2
 // PURPOSE: Arduino library for the PCF85263 RTC.
 //     URL: https://github.com/RobTillaart/PCF85263
 

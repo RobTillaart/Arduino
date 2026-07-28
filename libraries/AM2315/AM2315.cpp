@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 // PURPOSE: AM2315 Temperature and Humidity sensor library for Arduino
 //    DATE: 2022-01-05
 //     URL: https://github.com/RobTillaart/AM2315

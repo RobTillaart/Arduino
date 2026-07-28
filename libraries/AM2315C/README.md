@@ -50,7 +50,9 @@ before calling **begin()**.
 
 ## I2C
 
-The AM2315C has a fixed address of **0x38** (56).
+### Address
+
+The sensor has a fixed address of **0x38** (56).
 It is not known if the address can be changed.
 
 

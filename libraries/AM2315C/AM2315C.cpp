@@ -1,7 +1,7 @@
 //
 //    FILE: AM2315C.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2023-02-12
 // PURPOSE: Arduino library for AM2315C I2C temperature and humidity sensor.
 
@@ -82,10 +82,16 @@ int AM2315C::read()
 
   int status = requestData();
   if (status < 0) return status;
-  //  wait for measurement ready
+  //  wait for measurement ready or timeout
+  uint32_t start = millis();
   while (isMeasuring())
   {
+    if (millis() - start >= 1000)
+    {
+      return AM2315C_ERROR_READ_TIMEOUT;
+    }
     yield();
+    //  delay(1)
   }
   //  read the measurement
   status = readData();
@@ -102,6 +108,7 @@ int AM2315C::requestData()
   resetSensor();
 
   //  GET CONNECTION
+  //  datasheet 7.4
   _wire->beginTransmission(AM2315C_ADDRESS);
   _wire->write(0xAC);
   _wire->write(0x33);
@@ -241,7 +248,7 @@ bool AM2315C::isIdle()
 int AM2315C::internalStatus()
 {
   return _status;
-};
+}
 
 
 ////////////////////////////////////////////////
@@ -251,13 +258,13 @@ int AM2315C::internalStatus()
 uint32_t AM2315C::lastRead()
 {
   return _lastRead;
-};
+}
 
 
 uint32_t AM2315C::lastRequest()
 {
   return _lastRequest;
-};
+}
 
 
 ////////////////////////////////////////////////

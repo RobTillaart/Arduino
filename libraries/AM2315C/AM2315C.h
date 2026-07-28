@@ -3,7 +3,7 @@
 //    FILE: AM2315C.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for AM2315C I2C temperature and humidity sensor.
-// VERSION: 0.2.2
+// VERSION: 0.2.3
 //    DATE: 2023-02-12
 //     URL: https://github.com/RobTillaart/AM2315C
 //
@@ -22,7 +22,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define AM2315C_LIB_VERSION                    (F("0.2.2"))
+#define AM2315C_LIB_VERSION                    (F("0.2.3"))
 
 #define AM2315C_OK                             0
 #define AM2315C_ERROR_CHECKSUM                -10

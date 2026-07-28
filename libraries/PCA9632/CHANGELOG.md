@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.2] - 2026-07-28
+- bump version number as library manager has a wrong version.
+- add multiplex section in readme.md.
+
+---
+
 ## [0.1.2] - 2026-01-14
 - update GitHub actions
 - minor edits

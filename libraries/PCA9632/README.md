@@ -38,6 +38,14 @@ This might change in the future.
 Feedback is welcome, please open an issue with your questions and remarks.
 
 
+### Release 0.5.2
+
+Somehow I entered an incorrect version number 0.5.1, which lives in the Arduino library manager.
+Therefore I bumped the version to 0.5.2 so the library manager does not states that 
+an update is needed.
+Version 0.5.2 replaces 0.1.2.
+
+
 ### Compatibility
 
 The PCA9632 is a drop-in upgrade for the PCA9633.
@@ -52,6 +60,28 @@ which is identical (for now).
 - https://github.com/RobTillaart/PCA9635 (16 channel)
 - https://github.com/RobTillaart/PCA9685_RT (16 channel)
 - https://github.com/RobTillaart/map2colour
+
+
+## I2C
+
+### I2C Address
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface

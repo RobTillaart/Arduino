@@ -7,6 +7,7 @@
 #include "M61538FP.h"
 
 
+//  adjust pins if needed
 const uint8_t dataPin = 6;
 const uint8_t clockPin = 7;
 
@@ -32,7 +33,7 @@ void setup()
     vp.setVolumeAll(10, 10, 10, 10, 10, 10);
   }
   stop = micros();
-  Serial.print("SET ALL:\t");
+  Serial.print("SET ALL VOL:\t");
   Serial.println((stop - start) * 0.001);
   delay(100);
 
@@ -42,7 +43,7 @@ void setup()
     vp.setVolumeFrontLeftRight(10, 10);
   }
   stop = micros();
-  Serial.print("SET PAIR:\t");
+  Serial.print("SET PAIR VOL:\t");
   Serial.println((stop - start) * 0.001);
   delay(100);
 
@@ -52,7 +53,7 @@ void setup()
     vp.setVolumeFrontLeft(10);
   }
   stop = micros();
-  Serial.print("SET SINGLE:\t");
+  Serial.print("SET SINGLE VOL:\t");
   Serial.println((stop - start) * 0.001);
   delay(100);
 
@@ -63,7 +64,61 @@ void setup()
     vol = vp.getVolumeFrontLeft();
   }
   stop = micros();
-  Serial.print("GET SINGLE:\t");
+  Serial.print("GET SINGLE VOL:\t");
+  Serial.println((stop - start) * 0.001);
+  Serial.println();
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    vp.muteAll();
+  }
+  stop = micros();
+  Serial.print("MUTE ALL:\t");
+  Serial.println((stop - start) * 0.001);
+  Serial.println();
+  delay(100);
+
+
+  /////////////////////////////////////
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    vp.setAttnAll(10, 10, 10, 10, 10, 10);
+  }
+  stop = micros();
+  Serial.print("SET ALL ATTN:\t");
+  Serial.println((stop - start) * 0.001);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    vp.setAttnFrontLeftRight(10, 10);
+  }
+  stop = micros();
+  Serial.print("SET PAIR ATTN:\t");
+  Serial.println((stop - start) * 0.001);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    vp.setAttnFrontLeft(10);
+  }
+  stop = micros();
+  Serial.print("SET SINGLE ATTN:\t");
+  Serial.println((stop - start) * 0.001);
+  delay(100);
+
+  start = micros();
+  for (int i = 0; i < 1000; i++)
+  {
+    vol = vp.getAttnFrontLeft();
+  }
+  stop = micros();
+  Serial.print("GET SINGLE ATTN:\t");
   Serial.println((stop - start) * 0.001);
   delay(100);
 

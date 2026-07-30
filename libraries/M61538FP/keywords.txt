@@ -12,6 +12,14 @@ setVolumeRearLeftRight	KEYWORD2
 setVolumeCenterWoofer	KEYWORD2
 setVolumeAll	KEYWORD2
 
+setAttnFrontLeftRight	KEYWORD2
+setAttnRearLeftRight	KEYWORD2
+setAttnCenterWoofer	KEYWORD2
+setAttnAll	KEYWORD2
+
+muteAll	KEYWORD2
+# unmuteAll	KEYWORD2
+
 setVolumeFrontLeft	KEYWORD2
 setVolumeFrontRight	KEYWORD2
 setVolumeCenter	KEYWORD2
@@ -19,12 +27,26 @@ setVolumeWoofer	KEYWORD2
 setVolumeRearLeft	KEYWORD2
 setVolumeRearRight	KEYWORD2
 
+setAttnFrontLeft	KEYWORD2
+setAttnFrontRight	KEYWORD2
+setAttnCenter	KEYWORD2
+setAttnWoofer	KEYWORD2
+setAttnRearLeft	KEYWORD2
+setAttnRearRight	KEYWORD2
+
 getVolumeFrontLeft	KEYWORD2
 getVolumeFrontRight	KEYWORD2
 getVolumeCenter	KEYWORD2
 getVolumeWoofer	KEYWORD2
 getVolumeRearLeft	KEYWORD2
 getVolumeRearRight	KEYWORD2
+
+getAttnFrontLeft	KEYWORD2
+getAttnFrontRight	KEYWORD2
+getAttnCenter	KEYWORD2
+getAttnWoofer	KEYWORD2
+getAttnRearLeft	KEYWORD2
+getAttnRearRight	KEYWORD2
 
 
 # Constants (LITERAL1)

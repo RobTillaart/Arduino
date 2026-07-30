@@ -7,6 +7,7 @@
 #include "M61538FP.h"
 
 
+//  adjust pins if needed
 const uint8_t dataPin = 6;
 const uint8_t clockPin = 7;
 

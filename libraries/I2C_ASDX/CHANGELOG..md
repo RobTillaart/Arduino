@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.3] - 2026-07-30
+- update GitHub actions
+- use I2C_ASDX_LIB_VERSION in examples.
+- minor edits
+
 ## [0.4.2] - 2025-12-08
 - fix #14, sync MS4525DO_RT
 - added **int rawPressureCount()**

@@ -16,7 +16,7 @@ Arduino library for I2C ASDX pressure sensor.
 
 ## Description
 
-The ASDX sensor of Honeywell exist in many variations.
+The ASDX sensor of Honeywell exists in many variations.
 Check the datasheet of your type for all the details.
 
 The I2C_ASDX library can read the sensor and give the pressure in millibar,
@@ -55,14 +55,41 @@ Always check datasheet for the exact pins.
 
 ### Related
 
-- https://github.com/RobTillaart/pressure - pressure conversions
-- https://github.com/RobTillaart/Temperature - temperature conversions 
-- https://github.com/RobTillaart/I2C_ASDX - (I2C) pressure + conversions 
-- https://github.com/RobTillaart/MS4525DO - (I2C) temperature pressure sensor 
-- https://github.com/RobTillaart/MS5837 - (I2C) temperature pressure sensor  (incl pressure to altitude)
-- https://github.com/RobTillaart/MS5611 - (I2C) temperature pressure sensor  (incl pressure to altitude)
-- https://github.com/RobTillaart/MSP300 - (I2C) industrial pressure transducer
+Pressure sensors:
+- https://github.com/RobTillaart/I2C_ABP2 (I2C) pressure sensor
+- https://github.com/RobTillaart/I2C_ASDX (I2C) pressure + conversions 
+- https://github.com/RobTillaart/I2C_MPRLS (I2C) pressure
+- https://github.com/RobTillaart/MS4525DO (I2C) temperature pressure sensor 
+- https://github.com/RobTillaart/MS5837 (I2C) temperature pressure sensor  (including pressure to altitude)
+- https://github.com/RobTillaart/MS5611 (I2C) temperature pressure sensor  (including pressure to altitude)
+- https://github.com/RobTillaart/MSP300 (I2C) industrial pressure transducer
+
+Other:
+- https://github.com/RobTillaart/pressure pressure conversions
+- https://github.com/RobTillaart/Temperature temperature conversions 
+- https://github.com/RobTillaart/printHelpers scientific notation, units. 
 - https://swharden.com/blog/2017-04-29-precision-pressure-meter-project/
+
+
+## I2C
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
@@ -74,19 +101,20 @@ Always check datasheet for the exact pins.
 
 ### Constructor
 
-- **I2C_ASDX(uint8_taddress, uint8_t psi, TwoWire \*wire = &Wire)** Constructor,
+- **I2C_ASDX(uint8_t address, uint8_t psi, TwoWire \*wire = &Wire)** Constructor,
 I2C address and maximum pressure. Optional the wire interface can be defined.
 - **bool begin()** initializes internals.
-Returns true if address can be found  on I2C bus.
-- **void reset()** resets internal variables, including pressure.
-- **bool isConnected()** tests if address can be found on I2C bus.
-- **uint8_t getAddress()** returns I2C address used.
+Returns true if the address can be found on the I2C bus.
+- **void reset()** resets the internal variables, including pressure.
+- **bool isConnected()** tests if the address can be found on the I2C bus.
+- **uint8_t getAddress()** returns the I2C address used.
 Mainly for debug message.
 
 
 ### Read
 
-Before any call to **getPressure()** one need to call **read()** unless one wants the last value read.
+Before any call to **getPressure()** one need to call **read()** 
+unless one wants the last value read.
 
 - **int read()** actually reads the sensor, checks for errors,
 calculates the pressure and set the lastRead timestamp.
@@ -95,7 +123,7 @@ Returns **I2C_ASDX_OK** or an error code.
 
 ### Units
 
-- **int getPressure()** returns pressure in milliBar.
+- **int getPressure()** returns the last read pressure in milliBar.
 (rounded integer!).
 Returns 0 after a reset() and no read() done yet.
 Calling **getPressure()** (Or any of the other pressure functions) multiple times
@@ -107,7 +135,7 @@ without read() will return the same value again.
 - **float getDynes()** returns pressure in Dynes.
 - **float getInchHg()** returns pressure in inches mercury.
 - **float getInchH2O()** returns pressure in inches water.
-- **float getPascal()** returns pressure in Pascal. Note this is the SI unit.
+- **float getPascal()** returns pressure in Pascal. Note this is the **SI unit**.
 - **float getTORR()** returns pressure in TORR.
 - **float getCmHg()** returns pressure in centimetre mercury.
 - **float getCmH2O()** returns pressure in centimetre water.
@@ -119,7 +147,7 @@ Related library: https://github.com/RobTillaart/pressure additional conversions.
 ### State
 
 - **uint16_t errorCount()** total counter for the number of errors occurred.
-Internal counter wraps after 65535.
+The internal counter wraps to zero after 65535 errors.
 - **uint32_t lastRead()** time in milliseconds of last successful read of the sensor.
 - **int state()** last known state of read, also returned by **read()**
 
@@ -134,10 +162,15 @@ Internal counter wraps after 65535.
 
 ### Debugging
 
-Raw counter API, for debugging or your own conversion.
+Raw counter API, for debugging, your own conversion or efficient storage
+and comparison.
 
 - **int rawPressureCount()** idem.
 
+```
+    1638  =   0 PSI
+    14746 = max PSI (type dependant)
+```
 
 ## Testing
 

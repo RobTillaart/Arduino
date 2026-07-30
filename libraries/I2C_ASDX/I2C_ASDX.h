@@ -2,7 +2,7 @@
 //
 //    FILE: I2C_ASDX.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2013-11-14
 // PURPOSE: Arduino library for I2C ASDX pressure sensor.
 //     URL: https://github.com/RobTillaart/I2C_ASDX
@@ -26,9 +26,9 @@
 #include "Arduino.h"
 
 
-#define I2C_ASDX_VERSION                  (F("0.4.2"))
+#define I2C_ASDX_VERSION                  (F("0.4.3"))
 //  TODO replace 0.5.0
-#define I2C_ASDX_LIB_VERSION              (F("0.4.2"))
+#define I2C_ASDX_LIB_VERSION              (F("0.4.3"))
 
 
 //  factors to convert PSI to mBar and back

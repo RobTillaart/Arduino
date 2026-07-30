@@ -3,7 +3,7 @@
 //    FILE: DHT20.h
 //  AUTHOR: Rob Tillaart
 // PURPOSE: Arduino library for DHT20 I2C temperature and humidity sensor.
-// VERSION: 0.3.2
+// VERSION: 0.3.3
 //    DATE: 2022-01-11
 //     URL: https://github.com/RobTillaart/DHT20
 //
@@ -21,7 +21,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define DHT20_LIB_VERSION                    (F("0.3.2"))
+#define DHT20_LIB_VERSION                    (F("0.3.3"))
 
 #define DHT20_OK                             0
 #define DHT20_ERROR_CHECKSUM                -10

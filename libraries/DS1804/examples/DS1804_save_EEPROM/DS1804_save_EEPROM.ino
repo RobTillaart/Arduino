@@ -3,6 +3,7 @@
 // PURPOSE: helper to set start up value
 //     URL: https://github.com/RobTillaart/DS1804
 
+
 #include "DS1804.h"
 
 //  adjust pins if needed
@@ -13,6 +14,7 @@ const uint8_t UDPIN = 7;
 DS1804 ds(CSPIN, INCPIN, UDPIN);
 
 int value = 0;
+
 
 void setup()
 {

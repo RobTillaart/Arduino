@@ -19,10 +19,10 @@ Arduino library for DS1804 Nonvolatile Trimmer Potentiometer.
 **Experimental**
 
 The library implements a class for the DS1804 potentiometer.
-These devices come in 10K, 50K and 100K and allows control in 100 steps.
+These devices come in **10K, 50K and 100K** and allows control in 100 steps.
 
-The DS1804 has a simple pulse interface and can **not** be read back
-so the library can not provide the current position of the wiper.
+The DS1804 has a simple pulse interface and can **not** be read back.
+Thus the library can not provide the current position of the wiper.
 
 The DS1804 has an EEPROM to save the current position (writeable for 50000 times)
 and uses that value as start position at power up.
@@ -45,13 +45,32 @@ There is no defined factory default, expect the value to be random.
 As the device has no feedback, one must send 100 pulses to move the trimmer to the begin or end point.
 
 
+### Keeping track of position
+
+As the DS1804 cannot be read back it is not possible to keep track of its position.
+In theory one could track all steps, however one still does not know start position.
+
+If one forces the start position to e.g. zero by moveDown(100) one could have
+a reasonable position indication. 
+
+If the potentiometer is part of a voltage divider one could possibly measure the
+voltage with an ADC. From the Vcc and the measured value one could derive the 
+current position of the potentiometer.
+
+```
+//  assuming 10 bit ADC e.g. UNO R3 and the trimmer goes over the full Vcc range.
+const uint16_t MAX_ADC = 1023;
+uint8_t position = (analogRead(A0) * 100UL) / MAX_ADC;  
+```
+
+
 ### Alternative use
 
 One could use the UP/ DOWN pins of the device to read signals from an 
 external system. The microprocessor could monitor the state by means of an
 ADC measurement (and optional act upon it).
 
-This is not implemented in the library, just worth to mention.
+This is not implemented in the library, just an idea worth to mention.
  
 
 ### Related
@@ -88,7 +107,8 @@ default the device is not selected.
 - **void moveUp(uint8_t steps = 1)** if enabled move position n steps up (steps is clipped to 0..100)
 - **void moveDown(uint8_t steps = 1)** if enabled move position n steps down (steps is clipped to 0..100)
 
-Duration of moveUp/Down depends linearly on the parameter steps, expect less than half a millisecond.
+Duration of moveUp/Down depends linearly on the parameter steps.
+Expected duration is less than half a millisecond for 100 steps
 
 Note: One must send 100 pulses to move the trimmer to the begin or end point. (no feedback).
 
@@ -121,6 +141,8 @@ See **DS1804_save_EEPROM.ino**
 #### Wont
 
 - void mute();  (depends on 3 pins if up or down is mute)
+- cache last (calculated?) value?
+
 
 ## Support
 

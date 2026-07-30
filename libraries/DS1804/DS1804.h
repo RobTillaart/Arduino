@@ -2,15 +2,15 @@
 //
 //    FILE: DS1804.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
-//    DATE: 24-11-11
+// VERSION: 0.1.2
+//    DATE: 2024-11-11
 // PURPOSE: Arduino library for DS1804 Nonvolatile Trimmer Potentiometer.
 //     URL: https://github.com/RobTillaart/DS1804
 
 
 #include "Arduino.h"
 
-#define DS1804_LIB_VERSION               (F("0.1.1"))
+#define DS1804_LIB_VERSION               (F("0.1.2"))
 
 
 class DS1804
@@ -56,7 +56,7 @@ public:
     while (n-- > 0)
     {
       //  one step per high-to-low transition
-      //  min pulselength 100 nsec => uncomment delays if needed.
+      //  min pulse length 100 nanoseconds => uncomment delays if needed.
       digitalWrite(_incPin, HIGH);
       //  delayMicroseconds(1);
       digitalWrite(_incPin, LOW);
@@ -72,7 +72,7 @@ public:
     while (n-- > 0)
     {
       //  one step per high-to-low transition
-      //  min pulselength 100 nsec => uncomment delays if needed.
+      //  min pulse length 100 nanoseconds => uncomment delays if needed.
       digitalWrite(_incPin, HIGH);
       //  delayMicroseconds(1);
       digitalWrite(_incPin, LOW);
@@ -81,7 +81,7 @@ public:
   };
 
 
-  //  device may be blocking for 10 ms
+  //  device may be blocking for up to 10 milliseconds
   void saveEEPROM()
   {
     digitalWrite(_incPin, HIGH);

@@ -40,8 +40,9 @@ Feedback as always is welcome.
 
 ### Related
 
-- https://github.com/RobTillaart/Metronome
-- https://github.com/RobTillaart/PulsePattern  (AVR only)
+- https://github.com/RobTillaart/HeartBeat - with frequency and duty cycle
+- https://github.com/RobTillaart/Metronome - library for creating a metronome
+- https://github.com/RobTillaart/PulsePattern - AVR only
 
 
 ## Interface

@@ -1,7 +1,7 @@
 //
 //    FILE: PulsePattern.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 //    DATE: 2012-11-23
 // PURPOSE: Arduino Library to generate repeating pulse patterns
 //          sends a pulse pattern to a digital pin (continuously)

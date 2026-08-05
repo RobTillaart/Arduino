@@ -17,7 +17,7 @@ Arduino library for a /dev/null stream.
 ## Description
 
 The library implements a stream class that mimics the **/dev/null**
-device of a Linux system. You can write everything to it. 
+device of a Linux system. You can write everything to it.
 You can never read data from it as it always returns EOF (end of file);
 
 The 0.1.0 version is a minimal implementation that can be optimized.
@@ -25,14 +25,33 @@ it implements the **write(const uint8_t data)** call and e.g. a float is still
 converted to individual characters that are send one after another.
 Strings and text send every byte.
 
-The advantage is that printing takes time and e.g. one can use it to measure 
+The advantage is that printing takes time and e.g. one can use it to measure
 the **print** class performance.
 
 Performance can be increased by implementing all methods of the print interface
-with only a return 0; (or at least **print(Type)** as the **println(T)** would only 
+with only a return 0; (or at least **print(Type)** as the **println(T)** would only
 call once extra for the "\n".
 
 Feedback as always is welcome.
+
+
+### DEVNULL_ENABLE_DEBUG
+
+Since version 0.1.9 (see issue #11) the library has a define
+
+```cpp
+//  allows command line overrule
+#ifndef DEVNULL_ENABLE_DEBUG
+#define DEVNULL_ENABLE_DEBUG    1
+#endif
+```
+
+This allows to set the **DEVNULL_ENABLE_DEBUG** to zero on the command line or in code.
+This will reduce the footprint of the library to a bare minimum.
+On AVR (UNO R3, IDE 1.8.19) it saved 1 byte memory and 28 bytes PROGMEM.
+
+Please note that setting **DEVNULL_ENABLE_DEBUG 0** will result in two warnings as the
+parameters of the **write()** calls are not used any more.
 
 
 ### Related
@@ -63,13 +82,8 @@ Feedback as always is welcome.
 Returns size.
 - **int lastByte()** returns last byte written (debug and test purpose).
 Returns -1 if no byte has been written yet.
-
-
-## Operation
-
-Use with care.
-
-See examples.
+This function is not available when **DEVNULL_ENABLE_DEBUG 0**
+is defined, see above.
 
 
 ## Future
@@ -80,16 +94,17 @@ See examples.
 
 #### Could
 
-- add byte counter (uint32_t)
-- investigate if DEVNULL can be used to harvest entropy?
-  - sum xor of all data + timestamp?
-  - enable / disable flag (complex)
-  - => /dev/entropy class?
 - **flush()** could reset bottomLessPit to -1?
-
 
 #### Wont
 
+- add byte counter (uint32_t)
+  - extended derived class DEVNULL_EXT ?
+- investigate if DEVNULL can be used to harvest entropy?
+  - to seed random generator.
+  - sum xor of all data + timestamp?
+  - enable / disable flag (complex)
+  - => /dev/entropy class
 - add delay to mimic pause / tune behaviour for simulating devices
   - microseconds
   - delay per byte, esp long arrays might need other performance

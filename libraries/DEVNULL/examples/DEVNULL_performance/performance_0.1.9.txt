@@ -1,0 +1,40 @@
+// test run on IDE 1.8.13 UNO
+
+DEVNULL_performance.ino
+DEVNULL_LIB_VERSION: 0.1.9
+
+text1: 	16
+text2: 	4
+long: 	356
+float: 	592
+float: 	1092
+float: 	1612
+float: 	2116
+find: 	8
+find: 	0
+last: 	4
+last: 	56
+
+Done...
+
+
+//  with DEVNULL_ENABLE_DEBUG 0
+//  one need to comment some lines in the performance sketch
+//  ==>  minimal gain in performance.
+
+DEVNULL_LIB_VERSION: 0.1.9
+
+text1: 	16
+text2: 	0
+long: 	356
+float: 	588
+float: 	1088
+float: 	1596
+float: 	2100
+find: 	8
+find: 	0
+last: 	0
+last: 	
+
+Done...
+

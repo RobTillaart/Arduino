@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.3] - 2026-07-26
+- merge #19, fix read(), kudos to juliafishbarbera
+- change defines in const int (type checking)
+- add (low level) error code for readProm() and readADC()
+- update readme.md
+- minor edits
+
 ## [0.4.2] - 2026-06-26
 - update GitHub actions
 - minor edits

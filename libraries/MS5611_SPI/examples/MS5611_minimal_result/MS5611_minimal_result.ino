@@ -1,5 +1,5 @@
 //
-//    FILE: MS5611_performance_all.ino
+//    FILE: MS5611_minimal_result.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo application
 //     URL: https://github.com/RobTillaart/MS5611_SPI
@@ -44,18 +44,14 @@ MS5611_SPI MS5611(15, 13, 12, 14);   // ESP32 SW SPI
 //
 // SPIClass *mySPI = new SPIClass(HSPI);
 // MS5611_SPI MS5611(15, mySPI);        // ESP32 HW SPI (HSPI)
-//
 // SPIClass *mySPI = new SPIClass(VSPI);
-// MS5611_SPI MS5611(5, mySPI);                // ESP32 HW SPI (VSPI)
-
-
-uint32_t start, stop;
+// MS5611_SPI MS5611(5, mySPI);         // ESP32 HW SPI (VSPI)
 
 
 void setup()
 {
   Serial.begin(115200);
-  while(!Serial);
+  while (!Serial);
   Serial.println();
   Serial.println(__FILE__);
   Serial.print("MS5611_SPI_LIB_VERSION: ");
@@ -66,72 +62,36 @@ void setup()
 
   if (MS5611.begin() == true)
   {
-    Serial.println("MS5611 found.");
+    Serial.print("MS5611 found: ");
+    Serial.println(MS5611.getDeviceID(), HEX);
   }
   else
   {
     Serial.println("MS5611 not found. halt.");
     // while (1);
   }
+  Serial.print("STAT:\t");
+  Serial.print(MS5611.getLastResult(), DEC);
   Serial.println();
-
-  Serial.println("OSR \t TIME");
-
-
-  start = micros();
-  MS5611.read();      //  uses default OSR_ULTRA_LOW  (fastest)
-  stop = micros();
-  Serial.print( (uint8_t) MS5611.getOversampling());
-  Serial.print("\t");
-  Serial.println(stop - start);
-  delay(10);          //  to flush serial.
-
-
-  MS5611.setOversampling(OSR_LOW);
-  start = micros();
-  MS5611.read();
-  stop = micros();
-  Serial.print( (uint8_t) MS5611.getOversampling());
-  Serial.print("\t");
-  Serial.println(stop - start);
-  delay(10);          //  to flush serial.
-
-
-  MS5611.setOversampling(OSR_STANDARD);
-  start = micros();
-  MS5611.read();
-  stop = micros();
-  Serial.print( (uint8_t) MS5611.getOversampling());
-  Serial.print("\t");
-  Serial.println(stop - start);
-  delay(10);          //  to flush serial.
-
-
-  MS5611.setOversampling(OSR_HIGH);
-  start = micros();
-  MS5611.read();
-  stop = micros();
-  Serial.print( (uint8_t) MS5611.getOversampling());
-  Serial.print("\t");
-  Serial.println(stop - start);
-  delay(10);          //  to flush serial.
-
-
-  MS5611.setOversampling(OSR_ULTRA_HIGH);
-  start = micros();
-  MS5611.read();
-  stop = micros();
-  Serial.print( (uint8_t) MS5611.getOversampling());
-  Serial.print("\t");
-  Serial.println(stop - start);
-  delay(10);          //  to flush serial.
-
-
-  Serial.println("\ndone...");
 }
+
 
 void loop()
 {
+  //  MS5611.reset();
+  uint32_t start = micros();
+  MS5611.read();           //  note no error checking => "optimistic".
+  uint32_t stop = micros();
+  Serial.print("STAT:\t");
+  Serial.print(MS5611.getLastResult(), DEC);
+  Serial.print("\tTEMP:\t");
+  Serial.print(MS5611.getTemperature(), 2);
+  Serial.print("\tPRES:\t");
+  Serial.print(MS5611.getPressure(), 2);
+  Serial.print("\tTIME:\t");
+  Serial.print(stop - start);
+  Serial.println();
+  delay(2000);
 }
 
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MS5611_SPI.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2022-01-18
 // PURPOSE: Arduino library for MS5611 (SPI) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611_SPI
@@ -31,7 +31,7 @@
 //  CS to GND  ==>  0x77
 
 
-#define MS5611_SPI_LIB_VERSION                (F("0.4.2 EXPERIMENTAL"))
+#define MS5611_SPI_LIB_VERSION                (F("0.4.3 EXPERIMENTAL"))
 
 #ifndef __SPI_CLASS__
   //  MBED must be tested before RP2040
@@ -45,9 +45,14 @@
 #endif
 
 
-#define MS5611_READ_OK                        0
-#define MS5611_ERROR_2                        2         //  TODO ??
-#define MS5611_NOT_READ                       -999
+//
+//  ERROR CODE (sync with MS5611 I2C lib)
+//
+const int MS5611_READ_OK    = 0;
+const int MS5611_ERROR_2    = 2;         //  compatibility I2C version
+const int MS5611_ERROR_ADC  = -10;
+const int MS5611_ERROR_PROM = -11;
+const int MS5611_NOT_READ   = -999;
 
 
 enum osr_t

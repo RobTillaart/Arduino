@@ -1,7 +1,7 @@
 //
 //    FILE: MS5611_SPI.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2022-01-18
 // PURPOSE: Arduino library for MS5611 (SPI) temperature and pressure sensor
 //     URL: https://github.com/RobTillaart/MS5611_SPI
@@ -11,11 +11,11 @@
 
 
 // datasheet page 10
-#define MS5611_CMD_READ_ADC       0x00
-#define MS5611_CMD_READ_PROM      0xA0
-#define MS5611_CMD_RESET          0x1E
-#define MS5611_CMD_CONVERT_D1     0x40
-#define MS5611_CMD_CONVERT_D2     0x50
+const uint8_t MS5611_CMD_READ_ADC   = 0x00;
+const uint8_t MS5611_CMD_READ_PROM  = 0xA0;
+const uint8_t MS5611_CMD_RESET      = 0x1E;
+const uint8_t MS5611_CMD_CONVERT_D1 = 0x40;
+const uint8_t MS5611_CMD_CONVERT_D2 = 0x50;
 
 
 /////////////////////////////////////////////////////
@@ -24,7 +24,7 @@
 //
 MS5611_SPI::MS5611_SPI(uint8_t select, __SPI_CLASS__ * mySPI)
 {
-  //  _address           = deviceAddress;  // TODO
+  //  _address           = deviceAddress;
   _samplingRate      = OSR_ULTRA_LOW;
   _temperature       = MS5611_NOT_READ;
   _pressure          = MS5611_NOT_READ;
@@ -47,7 +47,7 @@ MS5611_SPI::MS5611_SPI(uint8_t select, __SPI_CLASS__ * mySPI)
 
 MS5611_SPI::MS5611_SPI(uint8_t select, uint8_t dataOut, uint8_t dataIn, uint8_t clock)
 {
-  //  _address           = deviceAddress;  // TODO
+  //  _address           = deviceAddress;
   _samplingRate      = OSR_ULTRA_LOW;
   _temperature       = MS5611_NOT_READ;
   _pressure          = MS5611_NOT_READ;
@@ -80,7 +80,7 @@ bool MS5611_SPI::begin()
 
   if(_hwSPI)
   {
-    //  _mySPI->begin();  //  FIX #6  
+    //  _mySPI->begin();  //  FIX #6
     //  _mySPI->end();
     //  _mySPI->begin();
     //  delay(1);
@@ -147,6 +147,11 @@ int MS5611_SPI::read(uint8_t bits)
 {
   //  VARIABLES NAMES BASED ON DATASHEET
   //  ALL MAGIC NUMBERS ARE FROM DATASHEET
+
+  //  _result starts as MS5611_NOT_READ and, unlike the I2C version, SPI has
+  //  no endTransmission() to clear it. Without this the guards below fail
+  //  on the first call and read() can never succeed.
+  _result = MS5611_READ_OK;
 
   convert(MS5611_CMD_CONVERT_D1, bits);
   if (_result) return _result;
@@ -418,6 +423,14 @@ uint16_t MS5611_SPI::readProm(uint8_t reg)
     value += swSPI_transfer(0x00);
   }
   digitalWrite(_select, HIGH);
+  //  Serial.println(value, HEX);
+
+  if ((value == 0) || (value == 0xFFFF))
+  {
+    _result = MS5611_ERROR_PROM;
+    return value;
+  }
+  _result = MS5611_READ_OK;
   return value;
 }
 
@@ -451,6 +464,13 @@ uint32_t MS5611_SPI::readADC()
   }
   digitalWrite(_select, HIGH);
   //  Serial.println(value, HEX);
+
+  if ((value == 0) || (value == 0xFFFF))
+  {
+    _result = MS5611_ERROR_ADC;
+    return value;
+  }
+  _result = MS5611_READ_OK;
   return value;
 }
 
@@ -526,7 +546,6 @@ void MS5611_SPI::initConstants(uint8_t mathMode)
 //
 //  DERIVED CLASSES
 //
-//  TODO ?
 
 
 //  -- END OF FILE --

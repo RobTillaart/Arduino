@@ -1,0 +1,19 @@
+
+BOARD:    UNO R3
+IDE:      1.8.19
+NOTE:  Commented while(1) as tested with no device.
+       For SPI this makes no difference in performance
+
+MS5611_SPI_LIB_VERSION: 0.4.3 EXPERIMENTAL
+
+MS5611 not found. halt.
+
+OSR 	 TIME
+8	1436
+9	1956
+10	3052
+11	5352
+12	9848
+
+done...
+

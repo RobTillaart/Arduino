@@ -2,7 +2,7 @@
 //    FILE: DS3502.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-08-10
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the DS3502, I2C, 7-bit, non-volatile, digital potentiometer.
 //     URL: https://github.com/RobTillaart/DS3502
 
@@ -12,7 +12,9 @@
 
 
 //  REGISTERS
-const uint8_t DS3502_WIPER_REG = 0x00;
+//  datasheet page 8
+//  default mode registers
+const uint8_t DS3502_WIPER_REG   = 0x00;
 const uint8_t DS3502_CONTROL_REG = 0x02;
 
 
@@ -49,7 +51,7 @@ uint8_t DS3502::getAddress()
 
 /////////////////////////////////////////////
 //
-//  MODE
+//  NVRAM MODE
 //
 bool DS3502::enableNVRAM(bool nvram)
 {
@@ -98,7 +100,7 @@ bool DS3502::setValue(uint8_t value)
   return _error == DS3502_OK;
 }
 
-uint8_t DS3502::getValue()
+int DS3502::getValue()
 {
   //  test value is written
   if (_useCache) return _lastValue;
@@ -117,12 +119,12 @@ bool DS3502::setOhm(uint16_t ohm)
   return setValue(value);
 }
 
-uint16_t DS3502::getOhm()
+int16_t DS3502::getOhm()
 {
   uint8_t value = getValue();
   if (_error != DS3502_OK)
   {
-    return 0xFFFF;
+    return -1;
   }
   return (value * DS3502_MAX_OHM) / 127;
 }

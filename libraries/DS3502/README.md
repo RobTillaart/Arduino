@@ -32,18 +32,20 @@ Feedback is as always welcome.
 
 ### Compatibility
 
-The DS3501 is similar device with an internal temperature sensor that can
+The DS3501 is a related device with an internal temperature sensor that can
 adjust the potmeter based upon a configurable look up table (LUT).
 It has also 2 address pins so 4 devices possible.
 The base potmeter seems to be compatible so this library might work
-for the DS3501 too. 
+for the DS3501 too.
+See - https://github.com/RobTillaart/DS3501
 
-The DS3503 is similar device with an internal up / down counter and two 
+The DS3503 is a related device with an internal up / down counter and two 
 outputs (RW and Y) and an SYNC input. 
 It has no address lines and only supports address 0x28.
-The base potmeter (output RW) seems to be compatible so this library might work for the DS3503 too.
+The base potmeter (output RW) seems to be compatible so this library might
+work partially for the DS3503 too.
 
-Maybe in the future libraries for the DS3501 and DS3503 will be written too.
+Maybe in the future a library for the DS3503 will be written too.
 
 
 ### Special characters
@@ -86,9 +88,9 @@ Power up delay = 3 milliseconds.
 
 ### Related
 
-Adafruit breakout
+No breakout known
 
-- https://cdn-learn.adafruit.com/downloads/pdf/ds3502-i2c-potentiometer.pdf
+
 
 Mainly other digital potentiometers.
 
@@ -97,7 +99,8 @@ Mainly other digital potentiometers.
 - https://github.com/RobTillaart/AD5245
 - https://github.com/RobTillaart/AD5144A
 - https://github.com/RobTillaart/AD5263
-- https://github.com/RobTillaart/DS3502 this library
+- https://github.com/RobTillaart/DS3501 digipot with temperature LUT
+- https://github.com/RobTillaart/DS3502
 - https://github.com/RobTillaart/MCPPOT MCP41xxx and MCP42xxx SPI digital-pots
 - https://github.com/RobTillaart/X9C10X
 
@@ -212,8 +215,10 @@ The range of values is 0..127.
 - **bool setValue(uint8_t value)** writes value to wiper register and if
 enabled also to non volatile ram.
 If the value is the same as last value written, the write is skipped.
-- **uint8_t  getValue()** reads the wiper register.
+- **int getValue()** reads the wiper register.
 If cache is enabled, the last value written is returned from cache.
+Returns -1 in case of an error.
+Use **getWIPER()** when in LUT mode!.
 
 
 ### Ohm wrappers around setValue
@@ -232,14 +237,15 @@ Note this will differ from the set value often due to step size.
 - **int getLastError()** returns last error of low level communication.
 Resets after being read.
 
-|  value  |  define                |  notes  |
-|:-------:|:-----------------------|:--------|
-|   0x00  |  DS3502_OK             |
-|   0x01  |  DS3502_READ_ERROR     |
-|   0x02  |  DS3502_REQUEST_ERROR  |
-|   0x03  |  DS3502_CONNECT_ERROR  |
-|   0x04  |  DS3502_VALUE_ERROR    |
-|  other  |  low level I2C         |
+|  value  |  define                 |  notes  |
+|:-------:|:------------------------|:--------|
+|   0x00  |  DS3502_OK              |
+|   0x01  |  DS3502_READ_ERROR      |
+|   0x02  |  DS3502_REQUEST_ERROR   |
+|   0x03  |  DS3502_CONNECT_ERROR   |
+|   0x04  |  DS3502_VALUE_ERROR     |
+|   0x04  |  DS3502_LUTINDEX_ERROR  |  not used, sync DS3501
+|  other  |  low level I2C          |
 
 
 ## Future
@@ -248,29 +254,29 @@ Resets after being read.
 
 - improve documentation
 - get hardware to test
-- do performance measurements.
+- keep in sync DS3501
 
 #### Should
 
-- investigate two DS3502 in series 
-  - parallel => risk of shortage
-  - series would allow fine tuning resolution.
+- do performance measurements.
 
 #### Could
 
 - add examples
+  - two devices in series would allow fine tuning resolution.
+  - array of devices.
 - add unit tests (if possible)
 - add get/setMaxOhm();  for tuning.
-- voltageWrapper
-  - setRange(Vrl, Vrh);
+- add voltage wrapper
+  - setVoltageRange(Vrl, Vrh);
   - setVoltage(voltage);
   - getVoltage(); // Vwiper = Vrl + ((Vrh - Vrl) x wr)/127  (page 6)
-  - needs cached value
+  - needs cached values
+
 
 #### Wont (unless)
 
-- write DS3501 derived class?
-- write DS3503 derived class?
+- write DS3503 class?
 
 
 ## Support

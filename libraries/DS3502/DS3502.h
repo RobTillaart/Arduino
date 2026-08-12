@@ -2,8 +2,8 @@
 //
 //    FILE: DS3502.h
 //  AUTHOR: Rob Tillaart
-//    DATE: 2026-00-00
-// VERSION: 0.1.0
+//    DATE: 2026-08-10
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the DS3502, I2C, 7-bit, non-volatile, digital potentiometer.
 //     URL: https://github.com/RobTillaart/DS3502
 //
@@ -13,15 +13,16 @@
 #include "Wire.h"
 
 
-#define DS3502_LIB_VERSION         (F("0.1.0"))
+#define DS3502_LIB_VERSION         (F("0.1.1"))
 
 //  ERROR CODES
 //  values <> 0 are errors.
-#define DS3502_OK                  0x00
-#define DS3502_READ_ERROR          0x01
-#define DS3502_REQUEST_ERROR       0x02
-#define DS3502_CONNECT_ERROR       0x03
-#define DS3502_VALUE_ERROR         0x04
+const uint8_t DS3502_OK             = 0x00;
+const uint8_t DS3502_READ_ERROR     = 0x01;
+const uint8_t DS3502_REQUEST_ERROR  = 0x02;
+const uint8_t DS3502_CONNECT_ERROR  = 0x03;
+const uint8_t DS3502_VALUE_ERROR    = 0x04;
+const uint8_t DS3502_LUTINDEX_ERROR = 0x05;
 
 
 //  value == 0..127
@@ -53,12 +54,12 @@ public:
 
   //       set value potmeter 0..127
   bool     setValue(uint8_t value);
-  uint8_t  getValue();
+  int      getValue();
 
   //  Ohm wrappers, based on DS3502_MAX_OHM
   //  default max 10 kΩ, truncates values.
   bool     setOhm(uint16_t ohm);
-  uint16_t getOhm();
+  int16_t  getOhm();
 
   //       DEBUG
   int      getLastError();

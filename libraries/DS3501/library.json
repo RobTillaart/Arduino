@@ -1,0 +1,23 @@
+{
+  "name": "DS3501",
+  "keywords": "10 kOhm,DS3502,DS3503",
+  "description": "Arduino library for the DS3501, I2C, 7-bit, non-volatile, digital potentiometer. Temperature control.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DS3501.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DS3501.h"
+}

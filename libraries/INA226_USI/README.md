@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/INA226_USI/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/INA226_USI.svg?maxAge=3600)](https://github.com/RobTillaart/INA226_USI/releases)
-[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/INA226_USI.svg)](https://registry.platformio.org/libraries/robtillaart/INA226)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/INA226_USI.svg)](https://registry.platformio.org/libraries/robtillaart/INA226_USI)
 
 
 # INA226_USI

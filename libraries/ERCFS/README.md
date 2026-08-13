@@ -61,6 +61,7 @@ Decoders
 - https://github.com/RobTillaart/AMT25
 - https://github.com/RobTillaart/AS5600 magnetic rotation meter.
 - https://github.com/RobTillaart/ERCFS this library
+- https://github.com/RobTillaart/MLX90316 rotation decoder (bit similar)
 - https://p3america.com/ercf-1-05spi-360-z/ home of ERCFS datasheet.
 
 Related rotary decoder libraries

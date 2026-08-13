@@ -1,0 +1,23 @@
+{
+  "name": "INA226_USI",
+  "keywords": "power,ampere,voltage,volts,current",
+  "description": "Arduino library for INA226 power sensor for ATtiny",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/INA226_USI.git"
+  },
+  "version": "0.6.6",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "INA226_USI.h"
+}

@@ -1,0 +1,28 @@
+# Syntax Colouring Map for MLX90316
+
+
+# Data types (KEYWORD1)
+MLX90316	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+
+getRawValue	KEYWORD2
+getAngle	KEYWORD2
+setOffset	KEYWORD2
+getOffset	KEYWORD2
+
+lastRead	KEYWORD2
+
+setSPIspeed	KEYWORD2
+getSPIspeed	KEYWORD2
+usesHWSPI	KEYWORD2
+
+getStatus	KEYWORD2
+
+
+# Constants (	LITERAL1)
+MLX90316_LIB_VERSION	LITERAL1
+
+

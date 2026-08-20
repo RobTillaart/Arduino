@@ -81,13 +81,47 @@ This makes it possible to support the ESP32-S3 and other processors in the futur
 Also it makes the library a bit simpler to maintain.
 
 
+### About Performance
+
+This section contains ideas how to optimize the library for performance.
+
+The MCP_ADC class is written with inheritance and portability in mind, so all the 
+different versions of the MCP_ADC family can be served on different boards.
+The price for this is that performance is not optimized.
+
+So it is possible to adjust the core for performance especially the **readADC()** 
+function, the workhorse of the library, if performance is the top requirement.
+
+An example to optimize (+50%) the performance for ESP32-C3 is discussed in issue 26
+- https://github.com/RobTillaart/MCP_ADC/issues/26  
+An optimized MCP_ADC_ESP library becomes a serious option given the performance 
+gains seen it that issue.
+
+For AVR it is technically possible to optimize the **swSPI_transfer()** function 
+by using direct port manipulation. How to can be seen e.g. in the library.
+- https://github.com/RobTillaart/FastShiftInOut
+However the performance of the ADC is best around 2 MHz so not implemented.
+IN fact the SWSPI has gotten a conditional delayMIcroseconds(1) for faster CPU's
+to prevent the sampling speed to become too fast. 2MHz seems to be optimum - issue 26.
+
+Another performance idea is to have functions that samples one channel multiple
+times in a tight loop within one transaction. 
+Typical use is to average the readings e.g. **int16_t readAverage(channel, times)**.
+Or a more generic function **int16_t read(channel, data[], elements)**.
+The latter could implement the current **int16_t read(channel)** function
+quite simply, or allow to take the average of the samples made.
+
+
 ### Related
 
-- https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
+ADC's
 - https://github.com/RobTillaart/ADS1x15  (12 & 16 bit ADC, I2C, slow)
 - https://github.com/RobTillaart/MCP_ADC  this library
 - https://github.com/RobTillaart/PCF8591  (8 bit ADC + 1 bit DAC)
 - https://github.com/RobTillaart/MCP_DAC  SPI based DAC
+
+Other
+- https://gammon.com.au/adc  tutorial about ADC's (UNO specific)
 
 
 ## Interface
@@ -220,15 +254,18 @@ Feedback is as always welcome.
 
 #### Should
 
-- improve SWSPI for AVR 
-  (See MCP23S17)
-
+- rename readMultiChannel() instead of readMultiple()
+  - more descriptive
+- do performance test again
+  - understand diff between 0.3.0 and 0.5.2
 
 #### Could
 
 
 #### Wont
 
+- improve SWSPI for AVR (See MCP23S17, fastShiftInOut et al))
+  - quality of signal is probably less when faster => see discussion #26
 - get / setF(float A, float B) => float readF(channel)   output = A\*value + B;
   it actually does float mapping. As it implies the same mapping for all it might 
   not be that useful => check multiMap library.

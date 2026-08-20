@@ -1,0 +1,141 @@
+
+IDE:    1.8.19
+Board:  UNO
+
+NOTE: - quick test without hardware
+
+MCP_ADC_performance.ino
+MCP_ADC_LIB_VERSION: 0.5.2
+
+
+ADC	CHAN	MAXVALUE
+mcp2	2	1023
+mcp4	4	1023
+mcp8	8	1023
+mcp22	2	4095
+mcp24	4	4095
+mcp28	8	4095
+
+Timing in micros().
+
+mcp2.read()	2x: 	88
+mcp2.differentialRead() 2x: 	88
+mcp2.deltaRead()	2x: 	96
+
+mcp4.read()	4x: 	212
+mcp4.differentialRead() 4x: 	216
+mcp4.deltaRead()	4x: 	224
+
+mcp8.read()	8x: 	3716
+mcp8.differentialRead() 8x: 	3708
+mcp8.deltaRead()	8x: 	3728
+
+***************************************
+
+1000000
+mcp8.read()	8x: 	4036
+mcp8.differentialRead() 8x: 	3708
+mcp8.deltaRead()	8x: 	3732
+
+2000000
+mcp8.read()	8x: 	3768
+mcp8.differentialRead() 8x: 	3712
+mcp8.deltaRead()	8x: 	3736
+
+4000000
+mcp8.read()	8x: 	3768
+mcp8.differentialRead() 8x: 	3708
+mcp8.deltaRead()	8x: 	3728
+
+8000000
+mcp8.read()	8x: 	3768
+mcp8.differentialRead() 8x: 	3704
+mcp8.deltaRead()	8x: 	3728
+
+16000000
+mcp8.read()	8x: 	3768
+mcp8.differentialRead() 8x: 	3708
+mcp8.deltaRead()	8x: 	3736
+
+***************************************
+
+1000000
+mcp22.read()	2x: 	960
+mcp22.differentialRead() 2x: 	872
+mcp22.deltaRead()	2x: 	1748
+
+2000000
+mcp22.read()	2x: 	928
+mcp22.differentialRead() 2x: 	872
+mcp22.deltaRead()	2x: 	1748
+
+4000000
+mcp22.read()	2x: 	932
+mcp22.differentialRead() 2x: 	872
+mcp22.deltaRead()	2x: 	1740
+
+8000000
+mcp22.read()	2x: 	928
+mcp22.differentialRead() 2x: 	872
+mcp22.deltaRead()	2x: 	1740
+
+16000000
+mcp22.read()	2x: 	936
+mcp22.differentialRead() 2x: 	876
+mcp22.deltaRead()	2x: 	1744
+
+***************************************
+
+1000000
+mcp24.read()	4x: 	1912
+mcp24.differentialRead() 4x: 	1736
+mcp24.deltaRead()	4x: 	3484
+
+2000000
+mcp24.read()	4x: 	1792
+mcp24.differentialRead() 4x: 	1744
+mcp24.deltaRead()	4x: 	3492
+
+4000000
+mcp24.read()	4x: 	1800
+mcp24.differentialRead() 4x: 	1744
+mcp24.deltaRead()	4x: 	3492
+
+8000000
+mcp24.read()	4x: 	1800
+mcp24.differentialRead() 4x: 	1740
+mcp24.deltaRead()	4x: 	3484
+
+16000000
+mcp24.read()	4x: 	1808
+mcp24.differentialRead() 4x: 	1736
+mcp24.deltaRead()	4x: 	3484
+
+***************************************
+
+1000000
+mcp28.read()	8x: 	4204
+mcp28.differentialRead() 8x: 	4164
+mcp28.deltaRead()	8x: 	6976
+
+2000000
+mcp28.read()	8x: 	3592
+mcp28.differentialRead() 8x: 	3484
+mcp28.deltaRead()	8x: 	8644
+
+4000000
+mcp28.read()	8x: 	3572
+mcp28.differentialRead() 8x: 	4312
+mcp28.deltaRead()	8x: 	6976
+
+8000000
+mcp28.read()	8x: 	4372
+mcp28.differentialRead() 8x: 	3480
+mcp28.deltaRead()	8x: 	8212
+
+16000000
+mcp28.read()	8x: 	3548
+mcp28.differentialRead() 8x: 	4024
+mcp28.deltaRead()	8x: 	6976
+
+done...

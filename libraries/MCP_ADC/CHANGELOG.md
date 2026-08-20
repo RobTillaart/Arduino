@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2026-08-16
+- fix actions from #26
+- add multi-byte transfer in one call
+- reduce SWSPI transfer speed for F_CPU >= 32 MHz
+- add performance section in readme.md
+- update changelog 0.4.0 - more specific
+- minor edits
+
 ## [0.5.2] - 2026-01-04
 - update GitHub actions
 - update examples
@@ -21,9 +29,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
 ## [0.4.0] - 2023-12-18
-- fix #18, support for Arduino ESP32 S3 - breaking change
+- fix #18, support for Arduino ESP32 S3
+  - breaking change due to name collision
+  - rename analogRead() to read()
+  - rename analogReadMultiple() to readMultiple()
 - update examples
-- Fix #17, readme.md
+- fix #17, readme.md
 
 ----
 

@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_ADC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -18,7 +18,7 @@
 #include "SPI.h"
 
 
-#define MCP_ADC_LIB_VERSION       (F("0.5.2"))
+#define MCP_ADC_LIB_VERSION       (F("0.5.3"))
 
 
 #ifndef __SPI_CLASS__
@@ -68,7 +68,8 @@ protected:
   bool     _hwSPI;
   uint8_t  _channels;
   int16_t  _maxValue;
-  //  1 MHz is a safe value (datasheet); in a test 4 MHz worked.
+  //  1 MHz is a safe value (datasheet)
+  //  in a test 4 MHz worked => #26 advices 2 MHz at most
   uint32_t _SPIspeed = 1000000;
 
   //  derived classes must implement buildRequest() function.
@@ -76,8 +77,8 @@ protected:
 
   int16_t  readADC(uint8_t channel, bool single);
   void     readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t readings[]);
-
-  uint8_t  swSPI_transfer(uint8_t d);
+  //  0.5.3
+  void     swSPI_transfer(uint8_t * data, uint8_t bytes);
 
   __SPI_CLASS__ * _mySPI;
   SPISettings   _spi_settings;

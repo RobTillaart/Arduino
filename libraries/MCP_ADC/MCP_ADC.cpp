@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_ADC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.5.2
+// VERSION: 0.5.3
 //    DATE: 2019-10-24
 // PURPOSE: Arduino library for MCP3001, MCP3002, MCP3004, MCP3008, MCP3201, MCP3202, MCP3204, MCP3208
 //     URL: https://github.com/RobTillaart/MCP_ADC
@@ -150,18 +150,12 @@ int16_t MCP_ADC::readADC(uint8_t channel, bool single)
   if (_hwSPI)
   {
     _mySPI->beginTransaction(_spi_settings);
-    for (uint8_t b = 0; b < bytes; b++)
-    {
-      data[b] = _mySPI->transfer(data[b]);
-    }
+    _mySPI->transfer(data, bytes);  //  0.5.3
     _mySPI->endTransaction();
   }
   else  //  Software SPI
   {
-    for (uint8_t b = 0; b < bytes; b++)
-    {
-      data[b] = swSPI_transfer(data[b]);
-    }
+    swSPI_transfer(data, bytes);  //  0.5.3
   }
   digitalWrite(_select, HIGH);
 
@@ -195,14 +189,13 @@ void MCP_ADC::readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t r
     uint8_t data[3] = {0, 0, 0};
     uint8_t bytes = buildRequest(channels[i], true, data);
 
-    if (_hwSPI) {
-      for (uint8_t b = 0; b < bytes; b++) {
-        data[b] = _mySPI->transfer(data[b]);
-      }
-    } else {
-      for (uint8_t b = 0; b < bytes; b++) {
-        data[b] = swSPI_transfer(data[b]);
-      }
+    if (_hwSPI)
+    {
+      _mySPI->transfer(data, bytes);  //  0.5.3
+    }
+    else
+    {
+      swSPI_transfer(data, bytes);  //  0.5.3
     }
 
     if (bytes == 2) {
@@ -226,22 +219,31 @@ void MCP_ADC::readADCMultiple(uint8_t channels[], uint8_t numChannels, int16_t r
 }
 
 
-//  MSBFIRST
-uint8_t  MCP_ADC::swSPI_transfer(uint8_t val)
+//  0.5.3
+//  MSB FIRST
+void  MCP_ADC::swSPI_transfer(uint8_t * data, uint8_t bytes)
 {
   uint8_t clk = _clock;
   uint8_t dao = _dataOut;
   uint8_t dai = _dataIn;
 
-  uint8_t rv = 0;
-  for (uint8_t mask = 0x80; mask; mask >>= 1)
+  for (uint8_t i = 0; i < bytes; i++)
   {
-    digitalWrite(dao, (val & mask));
-    digitalWrite(clk, HIGH);
-    if (digitalRead(dai) == HIGH) rv |= mask;
-    digitalWrite(clk, LOW);
+    uint8_t rv = 0;
+    uint8_t val = data[i];
+    for (uint8_t mask = 0x80; mask; mask >>= 1)
+    {
+      digitalWrite(dao, (val & mask));
+      digitalWrite(clk, HIGH);
+//  reduce fast processors (32MHz) to max 1 MHz
+#if F_CPU >= 32000000UL
+    delayMicroseconds(1);
+#endif
+      if (digitalRead(dai) == HIGH) rv |= mask;
+      digitalWrite(clk, LOW);
+    }
+    data[i] = rv;
   }
-  return rv;
 }
 
 

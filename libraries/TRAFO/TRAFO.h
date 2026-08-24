@@ -3,7 +3,7 @@
 //    FILE: TRAFO.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-03-13
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 // PURPOSE: Arduino library for AC line voltage and frequency measurement.
 //     URL: https://github.com/RobTillaart/TRAFO
 //
@@ -12,7 +12,7 @@
 #include "Arduino.h"
 
 
-#define TRAFO_LIB_VERSION           (F("0.1.2"))
+#define TRAFO_LIB_VERSION           (F("0.1.3"))
 
 #ifndef TRAFO_DEFAULT_FREQUENCY
 #define TRAFO_DEFAULT_FREQUENCY     (50.0)
@@ -28,12 +28,25 @@ public:
   {
     _readADC = readADC;
     _steps = steps;
+    _maxVoltage = maxVoltage;
+    _trafoFactor = trafoFactor;
     _zeroPoint = steps / 2;  //  reasonable initial value
     _voltsPerStep = maxVoltage * trafoFactor / steps;
     _frequency = TRAFO_DEFAULT_FREQUENCY;
     _period = 1000000 / _frequency;
     detectFrequency();
     return true;
+  };
+
+  void setTrafoFactor(float trafoFactor)
+  {
+    _trafoFactor = trafoFactor;
+    _voltsPerStep = _maxVoltage * _trafoFactor / _steps;
+  };
+
+  float getTrafoFactor()
+  {
+    return _trafoFactor;
   };
 
 
@@ -71,6 +84,7 @@ public:
     //  ride the wave to Q1 point.
     while ((_readADC() >  Q1) && ((micros() - start) < timeOut));
     while ((_readADC() <= Q3) && ((micros() - start) < timeOut));
+    //  TODO handle timeout
     start = micros();
     //  do times waves
     for (int i = 0; i < times; i++)
@@ -112,15 +126,20 @@ public:
     return rms;
   };
 
-/*
- * RMS based upon peak2peak, slightly off during 1st tests.
- *
-  float getRMS2()
-  {
-    rms = getPTP() * (1.0 / (2.0 * sqrt(2.0)));
-    return rms;
-  };
-*/
+  //  voltage at the MCU side.
+  //
+  // float getRMSmcu()
+  // {
+  //   return getRMS() / _trafoFactor;
+  // };
+
+  //  RMS based upon peak2peak, slightly off during 1st tests.
+  //
+  // float getRMS2()
+  // {
+  //   rms = getPTP() * (1.0 / (2.0 * sqrt(2.0)));
+  //   return rms;
+  // };
 
   float getPTP()
   {
@@ -191,6 +210,8 @@ public:
 private:
   int32_t  (* _readADC)();
   uint32_t _steps;
+  float    _maxVoltage;
+  float    _trafoFactor;
   float    _voltsPerStep;
 
   float    _frequency;

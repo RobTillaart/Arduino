@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2026-xx-xx
+- add **void setTrafoFactor(float trafoFactor)**
+- add **float getTrafoFactor()**
+- minor edits
+
 ## [0.1.2] - 2026-03-21
 - add **float determineFormFactor()**
 - add **TRAFO_determineFormFactor.ino**

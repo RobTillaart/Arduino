@@ -28,7 +28,7 @@ void setup()
 
 void loop()
 {
-  Serial.println(myTrafo.determineFormFactor(),3);
+  Serial.println(myTrafo.determineFormFactor(), 3);
 }
 
 

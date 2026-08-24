@@ -6,6 +6,8 @@ TRAFO	KEYWORD1
 
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
+setTrafoFactor	KEYWORD2
+getTrafoFactor	KEYWORD2
 
 detectFrequency	KEYWORD2
 setMicrosAdjust	KEYWORD2

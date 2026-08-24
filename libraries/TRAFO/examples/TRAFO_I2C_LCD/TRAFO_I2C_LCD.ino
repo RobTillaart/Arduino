@@ -3,6 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test basic behaviour and performance
 //     URL: https://github.com/RobTillaart/TRAFO
+//          https://github.com/RobTillaart/I2C_LCD
 
 
 #include "TRAFO.h"
@@ -53,6 +54,8 @@ void setup()
   lcd.print("FREQ: ");
   lcd.setCursor(0, 2);
   lcd.print(" RMS: ");
+  lcd.setCursor(0, 3);
+  lcd.print("FOFA: ");
 }
 
 
@@ -62,6 +65,7 @@ void loop()
   int zero = myTrafo.getZeroPoint();
   //int adc = myTrafo.getADC();
   float rms = myTrafo.getRMS();
+  float fofa = myTrafo.determineFormFactor();
 
   Serial.print(zero);
   Serial.print("\t");
@@ -69,6 +73,7 @@ void loop()
   Serial.print("\t");
   Serial.print(rms, 1);
   Serial.print("\t");
+  Serial.print(fofa, 2);
   Serial.println();
 
   lcd.setCursor(6, 0);
@@ -79,6 +84,9 @@ void loop()
   lcd.print("  ");
   lcd.setCursor(6, 2);
   lcd.print(rms, 1);
+  lcd.print("   ");
+  lcd.setCursor(6, 3);
+  lcd.print(fofa, 2);
   lcd.print("   ");
 
   delay(1000);

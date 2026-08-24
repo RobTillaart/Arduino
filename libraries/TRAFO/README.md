@@ -21,7 +21,7 @@ Arduino library for AC line voltage and frequency measurement.
 This library is to use a transformer (TRAFO) like the ZMPT101B to measure the 
 AC line voltage.
 
-The library was inspired by a discussion on the forum about using 
+The library was inspired by a discussion on the Arduino forum about using 
 an external ADC for the ZMPT101B library. 
 This library tries to generalize the concept so it can be used for different
 transformers and with both internal as external ADC's.
@@ -58,7 +58,6 @@ Trigger for this library
 - https://forum.arduino.cc/t/using-zmpt101b-with-ads1115/1434976 
 
 
-
 ### Tested
 
 Tested on Arduino UNO R3 with ZMPT101B transformer. Used a calibrated DMM to get
@@ -91,6 +90,17 @@ Note: the **trafoFactor** in my first hardware test (UNO R3 + ZMPT101B) had a va
 This was determined by providing AC and measure it with a calibrated DMM. See below.
 
 
+### Calibration
+
+For process see below.
+
+- **void setTrafoFactor(float trafoFactor)** idem, used for adjust calibration, without
+need to call **begin()** again. 
+- **float getTrafoFactor()** idem.
+- **float getVoltagePerStep()** returns the ```maxVoltage x trafoFactor / steps```.
+Step size is an indication of the maximum accuracy feasible.
+
+
 ### Measurements
 
 - **float detectFrequency(uint8_t times = 1)** idem. 
@@ -120,7 +130,6 @@ faster and uses more program memory.
 
 - **int32_t getADC()** call the readADC given in **begin()**.
 returns raw units.
-- **float getVoltagePerStep()** returns the ```maxVoltage x trafoFactor / steps```.
 - **int32_t getZeroPoint()** last determined zero point (in ADC units).
 
 
@@ -135,7 +144,8 @@ Example
 - The expected voltage is 242 Volt, and getRMS() returns 32.34
 - The missing factor = 242 / 32.34 = 7.483
 - So the trafoFactor should be 100 x 7.483 = 748.3
-- Set the trafoFactor to 748.3 to confirm the new value.
+- Set the trafoFactor to 748.3, 
+- Measure the RMS again to confirm the new value.
 
 
 ## Future
@@ -146,24 +156,39 @@ Example
 
 #### Should
 
+- add error handling
+  - defaults internals
+  - parameter check
+  - begin called, null ptr readADC()
+  - handle timeout in detectFrequency()
 - investigate performance improvements.
+  - will be hard as one need sample time
 - investigate need for yield (RTOS?)
 - investigate frequency range detected.
 - As detectFrequency() determines the peak2peak value, its signature might 
-  need to change to **float measure(float &freq, float &RMS)** so it 
-  measures all in one call might be efficient.  (0.2.0)
-- test 110 Volt and other AC levels 
+  need to change to **float measure(float &freq, float &RMS, float &PTP)** 
+  so it   measures all in one call might be efficient.  (0.2.0)
+- test 110 Volt and other AC levels
 - test other transformers.
+  - e.g. sine wave of function generator?
 
 
 #### Could
 
 - create unit tests if possible.
 - other functions possible?
+- investigate adaptive **detectFrequency()** 
+  - stops when accuracy meets 0.1Hz
 - add **float getSecondaryVoltage()** something ?
 
 
 #### Wont
+
+- double for higher precision? feasible?
+  - float has ~7 digits and the current accuracy is 3 digits max
+  - see also https://forum.arduino.cc/t/using-zmpt101b-with-ads1115/1434976/17
+- add **float getPeakToPeak()** wrapper
+- add **float getRootMeanSquare()** wrapper
 
 
 ## Support

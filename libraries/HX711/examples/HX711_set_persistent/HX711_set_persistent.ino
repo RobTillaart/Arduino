@@ -1,32 +1,38 @@
-
 //
 //    FILE: HX711_set_persistent.ino
 //  AUTHOR: Felix Moli Grao la base de Rob Tillaart
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
-
-//scale.set_offset(-186985);
-//scale.set_scale(14.18);
+//
+//  Note RT: fixed issue #75, + minor edits
+//
+//  This example shows how the scale and offset could be stored in and
+//  retrieved from the internal EEPROM of the MCU.
+//  This code is not written to be optimal or perfect for all cases.
+//
+//  There are different ways to store the scale and offset.
+//  In this example the data is stored always together as one struct.
+//  In another application it might be better to be able to store
+//  the values separately, or store them in an external EEPROM.
+//  For that latter check e.g. https://github.com/RobTillaart/I2C_EEPROM
 
 
 #include "HX711.h"
 #include <EEPROM.h>
 
 
-int eeAddress = 0;
-#define EEPROM_SIZE 100
-
-
 bool forced = false; // indicates that we want to enter calibration mode
 HX711 scale;
-byte buttonTare= 2;
 
-//  adjust pins if needed
-uint8_t dataPin = 6;
-uint8_t clockPin = 7;
-//  uint8_t dataPin  = 19;    //  for ESP32
-//  uint8_t clockPin = 18;    //  for ESP32
+//  adjust the pins if needed
+const uint8_t buttonTare = 2;
+const uint8_t dataPin = 6;
+const uint8_t clockPin = 7;
+//  const uint8_t dataPin  = 19;    //  for ESP32
+//  const uint8_t clockPin = 18;    //  for ESP32
 
+
+//  example values
 //  scale.set_offset(-181815);
 //  scale.set_scale(13.79);
 struct Bascula {
@@ -36,6 +42,7 @@ struct Bascula {
 
 Bascula bascula;
 
+//  messages can be commented if not needed
 void SaveStruct(int eeAddress, Bascula bascula) {
   EEPROM.put(eeAddress, bascula);
   Serial.println( "Save custom object to EEPROM: " );
@@ -43,12 +50,15 @@ void SaveStruct(int eeAddress, Bascula bascula) {
   Serial.println( bascula.offSet );
 }
 
+//  messages can be commented if not needed
 Bascula LoadStruct(int eeAddress) {
   EEPROM.get( eeAddress, bascula );
   Serial.println( "Read custom object from EEPROM: " );
-  Serial.print("scale: ");Serial.println( bascula.scala );
-  Serial.print("offset: ");Serial.println( bascula.offSet );
+  Serial.print("scale: "); Serial.println( bascula.scala );
+  Serial.print("offset: "); Serial.println( bascula.offSet );
   return bascula;
+  //  note RT: strange to return a global variable here,
+  //           for demo it works and I leave it for now as is.
 }
 
 
@@ -61,13 +71,14 @@ void setup()
   Serial.println(HX711_LIB_VERSION);
   Serial.println();
 
+  //  intialize the scale
   pinMode(buttonTare, INPUT_PULLUP);
-  bascula = LoadStruct(0);//load off eeprom 
+  scale.begin(dataPin, clockPin);
 
-  scale.set_scale(bascula.scala); //read scale from eeprom position 0
-  scale.set_offset(bascula.offSet); //read offSet from eeprom position 100
-  scale.begin(dataPin, clockPin);// initiate communication
+  //  load values from EEPROM
+  bascula = LoadStruct(0);
 
+  //  if no stored values calibrate the scale.
   if ((bascula.scala == 0.00) || (bascula.offSet == 0) || (forced == true)) {
 
     Serial.print("UNITS: ");
@@ -79,9 +90,8 @@ void setup()
 
     scale.tare();
     Serial.print("UNITS: ");
-    bascula.offSet=scale.get_units(10);
+    bascula.offSet = scale.get_units(10);
     Serial.println(bascula.offSet);
-
 
     Serial.println("\nPut 1000 gram in the scale, press a key to continue");
     while (!Serial.available());
@@ -89,7 +99,7 @@ void setup()
 
     scale.calibrate_scale(1000, 5);
     Serial.print("UNITS: ");
-    bascula.scala=scale.get_units(10);
+    bascula.scala = scale.get_units(10);
     Serial.println(bascula.scala);
 
     Serial.println("\nScale is calibrated, your calibration values:");
@@ -115,17 +125,17 @@ void setup()
     while (!Serial.available());
     while (Serial.available()) Serial.read();
 
-//scale.set_offset(-88627);
-//scale.set_scale(101.05);
+    bascula.scala = scaleFactor;
+    bascula.offSet = scaleOffset;
+    SaveStruct( 0, bascula);  //  Save to EEPROM
 
-    bascula.scala=scaleFactor;
-    bascula.offSet=scaleOffset; 
-    SaveStruct( 0, bascula);//Save to eeprom 
-  
   } else {
+
     Serial.println("The scale is calibrated... press to continue");
     while (!Serial.available());
     while (Serial.available()) Serial.read();
+
+    //  use the values from EEPROM.
     scale.set_offset(bascula.offSet);
     scale.set_scale(bascula.scala);
   }
@@ -134,10 +144,10 @@ void setup()
 
 void loop()
 {
-  if (digitalRead(buttonTare)==false){
-      scale.tare();
-      delay(500);
-       }
+  if (digitalRead(buttonTare) == false) {
+    scale.tare();
+    delay(500);
+  }
 
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(15));

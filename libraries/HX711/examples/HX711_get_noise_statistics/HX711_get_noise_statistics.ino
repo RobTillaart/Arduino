@@ -1,22 +1,22 @@
 //
 //    FILE: HX711_get_noise_statistics.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: HX711 noise meansurement
+// PURPOSE: HX711 noise measurement
 //     URL: https://github.com/RobTillaart/HX711
 //
 //  This example uses - https://github.com/RobTillaart/Statistic
 //
-//  The purpse of this sketch is to measure the noise of your system.
+//  The purpose of this sketch is to measure the noise of your system.
 //  This is done by making 1000 measurements.
-//  From these some basic statistics are caculated so one can see 
+//  From these some basic statistics are calculated so one can see
 //  how much digits are significant and how much noise there is.
 //
-//  First one need to calibrate the loadcell and fill in the data
+//  First one need to calibrate the load cell and fill in the data
 //  use - HX_calibration.ino to get the numbers.
 //  Then run this program.
 //
-//  example output 
-//    5 KG loadcell
+//  example output
+//    5 KG load cell
 //
 //  COUNT   MIN   MAX   AVG   VAR   PDEV  UDEV
 //  ...
@@ -89,7 +89,7 @@ void setup()
   //  use HX_calibration.ino for now
   //  load cell factor 20 KG
   //  scale.set_scale(127.15);  //  TODO you need to calibrate this yourself.
-  
+
   //  load cell factor 5 KG
   scale.set_scale(449.076354);
 
@@ -102,7 +102,7 @@ void setup()
   Serial.println("\nApply weight and press enter\n");
   while (!Serial.available());
   Serial.read();
-  
+
 
 
   //  statistics on average data

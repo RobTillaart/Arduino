@@ -4,7 +4,7 @@
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
 //
-//  see #40
+//  see https://github.com/RobTillaart/HX711/issues/40
 //  see https://forum.arduino.cc/t/mega2560-with-multiple-hx711/1378510  16 cells
 
 

@@ -4,8 +4,8 @@
 // PURPOSE: HX711 demo
 //     URL: https://github.com/RobTillaart/HX711
 //
-//  far from a morse decoder but a start to show a different
-//  application for loadcells.
+//  far from a Morse decoder but a start to show a different
+//  application for load cells.
 //  discriminate between long and short presses.
 
 

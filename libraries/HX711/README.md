@@ -394,7 +394,7 @@ processor goes to sleep and cannot keep the CLK pin HIGH.
 See section "10 or 80 SPS" above.
 
 Note this only works if the **RATE** pin is exposed and connected to
-the IO pin configured in set_rate_pin().
+the IO pin configured in **set_rate_pin()**.
 If not configured the other functions won't work.
 
 - **void set_rate_pin(uint8_t pin)** sets the IO pin for SPS selection.
@@ -434,6 +434,8 @@ And the **float get_units(uint8_t times = 1)** will return microvolts.
 
 In fact, one could map any linear unit this way, e.g. if the voltage applied 
 is linear with temperature, humidity or wind speed one can map this directly.
+
+Non-linear units could use the **multiMap** library to make it work.
 
 
 ## Notes
@@ -515,6 +517,10 @@ If all HX711's use the same settings it should work, however extra care is neede
 **WARNING: Sharing the data lines is NOT possible as it could cause short circuit.**
 
 See https://github.com/RobTillaart/HX711/issues/40
+
+This library implements the shared clock line idea: - https://github.com/compugician/HX711-multi
+A related idea is to use a MCP23S08 / MCP23S17 to read up to 8 or 16 HX711 devices in parallel.
+The use of an IO expander could reduce the amount of IO pins needed (not tested).
 
 
 ## Future

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.5] - 2026-09-02
+- fix #75, thanks to cracksalad
+- removed m4 from build-CI to reduce build time (expect in 1 sketch).
+- minor edits
+
 ## [0.6.4] - 2026-06-28
 - rename examples
 - update GitHub actions
@@ -13,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.6.3] - 2025-09-16
 - fix #70, HX711 rate pin code
 - fix #70, add a doReset parameter to begin() to improve start up time.
-- update readme.md 
+- update readme.md
   - add details about start up time (related to RATE).
   - add **isReady()** check in calibration
   - add reference to ADAfruit breakout with RATE

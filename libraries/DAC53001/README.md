@@ -33,9 +33,25 @@ They are low power, support voltage- and current-output, see table below.
 |  DAC53002  |   10   |    1023    |      2     |
 |  DAC63001  |   12   |    4095    |      1     |
 |  DAC63002  |   12   |    4095    |      2     |
+|            |        |            |            |
+|  DAC53004  |   10   |    1023    |      4     |  not supported.
+|  DAC53004  |   12   |    4095    |      4     |  not supported.
+
+The DACx3004 series is a 4 channel version, not supported in this library. 
+However it might just work for 1 or 2 channels (channel 0 and channel 3).
 
 
 TODO elaborate
+
+TODO get breakout / hardware to test 
+
+Feedback as always is welcome.
+
+
+### Breaking change 0.2.0
+
+In 0.2.0 a bug in **setOutputMode()** is fixed with the mode bit, See issue #4.
+Versions before 0.2.0 are obsolete now.
 
 
 ### Please report your experiences.
@@ -102,7 +118,8 @@ too if they are behind the multiplexer.
 
 See datasheet page 58.
 
-- **void setReference(DACX300X_reference mode, uint8_t channel = 0)**
+- **bool setReference(DACX300X_reference mode, uint8_t channel = 0)**  returns false if parameter out of range.
+- **uint8_t getReference(uint8_t channel = 0)**
 
 |  Mode  |  Reference  |  Gain  |  notes  |
 |:------:|:------------|:------:|:--------|
@@ -118,7 +135,7 @@ See datasheet page 58.
 
 See datasheet page 59.
 
-- **void setCurrentRange(uint8_t range, uint8_t channel = 0)**
+- **bool setCurrentRange(uint8_t range, uint8_t channel = 0)** returns false if parameter out of range.
 - **uint8_t getCurrentRange(uint8_t channel = 0)**
 
 |  value  |  from      |    to     |  notes  |
@@ -145,8 +162,8 @@ Note: three scales, in steps 1, 2, 5, 10.
 
 See datasheet page 62.
 
-- **void setOutputMode(uint8_t mode, uint8_t channel = 0);
-- **uint8_t getOutputMode(uint8_t channel = 0);
+- **bool setOutputMode(uint8_t mode, uint8_t channel = 0)** returns false if parameter out of range.
+- **uint8_t getOutputMode(uint8_t channel = 0)**
 
 |  Mode  |  Vout                        |   Iout         |  notes  |
 |:------:|:-----------------------------|:---------------|:--------|
@@ -161,14 +178,16 @@ See datasheet page 62.
 
 Ω = ALt-234 (windows)
 
+TODO elaborate
+
 
 ### setDAC
 
 See datasheet page 62.
 
-- **uint16_t setDAC(uint16_t value, uint8_t channel = 0)**
+- **uint16_t setDAC(uint16_t value, uint8_t channel = 0)** returns false if parameter out of range.
 - **uint16_t getDAC(uint8_t channel = 0)**
-
+- **bool isBusy(uint8_t channel = 0)**
 
 ### General status
 
@@ -190,14 +209,20 @@ Meaning status bits:
 |    9    |  DAC-1-BUSY         |  0 = IDLE, 1 = BUSY
 |    8    |  x                  |  don't care
 |   2-7   |  DEVICE-ID          |  08 = 63002, 09 = 63001, 10 = 53002, 11 = 53001
+|         |                     |  04 = 63004, 05 = 53004 (4 channel not supported)
 |   0-1   |  VERSION-ID         |  00 (datasheet).
 
 
 ### Error handling
 
-- **uint16_t lastError()** returns last error and resets to OK.
+- **uint16_t lastError()** returns last error and resets to DAC53001_OK.
 
-To add table of error codes.
+|  code  |  define                  |  notes  |
+|:------:|:-------------------------|:--------|
+|  0x00  |  DAC53001_OK             |
+|  0x81  |  DAC53001_PARAM_ERROR    |
+|  0x82  |  DAC53001_I2C_ERROR      |
+|  0x83  |  DAC53001_CHANNEL_ERROR  |
 
 
 ## Future
@@ -209,16 +234,20 @@ To add table of error codes.
 
 #### Should
 
+- improve error handling
 
 #### Could
 
+- add functions for "non-supported" registers.
+  - on a need to basis (in total 61 fields to do).
+  - every DAC has 6 registers
+  - wave generator functions
+  - comparator functions
+  - status registers
+  - Non volatile memory support (0x2B, 0x2C)
 - replace magic numbers by defines (const int);
 - enum for OUTPUTMODE? => difficult names
 - add examples
-- add more error handling
-  - channel > # channels
-  - incorrect mode
-- isBusy(channel)?
 
 #### Wont
 

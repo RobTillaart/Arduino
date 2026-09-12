@@ -1,0 +1,23 @@
+{
+  "name": "DS1682",
+  "keywords": "uptime,runtime",
+  "description": "Arduino library for the I2C DS1682 elapsed time monitor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/DS1682.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "DS1682.h"
+}

@@ -1,0 +1,38 @@
+# Syntax Colouring Map For DS1682
+
+# Data types (KEYWORD1)
+DS1682	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setConfig	KEYWORD2
+getConfig	KEYWORD2
+
+setAlarm	KEYWORD2
+getAlarm	KEYWORD2
+
+getElapsedSeconds	KEYWORD2
+getElapsedQSEC	KEYWORD2
+getEventCounter	KEYWORD2
+
+setEEPROM	KEYWORD2
+getEEPROM	KEYWORD2
+
+reset	KEYWORD2
+writeDisable	KEYWORD2
+memoryDisable	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+DS1682_LIB_VERSION	LITERAL1
+
+DS1682_OK	LITERAL1
+DS1682_CRC_ERROR	LITERAL1
+DS1682_NOT_READY	LITERAL1
+DS1682_REQUEST_ERROR	LITERAL1

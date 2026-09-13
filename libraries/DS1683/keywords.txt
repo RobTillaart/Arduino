@@ -1,0 +1,47 @@
+# Syntax Colouring Map For DS1683
+
+# Data types (KEYWORD1)
+DS1683	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+setConfiguration	KEYWORD2
+getConfiguration	KEYWORD2
+
+setCommand	KEYWORD2
+getCommand	KEYWORD2
+getStatus	KEYWORD2
+
+setEventTimeAlarm	KEYWORD2
+getEventTimeAlarm	KEYWORD2
+setEventCountAlarm	KEYWORD2
+getEventCountAlarm	KEYWORD2
+
+getElapsedSeconds	KEYWORD2
+getElapsedQSEC	KEYWORD2
+getEventCounter	KEYWORD2
+
+resetEventTime	KEYWORD2
+resetEventCounter	KEYWORD2
+
+setEEPROM	KEYWORD2
+getEEPROM	KEYWORD2
+
+setPasswordEntry	KEYWORD2
+setPasswordValue	KEYWORD2
+
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+DS1683_LIB_VERSION	LITERAL1
+
+DS1683_OK	LITERAL1
+DS1683_I2C_2	LITERAL1
+DS1683_NOT_READY	LITERAL1
+DS1683_REQUEST_ERROR	LITERAL1
+DS1683_EEPROM_ERROR	LITERAL1

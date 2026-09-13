@@ -3,7 +3,7 @@
 //    FILE: DS1682.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-09-11
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the I2C DS1682 elapsed time monitor.
 //     URL: https://github.com/RobTillaart/DS1682
 //
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define DS1682_LIB_VERSION         (F("0.1.0"))
+#define DS1682_LIB_VERSION         (F("0.1.1"))
 
 //  ERROR CODES
 //  values <> 0 are errors.
@@ -33,6 +33,7 @@ public:
   bool     isConnected();
   uint8_t  getAddress();
 
+
   //  CONFIGURATION - page 10 datasheet.
   //
   //  | BIT | NMEMONIC | DESCRIPTION |
@@ -48,18 +49,22 @@ public:
   int      setConfiguration(uint8_t mask);
   uint8_t  getConfiguration();
 
+
   //  ALARM
-  int      setAlarm(uint32_t alarm);  //  alarm in seconds, max 1.073.741.823
-  uint32_t getAlarm();                //  returns seconds.
+  int      setEventTimeAlarm(uint32_t alarm);  //  alarm in seconds, max 1.073.741.823
+  uint32_t getEventTimeAlarm();                //  returns seconds.
+
 
   //  READ COUNTERS
-  uint32_t getElapsedSeconds();       //  returns seconds
-  uint32_t getElapsedQSEC();          //  returns quarter-seconds (internal counter)
-  uint32_t getEventCounter();         //  returns event counter
+  uint32_t getElapsedSeconds();  //  returns seconds
+  uint32_t getElapsedQSEC();     //  returns quarter-seconds (internal counter)
+  uint32_t getEventCounter();    //  returns event counter
+
 
   //  EEPROM
-  int      setEEPROM(uint8_t ee, uint8_t value);
-  uint8_t  getEEPROM(uint8_t ee);
+  //  address = 0..9
+  int      setEEPROM(uint8_t address, uint8_t value);
+  uint8_t  getEEPROM(uint8_t address);
 
   //  MISC - names might change
   //  these functions need to be called twice to be effective!!!
@@ -72,7 +77,7 @@ public:
 
 
 private:
-  uint8_t  _address = 0x2A;
+  uint8_t  _address = 0x6B;
   TwoWire* _wire;
 
   int      _command(uint8_t reg, uint8_t * arr, uint8_t size);

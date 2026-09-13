@@ -51,7 +51,7 @@ unittest(test_constructor)
   //  Wire.begin();
   //  upTimer.begin();
 
-  assertEqual(0x6A, upTimer.getAddress());
+  assertEqual(0x6B, upTimer.getAddress());
 }
 
 

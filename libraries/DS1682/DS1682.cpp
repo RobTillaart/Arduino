@@ -2,7 +2,7 @@
 //    FILE: DS1682.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-09-11
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 // PURPOSE: Arduino library for the I2C DS1682 elapsed time monitor.
 //     URL: https://github.com/RobTillaart/DS1682
 
@@ -15,8 +15,10 @@ const uint8_t DS1682_REG_CONFIGURATION = 0x00;       //  1
 const uint8_t DS1682_REG_ALARM         = 0x01;       //  4
 const uint8_t DS1682_REG_ELAPSED_TIME  = 0x05;       //  4
 const uint8_t DS1682_REG_EVENT_COUNT   = 0x09;       //  2
+
 const uint8_t DS1682_REG_EEPROM_BASE   = 0x0B;       //  10
 const uint8_t DS1682_REG_NOT_USED      = 0x15;       //  8
+
 const uint8_t DS1682_REG_RESET         = 0x1D;       //  1
 const uint8_t DS1682_REG_WRITE_DISABLE = 0x1E;       //  1
 const uint8_t DS1682_REG_MEM_DISABLE   = 0x1F;       //  1
@@ -24,7 +26,7 @@ const uint8_t DS1682_REG_MEM_DISABLE   = 0x1F;       //  1
 
 DS1682::DS1682(TwoWire *wire)
 {
-  _address = 0x6A;
+  _address = 0x6B;
   _wire = wire;
   _error = DS1682_OK;
 }
@@ -76,7 +78,7 @@ uint8_t DS1682::getConfiguration()
 //
 //  ALARM
 //
-int DS1682::setAlarm(uint32_t alarm)
+int DS1682::setEventTimeAlarm(uint32_t alarm)
 {
   alarm <<= 2;  //  adjust seconds to QSEC
   uint8_t arr[4];
@@ -89,7 +91,7 @@ int DS1682::setAlarm(uint32_t alarm)
   return _error;
 }
 
-uint32_t DS1682::getAlarm()
+uint32_t DS1682::getEventTimeAlarm()
 {
   uint8_t arr[4];
   _request(DS1682_REG_ALARM, arr, 4);

@@ -25,11 +25,16 @@ So there is no external clock needed.
 The device also features an internal EEPROM to keep the data in case of a 
 power loss (according to datasheet). 
 
-The DS1682 reads the state of the EVENT pin, HIGH => clock runs, LOW => pause,
-to track e.g. the total run time of a motor.
-The maximum value is 32 bit in quarter seconds => ~34 year.
-Furthermore the device counts the number of times the EVENT pin goes HIGH/LOW
-(17 bit counter = 131.071 max).
+The DS1682 reads the state of the EVENT pin, when the pin is pulled HIGH,
+the value of the event time counter (ETC) is fetched from the EEPROM and 
+the clock continues. When the pin goes to LOW, the event counter (EC) is 
+incremented and the ETC is stored in EEPROM again.
+
+When the EVENT pin changes, I2C is unavailable for up to 300 milliseconds.
+
+The maximum value of the event time counter is 32 bit in quarter seconds => ~34 year.
+The maximum value of the Event Counter is 17 bit => 131.071.
+
 Finally the device has an ALARM register and an ALARM pin
 that signals if the defined run time in the register is reached.
 The polarity of the ALARM pin can be configured.
@@ -81,7 +86,8 @@ See datasheet for details.
 ### Related
 
 Elapse time counters:
-- https://github.com/RobTillaart/DS1862 - this library
+- https://github.com/RobTillaart/DS1682
+- https://github.com/RobTillaart/DS1683
 - https://github.com/RobTillaart/StopWatch_RT - idem.
 
 Other
@@ -96,11 +102,11 @@ A breakout board would be useful for testing different platforms.
 
 ## Compatibles
 
-The DS1683 is an upgraded version of the DS1682 with password and more
-reset options. Although the pins are the same the registers and functions
-are different so a DS1683 can not be controlled with this library.
+The DS1682 and DS1683 have the same pin layout, however they have
+a complete different internal register layout. 
+So this library cannot be used for a DS1683.
 
-_A DS1683 library is on my backlog list, so if time permits_
+The DS1683 has additional password and reset options. 
 
 No compatibles known.
 
@@ -109,7 +115,7 @@ No compatibles known.
 
 ### I2C Address
 
-The device has a fixed I2C address of 0x6A (106) so only one device per I2C bus can be used.
+The device has a fixed I2C address of 0x6B (107) so only one device per I2C bus can be used.
 The I2C communication supports 2.5-5.0V so any 3.3V MCU should be able to connect.
 Do not forget appropriate pull up resistors on the I2C SDA and SCL lines.
 
@@ -195,10 +201,8 @@ Datasheet - page 9
 
 For ease of use the alarm API works in seconds.
 
-- **int setAlarm(uint32_t alarm)** sets the alarm in seconds, max 1.073.741.823
-- **uint32_t getAlarm()** returns set alarm time in seconds.
-
-See datasheet for details.
+- **int setEventTimeAlarm(uint32_t alarm)** sets the alarm in seconds, max 1.073.741.823
+- **uint32_t getEventTimeAlarm()** returns set alarm time in seconds.
 
 
 ### Read Counters
@@ -248,8 +252,9 @@ These functions need to be called twice to be effective!
 
 #### Must
 
-- improve documentation a lot
+- improve documentation
 - get hardware to test
+- sync DS1682/DS1683
 
 #### Should
 

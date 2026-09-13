@@ -8,7 +8,7 @@
 #include "DS1682.h"
 
 
-DS1682 upTimer;  //  0x6A default address
+DS1682 upTimer;  //  0x6B default address
 uint32_t start, stop;
 
 void setup()

@@ -1,5 +1,5 @@
 //
-//    FILE: rotaryDecoder_demo_simple.ino
+//    FILE: rotaryDecoder_getClicks.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -35,18 +35,29 @@ void setup()
   Wire.setClock(100000);
   decoder.begin(4);
   decoder.readInitialState();
+
+  //  different values for demo purpose
+  for (uint8_t re = 0; re < 4; re++)
+  {
+    decoder.setStepsPerClick(re, re + 1);
+  }
+  Serial.println("/setup()");
 }
 
 
 void loop()
 {
-  //  if one of the counters is updated, print them.
-  if (decoder.update())
+  if (decoder.checkChange())
   {
-    for (uint8_t i = 0; i < 4; i++)
+    decoder.update();
+    for (uint8_t re = 0; re < 4; re++)
     {
+      Serial.print(re);
       Serial.print("\t");
-      Serial.print(decoder.getValue(i));
+      Serial.print(decoder.getValue(re));
+      Serial.print("\t");
+      Serial.print(decoder.getClicks(re));
+      Serial.println();
     }
     Serial.println();
   }
@@ -56,4 +67,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

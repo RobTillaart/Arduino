@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoder.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2021-05-08
 // PURPOSE: Arduino library for a PCF8574 based rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder
@@ -21,10 +21,10 @@ rotaryDecoder::rotaryDecoder(const int8_t address, TwoWire *wire)
 }
 
 
-bool rotaryDecoder::begin(uint8_t count)
+bool rotaryDecoder::begin(uint8_t deviceCount)
 {
-  _count = count;
-  if (_count > ROTDEC_MAX_COUNT) _count = ROTDEC_MAX_COUNT;
+  _deviceCount = deviceCount;
+  if (_deviceCount > ROTDEC_MAX_COUNT) _deviceCount = ROTDEC_MAX_COUNT;
 
   if (! isConnected()) return false;
   return true;
@@ -40,18 +40,28 @@ bool rotaryDecoder::isConnected()
 
 uint8_t rotaryDecoder::getRECount()
 {
-  return _count;
+  return _deviceCount;
 }
 
 
 void rotaryDecoder::reset()
 {
-  for (int i = 0 ; i < ROTDEC_MAX_COUNT; i++)
+  for (int i = 0; i < ROTDEC_MAX_COUNT; i++)
   {
-    _lastPos[i] = 0;
     _encoder[i] = 0;
   }
-  _lastValue = 0;
+  //  update last positions.
+  _lastValue = readInitialState();
+}
+
+
+bool rotaryDecoder::reset(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return false;
+  _encoder[re] = 0;
+  //  update last positions.
+  _lastValue = readInitialState();
+  return true;
 }
 
 
@@ -59,7 +69,7 @@ uint8_t rotaryDecoder::readInitialState()
 {
   uint8_t value = read8();
   _lastValue = value;
-  for (uint8_t i = 0; i < _count; i++)
+  for (uint8_t i = 0; i < _deviceCount; i++)
   {
     _lastPos[i] = value & 0x03;
     value >>= 2;
@@ -83,19 +93,25 @@ bool rotaryDecoder::update()
     return false;
   }
 
- _lastValue = value;
-  for (uint8_t i = 0; i < _count; i++, value >>= 2)
+  _lastValue = value;
+  for (uint8_t i = 0; i < _deviceCount; i++, value >>= 2)
   {
     uint8_t currentPos = (value & 0x03);
     uint8_t change = (_lastPos[i] << 2) | currentPos;
     switch (change)
     {
-      case 0b0001:  //  fall through..
+      case 0b0001:  //  fall through
       case 0b0111:
       case 0b1110:
       case 0b1000:
         _encoder[i]++;
         break;
+      //  case 0b0011:
+      //  case 0b0110:
+      //  case 0b1001:
+      //  case 0b1100:
+      //    _encoder[i] += ?;  //  +2 or -2 undecidable
+      //    break;
       case 0b0010:
       case 0b0100:
       case 0b1101:
@@ -117,14 +133,14 @@ bool rotaryDecoder::updateSingle()
     return false;
   }
 
- _lastValue = value;
-  for (uint8_t i = 0; i < _count; i++, value >>= 2)
+  _lastValue = value;
+  for (uint8_t i = 0; i < _deviceCount; i++, value >>= 2)
   {
     uint8_t currentPos = (value & 0x03);
     uint8_t change = (_lastPos[i] << 2) | currentPos;
     switch (change)
     {
-      case 0b0001:  //  fall through..
+      case 0b0001:  //  fall through
       case 0b0111:
       case 0b1110:
       case 0b1000:
@@ -166,6 +182,38 @@ bool rotaryDecoder::setValue(uint8_t re, int32_t value)
 
 /////////////////////////////////////////////////////
 //
+//  CLICKS API 0.4.2 #18
+//
+int32_t rotaryDecoder::getClicks(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return 0;
+  //  test if 1?
+  return _encoder[re] / _stepsPerClick[re];
+}
+
+bool rotaryDecoder::setClicks(uint8_t re, int32_t clicks)
+{
+  return setValue(re, clicks * _stepsPerClick[re]);
+}
+
+//  configure per channel.
+bool rotaryDecoder::setStepsPerClick(uint8_t re, uint8_t spc)
+{
+  if (re >= ROTDEC_MAX_COUNT) return false;
+  if (spc == 0) return false;
+  _stepsPerClick[re] = spc;
+  return true;
+}
+
+uint8_t rotaryDecoder::getStepsPerClick(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return 0;
+  return _stepsPerClick[re];
+}
+
+
+/////////////////////////////////////////////////////
+//
 //  READ - WRITE interface
 //
 uint8_t rotaryDecoder::read1(uint8_t pin)
@@ -194,10 +242,10 @@ uint8_t rotaryDecoder::read8()
 }
 
 
-bool rotaryDecoder::write8(uint8_t bitmask)
+bool rotaryDecoder::write8(uint8_t bitMask)
 {
   _wire->beginTransmission(_address);
-  _wire->write(bitmask);
+  _wire->write(bitMask);
   return (_wire->endTransmission() == 0);
 }
 

@@ -29,6 +29,7 @@ volatile bool newTickFlag = false;
 
 void moved()
 {
+  //  one should not read the PPCF8574 in the interrupt routine.
   //  adjust if mechanical rotary encoder gives e.g. 4 pulses per tick
   //  see interrupt section readme.md
   //  see issue #5
@@ -83,3 +84,4 @@ void loop()
 
 
 //  -- END OF FILE --
+

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.1.4] - 2026-09-16
+- fix #7,
+- add getClicks(), setClicks()
+- add setStepsPerClick(), getStepsPerClick()
+- add example rotaryDecoder8_getClicks.ino
+- update readme.md
+- improve rotaryDecoder_demo_interrupt.ino
+- fix internal state after reset()
+- add reset(re) to reset a single rotary encoder.
+- reduce build-CI platforms.
+- minor edits
 
 ## [0.1.3] - 2026-01-22
 - fix #5, update example interrupt

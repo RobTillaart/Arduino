@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoderSwitch.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.1
+// VERSION: 0.4.2
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for a PCF8574 based rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
@@ -21,10 +21,10 @@ rotaryDecoderSwitch::rotaryDecoderSwitch(const int8_t address, TwoWire *wire)
 }
 
 
-bool rotaryDecoderSwitch::begin(uint8_t count)
+bool rotaryDecoderSwitch::begin(uint8_t deviceCount)
 {
-  _count = count;
-  if (_count > ROTDEC_MAX_COUNT) _count = ROTDEC_MAX_COUNT;
+  _deviceCount = deviceCount;
+  if (_deviceCount > ROTDEC_MAX_COUNT) _deviceCount = ROTDEC_MAX_COUNT;
 
   if (! isConnected()) return false;
   return true;
@@ -40,18 +40,28 @@ bool rotaryDecoderSwitch::isConnected()
 
 uint8_t rotaryDecoderSwitch::getRECount()
 {
-  return _count;
+  return _deviceCount;
 }
 
 
 void rotaryDecoderSwitch::reset()
 {
-  for (int i = 0 ; i < ROTDEC_MAX_COUNT; i++)
+  for (int i = 0; i < ROTDEC_MAX_COUNT; i++)
   {
-    _lastPos[i] = 0;
     _encoder[i] = 0;
   }
-  _lastValue = 0;
+  //  update last positions.
+  _lastValue = readInitialState();
+}
+
+
+bool rotaryDecoderSwitch::reset(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return false;
+  _encoder[re] = 0;
+  //  update last positions.
+  _lastValue = readInitialState();
+  return true;
 }
 
 
@@ -60,7 +70,7 @@ uint8_t rotaryDecoderSwitch::readInitialState()
   uint8_t value = read8();
   _lastValue = value;
   //  pin 0,1 and 4,5
-  for (uint8_t i = 0; i < _count; i++)
+  for (uint8_t i = 0; i < _deviceCount; i++)
   {
     _lastPos[i] = value & 0x03;
     value >>= 4;
@@ -85,18 +95,24 @@ bool rotaryDecoderSwitch::update()
   }
 
  _lastValue = value;
-  for (uint8_t i = 0; i < _count; i++, value >>= 4)
+  for (uint8_t i = 0; i < _deviceCount; i++, value >>= 4)
   {
     uint8_t currentPos = (value & 0x03);
     uint8_t change = (_lastPos[i] << 2) | currentPos;
     switch (change)
     {
-      case 0b0001:  //  fall through..
+      case 0b0001:  //  fall through
       case 0b0111:
       case 0b1110:
       case 0b1000:
         _encoder[i]++;
         break;
+      //  case 0b0011:
+      //  case 0b0110:
+      //  case 0b1001:
+      //  case 0b1100:
+      //    _encoder[i] += ?;  //  +2 or -2 undecidable
+      //    break;
       case 0b0010:
       case 0b0100:
       case 0b1101:
@@ -118,14 +134,14 @@ bool rotaryDecoderSwitch::updateSingle()
     return false;
   }
 
- _lastValue = value;
-  for (uint8_t i = 0; i < _count; i++, value >>= 4)
+  _lastValue = value;
+  for (uint8_t i = 0; i < _deviceCount; i++, value >>= 4)
   {
     uint8_t currentPos = (value & 0x03);
     uint8_t change = (_lastPos[i] << 2) | currentPos;
     switch (change)
     {
-      case 0b0001:  //  fall through..
+      case 0b0001:  //  fall through
       case 0b0111:
       case 0b1110:
       case 0b1000:
@@ -167,9 +183,42 @@ bool rotaryDecoderSwitch::setValue(uint8_t re, int32_t value)
 
 bool rotaryDecoderSwitch::isKeyPressed(uint8_t re)
 {
+  if (re >= ROTDEC_MAX_COUNT) return false;
   uint8_t mask = 0x04;
   if (re > 0) mask = 0x40;
   return (_lastValue & mask) == 0;
+}
+
+
+/////////////////////////////////////////////////////
+//
+//  CLICKS API 0.4.2 #14
+//
+int32_t rotaryDecoderSwitch::getClicks(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return 0;
+  //  test if 1?
+  return _encoder[re] / _stepsPerClick[re];
+}
+
+bool rotaryDecoderSwitch::setClicks(uint8_t re, int32_t clicks)
+{
+  return setValue(re, clicks * _stepsPerClick[re]);
+}
+
+//  configure per channel.
+bool rotaryDecoderSwitch::setStepsPerClick(uint8_t re, uint8_t spc)
+{
+  if (re >= ROTDEC_MAX_COUNT) return false;
+  if (spc == 0) return false;
+  _stepsPerClick[re] = spc;
+  return true;
+}
+
+uint8_t rotaryDecoderSwitch::getStepsPerClick(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return 0;
+  return _stepsPerClick[re];
 }
 
 
@@ -203,10 +252,10 @@ uint8_t rotaryDecoderSwitch::read8()
 }
 
 
-bool rotaryDecoderSwitch::write8(uint8_t bitmask)
+bool rotaryDecoderSwitch::write8(uint8_t bitMask)
 {
   _wire->beginTransmission(_address);
-  _wire->write(bitmask);
+  _wire->write(bitMask);
   return (_wire->endTransmission() == 0);
 }
 

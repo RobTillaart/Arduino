@@ -21,6 +21,11 @@ getValue	KEYWORD2
 setValue	KEYWORD2
 getKeyPressed	KEYWORD2
 
+getClicks	KEYWORD2
+setClicks	KEYWORD2
+setStepsPerClick	KEYWORD2
+getStepsPerClick	KEYWORD2
+
 read1	KEYWORD2
 write1	KEYWORD2
 read8	KEYWORD2
@@ -31,3 +36,4 @@ getLastPosition	KEYWORD2
 
 # Constants (LITERAL1)
 ROTARY_DECODER_SWITCH_LIB_VERSION	LITERAL1
+

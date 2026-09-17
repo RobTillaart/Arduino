@@ -1,21 +1,16 @@
 //
-//    FILE: rotaryDecoderSwitch_demo_simple.ino
+//    FILE: rotaryDecoderSwitch_getClicks.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
 //
-// connect up to 2 rotary encoders with a switch to 1 PCF8574.
+// connect up to 4 rotary encoders to 1 PCF8574.
 //
 //  RotaryEncoder    PCF8574      UNO R3
 //  --------------------------------------
-//   1 pin A          pin 0
-//   1 pin B          pin 1
-//   1 switch         pin 2
-//                    pin 3   (reserved)
-//   2 pin A          pin 4
-//   2 pin B          pin 5
-//   2 switch         pin 6
-//                    pin 7   (reserved)
+//    pin A           pin 0
+//    pin B           pin 1
+//    ....            ....     (up to 4 RE)
 //
 //                    SDA         A4
 //                    SCL         A5
@@ -40,21 +35,29 @@ void setup()
   Wire.setClock(100000);
   decoder.begin(2);
   decoder.readInitialState();
+
+  //  different values for demo purpose
+  for (uint8_t re = 0; re < 2; re++)
+  {
+    decoder.setStepsPerClick(re, re + 1);
+  }
+  Serial.println("/setup()");
 }
 
 
 void loop()
 {
-  //  if one of the counters is updated, print them.
-  //  update() will not check if a key is pressed.
-  if (decoder.update())
+  if (decoder.checkChange())
   {
-    for (uint8_t i = 0; i < 2; i++)
+    decoder.update();
+    for (uint8_t re = 0; re < 2; re++)
     {
+      Serial.print(re);
       Serial.print("\t");
-      Serial.print(decoder.getValue(i));
+      Serial.print(decoder.getValue(re));
       Serial.print("\t");
-      Serial.print(decoder.isKeyPressed(i));
+      Serial.print(decoder.getClicks(re));
+      Serial.println();
     }
     Serial.println();
   }
@@ -64,4 +67,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

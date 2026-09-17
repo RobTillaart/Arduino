@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.4] - 2026-09-17
+- add **void setDeviceID(uint8_t deviceID)** - Kudo's to Fulvio.
+- minor edits
+
 ## [0.5.3] - 2026-02-12
 - update messages.md
 - minor edits

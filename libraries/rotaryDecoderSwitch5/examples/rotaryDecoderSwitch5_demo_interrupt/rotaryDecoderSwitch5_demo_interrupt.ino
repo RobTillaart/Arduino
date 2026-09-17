@@ -6,7 +6,7 @@
 //
 // connect up to 5 rotary encoders with a switch to 1 PCF8575.
 //
-//  RotaryEncoder    PCF8575      UNO
+//  RotaryEncoder    PCF8575      UNO R3
 //  --------------------------------------
 //   1 pin A          pin 0
 //   1 pin B          pin 1
@@ -29,13 +29,23 @@
 
 rotaryDecoderSwitch5 decoder(0x20);
 
-volatile bool flag = false;
+volatile bool newTickFlag = false;
 
 
 void moved()
 {
-  //  one should not read the PCF8575 in the interrupt routine.
-  flag = true;
+  //  one should not read the PPCF8574 in the interrupt routine.
+  //  adjust if mechanical rotary encoder gives e.g. 4 pulses per tick
+  //  see interrupt section readme.md
+  //  see issue #5
+  const int IRQ_PULSES_PER_TICK = 1;
+  static int count = 0;
+  count++;
+  if (count == IRQ_PULSES_PER_TICK)
+  {
+    count = 0;
+    newTickFlag = true;
+  }
 }
 
 
@@ -50,7 +60,7 @@ void setup()
 
   pinMode(2, INPUT_PULLUP);
   attachInterrupt(0, moved, FALLING);
-  flag = false;
+  newTickFlag = false;
 
   Wire.begin();
   Wire.setClock(100000);
@@ -61,11 +71,12 @@ void setup()
 
 void loop()
 {
-  if (flag)
+  if (newTickFlag)
   {
     decoder.update();
-    flag = false;
-    for (uint8_t i = 0; i < 5; i++)
+    newTickFlag = false;
+    Serial.print(millis());
+    for (uint8_t i = 0; i < 8; i++)
     {
       Serial.print("\t");
       Serial.print(decoder.getValue(i));

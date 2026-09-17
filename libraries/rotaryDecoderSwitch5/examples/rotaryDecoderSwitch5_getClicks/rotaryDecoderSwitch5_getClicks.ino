@@ -1,24 +1,16 @@
 //
-//    FILE: rotaryDecoderSwitch5_demo_polling.ino
+//    FILE: rotaryDecoderSwitch5_getClicks.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
 //
-// connect up to 5 rotary encoders with a switch to 1 PCF8575.
+// connect up to 5 rotary encoders to 1 PCF8575.
 //
 //  RotaryEncoder    PCF8575      UNO R3
 //  --------------------------------------
-//   1 pin A          pin 0
-//   1 pin B          pin 1
-//   1 switch         pin 2
-//   2 pin A          pin 3
-//   2 pin B          pin 4
-//   2 switch         pin 5
-//   3 pin A          pin 6
-//   3 pin B          pin 7
-//   3 switch         pin 8
-//                    etc
-//                    pin 15  free
+//    pin A           pin 0
+//    pin B           pin 1
+//    ....            ....     (up to 5 RE)
 //
 //                    SDA         A4
 //                    SCL         A5
@@ -43,6 +35,13 @@ void setup()
   Wire.setClock(100000);
   decoder.begin(5);
   decoder.readInitialState();
+
+  //  different values for demo purpose
+  for (uint8_t re = 0; re < 5; re++)
+  {
+    decoder.setStepsPerClick(re, re + 1);
+  }
+  Serial.println("/setup()");
 }
 
 
@@ -51,12 +50,14 @@ void loop()
   if (decoder.checkChange())
   {
     decoder.update();
-    for (uint8_t i = 0; i < 5; i++)
+    for (uint8_t re = 0; re < 5; re++)
     {
+      Serial.print(re);
       Serial.print("\t");
-      Serial.print(decoder.getValue(i));
+      Serial.print(decoder.getValue(re));
       Serial.print("\t");
-      Serial.print(decoder.isKeyPressed(i));
+      Serial.print(decoder.getClicks(re));
+      Serial.println();
     }
     Serial.println();
   }
@@ -66,4 +67,3 @@ void loop()
 
 
 //  -- END OF FILE --
-

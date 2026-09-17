@@ -6,7 +6,7 @@
 //
 // connect up to 5 rotary encoders with a switch to 1 PCF8575.
 //
-//  RotaryEncoder    PCF8575      UNO
+//  RotaryEncoder    PCF8575      UNO R3
 //  --------------------------------------
 //   1 pin A          pin 0
 //   1 pin B          pin 1

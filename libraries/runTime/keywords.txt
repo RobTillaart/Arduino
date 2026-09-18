@@ -1,0 +1,29 @@
+# Syntax Colouring Map For runTime
+
+# Data types (KEYWORD1)
+runTime	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+start	KEYWORD2
+stop	KEYWORD2
+update	KEYWORD2
+reset	KEYWORD2
+isRunning	KEYWORD2
+
+seconds	KEYWORD2
+minutes	KEYWORD2
+hours	KEYWORD2
+days	KEYWORD2
+
+runCount	KEYWORD2
+
+averageSeconds	KEYWORD2
+averageMinutes	KEYWORD2
+averageHours	KEYWORD2
+averageDays	KEYWORD2
+
+
+# Constants (LITERAL1)
+RUNTIME_LIB_VERSION	LITERAL1
+

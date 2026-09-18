@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3]
+- add derived class SHT4xAutomotive, see #20
+- add SHT4xAutomotive.ino example (just test code).
+- add getCelsius() for completeness.
+- minor edits
+
 ## [0.1.2] - 2026-07-06
 - fix #18, warning in setHeatInterval()
 - add derived classes SHT40, SHT41, SHT43 and SHT45 (wrappers)
@@ -17,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.0] - 2026-04-03
 - Merge #12, modernize code + unit tests
-- Merge #13, make _heatInterval consitent
+- Merge #13, make _heatInterval consistent
 - improve readme.md
 - Merge #14, add example SHT4x_advanced.ino
 - update GitHub actions
@@ -32,7 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - move code to .cpp file
 - checked I2C performance range
 - constrain humidity between 0..100%
-- merged PR #6 force float math iso double- kudos to Chris0xdeadbeef
+- merged PR #6 force float math instead of double- kudos to Chris0xdeadbeef
 - optimized getDelay() usage.
 - add fast parameter to reset(), default false
 - update readme.md

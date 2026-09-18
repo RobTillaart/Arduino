@@ -3,7 +3,7 @@
 //    FILE: SHT4x.h
 //  AUTHOR: Samuel Cuerrier Auclair
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-08-11
 // PURPOSE: Arduino library for the SHT4x temperature and humidity sensor. High precision sensor with I2C interface.
 //          This is a fork of the SHT31 library by Rob Tillaart, modified to work with the SHT4x series.
@@ -15,7 +15,7 @@
 #include "Wire.h"
 
 
-#define SHT4x_LIB_VERSION                   (F("0.1.2"))
+#define SHT4x_LIB_VERSION                   (F("0.1.3"))
 
 #ifndef SHT_DEFAULT_ADDRESS
 #define SHT_DEFAULT_ADDRESS                 0x44
@@ -73,7 +73,9 @@ public:
   float getHumidity();
   //  getTemperature returns degrees Celsius
   float getTemperature();
+  float getCelsius();
   float getFahrenheit();
+
   //  raw data e.g. debugging or efficient logging / transmit.
   uint16_t getRawHumidity();
   uint16_t getRawTemperature();
@@ -162,6 +164,18 @@ class SHT45 : public SHT4x
   SHT45(TwoWire *wire = &Wire) : SHT4x(0x44, wire)
   {
   }
+};
+
+//  AUTOMOTIVE
+//  ADDRESS: 0x44, 0x45
+class SHT4xAutomotive : public SHT4x
+{
+  public:
+  SHT4xAutomotive(uint8_t address = SHT_DEFAULT_ADDRESS, TwoWire *wire = &Wire) : SHT4x(address, wire)
+  {
+  }
+  
+  void setHeatInterval(measType measurementType);
 };
 
 

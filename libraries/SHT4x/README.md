@@ -31,10 +31,16 @@ This library has implemented an overheat protection by blocking heating calls
 until a defined interval has passed. The interval is mentioned in table below.
 This interval is based on a 10% duty cycle.
 
-Datasheet used: Version 7.1 – March 2025.
+Datasheet: SHT4x Version 7.1 – March 2025.
+
+Since release 0.1.3 the library also supports the SHT4xA (Automotive) version.
+Main difference is it only allows heating for 5%, so shorter than the "normal"
+SHT4x sensor.
+
+Datasheet: SHT4xA Version 5.1 – February 2025.
 
 
-**Accuracy table**
+**Accuracy table SHT4x**
 
 |  Sensor  |  Temperature  |  Humidity  |  Verified  |  Notes  |
 |:--------:|:-------------:|:----------:|:----------:|:-------:|
@@ -54,6 +60,19 @@ An elaborated library for the SHT4x sensor can be found here
 - https://github.com/Sensirion/arduino-i2c-sht4x
 
 As always feedback is welcome.
+
+
+### SHT4xA automotive series
+
+There exist the automotive version with type number SHT4xA.
+This device is compatible but should be used less as it has a maximum 
+heater duty cycle of 5%.
+
+Since 0.1.3 a derived class **SHT4xAutomotive** has been implemented to
+guard this 5% duty cycle heating limit.
+There are no other derived classes for specific automotive sensors (yet).
+
+The automotive sensors only use address 0x44 and 0x45.
 
 
 ## I2C
@@ -84,8 +103,9 @@ for all the different SHT4x sensors. Check latest datasheet for details.
 |  SHT41   |  0x44              |
 |  SHT43   |  0x44, 0x45        |
 |  SHT45   |  0x44              |
+|  SHT4xA  |  0x44, 0x45        |  automotive
 
-(datasheet table 12)
+(datasheet SHT4x, table 12)
 
 When using the SHT4x class one should be aware that not all addresses are allowed for all sensors.
 
@@ -121,8 +141,8 @@ SHT series temperature sensors
 
 Other temperature sensors
 
-- https://github.com/RobTillaart/DHTNew DHT11/22 etc
-- https://github.com/RobTillaart/DHTStable DHT11/22 etc
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc.
+- https://github.com/RobTillaart/DHTStable DHT11/22 etc.
 - https://github.com/RobTillaart/DHT_Simulator
 - https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
 - https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
@@ -284,6 +304,8 @@ CRCCheck == false, => no CRC check, faster.
 
 #### Wont
 - type indicator derived classes (00=BASE, 40,41,43,45)?
+  - automotive version detection (can't have address 0x46)
+- add getKelvin()
 
 
 ## Support

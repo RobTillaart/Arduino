@@ -1,6 +1,6 @@
 {
   "name": "SHT4x",
-  "keywords": "SHT4x,SHT40,SHT41,SHT43,SHT45,Temperature,Humidity,I2C",
+  "keywords": "SHT4x,SHT40,SHT41,SHT43,SHT45,SHT4xA,Temperature,Humidity,I2C",
   "description": "Arduino library for the I2C SHT4x temperature and humidity sensor",
   "authors":
   [
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/SHT4x"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

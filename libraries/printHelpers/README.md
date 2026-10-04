@@ -177,7 +177,8 @@ Values printed with **eng()** do not always look pretty in column output.
 This is due to the exponent power of 3. However its output translates easy to
 thousands, millions, billions, and millis, micros, nano etc. which are powers of 3.
 When the flag **rightAlign** is set to true, one or two spaces are added if needed.
-This results in decimal point aligned columns (experimental since 0.5.1)
+This results in decimal point aligned columns (experimental since 0.5.1,
+fixed for negative values in 0.6.0)
 
 - **char \* scieng(double value, uint8_t decimals, uint8_t exponentMultiple)** converts a
 float or double to a char array.
@@ -196,7 +197,7 @@ the function **scieng()** will print e.g. x.xxxxxE+00, with the exponent set to 
 Although this is technically a bug it could be a feature for someone.
 So I decided to leave this behaviour in the code.
 
-Note: **scieng()** checks for, and can return "nan", "-inf" and "inf".
+Note: **scieng()** checks for, and can return "nan", "-inf" and "+inf".
 
 
 ### toBytes()
@@ -376,7 +377,8 @@ There is no **roman2integer()** function (yet).
 ### Distance feet inch
 
 Note that both inch and feet should be positive or zero.
-A negative value will return an error ("E-NEG").
+Since 0.6.0 negative values are supported. 
+So there is no error "E-NEG" any more.
 
 - **char \* printInch(float inch, uint16_t step = 16)** prints a float inch distance 
 default in sixteenth ```a b/16```.
@@ -501,12 +503,15 @@ This version needs more testing / verification e.g. in RTOS.
 
 - **toBytes(double value, uint8_t decimals = 2)**
 
-### hex() bin()
+### hex()
 
 - **hex(uint64_t value, uint8_t digits = 16)**
 - **hex(uint32_t value, uint8_t digits = 8)**
 - **hex(uint16_t value, uint8_t digits = 4)**
 - **hex(uint8_t value, uint8_t digits = 2)**
+
+### bin()
+
 - **bin(uint64_t value, uint8_t digits = 64)**
 - **bin(uint32_t value, uint8_t digits = 32)**
 - **bin(uint16_t value, uint8_t digits = 16)**
@@ -539,7 +544,7 @@ This version needs more testing / verification e.g. in RTOS.
 
 ### Units()
 
-- **units(float value, uint8_t decimals, const char \* units)**
+- **units(double value, uint8_t decimals, const char \* units)**
 
 
 ----
@@ -553,38 +558,44 @@ This version needs more testing / verification e.g. in RTOS.
 #### Should
 
 - test and verify printHelpersMT
+- implement missing helpers in printHelpersMT
+  - hexDumpLine8/16
 - implement printHelpersMT.h unit tests
   - rewrite of current needed
 - improve readability of the code
   - em ==> exponentFactor?
 - fraction has a static buffer => use shared PRINTBUFFER??
 
-
 #### Could
 
 - investigate **dec(value, digits)** to have leading spaces.
-- investigate **bin(float)** to dump floats?
-  - "sign, mantissa, exponent bits"
-  - like this "s0 m0111010 e100010" (right length)
 - investigate separators in **hex()**
   - space per 8, 4 or 2
 - optimize **char \* hex(uint8_t / uint16_t ...)**
-- **base64** representation
+- investigate **base64** representation
   - base64(float)
   - base64(double)
   - base64(any type) 
   - type debase64(type, string);
-  - needs investigation
-- implement **roman2integer()**?
-- hexDumpLine features
+- investigate **hexDumpLine()** features
   - add XOR checksum per line
   - make address optional.
   - split in 2 functions - array as HEX, array as TEXT
     and make hexDumpLine a wrapper.
   - column ADDRESS only 4 positions 0x0000..0xFFFF
+- **printInch()**, **printFeet()** are float
+  - align to double only? 
+  - accuracy decimals?  whole part is 4e9 max.
 
-#### Wont
 
+#### Wont (unless)
+
+- implement **roman2integer()**?
+- investigate **bin(float)** to dump floats?
+  - "sign, mantissa, exponent bits"
+  - like this "s0 m0111010 e100010" (right length)
+  - **bin(double)** too?
+  - more debugging tools IEEE754 helpers
 - is there need for Scientific or Engineering integers?
   - this just works! (OK some loss of precision.
 - add **oct()** along BIN, HEX

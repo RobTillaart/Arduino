@@ -126,7 +126,7 @@ void setup()
   Serial.println("Distance");
   for (float f = 1e-6; f < 1e13; f *= 11.1)
   {
-    Serial.println(units(f, 1, "Meter"));
+    Serial.println(units(f, 1, "Meter"));  //  note: SI unit is m
   }
   Serial.println();
 

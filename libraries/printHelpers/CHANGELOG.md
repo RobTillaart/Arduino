@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [0.6.0] - 2026-10-01
+- fix #34, right align eng() for negative values.
+- add unit test for #34, test_eng_right_align
+- change "inf" into "+inf" to be more explicit.
+  - update unit test
+- support negative numbers for printInch() and printFeet()
+  - update unit tests
+- change units(float, ...) to units(double, ...) for the decimals
+- update readme.md
+- fix frameworks in library.json
+- minor edits
+
+----
+
 ## [0.5.3] - 2026-07-17
 - fix #32, use printHelpersMT in printf().
 - add hexDumpLine8() and hexDumpLine16() - (experimental)
@@ -20,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - minor edits
 
 ## [0.5.1] - 2025-12-29
-- fix #26, add units() e.g. to replace E+xx => mVolt 
+- fix #26, add units() e.g. to replace E+xx => mVolt
 - fix #27, add rightAlign to eng() notation.
 - update examples
 - update GitHub actions

@@ -17,7 +17,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.5.3"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.6.0"))
 #endif
 
 
@@ -171,7 +171,7 @@ class scieng
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        else strcpy(buffer, "inf");
+        else strcpy(buffer, "+inf");
         return;
       }
 
@@ -268,10 +268,15 @@ class eng : public scieng
        : scieng(value, decimals, 3)
     {
       if (rightAlign == false) return;
-      //  right align, adding 0,1 or 2 spaces
+      //  right align, adding 0, 1 or 2 spaces
       uint8_t len = strlen(buffer);
       //  spaces = length - len;
       uint8_t spaces = 7 - len;
+      if ((buffer[0] == '-') || (buffer[0] == '+'))
+      {
+        spaces++;  //  include sign bit
+      }
+
       if (decimals > 0) spaces += (decimals + 1);
       if (spaces)
       {
@@ -325,7 +330,8 @@ class toBytes
       }
       if (isinf(value))
       {
-        strcpy(buffer, "inf");
+        if (value < 0) strcpy(buffer, "-inf");
+        strcpy(buffer, "+inf");
         return;
       }
 
@@ -399,6 +405,7 @@ class hex
         buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
       }
     }
+
     hex(uint32_t value, uint8_t digits = 8)
     {
       uint32_t val = value;
@@ -411,6 +418,7 @@ class hex
         buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
       }
     }
+
     hex(uint16_t value, uint8_t digits = 4)
     {
       uint16_t val = value;
@@ -423,6 +431,7 @@ class hex
         buffer[digits] = (v < 10) ? '0' + v : ('A' - 10) + v;
       }
     }
+
     hex(uint8_t value, uint8_t digits = 2)
     {
       uint8_t val = value;
@@ -465,6 +474,7 @@ class bin
         val >>= 1;
       }
     }
+
     bin(uint32_t value, uint8_t digits = 32)
     {
       uint32_t val = value;
@@ -476,6 +486,7 @@ class bin
         val >>= 1;
       }
     }
+
     bin(uint16_t value, uint8_t digits = 16)
     {
       uint16_t val = value;
@@ -487,6 +498,7 @@ class bin
         val >>= 1;
       }
     }
+
     bin(uint8_t value, uint8_t digits = 8)
     {
       uint8_t val = value;
@@ -584,7 +596,6 @@ class toRoman
 ////////////////////////////////////////////////////////////
 //
 //  Distances
-//  Experimental
 //
 //  step == 2,4,8,16,32,64,128,256 (default 16)
 class printInch
@@ -595,12 +606,9 @@ class printInch
   public:
     printInch(float inch, uint16_t step = 16)
     {
-      if (inch < 0)
-      {
-        //  cannot handle negative numbers.
-        strcpy(buffer, "E-NEG");
-        return;
-      }
+      bool neg = (inch < 0);
+      if (neg) inch = -inch;
+
       uint32_t whole = inch;
       uint8_t num = round((inch - whole) * step);
       if (num == step)
@@ -616,12 +624,24 @@ class printInch
         den >>= 1;
       }
 
+      if (neg)
+      {
 #if defined(ESP32)
-      //  ESP32 does not support %ld  or ltoa()
-      sprintf(buffer, "%d %d/%d", whole, num, den);
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "-%d %d/%d", whole, num, den);
 #else
-      sprintf(buffer, "%ld %d/%d", whole, num, den);
+        sprintf(buffer, "-%ld %d/%d", whole, num, den);
 #endif
+      }
+      else
+      {
+#if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
+        sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
+      }
       return;
     }
 
@@ -639,12 +659,9 @@ class printFeet
   public:
     printFeet(float feet)
     {
-       if (feet < 0)
-      {
-        //  cannot handle negative numbers.
-        strcpy(buffer, "E-NEG");
-        return;
-      }
+      bool neg = (feet < 0);
+      if (neg) feet = -feet;
+
       uint32_t ft = feet;
       uint8_t inch = round((feet - ft) * 12);
       if (inch == 12)
@@ -652,12 +669,25 @@ class printFeet
         ft++;
         inch = 0;
       }
-    #if defined(ESP32)
-      //  ESP32 does not support %ld  or ltoa()
-      sprintf(buffer, "%d\'%d\"", ft, inch);
-    #else
-      sprintf(buffer, "%ld\'%d\"", ft, inch);
-    #endif
+
+      if (neg)
+      {
+ #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "-%d\'%d\"", ft, inch);
+#else
+        sprintf(buffer, "-%ld\'%d\"", ft, inch);
+#endif
+      }
+      else
+      {
+ #if defined(ESP32)
+        //  ESP32 does not support %ld  or ltoa()
+        sprintf(buffer, "%d\'%d\"", ft, inch);
+#else
+        sprintf(buffer, "%ld\'%d\"", ft, inch);
+#endif
+      }
       return;
     }
 
@@ -670,7 +700,6 @@ class printFeet
 ////////////////////////////////////////////////////////////
 //
 //  Comma Separated Integers
-//  Experimental
 //
 //  - merge if possible 64-32  signed-unsigned
 //  - performance (use divmod10?)
@@ -715,6 +744,7 @@ class csi
       }
       return;
     }
+
     csi(int32_t value, char separator = ',')
     {
       int32_t val = value;
@@ -749,14 +779,17 @@ class csi
       }
       return;
     }
+
     csi(int16_t value, char separator = ',')
     {
       csi((int32_t) value, separator);
     }
+
     csi(int8_t value, char separator = ',')
     {
       csi((int32_t) value, separator);
     }
+
 
     //  UNSIGNED
     csi(uint64_t value, char separator = ',')
@@ -784,6 +817,7 @@ class csi
       }
       return;
     }
+
     csi(uint32_t value, char separator = ',')
     {
       uint32_t val = value;
@@ -809,14 +843,17 @@ class csi
       }
       return;
     }
+
     csi(uint16_t value, char separator = ',')
     {
       csi((uint32_t) value, separator);
     }
+
     csi(uint8_t value, char separator = ',')
     {
       csi((uint32_t) value, separator);
     }
+
     inline operator char *() __attribute__((always_inline)) {
       return buffer;
     }
@@ -826,7 +863,7 @@ class csi
 ////////////////////////////////////////////////////////////
 //
 //  Fraction
-//  Experimental
+//
 //  Based upon Fraction library -> fractionize()
 //
 class fraction
@@ -845,7 +882,7 @@ class fraction
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        strcpy(buffer, "inf");
+        strcpy(buffer, "+inf");
         return;
       }
       bool negative = false;
@@ -935,6 +972,7 @@ class fraction
       }
       return;
     }
+
     fraction(double value, uint32_t denominator)
     {
       if (isnan(value))
@@ -945,7 +983,7 @@ class fraction
       if (isinf(value))
       {
         if (value < 0) strcpy(buffer, "-inf");
-        strcpy(buffer, "inf");
+        strcpy(buffer, "+inf");
         return;
       }
       bool negative = false;
@@ -1012,14 +1050,14 @@ class fraction
 ////////////////////////////////////////////////////////////
 //
 //  Units
-//  Experimental
+//
 //  adds unit postfix instead of e+xx numbers
 //  uses scieng() under the hood
 //  https://en.wikipedia.org/wiki/Metric_prefix
 class units : public eng
 {
   public:
-    units(float value, uint8_t decimals, const char * units)
+    units(double value, uint8_t decimals, const char * units)
         : eng(value, decimals, true)
     {
       char * buf = buffer;
@@ -1029,24 +1067,24 @@ class units : public eng
       if (strstr(buf, "E+"))
       {
         //  add prefix = "EPTGMK munpfa";
-        if (strstr(buf, "E+18")) strcpy(&buf[len - 4], " E");
-        else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");
-        else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");
-        else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");
-        else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");
-        else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");
-        else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");
+        if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
+        else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
+        else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
+        else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
+        else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
+        else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
+        else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
         else strcat(buf, " ");
       }
       else if (strstr(buf, "E-"))
       {
-        if (strstr(buf, "E-00")) strcpy(&buf[len - 4], "  ");
-        else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");
-        else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");
-        else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");
-        else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");
-        else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");
-        else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");
+        if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
+        else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
+        else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
+        else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
+        else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
+        else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
+        else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
         else strcat(buf, " ");
       }
       strcat(buf, units);
@@ -1056,7 +1094,6 @@ class units : public eng
       return buffer;
     }
 };
-
 
 
 //  -- END OF FILE --

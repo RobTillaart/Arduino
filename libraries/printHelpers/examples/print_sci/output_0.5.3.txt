@@ -1,0 +1,58 @@
+BOARD:  UNO R3
+IDE:    1.8.19
+
+Arduino\libraries\printHelpers\examples\print_sci\print_sci.ino
+PRINTHELPERS_LIB_VERSION: 0.5.3
+
+4
+4
+
+     Mass moon M = 7.34767309E+20
+Speed of light c = 2.99792458E+8
+         Print E = Mc^2 = 6.6037592413026551656653076E+37 
+
+ normal print:	ovf
+Cannot handle floats / doubles > MAXLONG
+
+dtostrf print:	66037584000000000000000000000000000000.0000
+Has no scientific notation
+
+dtostre print:	6.6038e+37
+dtostre print:	6.6037584e+37
+Limited to 7 decimals
+
+    sci print:	6.6038E+37
+    sci print:	6.6037621498107910E+37
+limited only by precision float
+
+    eng print:	66.0376E+36
+    eng print:	66.0376281738281250E+36
+limited only by precision float
+
+scieng() is not meant to use directly
+it works well up exponent multiple of 1..9
+some values for em have their esthetics too.
+
+1	6.60376214E+35
+2	66.03765106E+34
+3	660.37615966E+33
+4	6603.76074218E+32
+5	6.60376167E+35
+6	660376.25000000E+30
+7	6.60376358E+35
+8	6603.76318359E+32
+9	660376256.00000000E+27
+
+eng() aligned
+  6.60376214E+33
+660.37615966E+30
+ 66.03762817E+30
+  6.60376214E+30
+660.37615966E+27
+ 66.03762054E+27
+  6.60376167E+27
+660.37615966E+24
+ 66.03762054E+24
+
+
+done...

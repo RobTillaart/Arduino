@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.5.3
+// VERSION: 0.6.0
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -168,7 +168,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    else strcpy(buffer, "inf");
+    else strcpy(buffer, "+inf");
     return buffer;
   }
 
@@ -178,6 +178,12 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
     buffer[pos++] = '-';
     value = -value;
   }
+  //  Explicit sign
+  // else
+  // {
+    // buffer[pos++] = '+';
+  // }
+
 
   //  Scale exponent to multiple of em
   //  loop can be removed by using pow and log however
@@ -214,7 +220,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
 
   //  print whole part
 #if defined(ESP32)
-  //  ESP32 does not support %ld  or ltoa()
+  //  ESP32 does not support %ld or ltoa()
   itoa(d, &buffer[pos], 10);
 #else
   sprintf(&buffer[pos], "%ld", d);
@@ -261,10 +267,15 @@ char * eng(double value, uint8_t decimals, bool rightAlign)
   {
     return buf;
   }
-  //  right align, adding 0,1 or 2 spaces
+  //  right align, adding 0, 1 or 2 spaces
   uint8_t len = strlen(buf);
   //  spaces = length - len;
   uint8_t spaces = 7 - len;
+  if ((buf[0] == '-') || (buf[0] == '+'))
+  {
+    spaces++;  //  include sign bit
+  }
+
   if (decimals > 0) spaces += (decimals + 1);
   if (spaces)
   {
@@ -319,7 +330,8 @@ char * toBytes(double value, uint8_t decimals)
   }
   if (isinf(value))
   {
-    strcpy(buffer, "inf");
+    if (value < 0) strcpy(buffer, "-inf");
+    strcpy(buffer, "+inf");
     return buffer;
   }
 
@@ -401,7 +413,6 @@ void hexDumpLine8(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, b
   str.println();
 }
 
-
 void hexDumpLine16(Stream &str, uint32_t address, uint8_t *arr, uint8_t length, bool showASCII)
 {
   uint8_t pos = 0;
@@ -471,6 +482,7 @@ char * hex(uint32_t value, uint8_t digits)
 }
 
 char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
+
 char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); };
 
 
@@ -509,6 +521,7 @@ char * bin(uint32_t value, uint8_t digits)
 }
 
 char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
+
 char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); };
 
 
@@ -588,12 +601,9 @@ char * toRoman(int32_t value)
 char * printInch(float inch, uint16_t step)
 {
   char * buffer = __printbuffer;
-  if (inch < 0)
-  {
-    //  cannot handle negative numbers.
-    strcpy(buffer, "E-NEG");
-    return buffer;
-  }
+  bool neg = (inch < 0);
+  if (neg) inch = -inch;
+
   uint32_t whole = inch;
   uint8_t num = round((inch - whole) * step);
   if (num == step)
@@ -609,25 +619,33 @@ char * printInch(float inch, uint16_t step)
     den >>= 1;
   }
 
+  if (neg)
+  {
 #if defined(ESP32)
-  //  ESP32 does not support %ld  or ltoa()
-  sprintf(buffer, "%d %d/%d", whole, num, den);
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d %d/%d", whole, num, den);
 #else
-  sprintf(buffer, "%ld %d/%d", whole, num, den);
+    sprintf(buffer, "-%ld %d/%d", whole, num, den);
 #endif
+  }
+  else
+  {
+#if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "%d %d/%d", whole, num, den);
+#else
+    sprintf(buffer, "%ld %d/%d", whole, num, den);
+#endif
+  }
   return buffer;
 }
-
 
 char * printFeet(float feet)
 {
   char * buffer = __printbuffer;
-  if (feet < 0)
-  {
-    //  cannot handle negative numbers.
-    strcpy(buffer, "E-NEG");
-    return buffer;
-  }
+  bool neg = (feet < 0);
+  if (neg) feet = -feet;
+
   uint32_t ft = feet;
   uint8_t inch = round((feet - ft) * 12);
   if (inch == 12)
@@ -635,12 +653,25 @@ char * printFeet(float feet)
     ft++;
     inch = 0;
   }
+
+  if (neg)
+  {
 #if defined(ESP32)
-  //  ESP32 does not support %ld  or ltoa()
-  sprintf(buffer, "%d\'%d\"", ft, inch);
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "-%d\'%d\"", ft, inch);
 #else
-  sprintf(buffer, "%ld\'%d\"", ft, inch);
+    sprintf(buffer, "-%ld\'%d\"", ft, inch);
 #endif
+  }
+  else
+  {
+#if defined(ESP32)
+    //  ESP32 does not support %ld  or ltoa()
+    sprintf(buffer, "%d\'%d\"", ft, inch);
+#else
+    sprintf(buffer, "%ld\'%d\"", ft, inch);
+#endif
+  }
   return buffer;
 }
 
@@ -735,7 +766,6 @@ char * csi(int8_t value, char separator)
   return csi((int32_t)value, separator);
 }
 
-
 char * csi(uint64_t value, char separator)
 {
   char * buffer = __printbuffer;
@@ -818,7 +848,7 @@ char * fraction(double value)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    strcpy(buffer, "inf");
+    strcpy(buffer, "+inf");
     return buffer;
   }
   bool negative = false;
@@ -909,7 +939,6 @@ char * fraction(double value)
   return buffer;
 }
 
-
 char * fraction(double value, uint32_t denominator)
 {
   static char buffer[20];
@@ -921,7 +950,7 @@ char * fraction(double value, uint32_t denominator)
   if (isinf(value))
   {
     if (value < 0) strcpy(buffer, "-inf");
-    strcpy(buffer, "inf");
+    strcpy(buffer, "+inf");
     return buffer;
   }
   bool negative = false;
@@ -987,7 +1016,7 @@ char * fraction(double value, uint32_t denominator)
 //  uses scieng() under the hood, minimal optimized.
 //  https://en.wikipedia.org/wiki/Metric_prefix
 //
-char * units(float value, uint8_t decimals, const char * units)
+char * units(double value, uint8_t decimals, const char * units)
 {
   char * buf = __printbuffer;
   eng(value, decimals, true);
@@ -996,24 +1025,24 @@ char * units(float value, uint8_t decimals, const char * units)
   if (strstr(buf, "E+"))
   {
     //  add prefix = "EPTGMK munpfa";
-    if (strstr(buf, "E+18")) strcpy(&buf[len - 4], " E");
-    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");
-    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");
-    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");
-    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");
-    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");
-    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");
+    if (strstr(buf, "E+18"))      strcpy(&buf[len - 4], " E");  //  Exa
+    else if (strstr(buf, "E+15")) strcpy(&buf[len - 4], " P");  //  Peta
+    else if (strstr(buf, "E+12")) strcpy(&buf[len - 4], " T");  //  Tera
+    else if (strstr(buf, "E+09")) strcpy(&buf[len - 4], " G");  //  Giga
+    else if (strstr(buf, "E+06")) strcpy(&buf[len - 4], " M");  //  Mega
+    else if (strstr(buf, "E+03")) strcpy(&buf[len - 4], " k");  //  kilo
+    else if (strstr(buf, "E+00")) strcpy(&buf[len - 4], "  ");  //  -
     else strcat(buf, " ");
   }
   else if (strstr(buf, "E-"))
   {
-    if (strstr(buf, "E-00")) strcpy(&buf[len - 4], "  ");
-    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");
-    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");
-    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");
-    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");
-    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");
-    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");
+    if (strstr(buf, "E-00"))      strcpy(&buf[len - 4], "  ");  //  -
+    else if (strstr(buf, "E-03")) strcpy(&buf[len - 4], " m");  //  milli
+    else if (strstr(buf, "E-06")) strcpy(&buf[len - 4], " u");  //  micro
+    else if (strstr(buf, "E-09")) strcpy(&buf[len - 4], " n");  //  nano
+    else if (strstr(buf, "E-12")) strcpy(&buf[len - 4], " p");  //  pico
+    else if (strstr(buf, "E-15")) strcpy(&buf[len - 4], " f");  //  femto
+    else if (strstr(buf, "E-18")) strcpy(&buf[len - 4], " a");  //  atto
     else strcat(buf, " ");
   }
   strcat(buf, units);

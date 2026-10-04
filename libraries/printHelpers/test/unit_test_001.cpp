@@ -66,9 +66,11 @@ unittest(test_sci)
 
   assertEqual(0, strcmp("3.141593E+01", sci(PI * 10, 6)) );
   assertEqual(0, strcmp("2.718282E+01", sci(EULER * 10, 6)) );
+  assertEqual(0, strcmp("-3.141593E+01", sci(-PI * 10, 6)) );
+  assertEqual(0, strcmp("-2.718282E+01", sci(-EULER * 10, 6)) );
 
   float f = 1.0 / 0.0;
-  assertEqual(0, strcmp("inf", sci(f, 4)) );
+  assertEqual(0, strcmp("+inf", sci(f, 4)) );
   f = -1.0 / 0.0;
   assertEqual(0, strcmp("-inf", sci(f, 4)) );
   f = 0.0 / 0.0;
@@ -78,9 +80,6 @@ unittest(test_sci)
 
 unittest(test_eng)
 {
-  int32_t value32 = 1UL << 25;
-
-  fprintf(stderr, "VALUE32 = %d\n", value32);
   fprintf(stderr, "%s\n", eng(PI * 1000, 6));
   fprintf(stderr, "%s\n", eng(PI * 100, 6));
   fprintf(stderr, "%s\n", eng(PI * 10, 6));
@@ -91,6 +90,24 @@ unittest(test_eng)
 
   assertEqual(0, strcmp("3.141593E+03", eng(PI * 1000, 6)) );
   assertEqual(0, strcmp("27.182818E+00", eng(EULER * 10, 6)) );
+}
+
+
+unittest(test_eng_right_align)
+{
+  float value = 1234.5678;
+
+  fprintf(stderr, "VALUE = %f\n", value);
+  fprintf(stderr, "%s\n", eng(value, 3, false));
+  fprintf(stderr, "%s\n", eng(value, 3, true));
+  fprintf(stderr, "%s\n", eng(-value, 3, false));
+  fprintf(stderr, "%s\n", eng(-value, 3, true));
+  fprintf(stderr, "\n");
+
+  assertEqual(0, strcmp("1.235E+03", eng(value, 3, false) ));
+  assertEqual(0, strcmp("  1.235E+03", eng(value, 3, true) ));
+  assertEqual(0, strcmp("-1.235E+03", eng(-value, 3, false) ));
+  assertEqual(0, strcmp("  -1.235E+03", eng(-value, 3, true) ));
 }
 
 
@@ -175,7 +192,6 @@ unittest(test_toRoman_extended)
   assertEqual(0, strcmp("-OVF", toRoman(-100000001L)) );
   //  negative
   assertEqual(0, strcmp("-MCCXXXIV", toRoman(-1234)));
-  
   //  large
   assertEqual(0, strcmp("cxxiiiMMMMDLXVII", toRoman(1234567)));
 }
@@ -184,28 +200,26 @@ unittest(test_toRoman_extended)
 unittest(test_printInch)
 {
   fprintf(stderr, "%s\n", printInch(10.75));
-  assertEqual(0, strcmp("10 3/4", printInch(10.75)));
-
   fprintf(stderr, "%s\n", printInch(0));
-  assertEqual(0, strcmp("0 0/16", printInch(0)));
-
-  //  negative numbers not supported.
   fprintf(stderr, "%s\n", printInch(-5.43));
-  assertEqual(0, strcmp("E-NEG", printInch(-5.43)));
+
+  assertEqual(0, strcmp("10 3/4", printInch(10.75)));
+  assertEqual(0, strcmp("0 0/16", printInch(0)));
+  //  negative numbers (0.6.0)
+  assertEqual(0, strcmp("-5 7/16", printInch(-5.43)));
 }
 
 
 unittest(test_printFeet)
 {
   fprintf(stderr, "%s\n", printFeet(10.75));
-  assertEqual(0, strcmp("10\'9\"", printFeet(10.75)));
-
   fprintf(stderr, "%s\n", printFeet(0));
-  assertEqual(0, strcmp("0\'0\"", printFeet(0)));
-
-  //  negative numbers not supported.
   fprintf(stderr, "%s\n", printFeet(-5.43));
-  assertEqual(0, strcmp("E-NEG", printFeet(-5.43)));
+
+  assertEqual(0, strcmp("10\'9\"", printFeet(10.75)));
+  assertEqual(0, strcmp("0\'0\"", printFeet(0)));
+  //  negative numbers (0.6.0)
+  assertEqual(0, strcmp("-5\'5\"", printFeet(-5.43)));
 }
 
 
@@ -213,7 +227,7 @@ unittest(test_csi)
 {
   fprintf(stderr, "%s\n", csi(123456789));
   assertEqual(0, strcmp("123,456,789", csi(123456789)));
-  
+
   fprintf(stderr, "%s\n", csi(123456789, '_'));
   assertEqual(0, strcmp("123_456_789", csi(123456789, '_')));
 }
@@ -223,13 +237,10 @@ unittest(test_fraction)
 {
   //  positive
   assertEqual(0, strcmp("59/469", fraction(0.1258)) );
-
   //  zero
   assertEqual(0, strcmp("0/1", fraction(0)) );
-
   //  negative
   assertEqual(0, strcmp("-59/469", fraction(-0.1258)) );
-
   //  fixed denumerator
   assertEqual(0, strcmp("1/8", fraction(0.1258, 8)) );
 }

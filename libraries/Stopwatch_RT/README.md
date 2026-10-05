@@ -11,7 +11,7 @@
 
 # Stopwatch_RT
 
-Arduino Library implementing a stopwatch including seconds, milliseconds microseconds.
+Arduino Library implementing a stopwatch including seconds, milliseconds and microseconds.
 
 
 ## Description
@@ -43,10 +43,16 @@ Feedback as always is welcome.
 
 ### Related
 
-- https://github.com/RobTillaart/printHelpers - print time formats and more
+Timing
 - https://github.com/RobTillaart/stopWatch_RT - this library
 - https://github.com/RobTillaart/CountDown - idem
 - https://github.com/RobTillaart/timing - wrappers around millis() and micros()
+- https://github.com/RobTillaart/millis64 
+- https://github.com/RobTillaart/runTime 
+- https://github.com/RobTillaart/DS1682 - event time counter
+
+Other
+- https://github.com/RobTillaart/printHelpers - print time formats and more
 - https://github.com/RobTillaart/map2Colour - mapping a value (time left) to a colour
 
 
@@ -76,8 +82,6 @@ Feedback as always is welcome.
 - **void setResolution(Resolution resolution)** changes the resolution of the stopwatch and resets it. 
 Even when called with the current resolution a reset will take place. 
 - **enum getResolution()** returns MICROS, MILLIS, SECONDS or MINUTES.
-- **enum resolution()** returns MICROS, MILLIS, SECONDS or MINUTES.
-Will be obsolete in future.
 
 
 ### Printable
@@ -101,7 +105,8 @@ the two constants in the StopWatch.h file. Use at your own risk.
 
 ### Obsolete
 
-The use of **value()** is obsolete, use **elapsed()** instead.
+The use of **value()** is obsolete, use **elapsed()** instead.  
+The use of **resolution() ** is deprecated, use **getResolution()** instead.
 
 
 ## Operation

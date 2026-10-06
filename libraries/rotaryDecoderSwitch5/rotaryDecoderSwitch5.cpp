@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoderSwitch5.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2025-01-13
 // PURPOSE: Arduino library for a PCF8575 based rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
@@ -64,6 +64,21 @@ bool rotaryDecoderSwitch5::reset(uint8_t re)
   return true;
 }
 
+//  DIRECTION
+bool rotaryDecoderSwitch5::setDirection(uint8_t re, uint8_t dir)
+{
+  if (re >= ROTDEC_MAX_COUNT) return false;
+  _direction[re] = dir ? 1 : 0;
+  return true;
+}
+
+uint8_t rotaryDecoderSwitch5::getDirection(uint8_t re)
+{
+  if (re >= ROTDEC_MAX_COUNT) return 0;
+  return _direction[re];
+}
+
+//////////
 
 uint16_t rotaryDecoderSwitch5::readInitialState()
 {
@@ -93,7 +108,7 @@ bool rotaryDecoderSwitch5::update()
     return false;
   }
 
- _lastValue = value;
+  _lastValue = value;
   for (uint8_t i = 0; i < _deviceCount; i++, value >>= 3)
   {
     uint8_t currentPos = (value & 0x03);
@@ -168,6 +183,7 @@ bool rotaryDecoderSwitch5::updateSingle()
 int32_t rotaryDecoderSwitch5::getValue(uint8_t re)
 {
   if (re >= ROTDEC_MAX_COUNT) return 0;
+  if (_direction[re]) return - _encoder[re];
   return _encoder[re];
 }
 

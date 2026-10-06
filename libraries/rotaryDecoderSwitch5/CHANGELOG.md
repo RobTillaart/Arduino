@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.1.3] - 2026-10-02
+- fix #5, support for setting rotation direction
+- add bool setDirection(uint8_t re, uint8_t dir = 0)
+- add uint8_t getDirection(uint8_t re)
+- add section about pull up resistors.
+- fix frameworks in library.json
+- minor edits
+
 ## [0.1.2] - 2026-09-16
 - fix #3,
 - add getClicks(), setClicks()

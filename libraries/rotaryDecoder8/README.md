@@ -16,14 +16,15 @@ Arduino library for a PCF8575 based rotary decoder - supports up to 8 rotary enc
 
 ## Description
 
-**Experimental**
-
 This library uses a PCF8575 to read the pulses of one or more rotary encoders.
 As a PCF8575 has 16 IO lines up to 8 rotary encoders can be read over I2C.
 The PCF interrupt line can be used to detect changes in the position of the encoders.
 
-If less than 8 rotary encoders are connected one should use the lower bit lines as the 
-library assumes these are used. Furthermore it is advised to connect the free PCF8575
+If less than 8 rotary encoders are connected one must use the lower bit lines as the 
+library assumes these are used. 
+If you want to use less than 8, and want to be free to choose which set of PCF8574 pins, 
+you must configure 8 devices, and use e.g. re = 1 and re = 3.
+Furthermore it is advised to connect the free PCF8575
 pins to GND so you will not get unintended interrupts.
 
 Note: This library works (limited) with the PCF8574.
@@ -56,14 +57,33 @@ For non linear mapping, see e.g. - https://github.com/RobTillaart/multiMap
 See also Interrupts section below.
 
 
+### Pull up resistors
+
+To improve the quality of the pulses from the rotary encoder to the PCF8574
+one should add pull up resistors on all input lines.
+This includes the non-connected input lines to prevent interrupts due to noise.
+
+The INT (interrupt) line must have a 10 kOhm pull up resistor.
+
+The I2C lines SDA and SCL normally need pull up resistors. 
+Only if there are other devices on the same I2C bus, which already have a
+pull up connected, there is no need to add extra resistors.
+
+Typical values for pull ups for the input lines are 4.7 or 3.3 kOhm.
+In case of (very) long wires the value may even be as low as 1 kOhm.
+
+
 ### Related
 
-- https://github.com/RobTillaart/rotaryDecoder
-- https://github.com/RobTillaart/rotaryDecoderSwitch
-- https://github.com/RobTillaart/rotaryDecoder8
-- https://github.com/RobTillaart/rotaryDecoderSwitch5
-- https://github.com/RobTillaart/PCF8574
-- https://github.com/RobTillaart/PCF8575
+PCF based rotary decoders
+- https://github.com/RobTillaart/rotaryDecoder - up to four rotary encoders
+- https://github.com/RobTillaart/rotaryDecoderSwitch - up to two rotary encoders with switch
+- https://github.com/RobTillaart/rotaryDecoder8 - up to eight rotary encoders
+- https://github.com/RobTillaart/rotaryDecoderSwitch5 - up to five rotary encoders with switch
+
+Supporting devices
+- https://github.com/RobTillaart/PCF8574 - 8 pin IO extender
+- https://github.com/RobTillaart/PCF8575 - 16 pin IO extender
 
 
 ### Hardware
@@ -104,6 +124,22 @@ Reads the device to update the last state.
 - **bool reset(uint8_t re)** reset one rotary encoder counter to 0.
 Reads the device to update the last state.
 If re is out of range, false is returned, nothing is changed.
+
+
+### Direction
+
+Not all rotary encoders are created equal, the direction they use as 
+"increase / positive" may differ.
+Since 0.1.5 the library supports changing the "count" direction.
+
+- **bool setDirection(uint8_t re, uint8_t dir = 0)** dir = 0 is default.
+- **uint8_t getDirection(uint8_t re)**
+
+Note: if one changes the direction there is no reset of the internal counter.
+The user needs to call **reset(re)** manually to start with zero again.
+
+Note: If one wants a permanent swapping of the direction one can swap
+the A and B lines of the rotary encoder.
 
 
 ### Core functions
@@ -276,19 +312,12 @@ way to capture all changes.
 
 #### Should
 
-- test with a high speed drill like a Dremel-tool.
-- should we test against ROTDEC_MAX_COUNT or deviceCount?
-  - used devices are 0..deviceCount-1, so deviceCount is better.
-  - need evaluation per function?
 
 #### Could
 
-- enable flag per rotary encoder?
-  - allows to lock one programmatically.
 
 #### Wont
 
-See rotaryEncoder library.
 
 ## Support
 

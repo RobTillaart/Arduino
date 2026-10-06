@@ -1,8 +1,8 @@
 #pragma once
 //
-//    FILE: rotaryDecoder.h
+//    FILE: rotaryDecoder8.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.5
 //    DATE: 2025-01-06
 // PURPOSE: Arduino library for a PCF8575 based rotary decoder
 //     URL: https://github.com/RobTillaart/rotaryDecoder8
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER8_LIB_VERSION         (F("0.1.3"))
+#define ROTARY_DECODER8_LIB_VERSION         (F("0.1.5"))
 
 const uint8_t ROTDEC_MAX_COUNT = 8;
 
@@ -28,6 +28,10 @@ public:
   uint8_t  getRECount();
   void     reset();            //  reset all counters.
   bool     reset(uint8_t re);  //  reset the specified counter
+  
+  //       0 = CW, other = CCW, setDirection does not reset the counter!
+  bool     setDirection(uint8_t re, uint8_t dir = 0);
+  uint8_t  getDirection(uint8_t re);
 
   uint16_t readInitialState();
 
@@ -74,6 +78,7 @@ protected:
   uint8_t   _lastPos[ROTDEC_MAX_COUNT] = { 0, 0, 0, 0, 0, 0, 0, 0 };
   int32_t   _encoder[ROTDEC_MAX_COUNT] = { 0, 0, 0, 0, 0, 0, 0, 0 };
   uint8_t   _stepsPerClick[ROTDEC_MAX_COUNT] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+  uint8_t   _direction[ROTDEC_MAX_COUNT] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
   uint8_t   _address;
   TwoWire * _wire;

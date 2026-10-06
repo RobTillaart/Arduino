@@ -111,6 +111,31 @@ unittest(test_eng_right_align)
 }
 
 
+unittest(test_fixed_length)
+{
+  float value = 1234.5678;
+
+  fprintf(stderr, "VALUE = %f\n", value);
+  fprintf(stderr, "%s\n", fixedLength(value, 5, true));
+  fprintf(stderr, "%s\n", fixedLength(value, 5, false));
+  fprintf(stderr, "\n");
+
+  assertEqual(0, strcmp("1235 ",  fixedLength(value, 5, true) ));
+  assertEqual(0, strcmp("1234 ",  fixedLength(value, 5, false) ));
+  assertEqual(0, strcmp("1234.6", fixedLength(value, 6, true) ));
+  assertEqual(0, strcmp("1234.5", fixedLength(value, 6, false) ));
+
+  fprintf(stderr, "\nLength error\n");
+  assertEqual(0, strcmp("E",   fixedLength(value, 0, false) ));
+  assertEqual(0, strcmp("E",   fixedLength(value, 9, false) ));
+
+  fprintf(stderr, "\nOverflow\n");
+  assertEqual(0, strcmp("+++", fixedLength(value, 3, false) ));
+  assertEqual(0, strcmp("---", fixedLength(-value, 3, false) ));
+
+}
+
+
 unittest(test_print64)
 {
   int64_t value64 = 1ULL << 35;

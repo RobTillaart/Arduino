@@ -10,6 +10,8 @@ sci	KEYWORD2
 eng	KEYWORD2
 scieng	KEYWORD2
 
+fixedLength	KEYWORD2
+
 toBytes	KEYWORD2
 
 hexDumpLine8	KEYWORD2

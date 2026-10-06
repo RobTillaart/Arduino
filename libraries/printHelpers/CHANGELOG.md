@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.1] - 2026-10-04
+- fix #36, add fixedLength(float, length, rounding).
+- add fixedLength(float, length, rounding) - multi-threaded version.
+- add example print_fixedLength.ino with some test cases.
+- add example print_fixedLengthMT.ino
+- add unit test (start) for fixedLength()
+- update readme.md
+- minor edits
+
 ## [0.6.0] - 2026-10-01
 - fix #34, right align eng() for negative values.
 - add unit test for #34, test_eng_right_align

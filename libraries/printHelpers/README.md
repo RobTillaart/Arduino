@@ -23,6 +23,7 @@ data in a way not supported in the standard print library of the Arduino.
 - **char \* sci()** returns a string in scientific format - exponent has step 1.
 - **char \* eng()** returns a string in engineering format - exponent has step 3. Optional right aligned.
 - **char \* scieng()** returns a string in exponential format - exponent has step 1 to 9.
+- **char \* fixedLength()** returns a string of fixed length float, decimals may vary.
 - **char \* toBytes()** returns a string in KB MB GB etc.
 - **char \* hex()** returns hexadecimal output with **leading zeros** up to **uint64_t**.
 - **char \* bin()** returns binary output with **leading zeros** up to **uint64_t**.
@@ -198,6 +199,27 @@ Although this is technically a bug it could be a feature for someone.
 So I decided to leave this behaviour in the code.
 
 Note: **scieng()** checks for, and can return "nan", "-inf" and "+inf".
+
+
+### fixedLength()
+
+Experimental in 0.6.1, limited tested on UNO R3
+
+- **char \* fixedLength(float value, uint8_t maxLength, bool rounding = true)**
+The value is a number that should fit within maxLength characters.
+The maximum length is 1 to 8 positions. => otherwise error "E". 
+Typical values for maxLength are 3..7. As a float has max 7 digits of accuracy,
+a maxLength of 8 can show the edge of the internal accuracy.
+If rounding is false => truncating is used.
+If the number does not fit or is out of range +++ or --- is returned to indicate
+a positive or negative overflow.
+
+Goal is to format a float with the same number of characters.
+This is typical used for use on a display, or to get "nice" columns.
+The number of decimals printed may vary. 
+If there is no room for decimals the decimal point is replaced by a space.
+The user can choose between rounding and truncating, the first is more accurate, 
+the latter is faster. Default is rounding.
 
 
 ### toBytes()
@@ -499,6 +521,11 @@ This version needs more testing / verification e.g. in RTOS.
 - **sci(double value, uint8_t decimals)**
 - **eng(double value, uint8_t decimals)**
 
+### fixedLength()
+
+- **fixedLength(float value, uint8_t maxLength, bool rounding = true)**
+
+
 ### toBytes()
 
 - **toBytes(double value, uint8_t decimals = 2)**
@@ -586,7 +613,10 @@ This version needs more testing / verification e.g. in RTOS.
 - **printInch()**, **printFeet()** are float
   - align to double only? 
   - accuracy decimals?  whole part is 4e9 max.
-
+- extend **fixedLength()** to support 8 byte double.
+  - would allows more precise values fitting in an uint32_t.
+  - scientific format might be more useful here...so...
+- optimize performance **fixedLength()** if possible.
 
 #### Wont (unless)
 

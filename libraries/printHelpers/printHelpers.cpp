@@ -2,7 +2,7 @@
 //    FILE: printHelpers.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -223,7 +223,7 @@ char * scieng(double value, uint8_t decimals, uint8_t em)
   //  ESP32 does not support %ld or ltoa()
   itoa(d, &buffer[pos], 10);
 #else
-  sprintf(&buffer[pos], "%ld", d);
+  sprintf(&buffer[pos], "%lu", d);
 #endif
   //  how far is the buffer filled?
   pos = strlen(buffer);
@@ -296,6 +296,108 @@ char * sci(double value, uint8_t decimals)
 size_t sci(Stream &str, double value, uint8_t decimals)
 {
   return str.print(sci(value, decimals));
+}
+
+
+////////////////////////////////////////////////////////////
+//
+//  fixedLength()
+//  Experimental
+//
+char * fixedLength(float value, uint8_t maxLength, bool rounding)
+{
+  //  reference implementation (06)
+  //  might be more performance optimized.
+  char *  buffer   = __printbuffer;
+
+  //  check maxLength parameter
+  if ((maxLength < 1) || (maxLength > 8))
+  {
+    strcpy(buffer, "E");
+    return buffer;
+  }
+
+  //  detect negative values
+  bool negative = (value < 0);
+  if (negative) value = -value;
+
+  //  track print position.
+  uint8_t pos = 0;
+  //  handle sign
+  if (negative)
+  {
+    buffer[pos++] = '-';
+  }
+
+  //  whole part
+  uint32_t whole = value;
+  //  test > maxLenth 8 positions
+  if ((whole > 99999999UL) || (value - whole > 1))
+  {
+    if (negative) strcpy(buffer, "---");
+    else          strcpy(buffer, "+++");
+    return buffer;
+  }
+#if defined(ESP32)
+  itoa(whole, &buffer[pos], 10);
+#else
+  sprintf(&buffer[pos], "%lu", whole);
+#endif
+  pos = strlen(buffer);
+
+  if (rounding == true)
+  {
+    //  calc rounding factor
+    float rf = 0.5f;
+    //  scale rounding factor for decimals left
+    for (uint8_t i = 1; i < maxLength - pos; i++) rf *= 0.1f;
+    //  add rounding factor
+    value += rf;
+    //  redo whole part with rounded value if whole part is different
+    //  this is relative expensive.
+    uint32_t v = value;
+    if (v != whole)
+    {
+      whole = v;
+      pos = 0;
+      if (negative) pos++;
+#if defined(ESP32)
+      itoa(whole, &buffer[pos], 10);
+#else
+      sprintf(&buffer[pos], "%lu", whole);
+#endif
+      pos = strlen(buffer);
+    }
+  }
+
+  //  check value does not fit.
+  if (pos > maxLength)
+  {
+    if (negative) strcpy(buffer, "---");
+    else          strcpy(buffer, "+++");
+    return buffer;
+  }
+
+  //  decimal part
+  float dp = value - whole;
+  if (pos + 1 == maxLength)
+  {
+    buffer[pos++] = ' ';  //  no place for decimals, so no point
+  }
+  if (pos < maxLength)
+  {
+    buffer[pos++] = '.';
+  }
+  while (pos < maxLength)
+  {
+    dp *= 10.0f;
+    uint8_t digit = dp;
+    dp -= digit;
+    buffer[pos++] = digit + '0';
+  }
+  //  end of array
+  buffer[pos] = 0;
+  return buffer;
 }
 
 
@@ -481,9 +583,15 @@ char * hex(uint32_t value, uint8_t digits)
   return buffer;
 }
 
-char * hex(uint16_t value, uint8_t digits) { return hex((uint32_t) value, digits); };
+char * hex(uint16_t value, uint8_t digits)
+{
+  return hex((uint32_t) value, digits);
+}
 
-char * hex(uint8_t value, uint8_t digits)  { return hex((uint32_t) value, digits); };
+char * hex(uint8_t value, uint8_t digits)
+{
+  return hex((uint32_t) value, digits);
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -520,9 +628,15 @@ char * bin(uint32_t value, uint8_t digits)
   return buffer;
 }
 
-char * bin(uint16_t value, uint8_t digits) { return bin((uint32_t) value, digits); };
+char * bin(uint16_t value, uint8_t digits)
+{
+  return bin((uint32_t) value, digits);
+}
 
-char * bin(uint8_t value, uint8_t digits)  { return bin((uint32_t) value, digits); };
+char * bin(uint8_t value, uint8_t digits)
+{
+  return bin((uint32_t) value, digits);
+}
 
 
 ////////////////////////////////////////////////////////////
@@ -623,18 +737,18 @@ char * printInch(float inch, uint16_t step)
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d %d/%d", whole, num, den);
+    sprintf(buffer, "-%u %d/%d", whole, num, den);
 #else
-    sprintf(buffer, "-%ld %d/%d", whole, num, den);
+    sprintf(buffer, "-%lu %d/%d", whole, num, den);
 #endif
   }
   else
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "%d %d/%d", whole, num, den);
+    sprintf(buffer, "%u %d/%d", whole, num, den);
 #else
-    sprintf(buffer, "%ld %d/%d", whole, num, den);
+    sprintf(buffer, "%lu %d/%d", whole, num, den);
 #endif
   }
   return buffer;
@@ -658,18 +772,18 @@ char * printFeet(float feet)
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "-%d\'%d\"", ft, inch);
+    sprintf(buffer, "-%u\'%d\"", ft, inch);
 #else
-    sprintf(buffer, "-%ld\'%d\"", ft, inch);
+    sprintf(buffer, "-%lu\'%d\"", ft, inch);
 #endif
   }
   else
   {
 #if defined(ESP32)
     //  ESP32 does not support %ld  or ltoa()
-    sprintf(buffer, "%d\'%d\"", ft, inch);
+    sprintf(buffer, "%u\'%d\"", ft, inch);
 #else
-    sprintf(buffer, "%ld\'%d\"", ft, inch);
+    sprintf(buffer, "%lu\'%d\"", ft, inch);
 #endif
   }
   return buffer;
@@ -766,6 +880,7 @@ char * csi(int8_t value, char separator)
   return csi((int32_t)value, separator);
 }
 
+//  UNSIGNED
 char * csi(uint64_t value, char separator)
 {
   char * buffer = __printbuffer;

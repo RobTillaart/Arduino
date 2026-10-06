@@ -3,7 +3,7 @@
 //    FILE: printHelpers.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2018-01-21
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Arduino library to help formatting for printing.
 //     URL: https://github.com/RobTillaart/printHelpers
 
@@ -13,7 +13,7 @@
 
 
 #ifndef PRINTHELPERS_LIB_VERSION
-#define PRINTHELPERS_LIB_VERSION  (F("0.6.0"))
+#define PRINTHELPERS_LIB_VERSION  (F("0.6.1"))
 #endif
 
 
@@ -61,6 +61,21 @@ char * eng(double value, uint8_t decimals, bool rightAlign = false);
 char * sci(double value, uint8_t decimals);
 
 size_t sci(Stream &str, double value, uint8_t decimals);
+
+
+////////////////////////////////////////////////////////////
+//
+//  fixedLength()
+//
+//  user must check if the value is within min-max range
+//  e.g. range might not be symmetrical -273..2000
+//  maximum value in theory 99.999.999, however it is converted to 100.000.000
+//          99.999.995 works with length 8 => shows 99999992 !!!
+//  maxLength = 1..8 as floats have max 6-7 significant digits + decimal point
+//  7 digits can already show failing accuracy.
+//  returns E if maxLength out of range
+//  returns --- or +++ for overflow errors 
+char * fixedLength(float value, uint8_t maxLength, bool rounding = true);
 
 
 ////////////////////////////////////////////////////////////

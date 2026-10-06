@@ -2,7 +2,7 @@
 //
 //    FILE: rotaryDecoderSwitch.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.4.2
+// VERSION: 0.4.3
 //    DATE: 2021-05-17
 // PURPOSE: Arduino library for a PCF8574 based rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch
@@ -11,7 +11,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define ROTARY_DECODER_SWITCH_LIB_VERSION         (F("0.4.2"))
+#define ROTARY_DECODER_SWITCH_LIB_VERSION         (F("0.4.3"))
 
 const uint8_t ROTDEC_MAX_COUNT = 2;
 
@@ -28,6 +28,10 @@ public:
   uint8_t  getRECount();
   void     reset();            //  reset all counters.
   bool     reset(uint8_t re);  //  reset the specified counter
+  
+  //       0 = CW, other = CCW, setDirection does not reset the counter!
+  bool     setDirection(uint8_t re, uint8_t dir = 0);
+  uint8_t  getDirection(uint8_t re);
 
   uint8_t  readInitialState();
 
@@ -75,6 +79,7 @@ protected:
   uint8_t   _lastPos[ROTDEC_MAX_COUNT] = { 0, 0 };
   int32_t   _encoder[ROTDEC_MAX_COUNT] = { 0, 0 };
   uint8_t   _stepsPerClick[ROTDEC_MAX_COUNT] = { 1, 1 };
+  uint8_t   _direction[ROTDEC_MAX_COUNT] = { 0, 0 };
 
   uint8_t   _address;
   TwoWire * _wire;

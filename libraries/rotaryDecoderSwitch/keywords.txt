@@ -13,6 +13,9 @@ getRECount	KEYWORD2
 reset	KEYWORD2
 readInitialState	KEYWORD2
 
+setDirection	KEYWORD2
+getDirection	KEYWORD2
+
 checkChange	KEYWORD2
 update	KEYWORD2
 updateSingle	KEYWORD2

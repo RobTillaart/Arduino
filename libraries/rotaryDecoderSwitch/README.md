@@ -20,9 +20,12 @@ This library uses a PCF8574 to read the pulses of one or more rotary encoders.
 As a PCF8574 has 8 lines up to 2 rotary encoders with a switch can be read over I2C.
 The PCF interrupt line can be used to detect changes in the position of the encoders or if a switch is pressed.
 
-If only 1 rotary encoders is connected one should use the lower bit lines as the 
-library assumes these are used. Furthermore it is advised to connect the free PCF8574
+If only 1 rotary encoders is connected one must use the lower bit lines as the 
+library assumes these are used. 
+Furthermore it is advised to connect the free PCF8574
 pins to GND so you will not get unintended interrupts.
+
+Note: This library works (limited) with the PCF8575 (lower half).
 
 As always, feedback is welcome.
 
@@ -52,14 +55,33 @@ For non linear mapping, see e.g. - https://github.com/RobTillaart/multiMap
 See also Interrupts section below.
 
 
+### Pull up resistors
+
+To improve the quality of the pulses from the rotary encoder to the PCF8574
+one should add pull up resistors on all input lines.
+This includes the non-connected input lines to prevent interrupts due to noise.
+
+The INT (interrupt) line must have a 10 kOhm pull up resistor.
+
+The I2C lines SDA and SCL normally need pull up resistors. 
+Only if there are other devices on the same I2C bus, which already have a
+pull up connected, there is no need to add extra resistors.
+
+Typical values for pull ups for the input lines are 4.7 or 3.3 kOhm.
+In case of (very) long wires the value may even be as low as 1 kOhm.
+
+
 ### Related
 
-- https://github.com/RobTillaart/rotaryDecoder
-- https://github.com/RobTillaart/rotaryDecoderSwitch
-- https://github.com/RobTillaart/rotaryDecoder8
-- https://github.com/RobTillaart/rotaryDecoderSwitch5
-- https://github.com/RobTillaart/PCF8574
-- https://github.com/RobTillaart/PCF8575
+PCF based rotary decoders
+- https://github.com/RobTillaart/rotaryDecoder - up to four rotary encoders
+- https://github.com/RobTillaart/rotaryDecoderSwitch - up to two rotary encoders with switch
+- https://github.com/RobTillaart/rotaryDecoder8 - up to eight rotary encoders
+- https://github.com/RobTillaart/rotaryDecoderSwitch5 - up to five rotary encoders with switch
+
+Supporting devices
+- https://github.com/RobTillaart/PCF8574 - 8 pin IO extender
+- https://github.com/RobTillaart/PCF8575 - 16 pin IO extender
 
 
 ### Hardware
@@ -95,9 +117,9 @@ See also Interrupts section below.
 - **rotaryDecoderSwitch(const int8_t address, TwoWire \*wire = Wire)**
 constructor to set the address and optional the Wire bus.
 - **bool begin(uint8_t deviceCount = 2)** UNO ea. initializes the class. 
-deviceCount is the number of rotary encoders connected.
-Returns true if the PCF8574 is on the I2C bus.
-- **bool isConnected()** returns true if the PCF8574 is on the I2C bus.
+deviceCount is the number of rotary encoders connected. (Max 2 per PCF8574)
+Returns true if the PCF8574 address is found on the I2C bus.
+- **bool isConnected()** returns true if the PCF8574 address is found on the I2C bus.
 - **uint8_t getRECount()** returns number of rotary encoders from begin(), 
 convenience e.g. for for loops.
 - **void reset()** reset all internal counters to 0.
@@ -105,6 +127,22 @@ Reads the device to update the last state.
 - **bool reset(uint8_t re)** reset one rotary encoder counter to 0.
 Reads the device to update the last state.
 If re is out of range, false is returned, nothing is changed.
+
+
+### Direction
+
+Not all rotary encoders are created equal, the direction they use as 
+"increase / positive" may differ.
+Since 0.4.3 the library supports changing the "count" direction.
+
+- **bool setDirection(uint8_t re, uint8_t dir = 0)** dir = 0 is default.
+- **uint8_t getDirection(uint8_t re)**
+
+Note: if one changes the direction there is no reset of the internal counter.
+The user needs to call **reset(re)** manually to start with zero again.
+
+Note: If one wants a permanent swapping of the direction one can swap
+the A and B lines of the rotary encoder.
 
 
 ### Core functions
@@ -191,6 +229,9 @@ input pins this is faster but need some bit masking.
 - **bool write8(uint8_t bitMask)** writes to multiple pins at once, e.g. to control multiple
 LEDs in one IO action. As said before the user must guard not to interfere with the
 rotary encoder pins.
+
+A typical use-case is to use the 3 lower pins for 1 rotary encoder,
+and the upper 5 for other IO.
 
 
 ### Debugging

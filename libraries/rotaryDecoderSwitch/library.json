@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/rotaryDecoderSwitch.git"
   },
-  "version": "0.4.2",
+  "version": "0.4.3",
   "license": "MIT",
-  "frameworks": "*",
+  "frameworks": "Arduino",
   "platforms": "*",
   "headers": "rotaryDecoderSwitch.h"
 }

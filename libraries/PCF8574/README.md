@@ -60,6 +60,8 @@ This implies that polling the PCF8574 can miss an INT in scenario 1. (see #48)
 In practice if you have faster polling than your signals changes this would not
 be a problem. E.g. tactile switches and a polling frequency > 100 Hz will work.
 
+Note: Use pull-up or pull-down resistors so the IO lines have a defined state at startup.
+
 
 ### Interrupts library
 
@@ -96,7 +98,6 @@ before calling **begin()**.
 ### Related
 
 16 bit port expanders
-
 - https://github.com/RobTillaart/MCP23017_RT  I2C 16 IO lines.
 - https://github.com/RobTillaart/MCP23S17  SPI 16 IO lines.
 - https://github.com/RobTillaart/PCF8575  I2C 16 IO lines.
@@ -104,17 +105,21 @@ before calling **begin()**.
 - https://github.com/RobTillaart/TCA9555  I2C 16 IO lines.
 
 8 bit port expanders
-
 - https://github.com/RobTillaart/MCP23008  I2C 8 IO lines.
 - https://github.com/RobTillaart/MCP23S08  SPI 8 IO lines.
 - https://github.com/RobTillaart/PCF8574  I2C 8 IO lines.
 - https://github.com/RobTillaart/TCA9554  I2C 8 IO lines.
 
 Other libs based upon PCF8574
+- https://github.com/RobTillaart/I2C_HC4067 - multiplexer 1x16
+- https://github.com/RobTillaart/I2CKeyPad - 4x4 keypad
+- https://github.com/RobTillaart/I2C_LCD - 20x4 LCD
+- https://github.com/RobTillaart/PIR - 8 channel PIR detection
+- https://github.com/RobTillaart/rotaryDecoder - max 4 RE in parallel
+- https://github.com/RobTillaart/rotaryDecoderSwitch - max 2 RE with switch
 
-- https://github.com/RobTillaart/I2CKeyPad
-- https://github.com/RobTillaart/rotaryDecoder
-- https://github.com/RobTillaart/rotaryDecoderSwitch
+Backgrounder
+- https://www.flywing-tech.com/blog/pcf8574-i2c-address-pinout-interfacing-guide-2026-update/
 
 
 ## I2C
@@ -162,7 +167,7 @@ too if they are behind the multiplexer.
 ```
 
 **PCF8574_INITIAL_VALUE** is a define 0xFF that can be set compile time or before
-the include of "pcf8574.h" to overrule the default value used with the **begin()** call.
+the include of "PCF8574.h" to overrule the default value used with the **begin()** call.
 
 
 ### Constructor
@@ -305,11 +310,23 @@ This can typical be used to implement a VU meter.
 |  PCF8574_I2C_ERROR  |  0x82   |  I2C communication error  |
 
 
-## Operation
+## Issue #59 - NO_GLOBAL_TWOWIRE
 
-See examples.
+In issue #59 a request was made to have a constructor without defaults.
+This would allow the library to be used when no global Wire object is created.
+This request is not implemented as it is a rare case.
 
-It is advised to use pull-up or pull-down resistors so the lines have a defined state at startup.
+The solution is to replace the current constructor with the following code.
+
+```
+//  Issue #59
+//  Select a constructor depending on existence of global Wire object.
+#if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_TWOWIRE)
+   PCF8574(const uint8_t deviceAddress = 0x20, TwoWire *wire = &Wire);
+#else
+   PCF8574(const uint8_t deviceAddress, TwoWire *wire);
+#endif
+```
 
 
 ## Future

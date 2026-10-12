@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/PCF8574.git"
   },
-  "version": "0.4.5",
+  "version": "0.4.6",
   "license": "MIT",
-  "frameworks": "*",
+  "frameworks": "Arduino",
   "platforms": "*",
   "headers": "PCF8574.h"
 }

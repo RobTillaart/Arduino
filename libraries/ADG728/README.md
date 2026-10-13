@@ -117,7 +117,13 @@ Multiple channels can also be enabled in one call with a mask.
 
 ### Reset
 
-Optional the library can reset the device.
+Optional the library can call reset() to reset the device. 
+Reset() only works when the reset pin of the device is connected to a valid pin,
+and this pin is set with setResetPin(). 
+Default the value of the reset pin is set to **ADG728_NO_PIN == 255**. 
+This value effectively disables the reset() call.
+So this **ADG728_NO_PIN** can be used to disable reset() if your program need it.
+Check datasheet.
 
 - **void setResetPin(uint8_t resetPin)** sets the pin to reset the chip.
 - **void reset()** trigger the reset pin.

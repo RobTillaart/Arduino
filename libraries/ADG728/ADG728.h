@@ -2,7 +2,7 @@
 //
 //    FILE: ADG728.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG728 matrix switch. 1x8 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG728
@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define ADG728_LIB_VERSION             (F("0.1.3"))
+#define ADG728_LIB_VERSION             (F("0.1.4"))
 
 
 //  ERROR CODES (to be elaborated)
@@ -21,6 +21,8 @@
 #define ADG728_ERROR_I2C               -10  //  not used yet
 #define ADG728_ERROR_CHANNEL           -20  //  not used yet
 
+//  sentinel for the optional reset pin.
+const uint8_t ADG728_NO_PIN = 255;
 
 
 class ADG728

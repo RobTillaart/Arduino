@@ -1,7 +1,7 @@
 //
 //    FILE: ADG728.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2024-07-03
 // PURPOSE: Arduino Library for I2C ADG728 matrix switch. 1x8 Multiplexer.
 //     URL: https://github.com/RobTillaart/ADG728
@@ -16,7 +16,7 @@ ADG728::ADG728(uint8_t deviceAddress, TwoWire *wire)
   _address  = deviceAddress;
   _wire     = wire;
   _mask     = 0x00;
-  _resetPin = -1;
+  _resetPin = ADG728_NO_PIN;
   _forced   = false;
   _error    = ADG728_OK;
   _channels = 8;
@@ -116,7 +116,7 @@ void ADG728::setResetPin(uint8_t resetPin)
 
 void ADG728::reset()
 {
-  if (_resetPin != -1)
+  if (_resetPin != ADG728_NO_PIN)
   {
     digitalWrite(_resetPin, LOW);
     delayMicroseconds(1);

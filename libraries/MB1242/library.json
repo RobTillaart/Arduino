@@ -1,0 +1,23 @@
+{
+  "name": "MB1242",
+  "keywords": "MB1202,MB1212,MB1222,MB1232",
+  "description": "Arduino library for the MaxBotic I2C MB1242 distance sensor.",
+  "authors":
+  [
+    {
+      "name": "Rob Tillaart",
+      "email": "Rob.Tillaart@gmail.com",
+      "maintainer": true
+    }
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/RobTillaart/MB1242.git"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "Arduino",
+  "platforms": "*",
+  "headers": "MB1242.h"
+}

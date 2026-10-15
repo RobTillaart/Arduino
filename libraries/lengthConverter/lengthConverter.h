@@ -3,8 +3,8 @@
 //    FILE: lengthConverter.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2026-04-30
-// VERSION: 0.1.1
-// PURPOSE: Arduino library for to convert units of length.
+// VERSION: 0.1.2
+// PURPOSE: Arduino library to convert (not so common) units of length.
 //     URL: https://github.com/RobTillaart/lengths
 //
 

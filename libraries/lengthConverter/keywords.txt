@@ -7,7 +7,6 @@ lengthConverter	KEYWORD1
 # Methods and Functions (KEYWORD2)
 
 
-
 # Constants (LITERAL1)
 LENGTHCONVERTOR_LIB_VERSION	LITERAL1
 

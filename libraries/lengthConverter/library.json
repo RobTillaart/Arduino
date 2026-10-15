@@ -1,7 +1,7 @@
 {
   "name": "lengthConverter",
   "keywords": "",
-  "description": "Arduino library for to convert units of length.",
+  "description": "Arduino library to convert (not so common) units of length.",
   "authors":
   [
     {
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/lengthConverter.git"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "frameworks": "*",
   "platforms": "*",

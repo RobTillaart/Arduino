@@ -3,7 +3,8 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: test checking pin 2 of device with status
 //     URL: https://github.com/RobTillaart/MB1242
-
+//
+//  Connect status pin 2 of the device to a pin from the uProcessor
 
 #include "MB1242.h"
 

@@ -11,14 +11,14 @@
 
 # MB1242
 
-Arduino library for the MaxBotic I2C MB1242 distance sensor.
+Arduino library for the MaxBotix I2C MB1242 distance sensor.
 
 
 ## Description
 
 **Experimental - work in progress**
 
-This library is to use the MaxBotic I2C MB1242 and compatible distance 
+This library is to use the MaxBotix I2C MB1242 and compatible distance
 sensors MB1202, MB1212, MB1222 and MB1232.
 
 Note: the library is not tested with hardware yet.
@@ -49,9 +49,9 @@ Feedback as always is welcome.
 
 ### Correction for speed of sound.
 
-The library or sensor does not compensate the speed of sound for 
+The library or sensor does not compensate the speed of sound for
 temperature or humidity.
-Please look at the SRF05 library for a function to calculate the 
+Please look at the SRF05 library for a function to calculate the
 speed of sound for different T and H.
 
 TODO: add function to calculate correction factor.
@@ -128,8 +128,10 @@ Distance sensors
 - https://github.com/RobTillaart/US500 - US500 + US4000 underwater distance sensor.
 
 Other
-- https://github.com/RobTillaart/lengthConverter
+- https://maxbotix.com/ - company that makes the MB1242
+- https://github.com/RobTillaart/lengthConverter - idem
 - https://github.com/RobTillaart/printHelpers - print inches and feet
+- https://github.com/RobTillaart/map2colour - colour mapping of distance
 - https://github.com/stoduk/PingSerial  Serial IO with distance sensors e.g. US-100
 
 
@@ -149,7 +151,7 @@ ChangeAddress() will return false if these are used.
 
 It is not clear if a restart is needed when the address is changed.
 
-TODO: To be tested.
+TODO: Test with hardware.
 
 
 ### I2C multiplexing
@@ -174,7 +176,7 @@ too if they are behind the multiplexer.
 
 Datasheet states it only works at 20 - 100 kHz.
 
-TODO: To be tested.
+TODO: Test with hardware.
 
 
 ## Interface
@@ -200,6 +202,9 @@ visible on the I2C bus.
 
 - **bool requestDistance()** request a new distance measurement.
 One can poll with ready() when the request is done.
+- **bool requestInProgress()** idem.
+- **uint32_t lastRequest()** returns timestamp of last request.
+Allows low level tracking.
 - **void setStatusPin(uint8_t statusPin)** option to connect pin 2
 to the library so ready() can detect measurement ready much faster.
 It is possible to use an IRQ pin as statusPin and set a flag
@@ -215,8 +220,10 @@ for 100 ms will limit the sample rate to 10 Hz.
 
 ### Async Read
 
-- **uint16_t readCM()** read the measurement from the device.
+- **int16_t readCM()** read the measurement from the device.
 Returns range in centimeter.
+Should return a value between 20 and 750.
+Value 0 indicates an error.
 - **float readMeter()** wrapper around readCM(), converts to meters.
 - **float readInch()** wrapper around readCM(), converts to inches.
 - **float readFeet()** wrapper around readCM(), converts to feet.
@@ -235,9 +242,16 @@ Invalid addresses 0, 80, 164, 170 are checked and return false.
 ### Debug
 
 - **uint8_t getLastError()** returns last error of low level communication.
-Resets the error flag.
+Reading resets the error flag, so you might need to copy its value.
 
-TODO: table error messages + elaborate error handling.
+|  value  |  meaning  |
+|:-------:|:----------|
+|    00   |  MB1242_OK
+|  1..15  |  low level I2C errors
+|    16   |  MB1242_NOT_READY
+|    17   |  MB1242_REQUEST_ERROR
+|    18   |  MB1242_NO_REQUEST_PENDING
+|    19   |  MB1242_INVALID_ADDRESS
 
 
 ## Future
@@ -251,13 +265,11 @@ TODO: table error messages + elaborate error handling.
 #### Should
 
 - SOS calibration for temperature and humidity.
-- improve error handling
 
 #### Could
 
 - add examples
   - sketch to read startup pulse?
-- add unit tests (if possible)
 - elaborate derived classes? needed?
 
 #### Wont

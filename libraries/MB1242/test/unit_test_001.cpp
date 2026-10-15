@@ -43,10 +43,24 @@ unittest(test_constants)
   assertEqual(1, 1);
 }
 
+unittest(test_error_codes)
+{
+  assertEqual(00, MB1242_OK);
+  assertEqual(16, MB1242_NOT_READY);
+  assertEqual(17, MB1242_REQUEST_ERROR);
+  assertEqual(18, MB1242_NO_REQUEST_PENDING);
+  assertEqual(19, MB1242_INVALID_ADDRESS);
+}
+
 
 unittest(test_constructor)
 {
   MB1242 MB(0x70);
+  //  some defaults
+  assertEqual(MB1242_OK, MB.getLastError());
+  assertEqual(0, MB.lastRead());
+  assertEqual(0, MB.lastRequest());
+  assertFalse(MB.requestInProgress());
 }
 
 

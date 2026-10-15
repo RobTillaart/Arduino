@@ -1,9 +1,9 @@
 //
 //    FILE: MB1242.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-10-13
-// PURPOSE: Arduino library for the MaxBotic I2C MB1242 distance sensor.
+// PURPOSE: Arduino library for the MaxBotix I2C MB1242 distance sensor.
 //     URL: https://github.com/RobTillaart/MB1242
 
 
@@ -54,12 +54,26 @@ uint8_t MB1242::getAddress()
 //
 bool MB1242::requestDistance()
 {
-  _lastRequest = millis();
-  _requestInProgress = true;
+  //  what if already request in progress?
   uint8_t arr[1] = { 0x51 };
   _write(arr, 1);
-  //  TODO error handling
+  if (_error != MB1242_OK)
+  {
+    return false;
+  }
+  _lastRequest = millis();
+  _requestInProgress = true;
   return true;
+}
+
+bool MB1242::requestInProgress()
+{
+  return _requestInProgress;
+}
+
+uint32_t MB1242::lastRequest()
+{
+  return _lastRequest;
 }
 
 void MB1242::setStatusPin(uint8_t statusPin)
@@ -70,12 +84,30 @@ void MB1242::setStatusPin(uint8_t statusPin)
 
 bool MB1242::ready()
 {
-  //  support status pin 2.
+  if (_requestInProgress == false)
+  {
+    _error = MB1242_NO_REQUEST_PENDING;
+    return false;
+  }
+  //  support status pin 2?
   if (_statusPin != 255)
   {
-    return digitalRead(_statusPin) == LOW;
+    if (digitalRead(_statusPin) == HIGH)
+    {
+      _error = MB1242_NOT_READY;
+      return false;
+    }
+    _error = MB1242_OK;
+    return true;
   }
-  return _requestInProgress && ((millis() - _lastRequest) >= 100);
+  //  time based ready check...
+  if ((millis() - _lastRequest) < 100)
+  {
+    _error = MB1242_NOT_READY;
+    return false;
+  }
+  _error = MB1242_OK;
+  return true;
 }
 
 
@@ -83,17 +115,21 @@ bool MB1242::ready()
 //
 //  READ
 //
-uint16_t MB1242::readCM()
+int16_t MB1242::readCM()
 {
-  _lastRead = millis();
-  uint16_t raw;
-  if (_read(raw) == 0)
+  if (_requestInProgress == false)
   {
-    _requestInProgress = false;
-    return raw;
+    _error = MB1242_NO_REQUEST_PENDING;
+    return 0;  //  indicates error...
   }
-  //  error handling
-  return -2;
+  uint16_t raw;
+  if (_read(raw) != MB1242_OK)
+  {
+    return 0;  //  indicates error...
+  }
+  _requestInProgress = false;
+  _lastRead = millis();
+  return raw;  //  20..750
 }
 
 float MB1242::readMeter()
@@ -123,10 +159,11 @@ uint32_t MB1242::lastRead()
 //
 bool MB1242::changeAddress(uint8_t address)
 {
+  //  if address is same, skip?
   if ((address == 0)   || (address == 80) ||
       (address == 164) || (address == 170))
   {
-    //  TODO error code?
+    _error = MB1242_INVALID_ADDRESS;
     return false;
   }
   uint8_t arr[4];
@@ -135,8 +172,10 @@ bool MB1242::changeAddress(uint8_t address)
   arr[2] = 0xA5;  //  165
   arr[4] = address << 1;
   _write(arr, 4);
-  //  TODO error write?
-  //  use new address
+  if (_error != MB1242_OK)
+  {
+    return false;
+  }
   _address = address;
   return true;
 }
@@ -173,8 +212,6 @@ int MB1242::_read(uint16_t &raw)
     _error = MB1242_REQUEST_ERROR;
     return _error;
   }
-
-  //  TODO verify order.
   raw =  _wire->read() << 8;
   raw |= _wire->read();
   _error = MB1242_OK;

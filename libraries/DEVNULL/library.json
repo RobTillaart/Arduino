@@ -15,9 +15,9 @@
     "type": "git",
     "url": "https://github.com/RobTillaart/DEVNULL.git"
   },
-  "version": "0.1.9",
+  "version": "0.2.0",
   "license": "MIT",
-  "frameworks": "*",
+  "frameworks": "Arduino",
   "platforms": "*",
   "headers": "DEVNULL.h"
 }

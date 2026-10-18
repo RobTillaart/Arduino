@@ -37,28 +37,27 @@ Feedback as always is welcome.
 
 ### DEVNULL_ENABLE_DEBUG
 
-Since version 0.1.9 (see issue #11) the library has a define
+(issue #11) the library has a define to enable debugging
 
 ```cpp
-//  allows command line overrule
-#ifndef DEVNULL_ENABLE_DEBUG
-#define DEVNULL_ENABLE_DEBUG    1
-#endif
+#define DEVNULL_ENABLE_DEBUG
 ```
 
-This allows to set the **DEVNULL_ENABLE_DEBUG** to zero on the command line or in code.
-This will reduce the footprint of the library to a bare minimum.
-On AVR (UNO R3, IDE 1.8.19) it saved 1 byte memory and 28 bytes PROGMEM.
-
-Please note that setting **DEVNULL_ENABLE_DEBUG 0** will result in two warnings as the
-parameters of the **write()** calls are not used any more.
+Define the **DEVNULL_ENABLE_DEBUG** on the command line or in the library (DEVNULL.h).
+This allows to call the function **lastByte()** to get the last byte send to DEVNULL.
 
 
 ### Related
 
-- https://github.com/RobTillaart/DEVFULL
-- https://github.com/RobTillaart/DEVNULL
-- https://github.com/RobTillaart/DEVRANDOM
+Stream devices
+- https://github.com/RobTillaart/DEVFULL - device that is always full
+- https://github.com/RobTillaart/DEVNULL - device that is always empty
+- https://github.com/RobTillaart/DEVRANDOM - reading gives random bytes
+writing reseeds the random generator (adds entropy).
+
+Other
+- https://github.com/RobTillaart/XMLWriter - idem.
+- https://github.com/RobTillaart/Multiplex - print multiplexer
 
 
 ## Interface
@@ -78,13 +77,12 @@ parameters of the **write()** calls are not used any more.
 - **int read()** always return EOF.
 - **void flush()** does nothing but keeps some compilers happy.
 - **size_t write(const uint8_t data)** implements print interface. returns 1.
-- **size_t write( const uint8_t \*buffer, size_t size)** implements print interface.
+- **size_t write(const uint8_t \*buffer, size_t size)** implements print interface.
 Returns size.
-- **int lastByte()** returns last byte written (debug and test purpose).
+- **size_t readBytes(const uint8_t \*buffer, size_t size)** to improve performance.
+- **int lastByte()** returns last byte written (for debug and test purpose).
 Returns -1 if no byte has been written yet.
-This function is not available when **DEVNULL_ENABLE_DEBUG 0**
-is defined, see above.
-
+This function is not available when **DEVNULL_ENABLE_DEBUG** is not defined.
 
 ## Future
 

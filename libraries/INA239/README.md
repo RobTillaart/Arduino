@@ -28,7 +28,7 @@ might be needed (faster than I2C which is used by many other INA devices.).
 
 The INA239 sensor uses a 16 bit ADC.
 
-An important difference with the well known INA226 is that the INA239 
+An important difference with the well known INA226 is that the INA239
 works up to 85 Volts, which is more than twice the 36 volt of the INA226.
 The INA239 has a build in temperature sensor (±1°C) to be used for
 monitoring and temperature compensation.
@@ -48,6 +48,18 @@ This means most constants in the formulas are slightly different.
 Feedback as always is welcome.
 
 
+### Update 0.4.0
+
+In 0.4.0 bugs were fixed in getBusVoltage() and in getTemperature();
+All float constants now have f-suffix added to prevent interpreting 
+them as double.
+Added is direct register access.
+Added **INA.setBusVoltageLSB(lsb)** and **INA.setVoltageRatio(ratio)**
+to adjust VBUS and POWER when using a voltage divider.
+
+All pre 0.4.0 versions are obsolete.
+
+
 ### Update 0.2.0
 
 In 0.2.0 a bug was fixed in software SPI, so all 0.1.x versions
@@ -57,7 +69,7 @@ are now obsolete (although HW SPI did work).
 ### Details
 
 The INA239 is a voltage, current and power measurement device.
-A few important data, Read the datasheet for the details, 
+A few important data, Read the datasheet for the details,
 Section 7, Page 12++.
 
 
@@ -81,10 +93,10 @@ Also the values are not meaningful if there is no shunt connected.
 
 
 ```
-         GND                           VCC
+         GND                         Voltage
           |                             |
           |                             |
-          |            +----[ LOAD ]----+
+          +--[SHUNT]---+----[ LOAD ]----+
           |            |                |
           |            |                |
       /-------------------------------------\
@@ -98,21 +110,21 @@ Also the values are not meaningful if there is no shunt connected.
 
 ```
 
-Not tested with hardware, feedback welcome.
+Verified to work in #13, more feedback welcome.
 
 
 ### Schema HIGH SIDE
 
 
 ```
-         GND                          VCC
-          |                            |
-          |                            |
-          +---[ LOAD ]---+        +----+
-                         |        |    |
-                         |        |    |
+         GND                         Voltage
+          |                             |
+          |                             |
+          +--[ LOAD ]--+--[SHUNT]--+----+
+                       |           |    |
+                       |           |    |
       /-------------------------------------\
-      |                 VIN-     VIN+  VBUS |
+      |               VIN-       VIN+  VBUS |
       |                                     |
       |                                     |
       |          INA239 BREAKOUT            |
@@ -122,7 +134,70 @@ Not tested with hardware, feedback welcome.
 
 ```
 
-Not tested with hardware, feedback welcome.
+Verified to work in #13, more feedback welcome.
+
+
+### Schema voltage divider
+
+Since 0.4.0 - experimental, use carefully, feedback welcome.
+
+To measure a bus voltage higher than the 85 Volt maximum limit, 
+use a voltage divider connected to the VBUS pin.
+A voltage divider can also be used when measuring around the limit and 
+one wants a safety margin for (un)expected spikes.
+Make sure that the voltage divider drops the maximum voltage enough
+under the 85 Volt limit so the INA239 can handle it.
+
+Note a voltage divider also affects the power reported.
+
+One must use the **LOW SIDE mode**, as one does not want to have
+the high voltage (e.g. 120 Volt) to the VIN+ and VIN- pins.
+
+
+```
+         GND                            Voltage
+          |                                |
+          |                                |
+          +---[SHUNT]---+-----[ LOAD ]-----+
+          |             |                  |
+          |             |                  |
+          |             |        +---[R1---+
+          |             |        |
+          |             |        |
+          |             |        +---[R2]-------GND
+          |             |        |
+          |             |        |
+      /-------------------------------------\
+      |  VIN-          VIN+     VBUS        |
+      |                                     |
+      |                                     |
+      |          INA239 BREAKOUT            |
+      |                                     |
+      |                                     |
+      \-------------------------------------/
+
+```
+
+The ratio becomes (R1 + R2) / R2.
+
+Example, the high voltage is maximum 120 Volt.
+This must be mapped upon e.g. 80 Volts so the INA239 still has a 5 Volt margin.
+So the ratio needed is 120 / 80 ==> 1.5.
+
+By choosing R1 = 100 kΩ and R2 200 kΩ, the factor = (100+200)/200 = 1.5.
+The new BusVoltageLSB becomes 1.5 x 3.125e-3f = 4.6875e-3f.
+Calling **INA.setBusVoltageLSB(4.6875e-3f)** or **INA.setVoltageRatio(1.5)** 
+will now return the corrected getBusVoltage() and getPower() for the given
+voltage divider.
+
+Use precision resistors and verify them with a DMM to get the best results. 
+E.g. if the resistors were 201 kΩ and 99 kΩ, the ratio would become 300 / 201
+= 1.49254 and the LSB would be 1.49254 x 3.125e-3f = 4.6642e-3f.
+
+To reset to factory defaults, call **INA.setBusVoltageLSB()** or **INA.setVoltageRatio()**.
+
+Note that measuring the voltage between GND and VBUS with a DMM will
+give the uncorrected voltage
 
 
 ### Special characters
@@ -141,8 +216,11 @@ Not tested with hardware, feedback welcome.
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
@@ -154,7 +232,7 @@ Not tested with hardware, feedback welcome.
 Run **INA239_performance.ino** sketch to get a first indication.
 Numbers below are based upon tests with no board.
 
-Time in micros, SPI speed in MHz.  
+Time in micros, SPI speed in MHz.
 
 |  SPI  |  function         |  time  |  notes  |
 |:-----:|:------------------|:------:|:-------:|
@@ -164,9 +242,9 @@ Time in micros, SPI speed in MHz.
 |  1.0  |  getPower         |   68   |
 |  1.0  |  getTemperature   |   52   |
 |       |                   |        |  other functions similar gain.
-|  2.0  |  getBusVoltage    |   44   | 
-|  4.0  |  getBusVoltage    |   40   | 
-|  8.0  |  getBusVoltage    |   32   | 
+|  2.0  |  getBusVoltage    |   44   |
+|  4.0  |  getBusVoltage    |   40   |
+|  8.0  |  getBusVoltage    |   32   |
 
 
 Most non core functions are as fast as **getTemperature()**
@@ -181,7 +259,7 @@ Most non core functions are as fast as **getTemperature()**
 ### Constructor
 
 - **INA239(uint8_t select, __SPI_CLASS__ \* mySPI = &SPI)** Constructor HARDWARE SPI
-- **INA239(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock)** 
+- **INA239(uint8_t select, uint8_t dataIn, uint8_t dataOut, uint8_t clock)**
 Constructor SOFTWARE SPI
 - **bool begin()** initializes the class.
 
@@ -224,9 +302,36 @@ Note this value can be positive or negative as the INA239 is bidirectional.
 - **float getKiloWatt()** idem
 
 
+### Configuration busVoltageLSB
+
+New since 0.4.0, use with care.
+
+This configuration is only needed if one wants to monitor a voltage above the
+85 Volt limit of the INA239. See "Schema voltage divider" section above.
+
+There are two ways to define the busVoltageLSB, one is direct, the other is 
+based upon the scaling needed from Vmax to 85 Volt, or a bit lower to be safe.
+You need to call only one of these two in setup() to adjust for the voltage divider.
+
+- **void setBusVoltageLSB(float LSB = 3.125e-3f)** set a different LSB to calculate 
+the VBUS voltage. The default 3.125e-3f is the factory default;
+- **float getBusVoltageLSB()** returns current voltage LSB. For convenience.
+- **void setVoltageRatio(float ratio = 1.0f)** set the voltage ratio to calculate 
+the VBUS voltage. 
+Default is 1.0f, indicating no adjustment / correction on the factory default.
+- **float getVoltageRatio()** - return set ratio.
+
+Note: these functions could also be used to adjust the LSB, 
+e.g. to match voltages reported your DMM. 
+E.g. call **INA.setBusVoltageLSB(3.128e-3f)** or **INA.setVoltageRatio(0.998f)**
+
+Note: the BUS over- and underVoltage functions do not use the BUS LSB yet.
+The user has to do the math here e.g. by using **getVoltageLSB()**.
+
+
 ### Configuration
 
-Read datasheet for details, section 7.6.1.1, page xx
+Read datasheet for details, section 7.6.1.1, page 20
 
 - **void reset()** Resets the device, be aware that you need to calibrate the sensor
 (shunt register) again ==> call **setMaxCurrentShunt()** and more.
@@ -237,12 +342,10 @@ Since 0.2.1 setADCRange() calls setMaxCurrentShunt() to update the internal LSB 
 Returns false on failure of setMaxCurrentShunt().
 - **bool getADCRange()** return set value.
 
-TODO: examples to show the effect of the ADC configuration.
-
 
 ### ADC mode
 
-Read datasheet for details, section 7.6.1.2, page xx++
+Read datasheet for details, section 7.6.1.2, page 20++
 
 - **bool setMode(uint8_t mode = INA239_MODE_CONT_TEMP_BUS_SHUNT)** default all on.
 - **uint8_t getMode()** return set value.
@@ -269,11 +372,11 @@ Read datasheet for details, section 7.6.1.2, page xx++
 
 ### ADC conversion time
 
-- **bool setBusVoltageConversionTime(uint8_t bvct = INA226_1052_us)**
+- **bool setBusVoltageConversionTime(uint8_t bvct = INA239_1052_us)**
 - **uint8_t getBusVoltageConversionTime()** return set value.
-- **bool setShuntVoltageConversionTime(uint8_t svct = INA226_1052_us)**
+- **bool setShuntVoltageConversionTime(uint8_t svct = INA239_1052_us)**
 - **uint8_t getShuntVoltageConversionTime()** return set value.
-- **bool setTemperatureConversionTime(uint8_t tct = INA226_1052_us)**
+- **bool setTemperatureConversionTime(uint8_t tct = INA239_1052_us)**
 - **uint8_t getTemperatureConversionTime()** return set value.
 
 |  TIMING             |  value  |  notes  |
@@ -310,8 +413,8 @@ To elaborate, read datasheet for details.
 Note: **setMaxCurrentShunt()** must be called to calibrate your sensor.
 Otherwise several functions will return zero or incorrect data.
 
-- **int setMaxCurrentShunt(float maxCurrent, float shunt)** The maxCurrent 
-depends on breakout used, See section above. 
+- **int setMaxCurrentShunt(float maxCurrent, float shunt)** The maxCurrent
+depends on breakout used, See section above.
 The shunt should be 0.0001 Ω and up.
   - returns 0 if OK.
   - returns -2 if shunt < 0.0001 Ohm.
@@ -324,7 +427,7 @@ The shunt should be 0.0001 Ω and up.
 
 ### Diagnose alert
 
-Read datasheet for details, section 7.6.1.12, page xx++.
+Read datasheet for details, section 7.6.1.9, page 23++.
 
 - **void setDiagnoseAlert(uint16_t flags)** set all flags as bit mask.
 - **uint16_t getDiagnoseAlert()** return all flags as bit mask.
@@ -338,9 +441,9 @@ INA239.h has an enum for the bit fields.
 
 ### Threshold and Limits
 
-Read datasheet for details, section 7.3.7, page xx++
+Read datasheet for details, section 7.6.1.10-15, page 23++
 
-Note: the implementation of this part is rather minimalistic and 
+Note: the implementation of this part is rather minimalistic and
 might be changed / extended in the future.
 Currently it are just wrappers around the registers.
 
@@ -382,10 +485,7 @@ Currently it are just wrappers around the registers.
 #### Must
 
 - update documentation.
-  - remove INA228 sections, 
-  - page number references
-- test with hardware
-
+  - remove INA228 sections,
 
 #### Should
 
@@ -394,10 +494,13 @@ Currently it are just wrappers around the registers.
 - add error handling.
   - codes
 - keep in sync with INA228 / INA229 where possible
-- add examples 
+- add examples
   - to show the effect of the ADC configuration.
 
 #### Could
+
+- getBusVoltageLSB() for completeness?
+- getVoltageRatio() for completeness?
 
 #### Won't
 

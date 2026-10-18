@@ -1,7 +1,7 @@
 //
 //    FILE: INA239_demo_two_devices.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo core functions
+// PURPOSE: demo two devices
 //     URL: https://github.com/RobTillaart/INA239
 //          based on discussion in issue #10.
 

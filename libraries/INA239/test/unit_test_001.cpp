@@ -122,6 +122,28 @@ unittest(test_diag_enum)
 }
 
 
+unittest(test_register_enum)
+{
+  assertEqual(INA239_CONFIG        , 0x00);
+  assertEqual(INA239_ADC_CONFIG    , 0x01);
+  assertEqual(INA239_SHUNT_CAL     , 0x02);
+  assertEqual(INA239_SHUNT_VOLTAGE , 0x04);
+  assertEqual(INA239_BUS_VOLTAGE   , 0x05);
+  assertEqual(INA239_TEMPERATURE   , 0x06);
+  assertEqual(INA239_CURRENT       , 0x07);
+  assertEqual(INA239_POWER         , 0x08);
+  assertEqual(INA239_DIAG_ALERT    , 0x0B);
+  assertEqual(INA239_SOVL          , 0x0C);
+  assertEqual(INA239_SUVL          , 0x0D);
+  assertEqual(INA239_BOVL          , 0x0E);
+  assertEqual(INA239_BUVL          , 0x0F);
+  assertEqual(INA239_TEMP_LIMIT    , 0x10);
+  assertEqual(INA239_POWER_LIMIT   , 0x11);
+  assertEqual(INA239_MANUFACTURER  , 0x3E);
+  assertEqual(INA239_DEVICE_ID     , 0x3F);
+}
+
+
 
 unittest_main()
 

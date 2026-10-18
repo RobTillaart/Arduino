@@ -1,0 +1,17 @@
+
+Example output (no hardware connected)
+
+...\libraries\INA239\examples\INA239_dump_config\INA239_dump_config.ino
+INA239_LIB_VERSION: 0.4.0
+
+ConversionDelay: 0
+ADCRange: 0
+
+Mode: 8
+BusVoltageConversionTime: 0
+ShuntVoltageConversionTime: 0
+TemperatureConversionTime: 0
+getAverage: 0
+
+
+Done

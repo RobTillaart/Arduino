@@ -1,7 +1,7 @@
 //
 //    FILE: rotaryDecoderSwitch5.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.2.0
 //    DATE: 2025-01-13
 // PURPOSE: Arduino library for a PCF8575 based rotary decoder (with switch)
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
@@ -260,7 +260,7 @@ bool rotaryDecoderSwitch5::write1(uint8_t pin, uint8_t value)
 
 uint16_t rotaryDecoderSwitch5::read16()
 {
-  _wire->requestFrom(_address, (uint8_t)1);
+  _wire->requestFrom(_address, (uint8_t)2);
   uint16_t a = _wire->read();  //  LSB
   uint16_t b = _wire->read();  //  MSB
   return (b << 8) + a;

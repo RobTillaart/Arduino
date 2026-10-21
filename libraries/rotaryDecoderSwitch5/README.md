@@ -27,6 +27,8 @@ pins to GND so you will not get unintended interrupts.
 
 Note: This library works (limited) with the PCF8574.
 
+Pre 0.2.0 versions are obsolete (bug fix)
+
 As always, feedback is welcome.
 
 
@@ -57,7 +59,7 @@ See also Interrupts section below.
 
 ### Pull up resistors
 
-To improve the quality of the pulses from the rotary encoder to the PCF8574
+To improve the quality of the pulses from the rotary encoder to the PCF8575
 one should add pull up resistors on all input lines.
 This includes the non-connected input lines to prevent interrupts due to noise.
 
@@ -89,27 +91,27 @@ Supporting devices
 ```
 // connect up to 5 rotary encoders with a switch to 1 PCF8575.
 //
-//  RotaryEncoder    PCF8575      UNO R3
-//  --------------------------------------
-//   1 pin A          pin 0
-//   1 pin B          pin 1
-//   1 switch         pin 2
-//   2 pin A          pin 3
-//   2 pin B          pin 4
-//   2 switch         pin 5
-//   3 pin A          pin 6
-//   3 pin B          pin 7
-//   3 switch         pin 8
-//   4 pin A          pin 9
-//   4 pin B          pin 10
-//   4 switch         pin 11
-//   5 pin A          pin 12
-//   5 pin B          pin 13
-//   5 switch         pin 14
-//   free to use      pin 15
+//  RotaryEncoder    PCF8575      UNO R3     ESP32
+//  -------------------------------------------------
+//   1 pin A          IO 0
+//   1 pin B          IO 1
+//   1 switch         IO 2
+//   2 pin A          IO 3
+//   2 pin B          IO 4
+//   2 switch         IO 5
+//   3 pin A          IO 6
+//   3 pin B          IO 7
+//   3 switch         IO 8
+//   4 pin A          IO 9
+//   4 pin B          IO 10
+//   4 switch         IO 11
+//   5 pin A          IO 12
+//   5 pin B          IO 13
+//   5 switch         IO 14
+//   free to use      IO 15
 //
-//                    SDA         A4
-//                    SCL         A5
+//                    SDA         A4         22
+//                    SCL         A5         23
 //
 ```
 
@@ -220,15 +222,15 @@ So this functionality should be tested thoroughly for your application.
 Especially the **write1()** is **experimental**, feedback welcome.
 
 
-**Read1()** and **write1()** are functions to access the pins of the PCF8574 that 
+**Read1()** and **write1()** are functions to access the pins of the PCF8575 that 
 are not used for rotary encoders.
 The user must guard that especially writing the pins do not interfere with the 
 rotary encoder pins.
-The parameter pin is not verified if it is within range (0..7).
+The parameter pin is not verified if it is within range (0..15).
 
-- **uint8_t read1(uint8_t pin)** reads a single pin (0..7).
+- **uint8_t read1(uint8_t pin)** reads a single pin (0..15).
 Returns HIGH or LOW.
-- **bool write1(uint8_t pin, uint8_t value)** writes a single pin (0..7).
+- **bool write1(uint8_t pin, uint8_t value)** writes a single pin (0..15).
 Value should be LOW (0) or HIGH (other values).
 As said before the user must guard not to interfere with the
 rotary encoder pins.
@@ -326,6 +328,8 @@ way to capture all changes.
 - keep in sync with rotaryDecoderSwitch library
 
 #### Should
+
+- verify all possible positions when testing (0..4).
 
 #### Could
 

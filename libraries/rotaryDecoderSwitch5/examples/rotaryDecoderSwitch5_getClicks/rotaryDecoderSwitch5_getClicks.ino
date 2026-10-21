@@ -4,17 +4,24 @@
 // PURPOSE: demo
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
 //
-// connect up to 5 rotary encoders to 1 PCF8575.
+// connect up to 5 rotary encoders with a switch to 1 PCF8575.
 //
-//  RotaryEncoder    PCF8575      UNO R3
-//  --------------------------------------
-//    pin A           pin 0
-//    pin B           pin 1
-//    ....            ....     (up to 5 RE)
+//  RotaryEncoder    PCF8575      UNO R3     ESP32
+//  -------------------------------------------------
+//   1 pin A          IO 0
+//   1 pin B          IO 1
+//   1 switch         IO 2
+//   2 pin A          IO 3
+//   2 pin B          IO 4
+//   2 switch         IO 5
+//   3 pin A          IO 6
+//   3 pin B          IO 7
+//   3 switch         IO 8
+//                    etc
+//                    IO 15  free
 //
-//                    SDA         A4
-//                    SCL         A5
-//
+//                    SDA         A4         22
+//                    SCL         A5         23
 
 
 #include "rotaryDecoderSwitch5.h"

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - 2026-10-21
+- fix #7, bug in read16 (kudo's to Willem)
+- update hardware connection in examples.
+- minor edits
+
+----
+
 ## [0.1.3] - 2026-10-02
 - fix #5, support for setting rotation direction
 - add bool setDirection(uint8_t re, uint8_t dir = 0)

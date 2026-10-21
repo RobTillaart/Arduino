@@ -1,28 +1,31 @@
 //
 //    FILE: rotaryDecoderSwitch5_demo_interrupt.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo
+// PURPOSE: demo using interrupts to handle pulses per tick.
 //     URL: https://github.com/RobTillaart/rotaryDecoderSwitch5
 //
 // connect up to 5 rotary encoders with a switch to 1 PCF8575.
 //
-//  RotaryEncoder    PCF8575      UNO R3
-//  --------------------------------------
-//   1 pin A          pin 0
-//   1 pin B          pin 1
-//   1 switch         pin 2
-//   2 pin A          pin 3
-//   2 pin B          pin 4
-//   2 switch         pin 5
-//   3 pin A          pin 6
-//   3 pin B          pin 7
-//   3 switch         pin 8
+//  RotaryEncoder    PCF8575      UNO R3     ESP32
+//  -------------------------------------------------
+//   1 pin A          IO 0
+//   1 pin B          IO 1
+//   1 switch         IO 2
+//   2 pin A          IO 3
+//   2 pin B          IO 4
+//   2 switch         IO 5
+//   3 pin A          IO 6
+//   3 pin B          IO 7
+//   3 switch         IO 8
 //                    etc
-//                    pin 15  free
+//                    IO 15  free
 //
-//                    SDA         A4
-//                    SCL         A5
+//                    SDA         A4         22
+//                    SCL         A5         23
 //
+//                    INT          2          2
+//
+
 
 
 #include "rotaryDecoderSwitch5.h"
@@ -34,7 +37,7 @@ volatile bool newTickFlag = false;
 
 void moved()
 {
-  //  one should not read the PPCF8574 in the interrupt routine.
+  //  one should not read the PCF8575 in the interrupt routine.
   //  adjust if mechanical rotary encoder gives e.g. 4 pulses per tick
   //  see interrupt section readme.md
   //  see issue #5

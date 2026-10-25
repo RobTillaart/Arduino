@@ -1,0 +1,21 @@
+
+BOARD:    UNO R3
+IDE:      1.8.19
+
+logic_performance.ino
+LOGIC_LIB_VERSION: 0.2.0
+
+SETTABLE:	4
+
+EVAL(a,b):	8
+EVAL(a,b,c):	8
+EVAL(a,b,c,d):	8
+EVAL(a,b,c,d,e):	8
+
+NEVAL(a,b):	8
+NEVAL(a,b,c):	8
+NEVAL(a,b,c,d):	12
+NEVAL(a,b,c,d,e):	8
+
+done...
+

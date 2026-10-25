@@ -1,0 +1,26 @@
+
+
+\logic_neval\logic_neval.ino
+LOGIC_LIB_VERSION: 0.2.0
+
+68
+111	65535	nop
+000	65535	nop
+001	65535	nop
+101	5	YY
+001	65535	nop
+111	65535	nop
+001	65535	nop
+111	65535	nop
+011	6	YYY
+001	65535	nop
+100	65535	nop
+101	5	YY
+111	65535	nop
+110	3	Y
+101	5	YY
+101	5	YY
+011	6	YYY
+100	65535	nop
+
+

@@ -8,8 +8,12 @@ logic	KEYWORD1
 setTable	KEYWORD2
 getTable	KEYWORD2
 
+add	KEYWORD2
+remove	KEYWORD2
+
 eval	KEYWORD2
 neval	KEYWORD2
+countTrue	KEYWORD2
 index	KEYWORD2
 
 # Constants (LITERAL1)

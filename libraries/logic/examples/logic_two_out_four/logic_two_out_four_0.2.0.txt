@@ -1,0 +1,41 @@
+
+
+\logic_two_out_four\logic_two_out_four.ino
+LOGIC_LIB_VERSION: 0.2.0
+
+
+TEST exact two out of four (0x1668)
+0
+0
+0
+1
+0
+1
+1
+0
+0
+1
+1
+0
+1
+0
+0
+0
+
+TEST at least two out of four (0xFEE8)
+0
+0
+0
+1
+0
+1
+1
+1
+0
+1
+1
+1
+1
+1
+1
+1

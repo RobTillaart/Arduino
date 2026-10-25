@@ -1,0 +1,26 @@
+
+\logic_test_add\logic_test_add.ino
+LOGIC_LIB_VERSION: 0.2.0
+
+
+table: 	18
+
+TEST AND
+0
+0
+0
+1
+1
+0
+
+table: 	10
+
+TEST REMOVE
+0
+0
+0
+0
+1
+0
+
+done...

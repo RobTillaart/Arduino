@@ -1,7 +1,7 @@
 //
-//    FILE: LTC2941_demo.ino
+//    FILE: LTC2941_test.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: simple register test
+// PURPOSE: test core functions
 //     URL: https://github.com/RobTillaart/LTC2941
 
 
@@ -27,6 +27,22 @@ void setup()
   Serial.print("ADDR:\t");
   Serial.println(LTC.getAddress());
 
+  test_stat();
+  test_charge();
+
+  Serial.println("\ndone");
+}
+
+void loop()
+{
+}
+
+//////////////////////////////////////////////////
+
+void test_stat()
+{
+  Serial.println();
+  Serial.println(__FUNCTION__);
   Serial.print("STAT \tCONTROL\n");
   uint8_t status;
   LTC.getStatus(status);
@@ -44,8 +60,12 @@ void setup()
   Serial.print(shutdown);
   Serial.print("\t");
   Serial.println(batAlert);
+}
 
-
+void test_charge()
+{
+  Serial.println();
+  Serial.println(__FUNCTION__);
   Serial.print("getCharge: \t");
   //  save old value to restore
   uint16_t val;
@@ -89,7 +109,7 @@ void setup()
   LTC.getRawThresholdLow(val);
   val ^= 0xFFFF;
   LTC.setRawThresholdLow(val);
-  LTC.getRawThresholdHigh(nval);
+  LTC.getRawThresholdLow(nval);
   if (nval != val)
   {
     Serial.println("Error");
@@ -100,15 +120,6 @@ void setup()
   }
   //  restore
   LTC.setRawThresholdLow(val ^ 0xFFFF);
-
-
-  Serial.println("\ndone");
-}
-
-
-void loop()
-{
-
 }
 
 

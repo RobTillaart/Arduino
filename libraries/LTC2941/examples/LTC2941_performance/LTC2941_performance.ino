@@ -1,7 +1,7 @@
 //
 //    FILE: LTC2941_performance.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: test basic charge reading
+// PURPOSE: test basic performance
 //     URL: https://github.com/RobTillaart/LTC2941
 
 
@@ -28,6 +28,7 @@ void setup()
   Serial.println(LTC.getAddress());
   delay(100);
 
+  Serial.println("\nRAW");
   for (uint32_t speed = 100000; speed <= 600000; speed += 100000)
   {
     Wire.setClock(speed);
@@ -40,6 +41,23 @@ void setup()
     Serial.print(stop - start);
     Serial.print("\t");
     Serial.print(charge);
+    Serial.println();
+    delay(100);
+  }
+
+  Serial.println("\nmAh");
+  for (uint32_t speed = 100000; speed <= 600000; speed += 100000)
+  {
+    Wire.setClock(speed);
+    uint32_t start = micros();
+    float charge;
+    LTC.getCharge(charge);
+    uint32_t stop = micros();
+    Serial.print(speed);
+    Serial.print("\t");
+    Serial.print(stop - start);
+    Serial.print("\t");
+    Serial.print(charge, 3);
     Serial.println();
     delay(100);
   }

@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: LTC2941.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-09-18
 // PURPOSE: Arduino library for the LTC2941 battery charge and discharge (Coulomb) meter.
 //     URL: https://github.com/RobTillaart/LTC2941
@@ -14,7 +14,7 @@
 #include "Wire.h"
 
 
-#define LTC2941_LIB_VERSION         (F("0.1.0"))
+#define LTC2941_LIB_VERSION         (F("0.1.1"))
 
 //  ERROR CODES
 //  values <> 0 are errors.
@@ -46,7 +46,7 @@ public:
   //  RSense > 0.005 Ohm
   //  RSense < 50 mVolt / Imax ==> check with getMaxCurrent()
   //  mAh is the capacity of the battery
-  bool     begin(float RSense, float mAh);
+  bool     begin(float mAh, float RSense = 0.050);
   bool     isConnected();
   uint8_t  getAddress();
 

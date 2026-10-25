@@ -11,18 +11,18 @@
 
 # LTC2941
 
-Arduino library for the LTC2941 battery charge and discharge (Coulomb) meter.
+Arduino library for the I2C LTC2941 battery charge and discharge (Coulomb) meter.
 
 
 ## Description
 
-**Experimental**  **Work in progress**
+**Experimental**
 
-Read the datasheet as this library is work in progress.
+Read the datasheet as this library is **work in progress**.
 
 This library is to use the LTC2941 Coulomb meter.
 The LTC2941 indicates the accumulated charge and discharge of a battery
-so you can see how "full" they are.
+so you can see how "full" the battery is.
 
 The device is in essence a current sensor, and integrates the measured
 current with high resolution over time.
@@ -58,11 +58,25 @@ and any other applications that may cause personal injury due to the product's f
 
 Read datasheet, page ??
 
-TODO elaborate.
+Preliminary, to be verified.
 
-About calibration...
-- load accu full
-- setCharge(mAh)
+The essence of the calibration of the library with the battery used, is to set
+the charge at the moment the battery is considered full, with **setCharge(mAh)**.
+The **mAh** is the same as used in **begin(Rsense, mAh)**.
+
+The battery is considered full if there is no charge build up any more. 
+At that moment there is no current flowing to the battery. 
+If the power supply is disconnected the battery should have maximum voltage.
+
+A good practice is to set the charge threshold HIGH to e.g. 95% of the full 
+capacity so an alert can be given when the battery is almost full.
+Then one know when it is time to disconnect the power supply.
+Setting the charge threshold LOW to e.g. 20% so an alert is given when the 
+battery is going to be empty. 
+Percentages are indicative, your project might need other thresholds, e.g.
+might start alerts when the battery is below 50%.
+Note the alert bits in the control register must be set to enable the alerts.
+See **setControl()** 
 
 
 ### Hardware
@@ -96,9 +110,13 @@ to work with this library. This is not verified so use at your own risk.
 Current sensors
 - https://github.com/RobTillaart/ACS712 - ACS series current sensor
 - https://github.com/RobTillaart/INA226 - family of current and power sensors
-- https://github.com/RobTillaart/LTC2941 - this library
+- https://github.com/RobTillaart/LTC2941 - 6V, charge only
+- https://github.com/RobTillaart/LTC2942_RT - 6V, charge, voltage, temperature
+- https://github.com/RobTillaart/LTC2943 - 20V, charge, voltage, temperature
+- https://github.com/RobTillaart/LTC2944 - 60V, charge, voltage, temperature
 
 Other
+- https://wiki.seeedstudio.com/Grove-Coulomb_Counter_3.3V_to_5V-LTC2941/
 - https://github.com/Seeed-Studio/Seeed_LTC2941
 
 
@@ -121,9 +139,7 @@ If one needs more sensors there are some options.
 - One could use an MCU with multiple I2C buses.
 - One could use a (Two-Wire compatible) SW I2C (outside scope of this library).
 
-Using the VCC as a Chip Select is not advised as the LTC2941
-has a preheat time of 2 minutes.
-Every time the power is shut off the pre-heat would run again internally.
+Using the VCC as a Chip Select is not advised for the LTC2941.
 It is unclear what effect this has on the lifetime and quality of the sensor.
 
 
@@ -171,9 +187,10 @@ TODO: run performance sketch on hardware.
 ### Constructor
 
 - **LTC2941(TwoWire \*wire = &Wire)** optional select I2C bus.
-- **bool begin(float mAh, float RSense)**
-Sets the capacity of the battery and the used resistor.
-Verifies these are in range.
+- **bool begin(float mAh, float RSense = 0.050)**
+Sets the capacity of the battery and the used resistor, the latter
+a default of 50 milliOhm.
+Verifies these parameters are in a valid range.
 Calculates the pre-scaler and the QLSB from these numbers
 Finally it checks if the device address is visible on the I2C bus.
 - **bool isConnected()** Checks if device address can be found on I2C bus.
@@ -186,34 +203,13 @@ the Imax given the resistor set in begin().
 The user has to make sure that ```RSense > 0.005 Ohm```
 
 
-### Charge
-
-See datasheet page 10-11 for details, especially how to align
-the battery and the internal counter.
-
-The functions return false in case of an error.
-
-- **bool setCharge(uint16_t charge)** raw register access.
-- **bool getCharge(uint16_t &charge)** raw register access.
-- **bool setCharge(float charge)** charge in mAh, wrapper.
-- **bool getCharge(float &charge)** charge in mAh, wrapper.
-- **bool getPercentageFull(float &percentage)** return 0..100%,
-compares with mAh parameter from begin().
-- **float getQLSB()** charge in mAh of single bit.
-Conversion factor determined by RSense and mAh from **begin()**
-
-Note: at any moment the user has to detect the battery is completely
-full (or empty) and set the appropriate charge in the device.
-The device has no means to know when the battery is full.
-
-
 ### Status
 
-See datasheet for details.
+For details see datasheet page 8.
 
 - **bool getStatus(uint8_t &status)**
 
-Status byte, see datasheet
+Status byte
 
 |  bit  |  description        |  notes  |
 |:-----:|:--------------------|:--------|
@@ -226,40 +222,78 @@ Status byte, see datasheet
 |   6   |  not used, always 0 |
 |   7   |  chip ID, always 1  |  LTC2942 returns 0
 
+
 ### Control register
 
-See datasheet for details.
+For details see datasheet page 9.
 
 - **bool setControl(uint8_t ALCC,  uint8_t prescaler,  uint8_t shutDown, uint8_t batAlert)**
 - **bool getControl(uint8_t &ALCC, uint8_t &prescaler, uint8_t &shutDown, uint8_t &batAlert)**
 
-Control fields, see datasheet.
+Control fields
 
-|  bit  |  description        |  range  |  notes  |
-|:-----:|:--------------------|:--------|:--------|
-|   0   |  Shutdown           |   0..1  |
-|  1-2  |  AL/CC configure    |   0..2  |  value 3 not allowed.
-|  3-5  |  Coulomb pre-scaler |   0..7  |  maps to 1..128
-|  6-7  |  battery alert      |   0..3  |
+|  bit  |  description        |  range  | default |  notes  |
+|:-----:|:--------------------|:--------|:--------|:--------|
+|   0   |  Shutdown           |   0..1  |    0    |
+|  1-2  |  AL/CC configure    |   0..2  |    2    |  value 3 not allowed.
+|  3-5  |  Coulomb pre-scaler |   0..7  |    7    |  maps to 1..128
+|  6-7  |  Battery alert (BA) |   0..3  |    0    |
 
 
-### Thresholds
+|  AL/CC  |  meaning  |
+|:-------:|:----------|
+|    0    |  disabled
+|    1    |  Charge Complete Mode
+|    2    |  Alert Mode
+|    3    |  not allowed
+
+
+|  Battery  |  meaning  |
+|:---------:|:----------|
+|     0     |  VBAT Alert Off  (default)
+|     1     |  Threshold Value = 2.8 V.
+|     2     |  Threshold Value = 2.9 V.
+|     3     |  Threshold Value = 3.0 V.
+
+
+### Charge
+
+See datasheet page 10-11 for details, especially how to align
+the battery and the internal counter.
+
+The functions return false in case of an error.
+
+- **bool setRawCharge(uint16_t charge)** raw register access.
+- **bool getRawCharge(uint16_t &charge)** raw register access.
+- **bool setCharge(float charge)** charge in mAh, wrapper.
+- **bool getCharge(float &charge)** charge in mAh, wrapper.
+- **bool getPercentageFull(float &percentage)** return 0..100%,
+compares internal cumulated charge with mAh parameter from **begin()**.
+- **float getQLSB()** charge in mAh of a single bit.
+Conversion factor determined by RSense and mAh from **begin()**.
+
+Note: at any moment the user has to detect the battery is completely
+full (or empty) and set the appropriate charge in the device.
+The device has no means to know when the battery is full.
+
+
+### Thresholds Charge
 
 See datasheet for details.
 
 High threshold should be higher than low threshold, otherwise the
 device is always in alarm state.
 
-- **bool setRawThresholdHigh(uint16_t th)**
-- **bool getRawThresholdHigh(uint16_t &th)**
-- **bool setRawThresholdLow(uint16_t th)**
-- **bool getRawThresholdLow(uint16_t &th)**
+- **bool setRawThresholdHigh(uint16_t thresholdHigh)**
+- **bool getRawThresholdHigh(uint16_t &thresholdHigh)**
+- **bool setRawThresholdLow(uint16_t thresholdLow)**
+- **bool getRawThresholdLow(uint16_t &thresholdLow)**
 
 Same in Coulombs
-- **bool setThresholdHigh(float th)**
-- **bool getThresholdHigh(float &th)**
-- **bool setThresholdLow(float th)**
-- **bool getThresholdLow(float &th)**
+- **bool setThresholdHigh(float thresholdHigh)**
+- **bool getThresholdHigh(float &thresholdHigh)**
+- **bool setThresholdLow(float thresholdLow)**
+- **bool getThresholdLow(float &thresholdLow)**
 
 
 ### Debug
@@ -287,20 +321,24 @@ Same in Coulombs
 #### Must
 
 - improve documentation
-  - how to calibrate (resistor, prescaler, ...)
 - fix TODO in documentation and code
 - get hardware to test
   - verify API
-- improve API
-  - units of getCharge?
+- keep in sync with other LTC294X
 
 #### Should
 
-- update LTC comparison table
-- configuration support, based upon page 10-11
+- improve API
+  - units of getCharge?
 
 #### Could
 
+- merge thresholds in one call? 
+  - **bool setRawThreshold(uint16_t thresholdHigh, uint16_t thresholdLow)**
+  - **bool getRawThreshold(uint16_t &thresholdHigh, uint16_t &thresholdLow)**
+  - **bool setThreshold(float thresholdHigh, float thresholdLow)**
+  - **bool getThreshold(float &thresholdHigh, float &thresholdLow)**
+  - change parameter name to CoulombHigh CoulombLow?  rawHigh, rawLow
 - improve control API
   - add constants per field. (enum?)
 - investigate ARA call

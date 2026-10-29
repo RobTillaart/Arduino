@@ -59,14 +59,41 @@ Feedback as always is welcome.
 
 ### Related
 
+HX7xx
 - https://github.com/bogde/HX711
-- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/bogde/HX711/issues/172 - hx711 module design fault fix
 - https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711
-- https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
-- https://github.com/RobTillaart/HX712 this library
+- https://github.com/RobTillaart/HX711_MP MP = multipoint calibration version.
+- https://github.com/RobTillaart/HX712 includes battery monitoring
 
-More links see HX711 library.
+Other
+- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/RobTillaart/printHelpers engineering and scientific notation.
+
+Discussion about resolution of the ADC
+- https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
+
+Support for the HX71708 device (close related)
+- https://github.com/beniseman/HX71708 allows to set the SPS to 10, 20, 80, or 320 Hz
+
+Load cells go to very high weights, this side sells them up to 200 ton.
+Never seen one and cannot tell if it will work with this library.
+- https://stekon.nl/load-cells
+
+Breakout with RATE exposed by ADAfruit
+- https://www.adafruit.com/product/5974
+
+Reading multiple HX711's simultaneously
+- https://github.com/compugician/HX711-multi
+
+TM7711 - compatible (seems to, needs investigation)
+- https://electropeak.com/learn/interfacing-tm7711-electronic-weighing-sensor-with-arduino/
+
+
+### Faulty boards
+
+- https://forum.arduino.cc/t/load-cell-amplifier-hx711-wrong-ground/1046075
 
 
 ## Main flow
@@ -104,7 +131,7 @@ Note that the units used in **calibrate_scale()** will be returned by **get_unit
 
 - **HX712()** constructor.
 - **~HX712()** destructor.
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)**
+- **bool begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)**
 sets the gain to 128 and SPS to 10.
   - The parameter fastProcessor adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
   - The parameter doReset is experimental (in 0.6.3 HX711).
@@ -112,9 +139,12 @@ sets the gain to 128 and SPS to 10.
   before the device is ready to make new measurements. See reset() below.
   Note that not calling reset() leaves the ADC in the previous or even an undefined state,
   so use with care. (needs testing)
-- **void reset()** set internal state to the start condition.
+  Note: returns false if reset() fails due to timeOut of read()
+- **bool reset()** set internal state to the start condition.
 Reset() also does a power_down() / power_up() cycle.
 This cycle adds a delay of 400 (RATE = 10 SPS) or 100 (RATE = 40 SPS) milliseconds.
+Furthermore it calls read() to read the device.
+If this read() call blocks for more than 500 milliseconds, reset() returns false.
 
 
 ### isReady
@@ -129,10 +159,22 @@ There are different ways to wait for a new measurement.
 
 ### Read
 
-Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
+Warning: the read() calls are blocking calls as they have a tight loop waiting for an IO signal.
+This signal can take up to 400 ms in the first read() call according to the datasheet.
+If this signal does not happen the read() call might be blocking forever (deadlock).
 Best practice is to check with isReady() before calling read().
 
-- **float read()** get a raw read.
+Since 0.1.1 read() has a timeout parameter which defaults to 500 milliseconds.
+This will "break" the blocking loop for read() to prevent the deadlock.
+The failed read() call will return 0.0f which may cause a detectable spike in your measurements.
+The other read_xxx() functions that use on read() handle the timeout by also returning 0.0f.
+
+If read() or one of the other functions times out a **HX711_READ_TIMEOUT** error will be set.
+This error can be checked with **getLastError()** which resets the error to **HX711_OK**.
+
+- **float read(uint32_t timeout = 500)** get a raw read.
+A default timeout of 500 milliseconds prevents blocking.
+If blocking occurs the function returns the value 0.0f.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads.
 times = 3..15 - odd numbers preferred.
@@ -141,6 +183,8 @@ times = 3..15 - odd numbers preferred.
 - **float read_runavg(uint8_t times = 7, float alpha = 0.5)** get running average over times measurements.
 The weight alpha can be set to any value between 0 and 1, times >= 1.
 - **uint32_t last_read()** returns timestamp in milliseconds of last read.
+
+Note: only the "raw" read can set the timeout, the wrappers always use the default of 500 ms.
 
 
 ### Read Battery
@@ -216,6 +260,9 @@ Note that for some specific applications, scale might be negative.
 - **int32_t get_offset()** idem.
 
 If one sets the scale to 1.0 and offset to 0.0, one gets the raw measurements from the HX712.
+
+Note get_value() and get_units() do not check and handle the read() timeout error.
+The user should handle this.
 
 
 ### Tare & calibration I
@@ -370,6 +417,10 @@ If all HX712's use the same settings it should work, however extra care is neede
 
 See https://github.com/RobTillaart/HX711/issues/40
 
+This library implements the shared clock line idea: - https://github.com/compugician/HX711-multi
+A related idea is to use a MCP23S08 / MCP23S17 to read up to 8 or 16 HX711 devices in parallel.
+The use of an IO expander could reduce the amount of IO pins needed (not tested).
+
 
 ## Future
 
@@ -377,13 +428,12 @@ See https://github.com/RobTillaart/HX711/issues/40
 #### Must
 
 - update documentation
+- keep in sync with HX711_MP, HX710AB and HX712 library.
 - test with hardware.
 - implement HX712_BATTERY_MODE
+- See HX711 for more.
 
 #### Should
-
-- keep in sync with HX711.
-
 
 #### Could
 

@@ -2,15 +2,16 @@
 //
 //    FILE: HX712.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-03-30
 // PURPOSE: Arduino library for HX712 load cells
 //     URL: https://github.com/RobTillaart/HX712
 //
 
+
 #include "Arduino.h"
 
-#define HX712_LIB_VERSION               (F("0.1.0"))
+#define HX712_LIB_VERSION               (F("0.1.1"))
 
 
 const uint8_t HX712_AVERAGE_MODE = 0x00;
@@ -36,6 +37,11 @@ const uint8_t  HX712_RATE_10 = 10;    //  default
 const uint8_t  HX712_RATE_40 = 40;
 
 
+//  error codes - minimal
+const int HX712_OK = 0;
+const int HX712_READ_TIMEOUT = -10;
+
+
 class HX712
 {
 public:
@@ -43,20 +49,20 @@ public:
   ~HX712();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin,
+  bool     begin(uint8_t dataPin, uint8_t clockPin,
                  bool fastProcessor = false,
                  bool doReset = true);
 
-  void     reset();
+  bool     reset();
 
   //  checks if load cell is ready to read.
   //  use this to prevent blocking reads, esp at startup, 1st read.
   bool     is_ready();
 
   //  wait until ready,
-  //  check every ms milliSeconds
+  //  check every ms milliseconds
   void     wait_ready(uint32_t milliSeconds = 0);
-  //  max # retries, check every ms milliSeconds
+  //  max # retries, check every ms milliseconds
   bool     wait_ready_retry(uint8_t retries = 3, uint32_t milliSeconds = 0);
   //  max timeout, check every ms milliSeconds
   bool     wait_ready_timeout(uint32_t timeout = 1000, uint32_t milliSeconds = 0);
@@ -67,8 +73,11 @@ public:
   //  READ
   //
   //  raw read, is blocking until device is ready to read().
-  //  this blocking period can be long up to 400 ms in first read() call.
-  float    read();
+  //  this blocking period can be up to 400 ms in first read() call.
+  //  Specific for 10 SPS it is 400 ms, for 80 SPS this is 50 ms
+  //  Since 0.6.6 read() has a timeout parameter to prevent blocking, default 500 ms
+  //  Return 0.0f if a timeout occurs. See getLastError() and HX711 issue 78.
+  float    read(uint32_t timeOut = 500);
 
   //  get average of multiple raw reads
   //  times = 1 or more
@@ -85,7 +94,7 @@ public:
   //  get running average over times measurements.
   //  the weight alpha can be set to any value between 0 and 1
   //  times = 1 or more.
-  float    read_runavg(uint8_t times = 7, float alpha = 0.5);
+  float    read_runavg(uint8_t times = 7, float alpha = 0.5f);
 
   //  TODO test with hardware.
   //  0.1.0 behaviour
@@ -157,7 +166,7 @@ public:
   //
   //  SCALE > 0
   //  returns false if scale == 0;
-  bool     set_scale(float scale = 1.0);
+  bool     set_scale(float scale = 1.0f);
   float    get_scale();
 
   //  OFFSET > 0
@@ -179,8 +188,13 @@ public:
   void     power_down();
   void     power_up();
 
+
   //  TIME OF LAST READ
   uint32_t last_time_read();
+
+
+  //  ERROR
+  int      getLastError();  //  resets error too.
 
 
 private:
@@ -194,6 +208,7 @@ private:
   uint8_t  _mode;
   bool     _fastProcessor;
   uint8_t  _rate = 10;
+  int      _error = HX712_OK;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();

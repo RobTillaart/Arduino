@@ -1,7 +1,7 @@
 //
 //    FILE: HX712.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2026-03-30
 // PURPOSE: Arduino library for HX712 load cells
 //     URL: https://github.com/RobTillaart/HX712
@@ -26,7 +26,7 @@ HX712::~HX712()
 }
 
 
-void HX712::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
+bool HX712::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
@@ -38,12 +38,13 @@ void HX712::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool do
 
   if (doReset)
   {
-    reset();
+    return reset();
   }
+  return true;
 }
 
 
-void HX712::reset()
+bool HX712::reset()
 {
   power_down();
   power_up();
@@ -53,7 +54,10 @@ void HX712::reset()
   _rate     = 10;
   _lastTimeRead = 0;
   _mode     = HX712_AVERAGE_MODE;
-  read();  //  dummy read to force next call!
+
+  _error    = HX712_OK;
+  read();  //  force settings.
+  return (_error == HX712_OK);
 }
 
 
@@ -105,13 +109,20 @@ bool HX712::wait_ready_timeout(uint32_t timeout, uint32_t milliSeconds)
 //  Serial clock input PD_SCK should be LOW.
 //  When DOUT goes to LOW, it indicates data is ready for retrieval.
 //  Blocking period can be long up to 400 ms in first read() call.
-float HX712::read()
+float HX712::read(uint32_t timeOut)
 {
+  uint32_t start = millis();
   //  this BLOCKING wait takes most time...
   while (digitalRead(_dataPin) == HIGH)
   {
     yield();
+    if (millis() - start > timeOut)
+    {
+      _error = HX712_READ_TIMEOUT;
+      return 0.0f;
+    }
   }
+  _error = HX712_OK;
 
   union
   {
@@ -174,7 +185,7 @@ float HX712::read()
   if (v.data[2] & 0x80) v.data[3] = 0xFF;
 
   _lastTimeRead = millis();
-  return 1.0 * v.value;
+  return 1.0f * v.value;
 }
 
 
@@ -185,6 +196,10 @@ float HX712::read_average(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     sum += read();
+    if (_error == HX712_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   return sum / times;
@@ -199,6 +214,10 @@ float HX712::read_median(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     samples[i] = read();
+    if (_error == HX712_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   _insertSort(samples, times);
@@ -215,6 +234,10 @@ float HX712::read_medavg(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     samples[i] = read();
+    if (_error == HX712_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   _insertSort(samples, times);
@@ -234,13 +257,21 @@ float HX712::read_medavg(uint8_t times)
 
 float HX712::read_runavg(uint8_t times, float alpha)
 {
-  if (times < 1)  times = 1;
-  if (alpha < 0)  alpha = 0;
-  if (alpha > 1)  alpha = 1;
+  if (times < 1)     times = 1;
+  if (alpha < 0.0f)  alpha = 0.0f;
+  if (alpha > 1.0f)  alpha = 1.0f;
   float val = read();
+  if (_error == HX712_READ_TIMEOUT)
+  {
+    return 0.0f;
+  }
   for (uint8_t i = 1; i < times; i++)
   {
     val += alpha * (read() - val);
+    if (_error == HX712_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   return val;
@@ -395,14 +426,14 @@ bool HX712::tare_set()
 bool HX712::set_scale(float scale)
 {
   if (scale == 0) return false;
-  _scale = 1.0 / scale;
+  _scale = 1.0f / scale;
   return true;
 }
 
 
 float HX712::get_scale()
 {
-  return 1.0 / _scale;
+  return 1.0f / _scale;
 }
 
 
@@ -450,6 +481,18 @@ void HX712::power_up()
 uint32_t HX712::last_time_read()
 {
   return _lastTimeRead;
+}
+
+
+///////////////////////////////////////////////////////////////
+//
+//  ERROR
+//
+int HX712::getLastError()
+{
+  int e = _error;
+  _error = HX712_OK;
+  return e;
 }
 
 

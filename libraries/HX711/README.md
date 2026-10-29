@@ -16,23 +16,23 @@ Arduino library for HX711 24 bit ADC used for load cells and scales.
 
 ## Description
 
-This HX711 library has a public interface (API) which is a superset of the 
+This HX711 library has a public interface (API) which is a superset of the
 public interface of the HX711 library, version 0.7.3, by [Bogde](https://github.com/bogde/HX711).
-The API is reused to be compatible on the basic interaction level, so credits 
+The API is reused to be compatible on the basic interaction level, so credits
 for the reused API go to Bogde.
 
-The implementation of both libraries differ from the beginning. 
-The HX711 by Bogde is in several ways more sophisticated than this HX711 library. 
-In this HX711 library, missing functions, modes and more were added to get more 
+The implementation of both libraries differ from the beginning.
+The HX711 by Bogde is in several ways more sophisticated than this HX711 library.
+In this HX711 library, missing functions, modes and more were added to get more
 info from the library.
 So you can choose the library that fit your needs most.
 
-Another important difference is that this HX711 library uses floats. 
-The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well. 
+Another important difference is that this HX711 library uses floats.
+The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well.
 Furthermore, using floats gave a smaller footprint on the Arduino UNO R3.
 
-Note that the 24 bits of the HX711 contains some noise so depending on setup, 
-load etc. only 16 to 20 of the bits are expected significant in practice. 
+Note that the 24 bits of the HX711 contains some noise so depending on setup,
+load etc. only 16 to 20 of the bits are expected significant in practice.
 This translates roughly to 4 or max 5 significant digits in a single measurement
 That's why it is advised to average (median) multiple measurements to reduce the noise.
 
@@ -42,23 +42,23 @@ Feedback as always is welcome.
 ### Breaking change 0.4.0
 
 The **begin()** function has a new parameter **bool fastProcessor** which is default false.
-It is used to slow down the internal **shiftIn()** to keep clock pulses within the 
+It is used to slow down the internal **shiftIn()** to keep clock pulses within the
 specification. For most processors the internal code is "slow enough".
-If the processor can set an IO pin faster than 0.4 us (spec datasheet == 0.2 us), 
+If the processor can set an IO pin faster than 0.4 us (spec datasheet == 0.2 us),
 the parameter **fastProcessor** must be set to true.
 
 
 ### Breaking change 0.3.0
 
-In issue #11 it became clear that the timing of the default **shiftIn()** function to 
+In issue #11 it became clear that the timing of the default **shiftIn()** function to
 read the value of the internal ADC was too fast on some processor boards for the HX711.
 This resulted in missing the first (= sign) bit or the value read could be a factor two
-higher than it should. If one calibrated the sensor this would be compensated with the 
+higher than it should. If one calibrated the sensor this would be compensated with the
 factor that is derived in the calibration process.
 
 In 0.3.0 a dedicated **shiftIn()** function is added into this library that uses hard
-coded delayMicroseconds to keep the timing of the clock within HX711 datasheet parameters. 
-This should guarantee that the sign bit is always read correctly on all platforms. 
+coded delayMicroseconds to keep the timing of the clock within HX711 datasheet parameters.
+This should guarantee that the sign bit is always read correctly on all platforms.
 Drawback is that reading the HX711 takes an extra 50-55 microseconds.
 How much this affects performance is to be investigated.
 
@@ -76,13 +76,13 @@ which replaces the "offset + scale" concept.
 Functions related to this concept are removed in HX711_MP and replaced by
 its own set of calibration functions.
 
-This multi-point calibration allows to compensate for non-linear behaviour 
+This multi-point calibration allows to compensate for non-linear behaviour
 in the sensor readings.
 
 
 ### 10 or 80 SPS
 
-The datasheet mentions that the HX711 can run at 80 samples per second (SPS). 
+The datasheet mentions that the HX711 can run at 80 samples per second (SPS).
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
 Connecting **RATE** to GND (LOW) gives 10 SPS.
 
@@ -101,19 +101,23 @@ pin, e.g. by removing the pull down resistor to GND.
 This library provide experimental means to control the **RATE**, see below.
 
 If you need more SPS you could consider using the HX71708 device.
-This is a close "relative" of the HX711 that allows to set the SPS to 
-10, 20, 80, or 320 Hz. 
-- https://github.com/beniseman/HX71708 
+This is a close "relative" of the HX711 that allows to set the SPS to
+10, 20, 80, or 320 Hz.
+- https://github.com/beniseman/HX71708
 
 
 ### Related
 
-- https://github.com/bogde/HX711 
+HX7xx
+- https://github.com/bogde/HX711
 - https://github.com/bogde/HX711/issues/172 - hx711 module design fault fix
-- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX710AB
-- https://github.com/RobTillaart/HX711 
+- https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP MP = multipoint calibration version.
+- https://github.com/RobTillaart/HX712 includes battery monitoring
+
+Other
+- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/printHelpers engineering and scientific notation.
 
 Discussion about resolution of the ADC
@@ -151,7 +155,7 @@ Next step is calibration for which a number of functions exist.
 - **tare()** measures the offset of the zero point.
 - **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
 - **calibrate_scale(weight, times)** determines the scale factor based upon a known weight e.g. 1 Kg.
-The weight is typical in grams, however any unit can be used, depending on the 
+The weight is typical in grams, however any unit can be used, depending on the
 load cell used.
 
 Steps to take for calibration
@@ -176,16 +180,19 @@ Note that the units used in **calibrate_scale()** will be returned by **get_unit
 
 - **HX711()** constructor.
 - **~HX711()** destructor.
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
+- **bool begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
   - The parameter fastProcessor adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
   - The parameter doReset is experimental in 0.6.3.
-  It defaults to true (== backwards compatible) causing a call to reset(), taking extra time 
-  before the device is ready to make new measurements. See reset() below. 
-  Note that not calling reset() leaves the ADC in the previous or even an undefined state, 
+  It defaults to true (== backwards compatible) causing a call to reset(), taking extra time
+  before the device is ready to make new measurements. See reset() below.
+  Note that not calling reset() leaves the ADC in the previous or even an undefined state,
   so use with care. (needs testing)
-- **void reset()** set internal state to the start condition.
-Reset() also does a power_down() / power_up() cycle. 
+  Note: returns false if reset() fails due to timeOut of read()
+- **bool reset()** set internal state to the start condition.
+Reset() also does a power_down() / power_up() cycle.
 This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) milliseconds.
+Furthermore it calls read() to read the device.
+If this read() call blocks for more than 500 milliseconds, reset() returns false.
 
 
 ### isReady
@@ -193,19 +200,31 @@ This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) millisecond
 There are different ways to wait for a new measurement.
 
 - **bool is_ready()** checks if load cell is ready to read.
-- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
-- **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
-- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds.
+- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms milliseconds.
+- **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries, check every ms milliseconds.
+- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds, check every ms milliseconds.
 
 
 ### Read
 
-Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
+Warning: the read() calls are blocking calls as they have a tight loop waiting for an IO signal.
+This signal can take up to 400 ms in the first read() call according to the datasheet.
+If this signal does not happen the read() call might be blocking forever (deadlock).
 Best practice is to check with isReady() before calling read().
 
-- **float read()** get a raw read.
+Since 0.6.6 read() has a timeout parameter which defaults to 500 milliseconds.
+This will "break" the blocking loop for read() to prevent the deadlock.
+The failed read() call will return 0.0f which may cause a detectable spike in your measurements.
+The other read_xxx() functions that use on read() handle the timeout by also returning 0.0f.
+
+If read() or one of the other functions times out a **HX711_READ_TIMEOUT** error will be set.
+This error can be checked with **getLastError()** which resets the error to **HX711_OK**.
+
+- **float read(uint32_t timeout = 500)** get a raw read.
+A default timeout of 500 milliseconds prevents blocking.
+If blocking occurs the function returns the value 0.0f.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
-- **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
+- **float read_median(uint8_t times = 7)** get median of multiple raw reads.
 times = 3..15 - odd numbers preferred.
 - **float read_medavg(uint8_t times = 7)** get average of "middle half" of multiple raw reads.
 times = 3..15 - odd numbers preferred.
@@ -213,10 +232,13 @@ times = 3..15 - odd numbers preferred.
 The weight alpha can be set to any value between 0 and 1, times >= 1.
 - **uint32_t last_read()** returns timestamp in milliseconds of last read.
 
+Note: only the "raw" read can set the timeout, the wrappers always use the default of 500 ms.
+
 
 ### Gain + channel
 
-Use with care as it is not 100% reliable - see issue #27. (solutions welcome).
+Use with care as it is not 100% reliable - see issue #27 (HX711 lib).
+(solutions are welcome)
 
 Read datasheet before use.
 
@@ -226,7 +248,7 @@ Constants (see .h file)
 - **HX711_CHANNEL_A_GAIN_64 = 64**
 - **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B.
 
-The selection of channels + gain is in theory straightforward. 
+The selection of channels + gain is in theory straightforward.
 
 - **bool set_gain(uint8_t gain = 128, bool forced = false)** values: 128 (default), 64 or 32.
 If one uses an invalid value for the parameter gain, the channel and gain are not changed.
@@ -237,20 +259,20 @@ This includes a dummy **read()** so the next "user" **read()** will give the rig
 - **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
 By setting the gain to one of the three constants the gain and the channel is selected.
-The **set_gain()** does a dummy read if gain has changed (or forced == true) so the 
+The **set_gain()** does a dummy read if gain has changed (or forced == true) so the
 next call to **read()** will return info from the selected channel/gain.
 
 According to the datasheet the gain/channel change may take up to 400ms (table page 3).
 
 Warning 1: if you use **set_gain()** in your program the HX711 can be in different states.
-If there is an expected or unexpected reboot of the MCU, this could lead 
-to an unknown state at the reboot of the code. 
-So in such case it is strongly advised to call **set_gain()** explicitly in **setup()** 
+If there is an expected or unexpected reboot of the MCU, this could lead
+to an unknown state at the reboot of the code.
+So in such case it is strongly advised to call **set_gain()** explicitly in **setup()**
 so the device is in a known state.
 
 Warning 2: In practice it seems harder to get the channel and gain selection as reliable
 as the datasheet states it should be. So use with care. (feedback welcome)
-See discussion #27 HX711. 
+See discussion #27 HX711.
 
 
 ### Read mode
@@ -284,13 +306,16 @@ Note that in **HX711_RAW_MODE** the times parameter will be ignored => just call
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
-- **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive 
+- **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive
 number larger than 50. Depends on load-cell used.
 Returns false if scale == 0.
-Note that for some specific applications, scale might be negative. 
+Note that for some specific applications, scale might be negative.
 - **float get_scale()** returns set scale factor.
 - **void set_offset(int32_t offset = 0)** idem.
 - **int32_t get_offset()** idem.
+
+Note get_value() and get_units() do not check and handle the read() timeout error.
+The user should handle this.
 
 
 ### Tare & calibration I
@@ -312,7 +337,7 @@ Note this differs after calls to **calibrate_scale()**.
 Use **get_offset()** to get only the offset.
 - **bool tare_set()** checks if a tare has been set.
 Assumes offset is not zero, which is true for all load cells tested.
-- **void calibrate_scale(float weight, uint8_t times = 10)** 
+- **void calibrate_scale(float weight, uint8_t times = 10)**
 The calibration weight averages times measurements to improve accuracy.
 Weight is typical in grams, however any unit can be used.
 Be aware this unit will also be returned by **get_units()**.
@@ -322,11 +347,11 @@ other units e.g. define the weight as 2.5 kg instead of 2500 gram.
 The function **GetUnits()** will then return its value in kg too.
 
 Also by using a float the range of calibration weights is substantially increased.
-One can now define 250 gram as 250000 milligram, where before the value was max 
+One can now define 250 gram as 250000 milligram, where before the value was max
 65535 units (theoretical increase of precision from 4.8 to 6.9 digits).
-This allows the calibration of superheavy load cells, e.g 500 kg and use a 
-defined weight of 100000 gram. 
-Finally the use of floats allow the use of decimals e.g. a calibration weight 
+This allows the calibration of superheavy load cells, e.g 500 kg and use a
+defined weight of 100000 gram.
+Finally the use of floats allow the use of decimals e.g. a calibration weight
 of 125.014 kg or 306.4 gram.
 
 Note: calibrate_scale() uses averaging and does not use the mode set.
@@ -339,25 +364,25 @@ Note: calibrate_scale() can have a negative value as weight e.g. force of a ball
 A load cell + HX711 module without weight gives a raw value, mostly not equal to zero.
 The function **get_tare()** is used to measure this raw value and allows the user
 to define this value as a zero weight (force) point.
-This zero point is normally without any load, however it is possible to define 
+This zero point is normally without any load, however it is possible to define
 a zero point with a "fixed" load e.g. a cup, a dish, even a spring or whatever.
 This allows the system to automatically subtract the weight / force of the cup etc.
 
-**Warning**: The user must be aware that the "fixed" load together with the 
+**Warning**: The user must be aware that the "fixed" load together with the
 "variable" load does not exceed the specifications of the load cell.
 
-E.g. a load cell which can handle 1000 grams with a cup of 300 grams should not 
+E.g. a load cell which can handle 1000 grams with a cup of 300 grams should not
 be calibrated with a weight of more than 700 grams.
-In fact it is better to calibrate with a weight in the order of 80 to 90% of 
+In fact it is better to calibrate with a weight in the order of 80 to 90% of
 the maximum load so in this example a weight of 500 to 600 grams.
 That would make the total 800-900 grams == 80/90% of the max load.
 
-Another point to consider when calibrating is to use a weight that is 
+Another point to consider when calibrating is to use a weight that is
 in the range you want to make your measurements.
-E.g. if you want to measure coffee beans in portions of 250 grams, use 
+E.g. if you want to measure coffee beans in portions of 250 grams, use
 a weight in the range 200-300 grams. Could just save an extra bit.
 
-Furthermore it is also important to do the calibration at the temperature you 
+Furthermore it is also important to do the calibration at the temperature you
 expect to do the weight measurements. See temperature section below.
 
 
@@ -373,10 +398,10 @@ of the accuracy of the load cell.
 
 ### Power management
 
-- **void power_down()** idem. Explicitly blocks for 64 microseconds. 
-(See Page 5 datasheet). 
-- **void power_up()** wakes up the HX711. 
-It should reset the HX711 to defaults but this is not always seen. 
+- **void power_down()** idem. Explicitly blocks for 64 microseconds.
+(See Page 5 datasheet).
+- **void power_up()** wakes up the HX711.
+It should reset the HX711 to defaults but this is not always seen.
 See discussion issue #27 GitHub. Needs more testing.
 
 Note: Having the RATE set to 10 or 80 SPS changes the time to start up.
@@ -403,10 +428,29 @@ If not configured the other functions won't work.
 - **uint8_t get_rate()** returns 10 d(default) or 80.
 
 
+### Error
+
+Error handling started in 0.6.6 and only supports a read timeout for now.
+It detects if read is blocking for more than (default) 500 milliseconds.
+read() is used in several functions including reset() and begin(),
+so checking the error state might improve your project.
+
+- **getLastError()** returns the last error and resets the internal value
+to HX711_OK.
+
+|  error               |  value  |  notes  |
+|:---------------------|:-------:|:--------|
+|  HX711_OK            |    0    |  default
+|  HX711_READ_TIMEOUT  |   -10   |
+
+Note: reset() resets the internal error too, before calling read(),
+so one can see if the reset() call succeeded.
+
+
 ### Pricing
 
 Some price functions were added to make it easy to use this library
-for pricing goods or for educational purposes. 
+for pricing goods or for educational purposes.
 These functions are under discussion if they will stay in the library.
 For weight conversion functions see https://github.com/RobTillaart/weight
 
@@ -425,14 +469,14 @@ In issue #53, a question was asked to convert the input of the HX711 to millivol
 Thinking about this question resulted in a simple and elegant idea:
 
 - Apply 0.000 mV to the system.
-- Call **tare(times)** to calibrate the zero point. 
+- Call **tare(times)** to calibrate the zero point.
 - Then apply 20.000 mV to the system.
 - Call **calibrate_scale(20000)** to map the raw reading to 20000 µV = 20 mV.
 
 Assuming the scale is linear, the HX711 now works like a millivolt meter.
 And the **float get_units(uint8_t times = 1)** will return microvolts.
 
-In fact, one could map any linear unit this way, e.g. if the voltage applied 
+In fact, one could map any linear unit this way, e.g. if the voltage applied
 is linear with temperature, humidity or wind speed one can map this directly.
 
 Non-linear units could use the **multiMap** library to make it work.
@@ -443,7 +487,7 @@ Non-linear units could use the **multiMap** library to make it work.
 
 ### Scale values for load cells
 
-These scale values worked pretty well with a set of load cells I have, 
+These scale values worked pretty well with a set of load cells I have,
 Use calibrate to find your favourite values.
 
 - 5 KG load cell   scale.set_scale(420.52);
@@ -483,7 +527,7 @@ differences in your code.
 
 ### Separate lines
 
-Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
+Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK**
 line for every HX711 connected.
 
 
@@ -498,7 +542,7 @@ Although to control the multiplexer one need some extra lines and code.
 
 See **HX_loadcell_array.ino**
 
-Another way to control multiple HX711's is to share the **CLK** line. 
+Another way to control multiple HX711's is to share the **CLK** line.
 This has a few side effects which might be acceptable or not.
 
 Known side effects - page 4 and 5 datasheet.
@@ -529,7 +573,7 @@ The use of an IO expander could reduce the amount of IO pins needed (not tested)
 #### Must
 
 - update documentation
-- keep in sync with HX711_MP, HX710AB library.
+- keep in sync with HX711_MP, HX710AB and HX712 library.
 
 #### Should
 
@@ -540,27 +584,32 @@ The use of an IO expander could reduce the amount of IO pins needed (not tested)
   - test and verify the proper working of the rate functions.
 - investigate read()
   - investigate the need of yield after interrupts
-  - investigate blocking loop at begin => less yield() calls ?
 - add performance figures
+- extend error handling
+  - check what can go wrong?
 
 #### Could
 
-- add error handling?
+- add examples
+  - example the "adding" scale
+  - void weight_clr(), void weight_add(), float weight_get() - adding scale
+    - milliVolt example
+  - example for using rate functions.
 - optimize fastProcessor code (possible better performance)
   - injecting 2 micro delays is not always needed.
   - int flag instead of bool.
 - make enum of the MODE's
-- add examples
-  - example the adding scale
-  - void weight_clr(), void weight_add(), float weight_get() - adding scale
-  - example for using rate functions.
 - investigate temperature compensation.
 - decide pricing keep/not => move to .cpp
 - implement HX711_RAW class, that only supports raw mode.
+  - minimal footprint.
 
 
 #### Wont
 
+- implement setReadTimeout(ms) + getReadTimeout()
+  - all wrapper read_xxx() functions can use a defined timeout
+  - => wrappers fail when there is one timeout so imho low prio.
 - why store the gain as \_gain while the iterations m = 1..3 is used most
   - read() less code
   - **changes from explanatory code to vague**

@@ -2,7 +2,7 @@
 //    FILE: HX711_MP.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.3.5
-// PURPOSE: Library for load cells for UNO
+// PURPOSE: Arduino library for HX711 24 bit ADC used for load cells.
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 
@@ -33,7 +33,7 @@ HX711_MP::~HX711_MP()
 }
 
 
-void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
+bool HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
@@ -45,18 +45,23 @@ void HX711_MP::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool
 
   if (doReset)
   {
-    reset();
+    return reset();
   }
+  return true;
 }
 
 
-void HX711_MP::reset()
+bool HX711_MP::reset()
 {
   power_down();
   power_up();
   _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
+
+  _error    = HX711_OK;
+  read();  //  force settings.
+  return (_error == HX711_OK);
 }
 
 
@@ -108,13 +113,20 @@ bool HX711_MP::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 //  Serial clock input PD_SCK should be LOW.
 //  When DOUT goes to LOW, it indicates data is ready for retrieval.
 //  Blocking period can be long up to 400 ms in first read() call.
-float HX711_MP::read()
+float HX711_MP::read(uint32_t timeOut)
 {
+  uint32_t start = millis();
   //  this BLOCKING wait takes most time...
   while (digitalRead(_dataPin) == HIGH)
   {
     yield();
+    if (millis() - start > timeOut)
+    {
+      _error = HX711_READ_TIMEOUT;
+      return 0.0f;
+    }
   }
+  _error = HX711_OK;
 
   union
   {
@@ -168,7 +180,7 @@ float HX711_MP::read()
   if (v.data[2] & 0x80) v.data[3] = 0xFF;
 
   _lastTimeRead = millis();
-  return 1.0 * v.value;
+  return 1.0f * v.value;
 }
 
 
@@ -179,6 +191,10 @@ float HX711_MP::read_average(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     sum += read();
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   return sum / times;
@@ -193,6 +209,10 @@ float HX711_MP::read_median(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     samples[i] = read();
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   _insertSort(samples, times);
@@ -209,6 +229,10 @@ float HX711_MP::read_medavg(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     samples[i] = read();
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   _insertSort(samples, times);
@@ -228,9 +252,9 @@ float HX711_MP::read_medavg(uint8_t times)
 
 float HX711_MP::read_runavg(uint8_t times, float alpha)
 {
-  if (times < 1)  times = 1;
-  if (alpha < 0)  alpha = 0;
-  if (alpha > 1)  alpha = 1;
+  if (times < 1)     times = 1;
+  if (alpha < 0.0f)  alpha = 0.0f;
+  if (alpha > 1.0f)  alpha = 1.0f;
   float val = read();
   for (uint8_t i = 1; i < times; i++)
   {
@@ -366,14 +390,14 @@ uint8_t HX711_MP::getCalibrateSize()
 
 float HX711_MP::getCalibrateRaw(uint8_t index)
 {
-  if (index >= _size) return 0;  //  NaN
+  if (index >= _size) return 0.0f;  //  NaN
   return _in[index];
 }
 
 
 float HX711_MP::adjustCalibrateRaw(uint8_t index, float amount)
 {
-  if (index >= _size) return 0;  //  NaN
+  if (index >= _size) return 0.0f;  //  NaN
   _in[index] += amount;
   return _in[index];
 }
@@ -381,7 +405,7 @@ float HX711_MP::adjustCalibrateRaw(uint8_t index, float amount)
 
 float HX711_MP::getCalibrateWeight(uint8_t index)
 {
-  if (index >= _size) return 0;  //  NaN
+  if (index >= _size) return 0.0f;  //  NaN
   return _out[index];
 }
 
@@ -440,6 +464,18 @@ uint8_t HX711_MP::get_rate()
 uint32_t HX711_MP::last_time_read()
 {
   return _lastTimeRead;
+}
+
+
+///////////////////////////////////////////////////////////////
+//
+//  ERROR
+//
+int HX711_MP::getLastError()
+{
+  int e = _error;
+  _error = HX711_OK;
+  return e;
 }
 
 

@@ -40,7 +40,7 @@ Feedback as always is welcome.
 
 ### 10 or 80 SPS
 
-The datasheet mentions that the HX711 can run at 80 samples per second (SPS). 
+The datasheet mentions that the HX711 can run at 80 samples per second (SPS).
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
 Connecting **RATE** to GND (LOW) gives 10 SPS.
 
@@ -59,19 +59,23 @@ pin, e.g. by removing the pull down resistor to GND.
 This library provide experimental means to control the **RATE**, see below.
 
 If you need more SPS you could consider using the HX71708 device.
-This is a close "relative" of the HX711 that allows to set the SPS to 
-10, 20, 80, or 320 Hz. 
-- https://github.com/beniseman/HX71708 
+This is a close "relative" of the HX711 that allows to set the SPS to
+10, 20, 80, or 320 Hz.
+- https://github.com/beniseman/HX71708
 
 
 ### Related
 
-- https://github.com/bogde/HX711 
+HX7xx
+- https://github.com/bogde/HX711
 - https://github.com/bogde/HX711/issues/172 - hx711 module design fault fix
-- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX710AB
-- https://github.com/RobTillaart/HX711 
+- https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP MP = multipoint calibration version.
+- https://github.com/RobTillaart/HX712 includes battery monitoring
+
+Other
+- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/printHelpers engineering and scientific notation.
 
 Discussion about resolution of the ADC
@@ -86,6 +90,12 @@ Never seen one and cannot tell if it will work with this library.
 
 Breakout with RATE exposed by ADAfruit
 - https://www.adafruit.com/product/5974
+
+Reading multiple HX711's simultaneously
+- https://github.com/compugician/HX711-multi
+
+TM7711 - compatible (seems to, needs investigation)
+- https://electropeak.com/learn/interfacing-tm7711-electronic-weighing-sensor-with-arduino/
 
 
 ### Faulty boards
@@ -128,16 +138,19 @@ is more math involved for converting raw data to weights.
 Parameter sets the size of for the calibration arrays. 
 Allowed range for size is 2..10.
 - **~HX711_MP()** destructor.
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
+- **bool begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
   - The parameter fastProcessor adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
   - The parameter doReset is experimental in 0.6.3.
-  It defaults to true (== backwards compatible) causing a call to reset(), taking extra time 
-  before the device is ready to make new measurements. See reset() below. 
-  Note that not calling reset() leaves the ADC in the previous or even an undefined state, 
+  It defaults to true (== backwards compatible) causing a call to reset(), taking extra time
+  before the device is ready to make new measurements. See reset() below.
+  Note that not calling reset() leaves the ADC in the previous or even an undefined state,
   so use with care. (needs testing)
-- **void reset()** set internal state to the start condition.
-Reset() also does a power_down() / power_up() cycle. 
+  Note: returns false if reset() fails due to timeOut of read()
+- **bool reset()** set internal state to the start condition.
+Reset() also does a power_down() / power_up() cycle.
 This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) milliseconds.
+Furthermore it calls read() to read the device.
+If this read() call blocks for more than 500 milliseconds, reset() returns false.
 Reset() does not reset the calibration data.
 
 
@@ -153,12 +166,24 @@ There are different ways to wait for a new measurement.
 
 ### Read
 
-Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
+Warning: the read() calls are blocking calls as they have a tight loop waiting for an IO signal.
+This signal can take up to 400 ms in the first read() call according to the datasheet.
+If this signal does not happen the read() call might be blocking forever (deadlock).
 Best practice is to check with isReady() before calling read().
 
-- **float read()** get a raw read.
+Since 0.3.6 read() has a timeout parameter which defaults to 500 milliseconds.
+This will "break" the blocking loop for read() to prevent the deadlock.
+The failed read() call will return 0.0f which may cause a detectable spike in your measurements.
+The other read_xxx() functions that use on read() handle the timeout by also returning 0.0f.
+
+If read() or one of the other functions times out a **HX711_READ_TIMEOUT** error will be set.
+This error can be checked with **getLastError()** which resets the error to **HX711_OK**.
+
+- **float read(uint32_t timeout = 500)** get a raw read.
+A default timeout of 500 milliseconds prevents blocking.
+If blocking occurs the function returns the value 0.0f.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
-- **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
+- **float read_median(uint8_t times = 7)** get median of multiple raw reads.
 times = 3..15 - odd numbers preferred.
 - **float read_medavg(uint8_t times = 7)** get average of "middle half" of multiple raw reads.
 times = 3..15 - odd numbers preferred.
@@ -166,10 +191,13 @@ times = 3..15 - odd numbers preferred.
 The weight alpha can be set to any value between 0 and 1, times >= 1.
 - **uint32_t last_read()** returns timestamp in milliseconds of last read.
 
+Note: only the "raw" read can set the timeout, the wrappers always use the default of 500 ms.
+
 
 ### Gain + channel
 
-Use with care as it is not 100% reliable - see issue #27 (HX711 lib). (solutions welcome).
+Use with care as it is not 100% reliable - see issue #27 (HX711 lib).
+(solutions are welcome)
 
 Read datasheet before use.
 
@@ -179,7 +207,7 @@ Constants (see .h file)
 - **HX711_CHANNEL_A_GAIN_64 = 64**
 - **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B.
 
-The selection of channels + gain is in theory straightforward. 
+The selection of channels + gain is in theory straightforward.
 
 - **bool set_gain(uint8_t gain = 128, bool forced = false)** values: 128 (default), 64 or 32.
 If one uses an invalid value for the parameter gain, the channel and gain are not changed.
@@ -190,20 +218,20 @@ This includes a dummy **read()** so the next "user" **read()** will give the rig
 - **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
 By setting the gain to one of the three constants the gain and the channel is selected.
-The **set_gain()** does a dummy read if gain has changed (or forced == true) so the 
+The **set_gain()** does a dummy read if gain has changed (or forced == true) so the
 next call to **read()** will return info from the selected channel/gain.
 
 According to the datasheet the gain/channel change may take up to 400ms (table page 3).
 
 Warning 1: if you use **set_gain()** in your program the HX711 can be in different states.
-If there is an expected or unexpected reboot of the MCU, this could lead 
-to an unknown state at the reboot of the code. 
-So in such case it is strongly advised to call **set_gain()** explicitly in **setup()** 
+If there is an expected or unexpected reboot of the MCU, this could lead
+to an unknown state at the reboot of the code.
+So in such case it is strongly advised to call **set_gain()** explicitly in **setup()**
 so the device is in a known state.
 
 Warning 2: In practice it seems harder to get the channel and gain selection as reliable
 as the datasheet states it should be. So use with care. (feedback welcome)
-See discussion #27 HX711. 
+See discussion #27 HX711.
 
 
 ### Read mode
@@ -272,15 +300,18 @@ This way of calibration allows:
 
 ### Power management
 
-- **void power_down()** idem. Explicitly blocks for 64 microseconds. 
-(See Page 5 datasheet). 
-- **void power_up()** wakes up the HX711. 
-It should reset the HX711 to defaults but this is not always seen. 
+- **void power_down()** idem. Explicitly blocks for 64 microseconds.
+(See Page 5 datasheet).
+- **void power_up()** wakes up the HX711.
+It should reset the HX711 to defaults but this is not always seen.
 See discussion issue #27 GitHub. Needs more testing.
 
 Note: Having the RATE set to 10 or 80 SPS changes the time to start up.
 At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
 (See datasheet, Output settling time on page 3)
+
+Note: add a pull up resistor on the CLK pin prevents waking up when the
+processor goes to sleep and cannot keep the CLK pin HIGH.
 
 
 ### Rate
@@ -290,7 +321,7 @@ At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
 See section "10 or 80 SPS" above.
 
 Note this only works if the **RATE** pin is exposed and connected to
-the IO pin configured in set_rate_pin().
+the IO pin configured in **set_rate_pin()**.
 If not configured the other functions won't work.
 
 - **void set_rate_pin(uint8_t pin)** sets the IO pin for SPS selection.
@@ -298,6 +329,24 @@ If not configured the other functions won't work.
 - **void set_rate_80SPS()** sets rate to 80 SPS.
 - **uint8_t get_rate()** returns 10 d(default) or 80.
 
+
+### Error
+
+Error handling started in 0.6.6 and only supports a read timeout for now.
+It detects if read is blocking for more than (default) 500 milliseconds.
+read() is used in several functions including reset() and begin(),
+so checking the error state might improve your project.
+
+- **getLastError()** returns the last error and resets the internal value
+to HX711_OK.
+
+|  error               |  value  |  notes  |
+|:---------------------|:-------:|:--------|
+|  HX711_OK            |    0    |  default
+|  HX711_READ_TIMEOUT  |   -10   |
+
+Note: reset() resets the internal error too, before calling read(),
+so one can see if the reset() call succeeded.
 
 ## Notes
 
@@ -307,7 +356,7 @@ If not configured the other functions won't work.
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
 
-Colour scheme wires of two devices. Check the datasheet of your device! 
+Colour scheme wires of two devices. Check the datasheet of your device!
 
 |  HX711 Pin  |  Colour dev 1   |  Colour dev 2   |
 |:-----------:|:---------------:|:---------------:|
@@ -335,7 +384,7 @@ differences in your code.
 
 ### Separate lines
 
-Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
+Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK**
 line for every HX711 connected.
 
 
@@ -350,7 +399,7 @@ Although to control the multiplexer one need some extra lines and code.
 
 See **HX_loadcell_array.ino**
 
-Another way to control multiple HX711's is to share the **CLK** line. 
+Another way to control multiple HX711's is to share the **CLK** line.
 This has a few side effects which might be acceptable or not.
 
 Known side effects - page 4 and 5 datasheet.
@@ -386,15 +435,14 @@ Points from HX711 are not all repeated here
 - investigate malloc/free for the mapping arrays
 - Calibration
   - Returns 0 is index is out of range ==> NaN ?
+- extend error handling
+  - HX711_INDEX_OUT_OF_RANGE
 
 #### Could
 
-- add error handling?
-  - HX711_INDEX_OUT_OF_RANGE
 - add examples
   - runtime changing of the mapping.
   - example for using rate functions.
-- investigate temperature compensation.
 
 #### Wont
 

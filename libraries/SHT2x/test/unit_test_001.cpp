@@ -71,18 +71,29 @@ unittest(test_constants_1)
 unittest(test_constants_2)
 {
   fprintf(stderr, "error codes\n");
-  assertEqual(SHT2x_OK                 , 0x00);
-  assertEqual(SHT2x_ERR_WRITECMD       , 0x81);
-  assertEqual(SHT2x_ERR_READBYTES      , 0x82);
-  assertEqual(SHT2x_ERR_HEATER_OFF     , 0x83);
-  assertEqual(SHT2x_ERR_NOT_CONNECT    , 0x84);
-  assertEqual(SHT2x_ERR_CRC_TEMP       , 0x85);
-  assertEqual(SHT2x_ERR_CRC_HUM        , 0x86);
-  assertEqual(SHT2x_ERR_CRC_STATUS     , 0x87); // Not actively used for status validation in current lib
-  assertEqual(SHT2x_ERR_HEATER_COOLDOWN, 0x88);
-  assertEqual(SHT2x_ERR_HEATER_ON      , 0x89);
-  assertEqual(SHT2x_ERR_RESOLUTION     , 0x8A);
+  assertEqual(SHT2x_OK                   , 0x00);
+  assertEqual(SHT2x_ERR_WRITECMD         , 0x81);
+  assertEqual(SHT2x_ERR_READBYTES        , 0x82);
+  assertEqual(SHT2x_ERR_HEATER_OFF       , 0x83);
+  assertEqual(SHT2x_ERR_NOT_CONNECT      , 0x84);
+  assertEqual(SHT2x_ERR_CRC_TEMP         , 0x85);
+  assertEqual(SHT2x_ERR_CRC_HUM          , 0x86);
+  assertEqual(SHT2x_ERR_CRC_STATUS       , 0x87);
+  assertEqual(SHT2x_ERR_HEATER_COOLDOWN  , 0x88);
+  assertEqual(SHT2x_ERR_HEATER_ON        , 0x89);
+  assertEqual(SHT2x_ERR_RESOLUTION       , 0x8A);
+  assertEqual(SHT2x_ERR_UNEXPECTED_STATUS, 0x8B);
   // Add any new error codes here if defined in SHT2x.h
+}
+
+
+unittest(test_constants_3)
+{
+  fprintf(stderr, "request codes\n");
+  assertEqual(SHT2x_REQ_NONE       , 0x00);
+  assertEqual(SHT2x_REQ_TEMPERATURE, 0x01);
+  assertEqual(SHT2x_REQ_HUMIDITY   , 0x02);
+  assertEqual(SHT2x_REQ_FAIL       , 0xFF);
 }
 
 
@@ -91,8 +102,7 @@ unittest(test_constructor)
   SHT2x sht; //  Test default constructor
 
   // Minimal check to ensure constructor doesn't crash.
-  // Further state is checked in test_begin.
-  assertTrue(true); // Placeholder if no specific constructor logic to test other than instantiation.
+  assertEqual(sht.getAddress(), 0x60);
 }
 
 

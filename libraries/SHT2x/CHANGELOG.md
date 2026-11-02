@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## {0.5.6] - 2026-10-30
+- merge PR #44, improve error handling, kudos to moritz89
+- replace defines with const uint8_t (allows type check)
+- update unit test (constants)
+- reduce build-CI to 3 platforms.
+- add getAddress() convenience function.
+- update readme.md
+- minor edits
+
 ## {0.5.5] - 2026-01-30
 - update readme.md, Wifi section, see #42 (kudos pgtest)
 - add **SHT2x_AH_issue42.ino** test sketch

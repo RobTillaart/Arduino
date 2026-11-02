@@ -1,7 +1,7 @@
 //
 //    FILE: SHT2x.cpp
 //  AUTHOR: Rob Tillaart, Viktor Balint, JensB, morfeus02
-// VERSION: 0.5.5
+// VERSION: 0.5.6
 //    DATE: 2023-11-25
 // PURPOSE: Arduino library for the SHT2x temperature and humidity sensor
 //     URL: https://github.com/RobTillaart/SHT2x
@@ -11,21 +11,20 @@
 
 
 //  SUPPORTED COMMANDS
-#define SHT2x_GET_TEMPERATURE_NO_HOLD      0xF3
-#define SHT2x_GET_TEMPERATURE_FOR_HUMIDITY 0xE0
-#define SHT2x_GET_HUMIDITY_NO_HOLD         0xF5
-#define SHT2x_SOFT_RESET                   0xFE
-#define SHT2x_WRITE_USER_REGISTER          0xE6
-#define SHT2x_READ_USER_REGISTER           0xE7
+const uint8_t SHT2x_GET_TEMPERATURE_NO_HOLD      = 0xF3;
+const uint8_t SHT2x_GET_TEMPERATURE_FOR_HUMIDITY = 0xE0;
+const uint8_t SHT2x_GET_HUMIDITY_NO_HOLD         = 0xF5;
+const uint8_t SHT2x_SOFT_RESET                   = 0xFE;
+const uint8_t SHT2x_WRITE_USER_REGISTER          = 0xE6;
+const uint8_t SHT2x_READ_USER_REGISTER           = 0xE7;
 
-#define SHT2x_HEATER_TIMEOUT               180000UL  //  milliseconds
+const uint32_t SHT2x_HEATER_TIMEOUT              = 180000UL;  //  milliseconds
 
-#define SHT2x_ADDRESS                      0x40
+const uint8_t SHT2x_ADDRESS                      = 0x40;
 
-
-#define SHT2x_USRREG_RESOLUTION            0x81
-#define SHT2x_USRREG_BATTERY               0x40  //  sht21 datasheet
-#define SHT2x_USRREG_HEATER                0x04
+const uint8_t SHT2x_USRREG_RESOLUTION            = 0x81;
+const uint8_t SHT2x_USRREG_BATTERY               = 0x40;  //  sht21 datasheet
+const uint8_t SHT2x_USRREG_HEATER                = 0x04;
 
 
 //////////////////////////////////////////////////////////////
@@ -63,6 +62,12 @@ bool SHT2x::isConnected()
   int rv = _wire->endTransmission();
   if (rv != 0) _error = SHT2x_ERR_NOT_CONNECT;
   return (rv == 0);
+}
+
+
+uint8_t SHT2x::getAddress()
+{
+  return 0x60;  //  hardcoded!
 }
 
 
@@ -174,7 +179,15 @@ bool SHT2x::readTemperature()
     _error = SHT2x_ERR_CRC_TEMP;
     //  Allow reading the value even if CRC fails, as _error is flagged.
     //  The user should call getError() to check the status.
-    //  return false;
+  }
+  else
+  {
+    _error = SHT2x_OK;
+  }
+  _status = buffer[1] & 0x03;  //  Preserve response status bits before masking.
+  if (_error == SHT2x_OK && (_status & 0x02) != SHT2x_STATUS_TEMPERATURE)
+  {
+    _error = SHT2x_ERR_UNEXPECTED_STATUS;
   }
   _rawTemperature  = buffer[0] << 8;
   _rawTemperature += buffer[1];
@@ -184,18 +197,8 @@ bool SHT2x::readTemperature()
   //  Clear requestType, marking this async operation as complete
   _requestType = SHT2x_REQ_NONE;
 
-  //  _status = buffer[1] & 0x02;  //  Extract status bit  (bit 0 not used)
-  //  After a temperature read, the status bits should indicate "temperature reading" (0x01).
-  //  If not, it implies a read error or unexpected sensor state.
-  //if (_status != SHT2x_STATUS_TEMPERATURE)
-  //{
-  //  _error = SHT2x_ERR_READBYTES; // Or a more specific error e.g. SHT2x_ERR_UNEXPECTED_STATUS
-  //  return false;
-  //}
-
-  _error = SHT2x_OK;
-  _lastRead = millis();
-  return true;
+  if (_error == SHT2x_OK) _lastRead = millis();
+  return _error == SHT2x_OK;
 }
 
 
@@ -212,7 +215,15 @@ bool SHT2x::readHumidity()
     _error = SHT2x_ERR_CRC_HUM;
     //  Allow reading the value even if CRC fails, as _error is flagged.
     //  The user should call getError() to check the status.
-    //  return false;
+  }
+  else
+  {
+    _error = SHT2x_OK;
+  }
+  _status = buffer[1] & 0x03;  //  Preserve response status bits before masking.
+  if (_error == SHT2x_OK && (_status & 0x02) != SHT2x_STATUS_HUMIDITY)
+  {
+    _error = SHT2x_ERR_UNEXPECTED_STATUS;
   }
   _rawHumidity  = buffer[0] << 8;
   _rawHumidity += buffer[1];
@@ -221,18 +232,8 @@ bool SHT2x::readHumidity()
   //  clear requestType, marking this async operation as complete
   _requestType = SHT2x_REQ_NONE;
 
-  //  _status = buffer[1] & 0x02; // Extract status bit
-  //  After a humidity read, the status bit should indicate "humidity reading" (0x00).
-  //  If not, it implies a read error or unexpected sensor state.
-  //if (_status != SHT2x_STATUS_HUMIDITY)
-  //{
-  //  _error = SHT2x_ERR_READBYTES; // Or a more specific error e.g. SHT2x_ERR_UNEXPECTED_STATUS
-  //  return false;
-  //}
-
-  _error = SHT2x_OK; // Mark as OK if all checks passed for this specific read
-  _lastRead = millis(); // Record time of successful synchronous style read completion
-  return true;
+  if (_error == SHT2x_OK) _lastRead = millis();
+  return _error == SHT2x_OK;
 }
 
 
@@ -240,7 +241,7 @@ bool SHT2x::readCachedTemperature()
 {
   if (_error == SHT2x_OK)
   {
-    writeCmd(SHT2x_GET_TEMPERATURE_FOR_HUMIDITY);
+    if (!writeCmd(SHT2x_GET_TEMPERATURE_FOR_HUMIDITY)) return false;
     uint8_t buffer[3];
     if (readBytes(3, (uint8_t*) &buffer[0], 10) == false)
     {
@@ -250,11 +251,17 @@ bool SHT2x::readCachedTemperature()
     if (crc8(buffer, 2) != buffer[2])
     {
       _error = SHT2x_ERR_CRC_TEMP;
+      //  Keep the value available; callers can check getError().
+    }
+    _status = buffer[1] & 0x03;  //  Preserve response status bits before masking.
+    if (_error == SHT2x_OK && (_status & 0x02) != SHT2x_STATUS_TEMPERATURE)
+    {
+      _error = SHT2x_ERR_UNEXPECTED_STATUS;
     }
     _rawTemperature  = buffer[0] << 8;
     _rawTemperature += buffer[1];
     _rawTemperature &= 0xFFFC;
-    return true;
+    return _error == SHT2x_OK;
   }
   else
   {
@@ -357,7 +364,7 @@ bool SHT2x::heatOn()
   }
 
   uint8_t userReg = 0x00;
-  writeCmd(SHT2x_READ_USER_REGISTER);
+  if (!writeCmd(SHT2x_READ_USER_REGISTER)) return false;
   if (readBytes(1, (uint8_t *) &userReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -381,7 +388,7 @@ bool SHT2x::heatOn()
 bool SHT2x::heatOff()
 {
   uint8_t userReg = 0x00;
-  writeCmd(SHT2x_READ_USER_REGISTER);
+  if (!writeCmd(SHT2x_READ_USER_REGISTER)) return false;
   if (readBytes(1, (uint8_t *) &userReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -426,7 +433,7 @@ bool SHT2x::setHeaterLevel(uint8_t level)
   }
 
   uint8_t heaterReg = 0;
-  writeCmd(0x11);  //  Read Heater Control Register
+  if (!writeCmd(0x11)) return false;  //  Read Heater Control Register
   if (readBytes(1, (uint8_t *) &heaterReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -446,7 +453,7 @@ bool SHT2x::setHeaterLevel(uint8_t level)
 bool SHT2x::getHeaterLevel(uint8_t & level)
 {
   uint8_t heaterReg = 0;
-  writeCmd(0x11);  //  Read Heater Control Register
+  if (!writeCmd(0x11)) return false;  //  Read Heater Control Register
   if (readBytes(1, (uint8_t *) &heaterReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -474,7 +481,7 @@ uint32_t SHT2x::getEIDA()
 {
   uint32_t id = 0;
   uint8_t buffer[8];
-  writeCmd(0xFA, 0x0F);
+  if (!writeCmd(0xFA, 0x0F)) return false;
   if (readBytes(8, (uint8_t *) buffer, 10) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -495,7 +502,7 @@ uint32_t SHT2x::getEIDB()
 {
   uint32_t id = 0;
   uint8_t buffer[8];
-  writeCmd(0xFC, 0xC9);
+  if (!writeCmd(0xFC, 0xC9)) return false;
   if (readBytes(8, (uint8_t *) buffer, 10) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -516,7 +523,7 @@ uint32_t SHT2x::getEIDB()
 uint8_t SHT2x::getFirmwareVersion()
 {
   uint8_t version = 0;
-  writeCmd(0x84, 0xB8);
+  if (!writeCmd(0x84, 0xB8)) return false;
   if (readBytes(1, (uint8_t *) &version, 10) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -535,7 +542,7 @@ bool SHT2x::setResolution(uint8_t resolution)
   if (resolution > 3) return false;
 
   uint8_t userReg = 0x00;
-  writeCmd(SHT2x_READ_USER_REGISTER);
+  if (!writeCmd(SHT2x_READ_USER_REGISTER)) return false;
   if (readBytes(1, (uint8_t *) &userReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;
@@ -571,7 +578,7 @@ uint8_t SHT2x::getResolution()
 bool SHT2x::batteryOK()
 {
   uint8_t userReg = 0x00;
-  writeCmd(SHT2x_READ_USER_REGISTER);
+  if (!writeCmd(SHT2x_READ_USER_REGISTER)) return false;
   if (readBytes(1, (uint8_t *) &userReg, 5) == false)
   {
     _error = SHT2x_ERR_READBYTES;

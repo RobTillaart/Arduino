@@ -19,11 +19,11 @@ Arduino library for the SHT2x, HTU2x and Si70xx temperature and humidity sensors
 This library is to use the SHT20, SHT21 and SHT25 and compatible temperature
 and humidity sensors.
 The interface implements an asynchronous API to prevent blocking code, examples
-exist how this is used. 
+exist how this is used.
 For simplicity there is also a blocking read() call.
 
-The library is verified for the SHT21, HTU21 and Si7021 including the asynchronous 
-interface. It is expected to work for SHT20 and SHT25 as these are datasheet 
+The library is verified for the SHT21, HTU21 and Si7021 including the asynchronous
+interface. It is expected to work for SHT20 and SHT25 as these are datasheet
 compatible but these are not tested yet.
 
 Furthermore there are several other sensors that should be compatible
@@ -58,9 +58,9 @@ See https://github.com/RobTillaart/SHT2x/issues/42
 
 User pgtest did a number of experiments after he saw an increased temperature
 and decreased humidity when the sensors he used were in close proximity (about 3 cm)
-of the ESP-C3 Wifi antenna. As far as understood the 2.4 GHz heats up the water 
+of the ESP-C3 Wifi antenna. As far as understood the 2.4 GHz heats up the water
 molecules in the air which cause the absolute humidity to rise, and thus the relative
-humidity to go down. Furthermore it seems that water evaporates which causes the 
+humidity to go down. Furthermore it seems that water evaporates which causes the
 absolute humidity drop too, resulting in drop of relative humidity too.
 Possibly there are more ways the 2.4 GHz could affect the sensor, especially the amount
 of Wifi usage could be a factor.
@@ -69,7 +69,7 @@ Shortly discussed on the Arduino forum, there were additional cause e.g. RF effe
 internal electronics and possible effects from a power dip when Wifi is switched on.
 
 The library does not compensate for the found effect as there is no formula that calculates
-the delta for a given distance and/or Wifi usage. However one could use the multiMap() 
+the delta for a given distance and/or Wifi usage. However one could use the multiMap()
 library to build (non-linear) corrections if needed.
 
 Advice is to keep the sensor "as far" from heat sources including Wifi as possible.
@@ -81,18 +81,33 @@ Also take care of good air circulation in/around the sensor.
 Version 0.5.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
 This reduces the dependency of processor dependent Wire implementations.
-The user has to call **Wire.begin()** and can optionally set the Wire pins 
+The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
 ### Related
 
+SHT series temperature sensors
+
 - https://github.com/RobTillaart/SHT2x
 - https://github.com/RobTillaart/SHT2x_INT - integer math only to minimize footprint.
-- https://github.com/RobTillaart/SHT31
-- https://github.com/RobTillaart/SHT85
+- https://github.com/RobTillaart/SHT31 - library for the SHT31 sensor
+- https://github.com/RobTillaart/SHT4x - library for the SHT4x sensor
+- https://github.com/RobTillaart/SHT85 - library for the SHT85 sensor
 - https://github.com/RobTillaart/tinySHT2x - specific for AVR tiny processors.
-- https://github.com/RobTillaart/Temperature - Temperature related formulas.
+
+Other temperature sensors
+
+- https://github.com/RobTillaart/DHTNew DHT11/22 etc
+- https://github.com/RobTillaart/DHTStable DHT11/22 etc
+- https://github.com/RobTillaart/DHT_Simulator
+- https://github.com/RobTillaart/DS18B20_INT OneWire temperature sensor
+- https://github.com/RobTillaart/DS18B20_RT OneWire temperature sensor
+
+Other, including Dew point, heat index, related functions and conversions
+
+- https://www.kandrsmith.org/RJS/Misc/Hygrometers/calib_many.html (interesting)
+- https://github.com/RobTillaart/Temperature (conversions, dewPoint, heat index etc.)
 - https://github.com/RobTillaart/MultiMap - non linear mapping
 
 
@@ -103,6 +118,10 @@ ALT167 = º (degrees)
 
 
 ## I2C
+
+### Address
+
+Device has a fixed address of 0x60;
 
 ### Performance
 
@@ -133,16 +152,16 @@ too if they are behind the multiplexer.
 #include "SHT2x.h"
 ```
 
-The SHT2x library provides a comprehensive interface for interacting 
+The SHT2x library provides a comprehensive interface for interacting
 with SHT2x, HTU2x, and Si70xx series temperature and humidity sensors.
 
 ### Constructors
 
-These constructors initialize a sensor object. All specific sensor classes 
+These constructors initialize a sensor object. All specific sensor classes
 (SHT20, Si7021, etc.) are derived from the base `SHT2x` class.
 
-- **SHT2x(TwoWire \*wire = &Wire)**: Base class constructor. 
-Optionally takes a pointer to a `TwoWire` interface, allowing usage with 
+- **SHT2x(TwoWire \*wire = &Wire)**: Base class constructor.
+Optionally takes a pointer to a `TwoWire` interface, allowing usage with
 multiple I2C buses on platforms that support it.
 - **SHT20(TwoWire \*wire = &Wire)**: Constructor for SHT20 sensors.
 - **SHT21(TwoWire \*wire = &Wire)**: Constructor for SHT21 sensors.
@@ -152,7 +171,7 @@ multiple I2C buses on platforms that support it.
 - **Si7013(TwoWire \*wire = &Wire)**: Constructor for Si7013 sensors.
 - **Si7020(TwoWire \*wire = &Wire)**: Constructor for Si7020 sensors.
 - **Si7021(TwoWire \*wire = &Wire)**: Constructor for Si7021 sensors.
-- **GY21(TwoWire \*wire = &Wire)**: Constructor for GY21 sensor modules 
+- **GY21(TwoWire \*wire = &Wire)**: Constructor for GY21 sensor modules
 (often using SHT2x compatible sensors).
 
 
@@ -160,17 +179,18 @@ multiple I2C buses on platforms that support it.
 
 These functions provide fundamental control and status information for the sensor.
 
-- **bool begin()**: Initializes the sensor. This function calls `reset()` 
-internally, which can take up to 15 ms. Returns `false` if the device address 
+- **bool begin()**: Initializes the sensor. This function calls `reset()`
+internally, which can take up to 15 ms. Returns `false` if the device address
 is not reachable or if the sensor fails to reset.
-- **bool isConnected()**: Checks if the sensor is reachable over the I2C bus. 
+- **bool isConnected()**: Checks if the sensor is reachable over the I2C bus.
 Returns `false` if the sensor is not connected or does not acknowledge.
-- **bool reset()**: Performs a soft reset of the sensor. This can take up to 15 ms. 
+- **uint8_t getAddress()** returns 0x60 (96) default address.
+- **bool reset()**: Performs a soft reset of the sensor. This can take up to 15 ms.
 Hard reset is not supported by this library.
-- **uint32_t lastRead()**: Returns the timestamp (in milliseconds since program start) 
+- **uint32_t lastRead()**: Returns the timestamp (in milliseconds since program start)
 of the last successful `read()` operation.
-- **uint8_t getStatus()**: Returns a 2-bit status code indicating the sensor's 
-current operational state. See the "Status fields" table for details on interpreting 
+- **uint8_t getStatus()**: Returns a 2-bit status code indicating the sensor's
+current operational state. See the "Status fields" table for details on interpreting
 these bits.
 
 
@@ -178,103 +198,103 @@ these bits.
 
 These functions are used for synchronous (blocking) reads of temperature and humidity.
 
-- **bool read()**: Reads both temperature and humidity from the sensor. 
+- **bool read()**: Reads both temperature and humidity from the sensor.
 This is a blocking call, and program execution will pause until the readings are complete.
-- **float getTemperature()**: Returns the temperature in degrees Celsius (°C) based 
+- **float getTemperature()**: Returns the temperature in degrees Celsius (°C) based
 on the latest raw data acquired by `read()`.
-- **float getHumidity()**: Returns the relative humidity in percent (%) based on the 
+- **float getHumidity()**: Returns the relative humidity in percent (%) based on the
 latest raw data acquired by `read()`.
-- **uint16_t getRawTemperature()**: Returns the raw, not calibrated 16-bit integer 
+- **uint16_t getRawTemperature()**: Returns the raw, not calibrated 16-bit integer
 value for temperature directly from the sensor, as acquired by `read()`.
-- **uint16_t getRawHumidity()**: Returns the raw, not calibrated 16-bit integer 
+- **uint16_t getRawHumidity()**: Returns the raw, not calibrated 16-bit integer
 value for humidity directly from the sensor, as acquired by `read()`.
 
 **Note on `read()` and data retrieval**
-The `getTemperature()` and `getHumidity()` functions recalculate values from raw 
-data on every call. If performance is critical, cache these values in your code after 
-a `read()` instead of calling them repeatedly. Raw values are useful for minimizing 
+The `getTemperature()` and `getHumidity()` functions recalculate values from raw
+data on every call. If performance is critical, cache these values in your code after
+a `read()` instead of calling them repeatedly. Raw values are useful for minimizing
 storage or communication overhead.
 
-The Si70xx sensors (Si7013, Si7020, Si7021) also support reading the temperature 
-value that was internally measured during the last humidity acquisition. 
-This can be useful to get a temperature reading without initiating a new, 
+The Si70xx sensors (Si7013, Si7020, Si7021) also support reading the temperature
+value that was internally measured during the last humidity acquisition.
+This can be useful to get a temperature reading without initiating a new,
 separate temperature measurement.
-- **bool readCachedTemperature()**: For Si70xx sensors, this function retrieves the 
-temperature value measured during the last humidity reading. This is available 
-after a `getHumidity()` call (using the synchronous `read()` method) or after 
-a `requestHumidity()` and successful `readHumidity()` (using the asynchronous interface). 
-See [pull request #27 comment](https://github.com/RobTillaart/SHT2x/pull/27#issuecomment-1836718214) 
+- **bool readCachedTemperature()**: For Si70xx sensors, this function retrieves the
+temperature value measured during the last humidity reading. This is available
+after a `getHumidity()` call (using the synchronous `read()` method) or after
+a `requestHumidity()` and successful `readHumidity()` (using the asynchronous interface).
+See [pull request #27 comment](https://github.com/RobTillaart/SHT2x/pull/27#issuecomment-1836718214)
 for more details on calling sequences.
 
 
 ### Asynchronous Operations
 
-The asynchronous interface allows you to initiate a temperature or humidity reading 
-and then continue with other tasks while the sensor is performing the measurement. 
-This is useful for non-blocking applications, preventing your main loop from being 
-stalled while waiting for sensor data. This interface is experimental (since 0.2.2) 
-and may change in future versions. 
+The asynchronous interface allows you to initiate a temperature or humidity reading
+and then continue with other tasks while the sensor is performing the measurement.
+This is useful for non-blocking applications, preventing your main loop from being
+stalled while waiting for sensor data. This interface is experimental (since 0.2.2)
+and may change in future versions.
 See discussion in [issue #16](https://github.com/RobTillaart/SHT2x/issues/16).
 
 **General Workflow for Asynchronous Operations**
 
-1.  **Initiate a request:** Call `requestTemperature()` to start a temperature 
-measurement or `requestHumidity()` to start a humidity measurement. 
+1.  **Initiate a request:** Call `requestTemperature()` to start a temperature
+measurement or `requestHumidity()` to start a humidity measurement.
 The library sends the command to the sensor, which then begins its internal conversion process.
-2.  **Periodically check for data readiness:** In your main loop or a timed function, 
-call `reqTempReady()` (for temperature) or `reqHumReady()` (for humidity) to see if 
-the sensor has finished its measurement. These functions return `true` if data is available, 
+2.  **Periodically check for data readiness:** In your main loop or a timed function,
+call `reqTempReady()` (for temperature) or `reqHumReady()` (for humidity) to see if
+the sensor has finished its measurement. These functions return `true` if data is available,
 `false` otherwise. `requestReady()` can be used to check if *any* requested data is ready.
-3.  **Read the value:** Once the corresponding "ready" function returns `true`, 
-call `readTemperature()` to retrieve the temperature value or `readHumidity()` to 
-retrieve the humidity value. These functions then fetch the data from the sensor 
-and update the internal raw values. 
+3.  **Read the value:** Once the corresponding "ready" function returns `true`,
+call `readTemperature()` to retrieve the temperature value or `readHumidity()` to
+retrieve the humidity value. These functions then fetch the data from the sensor
+and update the internal raw values.
 You can then use `getTemperature()` or `getHumidity()` to get the processed values.
 
 **Difference between synchronous `read()` and asynchronous operations**
-- **Synchronous `read()`**: When you call `read()`, your program stops and waits 
-for the sensor to complete both temperature and humidity measurements. 
-This is simpler to use but can block other operations for the duration of the sensor's 
+- **Synchronous `read()`**: When you call `read()`, your program stops and waits
+for the sensor to complete both temperature and humidity measurements.
+This is simpler to use but can block other operations for the duration of the sensor's
 measurement time (which can be tens of milliseconds).
-- **Asynchronous functions**: You explicitly manage the measurement process. 
-You start a measurement, can perform other tasks, and then check back later to 
-retrieve the result. 
-This avoids blocking but requires a slightly more complex program structure to 
+- **Asynchronous functions**: You explicitly manage the measurement process.
+You start a measurement, can perform other tasks, and then check back later to
+retrieve the result.
+This avoids blocking but requires a slightly more complex program structure to
 periodically check the sensor's status.
 
 **Asynchronous Function Descriptions**
 
-- **`bool requestTemperature()`**: Initiates a request for a temperature reading from the sensor. 
-If a previous asynchronous request (either temperature or humidity) was still pending, 
-it will be overridden by this new request. Returns `true` if the request command was 
+- **`bool requestTemperature()`**: Initiates a request for a temperature reading from the sensor.
+If a previous asynchronous request (either temperature or humidity) was still pending,
+it will be overridden by this new request. Returns `true` if the request command was
 successfully sent to the sensor, `false` otherwise (e.g., I2C communication error).
-- **`bool requestHumidity()`**: Initiates a request for a humidity reading from the sensor. 
-If a previous asynchronous request was pending, it will be overridden. Returns `true` 
+- **`bool requestHumidity()`**: Initiates a request for a humidity reading from the sensor.
+If a previous asynchronous request was pending, it will be overridden. Returns `true`
 if the request command was successfully sent, `false` otherwise.
-- **`bool reqTempReady()`**: Checks if the temperature data previously requested by 
-`requestTemperature()` is ready to be read from the sensor. Returns `true` if data is available, 
+- **`bool reqTempReady()`**: Checks if the temperature data previously requested by
+`requestTemperature()` is ready to be read from the sensor. Returns `true` if data is available,
 `false` if the measurement is still in progress or if no temperature request was made.
-- **`bool reqHumReady()`**: Checks if the humidity data previously requested by 
-`requestHumidity()` is ready to be read. Returns `true` if data is available, `false` if the 
+- **`bool reqHumReady()`**: Checks if the humidity data previously requested by
+`requestHumidity()` is ready to be read. Returns `true` if data is available, `false` if the
 measurement is still in progress or if no humidity request was made.
-- **`bool requestReady()`**: Checks if *any* previously requested asynchronous data (either 
-temperature or humidity) is ready. This is useful if you don't need to distinguish which type 
-of data is ready, only that some data can be read. Returns `true` if either temperature or 
+- **`bool requestReady()`**: Checks if *any* previously requested asynchronous data (either
+temperature or humidity) is ready. This is useful if you don't need to distinguish which type
+of data is ready, only that some data can be read. Returns `true` if either temperature or
 humidity data is available.
-- **`bool readTemperature()` (in asynchronous context)**: Reads the temperature data from the 
-sensor *after* `requestTemperature()` has been called and `reqTempReady()` has returned `true`. 
-This function fetches the raw data from the sensor. After this call, `getTemperature()` and 
-`getRawTemperature()` will return the newly acquired values. Returns `true` if the read was 
+- **`bool readTemperature()` (in asynchronous context)**: Reads the temperature data from the
+sensor *after* `requestTemperature()` has been called and `reqTempReady()` has returned `true`.
+This function fetches the raw data from the sensor. After this call, `getTemperature()` and
+`getRawTemperature()` will return the newly acquired values. Returns `true` if the read was
 successful, `false` otherwise (e.g., CRC error, I2C error).
-- **`bool readHumidity()` (in asynchronous context)**: Reads the humidity data from the sensor 
-*after* `requestHumidity()` has been called and `reqHumReady()` has returned `true`. 
-This function fetches the raw data. After this call, `getHumidity()` and `getRawHumidity()` 
+- **`bool readHumidity()` (in asynchronous context)**: Reads the humidity data from the sensor
+*after* `requestHumidity()` has been called and `reqHumReady()` has returned `true`.
+This function fetches the raw data. After this call, `getHumidity()` and `getRawHumidity()`
 will return the newly acquired values. Returns `true` if the read was successful, `false` otherwise.
-- **`uint32_t lastRequest()`**: Returns the timestamp (in milliseconds, based on `millis()`) 
-of when the last asynchronous request (`requestTemperature()` or `requestHumidity()`) was made. 
+- **`uint32_t lastRequest()`**: Returns the timestamp (in milliseconds, based on `millis()`)
+of when the last asynchronous request (`requestTemperature()` or `requestHumidity()`) was made.
 This can be useful for implementing timeouts for asynchronous operations.
-- **`uint8_t getRequestType()`**: Returns the type of the currently pending or last completed 
-asynchronous request. This helps in determining what kind of data was requested or is ready. 
+- **`uint8_t getRequestType()`**: Returns the type of the currently pending or last completed
+asynchronous request. This helps in determining what kind of data was requested or is ready.
 The possible return values are:
 
 | Value  | Symbolic                |  Description  |
@@ -352,51 +372,51 @@ void loop() {
   // For example, yield() or delay(1) can be used if appropriate
   // to prevent busy-waiting, depending on the platform.
   // A simple delay to slow down serial output for this example:
-  delay(100); 
+  delay(100);
 }
 ```
 
 **Waiting until the device is ready**
 
-These sensors typically need a bit of time to start up before they can accept commands. 
-The SHT21, for instance, requires up to 15ms after it's been powered up. 
-In many programs, the delay that the Arduino framework introduces between your `setup()` 
-and `loop()` functions is sufficient, but if you intend to request your first reading 
-in `setup()` immediately after calling `begin()`, the request may fail. 
-If `requestTemperature()` or `requestHumidity()` returns false and the error code returned 
+These sensors typically need a bit of time to start up before they can accept commands.
+The SHT21, for instance, requires up to 15ms after it's been powered up.
+In many programs, the delay that the Arduino framework introduces between your `setup()`
+and `loop()` functions is sufficient, but if you intend to request your first reading
+in `setup()` immediately after calling `begin()`, the request may fail.
+If `requestTemperature()` or `requestHumidity()` returns false and the error code returned
 from `getError()` is `0x81` (`SHT2x_ERR_WRITECMD`), this may be a sign that the sensor isn't ready.
 
-To work around this, introduce a short delay after calling `begin()` and before requesting a 
+To work around this, introduce a short delay after calling `begin()` and before requesting a
 reading. 15ms is probably more than sufficient, although this hasn't been tested extensively.
 
 ### Heater Functions
 
 The built-in heater can be used to test the sensor or to drive off condensation.
 
-**WARNING:** Do not use the heater for long periods. The datasheet for SHT2x sensors does 
+**WARNING:** Do not use the heater for long periods. The datasheet for SHT2x sensors does
 not specify a maximum on-time, so the library conservatively uses the SHT3x series guideline:
-Use the heater for a maximum of **180 seconds** (3 minutes), then allow it to cool down 
-for at least **180 seconds**. The library enforces a cool-down period by preventing `heatOn()` 
-from succeeding if called within 180 seconds of the last `heatOff()` call. 
+Use the heater for a maximum of **180 seconds** (3 minutes), then allow it to cool down
+for at least **180 seconds**. The library enforces a cool-down period by preventing `heatOn()`
+from succeeding if called within 180 seconds of the last `heatOff()` call.
 This guarding is not reboot persistent.
-**WARNING:** The user is responsible for switching the heater off manually using `heatOff()`. 
+**WARNING:** The user is responsible for switching the heater off manually using `heatOff()`.
 The library does **NOT** do this automatically.
 
-- **void setHeatTimeout(uint8_t seconds)**: Sets the duration (in seconds) for the heater 
+- **void setHeatTimeout(uint8_t seconds)**: Sets the duration (in seconds) for the heater
 to be active when `heatOn()` is called. This value is capped at a maximum of 180 seconds.
 - **uint8_t getHeatTimeout()**: Returns the currently set heat timeout value in seconds.
-- **bool heatOn()**: Turns the internal heater on. Returns `false` if the heater cannot 
-be turned on (e.g., during the mandatory cool-down period or if I2C communication fails), 
+- **bool heatOn()**: Turns the internal heater on. Returns `false` if the heater cannot
+be turned on (e.g., during the mandatory cool-down period or if I2C communication fails),
 setting an error code (SHT2x_ERR_HEATER_COOLDOWN or SHT2x_ERR_HEATER_ON).
-- **bool heatOff()**: Turns the internal heater off. Returns `false` if the heater cannot 
+- **bool heatOff()**: Turns the internal heater off. Returns `false` if the heater cannot
 be switched off (e.g., I2C communication error), setting the SHT2x_ERR_HEATER_OFF error.
-- **bool isHeaterOn()**: Checks if the heater is currently active (i.e., within the 
-`_heatTimeout` period since `heatOn()` was called and before `heatOff()` is called). 
+- **bool isHeaterOn()**: Checks if the heater is currently active (i.e., within the
+`_heatTimeout` period since `heatOn()` was called and before `heatOff()` is called).
 Calling this function will also turn the heater off if the timeout has expired.
-- **bool setHeaterLevel(uint8_t level)**: Sets the heater power level. 
-The level is a value from 0 to 15. (Note: This function's availability might depend on the 
+- **bool setHeaterLevel(uint8_t level)**: Sets the heater power level.
+The level is a value from 0 to 15. (Note: This function's availability might depend on the
 specific sensor model; refer to the sensor datasheet.)
-- **bool getHeaterLevel(uint8_t &level)**: Reads the current heater power level. 
+- **bool getHeaterLevel(uint8_t &level)**: Reads the current heater power level.
 (Note: Availability might depend on the specific sensor model.)
 
 
@@ -414,11 +434,11 @@ They might not be supported on some "compatible" sensors.
 ### Resolution Control
 
 Allows adjustment of the measurement resolution for temperature and humidity.
-**Warning: This feature is experimental** (since 0.2.0) and requires more testing, 
-as initial results are not perfectly aligned with datasheet specifications. 
+**Warning: This feature is experimental** (since 0.2.0) and requires more testing,
+as initial results are not perfectly aligned with datasheet specifications.
 It has been primarily tested on HTUxx and Si7021 sensors using the `SHT2X_resolution.ino` example.
 
-- **bool setResolution(uint8_t resolution)**: Sets the measurement resolution. 
+- **bool setResolution(uint8_t resolution)**: Sets the measurement resolution.
 `resolution` can be 0, 1, 2, or 3. Other values will result in the function returning `false`.
 - **uint8_t getResolution()**: Returns the currently set resolution (cached value).
 
@@ -445,17 +465,17 @@ Datasheet SHT20 Table 7: Measurement timing (milliseconds) vs. observed real-wor
 
 ### Battery Status
 
-- **bool batteryOK()**: Checks the sensor's battery status indicator. 
-Returns `true` if VCC is above approximately 2.25V (threshold may vary slightly by sensor). 
+- **bool batteryOK()**: Checks the sensor's battery status indicator.
+Returns `true` if VCC is above approximately 2.25V (threshold may vary slightly by sensor).
 Not all sensors support this feature.
 
 
 ### Error Handling
 
-- **int getError()**: Returns the last error code set by a library function and then 
-clears the internal error flag. It's important to call `getError()` to check for 
-errors after sensor operations, especially if a function returns `false`. 
-Calling `getError()` before another operation ensures you are checking the result 
+- **int getError()**: Returns the last error code set by a library function and then
+clears the internal error flag. It's important to call `getError()` to check for
+errors after sensor operations, especially if a function returns `false`.
+Calling `getError()` before another operation ensures you are checking the result
 of the most recent operation.
 
 Error Codes:
@@ -473,8 +493,8 @@ Error Codes:
 | 0x89   | SHT2x_ERR_HEATER_ON       | Could not switch on heater        | (Note: 0x88 was duplicated in original, assuming 0x89 for HEATER_ON based on .h) |
 | 0x8A   | SHT2x_ERR_RESOLUTION      | Invalid resolution setting        | Added in 0.2.0 |
 
-Note: HTU20 / HTU21 classes share these error codes. 
-The error SHT2x_ERR_HEATER_ON was listed with code 0x88 in the original README 
+Note: HTU20 / HTU21 classes share these error codes.
+The error SHT2x_ERR_HEATER_ON was listed with code 0x88 in the original README
 but is 0x89 in SHT2x.h; this table uses 0x89.
 
 
@@ -503,9 +523,9 @@ See #40 for some details.
 
   //  Returns temperature compensated humidity (internal or external temp sensor.
 - **float getHumidityCompensated()** Returns temperature compensated humidity based upon
-the internal temperature (degrees C). 
+the internal temperature (degrees C).
 Note both must be read first.
-- **float getHumidityCompensated(float temperature)** Returns temperature compensated 
+- **float getHumidityCompensated(float temperature)** Returns temperature compensated
 humidity based upon an external temperature (degrees C).
 - **void setHumidityCompensationFactor(float hcFactor = -0.15f)** adjust the humidity
 compensation factor (in %/°C), default -0.15.
@@ -523,8 +543,7 @@ compensation factor (in %/°C), default -0.15.
 
 #### Should
 
-- test test test
-  - get hardware
+- get hardware to test
 - add examples
   - test resolutions
   - performance different resolutions

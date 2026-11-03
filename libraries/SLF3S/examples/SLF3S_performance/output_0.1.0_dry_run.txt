@@ -1,0 +1,19 @@
+
+BOARD   Arduino R3, 
+IDE     1.8.19
+
+Dry run with indicative numbers.
+
+
+...\SLF3S_performance.ino
+SLF3S_LIB_VERSION: 0.1.0
+
+| 100000 | 148 | 172 |
+| 200000 | 96 | 108 |
+| 300000 | 80 | 92 |
+| 400000 | 72 | 84 |
+| 500000 | 68 | 84 |
+| 600000 | 68 | 76 |
+| 700000 | 64 | 76 |
+
+

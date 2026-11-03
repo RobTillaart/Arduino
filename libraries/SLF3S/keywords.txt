@@ -1,0 +1,39 @@
+# Syntax Colouring Map For SLF3S
+
+# Data types (KEYWORD1)
+SLF3S	KEYWORD1
+
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+isConnected	KEYWORD2
+getAddress	KEYWORD2
+
+requestH2O	KEYWORD2
+requestIPA	KEYWORD2
+isReady	KEYWORD2
+stopMeasurement	KEYWORD2
+
+readFlow	KEYWORD2
+readFlowTemp	KEYWORD2
+readFlowTempSignal	KEYWORD2
+getFlow	KEYWORD2
+getTemperature	KEYWORD2
+getSignalFlags	KEYWORD2
+
+readProductID	KEYWORD2
+readSerialNR	KEYWORD2
+genericReset	KEYWORD2
+getLastError	KEYWORD2
+
+
+# Constants (LITERAL1)
+SLF3S_LIB_VERSION	LITERAL1
+
+SLF3S_DEFAULT_ADDRESS	LITERAL1
+
+SLF3S_OK	LITERAL1
+SLF3S_CRC_ERROR	LITERAL1
+SLF3S_NOT_READY	LITERAL1
+
+

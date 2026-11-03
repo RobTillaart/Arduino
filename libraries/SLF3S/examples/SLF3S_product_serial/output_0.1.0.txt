@@ -1,0 +1,11 @@
+
+How output should look:
+
+...\SLF3S_product_serial\SLF3S_product_serial.ino
+SLF3S_LIB_VERSION: 0.1.0
+
+ProductID:  07030302
+SerialNR:   3433373137343FE6
+
+done...
+
